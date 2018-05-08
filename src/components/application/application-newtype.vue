@@ -9,78 +9,112 @@
     <div id="newtype_con">
         <div class="newtype_hed">
             <span>站内信消息类型</span>
-            <Button type="ghost" shape="circle" @click="custom" icon="plus-round">添加</Button>
+            <Button type="ghost" shape="circle" @click="handleRender" icon="plus-round">添加</Button>
         </div>
         <div class="newtype_con">
             <div class="newtype_notice">
                 <img src="../../image/application-hzjf.png" alt="">
                 <p>平台公告</p>
                 <p>
-                    <a href="javascript:;"><Icon type="edit"></Icon></a>&nbsp;&nbsp;
-                    <a href="javascript:;"><Icon type="trash-b"></Icon></a>
+                    <a href="javascript:;" @click="handleRender"><Icon type="edit"></Icon></a>&nbsp;&nbsp;
+                    <Poptip
+                      confirm
+                      transfer
+                      title="确认删除吗?"
+                      @on-ok="ok"
+                      @on-cancel="cancel">
+                      <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+                    </Poptip>
                 </p>
             </div>
             <div class="newtype_notice">
                 <img src="../../image/application-hzjf.png" alt="">
                 <p>精品推荐</p>
                 <p>
-                    <a href="javascript:;"><Icon type="edit"></Icon></a>&nbsp;&nbsp;
-                    <a href="javascript:;"><Icon type="trash-b"></Icon></a>
+                    <a href="javascript:;" @click="handleRender"><Icon type="edit"></Icon></a>&nbsp;&nbsp;
+                    <Poptip
+                      confirm
+                      transfer
+                      title="确认删除吗?"
+                      @on-ok="ok"
+                      @on-cancel="cancel">
+                      <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+                    </Poptip>
                 </p>
             </div>
         </div>
     </div>
     <!-- <Newtype></Newtype> -->
-    <!-- <Modal
-      title="Title"
+    <Modal
+      title="添加消息类型"
       v-model="modal8"
-      :onOk="aaa"
+      @on-ok="aaa"
+      @on-cancel="bbb"
+      ok-text="提交保存"
+      cancel-text="关闭"
+      class-name="vertical-center-modal"
+      width="300"
       :mask-closable="false">
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-      <p>Content of dialog</p>
-    </Modal> -->
+      <div class="newtype_file">
+          <div class="newtype_leftfi">
+            <Upload
+            action="//jsonplaceholder.typicode.com/posts/"
+            :format="['jpg','jpeg','png']"
+            :max-size="2048"
+            :show-upload-list="false"
+            >
+            <img src="../../image/application-hzjf.png" alt="">
+                <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
+            </Upload>
+          </div>
+          <ul class="newtype_rightfi">
+            <li>
+                <span>消息类型名称:</span>
+                <Input v-model="value" placeholder="请输入消息类型名称" style="width: 200px"></Input>
+            </li>
+            <li>
+                <span>类型说明:</span>
+                <Input v-model="value" placeholder="请输入类型说明" style="width: 200px"></Input>
+            </li>
+          </ul>
+      </div>
+    </Modal>
   </div>
 </template>
 <script>
-import {Newtype} from '../../components'
 export default {
   data () {
     return {
       modal8: false,
-      AAA:document.getElementsByClassName("Newtype")
+      value: ''
     }
   },
   components: {
-    Newtype
   },
   mounted: {
 
   },
   methods: {
-    custom () {
-        let contype = this.AAA
-      console.log(this.AAA)
-      this.$Modal.confirm({
-        title: 'Title',
-        content: 'contype',
-        okText: 'OK',
-        cancelText: 'Cancel'
-      })
+    handleRender () {
+      this.modal8 = true
+    },
+    aaa () {
+      this.$Message.info('Clicked ok')
+    },
+    bbb () {
+      this.$Message.info('Clicked cancel')
+    },
+    ok () {
+      this.$Message.info('You click ok')
+    },
+    cancel () {
+      this.$Message.info('You click cancel')
     }
   }
 }
 </script>
 <style lang="less" scoped>
-.vertical-center-modal{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    .ivu-modal{
-        top: 0;
-    }
-}
-.ivu-modal-confirm-body-icon-confirm{
+.ivu-modal-confirm-body-icon-confirm, .ivu-icon-help-circled{
     display: none
 }
 #newtype_con{
@@ -123,6 +157,29 @@ export default {
                     border: 1px solid #E7ECF1;
                     border-radius: 50%;
                 }
+            }
+        }
+    }
+}
+.newtype_file{
+    overflow: hidden;
+    .newtype_leftfi{
+        float: left;
+        img{
+            width: 80px;
+        }
+        button{
+            display: block
+        }
+    }
+    .newtype_rightfi{
+        float: right;
+        li{
+            margin-top: 15px;
+            span{
+                width: 80px;
+                display: inline-block
+
             }
         }
     }

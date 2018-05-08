@@ -6,6 +6,7 @@ import Login from '@/components/login'
 import applicationHomePage from '@/components/application/application-homePage'
 import applicationMail from '@/components/application/application-mail'
 import applicationNewtype from '@/components/application/application-newtype'
+import applicationSendout from '@/components/application/application-sendout'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 
@@ -31,6 +32,7 @@ let routes = [
     children: [
       {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true},
       {path: '/applicationNewtype', component: applicationNewtype, names: '站内信消息类型', hidden: true},
+      {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
       {path: '/mberTab', component: mberTab, names: '页面配置'},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心'},
       {path: '/mberTab2', component: mberTab, names: '贷款产品配置'},

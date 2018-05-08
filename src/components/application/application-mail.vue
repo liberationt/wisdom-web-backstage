@@ -7,7 +7,7 @@
     </div>
     <div>
         <div class="application_news">
-          <router-link to="/homePage">
+          <router-link to="/applicationSendout">
             <Icon type="plus-round"></Icon>
             <span>发送站内信消息</span>
           </router-link>

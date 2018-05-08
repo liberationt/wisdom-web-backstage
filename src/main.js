@@ -23,6 +23,13 @@ Vue.use(store)
 const router = new VueRouter({
   routes
 })
+router.beforeEach((to, from, next) => {
+  iView.LoadingBar.start()
+  next()
+})
+router.afterEach(route => {
+  iView.LoadingBar.finish()
+})
 
 /* eslint-disable no-new */
 new Vue({
