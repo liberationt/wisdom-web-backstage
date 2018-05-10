@@ -112,7 +112,7 @@ export default {
 .layout{
   height: 50px;
   width: 100%;
-  background: #495060;
+  background: #0088CC;
   //overflow: hidden;
   // position: fixed;
   //   top: 0

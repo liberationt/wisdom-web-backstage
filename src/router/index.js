@@ -3,10 +3,16 @@ import HomePage from '@/components/homePage'
 // import Ciunt from '@/components/ciunt'
 import mberTab from '@/components/member/admintable'
 import Login from '@/components/login'
+// 站内信
 import applicationHomePage from '@/components/application/application-homePage'
 import applicationMail from '@/components/application/application-mail'
 import applicationNewtype from '@/components/application/application-newtype'
 import applicationSendout from '@/components/application/application-sendout'
+import applicationProposal from '@/components/application/application-proposal'
+import applicationDetail from '@/components/application/application-details'
+// 会员列表
+import memberList from '@/components/member-management/memberList'
+import memberDetail from '@/components/member-management/memberDetails'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 
@@ -31,8 +37,6 @@ let routes = [
     iconCls: 'ios-home', // 图标样式class
     children: [
       {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true},
-      {path: '/applicationNewtype', component: applicationNewtype, names: '站内信消息类型', hidden: true},
-      {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
       {path: '/mberTab', component: mberTab, names: '页面配置'},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心'},
       {path: '/mberTab2', component: mberTab, names: '贷款产品配置'},
@@ -46,7 +50,8 @@ let routes = [
     names: '会员管理',
     iconCls: 'ios-paw',
     children: [
-      {path: '/mberTab5', component: mberTab, names: '会员列表'}
+      {path: '/memberList', component: memberList, names: '会员列表'},
+      {path: '/memberDetail', component: memberDetail, names: '列表详情', hidden: true}
     ]
   },
   {
@@ -66,6 +71,10 @@ let routes = [
     iconCls: 'stats-bars',
     children: [
       {path: '/applicationMail', component: applicationMail, names: '站内信'},
+      {path: '/applicationNewtype', component: applicationNewtype, names: '站内信消息类型', hidden: true},
+      {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
+      {path: '/applicationProposal', component: applicationProposal, names: '建议反馈', hidden: true},
+      {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true},
       {path: '/mberTab8', component: mberTab, names: 'App Push'},
       {path: '/mberTab9', component: mberTab, names: '短信事件'}
     ]

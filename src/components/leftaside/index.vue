@@ -98,7 +98,7 @@
                                 <Icon :type="item.iconCls" :size="iconSize"></Icon>
                                 <span class="layout-text" >{{item.names}}</span>
                             </template>
-                             <template v-for="child in item.children" >
+                             <template v-for="child in item.children" v-if="!child.hidden">
                                 <Menu-item :name="child.path" :key="child.names">{{child.names}}</Menu-item>
                             </template>
                         </Submenu>
