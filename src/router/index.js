@@ -13,6 +13,10 @@ import applicationDetail from '@/components/application/application-details'
 // 会员列表
 import memberList from '@/components/member-management/memberList'
 import memberDetail from '@/components/member-management/memberDetails'
+// 基础配置
+import versionManagement from '@/components/basic-configuration/version-management'
+import pageConfigguration from '@/components/basic-configuration/page-configuration'
+import broadcastBigimg from '@/components/basic-configuration/broadcast-bigimg'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 
@@ -37,6 +41,9 @@ let routes = [
     iconCls: 'ios-home', // 图标样式class
     children: [
       {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true},
+      {path: '/versionManagement', component: versionManagement, names: '基础配置', hidden: true},
+      {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置', hidden: true},
+      {path: '/bigimg', component: broadcastBigimg, names: 'bigimg', hidden: true},
       {path: '/mberTab', component: mberTab, names: '页面配置'},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心'},
       {path: '/mberTab2', component: mberTab, names: '贷款产品配置'},
@@ -44,6 +51,7 @@ let routes = [
       {path: '/mberTab4', component: mberTab, names: '渠道配置'}
     ]
   },
+  
   {
     path: '/homePage',
     component: HomePage,
