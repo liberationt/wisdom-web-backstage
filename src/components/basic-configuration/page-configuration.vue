@@ -22,10 +22,12 @@
                     <p class="homePage_text">开启广告</p>
                 </li>
               </router-link>
-              <li>
-                  <Icon type="android-apps"></Icon>
-                  <p class="homePage_text">首页导航</p>
-              </li>
+              <router-link to="navigation">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">首页导航</p>
+                </li>
+              </router-link>
           </ul>
       </div>
       <!-- 信用卡超市 -->
@@ -62,8 +64,8 @@ export default {
 .homePage {
     margin-bottom: 25px;
     width: 100%;
-    height: 170px;
     border: 1px solid #ccc;
+    padding-bottom: 40px;
 }
 .homePage_h1 {
     border-bottom: 1px solid #ccc;

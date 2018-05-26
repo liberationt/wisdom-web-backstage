@@ -13,9 +13,11 @@
         </a>
     </div>
     <div class="version clearfix">
+        <router-link to='pageConfigguration'>
         <div class="version_img left">
             <img src="../../image/bg.jpg" alt="">
         </div>
+        </router-link>
         <div class="version_text">
             <p class="android right">安卓</p>
             <p class="version_text_version">V1.1.2</p>
@@ -47,7 +49,7 @@
       title="添加(编辑)版本"
       v-model="modal8"
       @on-ok="handleSubmit('formValidate')"
-      @on-cancel="abolish"
+      @on-cancel="handleReset('formValidate')"
       ok-text="提交保存"
       cancel-text="关闭"
       class-name="vertical-center-modal"
@@ -71,11 +73,11 @@
           </div>
         <!-- 表单 -->
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-            <FormItem label="版本号: " prop="name">
-                <Input v-model="formValidate.name" placeholder="请输入版本号"></Input>
+            <FormItem label="版本号: " prop="edition">
+                <Input v-model="formValidate.edition" placeholder="请输入版本号"></Input>
             </FormItem>
-            <FormItem label="包名: " prop="mail">
-                <Input v-model="formValidate.mail" placeholder="请输入包名"></Input>
+            <FormItem label="包名: " prop="packageName">
+                <Input v-model="formValidate.packageName" placeholder="请输入包名"></Input>
             </FormItem>
             <FormItem label="操作系统: " prop="gender">
                 <RadioGroup v-model="formValidate.gender">
@@ -110,45 +112,39 @@ export default {
   data () {
     return {
       modal8: false,
-      loading: true,
-      value: '',
-      formValidate: {
-        name: '',
-        mail: '',
-        city: '',
-        gender: '',
-        interest: [],
-        date: '',
-        time: '',
-        version: [],
-        address: '',
-        title: '',
-        desc: ''
-      },
-      ruleValidate: {
-        name: [
-          { required: true, message: '请输入版本号', trigger: 'blur' }
-        ],
-        mail: [
-          { required: true, message: '请输入包名', trigger: 'blur' }
-        ],
-        gender: [
-          { required: true, message: '请选择操作系统', trigger: 'change' }
-        ],
-        version: [
-          { required: true, type: 'string', message: '请选择版本状态', trigger: 'change' }
-        ],
-        address: [
-          { required: true, type: 'string', message: '请输入下载地址', trigger: 'change' }
-        ],
-        title: [
-          { required: true, type: 'string', message: '请输入升级标题', trigger: 'change' }
-        ],
-        desc: [
-          { required: true, message: '请输入升级内容', trigger: 'blur' },
-          { type: 'string', min: 20, message: '升级内容不能少于20个字符', trigger: 'blur' }
-        ]
-      }
+        formValidate: {
+            edition: '',
+            packageName: '',
+            gender: '',
+            version: '',
+            address: '',
+            title: '',
+            desc: ''
+        },
+        ruleValidate: {
+            edition: [
+                { required: true, message: '请输入版本号', trigger: 'blur' }
+            ],
+            packageName: [
+                { required: true, message: '请输入包名', trigger: 'blur' },
+            ],
+            gender: [
+                { required: true, message: '请选择操作系统', trigger: 'change' }
+            ],
+            version: [
+                { required: true, type: 'string', message: '请选择版本状态', trigger: 'change' }
+            ],
+            address: [
+                { required: true, type: 'string', message: '请输入下载地址', trigger: 'change' }
+            ],
+            title: [
+                { required: true, type: 'string', message: '请输入升级标题', trigger: 'change' }
+            ],
+            desc: [
+                { required: true, message: '请输入升级内容', trigger: 'blur' },
+                { type: 'string', min: 20, message: '升级内容不能少于20个字符', trigger: 'blur' }
+            ]
+        }
     }
   },
   components: {},
@@ -157,25 +153,27 @@ export default {
     handleRender () {
       this.modal8 = true
     },
-    abolish () {
-      this.$Message.info('取消成功')
-    },
     handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
-        if (valid) {
-          this.$Message.success('Success!')
-        } else {
-          this.loading = false
-          this.modal8 = true
-          // this.$Message.error('Fail!');
-        }
-      })
+        this.$refs[name].validate((valid) => {
+            if (valid) {
+                this.$Message.success('Success!');
+                this.$refs[name].resetFields();
+            } else {
+                this.$Message.error('Fail!');
+            }
+        })
     },
     handleReset (name) {
-      this.$refs[name].resetFields()
+        this.$refs[name].resetFields();
+    },
+    ok () {
+      this.$Message.info('删除成功！')
+    },
+    cancel () {
+      this.$Message.info('删除失败！')
+    }
     }
   }
-}
 </script>
 <style lang="less" scoped>
 .ivu-btn.ivu-btn-ghost {
