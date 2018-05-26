@@ -13,9 +13,11 @@
         </a>
     </div>
     <div class="version clearfix">
+        <router-link to='pageConfigguration'>
         <div class="version_img left">
             <img src="../../image/bg.jpg" alt="">
         </div>
+        </router-link>
         <div class="version_text">
             <p class="android right">安卓</p>
             <p class="version_text_version">V1.1.2</p>
@@ -48,7 +50,7 @@
       title="添加(编辑)版本"
       v-model="modal8"
       @on-ok="handleSubmit('formValidate')"
-      @on-cancel="abolish"
+      @on-cancel="handleReset('formValidate')"
       ok-text="提交保存"
       cancel-text="关闭"
       class-name="vertical-center-modal"
@@ -72,11 +74,11 @@
           </div>
         <!-- 表单 -->
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-            <FormItem label="版本号: " prop="name">
-                <Input v-model="formValidate.name" placeholder="请输入版本号"></Input>
+            <FormItem label="版本号: " prop="edition">
+                <Input v-model="formValidate.edition" placeholder="请输入版本号"></Input>
             </FormItem>
-            <FormItem label="包名: " prop="mail">
-                <Input v-model="formValidate.mail" placeholder="请输入包名"></Input>
+            <FormItem label="包名: " prop="packageName">
+                <Input v-model="formValidate.packageName" placeholder="请输入包名"></Input>
             </FormItem>
             <FormItem label="操作系统: " prop="gender">
                 <RadioGroup v-model="formValidate.gender">
@@ -111,26 +113,20 @@ export default {
   data() {
     return {
       modal8: false,
-      loading: true,      
-      value: "",
         formValidate: {
-            name: '',
-            mail: '',
-            city: '',
+            edition: '',
+            packageName: '',
             gender: '',
-            interest: [],
-            date: '',
-            time: '',
-            version: [],
+            version: '',
             address: '',
             title: '',
             desc: ''
         },
         ruleValidate: {
-            name: [
+            edition: [
                 { required: true, message: '请输入版本号', trigger: 'blur' }
             ],
-            mail: [
+            packageName: [
                 { required: true, message: '请输入包名', trigger: 'blur' },
             ],
             gender: [
@@ -151,7 +147,6 @@ export default {
             ]
         }
     }
-    
   },
   components: {},
   mounted: {},
@@ -159,24 +154,25 @@ export default {
     handleRender() {
       this.modal8 = true;
     },
-    abolish() {
-      this.$Message.info("取消成功");
-    },
     handleSubmit (name) {
-        let _that = this
         this.$refs[name].validate((valid) => {
             if (valid) {
                 this.$Message.success('Success!');
+                this.$refs[name].resetFields();
             } else {
-                this.loading = false;
-                this.modal8 = true;
-                // this.$Message.error('Fail!');
+                this.$Message.error('Fail!');
             }
         })
-        },
-        handleReset (name) {
-            this.$refs[name].resetFields();
-        }
+    },
+    handleReset (name) {
+        this.$refs[name].resetFields();
+    },
+    ok () {
+      this.$Message.info('删除成功！')
+    },
+    cancel () {
+      this.$Message.info('删除失败！')
+    }
     }
   }
 

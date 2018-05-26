@@ -17,6 +17,10 @@ import memberDetail from '@/components/member-management/memberDetails'
 import versionManagement from '@/components/basic-configuration/version-management'
 import pageConfigguration from '@/components/basic-configuration/page-configuration'
 import broadcastBigimg from '@/components/basic-configuration/broadcast-bigimg'
+import navigation from '@/components/basic-configuration/navigation'
+import cardCenter from '@/components/basic-configuration/card-center'
+import loansconfig from '@/components/basic-configuration/loans-configuration'
+import addedit from '@/components/basic-configuration/add_edit'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 
@@ -41,17 +45,19 @@ let routes = [
     iconCls: 'ios-home', // 图标样式class
     children: [
       {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true},
-      {path: '/versionManagement', component: versionManagement, names: '基础配置', hidden: true},
-      {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置', hidden: true},
+      {path: '/versionManagement', component: versionManagement, names: '版本管理'},
+      {path: '/cardCenter', component: cardCenter, names: '信用卡中心'},
+      {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置'},
+      {path: '/navigation', component: navigation, names: '首页导航', hidden: true},
       {path: '/bigimg', component: broadcastBigimg, names: 'bigimg', hidden: true},
-      {path: '/mberTab', component: mberTab, names: '页面配置'},
+      {path: '/loansconfig', component: loansconfig, names: '贷款产品配置1'},
+      {path: '/addedit', component: addedit, names: '添加编辑'},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心'},
       {path: '/mberTab2', component: mberTab, names: '贷款产品配置'},
       {path: '/mberTab3', component: mberTab, names: '分销产品配置'},
       {path: '/mberTab4', component: mberTab, names: '渠道配置'}
     ]
   },
-  
   {
     path: '/homePage',
     component: HomePage,
