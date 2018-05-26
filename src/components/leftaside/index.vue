@@ -87,7 +87,16 @@
     <div class="layoutcon" :class="{'layout-hide-text': spanLeft < 4}">
         <Row type="flex">
             <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
-                <Menu :mode="modeType" theme="dark" width="auto" :active-name="this.$route.path" :open-names="openNames" @on-select="menuSelect" accordion>
+                <div class="layout-logo-left">
+                    <Icon type="paper-airplane" ></Icon>
+                    <span class="layout-text">{{hidden}}应用首页</span>
+                </div>
+                <div class="tree-menu">
+                  <ul v-for="(menuItem, index) in leftlist" :key="index">
+                    <myTree :model="menuItem"></myTree>
+                  </ul>
+                </div>
+                <!-- <Menu :mode="modeType" theme="dark" width="auto"  :open-names="openNames" @on-select="menuSelect" accordion>
                      <div class="layout-logo-left">
                          <Icon type="paper-airplane" ></Icon>
                          <span class="layout-text">应用首页</span>
@@ -101,15 +110,9 @@
                              <template v-for="child in item.children" v-if="!child.hidden">
                                 <Menu-item :name="child.path" :key="child.names">{{child.names}}</Menu-item>
                             </template>
-                        </Submenu>
-                        <template v-if="item.leaf&&item.children.length>0">
-                            <Menu-item :name="item.children[0].path" :key="item.children[0].names">
-                                 <Icon :type="item.iconCls" :size="iconSize"></Icon>
-                                <span class="layout-text" >{{item.children[0].names}}</span>
-                            </Menu-item>
-                        </template>
+                            </Submenu>
                    </template>
-                </Menu>
+                </Menu> -->
             </i-col>
             <i-col :span="spanRight" v-if="hidden">
                 <div class="layout-breadcrumb">
@@ -139,14 +142,19 @@
 
 <script>
 import {mapState} from 'vuex'
+import myTree from './leftchild'
 export default {
+  components: {
+    myTree
+  },
   data () {
     return {
       openNames: [this.$route.matched[0].name],
       modeType: 'vertical',
       spanLeft: 4,
       spanRight: 20,
-      modal1: false
+      modal1: false,
+      leftlist: []
     }
   },
   computed: {
@@ -179,10 +187,23 @@ export default {
       console.log(name)
     }
   },
-  mounted () {}
+  mounted () {
+    // let leftlist = []
+    if (sessionStorage.getItem('leftlist')) {
+      JSON.parse(sessionStorage.getItem('leftlist')).forEach((item) => {
+        let menu = Object.assign({}, item)
+        menu.component = null
+        this.leftlist.push(menu)
+      })
+    // leftlist = JSON.parse(sessionStorage.getItem('leftlist'))
+    }
+  }
 }
 </script>
 <style lang="less" scoped>
+ul{
+    color:#fff
+}
 .ivu-select-dropdown .ivu-dropdown {
      margin: 0px 12px 0px 0px;
 }

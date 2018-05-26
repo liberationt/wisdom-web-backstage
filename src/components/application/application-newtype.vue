@@ -53,7 +53,7 @@
       ok-text="提交保存"
       cancel-text="关闭"
       class-name="vertical-center-modal"
-      width="300"
+      width="500"
       :mask-closable="false">
       <div class="newtype_file">
           <div class="newtype_leftfi">

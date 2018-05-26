@@ -121,7 +121,7 @@ export default {
       }
     },
     homesenh5 () {
-      if (this.formCustom.h5 == 5) {
+      if (this.formCustom.h5 === 5) {
         this.homeh5 = true
       } else {
         this.homeh5 = false

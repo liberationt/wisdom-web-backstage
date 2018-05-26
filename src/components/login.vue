@@ -35,6 +35,8 @@
 </template>
 
 <script>
+import utils from '../utils/utils'
+import {mapMutations} from 'vuex'
 export default {
   data () {
     return {
@@ -55,12 +57,33 @@ export default {
     }
   },
   methods: {
+    ...mapMutations(['menuTree']),
     handleSubmit (name) {
+      let that = this
       this.$refs[name].validate((valid) => {
         sessionStorage.setItem('user', JSON.stringify(this.formLogin.username))
         if (valid) {
-          this.$Message.success('登录成功!')
-          this.$router.push({ path: '/homePage' })
+          let params = {
+            'username': this.formLogin.username,
+            'password': this.formLogin.password
+          }
+          this.http.post(BASE_URL + '/user/Login', params)
+            .then((resp) => {
+              if (resp.code === 'success') {
+                that.menuTree(resp.data.userInfo)
+                sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
+                // sessionStorage.setItem('lefthidden', false)
+                utils.putlocal('token', resp.data.token)
+                // Vue.http.headers.common['Authentication'] = resp.data
+                this.$Message.success('登录成功!')
+                this.$router.push({ path: '/applicationHomePage' })
+              } else {
+                this.$Message.error(resp.message)
+                return false
+              }
+            })
+            .catch(() => {
+            })
         } else {
           this.$Message.error('表单验证失败!')
         }

@@ -17,10 +17,42 @@ import memberDetail from '@/components/member-management/memberDetails'
 import versionManagement from '@/components/basic-configuration/version-management'
 import pageConfigguration from '@/components/basic-configuration/page-configuration'
 import broadcastBigimg from '@/components/basic-configuration/broadcast-bigimg'
+// 系统
+import managementSet from '@/components/system/managementSet'
+import managementGrade from '@/components/system/managementGrade'
+import managementChannel from '@/components/system/managementChannel'
+import managementChannelAdd from '@/components/system/managementChannel-add'
+import managementLabel from '@/components/system/managementLabel'
+import managementLabelAdd from '@/components/system/managementLabel-add'
+// 信贷员
+import creditSetting from '@/components/creditOfficer/credit-setting'
+import evaluationManagement from '@/components/creditOfficer/evaluation-management'
+import evaluationReview from '@/components/creditOfficer/evaluation-review'
+import evaluationDetails from '@/components/creditOfficer/evaluation-details'
+// 订单列表
+import orderList from '@/components/creditOfficer/order-list'
+import detailsConsultation from '@/components/creditOfficer/details-consultation'
+import operationLog from '@/components/creditOfficer/operation-log'
+import detailsRobbing from '@/components/creditOfficer/details-robbing'
+import detailsComplaint from '@/components/creditOfficer/details-complaint'
+// 信贷员管理
+import creditManagement from '@/components/creditOfficer/credit-management'
+import addMechanism from '@/components/creditOfficer/add-mechanism'
+import revisionReview from '@/components/creditOfficer/revision-review'
+import toExamine from '@/components/creditOfficer/to-examine'
+import addExamine from '@/components/creditOfficer/add-examine'
+import creditInformation from '@/components/creditOfficer/credit-information'
+
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
-
+// alert(mapState.state.leftlist)
 // alert(mapState.state.count)
+
+// for (let i = 0; i < leftlist.length; i++) {
+//   console.log(leftlist[i].component)
+//   leftlist[i].component = leftlist[i].component.replace(/\"/g, '')
+// }
+// console.log(leftlist)
 let routes = [
   {
     path: '/',
@@ -28,12 +60,12 @@ let routes = [
     names: 'Login',
     hidden: true
   },
-  // {
-  //   path: '/digui',
-  //   component: digui,
-  //   names: 'digui',
-  //   hidden: true
-  // },
+  {
+    path: '/homePage',
+    component: HomePage,
+    names: 'Login',
+    hidden: true
+  },
   {
     path: '/homePage',
     component: HomePage,
@@ -51,25 +83,41 @@ let routes = [
       {path: '/mberTab4', component: mberTab, names: '渠道配置'}
     ]
   },
-  
   {
     path: '/homePage',
     component: HomePage,
     names: '会员管理',
     iconCls: 'ios-paw',
     children: [
-      {path: '/memberList', component: memberList, names: '会员列表'},
+      {
+        path: '/memberList',
+        component: memberList,
+        names: '会员列表',
+        children: [
+          {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true},
+          {path: '/versionManagement', component: versionManagement, names: '基础配置', hidden: true},
+          {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置', hidden: true},
+          {path: '/bigimg', component: broadcastBigimg, names: 'bigimg', hidden: true},
+          {path: '/mberTab', component: mberTab, names: '页面配置'},
+          {path: '/mberTab1', component: mberTab, names: '信用卡中心'},
+          {path: '/mberTab2', component: mberTab, names: '贷款产品配置'},
+          {path: '/mberTab3', component: mberTab, names: '分销产品配置'},
+          {path: '/mberTab4', component: mberTab, names: '渠道配置'}
+        ]
+      },
       {path: '/memberDetail', component: memberDetail, names: '列表详情', hidden: true}
     ]
   },
   {
     path: '/homePage',
     component: HomePage,
-    names: '',
-    iconCls: 'social-freebsd-devil',
-    leaf: true, // 只有一个节点
+    names: '信贷管理',
+    iconCls: 'ios-paw',
     children: [
-      {path: '/mberTab6', component: mberTab, names: '导航三'}
+      {path: '/mberTab6', component: mberTab, names: '信贷员列表'},
+      {path: '/mberTab6', component: mberTab, names: '信贷机构列表'},
+      {path: '/mberTab6', component: mberTab, names: '订单列表'},
+      {path: '/mberTab6', component: mberTab, names: '评价管理'}
     ]
   },
   {
@@ -81,12 +129,46 @@ let routes = [
       {path: '/applicationMail', component: applicationMail, names: '站内信'},
       {path: '/applicationNewtype', component: applicationNewtype, names: '站内信消息类型', hidden: true},
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
-      {path: '/applicationProposal', component: applicationProposal, names: '建议反馈', hidden: true},
-      {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true},
-      {path: '/mberTab8', component: mberTab, names: 'App Push'},
-      {path: '/mberTab9', component: mberTab, names: '短信事件'}
+      {path: '/applicationProposal', component: applicationProposal, names: '建议反馈'},
+      {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true}
+    ]
+  },
+  {
+    path: '/homePage',
+    component: HomePage,
+    names: '系统',
+    iconCls: 'stats-bars',
+    children: [
+      {path: '/managementSet', component: managementSet, names: '风控配置'},
+      {path: '/managementGrade', component: managementGrade, names: '配置风控等级', hidden: true},
+      {path: '/managementChannel', component: managementChannel, names: '渠道配置'},
+      {path: '/managementChannelAdd', component: managementChannelAdd, names: '添加编辑渠道', hidden: true},
+      {path: '/managementLabel', component: managementLabel, names: '渠道标签管理', hidden: true},
+      {path: '/managementLabelAdd', component: managementLabelAdd, names: '添加编辑标签', hidden: true}
+    ]
+  },
+  {
+    path: '/homePage',
+    component: HomePage,
+    names: '信贷管理',
+    iconCls: 'stats-bars',
+    children: [
+      {path: '/creditSetting', component: creditSetting, names: '信贷设置'},
+      {path: '/evaluationManagement', component: evaluationManagement, names: '评价管理'},
+      {path: '/evaluationReview', component: evaluationReview, names: '审核', hidden: true},
+      {path: '/evaluationDetails', component: evaluationDetails, names: '审核详情', hidden: true},
+      {path: '/orderList', component: orderList, names: '订单列表'},
+      {path: '/detailsConsultation', component: detailsConsultation, names: '咨询详情', hidden: true},
+      {path: '/detailsRobbing', component: detailsRobbing, names: '抢单详情', hidden: true},
+      {path: '/detailsComplaint', component: detailsComplaint, names: '申诉详情', hidden: true},
+      {path: '/operationLog', component: operationLog, names: '操作日志', hidden: true},
+      {path: '/creditManagement', component: creditManagement, names: '信贷员管理'},
+      {path: '/addMechanism', component: addMechanism, names: '添加信贷机构', hidden: true},
+      {path: '/revisionReview', component: revisionReview, names: '资料修改待审核详情', hidden: true},
+      {path: '/toExamine', component: toExamine, names: '管理产品', hidden: true},
+      {path: '/addExamine', component: addExamine, names: '添加/编辑产品', hidden: true},
+      {path: '/creditInformation', component: creditInformation, names: '信贷员信息', hidden: true}
     ]
   }
 ]
-
 export default routes

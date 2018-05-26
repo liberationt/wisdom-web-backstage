@@ -40,7 +40,6 @@
                     <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
                 </Poptip>
             </span>
-            
         </div>
     </div>
     <!-- 添加模板 -->
@@ -66,7 +65,7 @@
             :format="['jpg','jpeg','png']"
             :max-size="2048"
             :show-upload-list="false"
-            >   
+            >
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
             </Upload>
           </div>
@@ -108,78 +107,75 @@
  </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       modal8: false,
-      loading: true,      
-      value: "",
-        formValidate: {
-            name: '',
-            mail: '',
-            city: '',
-            gender: '',
-            interest: [],
-            date: '',
-            time: '',
-            version: [],
-            address: '',
-            title: '',
-            desc: ''
-        },
-        ruleValidate: {
-            name: [
-                { required: true, message: '请输入版本号', trigger: 'blur' }
-            ],
-            mail: [
-                { required: true, message: '请输入包名', trigger: 'blur' },
-            ],
-            gender: [
-                { required: true, message: '请选择操作系统', trigger: 'change' }
-            ],
-            version: [
-                { required: true, type: 'string', message: '请选择版本状态', trigger: 'change' }
-            ],
-            address: [
-                { required: true, type: 'string', message: '请输入下载地址', trigger: 'change' }
-            ],
-            title: [
-                { required: true, type: 'string', message: '请输入升级标题', trigger: 'change' }
-            ],
-            desc: [
-                { required: true, message: '请输入升级内容', trigger: 'blur' },
-                { type: 'string', min: 20, message: '升级内容不能少于20个字符', trigger: 'blur' }
-            ]
-        }
+      loading: true,
+      value: '',
+      formValidate: {
+        name: '',
+        mail: '',
+        city: '',
+        gender: '',
+        interest: [],
+        date: '',
+        time: '',
+        version: [],
+        address: '',
+        title: '',
+        desc: ''
+      },
+      ruleValidate: {
+        name: [
+          { required: true, message: '请输入版本号', trigger: 'blur' }
+        ],
+        mail: [
+          { required: true, message: '请输入包名', trigger: 'blur' }
+        ],
+        gender: [
+          { required: true, message: '请选择操作系统', trigger: 'change' }
+        ],
+        version: [
+          { required: true, type: 'string', message: '请选择版本状态', trigger: 'change' }
+        ],
+        address: [
+          { required: true, type: 'string', message: '请输入下载地址', trigger: 'change' }
+        ],
+        title: [
+          { required: true, type: 'string', message: '请输入升级标题', trigger: 'change' }
+        ],
+        desc: [
+          { required: true, message: '请输入升级内容', trigger: 'blur' },
+          { type: 'string', min: 20, message: '升级内容不能少于20个字符', trigger: 'blur' }
+        ]
+      }
     }
-    
   },
   components: {},
   mounted: {},
   methods: {
-    handleRender() {
-      this.modal8 = true;
+    handleRender () {
+      this.modal8 = true
     },
-    abolish() {
-      this.$Message.info("取消成功");
+    abolish () {
+      this.$Message.info('取消成功')
     },
     handleSubmit (name) {
-        let _that = this
-        this.$refs[name].validate((valid) => {
-            if (valid) {
-                this.$Message.success('Success!');
-            } else {
-                this.loading = false;
-                this.modal8 = true;
-                // this.$Message.error('Fail!');
-            }
-        })
-        },
-        handleReset (name) {
-            this.$refs[name].resetFields();
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          this.$Message.success('Success!')
+        } else {
+          this.loading = false
+          this.modal8 = true
+          // this.$Message.error('Fail!');
         }
+      })
+    },
+    handleReset (name) {
+      this.$refs[name].resetFields()
     }
   }
-
+}
 </script>
 <style lang="less" scoped>
 .ivu-btn.ivu-btn-ghost {
@@ -262,4 +258,3 @@ export default {
   line-height: 32px;
 }
 </style>
-

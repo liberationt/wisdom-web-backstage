@@ -30,12 +30,12 @@
                   </Select>
               </span>
               <div class="homePage_input2 left">
-                <p> 
+                <p>
                     <Select v-model="model4" style="width:120px">
                         <Option v-for="item in cityList4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </p>
-                <p> 
+                <p>
                     <Select v-model="model5" style="width:120px">
                         <Option v-for="item in cityList5" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
@@ -62,86 +62,86 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       cityList: [
         {
-          value: "不跳转",
-          label: "不跳转"
+          value: '不跳转',
+          label: '不跳转'
         },
         {
-          value: "跳转",
-          label: "跳转"
+          value: '跳转',
+          label: '跳转'
         }
       ],
-       cityList2: [
+      cityList2: [
         {
-          value: "原生页面",
-          label: "原生页面"
+          value: '原生页面',
+          label: '原生页面'
         },
         {
-          value: "h5页面",
-          label: "h5页面"
+          value: 'h5页面',
+          label: 'h5页面'
         }
       ],
-       cityList3: [
+      cityList3: [
         {
-          value: "首页",
-          label: "首页"
+          value: '首页',
+          label: '首页'
         },
         {
-          value: "贷款列表",
-          label: "贷款列表"
+          value: '贷款列表',
+          label: '贷款列表'
         },
         {
-          value: "产品详情",
-          label: "产品详情"
+          value: '产品详情',
+          label: '产品详情'
         },
         {
-          value: "实名认证",
-          label: "实名认证"
+          value: '实名认证',
+          label: '实名认证'
         },
         {
-          value: "精准推荐",
-          label: "精准推荐"
+          value: '精准推荐',
+          label: '精准推荐'
         },
         {
-          value: "我要赚钱",
-          label: "我要赚钱"
+          value: '我要赚钱',
+          label: '我要赚钱'
         },
         {
-          value: "赚了花",
-          label: "赚了花"
+          value: '赚了花',
+          label: '赚了花'
         }
       ],
       cityList4: [
         {
-          value: "下架",
-          label: "下架"
+          value: '下架',
+          label: '下架'
         },
         {
-          value: "上架",
-          label: "上架"
+          value: '上架',
+          label: '上架'
         }
       ],
       cityList5: [
         {
-          value: "未实名显示",
-          label: "未实名显示"
+          value: '未实名显示',
+          label: '未实名显示'
         },
         {
-          value: "未实名不显示",
-          label: "未实名不显示"
+          value: '未实名不显示',
+          label: '未实名不显示'
         }
       ],
-      model1: "不跳转",
-      model2: "原生页面",
-      model3: "首页",
-      model4: "下架",
-      model5: "未实名显示"
-    };
+      model1: '不跳转',
+      model2: '原生页面',
+      model3: '首页',
+      model4: '下架',
+      model5: '未实名显示'
+    }
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .homePage_submit , .homePage_submit{
@@ -152,7 +152,7 @@ export default {
     margin-top: 15px;
 }
 .homePage_submit {
-    background-color: #3598dc; 
+    background-color: #3598dc;
     border-radius: 5px;
     width: 80px;
 }
@@ -216,4 +216,3 @@ hr {
   border-left: 5px solid #8bb4e7;
 }
 </style>
-

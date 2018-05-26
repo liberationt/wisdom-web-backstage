@@ -9,7 +9,7 @@
     <div id="application-clothes">
       <img src="../../image/application-hzjf.png" alt="">
       <span><em>华赞金服</em></br><em>版本数量:4</em></span>
-      <p><a href="javascript:;">进入管理</a></p>
+      <p><a href="javascript:;" @click="gold_clothes('201805142023380010060940490952')">进入管理</a></p>
     </div>
     <div id="application-app">
       <img src="../../image/application-hzjf.png" alt="">
@@ -20,7 +20,43 @@
 </div>
 </template>
 <script>
-export default {}
+import {mapState, mapMutations} from 'vuex'
+export default {
+  methods: {
+    ...mapMutations(['leftlist', 'lefthidtrue']),
+    gold_clothes (num) {
+      let that = this
+      let arrlist = []
+      for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
+        if (that.menu.menuInfo.children[i].menuCode === '201805101406040010063461953451') {
+          arrlist = that.menu.menuInfo.children[i].children
+        }
+      }
+      for (let j = 0; j < arrlist.length; j++) {
+        if (arrlist[j].menuCode === num) {
+          for (let k = 0; k < arrlist[j].children.length; k++) {
+            if (arrlist[j].children[k].component == null) {
+              arrlist[j].children[k].component = 'HomePage'
+            }
+            if (arrlist[j].children[k].path === '') {
+              arrlist[j].children[k].path = '/homePage'
+            }
+          }
+          that.leftlist(arrlist[j].children)
+          sessionStorage.setItem('leftlist', JSON.stringify(arrlist[j].children))
+        // console.log(arrlist[j].childMenu)
+        }
+      }
+      this.$router.push({ path: './operationLog' })
+      sessionStorage.setItem('lefthidden', true)
+      that.lefthidtrue()
+      // that.menu.menuInfo.childMenu
+    }
+  },
+  computed: {
+    ...mapState(['menu'])
+  }
+}
 </script>
 <style lang="less" scoped>
 #application-con{

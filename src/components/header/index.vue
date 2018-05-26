@@ -5,13 +5,15 @@
       <Col span="20">
         <Col span="16" class="headrigui">
           <ul >
-            <li><router-link to="/homePage">管理首页</router-link></li>
-            <li><router-link to="/homePage">公众号</router-link></li>
+            <li v-for="(item, index) in headerdata" :key="index">
+              <router-link :to="item.path">{{item.menuName}}</router-link>
+            </li>
+            <!-- <li><router-link to="/homePage">公众号</router-link></li>
             <li><router-link to="/homePage">小程序</router-link></li>
             <li><router-link to="/applicationHomePage">应用</router-link></li>
             <li><router-link to="/homePage">报表</router-link></li>
             <li><router-link to="/homePage">财务</router-link></li>
-            <li><router-link to="/homePage">系统</router-link></li>
+            <li><router-link to="/homePage">系统</router-link></li> -->
           </ul>
         </Col>
         <Col span="8" class="headright">
@@ -45,7 +47,7 @@
 </template>
 
 <script>
-import {mapMutations} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 export default {
   name: 'headerpt',
   data () {
@@ -78,7 +80,8 @@ export default {
       ],
       model2: '',
       model3: '',
-      model4: ''
+      model4: '',
+      headerdata: []
     }
   },
   methods: {
@@ -88,22 +91,29 @@ export default {
       // thiss.addClass('redWine')
     }
   },
+  computed: {
+    ...mapState(['menu'])
+  },
   mounted () {
-    var that = this
-    var headacc = document.querySelectorAll('.headrigui ul li a')
-    for (var i = 0; i < headacc.length; i++) {
-      headacc[i].onclick = function () {
-        for (var j = 0; j < headacc.length; j++) {
-          headacc[j].style.backgroundColor = ''
-        }
-        this.style.backgroundColor = '#D64635'
-        if (this.innerText === '应用') {
-          that.lefthidfalse()
-        } else {
-          that.lefthidtrue()
-        }
-      }
-    }
+    // let that = this
+    this.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
+    console.log(JSON.parse(sessionStorage.getItem('userInfo')).menuInfo)
+    // alert(JSON.parse(sessionStorage.getItem('userInfo')))
+    // var headacc = document.querySelectorAll('.headrigui ul li a')
+    // for (var i = 0; i < headacc.length; i++) {
+    //   headacc[i].onclick = function () {
+    //     alert('s')
+    //     for (var j = 0; j < headacc.length; j++) {
+    //       headacc[j].style.backgroundColor = ''
+    //     }
+    //     this.style.backgroundColor = '#D64635'
+    //     if (this.innerText === '应用') {
+    //       that.lefthidfalse()
+    //     } else {
+    //       that.lefthidtrue()
+    //     }
+    //   }
+    // }
   }
 }
 </script>

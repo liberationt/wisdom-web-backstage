@@ -1,0 +1,67 @@
+<template>
+<div>
+    <div class="navigation">
+      <p>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;   信贷员管理</span>
+      </p>
+    </div>
+    <div id="feedback_details">
+        <h3>查看订单详情</h3>
+        <ul>
+            <li>
+                <span><em>*</em>产品名称:</span>
+                <Input v-model="value" placeholder="Enter something..." style="width: 300px"></Input>
+            </li>
+            <li>
+                <span><em>*</em>产品详情:</span>
+
+            </li>
+        </ul>
+        <div>
+            <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
+            <Button type="ghost">返回</Button>
+        </div>
+    </div>
+</div>
+</template>
+<script>
+export default {
+  data () {
+    return {
+      value: ''
+    }
+  }
+}
+</script>
+<style lang="less" scoped>
+#feedback_details{
+    border: 1px solid #E7ECF1;
+    padding: 30px 50px;
+    h3{
+        line-height: 50px;
+        border-bottom: 1px solid #E7ECF1;
+        margin-bottom: 20px;
+    }
+    p{
+        line-height: 40px;
+        padding-left: 50px;
+        span:first-child{
+            width: 100px;
+            display: inline-block;
+            text-align: right
+        }
+
+    }
+    div{
+        text-align: center;
+        margin-top: 20px
+    }
+}
+.evaluation_grade{
+    display: inline-block;
+    border: 1px solid #FF6600;
+    line-height: 30px;
+    padding: 0px 20px;
+    color: #FF6600
+}
+</style>

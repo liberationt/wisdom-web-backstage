@@ -6,7 +6,9 @@ Vue.use(Vuex)
 const state = {// 设置初始状态
   count: 1,
   num: 0,
-  hidden: true
+  hidden: false,
+  menu: {},
+  leftlist: []
 }
 
 const mutations = {// 改变初始状态
@@ -23,6 +25,14 @@ const mutations = {// 改变初始状态
   lefthidtrue (state) {
     state.hidden = true
     console.log(state.hidden)
+  },
+  menuTree (state, object) {
+    state.menu = object
+    console.log(state.menu)
+  },
+  leftlist (state, list) {
+    state.leftlist = list
+    console.log(state.leftlist)
   }
 }
 
