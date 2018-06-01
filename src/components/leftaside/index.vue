@@ -89,7 +89,7 @@
             <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
                 <div class="layout-logo-left">
                     <Icon type="paper-airplane" ></Icon>
-                    <span class="layout-text">{{hidden}}应用首页</span>
+                    <span class="layout-text">应用首页</span>
                 </div>
                 <div class="tree-menu">
                   <ul v-for="(menuItem, index) in leftlist" :key="index">
@@ -115,12 +115,12 @@
                 </Menu> -->
             </i-col>
             <i-col :span="spanRight" v-if="hidden">
-                <div class="layout-breadcrumb">
+                <!-- <div class="layout-breadcrumb">
                     <Breadcrumb>
                         <Breadcrumb-item href="#">应用中心</Breadcrumb-item>
                         <Breadcrumb-item>{{$route.names}}</Breadcrumb-item>
                     </Breadcrumb>
-                </div>
+                </div> -->
                 <div class="layout-content">
                     <div class="layout-content-main">
                         <router-view></router-view>
@@ -195,6 +195,7 @@ export default {
         menu.component = null
         this.leftlist.push(menu)
       })
+      console.log(this.leftlist)
     // leftlist = JSON.parse(sessionStorage.getItem('leftlist'))
     }
   }

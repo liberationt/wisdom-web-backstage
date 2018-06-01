@@ -61,22 +61,27 @@ export default {
     handleSubmit (name) {
       let that = this
       this.$refs[name].validate((valid) => {
-        sessionStorage.setItem('user', JSON.stringify(this.formLogin.username))
+        utils.setCookie('user', JSON.stringify(this.formLogin.username), 7)
+        // sessionStorage.setItem('user', JSON.stringify(this.formLogin.username))
         if (valid) {
           let params = {
             'username': this.formLogin.username,
             'password': this.formLogin.password
           }
+          // let BASE_URL
           this.http.post(BASE_URL + '/user/Login', params)
             .then((resp) => {
               if (resp.code === 'success') {
                 that.menuTree(resp.data.userInfo)
-                sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
+                utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
+                utils.putlocal('lefthidden', false)
+                // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 // sessionStorage.setItem('lefthidden', false)
                 utils.putlocal('token', resp.data.token)
                 // Vue.http.headers.common['Authentication'] = resp.data
                 this.$Message.success('登录成功!')
                 this.$router.push({ path: '/applicationHomePage' })
+                // location.reload()
               } else {
                 this.$Message.error(resp.message)
                 return false
@@ -88,11 +93,13 @@ export default {
           this.$Message.error('表单验证失败!')
         }
         if (this.formLogin.remember[0] === '记住密码') {
-          sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
-          sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
+          utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
+          utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
+          // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
+          // sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
         } else {
-          sessionStorage.removeItem('username')
-          sessionStorage.removeItem('password')
+          utils.delCookie('username')
+          utils.delCookie('password')
         }
       })
     },
@@ -101,11 +108,11 @@ export default {
     }
   },
   mounted () {
-    if (sessionStorage.getItem('username')) {
-      this.formLogin.username = JSON.parse(sessionStorage.getItem('username'))
+    if (utils.getCookie('username')) {
+      this.formLogin.username = JSON.parse(utils.getCookie('username'))
     }
-    if (sessionStorage.getItem('password')) {
-      this.formLogin.password = JSON.parse(sessionStorage.getItem('password'))
+    if (utils.getCookie('password')) {
+      this.formLogin.password = JSON.parse(utils.getItem('password'))
     }
   }
 }

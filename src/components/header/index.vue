@@ -5,8 +5,9 @@
       <Col span="20">
         <Col span="16" class="headrigui">
           <ul >
+            <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
-              <router-link :to="item.path">{{item.menuName}}</router-link>
+              <a href="javascript:;" :class="{redWine:index==isActive}"  @click="routerlink(index, item.path)">{{item.menuName}}</a>
             </li>
             <!-- <li><router-link to="/homePage">公众号</router-link></li>
             <li><router-link to="/homePage">小程序</router-link></li>
@@ -81,29 +82,33 @@ export default {
       model2: '',
       model3: '',
       model4: '',
-      headerdata: []
+      headerdata: [],
+      isActive: 1
     }
   },
   methods: {
     ...mapMutations(['lefthidfalse', 'lefthidtrue']),
-    Active: function () {
-      // $('.headleft ul li a').removeClass('redWine')
-      // thiss.addClass('redWine')
+    routerlink: function (index, path) {
+      this.isActive = index
+      this.$router.push({ path: path })
     }
   },
   computed: {
     ...mapState(['menu'])
   },
   mounted () {
-    // let that = this
-    this.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
-    console.log(JSON.parse(sessionStorage.getItem('userInfo')).menuInfo)
+    let that = this
+    that.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
     // alert(JSON.parse(sessionStorage.getItem('userInfo')))
-    // var headacc = document.querySelectorAll('.headrigui ul li a')
-    // for (var i = 0; i < headacc.length; i++) {
+    // if (that.headerdata.length>0) {
+    //   console.log(that.headerdata)
+    //   let headacc = document.querySelectorAll('.headrigui ul li')
+    //   console.log(headacc)
+    // }
+    // for (let i = 0; i < headacc.length; i++) {
     //   headacc[i].onclick = function () {
     //     alert('s')
-    //     for (var j = 0; j < headacc.length; j++) {
+    //     for (let j = 0; j < headacc.length; j++) {
     //       headacc[j].style.backgroundColor = ''
     //     }
     //     this.style.backgroundColor = '#D64635'
@@ -122,7 +127,7 @@ export default {
 .layout{
   height: 50px;
   width: 100%;
-  background: #0088CC;
+  background: #464C5B;
   //overflow: hidden;
   // position: fixed;
   //   top: 0

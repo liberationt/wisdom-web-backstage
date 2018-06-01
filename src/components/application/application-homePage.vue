@@ -50,6 +50,7 @@ export default {
       this.$router.push({ path: './operationLog' })
       sessionStorage.setItem('lefthidden', true)
       that.lefthidtrue()
+      location.reload()
       // that.menu.menuInfo.childMenu
     }
   },

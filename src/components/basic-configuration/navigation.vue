@@ -127,7 +127,7 @@
         @on-ok="ok"
         @on-cancel="cancel"
         width="500">
-        <div class="demo-upload-list" v-for="item in uploadList">
+        <div class="demo-upload-list" v-for="(item, index) in uploadList" :key="index">
         <template v-if="item.status === 'finished'">
             <img :src="item.url">
             <div class="demo-upload-list-cover">
@@ -177,111 +177,111 @@
 </template>
 <script>
 export default {
-  data() {
+  data () {
     return {
       modal1: false,
       defaultList: [
         {
-          name: "bc7521e033abdd1e92222d733590f104",
+          name: 'bc7521e033abdd1e92222d733590f104',
           url:
-            "https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar"
+            'https://o5wwk8baw.qnssl.com/bc7521e033abdd1e92222d733590f104/avatar'
         }
       ],
-      imgName: "",
+      imgName: '',
       visible: false,
       uploadList: [],
-      value: "",
-      value1: "",
+      value: '',
+      value1: '',
       pageList: [
         {
-            value1: '原生页面',
-            label1: '原生页面'
+          value1: '原生页面',
+          label1: '原生页面'
         },
         {
-            value1: 'H5页面',
-            label1: 'H5页面'
+          value1: 'H5页面',
+          label1: 'H5页面'
         }
       ],
       model1: '原生页面',
       cpageList: [
         {
-            value2: '贷款列表',
-            label2: '贷款列表'
+          value2: '贷款列表',
+          label2: '贷款列表'
         },
         {
-            value2: 'H5页面',
-            label2: 'H5页面'
+          value2: 'H5页面',
+          label2: 'H5页面'
         }
       ],
       model2: '贷款列表',
       link: false,
       col: true
-    };
+    }
   },
   methods: {
-    ok() {
-      this.$Message.info("Clicked ok");
+    ok () {
+      this.$Message.info('Clicked ok')
     },
-    cancel() {
-      this.$Message.info("Clicked cancel");
+    cancel () {
+      this.$Message.info('Clicked cancel')
     },
-    deleteOk() {
-      this.$Message.info("删除成功！");
+    deleteOk () {
+      this.$Message.info('删除成功！')
     },
-    deleteCancel() {
-      this.$Message.info("删除失败！");
+    deleteCancel () {
+      this.$Message.info('删除失败！')
     },
-    handleView(name) {
-      this.imgName = name;
-      this.visible = true;
+    handleView (name) {
+      this.imgName = name
+      this.visible = true
     },
-    handleRemove(file) {
-      const fileList = this.$refs.upload.fileList;
-      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1);
+    handleRemove (file) {
+      const fileList = this.$refs.upload.fileList
+      this.$refs.upload.fileList.splice(fileList.indexOf(file), 1)
     },
-    handleSuccess(res, file) {
+    handleSuccess (res, file) {
       file.url =
-        "https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar";
-      file.name = "7eb99afb9d5f317c912f08b5212fd69a";
+        'https://o5wwk8baw.qnssl.com/7eb99afb9d5f317c912f08b5212fd69a/avatar'
+      file.name = '7eb99afb9d5f317c912f08b5212fd69a'
     },
-    handleFormatError(file) {
+    handleFormatError (file) {
       this.$Notice.warning({
-        title: "The file format is incorrect",
+        title: 'The file format is incorrect',
         desc:
-          "File format of " +
+          'File format of ' +
           file.name +
-          " is incorrect, please select jpg or png."
-      });
+          ' is incorrect, please select jpg or png.'
+      })
     },
-    handleMaxSize(file) {
+    handleMaxSize (file) {
       this.$Notice.warning({
-        title: "Exceeding file size limit",
-        desc: "File  " + file.name + " is too large, no more than 2M."
-      });
+        title: 'Exceeding file size limit',
+        desc: 'File  ' + file.name + ' is too large, no more than 2M.'
+      })
     },
-    handleBeforeUpload() {
-      const check = this.uploadList.length < 5;
+    handleBeforeUpload () {
+      const check = this.uploadList.length < 5
       if (!check) {
         this.$Notice.warning({
-          title: "Up to five pictures can be uploaded."
-        });
+          title: 'Up to five pictures can be uploaded.'
+        })
       }
-      return check;
+      return check
     },
-    model11 (){
-      if(this.model1 == 'H5页面'){
-        this.link = true,
+    model11 () {
+      if (this.model1 === 'H5页面') {
+        this.link = true
         this.col = false
       } else {
-        this.link = false,
-        this.col = true 
+        this.link = false
+        this.col = true
       }
     }
   },
-  mounted() {
-    this.uploadList = this.$refs.upload.fileList;
+  mounted () {
+    this.uploadList = this.$refs.upload.fileList
   }
-};
+}
 </script>
 <style lang="less" scoped>
 .input {
@@ -371,4 +371,3 @@ export default {
   margin: 0 2px;
 }
 </style>
-

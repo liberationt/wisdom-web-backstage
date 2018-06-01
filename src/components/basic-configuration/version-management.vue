@@ -112,39 +112,39 @@ export default {
   data () {
     return {
       modal8: false,
-        formValidate: {
-            edition: '',
-            packageName: '',
-            gender: '',
-            version: '',
-            address: '',
-            title: '',
-            desc: ''
-        },
-        ruleValidate: {
-            edition: [
-                { required: true, message: '请输入版本号', trigger: 'blur' }
-            ],
-            packageName: [
-                { required: true, message: '请输入包名', trigger: 'blur' },
-            ],
-            gender: [
-                { required: true, message: '请选择操作系统', trigger: 'change' }
-            ],
-            version: [
-                { required: true, type: 'string', message: '请选择版本状态', trigger: 'change' }
-            ],
-            address: [
-                { required: true, type: 'string', message: '请输入下载地址', trigger: 'change' }
-            ],
-            title: [
-                { required: true, type: 'string', message: '请输入升级标题', trigger: 'change' }
-            ],
-            desc: [
-                { required: true, message: '请输入升级内容', trigger: 'blur' },
-                { type: 'string', min: 20, message: '升级内容不能少于20个字符', trigger: 'blur' }
-            ]
-        }
+      formValidate: {
+        edition: '',
+        packageName: '',
+        gender: '',
+        version: '',
+        address: '',
+        title: '',
+        desc: ''
+      },
+      ruleValidate: {
+        edition: [
+          { required: true, message: '请输入版本号', trigger: 'blur' }
+        ],
+        packageName: [
+          { required: true, message: '请输入包名', trigger: 'blur' }
+        ],
+        gender: [
+          { required: true, message: '请选择操作系统', trigger: 'change' }
+        ],
+        version: [
+          { required: true, type: 'string', message: '请选择版本状态', trigger: 'change' }
+        ],
+        address: [
+          { required: true, type: 'string', message: '请输入下载地址', trigger: 'change' }
+        ],
+        title: [
+          { required: true, type: 'string', message: '请输入升级标题', trigger: 'change' }
+        ],
+        desc: [
+          { required: true, message: '请输入升级内容', trigger: 'blur' },
+          { type: 'string', min: 20, message: '升级内容不能少于20个字符', trigger: 'blur' }
+        ]
+      }
     }
   },
   components: {},
@@ -154,17 +154,17 @@ export default {
       this.modal8 = true
     },
     handleSubmit (name) {
-        this.$refs[name].validate((valid) => {
-            if (valid) {
-                this.$Message.success('Success!');
-                this.$refs[name].resetFields();
-            } else {
-                this.$Message.error('Fail!');
-            }
-        })
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          this.$Message.success('Success!')
+          this.$refs[name].resetFields()
+        } else {
+          this.$Message.error('Fail!')
+        }
+      })
     },
     handleReset (name) {
-        this.$refs[name].resetFields();
+      this.$refs[name].resetFields()
     },
     ok () {
       this.$Message.info('删除成功！')
@@ -172,8 +172,8 @@ export default {
     cancel () {
       this.$Message.info('删除失败！')
     }
-    }
   }
+}
 </script>
 <style lang="less" scoped>
 .ivu-btn.ivu-btn-ghost {
