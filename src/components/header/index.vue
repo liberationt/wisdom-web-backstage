@@ -49,6 +49,7 @@
 
 <script>
 import {mapState, mapMutations} from 'vuex'
+import utils from '../../utils/utils'
 export default {
   name: 'headerpt',
   data () {
@@ -98,7 +99,8 @@ export default {
   },
   mounted () {
     let that = this
-    that.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
+    that.headerdata = JSON.parse(utils.getlocal('userInfo')).menuInfo.children
+    // that.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
     // alert(JSON.parse(sessionStorage.getItem('userInfo')))
     // if (that.headerdata.length>0) {
     //   console.log(that.headerdata)

@@ -188,7 +188,7 @@ let routes = [
     iconCls: 'stats-bars',
     children: [
       {path: '/presentSetting', component: presentSetting, names: '提现设置'},
-      {path: '/presentRecord', component: presentRecord, names: '体现记录'},
+      {path: '/presentRecord', component: presentRecord, names: '提现记录'},
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
       {path: '/applicationProposal', component: applicationProposal, names: '建议反馈'},
       {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true}

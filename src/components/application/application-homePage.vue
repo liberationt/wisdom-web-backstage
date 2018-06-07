@@ -21,6 +21,7 @@
 </template>
 <script>
 import {mapState, mapMutations} from 'vuex'
+import utils from '../../utils/utils'
 export default {
   methods: {
     ...mapMutations(['leftlist', 'lefthidtrue']),
@@ -43,12 +44,14 @@ export default {
             }
           }
           that.leftlist(arrlist[j].children)
-          sessionStorage.setItem('leftlist', JSON.stringify(arrlist[j].children))
+          utils.putlocal('leftlist', JSON.stringify(arrlist[j].children))
+          // sessionStorage.setItem('leftlist', JSON.stringify(arrlist[j].children))
         // console.log(arrlist[j].childMenu)
         }
       }
       this.$router.push({ path: './operationLog' })
-      sessionStorage.setItem('lefthidden', true)
+      utils.putlocal('lefthidden', true)
+      // sessionStorage.setItem('lefthidden', true)
       that.lefthidtrue()
       location.reload()
       // that.menu.menuInfo.childMenu
