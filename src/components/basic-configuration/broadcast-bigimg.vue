@@ -21,7 +21,7 @@
                     </Select>
                     <input type="text" class="homePage_url" v-if="homePage_if_input">
                 </span>
-                <span class="homePage_img_input left"  v-if="homePage_if"> 
+                <span class="homePage_img_input left"  v-if="homePage_if">
                     <Select v-model="model2" style="width:100px" @on-change="homePage2">
                       <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
@@ -32,12 +32,12 @@
                     </Select>
                 </span>
                 <div class="homePage_input2 left">
-                  <p> 
+                  <p>
                       <Select v-model="model4" style="width:120px">
                           <Option v-for="item in cityList4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
                   </p>
-                  <!-- <p> 
+                  <!-- <p>
                       <Select v-model="model5" style="width:120px">
                           <Option v-for="item in cityList5" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
@@ -129,19 +129,19 @@ export default {
           label: '上架'
         }
       ],
-      model1: "不跳转",
-      model2: "原生页面",
-      model3: "首页",
-      model4: "下架",
+      model1: '不跳转',
+      model2: '原生页面',
+      model3: '首页',
+      model4: '下架',
       homePage_if_input: false,
       homePage_if: false,
       homePage_if1: false,
-      items:[
+      items: [
         {
-          url:'http:baidu.com'
+          url: 'http:baidu.com'
         }
       ]
-    };
+    }
   },
   components: {},
   mounted: {},
@@ -152,34 +152,34 @@ export default {
     cancel () {
       this.$Message.info('删除失败！')
     },
-    homePage1() {
-      if(this.model1 == '不跳转'){
-        this.homePage_if = false;
-        this.homePage_if1 = false;
-        this.homePage_if_input = false;
-      } else if(this.model1 == '跳转'){
-        this.homePage_if = true;
-        this.homePage_if1 = true;
-        if(this.model2 == 'h5页面'){
-        this.homePage_if1 = false;
-        this.homePage_if_input = true;
+    homePage1 () {
+      if (this.model1 === '不跳转') {
+        this.homePage_if = false
+        this.homePage_if1 = false
+        this.homePage_if_input = false
+      } else if (this.model1 === '跳转') {
+        this.homePage_if = true
+        this.homePage_if1 = true
+        if (this.model2 === 'h5页面') {
+          this.homePage_if1 = false
+          this.homePage_if_input = true
         };
       }
     },
-    homePage2() {
-      if(this.model2 == '原生页面'){
-         this.homePage_if1 = true;
-         this.homePage_if_input = false;
+    homePage2 () {
+      if (this.model2 === '原生页面') {
+        this.homePage_if1 = true
+        this.homePage_if_input = false
       } else {
-         this.homePage_if1 = false;
-         this.homePage_if_input = true;
+        this.homePage_if1 = false
+        this.homePage_if_input = true
       }
     },
-    homePageAdd() {
-      this.index++;
+    homePageAdd () {
+      this.index++
       this.items.push({
-          url: "http:baidu.com"
-      });
+        url: 'http:baidu.com'
+      })
     }
   }
 }
@@ -211,7 +211,7 @@ export default {
   margin-left: 20px;
 }
 .homePage_submit {
-    background-color: #3598dc; 
+    background-color: #3598dc;
     width: 80px;
     color: #fff;
 }

@@ -181,7 +181,12 @@
                     <Page :total="100" show-elevator show-sizer show-total></Page>
                 </div>
             </TabPane>
-            <TabPane label="登录日志">标签七的内容</TabPane>
+            <TabPane label="登录日志">
+              <Table stripe :columns="columns6" :data="data6"></Table>
+                <div class="tr mt15">
+                    <Page :total="100" show-elevator show-sizer show-total></Page>
+                </div>
+            </TabPane>
         </Tabs>
     </div>
     </Col>
@@ -464,6 +469,35 @@ export default {
           ],
           content: '非常棒！感谢！',
           evaltype: '未通过审核'
+        }
+      ],
+      columns6: [
+        {
+          title: '登录时间',
+          align: 'center',
+          key: 'time'
+        },
+        {
+          title: '登录端口',
+          align: 'center',
+          key: 'port'
+        },
+        {
+          title: '登录设备',
+          align: 'center',
+          key: 'equipment'
+        }
+      ],
+      data6: [
+        {
+          time: '2018-03-29 15:12:34',
+          port: '安卓',
+          equipment: 'MI 5S'
+        },
+        {
+          time: '2018-03-29 15:12:34',
+          port: '安卓',
+          equipment: 'MI 5S'
         }
       ]
     }

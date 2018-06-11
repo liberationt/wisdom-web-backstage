@@ -46,6 +46,10 @@ import revisionReview from '@/components/creditOfficer/revision-review'
 import toExamine from '@/components/creditOfficer/to-examine'
 import addExamine from '@/components/creditOfficer/add-examine'
 import creditInformation from '@/components/creditOfficer/credit-information'
+import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
+// 财务
+import presentSetting from '@/components/finance/present-setting'
+import presentRecord from '@/components/finance/present-record'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
@@ -173,7 +177,21 @@ let routes = [
       {path: '/revisionReview', component: revisionReview, names: '资料修改待审核详情', hidden: true},
       {path: '/toExamine', component: toExamine, names: '管理产品', hidden: true},
       {path: '/addExamine', component: addExamine, names: '添加/编辑产品', hidden: true},
-      {path: '/creditInformation', component: creditInformation, names: '信贷员信息', hidden: true}
+      {path: '/creditInformation', component: creditInformation, names: '信贷员信息', hidden: true},
+      {path: '/addCreditOfficer', component: addCreditOfficer, names: '添加/编辑信贷员', hidden: true}
+    ]
+  },
+  {
+    path: '/homePage',
+    component: HomePage,
+    names: '财务',
+    iconCls: 'stats-bars',
+    children: [
+      {path: '/presentSetting', component: presentSetting, names: '提现设置'},
+      {path: '/presentRecord', component: presentRecord, names: '提现记录'},
+      {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
+      {path: '/applicationProposal', component: applicationProposal, names: '建议反馈'},
+      {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true}
     ]
   }
 ]

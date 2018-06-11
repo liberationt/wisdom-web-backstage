@@ -1,6 +1,6 @@
 <template>
  <li>
-    <span @click="toggle" >
+    <span @click="toggle($event)" >
         &nbsp;&nbsp;&nbsp;&nbsp;
         {{ model.menuName }}
         <em v-if="model.children&&model.children.length>0">
@@ -20,7 +20,8 @@ export default {
   data () {
     return {
       open: false,
-      isFolder: true
+      isFolder: true,
+      isActive: 0
     }
   },
   computed: {
@@ -32,10 +33,15 @@ export default {
 
   },
   methods: {
-    toggle () {
+    toggle (e) {
       if (this.isFolder) {
         this.open = !this.open
       }
+      let leftspan = document.querySelectorAll('.tree-menu span')
+      for (let i = 0; i < leftspan.length; i++) {
+        leftspan[i].classList.remove('blue')
+      }
+      e.target.classList.add('blue')
     },
     menuSelect: function (path) {
       this.$router.push({ path: path })
@@ -44,9 +50,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.tree-menu{
+  padding-left: 20px
+}
   ul {
     list-style: none;
-    padding-left: 20px;
+    // padding-left: 20px;
   }
   i {
     display: inline-block;
@@ -68,9 +77,13 @@ export default {
         width: 100%;
         position: relative;
         pointer-events:auto;
+        padding-left: 20px
     }
   }
   .tree-menu li span:hover{
       background: #3889D4
+  }
+  .child_routh span{
+    padding-left: 40px!important
   }
 </style>

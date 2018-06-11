@@ -9,15 +9,17 @@
         <h3>查看订单详情</h3>
         <ul>
             <li>
-                <span><em>*</em>产品名称:</span>
-                <Input v-model="value" placeholder="Enter something..." style="width: 300px"></Input>
+                <span class="lh32 "><em class="red">*</em>产品名称:</span>
+                <Input class="" v-model="value" placeholder="请输入产品名称" style="width: 300px"></Input>
             </li>
-            <li>
-                <span><em>*</em>产品详情:</span>
-
+            <li class="clearfix mt15">
+                <span class="left"><em class="red">*</em>产品详情:</span>
+                <div class="editor-container left mt5">
+                    <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
+                </div>
             </li>
         </ul>
-        <div>
+        <div class="mt50">
             <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
             <Button type="ghost">返回</Button>
         </div>
@@ -25,12 +27,19 @@
 </div>
 </template>
 <script>
+import UE from '../../components/ue'
 export default {
   data () {
     return {
-      value: ''
+      value: '',
+      defaultMsg: '这里是UE测试',
+      config: {
+        initialFrameWidth: null,
+        initialFrameHeight: 350
+      }
     }
-  }
+  },
+  components: {UE}
 }
 </script>
 <style lang="less" scoped>
@@ -54,7 +63,7 @@ export default {
     }
     div{
         text-align: center;
-        margin-top: 20px
+        // margin-top: 20px
     }
 }
 .evaluation_grade{
