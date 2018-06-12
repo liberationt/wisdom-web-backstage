@@ -20,7 +20,7 @@ Vue.config.productionTip = false
 // 设置接口全局变量
 global.BASE_URL = ''
 if (process.env.NODE_ENV !== 'testing') {
-  global.BASE_URL = 'http://dev.busadapter.zanfin.com'
+  global.BASE_URL = '172.19.111.24:3330'
 } else {
   global.BASE_URL = ''
 }
