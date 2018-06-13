@@ -50,6 +50,10 @@ import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
+
+// 大网钱
+import registrationList from '@/components/bigMoney/registration-list'
+import loanPush from '@/components/bigMoney/loan-push'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
@@ -192,6 +196,16 @@ let routes = [
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true},
       {path: '/applicationProposal', component: applicationProposal, names: '建议反馈'},
       {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true}
+    ]
+  },
+  {
+    path: '/homePage',
+    component: HomePage,
+    names: '大网钱',
+    iconCls: 'stats-bars',
+    children: [
+      {path: '/registrationList', component: registrationList, names: '注册列表'},
+      {path: '/loanPush', component: loanPush, names: '贷款推送'}
     ]
   }
 ]
