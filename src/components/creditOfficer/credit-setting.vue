@@ -6,7 +6,7 @@
       </p>
     </div>
     <div>
-          <Tabs type="card" :animated="false">
+          <Tabs type="card" :animated="false" @on-click="marketquery">
             <TabPane label="基本设置">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="200" class="mt50">
                 <FormItem label="单次咨询(留言)扣费:" prop="passwd">
@@ -63,138 +63,138 @@
             <TabPane label="用户身价设置">
                 <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="200" class="mt50">
                 <FormItem label="底价:" >
-                    <Input type="number" v-model="formCustom.price" style="width:300px">
+                    <Input type="text" v-model="formCustom.price" style="width:300px">
                     <span slot="append">个</span>
                     </Input>
                 </FormItem>
                 <FormItem label="已实名:" >
-                    <Input type="number" v-model="formCustom.balance" style="width:150px">
+                    <Input type="text" v-model="formCustom.balance" style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="贷款金额:"  class="clearfix">
                     <div class="left">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">1万-3万</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">3万-5万</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">5万-10万</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">10万-20万</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">20万-50万</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">50万以上</span>
                         </Input>
                     </div>
                 </FormItem>
                 <FormItem label="月收入:" class="clearfix">
                     <div class="left">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">3k以下</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">3k-6k</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">6k-10k</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">10k-20k</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">20k以上</span>
                         </Input>
                     </div>
                 </FormItem>
                 <FormItem label="职业:"  class="clearfix">
                     <div class="left">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">上班族</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">公务员</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">企业法人</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">个体户</span>
                         </Input>
                     </div>
                     <div class="left ml10">
-                        <Input type="number" v-model="formCustom.passwdCheck" style="width:150px">
+                        <Input type="text" v-model="formCustom.passwdCheck" style="width:150px">
                            <span slot="prepend">自由职业</span>
                         </Input>
                     </div>
                 </FormItem>
                 <FormItem label="本地户籍:" >
-                    <Input type="number" v-model="formCustom.balance" style="width:150px">
+                    <Input type="text" v-model="formCustom.balance" style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有房:" >
-                    <Input type="number" v-model="formCustom.floorprice"  style="width:150px">
+                    <Input type="text" v-model="formCustom.floorprice"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有车:">
-                    <Input type="number" v-model="formCustom.deductions"  style="width:150px">
+                    <Input type="text" v-model="formCustom.deductions"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有公积金:">
-                    <Input type="number" v-model="formCustom.dormancy"  style="width:150px">
+                    <Input type="text" v-model="formCustom.dormancy"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有社保:" >
-                    <Input type="number" v-model="formCustom.cycle"  style="width:150px">
+                    <Input type="text" v-model="formCustom.cycle"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有信用卡:">
-                    <Input type="number" v-model="formCustom.cycle"  style="width:150px">
+                    <Input type="text" v-model="formCustom.cycle"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有微粒贷:">
-                    <Input type="number" v-model="formCustom.cycle"  style="width:150px">
+                    <Input type="text" v-model="formCustom.cycle"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
                 <FormItem label="有寿险保单:">
-                    <Input type="number" v-model="formCustom.cycle"  style="width:150px">
+                    <Input type="text" v-model="formCustom.cycle"  style="width:150px">
                     <Icon slot="prepend" class="cursorp" type="android-add"></Icon>
                     </Input>
                 </FormItem>
@@ -203,13 +203,13 @@
                 </FormItem>
             </Form>
             </TabPane>
-            <TabPane label="营销设置">
+            <TabPane label="营销设置" >
                 <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="200" class="mt50">
                     <FormItem label="注册送:" class="clearfix">
                         <Select v-model="model1" style="width:100px" class="left">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <Input type="number" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
+                        <Input type="text" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
                             <span slot="append" class="left">个</span>
                         </Input>
                     </FormItem>
@@ -225,11 +225,11 @@
                              :key="index"
                              :prop="'items.' + index + '.value1'"
                              >
-                            <Input type="number" v-model="item.value1" class="left ml10"  style="width:150px">
+                            <Input type="text" v-model="item.value1" class="left ml10"  style="width:150px">
                             <span slot="prepend">满</span>
                             <span slot="append" class="left">送</span>
                         </Input>
-                        <Input type="number" v-model="item.value2" class="left "  style="width:150px">
+                        <Input type="text" v-model="item.value2" class="left "  style="width:150px">
                             <span slot="append" class="left">个</span>
                         </Input>
                         <Button type="primary" class="left ml10" v-if="item.hidden" @click="addset">增加</Button>
@@ -248,11 +248,11 @@
                              :key="index"
                              :prop="'items.' + index + '.value1'"
                              >
-                            <Input type="number" v-model="item.value1" class="left ml10"  style="width:150px">
+                            <Input type="text" v-model="item.value1" class="left ml10"  style="width:150px">
                             <span slot="prepend">满</span>
                             <span slot="append" class="left">送</span>
                         </Input>
-                        <Input type="number" v-model="item.value2" class="left "  style="width:150px">
+                        <Input type="text" v-model="item.value2" class="left "  style="width:150px">
                             <span slot="append" class="left">个</span>
                         </Input>
                         <Button type="primary" class="left ml10" v-if="item.hidden" @click="addnormal">增加</Button>
@@ -263,7 +263,7 @@
                         <Select v-model="model1" style="width:100px" class="left">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <Input type="number" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
+                        <Input type="text" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
                             <span slot="append" class="left">个/人</span>
                         </Input>
                     </FormItem>
@@ -340,11 +340,11 @@ export default {
       },
       cityList: [
         {
-          value: '开启',
+          value: '1',
           label: '开启'
         },
         {
-          value: '关闭',
+          value: '0',
           label: '关闭'
         }
       ],
@@ -435,7 +435,22 @@ export default {
         status: 1,
         hidden: false
       })
+    },
+    marketquery (name) {
+      if (name == 2) {
+        this.http.post(BASE_URL + '/loan/marketConfig/query', {})
+          .then((resp) => {
+            if (resp.code == 'success') {
+              console.log(resp)
+            } else {
+            }
+          })
+          .catch(() => {
+          })
+      }
     }
+  },
+  mounted () {     
   }
 }
 </script>

@@ -7,6 +7,9 @@
     height: 100%;
     width: 100%;
 }
+.contrig{
+    background: #fff
+}
 .layout-breadcrumb {
     padding: 10px 15px 0
 }
@@ -14,7 +17,7 @@
     min-height: 200px;
     margin: 15px;
     overflow: auto;
-    background: #fff;
+    background: #f2f2f2;
     border-radius: 4px;
     height: 80%;
 }
@@ -27,7 +30,7 @@
     color: #9ea7b4;
 }
 .layout-menu-left {
-    background: #464c5b;
+    background: #424A5D;
 }
 .layout-header {
     height: 60px;
@@ -49,6 +52,7 @@
 }
 .ivu-col {
     transition: width .2s ease-in-out;
+    height: 100%;
 }
 .ivu-row-flex {
     height: 100%;
@@ -86,13 +90,13 @@
 <template>
     <div class="layoutcon" :class="{'layout-hide-text': spanLeft < 4}">
         <Row type="flex">
-            <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
+            <i-col :span="spanLeft"  class="layout-menu-left">
                 <div class="layout-logo-left">
                     <Icon type="paper-airplane" ></Icon>
                     <span class="layout-text">应用首页</span>
                 </div>
                 <div class="tree-menu">
-                  <ul v-for="(menuItem, index) in leftlist" :key="index">
+                  <ul v-for="(menuItem, index) in leftlist" :key="index" :mark="index" class="aceul">
                     <myTree :model="menuItem"></myTree>
                   </ul>
                 </div>
@@ -114,7 +118,7 @@
                    </template>
                 </Menu> -->
             </i-col>
-            <i-col :span="spanRight" v-if="hidden">
+            <i-col :span="spanRight" class="contrig">
                 <!-- <div class="layout-breadcrumb">
                     <Breadcrumb>
                         <Breadcrumb-item href="#">应用中心</Breadcrumb-item>
@@ -127,13 +131,13 @@
                      </div>
                 </div>
             </i-col>
-            <i-col :span="24" v-if="!hidden">
+            <!-- <i-col :span="24" v-if="!hidden">
                 <div class="layout-content">
                     <div class="layout-content-main">
                         <router-view></router-view>
                      </div>
                 </div>
-            </i-col>
+            </i-col> -->
         </Row>
     </div>
     <!-- 修改密码 模态框 -->
@@ -143,6 +147,7 @@
 <script>
 import {mapState} from 'vuex'
 import myTree from './leftchild'
+import utils from '../../utils/utils'
 export default {
   components: {
     myTree
@@ -189,8 +194,8 @@ export default {
   },
   mounted () {
     // let leftlist = []
-    if (sessionStorage.getItem('leftlist')) {
-      JSON.parse(sessionStorage.getItem('leftlist')).forEach((item) => {
+    if (utils.getlocal('leftlist')) {
+      JSON.parse(utils.getlocal('leftlist')).forEach((item) => {
         let menu = Object.assign({}, item)
         menu.component = null
         this.leftlist.push(menu)

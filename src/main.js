@@ -46,9 +46,19 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  // 对路由进行验证
+  if(to.matched.some( m => m.meta.auth)){
+    // 对路由进行验证
+    if(utils.getCookie('user')) { // 已经登陆
+      iView.LoadingBar.start()
+      next()
+    }else{
+      // 未登录,跳转到登陆页面。
+      next({path:'/',query:{ referrer: '/'} })
+    }
+  } else {
   iView.LoadingBar.start()
   next()
+  }
 })
 
 router.afterEach(route => {

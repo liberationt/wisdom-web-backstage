@@ -14,6 +14,7 @@
  </li>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   name: 'treeMenu',
   props: ['model'],
@@ -30,7 +31,16 @@ export default {
     // }
   },
   mounted () {
-
+    let leftspan = document.querySelectorAll('.tree-menu span')
+    let leftul = document.querySelectorAll('.aceul')
+    let index = utils.getlocal('sideleft')
+    leftspan[index].classList.add('blue')
+    leftspan[index].parentNode.parentNode.setAttribute('style', 'display: block')
+    console.log(leftspan[index].parentNode.parentNode.previousSibling)
+    leftspan[index].parentNode.parentNode.previousSibling.childNodes.childNodes.classList.remove('ivu-icon-ios-arrow-up')
+    leftspan[index].parentNode.parentNode.previousSibling.childNodes.childNodes.classList.add('ivu-icon-ios-arrow-down')
+    if (leftspan[index].parentNode.parentNode.previousSibling.tagName == 'span') {
+    }
   },
   methods: {
     toggle (e) {
@@ -40,8 +50,11 @@ export default {
       let leftspan = document.querySelectorAll('.tree-menu span')
       for (let i = 0; i < leftspan.length; i++) {
         leftspan[i].classList.remove('blue')
+        leftspan[i].setAttribute('index', i)
       }
       e.target.classList.add('blue')
+      utils.putlocal('sideleft', Number(e.target.getAttribute('index')))
+      console.log(e.target.getAttribute('index'))
     },
     menuSelect: function (path) {
       this.$router.push({ path: path })
@@ -81,7 +94,7 @@ export default {
     }
   }
   .tree-menu li span:hover{
-      background: #3889D4
+      background: #68DFF0
   }
   .child_routh span{
     padding-left: 40px!important

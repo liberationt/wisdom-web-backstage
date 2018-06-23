@@ -2,25 +2,24 @@
     <div>
         <div class="navigation">
             <p>
-                <span>贷款推送</span>
+                <span>平安人寿</span>
             </p>
         </div>
         <div class="mt50">
-            <span>甲方名称:</span>
-            <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+            <span>推送主体:</span>
+            <Select v-model="model1" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <span>推送模式:</span>
-            <Select v-model="model2" placeholder="全部" style="width:200px" class="mr20">
-                <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
+            <span>文件名称:</span>
+            <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
             <span>推送时间:</span>
             <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
-                <Button class="right mr20 w100" type="info">查询</Button>
+                <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
+                <Button class="right mr20 w100 " type="info">查询</Button>
             </div>
         </div>
         <div class="mt20">
@@ -29,6 +28,40 @@
         <div class="tr mt15">
           <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
         </div>
+        <Modal
+          title="上传文件"
+          v-model="modal9"
+          @on-ok="upload"
+          @on-cancel="handleReset"
+          ok-text="保存"
+          cancel-text="取消"
+          class-name="vertical-center-modal"
+          width="500"
+          :loading="loading"
+          :mask-closable="false">
+          <div  class="newtype_file mt15 mb15 pl10">
+           <ul>
+            <li>
+                <span>甲方名称:</span>
+                <span>哈哈哈</span>
+            </li>
+            <li class="mt15">
+                <span>主体名称:</span>
+                <span>哈哈哈</span>
+            </li>
+            <li class="mt15 clearfix">
+                <span class="left lh32">上传文件:</span>
+            <Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
+            <Upload
+            :before-upload="handleUpload"
+            :show-upload-list="false"
+            action="//jsonplaceholder.typicode.com/posts/">
+            <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
+        </Upload>
+            </li>
+        </ul>
+          </div>
+          </Modal>
     </div>
 </template>
 <script>
@@ -36,8 +69,9 @@ export default {
   data () {
     return {
       model1: '',
-      model2: '',
-      model3: '',
+      value9: '',
+      modal9: false,
+      loading: true,
       cityList: [
         {
           value: '供应商1',
@@ -56,16 +90,6 @@ export default {
           label: '供应商4'
         }
       ],
-      cityList2: [
-        {
-          value: '1',
-          label: '自动'
-        },
-        {
-          value: '2',
-          label: '手动'
-        }
-      ],
       columns7: [
         {
           title: '批次',
@@ -73,24 +97,19 @@ export default {
           key: 'batch'
         },
         {
-          title: '推送模式',
+          title: '文件名称',
+          align: 'center',
+          key: 'filename'
+        },
+        {
+          title: '推送主体',
           align: 'center',
           key: 'pattern'
         },
         {
-          title: '甲方名称',
-          align: 'center',
-          key: 'name'
-        },
-        {
-          title: '推送主题',
-          align: 'center',
-          key: 'theme'
-        },
-        {
           title: '推送时间',
           align: 'center',
-          key: 'starttime'
+          key: 'time'
         },
         {
           title: '推送条数',
@@ -129,7 +148,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './pushDetail' })
+                    this.$router.push({ path: './insuranceReport' })
                   }
                 }
               }, '详情')
@@ -140,10 +159,9 @@ export default {
       data6: [
         {
           batch: '180601001',
+          filename: '哈哈',
           pattern: '自动',
-          name: '大地',
-          theme: '哈哈',
-          starttime: '2018/06/01 12:00:20',
+          time: '2018/06/01 12:00:20',
           pushnum: '1000',
           successnum: '1000',
           errornum: '0',
@@ -151,10 +169,9 @@ export default {
         },
         {
           batch: '180601001',
+          filename: '哈哈',
           pattern: '自动',
-          name: '大地',
-          theme: '哈哈',
-          starttime: '2018/06/01 12:00:20',
+          time: '2018/06/01 12:00:20',
           pushnum: '1000',
           successnum: '1000',
           errornum: '0',
@@ -175,6 +192,42 @@ export default {
         return 'demo-table-info-row'
       }
       return ''
+    },
+    refuse () {
+      this.modal9 = true
+    },
+    upload () {
+      if (this.value9 == '') {
+        this.changeLoading()
+        const title = '上传报表'
+        let content = '<p>请先上传文件</p>'
+        this.$Modal.warning({
+         title: title,
+         content: content
+        })
+        return false
+      } else {
+        setTimeout(() => {
+          this.changeLoading()
+          const title = '上传名单'
+          let content = '<p>上传成功</p>'
+          this.$Modal.success({
+            title: title,
+            content: content
+          })
+          this.modal9 = false
+          this.value9 = ''
+        }, 1000)
+      }
+    },
+    handleUpload (file) {
+      this.value9 = file.name
+    },
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
+      })
     }
   }
 }

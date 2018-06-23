@@ -71,10 +71,11 @@ export default {
           // let BASE_URL
           this.http.post(BASE_URL + '/user/Login', params)
             .then((resp) => {
-              if (resp.code === 'success') {
+              if (resp.code == 'success') {
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
                 utils.putlocal('lefthidden', false)
+                utils.putlocal('headace', 1)
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 // sessionStorage.setItem('lefthidden', false)
                 utils.putlocal('token', resp.data.token)
@@ -92,7 +93,7 @@ export default {
         } else {
           this.$Message.error('表单验证失败!')
         }
-        if (this.formLogin.remember[0] === '记住密码') {
+        if (this.formLogin.remember[0] == '记住密码') {
           utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
           utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
           // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))

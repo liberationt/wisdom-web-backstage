@@ -26,7 +26,7 @@ addRequestInterceptor(
   (config) => {
     if (utils.getlocal('token')) {
       // 判断是否存在token，如果存在的话，则每个http header都加上token
-      config.headers.Authorization = utils.getlocal('token')
+      config.headers.Authentication = utils.getlocal('token')
     }
     // config.url = `/api${config.url}`
     return config

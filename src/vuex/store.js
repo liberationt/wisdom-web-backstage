@@ -20,19 +20,15 @@ const mutations = {// 改变初始状态
   },
   lefthidfalse (state) {
     state.hidden = false
-    console.log(state.hidden)
   },
   lefthidtrue (state) {
     state.hidden = true
-    console.log(state.hidden)
   },
   menuTree (state, object) {
     state.menu = object
-    console.log(state.menu)
   },
   leftlist (state, list) {
     state.leftlist = list
-    console.log(state.leftlist)
   }
 }
 

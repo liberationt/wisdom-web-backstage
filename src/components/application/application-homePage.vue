@@ -29,17 +29,17 @@ export default {
       let that = this
       let arrlist = []
       for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
-        if (that.menu.menuInfo.children[i].menuCode === '201805101406040010063461953451') {
+        if (that.menu.menuInfo.children[i].menuCode == '201805101406040010063461953451') {
           arrlist = that.menu.menuInfo.children[i].children
         }
       }
       for (let j = 0; j < arrlist.length; j++) {
-        if (arrlist[j].menuCode === num) {
+        if (arrlist[j].menuCode == num) {
           for (let k = 0; k < arrlist[j].children.length; k++) {
             if (arrlist[j].children[k].component == null) {
               arrlist[j].children[k].component = 'HomePage'
             }
-            if (arrlist[j].children[k].path === '') {
+            if (arrlist[j].children[k].path == '') {
               arrlist[j].children[k].path = '/homePage'
             }
           }

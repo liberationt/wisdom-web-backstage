@@ -3,7 +3,7 @@
     <Row>
       <Col span="4" class="headleft"><div ><img src="../../image/logo.png" alt="" ></div></Col>
       <Col span="20">
-        <Col span="16" class="headrigui">
+        <Col span="20" class="headrigui">
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
@@ -17,9 +17,9 @@
             <li><router-link to="/homePage">系统</router-link></li> -->
           </ul>
         </Col>
-        <Col span="8" class="headright">
+        <Col span="4" class="headright">
           <ul>
-            <li>
+            <!-- <li>
               <Badge count="100">
                 <img src="../../image/small.png" alt="">
               </Badge>
@@ -33,17 +33,28 @@
               <Badge count="100">
                 <img src="../../image/small.png" alt="">
               </Badge>
-            </li>
+            </li> -->
             <li class="adminhead">
               <img src="../../image/poptx.jpeg" alt="">
-                <Select v-model="model3" style="width:100px">
+              <span class="ml5">{{username}}</span>
+              <a href="javascript:;" @click="introduction">退出</a>
+                <!-- <Select v-model="model3" style="width:100px">
                   <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
+                </Select> -->
             </li>
           </ul>
         </Col>
       </Col>
    </Row>
+    <Modal
+      title="退出"
+      v-model="modal8"
+      width=300
+      @on-ok="determine"
+      class-name="vertical-center-modal"
+      :mask-closable="false">
+      <p class="tc">确定要退出吗?</p>
+    </Modal>
   </div>
 </template>
 
@@ -54,6 +65,8 @@ export default {
   name: 'headerpt',
   data () {
     return {
+      modal8: false,
+      username: '',
       cityList: [
         {
           value: 'New York',
@@ -84,14 +97,27 @@ export default {
       model3: '',
       model4: '',
       headerdata: [],
-      isActive: 1
+      isActive: utils.getlocal('headace')
     }
   },
   methods: {
     ...mapMutations(['lefthidfalse', 'lefthidtrue']),
     routerlink: function (index, path) {
+      utils.putlocal('headace', index)
       this.isActive = index
       this.$router.push({ path: path })
+    },
+    introduction () {
+      this.modal8 = true
+    },
+    determine () {
+      localStorage.removeItem('lefthidden')
+      localStorage.removeItem('leftlist')
+      localStorage.removeItem('token')
+      localStorage.removeItem('userInfo')
+      localStorage.removeItem('headace')
+      utils.delCookie('user')
+      this.$router.push({ path: './' })
     }
   },
   computed: {
@@ -99,6 +125,7 @@ export default {
   },
   mounted () {
     let that = this
+    that.username = JSON.parse(utils.getCookie('user'))
     that.headerdata = JSON.parse(utils.getlocal('userInfo')).menuInfo.children
     // that.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
     // alert(JSON.parse(sessionStorage.getItem('userInfo')))
@@ -129,7 +156,7 @@ export default {
 .layout{
   height: 50px;
   width: 100%;
-  background: #464C5B;
+  background: #FFD777;
   //overflow: hidden;
   // position: fixed;
   //   top: 0
@@ -156,7 +183,7 @@ export default {
         width: 100%;
         height: 100%;
         display: inline-block;
-        color: #fff
+        color: #666
       }
     }
   }
@@ -176,6 +203,7 @@ export default {
       overflow: hidden;
       width: 200px;
       margin-left: 10px;
+      color: #333;
       img{
         width: 30px;
         height: 30px;
@@ -183,6 +211,10 @@ export default {
         float: left;
         margin-top: 10px;
         margin-right: 5px
+      }
+      a{
+        color: #666;
+        margin-left: 5px
       }
       .ivu-select-selection{
         float: left;

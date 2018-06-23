@@ -2,37 +2,32 @@
     <div>
         <div class="navigation">
             <p>
-                <span>注册列表</span>
+                <span>推广明细报表</span>
             </p>
         </div>
-        <div class="titregist">
-            <div class="registrations" v-for="(item, index) in numregistrations" :key="index" :class="item.color">
-                <div>
-                    <p>{{item.totalnum}}</p>
-                </div>
-                <div>
-                    <span>第一步注册人数:<strong>{{item.onenum}}</strong>人</span><br>
-                    <span>第二步注册人数:<strong>{{item.twonum}}</strong>人</span>
-                </div>
-            </div>
-        </div>
         <div class="mt50">
-            <span>渠道:</span>
-            <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <span class="w100 tr displayib">推送主体:</span>
+            <Select v-model="model2" style="width:200px" class="mr20">
+                <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <span>步骤:</span>
-            <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20">
+            <span class=" tr displayib">状态:</span>
+            <Select v-model="model3" style="width:200px" class="mr20">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
 
-            <span>注册时间:</span>
+            <span class=" tr displayib">注册时间:</span>
             <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <div class="mt15">
+            <span class=" tr displayib">推送时间:</span>
+                <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+                <span>  -  </span>
+                <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            </div >
             <div class="clearfix mr100 mt20">
-                <Button class="right" type="primary">导出</Button>
-                <Button class="right mr20" type="info">查询</Button>
+                <Button class="right w100" type="primary">导出</Button>
+                <Button class="right mr20 w100" type="info">查询</Button>
             </div>
         </div>
 
@@ -48,7 +43,7 @@
 export default {
   data () {
     return {
-      model1: '',
+      model2: '',
       model3: '',
       numregistrations: [
         {
@@ -70,22 +65,22 @@ export default {
           totalnum: '本月注册总人数'
         }
       ],
-      cityList: [
+      cityList2: [
         {
-          value: '供应商1',
-          label: '供应商1'
+          value: '1',
+          label: '1'
         },
         {
-          value: '供应商2',
-          label: '供应商2'
+          value: '2',
+          label: '2'
         },
         {
-          value: '供应商3',
-          label: '供应商3'
+          value: '3',
+          label: '3'
         },
         {
-          value: '供应商4',
-          label: '供应商4'
+          value: '4',
+          label: '4'
         }
       ],
       cityList3: [
@@ -117,13 +112,13 @@ export default {
           title: 'UID',
           align: 'center',
           width: 100,
-          key: 'did'
+          key: 'uid'
         },
         {
-          title: '注册时间',
+          title: '推送主体',
           align: 'center',
           width: 100,
-          key: 'time'
+          key: 'media'
         },
         {
           title: '渠道',
@@ -132,7 +127,7 @@ export default {
           key: 'channel'
         },
         {
-          title: '步骤',
+          title: 'step',
           align: 'center',
           width: 100,
           key: 'step'
@@ -234,6 +229,18 @@ export default {
           key: 'tiny'
         },
         {
+          title: '推送时间',
+          align: 'center',
+          width: 100,
+          key: 'time'
+        },
+        {
+          title: '状态',
+          align: 'center',
+          width: 100,
+          key: 'type'
+        },
+        {
           title: 'IP',
           align: 'center',
           width: 100,
@@ -243,16 +250,16 @@ export default {
       data1: [
         {
           no: '1',
-          did: '1',
-          time: '1',
+          uid: '1',
+          media: '1',
           channel: '1',
           step: '1',
           name: '1',
           phone: '1',
           birthday: '1',
-          city: '1',
           sex: '1',
           age: '1',
+          city: '1',
           mcity: '1',
           toloan: '1',
           social: '1',
@@ -263,31 +270,35 @@ export default {
           carloan: '1',
           insurance: '1',
           tiny: '1',
+          time: '0',
+          type: '1',
           ip: '1'
         },
         {
-          no: '2',
-          did: '2',
-          time: '2',
-          channel: '2',
-          step: '2',
-          name: '2',
-          phone: '2',
-          birthday: '2',
-          city: '2',
-          sex: '2',
-          age: '2',
-          mcity: '2',
-          toloan: '2',
-          social: '2',
-          accumulation: '2',
-          roomloan: '2',
-          room: '2',
-          car: '2',
-          carloan: '2',
-          insurance: '2',
-          tiny: '2',
-          ip: '2'
+          no: '1',
+          uid: '1',
+          media: '1',
+          channel: '1',
+          step: '1',
+          name: '1',
+          phone: '1',
+          birthday: '1',
+          sex: '1',
+          age: '1',
+          city: '1',
+          mcity: '1',
+          toloan: '1',
+          social: '1',
+          accumulation: '1',
+          roomloan: '1',
+          room: '1',
+          car: '1',
+          carloan: '1',
+          insurance: '1',
+          tiny: '1',
+          time: '0',
+          type: '1',
+          ip: '1'
         }
       ]
     }
@@ -303,58 +314,5 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-.titregist{
-    overflow: hidden;
-    .registrations{
-        width: 330px;
-        height: 100px;
-        float: left;
-        margin-right: 20px;
-        border-radius: 5px;
-        overflow: hidden;
-        color: #fff;
-        div:first-child{
-            width: 40%;
-            float: left;
-            line-height: 100px;
-            p{
-                text-align: center;
-                font-size: 16px;
-            }
-        }
-        div:last-child{
-            width: 60%;
-            float: left;
-            text-align: center;
-            height: 100%;
-            display: table-cell;
-            padding-top: 10px;
-            // vertical-align: middle;
-            span{
-                vertical-align: middle;
-                display: inline-block;
-                line-height: 40px;
-                // font-size: 16px
-            }
-        }
-    }
-}
-.blue1{
-     background: -webkit-linear-gradient(left, #49C1B5 , #73C784); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, #49C1B5, #73C784); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, #49C1B5, #73C784); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, #49C1B5 , #73C784); /* 标准的语法（必须放在最后） */
-}
-.yellow1{
-    background: -webkit-linear-gradient(left, #F0723D , #E4C54A); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, #F0723D, #E4C54A); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, #F0723D, #E4C54A); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, #F0723D , #E4C54A); /* 标准的语法（必须放在最后） */
-}
-.purple1{
-    background: -webkit-linear-gradient(left, #6F60E0 , #53D3C7); /* Safari 5.1 - 6.0 */
-    background: -o-linear-gradient(right, #6F60E0, #53D3C7); /* Opera 11.1 - 12.0 */
-    background: -moz-linear-gradient(right, #6F60E0, #53D3C7); /* Firefox 3.6 - 15 */
-    background: linear-gradient(to right, #6F60E0 , #53D3C7); /* 标准的语法（必须放在最后） */
-}
+
 </style>
