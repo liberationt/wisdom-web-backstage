@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
+// import {mapState, mapMutations} from 'vuex'
 import utils from '../../utils/utils'
 export default {
   name: 'headerpt',
@@ -88,14 +88,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['lefthidfalse', 'lefthidtrue']),
+    // ...mapMutations(['lefthidfalse', 'lefthidtrue']),
     routerlink: function (index, path) {
       this.isActive = index
       this.$router.push({ path: path })
     }
   },
   computed: {
-    ...mapState(['menu'])
+    // ...mapState(['menu'])
   },
   mounted () {
     let that = this

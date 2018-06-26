@@ -20,11 +20,11 @@
 </div>
 </template>
 <script>
-import {mapState, mapMutations} from 'vuex'
+// import {mapState, mapMutations} from 'vuex'
 import utils from '../../utils/utils'
 export default {
   methods: {
-    ...mapMutations(['leftlist', 'lefthidtrue']),
+    // ...mapMutations(['leftlist', 'lefthidtrue']),
     gold_clothes (num) {
       let that = this
       let arrlist = []
@@ -58,7 +58,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(['menu'])
+    // ...mapState(['menu'])
   }
 }
 </script>

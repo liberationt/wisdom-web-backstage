@@ -141,7 +141,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+// import {mapState} from 'vuex'
 import myTree from './leftchild'
 export default {
   components: {
@@ -161,7 +161,7 @@ export default {
     iconSize () {
       return this.spanLeft === 4 ? 14 : 24
     },
-    ...mapState(['hidden'])
+    // ...mapState(['hidden'])
   },
   methods: {
     toggleClick () {
