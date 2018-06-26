@@ -215,8 +215,8 @@ export default {
         const title = '上传报表'
         let content = '<p>请先上传文件</p>'
         this.$Modal.warning({
-        title: title,
-        content: content
+          title: title,
+          content: content
         })
         return false
       } else {
@@ -229,7 +229,7 @@ export default {
             content: content
           })
           this.modal9 = false
-          this.value9 = ''          
+          this.value9 = ''
         }, 1000)
       }
     },
@@ -241,7 +241,7 @@ export default {
       this.$nextTick(() => {
         this.loading = true
       })
-    },
+    }
     // handleSubmit (name) {
     //   this.$refs[name].validate(valid => {
     //     if (!valid) {

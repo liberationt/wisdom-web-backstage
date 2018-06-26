@@ -202,8 +202,8 @@ export default {
         const title = '上传报表'
         let content = '<p>请先上传文件</p>'
         this.$Modal.warning({
-         title: title,
-         content: content
+          title: title,
+          content: content
         })
         return false
       } else {

@@ -184,7 +184,6 @@ export default {
                 }, '无')
               ])
             } else if (params.row.name == '借贷金额') {
-
               return h('CheckboxGroup', {
               },
               [
@@ -207,11 +206,11 @@ export default {
                 citylist.push(
                   h('span', {
                     style: {
-                    marginRight: '5px',
-                    lineHeight: '25px'
-                  },
-                }, this.list[i])
-                )    
+                      marginRight: '5px',
+                      lineHeight: '25px'
+                    }
+                  }, this.list[i])
+                )
               }
               return h('div', {
 
@@ -352,7 +351,7 @@ export default {
               check: 1,
               town: '重庆市'
             }
-          ]         
+          ]
         },
         {
           garden: [
@@ -368,7 +367,7 @@ export default {
               check: 1,
               town: '西安市'
             }
-          ]         
+          ]
         }
       ]
     }
@@ -393,7 +392,7 @@ export default {
           title: title,
           content: content
         })
-        this.modal9 = false          
+        this.modal9 = false
       }, 1000)
     },
     changeLoading () {
@@ -401,8 +400,8 @@ export default {
       this.$nextTick(() => {
         this.loading = true
       })
+    }
   }
-}
 }
 </script>
 <style lang="less" scoped>

@@ -205,9 +205,12 @@
             </TabPane>
             <TabPane label="营销设置" >
                 <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="200" class="mt50">
-                    <FormItem label="注册送:" class="clearfix">
+                    <FormItem label="注册入驻成功送:" class="clearfix">
                         <Select v-model="model1" style="width:100px" class="left">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <Select v-model="range1" style="width:100px" class="left ml10">
+                            <Option v-for="item in range" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <Input type="text" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
                             <span slot="append" class="left">个</span>
@@ -217,7 +220,10 @@
                         <Select v-model="model1" style="width:100px" class="left">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <div class="credit_recharge">
+                        <Select v-model="range1" style="width:100px" class="left ml10">
+                            <Option v-for="item in range" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <div class="">
                             <div
                              v-for="(item, index) in addmenu"
                              :class="item.hidden?'clearfix':'clearfix ml100 mt15'"
@@ -232,30 +238,43 @@
                         <Input type="text" v-model="item.value2" class="left "  style="width:150px">
                             <span slot="append" class="left">个</span>
                         </Input>
-                        <Button type="primary" class="left ml10" v-if="item.hidden" @click="addset">增加</Button>
+                        <!-- <Button type="primary" class="left ml10" v-if="item.hidden" @click="addset">增加</Button> -->
                         </div>
                         </div>
                     </FormItem>
-                    <FormItem label="正常充值送:" class="clearfix">
-                        <Select v-model="model1" style="width:100px" class="left">
+                    <FormItem label="正常充值送:" >
+                        <div class="clearfix">
+                            <Select v-model="model1" style="width:100px" class="left">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
+                        <Select v-model="range1" style="width:100px" class="left ml10">
+                            <Option v-for="item in range" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <DatePicker type="date" class="left ml10" confirm placeholder="开始时间" style="width: 150px"></DatePicker>
+                        <span class="left utmost">至</span>
+                        <DatePicker type="date" class="left " confirm placeholder="结束时间" style="width: 150px"></DatePicker>
+                        </div>                    
                         <div class="credit_recharge">
                             <div
                              v-for="(item, index) in addnormals"
-                             :class="item.hidden?'clearfix':'clearfix ml100 mt15'"
+                             :class="item.hidden?'clearfix':'clearfix  mt15'"
                              v-if="item.status"
                              :key="index"
                              :prop="'items.' + index + '.value1'"
                              >
-                            <Input type="text" v-model="item.value1" class="left ml10"  style="width:150px">
-                            <span slot="prepend">满</span>
-                            <span slot="append" class="left">送</span>
+                            <Input type="text" v-model="item.value1" class="left ml10"  style="width:225px">
+                            <span slot="prepend">充</span>
+                            <span slot="append" class="left">支付人民币</span>
                         </Input>
                         <Input type="text" v-model="item.value2" class="left "  style="width:150px">
+                            <span slot="append" class="left">元</span>
+                        </Input>
+                        <Input type="text" v-model="item.value1" class="left ml10"  style="width:177px">
+                            <span slot="prepend">送</span>
                             <span slot="append" class="left">个</span>
                         </Input>
-                        <Button type="primary" class="left ml10" v-if="item.hidden" @click="addnormal">增加</Button>
+                        <Button type="primary" class="left ml10" v-if="item.hidden" @click="addnormal">+</Button>
+                        <Button type="primary" class="left ml10" v-if="!item.hidden" @click="addnorma2(index)">-</Button>
                         </div>
                         </div>
                     </FormItem>
@@ -263,11 +282,33 @@
                         <Select v-model="model1" style="width:100px" class="left">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
+                        <Select v-model="range1" style="width:100px" class="left ml10">
+                            <Option v-for="item in range" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <DatePicker type="date" class="left ml10" confirm placeholder="开始时间" style="width: 150px"></DatePicker>
+                        <span class="left utmost">至</span>
+                        <DatePicker type="date" class="left " confirm placeholder="结束时间" style="width: 150px"></DatePicker>
                         <Input type="text" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
+                            <span slot="prepend">送</span>
                             <span slot="append" class="left">个/人</span>
                         </Input>
                     </FormItem>
-                     <FormItem class=" mt50">
+                    <FormItem label="被邀请人首充送:" class="clearfix">
+                        <Select v-model="model1" style="width:100px" class="left">
+                            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <Select v-model="range1" style="width:100px" class="left ml10">
+                            <Option v-for="item in range" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        </Select>
+                        <DatePicker type="date" class="left ml10" confirm placeholder="开始时间" style="width: 150px"></DatePicker>
+                        <span class="left utmost">至</span>
+                        <DatePicker type="date" class="left " confirm placeholder="结束时间" style="width: 150px"></DatePicker>
+                        <Input type="text" v-model="formCustom.cycle" class="left ml10"  style="width:150px">
+                            <span slot="prepend">送</span>
+                            <span slot="append" class="left">个/人</span>
+                        </Input>
+                    </FormItem>
+                     <FormItem class=" mt50 ml100">
                     <Button type="primary" @click="handleSubmit('formCustom')">保存配置</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                     <Button type="ghost" @click="handleRender">查看操作日志</Button>
                 </FormItem>
@@ -346,6 +387,17 @@ export default {
         {
           value: '0',
           label: '关闭'
+        }
+      ],
+      range1: '',
+      range: [
+          {
+          value: '1',
+          label: '不限时间范围'
+        },
+        {
+          value: '0',
+          label: '固定时间范围'
         }
       ],
       index: 1,
@@ -436,6 +488,9 @@ export default {
         hidden: false
       })
     },
+    addnorma2 (index) {
+       this.addnormals.splice(index, 1)
+    },
     marketquery (name) {
       if (name == 2) {
         this.http.post(BASE_URL + '/loan/marketConfig/query', {})
@@ -464,7 +519,20 @@ export default {
     left: 305px
 }
 .credit_recharge{
-    width: 500px;
+    margin-top: 15px;
+    width: 700px;
+    margin-left: 100px
+}
+.utmost{
+    display: inline-block;
+    padding: 4px 7px;
+    font-size: inherit;
+    font-weight: 400;
+    line-height: 22px;
+    color: #495060;
+    text-align: center;
+    background-color: #eee;
+    border: 1px solid #dddee1;
 }
 .ivu-modal .ivu-btn-primary{
     display: none!important
