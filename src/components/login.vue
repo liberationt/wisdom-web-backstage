@@ -3,7 +3,7 @@
       <!-- 用户信息输入 -->
      <i-form ref="formLogin" :model="formLogin" :rules="formLoginRules"  class="card-box">
     <Form-item class="formLogin-title">
-        <h3>后台系统登录</h3>
+        <h3>运营平台登录</h3>
     </Form-item>
         <Form-item prop="username">
             <i-input size="large" type="text" v-model="formLogin.username" placeholder="用户名">
@@ -91,7 +91,7 @@ export default {
             .catch(() => {
             })
         } else {
-          this.$Message.error('表单验证失败!')
+          this.$Message.error('用户名或密码错误!')
         }
         if (this.formLogin.remember[0] == '记住密码') {
           utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
@@ -133,17 +133,21 @@ export default {
         background-size: cover;
     }
     .card-box {
-        padding: 20px;
+        padding: 20px 40px;
         /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
         -webkit-border-radius: 5px;
         border-radius: 5px;
         -moz-border-radius: 5px;
         background-clip: padding-box;
         margin-bottom: 20px;
-        background-color: #F9FAFC;
+        background-color: rgba(0, 0, 0, .2);
         margin: 180px auto;
         width: 400px;
+        color: #fff;
     /* border: 2px solid #8492A6;*/
+    }
+    .ivu-btn-primary {
+      background-color: rgb(76, 0, 255) !important;
     }
   .title {
     margin: 0px auto 40px auto;
