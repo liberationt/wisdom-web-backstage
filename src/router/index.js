@@ -69,6 +69,7 @@ import blacklistManagement from '@/components/bigMoney/blacklist-management'
 import directWarning from '@/components/bigMoney/direct-warning'
 import manualPush from '@/components/bigMoney/manual-push'
 import supplierManagement from '@/components/bigMoney/supplier-management'
+import cheshi from '@/components/cheshi'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
@@ -236,7 +237,8 @@ let routes = [
       {path: '/editorsFarty', component: editorsFarty, names: '甲方管理编辑', meta: { auth: true }},
       {path: '/uploadReports', component: uploadReports, names: '上传报表', meta: { auth: true }},
       {path: '/channelLabelsz', component: channelLabelsz, names: '渠道标签配置', meta: { auth: true }},
-      {path: '/directWarning', component: directWarning, names: '坤玄直鉴', meta: { auth: true }}
+      {path: '/directWarning', component: directWarning, names: '坤玄直鉴', meta: { auth: true }},
+      {path: '/cheshi', component: cheshi, names: '坤玄直鉴', meta: { auth: true }}
     ]
   }
 ]

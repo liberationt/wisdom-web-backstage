@@ -12,9 +12,27 @@
                 </li>
                 <li class="mt15">
                     <span >推送方式:</span>
-                    <RadioGroup v-model="animal" class="ml5">
-                        <Radio label="手动"></Radio>
-                        <Radio label="自动"></Radio>
+                    <RadioGroup v-model="animal" @on-change="pushmode(animal)"  class="ml5">
+                        <Radio  label="手动"></Radio>
+                        <Radio label="自动" ></Radio>
+                    </RadioGroup>
+                </li>
+                <li class="mt15" v-if="manual">
+                  <span>暂停推送日期设置:</span>
+                  <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+                  <span>
+                    已选择
+                    <em v-for="(item, index) in time" :key="index">{{item}}  </em>
+                    <Button type="info" @click="modal10 = true">更多</Button>
+                  </span>
+                </li>
+                <li class="mt15" v-if="manual">
+                  <span>推送周期设置:</span>
+                  <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
+                  <RadioGroup v-model="datatime" class="ml5">
+                        <Radio label="分"></Radio>
+                        <Radio label="小时"></Radio>
+                        <Radio label="天"></Radio>
                     </RadioGroup>
                 </li>
                 <li class="mt15">
@@ -75,6 +93,15 @@
         </ul>
           </div>
           </Modal>
+
+          <Modal
+        title="已选择:"
+        v-model="modal10"
+        class-name="vertical-center-modal">
+        <p>
+          <span v-for="(item, index) in time">{{item}} ,</span>
+        </p>
+    </Modal>
     </div>
 </template>
 <script>
@@ -86,6 +113,10 @@ export default {
       enable: '启用',
       value: '',
       modal9: false,
+      modal10: false,
+      manual: false,
+      cycle: '',
+      datatime: '分',
       cityList: [
         {
           value: '供应商1',
@@ -369,6 +400,12 @@ export default {
             }
           ]
         }
+      ],
+      time:[
+        '018-06-21',
+        '018-06-21',
+        '018-06-21',
+        '018-06-21'
       ]
     }
   },
@@ -400,6 +437,14 @@ export default {
       this.$nextTick(() => {
         this.loading = true
       })
+    },
+    pushmode (val) {
+      if (val == '自动') {
+        this.manual = true
+      } else {
+        this.manual = false
+      }
+      
     }
   }
 }

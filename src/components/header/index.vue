@@ -7,7 +7,7 @@
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
-              <a href="javascript:;" :class="{redWine:index==isActive}"  @click="routerlink(index, item.path)">{{item.menuName}}</a>
+              <a href="javascript:;" :class="{redWine:index==isActive}" :menucode="item.menuCode"  @click="routerlink(index, item.path)">{{item.menuName}}</a>
             </li>
             <!-- <li><router-link to="/homePage">公众号</router-link></li>
             <li><router-link to="/homePage">小程序</router-link></li>
@@ -156,7 +156,7 @@ export default {
 .layout{
   height: 50px;
   width: 100%;
-  background: #FFD777;
+  background: #465261;
   //overflow: hidden;
   // position: fixed;
   //   top: 0
@@ -164,7 +164,7 @@ export default {
 .headleft{
   height: 100%;
   img{
-    width: 120px;
+    // width: 120px;
     height: 50px;
     margin: 0 auto;
     display: block;
@@ -183,7 +183,7 @@ export default {
         width: 100%;
         height: 100%;
         display: inline-block;
-        color: #666
+        color: #fff
       }
     }
   }
@@ -203,7 +203,7 @@ export default {
       overflow: hidden;
       width: 200px;
       margin-left: 10px;
-      color: #333;
+      color: #fff;
       img{
         width: 30px;
         height: 30px;
@@ -213,7 +213,7 @@ export default {
         margin-right: 5px
       }
       a{
-        color: #666;
+        color: #fff;
         margin-left: 5px
       }
       .ivu-select-selection{

@@ -17,22 +17,27 @@
             </div>
         </div>
         <div class="mt50">
-            <span>渠道:</span>
+            <span class="w100 displayib tr">渠道:</span>
             <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in cityList" :value="item.channelCode" :key="item.channelCode">{{ item.channelName }}</Option>
+            </Select>
+            <span>供应商:</span>
+            <Select v-model="model2" placeholder="全部" style="width:200px" class="mr20">
+                <Option v-for="item in cityList2" :value="item.supplierCode" :key="item.supplierCode">{{ item.supplierName }}</Option>
             </Select>
             <span>步骤:</span>
             <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
+            <br>
 
-            <span>注册时间:</span>
-            <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span class="w100 displayib mt15 tr">注册时间:</span>
+            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            <div class="clearfix mr100 mt20">
-                <Button class="right" type="primary">导出</Button>
-                <Button class="right mr20" type="info">查询</Button>
+            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <div class="clearfix mr20 mt20">
+                <Button class="right w100" type="primary" @click="exports">导出</Button>
+                <Button class="right mr20 w100" type="info" @click="registered">查询</Button>
             </div>
         </div>
 
@@ -40,7 +45,7 @@
             <Table :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" show-elevator show-sizer show-total></Page>
             </div>
     </div>
 </template>
@@ -49,7 +54,13 @@ export default {
   data () {
     return {
       model1: '',
+      model2: '',
       model3: '',
+      value1: '',
+      value2: '',
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       numregistrations: [
         {
           onenum: 10,
@@ -70,55 +81,31 @@ export default {
           totalnum: '本月注册总人数'
         }
       ],
-      cityList: [
-        {
-          value: '供应商1',
-          label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
-        }
-      ],
+      cityList: [],
+      cityList2: [],
       cityList3: [
         {
-          value: '渠道1',
-          label: '渠道1'
+          value: '1',
+          label: '1'
         },
         {
-          value: '渠道2',
-          label: '渠道2'
-        },
-        {
-          value: '渠道3',
-          label: '渠道3'
-        },
-        {
-          value: '渠道4',
-          label: '渠道4'
+          value: '2',
+          label: '2'
         }
       ],
       columns1: [
-        {
-          title: 'NO',
-          align: 'center',
-          width: 100,
-          key: 'no'
-        },
-        {
-          title: 'UID',
-          align: 'center',
-          width: 100,
-          key: 'did'
-        },
+        // {
+        //   title: 'NO',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'no'
+        // },
+        // {
+        //   title: 'UID',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'did'
+        // },      
         {
           title: '注册时间',
           align: 'center',
@@ -126,10 +113,16 @@ export default {
           key: 'time'
         },
         {
+          title: '供应商',
+          align: 'center',
+          width: 100,
+          key: 'sid'
+        },
+        {
           title: '渠道',
           align: 'center',
           width: 100,
-          key: 'channel'
+          key: 'cid'
         },
         {
           title: '步骤',
@@ -141,25 +134,38 @@ export default {
           title: '姓名',
           align: 'center',
           width: 100,
-          key: 'name'
+          key: 'username'
         },
         {
           title: '手机号',
           align: 'center',
           width: 100,
-          key: 'phone'
+          key: 'mobile'
         },
         {
           title: '生日',
           align: 'center',
           width: 100,
-          key: 'birthday'
+          key: 'appBirthday'
         },
         {
           title: '性别',
           align: 'center',
           width: 100,
-          key: 'sex'
+          render: (h, params) => {
+            let appSex = ''
+            if (params.row.appSex == '1') {
+              appSex = '女'
+            } else if (params.row.appSex == '0') {
+              appSex = '男'
+            } else {
+              appSex = '其它'
+            }
+            return h('div', [
+              h('span', {
+              }, appSex)
+            ])
+          }
         },
         {
           title: '年龄',
@@ -177,61 +183,149 @@ export default {
           title: 'M城市',
           align: 'center',
           width: 100,
-          key: 'mcity'
+          key: 'mobileCityCode'
         },
         {
           title: '借贷金额',
           align: 'center',
           width: 100,
-          key: 'toloan'
+          key: 'loanMoney'
         },
         {
           title: '社保',
           align: 'center',
           width: 100,
-          key: 'social'
+          render: (h, params) => {
+            let security = ''
+            if (params.row.security == '1') {
+              security = '有'
+            }else {
+              security = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, security)
+            ])
+          }
         },
         {
           title: '公积金',
           align: 'center',
           width: 100,
-          key: 'accumulation'
+          render: (h, params) => {
+            let fund = ''
+            if (params.row.fund == '1') {
+              fund = '有'
+            }else {
+              fund = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, fund)
+            ])
+          }
         },
         {
           title: '房',
           align: 'center',
           width: 100,
-          key: 'room'
+          render: (h, params) => {
+            let house = ''
+            if (params.row.house == '1') {
+              house = '有'
+            }else {
+              house = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, house)
+            ])
+          }
         },
         {
           title: '房贷',
           align: 'center',
           width: 100,
-          key: 'roomloan'
+          render: (h, params) => {
+            let hasHouseLoan = ''
+            if (params.row.hasHouseLoan == '1') {
+              hasHouseLoan = '有'
+            }else {
+              hasHouseLoan = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, hasHouseLoan)
+            ])
+          }
         },
         {
           title: '车',
           align: 'center',
           width: 100,
-          key: 'car'
+          render: (h, params) => {
+            let car = ''
+            if (params.row.car == '1') {
+              car = '有'
+            }else {
+              car = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, car)
+            ])
+          }
         },
         {
           title: '车贷',
           align: 'center',
           width: 100,
-          key: 'carloan'
+          render: (h, params) => {
+            let hasCarLoan = ''
+            if (params.row.hasCarLoan == '1') {
+              hasCarLoan = '有'
+            }else {
+              hasCarLoan = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, hasCarLoan)
+            ])
+          }
         },
         {
           title: '寿险保单',
           align: 'center',
           width: 100,
-          key: 'insurance'
+          render: (h, params) => {
+            let policy = ''
+            if (params.row.policy == '1') {
+              policy = '有'
+            }else {
+              policy = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, policy)
+            ])
+          }
         },
         {
           title: '微粒贷',
           align: 'center',
           width: 100,
-          key: 'tiny'
+          render: (h, params) => {
+            let weilidai = ''
+            if (params.row.weilidai == '1') {
+              weilidai = '有'
+            }else {
+              weilidai = '无'
+            }
+            return h('div', [
+              h('span', {
+              }, weilidai)
+            ])
+          }
         },
         {
           title: 'IP',
@@ -240,65 +334,105 @@ export default {
           key: 'ip'
         }
       ],
-      data1: [
-        {
-          no: '1',
-          did: '1',
-          time: '1',
-          channel: '1',
-          step: '1',
-          name: '1',
-          phone: '1',
-          birthday: '1',
-          city: '1',
-          sex: '1',
-          age: '1',
-          mcity: '1',
-          toloan: '1',
-          social: '1',
-          accumulation: '1',
-          roomloan: '1',
-          room: '1',
-          car: '1',
-          carloan: '1',
-          insurance: '1',
-          tiny: '1',
-          ip: '1'
-        },
-        {
-          no: '2',
-          did: '2',
-          time: '2',
-          channel: '2',
-          step: '2',
-          name: '2',
-          phone: '2',
-          birthday: '2',
-          city: '2',
-          sex: '2',
-          age: '2',
-          mcity: '2',
-          toloan: '2',
-          social: '2',
-          accumulation: '2',
-          roomloan: '2',
-          room: '2',
-          car: '2',
-          carloan: '2',
-          insurance: '2',
-          tiny: '2',
-          ip: '2'
-        }
-      ]
+      data1: []
     }
   },
   methods: {
+    // 分页
     pageChange (page) {
-      this.params.page = page
+      console.log(page)
+      this.startRow = page
+      this.registered()
     },
-    PageSizeChange (limit) {
-      this.params.limit = limit
+    // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    // 查询
+    registered () {
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      }
+      let list = {
+        cid: this.model1,
+        sid: this.model2,
+        step: this.model3,
+        beginTime: this.value1,
+        endTime: this.value2,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/dwqUser/registerList', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.data1 = resp.data.dataList
+        this.total = resp.data.total
+        this.startRow = Math.ceil(resp.data.startRow/resp.data.endRow)
+        this.endRow = resp.data.endRow
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+
+    },
+    // 导出
+    exports () {
+      window.open(BASE_URL + '/loan/dwqUser/export?step='+1)
     }
+  },
+  mounted () {
+    // 注册人数数据
+    this.http.post(BASE_URL + '/loan/dwqUser/registerCount', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.numregistrations[0].onenum = resp.data.nowFirstCount
+        this.numregistrations[0].twonum = resp.data.nowSecondCount
+        this.numregistrations[1].onenum = resp.data.firstWeekCount
+        this.numregistrations[1].twonum = resp.data.secondWeekCount
+        this.numregistrations[2].onenum = resp.data.firstYearCount
+        this.numregistrations[2].twonum = resp.data.secondYearCount
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+    // 渠道
+    this.http.post(BASE_URL + '/loan/promotionChannel/queryAllList', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.cityList = resp.data
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+     // 供应商
+    this.http.post(BASE_URL + '/loan/promotionSupplier/queryAllList', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.cityList2 = resp.data
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+
+    // 列表初始化
+    this.registered()
   }
 }
 </script>
@@ -306,7 +440,7 @@ export default {
 .titregist{
     overflow: hidden;
     .registrations{
-        width: 330px;
+        width: 300px;
         height: 100px;
         float: left;
         margin-right: 20px;

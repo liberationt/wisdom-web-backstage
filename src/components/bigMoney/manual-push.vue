@@ -2,36 +2,36 @@
     <div>
         <div class="navigation">
             <p>
-                <span>贷款推送</span>
+                <span>推广批次报表</span>
             </p>
         </div>
         <div class="mt50">
             <span>甲方名称:</span>
             <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in cityList" :value="item.partyaCode " :key="item.partyaCode ">{{ item.partyaName  }}</Option>
             </Select>
             <span>文件名称:</span>
             <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
             <span>推送时间:</span>
-            <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <Button class="right w100" type="primary" @click="refuse">上传报表</Button>
-                <Button class="right mr20 w100" type="info">查询</Button>
+                <Button class="right mr20 w100" type="info" @click="inquire">查询</Button>
             </div>
         </div>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+          <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" show-elevator show-sizer show-total></Page>
         </div>
         <Modal
           title="上传报表"
           v-model="modal9"
           @on-ok="upload"
-          @on-cancel="handleReset"
+          @on-cancel="cancel"
           ok-text="保存"
           cancel-text="取消"
           class-name="vertical-center-modal"
@@ -41,17 +41,20 @@
           <div  class="newtype_file mt15 mb15 pl10">
            <ul>
             <li>
-                <span>主题名称:</span>
-            <Select v-model="model1" style="width:300px" class="mr20">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <span>甲方名称:</span>
+            <Select v-model="model4" style="width:300px" class="mr20">
+                <Option v-for="item in cityListmode" :value="item.partyaCode" :key="item.partyaCode">{{ item.partyaName }}</Option>
             </Select>
             </li>
             <li class="mt20 clearfix">
                 <span class="left lh32">上传文件:</span>
             <Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
             <Upload
+            ref="upload"
             :before-upload="handleUpload"
             :show-upload-list="false"
+            :format="['xlsx', 'xls']"
+            :on-format-error="handleFormatError2"
             action="//jsonplaceholder.typicode.com/posts/">
             <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
         </Upload>
@@ -68,81 +71,107 @@ export default {
       model1: '',
       model2: '',
       model3: '',
+      model4: '',
+      value1: '',
+      value2: '',
       modal9: false,
       loading: true,
       value9: '',
-      cityList: [
-        {
-          value: '供应商1',
-          label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
-        }
-      ],
+      total: 0,
+      startRow: 1,
+      endRow: 10,
+      cityList: [],
+      cityListmode: [],
       columns7: [
         {
           title: '批次',
           align: 'center',
-          key: 'batch'
+          key: 'batchCode'
         },
         {
           title: '文件名称',
           align: 'center',
-          key: 'name'
+          key: 'fileName'
         },
         {
           title: '推送模式',
           align: 'center',
-          key: 'pattern'
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, '手动')
+            ])
+          }
         },
         {
           title: '甲方名称',
           align: 'center',
-          key: 'partyname'
+          key: 'mediaName'
         },
         {
           title: '推送主体',
           align: 'center',
-          key: 'theme'
+          key: 'pushMain'
         },
         {
-          title: '推送时间',
+          title: '上传时间',
           align: 'center',
-          key: 'starttime'
+          key: 'dataCreateTime'
         },
         {
-          title: '推送条数',
+          title: '上传条数',
           align: 'center',
-          key: 'pushnum'
+          key: 'sendNum'
         },
         {
-          title: '成功条数',
+          title: '上传成功条数',
           align: 'center',
-          key: 'successnum'
+          key: 'succNum'
         },
         {
-          title: '失败条数',
+          title: '上传失败条数',
           align: 'center',
-          key: 'errornum'
+          key: 'failNum'
         },
         {
-          title: '备注',
+          title: '上传失败详情',
           align: 'center',
-          key: 'remarks'
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    // this.$router.push({ path: './pushDetail' })
+                  }
+                }
+              }, '下载')
+            ])
+          }
         },
         {
-          title: '详情',
-          key: 'address',
+          title: '推送成功条数',
+          align: 'center',
+          key: 'pullSuccNum'
+        },
+        {
+          title: '推送失败条数',
+          align: 'center',
+          key: 'pullFailNum'
+        },
+        {
+          title: '转化成功条数',
+          align: 'center',
+          key: 'failNum'
+        },
+        {
+          title: '推送详情',
           width: 150,
           align: 'center',
           render: (h, params) => {
@@ -165,51 +194,32 @@ export default {
           }
         }
       ],
-      data6: [
-        {
-          batch: '180601001',
-          pattern: '自动',
-          name: '大地',
-          theme: '哈哈',
-          partyname: '啦啦',
-          starttime: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0',
-          remarks: '哈哈'
-        },
-        {
-          batch: '180601001',
-          pattern: '自动',
-          name: '大地',
-          theme: '哈哈',
-          partyname: '啦啦',
-          starttime: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0',
-          remarks: '哈哈'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
+    // 分页
     pageChange (page) {
-      this.params.page = page
+      this.startRow = page
+      this.inquire()
     },
-    PageSizeChange (limit) {
-      this.params.limit = limit
-    },
-    rowClassName (row, index) {
-      if (index === 0) {
-        return 'demo-table-info-row'
-      }
-      return ''
-    },
+    // 弹框显示
     refuse () {
       this.modal9 = true
     },
+    // 上传
     upload () {
+      console.log(this.model4)
+      if (this.model4 == '') {
+        this.changeLoading()
+        const title = '甲方名称'
+        let content = '<p>请选择甲方名称</p>'
+        this.$Modal.warning({
+          title: title,
+          content: content
+        })
+        return false
+      }
       if (this.value9 == '') {
         this.changeLoading()
         const title = '上传报表'
@@ -220,27 +230,95 @@ export default {
         })
         return false
       } else {
-        setTimeout(() => {
-          this.changeLoading()
-          const title = '上传名单'
-          let content = '<p>上传成功</p>'
-          this.$Modal.success({
-            title: title,
-            content: content
-          })
-          this.modal9 = false
-          this.value9 = ''
-        }, 1000)
+        let getBatchLogList = {
+          partyaCode: this.model4,
+          filename: this.files
+        }
+        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', getBatchLogList)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            setTimeout(() => {
+            this.changeLoading()
+            this.$refs.upload.post(this.value9)
+            const title = '上传名单'
+            let content = '<p>上传成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.value9 = ''
+          }, 1000)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+        
       }
     },
+    // 点击取消清空已选择
+    cancel () {
+      this.value9 = ''
+      this.model4 = ''
+    },
+    // 上传格式校验
+    handleFormatError2 (file) {
+      this.value9 = ''
+      this.$Message.info("文件格式不正确,请上传excel格式文件")
+    },
+    // 选择文件后回调
     handleUpload (file) {
+      console.log(file)
       this.value9 = file.name
+      this.model4 = file
     },
     changeLoading () {
       this.loading = false
       this.$nextTick(() => {
         this.loading = true
       })
+    },
+    // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    inquire () {
+      // 列表查询
+    let date1 = Date.parse(new Date(this.value1))/1000
+    let date2 = Date.parse(new Date(this.value2))/1000
+    if (date1 > date2) {
+      this.$Modal.warning({
+        title: '注册时间',
+        content: '<p>开始时间不得大于结束时间</p>'
+      })
+      return false
+    }
+    let list = {
+      partyaName : this.model1,
+      fileName: this.model2,
+      beginTime: this.value1,
+      endTime: this.value2,
+      pageNum: this.startRow,
+      pageSize: this.endRow
+    }
+    this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.data6 = resp.data.batchLogList
+        this.total = Number(resp.data.total)
+        this.startRow = Math.ceil(resp.data.startRow/resp.data.endRow)
+        this.endRow = Number(resp.data.endRow)
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
     }
     // handleSubmit (name) {
     //   this.$refs[name].validate(valid => {
@@ -260,6 +338,26 @@ export default {
     // handleReset (name) {
     //   this.$refs[name].resetFields()
     // }
+  },
+  mounted () {
+    // 甲方名称
+    let partyname = {
+      pageSize : 1000,
+      sendType : 1
+    }
+    this.http.post(BASE_URL + '/loan/partya/getPartyaList', partyname)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.cityList = resp.data.partyaList
+        this.cityListmode = resp.data.partyaList
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+    // 列表初始化
+    this.inquire()
   }
 }
 </script>

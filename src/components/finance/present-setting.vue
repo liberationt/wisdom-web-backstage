@@ -31,7 +31,7 @@
                             </Input>
                         </FormItem>
                         <FormItem >
-                            <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
+                            <Button type="primary" @click="handleSubmit('formValidate', index)">提交保存</Button>
                             <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">返回</Button>
                         </FormItem>
                     </Form>
@@ -57,30 +57,56 @@ export default {
       },
       ruleValidate: {
         poundage: [
-          { required: true, message: '请输入提现手续费', trigger: 'blur' }
+          { required: true, message: '请输入提现手续费', trigger: 'change' },
+          { type: 'string', pattern: /^(0|[1-9][0-9]*)$/, message: '请输入正确的提现手续费', trigger: 'change' }
         ],
         minMoney: [
-          { required: true, message: '请输入单笔最小提现金额', trigger: 'blur' }
+          { required: true, message: '请输入单笔最小提现金额', trigger: 'blur' },
+          { type: 'string', pattern: /^(0|[1-9][0-9]*)$/, message: '请输入单笔最小提现金额', trigger: 'blur' }
         ],
         maxMoney: [
-          { required: true, message: '请输入单笔最大提现金额', trigger: 'blur' }
+          { required: true, message: '请输入单笔最大提现金额', trigger: 'blur' },
+          { type: 'string', pattern: /^(0|[1-9][0-9]*)$/, message: '请输入单笔最大提现金额', trigger: 'blur' }
         ],
         uplimit: [
-          { required: true, message: '请输入当月提现上限', trigger: 'blur' }
+          { required: true, message: '请输入当月提现上限', trigger: 'blur' },
+          { type: 'string', pattern: /^(0|[1-9][0-9]*)$/, message: '请输入正确的提现金额', trigger: 'blur' }
         ]
       }
     }
   },
   methods: {
-    handleSubmit (name) {
-      this.$refs[name].forEach((item, index) => {
-        this.$refs[name][index].validate((valid) => {
-          if (valid) {
-            this.$Message.success('Success!')
-          } else {
-            this.$Message.error('Fail!')
+    handleSubmit (name, index) {
+      this.$refs[name][index].validate((valid) => {
+        if (valid) {
+          let  withdraw = {
+            appId: "9e97cb87578ef97c",
+            fee: this.formValidate.poundage,
+            monthMaxAmount: this.formValidate.uplimit,
+            singleMaxAmount: this.formValidate.maxMoney,
+            singleMinAmount: this.formValidate.minMoney
           }
-        })
+          this.http.post(BASE_URL + '/loan/withdraw/saveOrUpdate/config',  withdraw)
+          .then((resp) => {
+            console.log(resp)
+            if (resp.code == 'success') {
+              let message = '<p>"+resp.message+"</p>'
+              const title = '提现设置'
+              const content = '<p>"+resp.message+"</p>'
+              this.$Modal.success({
+                title: title,
+                content: content
+              })
+            } else {
+
+            }
+          })
+          .catch(() => {
+          })
+          // this.$Message.success('验证成功!')
+        } else {
+          this.$Message.error('验证失败!')
+        }
       })
     },
     handleReset (name) {
@@ -90,6 +116,23 @@ export default {
     }
   },
   mounted () {
+    let aa = {
+      appId: '9e97cb87578ef97c'
+    }
+    this.http.post(BASE_URL + '/loan/withdraw/query/config',  aa)
+      .then((resp) => {
+        console.log(resp)
+        if (resp.code == 'success') {
+          this.formValidate.poundage = resp.data.fee
+          this.formValidate.minMoney = resp.data.singleMinAmount
+          this.formValidate.maxMoney = resp.data.singleMaxAmount
+          this.formValidate.uplimit = resp.data.monthMaxAmount
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
   }
 }
 </script>

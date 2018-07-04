@@ -170,7 +170,23 @@ export default {
         {
           title: '产品说明',
           align: 'center',
-          key: 'productDescription'
+          key: 'productDescription',
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                },
+                domProps: {
+                  title: params.row.productDescription
+                }
+              }, params.row.productDescription)
+            ])
+          }
         },
         {
           title: '贷款额度',
@@ -191,13 +207,29 @@ export default {
           title: 'URL',
           align: 'center',
           ellipsis: true,
-          key: 'url'
+          key: 'url',
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                },
+                domProps: {
+                  title: params.row.url
+                }
+              }, params.row.url)
+            ])
+          }
         },
         {
           title: '操作',
           key: 'action',
           align: 'center',
-          width: 300,
+          width: 220,
           render: (h, params) => {
             let type = 'success'
             let shelf = [

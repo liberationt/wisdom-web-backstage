@@ -94,37 +94,37 @@ export default {
         {
           title: '批次',
           align: 'center',
-          key: 'batch'
+          key: 'batchCode'
         },
         {
           title: '文件名称',
           align: 'center',
-          key: 'filename'
+          key: 'fileName'
         },
         {
           title: '推送主体',
           align: 'center',
-          key: 'pattern'
+          key: 'pushMain'
         },
         {
           title: '推送时间',
           align: 'center',
-          key: 'time'
+          key: 'dataCreateTime'
         },
         {
           title: '推送条数',
           align: 'center',
-          key: 'pushnum'
+          key: 'sendNum'
         },
         {
           title: '成功条数',
           align: 'center',
-          key: 'successnum'
+          key: 'succNum'
         },
         {
           title: '失败条数',
           align: 'center',
-          key: 'errornum'
+          key: 'failNum'
         },
         {
           title: '备注',
@@ -229,6 +229,15 @@ export default {
         this.loading = true
       })
     }
+  },
+  created() {
+    let list = {};
+    this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
+      console.log(resp.data.batchLogList)
+      this.data6 = resp.data.batchLogList;
+    }).catch((err)=>{
+      console.log(err)
+    })
   }
 }
 </script>
