@@ -195,7 +195,7 @@ export default {
     },
     dropDown (name) {
       this.$router.push({ path: name })
-      console.log(name)
+    //   console.log(name)
     }
   },
   mounted () {
@@ -206,7 +206,7 @@ export default {
         menu.component = null
         this.leftlist.push(menu)
       })
-      console.log(this.leftlist)
+    //   console.log(this.leftlist)
     // leftlist = JSON.parse(sessionStorage.getItem('leftlist'))
     }
   }

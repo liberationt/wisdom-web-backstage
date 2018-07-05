@@ -47,6 +47,7 @@ export default {
     gold_clothes (num) {
       let that = this
       let arrlist = []
+      console.log(document.getElementsByClassName("redWine")[0])
       let menucodes = document.getElementsByClassName("redWine")[0].getAttribute('menucode')
       for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
         if (that.menu.menuInfo.children[i].menuCode == menucodes) {

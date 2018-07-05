@@ -2,7 +2,7 @@
     <div>
         <div class="navigation">
             <p>
-                <span>贷款推送</span>
+                <span>推广批次报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -67,7 +67,7 @@
 export default {
   data () {
     return {
-      model1: '',
+      model1: '平安普惠',
       model2: '',
       model3: '',
       modal9: false,
@@ -75,75 +75,86 @@ export default {
       value9: '',
       cityList: [
         {
-          value: '供应商1',
-          label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
+          value: '平安普惠',
+          label: '平安普惠'
         }
       ],
       columns7: [
         {
           title: '批次',
           align: 'center',
-          key: 'batch'
+          key: 'batchCode'
         },
         {
           title: '文件名称',
           align: 'center',
-          key: 'name'
-        },
-        {
-          title: '推送模式',
-          align: 'center',
-          key: 'pattern'
-        },
-        {
-          title: '甲方名称',
-          align: 'center',
-          key: 'partyname'
+          key: 'fileName'
         },
         {
           title: '推送主体',
           align: 'center',
-          key: 'theme'
+          key: 'pushMain'
         },
         {
-          title: '推送时间',
+          title: '上传时间',
+          align: 'uploaddate',
+          key: 'dataCreateTime'
+        },
+        {
+          title: '上传条数',
+          align: 'uploadnum',
+          key: 'sendNum'
+        },
+        {
+          title: '上传成功条数',
           align: 'center',
-          key: 'starttime'
+          key: 'succNum'
         },
         {
-          title: '推送条数',
+          title: '上传失败条数',
           align: 'center',
-          key: 'pushnum'
+          key: 'failNum'
         },
         {
-          title: '成功条数',
+          title: '上传失败详情',
           align: 'center',
-          key: 'successnum'
+          key: 'failNum',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({ path: './insuranceReport' })
+                  }
+                }
+              }, '下载')
+            ])
+          }
         },
         {
-          title: '失败条数',
+          title: '推送成功条数',
           align: 'center',
-          key: 'errornum'
+          key: 'pull_succ_num + pullFailNum'
         },
         {
-          title: '备注',
+          title: '推送失败条数',
           align: 'center',
-          key: 'remarks'
+          key: 'pullFailNum'
         },
         {
-          title: '详情',
+          title: '转化成功条数',
+          align: 'center',
+          key: 'pullSuccNum'
+        },
+        {
+          title: '推送详情',
           key: 'address',
           width: 150,
           align: 'center',
@@ -159,7 +170,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './pushDetail' })
+                    this.$router.push({ path: './insuranceReport' })
                   }
                 }
               }, '详情')
@@ -244,6 +255,9 @@ export default {
         this.loading = true
       })
     },
+    handleReset (name) {
+      this.$refs[name].resetFields()
+    }
     // handleSubmit (name) {
     //   this.$refs[name].validate(valid => {
     //     if (!valid) {
@@ -259,9 +273,16 @@ export default {
     //     }, 1000)
     //   })
     // },
-    // handleReset (name) {
-    //   this.$refs[name].resetFields()
-    // }
+   
+  },
+  created() {
+    let list = {};
+    this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
+      // console.log(resp.data.batchLogList)
+      this.data6 = resp.data.batchLogList;
+    }).catch((err)=>{
+      // console.log(err)
+    })
   }
 }
 </script>

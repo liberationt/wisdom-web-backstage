@@ -2,24 +2,24 @@
     <div>
         <div class="navigation">
             <p>
-                <span>平安人寿</span>
+                <span>推广批次报表</span>
             </p>
         </div>
         <div class="mt50">
-            <span>推送主体:</span>
+            <span>甲方名称:</span>
             <Select v-model="model1" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <span>文件名称:</span>
             <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
             <span>推送时间:</span>
-            <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
-                <Button class="right mr20 w100 " type="info">查询</Button>
+                <Button class="right mr20 w100 " type="info" @click="registered">查询</Button>
             </div>
         </div>
         <div class="mt20">
@@ -68,26 +68,15 @@
 export default {
   data () {
     return {
-      model1: '',
+      model1: '坤玄',
+      model2: '',
       value9: '',
       modal9: false,
       loading: true,
       cityList: [
         {
-          value: '供应商1',
-          label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
+          value: '坤玄',
+          label: '坤玄'
         }
       ],
       columns7: [
@@ -107,32 +96,65 @@ export default {
           key: 'pushMain'
         },
         {
-          title: '推送时间',
-          align: 'center',
+          title: '上传时间',
+          align: 'uploaddate',
           key: 'dataCreateTime'
         },
         {
-          title: '推送条数',
-          align: 'center',
+          title: '上传条数',
+          align: 'uploadnum',
           key: 'sendNum'
         },
         {
-          title: '成功条数',
+          title: '上传成功条数',
           align: 'center',
           key: 'succNum'
         },
         {
-          title: '失败条数',
+          title: '上传失败条数',
           align: 'center',
           key: 'failNum'
         },
         {
-          title: '备注',
+          title: '上传失败详情',
           align: 'center',
-          key: 'remarks'
+          key: 'failNum',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({ path: './insuranceReport' })
+                  }
+                }
+              }, '下载')
+            ])
+          }
         },
         {
-          title: '详情',
+          title: '推送成功条数',
+          align: 'center',
+          key: 'partyaSuccNum'
+        },
+        {
+          title: '推送失败条数',
+          align: 'center',
+          key: 'pullFailNum'
+        },
+        {
+          title: '转化成功条数',
+          align: 'center',
+          key: 'pullSuccNum'
+        },
+        {
+          title: '推送详情',
           key: 'address',
           width: 150,
           align: 'center',
@@ -157,30 +179,13 @@ export default {
         }
       ],
       data6: [
-        {
-          batch: '180601001',
-          filename: '哈哈',
-          pattern: '自动',
-          time: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0',
-          remarks: '哈哈'
-        },
-        {
-          batch: '180601001',
-          filename: '哈哈',
-          pattern: '自动',
-          time: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0',
-          remarks: '哈哈'
-        }
-      ]
+      ],
+      value1: '',
+      value2: ''
     }
   },
   methods: {
+    handleReset() {},
     pageChange (page) {
       this.params.page = page
     },
@@ -228,6 +233,38 @@ export default {
       this.$nextTick(() => {
         this.loading = true
       })
+    },
+    // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    // 查询
+    registered() {
+      // console.log(this.value9)
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      };
+      let list = {
+        beginTime : this.value1,
+        endTime : this.value2,
+        fileName : this.model2,
+        batchCode : this.model1
+      }
+      console.log(list)
+      this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
+        console.log(data)
+      }).catch(err=>{
+        console.log(err)
+      })
     }
   },
   created() {
@@ -236,7 +273,7 @@ export default {
       console.log(resp.data.batchLogList)
       this.data6 = resp.data.batchLogList;
     }).catch((err)=>{
-      console.log(err)
+      // console.log(err)
     })
   }
 }

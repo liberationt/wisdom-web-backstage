@@ -75,7 +75,7 @@ export default {
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
                 utils.putlocal('lefthidden', false)
-                utils.putlocal('headace', 1)
+                utils.putlocal('headace', '0')
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 // sessionStorage.setItem('lefthidden', false)
                 utils.putlocal('token', resp.data.token)
