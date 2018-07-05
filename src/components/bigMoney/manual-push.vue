@@ -39,27 +39,25 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15 pl10">
-           <ul>
-            <li>
-                <span>甲方名称:</span>
-            <Select v-model="model4" style="width:300px" class="mr20">
+           <Form ref="formCustom" :label-width="80">
+        <FormItem label="甲方名称:" >
+             <Select v-model="model4" style="width:300px" class="mr20">
                 <Option v-for="item in cityListmode" :value="item.partyaCode" :key="item.partyaCode">{{ item.partyaName }}</Option>
             </Select>
-            </li>
-            <li class="mt20 clearfix">
-                <span class="left lh32">上传文件:</span>
-            <Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
-            <Upload
+        </FormItem>
+        <FormItem label="上传文件:" >
+             <Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
+             <Upload
             ref="upload"
             :before-upload="handleUpload"
             :show-upload-list="false"
             :format="['xlsx', 'xls']"
-            :on-format-error="handleFormatError2"
-            action="//jsonplaceholder.typicode.com/posts/">
-            <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
+            action=''
+            :on-format-error="handleFormatError2">
+            <Button type="ghost" style="margin-top:-3px" icon="ios-cloud-upload-outline">预览</Button>
         </Upload>
-            </li>
-        </ul>
+        </FormItem>
+    </Form>
           </div>
           </Modal>
     </div>
@@ -82,6 +80,7 @@ export default {
       endRow: 10,
       cityList: [],
       cityListmode: [],
+      filename: '',
       columns7: [
         {
           title: '批次',
@@ -203,13 +202,16 @@ export default {
       this.startRow = page
       this.inquire()
     },
+    pagesizechange (page) {
+      this.endRow = page
+      this.inquire()
+    },
     // 弹框显示
     refuse () {
       this.modal9 = true
     },
     // 上传
     upload () {
-      console.log(this.model4)
       if (this.model4 == '') {
         this.changeLoading()
         const title = '甲方名称'
@@ -230,11 +232,19 @@ export default {
         })
         return false
       } else {
+        let formData = new FormData();
+            formData.append('partyaCode', this.model4);
+            formData.append('filename', this.filename);
         let getBatchLogList = {
           partyaCode: this.model4,
-          filename: this.files
+          file: this.files
         }
-        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', getBatchLogList)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', formData, config)
         .then((resp) => {
           if (resp.code == 'success') {
             setTimeout(() => {
@@ -254,8 +264,7 @@ export default {
           }
         })
         .catch(() => {
-        })
-        
+        })    
       }
     },
     // 点击取消清空已选择
@@ -272,7 +281,7 @@ export default {
     handleUpload (file) {
       console.log(file)
       this.value9 = file.name
-      this.model4 = file
+      this.filename = file
     },
     changeLoading () {
       this.loading = false
@@ -311,8 +320,7 @@ export default {
       if (resp.code == 'success') {
         this.data6 = resp.data.batchLogList
         this.total = Number(resp.data.total)
-        this.startRow = Math.ceil(resp.data.startRow/resp.data.endRow)
-        this.endRow = Number(resp.data.endRow)
+        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
       } else {
 
       }
@@ -320,26 +328,9 @@ export default {
     .catch(() => {
     })
     }
-    // handleSubmit (name) {
-    //   this.$refs[name].validate(valid => {
-    //     if (!valid) {
-    //       return this.changeLoading()
-    //     } else {
-    //       this.$Message.error('Success!')
-    //     }
-    //     setTimeout(() => {
-    //       this.changeLoading()
-    //       this.modal9 = false
-    //       // this.formCustom.name = ''
-    //       this.$Message.success('done')
-    //     }, 1000)
-    //   })
-    // },
-    // handleReset (name) {
-    //   this.$refs[name].resetFields()
-    // }
   },
   mounted () {
+    
     // 甲方名称
     let partyname = {
       pageSize : 1000,
