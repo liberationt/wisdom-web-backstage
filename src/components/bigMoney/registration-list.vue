@@ -45,7 +45,7 @@
             <Table :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
             </div>
     </div>
 </template>
@@ -344,6 +344,10 @@ export default {
       this.startRow = page
       this.registered()
     },
+    pagesizechange (page) {
+      this.endRow = page
+      this.registered()
+    },
     // 时间判断
     time1 (value, data) {
       this.value1 = value
@@ -376,8 +380,7 @@ export default {
       if (resp.code == 'success') {
         this.data1 = resp.data.dataList
         this.total = resp.data.total
-        this.startRow = Math.ceil(resp.data.startRow/resp.data.endRow)
-        this.endRow = resp.data.endRow
+        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
       } else {
 
       }
