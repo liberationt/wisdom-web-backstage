@@ -6,132 +6,97 @@
             </p>
         </div>
         <div class="mt50">
-            <span class="w100 tr displayib">推送主体:</span>
-            <Select v-model="model2" style="width:200px" class="mr20">
-                <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <span>甲方名称:</span>
+            <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <span class=" tr displayib">状态:</span>
+            <span class="w100 tr displayib">批次号:</span>
+            <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input>
+            <span class=" tr displayib">推送状态:</span>
             <Select v-model="model3" style="width:200px" class="mr20">
-                <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-
-            <span class=" tr displayib">注册时间:</span>
-            <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            <div class="mt15">
             <span class=" tr displayib">推送时间:</span>
-                <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span>  -  </span>
+            <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+            <!-- <div class="mt15">
+            <span class=" tr displayib">推送时间:</span>
+                <DatePicker type="date"  placeholder="开始时间" style="width: 200px"></DatePicker>
                 <span>  -  </span>
-                <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            </div >
+                <DatePicker type="date" placeholder="结束时间" style="width: 200px"></DatePicker>
+            </div > -->
             <div class="clearfix mr100 mt20">
-                <Button class="right w100" type="primary">导出</Button>
-                <Button class="right mr20 w100" type="info">查询</Button>
+                <Button class="right w100" type="primary" @click="exports">导出</Button>
+                <Button class="right mr20 w100" type="info" @click="registered">查询</Button>
             </div>
         </div>
-
         <div class="mt20">
             <Table :columns="columns1" :data="data1"></Table>
         </div>
-        <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
-            </div>
+       <div class="tr mt15">
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+        </div>
     </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      model2: '',
-      model3: '',
-      numregistrations: [
+      model1: '平安普惠',
+      cityList: [
         {
-          onenum: 10,
-          twonum: 10,
-          color: 'blue1',
-          totalnum: '当日注册总人数'
-        },
-        {
-          onenum: 10,
-          twonum: 10,
-          color: 'yellow1',
-          totalnum: '本周注册总人数'
-        },
-        {
-          onenum: 10,
-          twonum: 10,
-          color: 'purple1',
-          totalnum: '本月注册总人数'
+          value: '平安普惠',
+          label: '平安普惠'
         }
       ],
-      cityList2: [
+      model2: '',
+      model3: '',
+      cityList3: [
+        {
+          value: '全部',
+          label: '全部'
+        },
         {
           value: '1',
-          label: '1'
+          label: '成功'
         },
         {
           value: '2',
-          label: '2'
-        },
-        {
-          value: '3',
-          label: '3'
-        },
-        {
-          value: '4',
-          label: '4'
-        }
-      ],
-      cityList3: [
-        {
-          value: '渠道1',
-          label: '渠道1'
-        },
-        {
-          value: '渠道2',
-          label: '渠道2'
-        },
-        {
-          value: '渠道3',
-          label: '渠道3'
-        },
-        {
-          value: '渠道4',
-          label: '渠道4'
+          label: '失败'
         }
       ],
       columns1: [
-        {
-          title: 'NO',
-          align: 'center',
-          width: 100,
-          key: 'no'
-        },
-        {
-          title: 'UID',
-          align: 'center',
-          width: 100,
-          key: 'uid'
-        },
-        {
-          title: '推送主体',
-          align: 'center',
-          width: 100,
-          key: 'media'
-        },
+        // {
+        //   title: 'NO',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'adsId'
+        // },
+        // {
+        //   title: 'UID',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'uid'
+        // },
+        // {
+        //   title: '推送主体',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'media'
+        // },
         {
           title: '渠道',
           align: 'center',
-          width: 100,
-          key: 'channel'
+          width: 200,
+          key: 'channelName'
         },
-        {
-          title: 'step',
-          align: 'center',
-          width: 100,
-          key: 'step'
-        },
+        // {
+        //   title: 'step',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'step'
+        // },
         {
           title: '姓名',
           align: 'center',
@@ -141,15 +106,15 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          width: 100,
-          key: 'phone'
+          width: 200,
+          key: 'mobile'
         },
-        {
-          title: '生日',
-          align: 'center',
-          width: 100,
-          key: 'birthday'
-        },
+        // {
+        //   title: '生日',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'birthday'
+        // },
         {
           title: '性别',
           align: 'center',
@@ -160,7 +125,7 @@ export default {
           title: '年龄',
           align: 'center',
           width: 100,
-          key: 'age'
+          key: 'ageGroup'
         },
         {
           title: '城市',
@@ -168,41 +133,41 @@ export default {
           width: 100,
           key: 'city'
         },
-        {
-          title: 'M城市',
-          align: 'center',
-          width: 100,
-          key: 'mcity'
-        },
-        {
-          title: '借贷金额',
-          align: 'center',
-          width: 100,
-          key: 'toloan'
-        },
-        {
-          title: '社保',
-          align: 'center',
-          width: 100,
-          key: 'social'
-        },
-        {
-          title: '公积金',
-          align: 'center',
-          width: 100,
-          key: 'accumulation'
-        },
-        {
-          title: '房',
-          align: 'center',
-          width: 100,
-          key: 'room'
-        },
+        // {
+        //   title: 'M城市',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'mcity'
+        // },
+        // {
+        //   title: '借贷金额',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'toloan'
+        // },
+        // {
+        //   title: '社保',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'social'
+        // },
+        // {
+        //   title: '公积金',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'accumulation'
+        // },
+        // {
+        //   title: '房',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'room'
+        // },
         {
           title: '房贷',
           align: 'center',
           width: 100,
-          key: 'roomloan'
+          key: 'hasHouseLoan'
         },
         {
           title: '车',
@@ -213,53 +178,53 @@ export default {
         {
           title: '车贷',
           align: 'center',
-          width: 100,
-          key: 'carloan'
+          width: 150,
+          key: 'hasCarLoan'
         },
-        {
-          title: '寿险保单',
-          align: 'center',
-          width: 100,
-          key: 'insurance'
-        },
-        {
-          title: '微粒贷',
-          align: 'center',
-          width: 100,
-          key: 'tiny'
-        },
+        // {
+        //   title: '寿险保单',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'insurance'
+        // },
+        // {
+        //   title: '微粒贷',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'tiny'
+        // },
         {
           title: '推送时间',
           align: 'center',
-          width: 100,
-          key: 'time'
+          width: 200,
+          key: 'pushTime'
         },
         {
-          title: '状态',
+          title: '推送状态',
           align: 'center',
-          width: 100,
-          key: 'type'
+          width: 200,
+          key: 'pushStatus'
         },
-        {
-          title: 'IP',
-          align: 'center',
-          width: 100,
-          key: 'ip'
-        }
+        // {
+        //   title: 'IP',
+        //   align: 'center',
+        //   width: 100,
+        //   key: 'ip'
+        // }
       ],
       data1: [
         {
-          no: '1',
-          uid: '1',
-          media: '1',
-          channel: '1',
-          step: '1',
-          name: '1',
-          phone: '1',
-          birthday: '1',
-          sex: '1',
-          age: '1',
-          city: '1',
+          // no: '1',
+          // uid: '1',
+          // media: '1',
+          // channel: '1',
+          // step: '1',
+          // name: '1',
+          // phone: '1',
+          // birthday: '1',
+          // sex: '1',
+          // age: '1',
+          // city: '1',
           mcity: '1',
           toloan: '1',
           social: '1',
@@ -271,23 +236,23 @@ export default {
           insurance: '1',
           tiny: '1',
           time: '0',
-          type: '1',
-          ip: '1'
+          // type: '1',
+          // ip: '1'
         },
         {
-          no: '1',
-          uid: '1',
-          media: '1',
-          channel: '1',
-          step: '1',
-          name: '1',
-          phone: '1',
-          birthday: '1',
-          sex: '1',
-          age: '1',
-          city: '1',
-          mcity: '1',
-          toloan: '1',
+          // no: '1',
+          // uid: '1',
+          // media: '1',
+          // channel: '1',
+          // step: '1',
+          // name: '1',
+          // phone: '1',
+          // birthday: '1',
+          // sex: '1',
+          // age: '1',
+          // city: '1',
+          // mcity: '1',
+          // toloan: '1',
           social: '1',
           accumulation: '1',
           roomloan: '1',
@@ -300,7 +265,12 @@ export default {
           type: '1',
           ip: '1'
         }
-      ]
+      ],
+      value1: '',
+      value2: '',
+      total: 0,
+      startRow: 1,
+      endRow: 10,
     }
   },
   methods: {
@@ -309,6 +279,107 @@ export default {
     },
     PageSizeChange (limit) {
       this.params.limit = limit
+    },
+    // 分页
+    pageChange (page) {
+      console.log(page)
+      this.startRow = page
+      this.registered()
+    },
+    pagesizechange (page) {
+      this.endRow = page
+      this.registered()
+    },
+    post(url,list,pushname) {
+        this.http.post(BASE_URL + url,list).then(data=>{
+         console.log(data)
+          if(data.code == 'success'){
+            this.total = number(data.data.total)
+            this.startRow = Math.ceil(data.data.startRow/this.endRow)
+            if(pushname == 'qingjian'){
+              console.log('qingjian')
+              this.data1 = data.data.dkQjpuhuiList
+            } else if(pushname == 'baojie'){
+               console.log('baojie')
+              this.data1 = data.data.dkBJpuhuiList
+            } else if(pushname == 'benxiang'){
+               console.log('benxiang')
+              this.data1 = data.data.dkBxpuhuiList
+            } else if(pushname == 'kunxuan'){
+               console.log('kunxuan')
+              this.data1 = data.data.dkKxpuhuiList
+            }
+          }
+       }).catch(err=>{
+         console.log(err)
+       })
+    },
+      // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    // 查询
+    registered() {
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      };
+      let params = {
+        pushBatchNum :this.model2,
+        pushStatus : this.model3,
+        beginTime : this.value1,
+        endTime : this.value2,
+        pageNum: this.startRow,
+        pageSize: this.endRow,
+      }
+      let pushname = this.$route.query.pushname
+      if(pushname == 'qingjian'){
+        // console.log('qingjian')
+        this.post('/loan/dkQjpuhui/getDkQjpuhuiList',params,pushname)
+      } else if(pushname == 'baojie'){
+        //  console.log('baojie')
+        this.post('/loan/dkBJpuhui/getDkBJpuhuiList',params,pushname)
+      } else if(pushname == 'benxiang'){
+        //  console.log('benxiang')
+        this.post('/loan/dkBxpuhui/getDkBxpuhuiList',params,pushname)
+      } else if(pushname == 'kunxuan'){
+        //  console.log('kunxuan')
+        this.post('/loan/dkKxpuhui/getDkKxpuhuiList',params,pushname)
+      }
+    },
+    // 导出
+    exports () {
+      window.open(BASE_URL + '/loan/dwqUser/export?step='+1)
+    },
+    
+  },
+  created() {
+    let pushname = this.$route.query.pushname
+    let list = {
+      pushBatchNum: this.$route.query.id,
+      pageNum: this.startRow,
+      pageSize: this.endRow,
+    }
+    if(pushname == 'qingjian'){
+      // console.log('qingjian')
+      this.post('/loan/dkQjpuhui/getDkQjpuhuiList',list,pushname)
+    } else if(pushname == 'baojie'){
+      //  console.log('baojie')
+      this.post('/loan/dkBJpuhui/getDkBJpuhuiList',list,pushname)
+    } else if(pushname == 'benxiang'){
+      //  console.log('benxiang')
+      this.post('/loan/dkBxpuhui/getDkBxpuhuiList',list,pushname)
+    } else if(pushname == 'kunxuan'){
+      //  console.log('kunxuan')
+      this.post('/loan/dkKxpuhui/getDkKxpuhuiList',list,pushname)
     }
   }
 }

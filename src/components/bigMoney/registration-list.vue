@@ -46,7 +46,7 @@
         </div>
         <div class="tr mt15">
             <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
-            </div>
+        </div>
     </div>
 </template>
 <script>

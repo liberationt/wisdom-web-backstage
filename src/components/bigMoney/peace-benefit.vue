@@ -13,26 +13,26 @@
             <span>文件名称:</span>
             <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
             <span>推送时间:</span>
-            <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
-                <Button class="right mr20 w100" type="info">查询</Button>
+                <Button class="right mr20 w100" type="info" @click="registered">查询</Button>
             </div>
         </div>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+          <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
         </div>
         <Modal
           title="上传文件"
           v-model="modal9"
           @on-ok="upload"
           @on-cancel="handleReset"
-          ok-text="保存"
+          ok-text="提交"
           cancel-text="取消"
           class-name="vertical-center-modal"
           width="500"
@@ -42,11 +42,11 @@
            <ul>
             <li>
                 <span>甲方名称:</span>
-                <span>哈哈哈</span>
+                <span>平安普惠</span>
             </li>
             <li class="mt15">
                 <span>主体名称:</span>
-                <span>哈哈哈</span>
+                <span>{{zhuname}}</span>
             </li>
             <li class="mt15 clearfix">
                 <span class="left lh32">上传文件:</span>
@@ -54,13 +54,17 @@
             <Upload
             :before-upload="handleUpload"
             :show-upload-list="false"
-            action="//jsonplaceholder.typicode.com/posts/">
-            <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
+            :format="['xlsx', 'xls']"
+            :on-format-error="handleFormatError2"
+            :max-size="12800"
+            action='/loan/batchLog/uploadFileExcel'>
+            <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
         </Upload>
             </li>
         </ul>
           </div>
           </Modal>
+       
     </div>
 </template>
 <script>
@@ -118,7 +122,7 @@ export default {
         {
           title: '上传失败详情',
           align: 'center',
-          key: 'failNum',
+          key: 'uploadFailUrl',
           render: (h, params) => {
             return h('div', [
               h('Button', {
@@ -170,7 +174,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './insuranceReport' })
+                    this.$router.push({ path: './insuranceReport?id='+params.row.batchCode+'&&pushname='+this.pushname1 })
                   }
                 }
               }, '详情')
@@ -203,10 +207,29 @@ export default {
           errornum: '0',
           remarks: '哈哈'
         }
-      ]
+      ],
+      value1 : '',
+      value2 : '',
+      zhuname:'',
+      filename2: '',
+      batchKey: '',
+      total: 0,
+      startRow: 1,
+      endRow: 10,
+      pushname1: ''
     }
   },
   methods: {
+    // 分页
+    pageChange (page) {
+      console.log(page)
+      this.startRow = page
+      this.registered()
+    },
+    pagesizechange (page) {
+      this.endRow = page
+      this.registered()
+    },
     pageChange (page) {
       this.params.page = page
     },
@@ -226,28 +249,52 @@ export default {
       if (this.value9 == '') {
         this.changeLoading()
         const title = '上传报表'
-        let content = '<p>请先上传文件</p>'
+        let content = '<p>请先选择文件</p>'
         this.$Modal.warning({
         title: title,
         content: content
         })
         return false
       } else {
-        setTimeout(() => {
-          this.changeLoading()
-          const title = '上传名单'
-          let content = '<p>上传成功</p>'
-          this.$Modal.success({
-            title: title,
-            content: content
-          })
-          this.modal9 = false
-          this.value9 = ''          
-        }, 1000)
+        if(this.zhuname ==  '卿见'){
+          this.batchKey = 'dk-pingan-qjpuhui'
+        }else if(this.zhuname ==  '保街'){
+          this.batchKey = 'dk-pingan-bjpuhui'
+        }else if(this.zhuname ==  '本祥'){
+          this.batchKey = 'dk-pingan-bxpuhui'
+        }else if(this.zhuname ==  '坤玄'){
+          this.batchKey = 'dk-pingan-kxpuhui'
+        }
+        console.log(this.batchKey)
+        let formData = new FormData();
+          formData.append('partyakey', this.batchKey);
+          formData.append('filename', this.filename2);
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel',formData,config).then(data=>{
+          console.log(data)
+          if(data.code == 'success'){
+            this.changeLoading()
+            const title = '上传名单'
+            let content = '<p>上传成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.value9 = ''
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
       }
     },
     handleUpload (file) {
       this.value9 = file.name
+      this.filename2 = file
     },
     changeLoading () {
       this.loading = false
@@ -256,7 +303,87 @@ export default {
       })
     },
     handleReset (name) {
-      this.$refs[name].resetFields()
+      
+    },
+    jname(pushname) {
+      if(pushname == 'qingjian'){
+        this.model1 = '卿见'
+        this.zhuname = '卿见'
+        this.pushname1 = 'qingjian'
+        this.batchKey = 'dk-pingan-qjpuhui'
+        this.cityList = [{
+          value: '卿见',
+          label: '卿见'
+        }]
+      } else if(pushname == 'baojie'){
+        this.model1 = '保街'
+        this.zhuname = '保街'
+        this.pushname1 = 'baojie'
+        this.batchKey = 'dk-pingan-bjpuhui'
+        this.cityList = [{
+          value: '保街',
+          label: '保街'
+        }]
+      } else if(pushname == 'benxiang'){
+        this.model1 = '本祥'
+        this.zhuname = '本祥'
+        this.pushname1 = 'benxiang'
+        this.batchKey = 'dk-pingan-bxpuhui'
+        this.cityList = [{
+          value: '本祥',
+          label: '本祥'
+        }]
+      } else if(pushname == 'kunxuan'){
+        this.model1 = '坤玄'
+        this.zhuname = '坤玄'
+        this.pushname1 = 'kunxuan'
+        this.batchKey = 'dk-pingan-kxpuhui'
+        this.cityList = [{
+          value: '坤玄',
+          label: '坤玄'
+        }]
+      }
+    },
+    // 文件格式判断
+    handleFormatError2(file) {
+      this.value9 = ''
+      this.$Message.info("文件格式不正确,请上传excel格式文件")
+    },
+    // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    // 查询
+    registered() {
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      };
+      let list = {
+        beginTime : this.value1,
+        endTime : this.value2,
+        fileName : this.model2,
+        batchCode : this.model1,
+        pageNum: this.startRow,
+        pageSize: this.endRow,
+      }
+      this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
+        if(data.code = 'success'){
+          this.total = number(data.data.total)
+          this.startRow = Math.ceil(data.data.startRow/this.endRow)
+          this.data6 = data.data.batchLogList;
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     }
     // handleSubmit (name) {
     //   this.$refs[name].validate(valid => {
@@ -273,16 +400,42 @@ export default {
     //     }, 1000)
     //   })
     // },
-   
   },
   created() {
-    let list = {};
+    let pushname = this.$route.query.pushname
+    this.jname(pushname)
+    console.log(this.batchKey)
+    let list = {partyakey:'dk-pingan-qjpuhui'};
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-      // console.log(resp.data.batchLogList)
+      console.log(resp)
       this.data6 = resp.data.batchLogList;
     }).catch((err)=>{
-      // console.log(err)
-    })
+      console.log(err)
+    });
+    // if(this.zhuname ==  '卿见'){
+    //   console.log('卿见')
+    // }else if(this.zhuname ==  '保街'){
+    //   console.log('保街')
+    // }else if(this.zhuname ==  '本祥'){
+    //   console.log('本祥')
+    // }else if(this.zhuname ==  '坤玄'){
+    //   console.log('坤玄')
+    // }
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    $route( to , from ){     
+      let pushname = this.$route.query.pushname
+      this.jname(pushname)
+      let list = {partyakey:this.batchKey};
+      this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
+        console.log(resp)
+        this.data6 = resp.data.batchLogList;
+      }).catch((err)=>{
+        console.log(err)
+      });
+      // 详情列表
+    }
   }
 }
 </script>

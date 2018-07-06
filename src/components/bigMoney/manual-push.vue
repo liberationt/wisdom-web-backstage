@@ -235,15 +235,16 @@ export default {
         let formData = new FormData();
             formData.append('partyaCode', this.model4);
             formData.append('filename', this.filename);
-        let getBatchLogList = {
-          partyaCode: this.model4,
-          file: this.files
-        }
+        // let getBatchLogList = {
+        //   partyaCode: this.model4,
+        //   file: this.files
+        // }
         let config = {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         }
+        console.log(getBatchLogList)
         this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', formData, config)
         .then((resp) => {
           if (resp.code == 'success') {

@@ -57,7 +57,7 @@ import loanPush from '@/components/bigMoney/loan-push'
 import pushDetail from '@/components/bigMoney/push-detail'
 import uploadReports from '@/components/bigMoney/upload-reports'
 import loanTest from '@/components/bigMoney/loan-test'
-import peaceBenefit from '@/components/bigMoney/peace-benefit' // 本祥普惠
+import peaceBenefit from '@/components/bigMoney/peace-benefit' // 平安普惠 详情
 import insuranceSetting from '@/components/bigMoney/insurance-setting' // 坤玄
 import insuranceReport from '@/components/bigMoney/insurance-report'
 import channelManagement from '@/components/bigMoney/channel-management'

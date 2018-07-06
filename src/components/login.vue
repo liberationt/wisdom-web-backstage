@@ -143,17 +143,18 @@ export default {
         background-repeat: no-repeat;
         background-size: cover;
     }
-    .card-box {
-        padding: 20px;
-        /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
-        -webkit-border-radius: 5px;
-        border-radius: 5px;
-        -moz-border-radius: 5px;
-        background-clip: padding-box;
-        margin-bottom: 20px;
-        background-color: #F9FAFC;
-        margin: 180px auto;
-        width: 400px;
+  .card-box {
+    padding: 20px 40px;
+    /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    -moz-border-radius: 5px;
+    background-clip: padding-box;
+    margin-bottom: 20px;
+    background-color: rgba(0, 0, 0, .2);
+    margin: 180px auto;
+    width: 400px;
+    color: #fff;
     /* border: 2px solid #8492A6;*/
     }
   .title {
@@ -170,5 +171,8 @@ export default {
   }
   .login-no-bottom {
     margin-bottom: 10px;
+  }
+  .ivu-btn-primary{
+    background-color: rgb(4, 0, 255) !important;
   }
 </style>

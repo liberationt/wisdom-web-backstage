@@ -2,7 +2,7 @@
     <div>
         <div class="navigation">
             <p>
-                <span>推广批次报表</span>
+                <span>平安人寿</span>
             </p>
         </div>
         <div class="mt50">
@@ -62,6 +62,9 @@
         </ul>
           </div>
           </Modal>
+        <div class="tr mt15">
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+        </div>
     </div>
 </template>
 <script>
@@ -181,10 +184,23 @@ export default {
       data6: [
       ],
       value1: '',
-      value2: ''
+      value2: '',
+      total: 0,
+      startRow: 1,
+      endRow: 10,
     }
   },
   methods: {
+    // 分页
+    pageChange (page) {
+      console.log(page)
+      this.startRow = page
+      this.registered()
+    },
+    pagesizechange (page) {
+      this.endRow = page
+      this.registered()
+    },
     handleReset() {},
     pageChange (page) {
       this.params.page = page
