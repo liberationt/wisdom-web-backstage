@@ -59,7 +59,8 @@ import uploadReports from '@/components/bigMoney/upload-reports'
 import loanTest from '@/components/bigMoney/loan-test'
 import peaceBenefit from '@/components/bigMoney/peace-benefit' // 平安普惠 详情
 import insuranceSetting from '@/components/bigMoney/insurance-setting' // 坤玄
-import insuranceReport from '@/components/bigMoney/insurance-report'
+import insuranceReport from '@/components/bigMoney/insurance-report' // 平安普惠详情
+import pinglife from '@/components/bigMoney/pinglife' // 平安人寿详情
 import channelManagement from '@/components/bigMoney/channel-management'
 import channelLabelsz from '@/components/bigMoney/channel-labelsz'
 import channelCategory from '@/components/bigMoney/channel-category'
@@ -228,6 +229,7 @@ let routes = [
       {path: '/loanTest', component: loanTest, names: '贷款产品设置', meta: { auth: true }},
       {path: '/insuranceSetting', component: insuranceSetting, names: '保险产品设置', meta: { auth: true }},
       {path: '/insuranceReport', component: insuranceReport, names: '保险产品设置明细', meta: { auth: true }},
+      {path: '/pinglife', component: pinglife, names: '保险明细报表', meta: { auth: true }},
       {path: '/channelManagement', component: channelManagement, names: '渠道推广管理', meta: { auth: true }},
       {path: '/channelCategory', component: channelCategory, names: '渠道类别配置', meta: { auth: true }},
       {path: '/supplierManagement', component: supplierManagement, names: '渠道供应商管理', meta: { auth: true }},

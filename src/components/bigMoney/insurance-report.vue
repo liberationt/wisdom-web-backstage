@@ -290,12 +290,14 @@ export default {
       this.endRow = page
       this.registered()
     },
-    post(url,list,pushname) {
+    post(url,list,pushname,num) {
         this.http.post(BASE_URL + url,list).then(data=>{
          console.log(data)
           if(data.code == 'success'){
-            this.total = number(data.data.total)
-            this.startRow = Math.ceil(data.data.startRow/this.endRow)
+            if(num == 1){
+              this.total = parseInt(data.data.total)
+              this.startRow = Math.ceil(data.data.startRow/this.endRow)
+            }
             if(pushname == 'qingjian'){
               console.log('qingjian')
               this.data1 = data.data.dkQjpuhuiList
@@ -343,16 +345,16 @@ export default {
       let pushname = this.$route.query.pushname
       if(pushname == 'qingjian'){
         // console.log('qingjian')
-        this.post('/loan/dkQjpuhui/getDkQjpuhuiList',params,pushname)
+        this.post('/loan/dkQjpuhui/getDkQjpuhuiList',params,pushname,1)
       } else if(pushname == 'baojie'){
         //  console.log('baojie')
-        this.post('/loan/dkBJpuhui/getDkBJpuhuiList',params,pushname)
+        this.post('/loan/dkBJpuhui/getDkBJpuhuiList',params,pushname,1)
       } else if(pushname == 'benxiang'){
         //  console.log('benxiang')
-        this.post('/loan/dkBxpuhui/getDkBxpuhuiList',params,pushname)
+        this.post('/loan/dkBxpuhui/getDkBxpuhuiList',params,pushname,1)
       } else if(pushname == 'kunxuan'){
         //  console.log('kunxuan')
-        this.post('/loan/dkKxpuhui/getDkKxpuhuiList',params,pushname)
+        this.post('/loan/dkKxpuhui/getDkKxpuhuiList',params,pushname,1)
       }
     },
     // 导出
