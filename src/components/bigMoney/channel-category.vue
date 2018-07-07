@@ -2,22 +2,22 @@
     <div>
         <div class="navigation">
             <p>
-                <span>贷款推送</span>
+                <span>渠道类别设置</span>
             </p>
         </div>
         <div class="mt50 clearfix">
             <div class="left ml20">
                 <span>类别名称:</span>
-                <Input v-model="value" placeholder="请输入标签名称" style="width: 200px"></Input>
+                <Input v-model="value" placeholder="请输入类别名称" style="width: 200px"></Input>
             </div>
-            <Button class="right mr20 w100 " type="info">查询</Button>
+            <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
         </div>
         <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加渠道类别</Button>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
         </div>
         <Modal
           title="贷款产品设置"
@@ -48,23 +48,27 @@ export default {
   data () {
     return {
       model1: '',
+      value: '',
       modal9: false,
       loading: true,
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       columns7: [
         {
           title: '类别编号',
           align: 'center',
-          key: 'batch'
+          key: 'urlCode'
         },
         {
           title: '类别名称',
           align: 'center',
-          key: 'pattern'
+          key: 'urlName'
         },
         {
           title: 'URL',
           align: 'center',
-          key: 'url'
+          key: 'urlUrl'
         },
         {
           title: '编辑',
@@ -85,7 +89,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.delete(params.row.urlCode)
                     }
                   }
                 },
@@ -95,18 +99,7 @@ export default {
           }
         }
       ],
-      data6: [
-        {
-          batch: '180601001',
-          pattern: '自动',
-          url: 'www.baidu.com'
-        },
-        {
-          batch: '180601001',
-          pattern: '自动',
-          url: 'www.baidu.com'
-        }
-      ],
+      data6: [],
       formCustom: {
         productid: '',
         name: ''
@@ -122,14 +115,14 @@ export default {
     }
   },
   methods: {
+     // 分页
     pageChange (page) {
-      this.params.page = page
+      this.startRow = page
+      this.inquire()
     },
-    PageSizeChange (limit) {
-      this.params.limit = limit
-    },
-    remove (index) {
-      this.data6.splice(index, 1)
+    pagesizechange (page) {
+      this.endRow = page
+      this.inquire()
     },
     refuse () {
       this.modal9 = true
@@ -140,12 +133,33 @@ export default {
         this.loading = true
       })
     },
+    // 新增
     handleSubmit (name) {
       this.$refs[name].validate(valid => {
         if (!valid) {
           return this.changeLoading()
         } else {
-          this.$Message.error('Success!')
+          let list = {
+            urlName : this.formCustom.productid,
+            urlUrl : this.formCustom.name
+          }
+          this.http.post(BASE_URL + '/loan/promotionUrl/savePromotionUrl', list)
+          .then((resp) => {
+            if (resp.code == 'success') {
+              const title = '保存'
+              let content = '<p>保存成功</p>'
+              this.$Modal.success({
+                title: title,
+                content: content
+              })
+              this.inquire ()
+              this.$refs['formCustom'].resetFields()
+            } else {
+
+            }
+          })
+          .catch(() => {
+          })
         }
         setTimeout(() => {
           this.changeLoading()
@@ -157,7 +171,50 @@ export default {
     },
     handleReset (name) {
       this.$refs[name].resetFields()
+    },
+    // 查询
+    inquire () {
+      let list = {
+        urlName : this.value,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/promotionUrl/getPromotionUrlList', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.data6 = resp.data.promotionUrlList
+          this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
+    },
+    // 删除
+    delete (code) {
+      this.http.post(BASE_URL + '/loan/promotionUrl/deletePromotionUrlByCode?promotionUrlCode='+code)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        const title = '删除'
+        let content = '<p>删除成功</p>'
+        this.$Modal.success({
+          title: title,
+          content: content
+        })
+        this.inquire ()
+  
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
     }
+  },
+  mounted () {
+    this.inquire ()
   }
 }
 </script>

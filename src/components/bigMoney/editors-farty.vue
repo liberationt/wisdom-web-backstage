@@ -6,7 +6,8 @@
             <ul>
                 <li>
                     <span class="">甲方名称:</span>
-                    <Select v-model="model1" style="width:200px" class="mr20 ml5">
+                    <Select v-model="model1" style="width:200px" placeholder='model1'  class="mr20 ml5">
+                      <!-- <Option :value="model1">{{model1}}</Option> -->
                         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </li>
@@ -75,7 +76,6 @@
           title="已选城市"
           v-model="modal9"
           @on-ok="upload"
-          @on-cancel="handleReset"
           ok-text="保存"
           cancel-text="取消"
           class-name="vertical-center-modal"
@@ -115,32 +115,16 @@ export default {
       modal9: false,
       modal10: false,
       manual: false,
+      loading: true,
       cycle: '',
       datatime: '分',
       cityList: [
         {
           value: '供应商1',
           label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
         }
       ],
       columns4: [
-        {
-          type: 'selection',
-          width: 60,
-          align: 'center'
-        },
         {
           title: '标签',
           align: 'center',
@@ -446,6 +430,20 @@ export default {
       }
       
     }
+  },
+  mounted () {
+    this.http.post(BASE_URL + '/loan/partya/getPartyaByCode?partyaCode='+this.$route.query.code)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.model1 = resp.data.partyaName
+
+
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
   }
 }
 </script>

@@ -230,6 +230,12 @@ export default {
       this.endRow = page
       this.registered()
     },
+    pageChange (page) {
+      this.params.page = page
+    },
+    PageSizeChange (limit) {
+      this.params.limit = limit
+    },
     rowClassName (row, index) {
       if (index === 0) {
         return 'demo-table-info-row'
@@ -261,7 +267,7 @@ export default {
         }
         console.log(this.batchKey)
         let formData = new FormData();
-          formData.append('partyaKey', this.batchKey);
+          formData.append('partyakey', this.batchKey);
           formData.append('filename', this.filename2);
         let config = {
           headers: {
@@ -362,17 +368,16 @@ export default {
         return false
       };
       let list = {
-        fileName : this.model2,
         beginTime : this.value1,
         endTime : this.value2,
-        partyaKey: this.batchKey,
+        fileName : this.model2,
+        batchCode : this.model1,
         pageNum: this.startRow,
         pageSize: this.endRow,
       }
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
-        console.log(data)
         if(data.code = 'success'){
-          this.total = parseInt(data.data.total)
+          this.total = number(data.data.total)
           this.startRow = Math.ceil(data.data.startRow/this.endRow)
           this.data6 = data.data.batchLogList;
         }
@@ -399,37 +404,33 @@ export default {
   created() {
     let pushname = this.$route.query.pushname
     this.jname(pushname)
-    // console.log(this.batchKey)
-    let list = {
-      partyaKey:this.batchKey,
-    };
+    console.log(this.batchKey)
+    let list = {partyakey:'dk-pingan-qjpuhui'};
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-      // console.log(resp)
-      console.log(resp.data.startRow)
-      if(resp.code == 'success'){
-          this.total = parseInt(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
-          this.data6 = resp.data.batchLogList;
-      }
+      console.log(resp)
+      this.data6 = resp.data.batchLogList;
     }).catch((err)=>{
       console.log(err)
     });
+    // if(this.zhuname ==  '卿见'){
+    //   console.log('卿见')
+    // }else if(this.zhuname ==  '保街'){
+    //   console.log('保街')
+    // }else if(this.zhuname ==  '本祥'){
+    //   console.log('本祥')
+    // }else if(this.zhuname ==  '坤玄'){
+    //   console.log('坤玄')
+    // }
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
     $route( to , from ){     
       let pushname = this.$route.query.pushname
       this.jname(pushname)
-        let list = {
-        partyaKey:this.batchKey,
-      };
+      let list = {partyakey:this.batchKey};
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
         console.log(resp)
-        if(resp.code == 'success'){
-          this.total = parseInt(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
-          this.data6 = resp.data.batchLogList;
-        }
+        this.data6 = resp.data.batchLogList;
       }).catch((err)=>{
         console.log(err)
       });

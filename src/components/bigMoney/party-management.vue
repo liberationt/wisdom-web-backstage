@@ -8,21 +8,19 @@
         <div class="mt50 clearfix">
             <div class="left ml20">
                 <span>甲方名称:</span>
-                <Select v-model="model1" style="width:200px">
-                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
+                <Input v-model="model1" class="mr20" placeholder="请输入甲方名称" style="width: 200px"></Input>
                 <span class="ml20">状态:</span>
                 <Select v-model="model2" style="width:200px">
                     <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
-            <Button class="right mr20 w100 " type="info">查询</Button>
+            <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
         </div>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -34,39 +32,16 @@ export default {
       model2: '',
       modal9: false,
       loading: true,
-      cityList: [
-        {
-          value: '大地',
-          label: '大地'
-        },
-        {
-          value: '厚本金融',
-          label: '厚本金融'
-        },
-        {
-          value: '新一贷',
-          label: '新一贷'
-        },
-        {
-          value: '平安普惠',
-          label: '平安普惠'
-        },
-        {
-          value: '秒贷',
-          label: '秒贷'
-        },
-        {
-          value: '银谷',
-          label: '银谷'
-        }
-      ],
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       cityList2: [
         {
           value: '1',
           label: '启用'
         },
         {
-          value: '0',
+          value: '2',
           label: '禁用'
         }
       ],
@@ -74,17 +49,29 @@ export default {
         {
           title: '甲方名称',
           align: 'center',
-          key: 'partyname'
+          key: 'partyaName'
         },
         {
           title: '推送类型',
           align: 'center',
-          key: 'pushtype'
+          render: (h, params) => {
+            let type
+            if (params.row.sendType == '1') {
+              type = '手动'
+            } else if (params.row.sendType == '2') {
+              type = '自动'
+            } else {
+              type = '自动和手动都可以'
+            }
+            return h('div', [
+              h('span', {
+              }, type)
+            ])
+          }
         },
         {
           title: '暂停推送日期',
           align: 'center',
-          key: 'pushstadata',
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -96,26 +83,52 @@ export default {
                   whiteSpace: 'nowrap'
                 },
                 domProps: {
-                  title: params.row.pushstadata
+                  title: params.row.pausePush
                 }
-              }, params.row.pushstadata)
+              }, params.row.pausePush)
             ])
           }
         },
         {
           title: '日推送限制条数',
           align: 'center',
-          key: 'pushenddata'
+          key: 'partyaKey'
         },
         {
           title: '推送周期设置',
           align: 'center',
-          key: 'pushcycle'
+          render: (h, params) => {
+            let type
+            if (params.row.cycleUnint == '1') {
+              type = '分'
+            } else if (params.row.cycleUnint == '2') {
+              type = '时'
+            } else {
+              type = '天'
+            }
+            return h('div', [
+              h('span', {
+              }, type)
+            ])
+          }
         },
         {
           title: '状态',
           align: 'center',
-          key: 'type'
+          key: 'type',
+          render: (h, params) => {
+            let type
+            if (params.row.status  == '1') {
+
+              type = '启用'
+            } else {
+              type = '禁用'
+            }
+            return h('div', [
+              h('span', {
+              }, type)
+            ])
+          }
         },
         {
           title: '操作',
@@ -123,11 +136,18 @@ export default {
           width: 200,
           align: 'center',
           render: (h, params) => {
+            console.log(params)
             let type = 'success'
+            let status
+            if (params.row.status == '1') {
+              status = '启用'
+            } else {
+              status = '禁用'
+            }
             let shelf = [
-              h('span', {}, params.row.onshelf)
+              h('span', {}, status)
             ]
-            if (params.row.type == '启用') {
+            if (params.row.status == '1') {
               type = 'success'
             } else {
               type = 'warning'
@@ -143,7 +163,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './editorsFarty' })
+                    this.$router.push({ path: './editorsFarty?code='+params.row.partyaCode })
                   }
                 }
               }, '编辑'),
@@ -157,12 +177,11 @@ export default {
                 },
                 on: {
                   click: () => {
-                    if (params.row.onshelf == '启用') {
-                      params.row.type = '启用'
-                      params.row.onshelf = '禁用'
+                    if (params.row.status == '1') {
+                      this.stopoperation (params.row.partyaCode, 2)                      
                     } else {
-                      params.row.type = '禁用'
-                      params.row.onshelf = '启用'
+                      this.stopoperation (params.row.partyaCode, 1)
+                      // params.row.status = '启用'
                     }
                   }
                 }
@@ -179,7 +198,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index)
+                      this.delete (params.row.partyaCode)
+                      // this.remove(params.index)
                     }
                   }
                 },
@@ -189,34 +209,18 @@ export default {
           }
         }
       ],
-      data6: [
-        {
-          partyname: '唐哈哈',
-          pushtype: '自动',
-          pushstadata: '2018-05-12, 2018-05-12, 2018-05-12',
-          pushenddata: '50',
-          pushcycle: '一周',
-          type: '启用',
-          onshelf: '禁用'
-        },
-        {
-          partyname: '唐哈哈',
-          pushtype: '自动',
-          pushstadata: '2018-05-12',
-          pushenddata: '50',
-          pushcycle: '一周',
-          type: '启用',
-          onshelf: '禁用'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
+    // 分页
     pageChange (page) {
-      this.params.page = page
+      this.startRow = page
+      this.inquire()
     },
-    PageSizeChange (limit) {
-      this.params.limit = limit
+    pagesizechange (page) {
+      this.endRow = page
+      this.inquire()
     },
     remove (index) {
       this.data6.splice(index, 1)
@@ -226,7 +230,81 @@ export default {
       this.$nextTick(() => {
         this.loading = true
       })
+    },
+    // 查询
+    inquire () {
+      let list = {
+      partyaName : this.model1,
+      status : this.model2,
+      pageNum: this.startRow,
+      pageSize: this.endRow
     }
+    this.http.post(BASE_URL + '/loan/partya/getPartyaList', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.data6 = resp.data.partyaList
+        this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+    },
+    // 删除
+    delete (code) {
+      this.http.post(BASE_URL + '/loan/partya/deletePartyaByCode?partyaCode='+code)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        const title = '删除'
+        let content = '<p>删除成功</p>'
+        this.$Modal.success({
+          title: title,
+          content: content
+        })
+        this.inquire ()
+  
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+    },
+    // 停启用
+    stopoperation (code, stop) {
+      let list = {
+        partyaCode :code,
+        status: stop
+      }
+      this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          let title
+          let content
+          if (stop == 2) {
+            title = '启用'
+            content = '<p>启用成功</p>'
+          } else {
+            title = '禁用'
+            content = '<p>禁用成功</p>'
+          }
+          this.$Modal.success({
+            title: title,
+            content: content
+          })
+          this.inquire ()
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
+    }
+  },
+  mounted () {
+    this.inquire ()
   }
 }
 </script>

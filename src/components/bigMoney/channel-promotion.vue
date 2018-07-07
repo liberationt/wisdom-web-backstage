@@ -2,13 +2,13 @@
     <div>
         <div class="navigation">
             <p>
-                <span>渠道供应商管理</span>
+                <span>渠道列表</span>
             </p>
         </div>
         <div class="mt50 clearfix">
             <div class="left ml20">
-                <span>供应商名称:</span>
-                <Input v-model="value" placeholder="请输入标签名称" style="width: 200px"></Input>
+                <span>渠道名称:</span>
+                <Input v-model="value" placeholder="请输入渠道名称" style="width: 200px"></Input>
                 <span class="ml20">推送时间:</span>
             <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
@@ -16,7 +16,7 @@
             </div>
             <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
         </div>
-        <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加供应商</Button>
+        <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加渠道</Button>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
@@ -24,7 +24,7 @@
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
         </div>
         <Modal
-          title="添加供应商"
+          title="添加渠道"
           v-model="modal9"
           @on-ok="handleSubmit('formCustom')"
           @on-cancel="handleReset('formCustom')"
@@ -36,11 +36,11 @@
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:15px">
-              <FormItem label="供应商编码:" prop="productid" >
-                <Input v-model="formCustom.productid" placeholder="请输入类别名称" style="width: 300px"></Input>
+              <FormItem label="渠道编码:" prop="productid" >
+                <Input v-model="formCustom.productid" placeholder="请输入渠道名称" style="width: 300px"></Input>
               </FormItem>
-            <FormItem label="供应商名称:" prop="name">
-              <Input v-model="formCustom.name" placeholder="请输入供应商名称" style="width: 300px"></Input>
+            <FormItem label="渠道名称:" prop="name">
+              <Input v-model="formCustom.name" placeholder="请输入渠道名称" style="width: 300px"></Input>
             </FormItem>
           </Form>
           </div>
@@ -62,14 +62,14 @@ export default {
       endRow: 10,
       columns7: [
         {
-          title: '供应商编号',
+          title: '渠道编号',
           align: 'center',
-          key: 'supplierKey'
+          key: 'channelKey'
         },
         {
-          title: '供应商名称',
+          title: '渠道名称',
           align: 'center',
-          key: 'supplierName'
+          key: 'channelName'
         },
         {
           title: '创建时间',
@@ -95,7 +95,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.delete (params.row.supplierCode)
+                      this.delete (params.row.channelCode)
                     }
                   }
                 },
@@ -112,9 +112,9 @@ export default {
       },
       ruleCustom: {
         name: [
-          { required: true, message: '请输入供应商名称', trigger: 'blur' },
-          {required: true, message: '请输入正确的供应商名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'},
-          { max: 50, message: '供应商名称最多输入50个字符', trigger: 'blur' }
+          { required: true, message: '请输入渠道名称', trigger: 'blur' },
+          {required: true, message: '请输入正确的渠道名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'},
+          { max: 50, message: '渠道名称最多输入50个字符', trigger: 'blur' }
         ]
       }
     }
@@ -147,10 +147,10 @@ export default {
           return this.changeLoading()
         } else {
           let list = {
-            supplierKey : this.formCustom.productid,
-            supplierName : this.formCustom.name
+            channelKey : this.formCustom.productid,
+            channelName : this.formCustom.name
           }
-          this.http.post(BASE_URL + '/loan/promotionSupplier/savePromotionSupplier', list)
+          this.http.post(BASE_URL + '/loan/promotionChannel/savePromotionChannel', list)
           .then((resp) => {
             if (resp.code == 'success') {
               const title = '保存'
@@ -198,16 +198,16 @@ export default {
         return false
       }
       let list = {
-        supplierName : this.value,
+        channelName : this.value,
         beginTime : this.value1,
         endTime : this.value2,
         pageNum: this.startRow,
         pageSize: this.endRow
       }
-      this.http.post(BASE_URL + '/loan/promotionSupplier/getPromotionSupplierList', list)
+      this.http.post(BASE_URL + '/loan/promotionChannel/getPromotionChannelList', list)
       .then((resp) => {
         if (resp.code == 'success') {
-          this.data6 = resp.data.promotionSupplierList
+          this.data6 = resp.data.promotionChannelList
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
         } else {
@@ -219,7 +219,7 @@ export default {
     },
     // 删除
     delete (code) {
-      this.http.post(BASE_URL + '/loan/promotionSupplier/deletePromotionSupplierByCode?promotionSupplierCode='+code)
+      this.http.post(BASE_URL + '/loan/promotionChannel/deletePromotionChannelByCode?promotionChannelCode='+code)
     .then((resp) => {
       if (resp.code == 'success') {
         const title = '删除'

@@ -11,19 +11,19 @@
             <span>手机号:</span>
             <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 200px"></Input>
             <span>创建时间:</span>
-            <DatePicker type="date" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
-                <Button class="right mr20 w100 " type="info">查询</Button>
+                <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
             </div>
         </div>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
         </div>
         </TabPane>
         <TabPane label="黑名单管理">
@@ -35,14 +35,17 @@
                         <span class="left lh32">上传名单:</span>
                         <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
                         <Upload
-                        :before-upload="handleUpload"
-                        :show-upload-list="false"
-                        action="//jsonplaceholder.typicode.com/posts/">
-                        <Button type="ghost" icon="ios-cloud-upload-outline" >预览</Button>
-                        </Upload>
+                          ref="upload"
+                          :before-upload="handleUpload"
+                          :show-upload-list="false"
+                          :format="['xlsx', 'xls']"
+                          action=''
+                          :on-format-error="handleFormatError2">
+                          <Button type="primary" icon="ios-cloud-upload-outline">预览</Button>
+                      </Upload>
                     </li>
                     <li class="mt50">
-                        <Button class="w100 ml50 pointener " id="upload"  @click="upload">上传</Button>
+                        <Button class="w100 ml50  " type="info" id="upload"  @click="upload">上传</Button>
                         <Button class="w100 ml50">取消</Button>
                     </li>
                 </ul>
@@ -58,32 +61,44 @@ export default {
   data () {
     return {
       model1: '',
-      namelist: null,
+      value1: '',
+      value2: '',
+      total: 0,
+      startRow: 1,
+      endRow: 10,
+      namelist: '',
+      loading: true,
       columns7: [
         {
           title: 'NO',
           align: 'center',
-          key: 'batch'
+          render: (h, params) => {
+            console.log(params)
+            return h('div', [
+              h('span', {
+              }, params.index+1)
+            ])
+          }
         },
         {
           title: '手机号',
           align: 'center',
-          key: 'pattern'
+          key: 'phone'
         },
         {
           title: '姓名',
           align: 'center',
-          key: 'time'
+          key: 'name'
         },
         {
           title: '备注',
           align: 'center',
-          key: 'pushnum'
+          key: 'memo'
         },
         {
           title: '创建时间',
           align: 'center',
-          key: 'successnum'
+          key: 'dataCreateTime'
         },
         {
           title: '编辑',
@@ -102,7 +117,8 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.remove(params.index)
+                    this.delete (params.row.blackCode)
+                    // this.remove(params.index)
                   }
                 }
               }, '删除')
@@ -110,73 +126,144 @@ export default {
           }
         }
       ],
-      data6: [
-        {
-          batch: '180601001',
-          pattern: '自动',
-          time: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000'
-        },
-        {
-          batch: '180601001',
-          pattern: '自动',
-          time: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
+    // 分页
     pageChange (page) {
-      this.params.page = page
+      this.startRow = page
+      this.inquire()
     },
-    PageSizeChange (limit) {
-      this.params.limit = limit
+    pagesizechange (page) {
+      this.endRow = page
+      this.inquire()
     },
-    rowClassName (row, index) {
-      if (index === 0) {
-        return 'demo-table-info-row'
-      }
-      return ''
-    },
-    remove (index) {
-      this.data6.splice(index, 1)
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
+      })
     },
     handleUpload (file) {
       this.namelist = file.name
-      document.getElementById('upload').classList.remove('pointener')
-      document.getElementById('upload').classList.add('ivu-btn-info')
+      console.log(file)
       return false
     },
-    // instancesuc (res, file) {
-    //   const title = '上传名单'
-    //   let content = '<p>上传成功</p>'
-    //   this.$Modal.success({
-    //     title: title,
-    //     content: content
-    //   })
-    // },
-    // instanceerr (file) {
-    //   const title = '上传名单'
-    //   let content = '<p>上传失败</p>'
-    //   this.$Modal.error({
-    //     title: title,
-    //     content: content
-    //   })
-    // },
+    // 上传格式校验
+    handleFormatError2 (file) {
+      this.value9 = ''
+      this.$Message.info("文件格式不正确,请上传excel格式文件")
+    },
+    // 上传文件
+    // 上传
     upload () {
-      setTimeout(() => {
-        this.file = null
-        const title = '上传名单'
-        let content = '<p>上传成功</p>'
+      if (this.namelist == '') {
+        this.changeLoading()
+        const title = '上传文件'
+        let content = '<p>请先上传文件</p>'
+        this.$Modal.warning({
+          title: title,
+          content: content
+        })
+        return false
+      } else {
+        let formData = new FormData();
+        formData.append('partyaCode', this.model4)
+        formData.append('filename', this.filename)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', formData, config)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            setTimeout(() => {
+            this.changeLoading()
+            const title = '上传名单'
+            let content = '<p>上传成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.value9 = ''
+          }, 1000)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+      }
+    },
+     // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    // 查询
+    inquire () {
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      }
+      let list = {
+        phone : this.model1,
+        beginTime : this.value1,
+        endTime  : this.value2,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/pushBlack/getPushBlackListBy', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.data6 = resp.data.pushBlackReqList
+          this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
+    },
+    // 删除
+    delete (code) {
+      let list = {
+        blackCode : code,
+        dataFlag :0
+      }
+      this.http.post(BASE_URL + '/loan/pushBlack/updatePushBlackByCode', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        const title = '删除'
+        let content = '<p>删除成功</p>'
         this.$Modal.success({
           title: title,
           content: content
         })
-      }, 1500)
+        this.inquire ()
+  
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
     }
+
+  },
+  mounted () {
+    this.inquire ()
   }
 }
 </script>
