@@ -296,10 +296,10 @@ export default {
         beginTime : this.value1,
         endTime : this.value2,
         partyaKey:this.jiakey,
-        pageNum: this.startRow,
+        pageNum: this.startRow == 0? 1: this.startRow,
         pageSize: this.endRow,
       }
-      // console.log(list)
+      console.log(list)
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
         if(data.code = 'success'){
           this.total = parseInt(data.data.total)
