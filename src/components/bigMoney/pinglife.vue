@@ -67,12 +67,12 @@ export default {
         }
       ],
       columns1: [
-        {
-          title: '渠道',
-          align: 'center',
-          width: 200,
-          key: 'channelName'
-        },
+        // {
+        //   title: '渠道',
+        //   align: 'center',
+        //   width: 200,
+        //   key: 'channelName'
+        // },
         {
           title: '姓名',
           align: 'center',
@@ -84,6 +84,12 @@ export default {
           align: 'center',
           width: 200,
           key: 'mobile'
+				},
+				{
+          title: '生日',
+          align: 'center',
+          width: 100,
+          key: 'birthday'
         },
         {
           title: '性别',
@@ -92,10 +98,10 @@ export default {
           key: 'sex'
         },
         {
-          title: '年龄',
+          title: '渠道名称',
           align: 'center',
           width: 100,
-          key: 'ageGroup'
+          key: 'channelName'
         },
         {
           title: '城市',
@@ -104,34 +110,40 @@ export default {
           key: 'city'
         },
         {
-          title: '房贷',
+          title: '创建时间',
           align: 'center',
           width: 100,
-          key: 'hasHouseLoan'
+          key: 'dataCreateTime'
         },
         {
-          title: '车',
+          title: '选择赠险产品',
           align: 'center',
           width: 100,
-          key: 'car'
+          key: 'insurance'
         },
         {
-          title: '车贷',
+          title: '来源',
           align: 'center',
           width: 150,
-          key: 'hasCarLoan'
+          key: 'origin'
         },
         {
-          title: '推送时间',
+          title: '保单号',
           align: 'center',
           width: 200,
-          key: 'pushTime'
+          key: 'policyNo'
         },
         {
-          title: '推送状态',
+          title: '省',
           align: 'center',
           width: 200,
-          key: 'pushStatus'
+          key: 'province'
+				},
+        {
+          title: '批次号',
+          align: 'center',
+          width: 200,
+          key: 'pushBatchNum'
         }
       ],
       data1: [
@@ -166,10 +178,10 @@ export default {
           if(data.code == 'success'){
             if(pushname == 'luohui'){
               console.log('luohui')
-              this.data1 = data.data.dkQjpuhuiList
+              this.data1 = data.data.zxLhpinganList
             } else if(pushname == 'kunxuan'){
                console.log('kunxuan')
-              this.data1 = data.data.dkKxpuhuiList
+              this.data1 = data.data.zxKxpinganList
             }else if(num == 1){
 							this.total = parseInt(data.data.total)
 							this.startRow = Math.ceil(data.data.startRow/this.endRow)
@@ -202,7 +214,7 @@ export default {
         pushStatus : this.model3,
         beginTime : this.value1,
         endTime : this.value2,
-        pageNum: this.startRow,
+        pageNum: this.startRow == 0 ? 1 : this.startRow,
         pageSize: this.endRow,
       }
       let pushname = this.$route.query.pushname

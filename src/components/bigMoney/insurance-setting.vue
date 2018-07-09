@@ -26,7 +26,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+          <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
         </div>
         <Modal
           title="上传文件"
@@ -43,11 +43,11 @@
            <ul>
             <li>
                 <span>甲方名称:</span>
-                <span>哈哈哈</span>
+                <span>{{jianame}}</span>
             </li>
             <li class="mt15">
                 <span>主体名称:</span>
-                <span>哈哈哈</span>
+                <span>{{zhuname}}</span>
             </li>
             <li class="mt15 clearfix">
                 <span class="left lh32">上传文件:</span>
@@ -55,16 +55,17 @@
             <Upload
             :before-upload="handleUpload"
             :show-upload-list="false"
-            action="//jsonplaceholder.typicode.com/posts/">
+            :format="['xlsx', 'xls']"
+            :on-format-error="handleFormatError2"
+            :max-size="12800"
+            action="/loan/batchLog/uploadFileExcel">
             <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
         </Upload>
             </li>
         </ul>
           </div>
           </Modal>
-        <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
-        </div>
+        
     </div>
 </template>
 <script>
@@ -173,7 +174,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './insuranceReport' })
+                    this.$router.push({ path: './pinglife?id='+params.row.batchCode+'&&pushname='+this.pushname1 })
                   }
                 }
               }, '详情')
@@ -188,6 +189,11 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      jiakey: '',
+      jianame: '',
+      zhuname: '',
+      filename2: '',
+      pushname1: ''
     }
   },
   methods: {
@@ -202,12 +208,6 @@ export default {
       this.registered()
     },
     handleReset() {},
-    pageChange (page) {
-      this.params.page = page
-    },
-    PageSizeChange (limit) {
-      this.params.limit = limit
-    },
     rowClassName (row, index) {
       if (index === 0) {
         return 'demo-table-info-row'
@@ -220,7 +220,7 @@ export default {
     upload () {
       if (this.value9 == '') {
         this.changeLoading()
-        const title = '上传报表'
+        const title = '上传文件'
         let content = '<p>请先上传文件</p>'
         this.$Modal.warning({
           title: title,
@@ -228,27 +228,49 @@ export default {
         })
         return false
       } else {
-        setTimeout(() => {
-          this.changeLoading()
-          const title = '上传名单'
-          let content = '<p>上传成功</p>'
-          this.$Modal.success({
-            title: title,
-            content: content
-          })
-          this.modal9 = false
-          this.value9 = ''
-        }, 1000)
+        let formData = new FormData();
+          formData.append('partyakey', this.jiakey);
+          formData.append('filename', this.filename2);
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel',formData,config).then(data=>{
+          console.log(data)
+          if(data.code == 'success'){
+            this.changeLoading()
+            const title = '上传名单'
+            let content = '<p>上传成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.value9 = ''
+          }
+        }).catch(err=> {
+          console.log(err)
+        })
+        // setTimeout(() => {
+        //  
+        // }, 1000)
       }
     },
     handleUpload (file) {
       this.value9 = file.name
+      this.filename2 = file
     },
     changeLoading () {
       this.loading = false
       this.$nextTick(() => {
         this.loading = true
       })
+    },
+    //文件格式判断
+    handleFormatError2(file) {
+      this.value9 = ''
+      this.$Message.info("文件格式不正确,请上传excel格式文件")
     },
     // 时间判断
     time1 (value, data) {
@@ -270,27 +292,93 @@ export default {
         return false
       };
       let list = {
+        fileName : this.model2,
         beginTime : this.value1,
         endTime : this.value2,
-        fileName : this.model2,
-        batchCode : this.model1
+        partyaKey:this.jiakey,
+        pageNum: this.startRow == 0? 1: this.startRow,
+        pageSize: this.endRow,
       }
       console.log(list)
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
+        if(data.code = 'success'){
+          this.total = parseInt(data.data.total)
+          this.startRow = Math.ceil(data.data.startRow/this.endRow)
+          this.data6 = data.data.batchLogList;
+        }
         console.log(data)
       }).catch(err=>{
         console.log(err)
       })
+    },
+    jname(pushname) {
+      if(pushname == 'luohui'){
+        this.pushname1 = 'luohui'
+        this.model1 = '络慧'
+        this.jiakey = 'zx-lhpingan'
+        this.jianame = '平安人寿'
+        this.zhuname = '络慧'
+        this.cityList = [{
+          value: '络慧',
+          label: '络慧'
+        }]
+      } else if(pushname == 'kunxuan'){
+        this.pushname1 = 'kunxuan'
+        this.model1 = '坤玄'
+        this.jiakey = 'zx-kxpingan'
+        this.jianame = '平安人寿'
+        this.zhuname = '坤玄'
+        this.cityList = [
+          {
+            value: '坤玄',
+            label: '坤玄'
+          }
+        ]
+      }
     }
+    
   },
   created() {
-    let list = {};
+    let pushname = this.$route.query.life
+    this.jname(pushname)
+    let list = {
+        partyaKey:this.jiakey,
+        pageNum: this.startRow,
+        pageSize: 20,
+    };
+    console.log(list)
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-      console.log(resp.data.batchLogList)
-      this.data6 = resp.data.batchLogList;
+      console.log(resp)
+      if(resp.code == 'success'){
+        this.data6 = resp.data.batchLogList;
+      }
     }).catch((err)=>{
-      // console.log(err)
+      console.log(err)
     })
+    // 列表初始化
+    // this.registered()
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    $route( to , from ){     
+      let pushname = this.$route.query.life
+      // console.log(pushname)
+      this.jname(pushname)
+      let list = {
+        partyaKey:this.jiakey,
+        pageNum: this.startRow,
+        pageSize: this.endRow,
+      };
+      this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
+        console.log(resp)
+        if(resp.code == 'success'){
+          this.data6 = resp.data.batchLogList;
+        }
+      }).catch((err)=>{
+        console.log(err)
+      });
+      // 详情列表
+    }
   }
 }
 </script>
