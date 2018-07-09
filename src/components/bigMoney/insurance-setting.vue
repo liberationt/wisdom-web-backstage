@@ -122,8 +122,9 @@ export default {
         {
           title: '上传失败详情',
           align: 'center',
-          key: 'failNum',
+          key: 'uploadFailUrl',
           render: (h, params) => {
+            // console.log(params.row.uploadFailUrl)
             return h('div', [
               h('Button', {
                 props: {
@@ -135,7 +136,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './insuranceReport' })
+                    this.$router.push({ path: params.row.uploadFailUrl })
                   }
                 }
               }, '下载')
@@ -229,7 +230,7 @@ export default {
         return false
       } else {
         let formData = new FormData();
-          formData.append('partyakey', this.jiakey);
+          formData.append('partyaKey', this.jiakey);
           formData.append('filename', this.filename2);
         let config = {
           headers: {
@@ -248,13 +249,20 @@ export default {
             })
             this.modal9 = false
             this.value9 = ''
+          } else {
+            this.changeLoading()
+            const title = '上传文件'
+            let content = '<p>上传失败</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.value9 = ''
           }
         }).catch(err=> {
           console.log(err)
         })
-        // setTimeout(() => {
-        //  
-        // }, 1000)
       }
     },
     handleUpload (file) {
@@ -306,6 +314,9 @@ export default {
           this.startRow = Math.ceil(data.data.startRow/this.endRow)
           this.data6 = data.data.batchLogList;
         }
+        if(parseInt(data.data.total) == '0') {
+          this.startRow = 1
+        }
         console.log(data)
       }).catch(err=>{
         console.log(err)
@@ -315,7 +326,7 @@ export default {
       if(pushname == 'luohui'){
         this.pushname1 = 'luohui'
         this.model1 = '络慧'
-        this.jiakey = 'zx-lhpingan'
+        this.jiakey = 'partya-luohui-pinganzx'
         this.jianame = '平安人寿'
         this.zhuname = '络慧'
         this.cityList = [{
@@ -325,7 +336,7 @@ export default {
       } else if(pushname == 'kunxuan'){
         this.pushname1 = 'kunxuan'
         this.model1 = '坤玄'
-        this.jiakey = 'zx-kxpingan'
+        this.jiakey = 'partya-kunxuan-pinganzx'
         this.jianame = '平安人寿'
         this.zhuname = '坤玄'
         this.cityList = [
@@ -335,8 +346,7 @@ export default {
           }
         ]
       }
-    }
-    
+    } 
   },
   created() {
     let pushname = this.$route.query.life
@@ -344,13 +354,15 @@ export default {
     let list = {
         partyaKey:this.jiakey,
         pageNum: this.startRow,
-        pageSize: 20,
+        pageSize: this.endRow,
     };
     console.log(list)
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
       console.log(resp)
       if(resp.code == 'success'){
         this.data6 = resp.data.batchLogList;
+        this.total = parseInt(resp.data.total) 
+        
       }
     }).catch((err)=>{
       console.log(err)
@@ -373,6 +385,7 @@ export default {
         console.log(resp)
         if(resp.code == 'success'){
           this.data6 = resp.data.batchLogList;
+          this.total = parseInt(resp.data.total) 
         }
       }).catch((err)=>{
         console.log(err)

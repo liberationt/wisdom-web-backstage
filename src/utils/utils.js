@@ -38,6 +38,23 @@ export function getlocal (key) {
   if (!tem) return null
   return JSON.parse(tem)
 }
+/**
+ * use_iframe_download function - 通过 iframe 下载文件
+ *
+ * @param  {String} download_path 需下载文件的链接
+ * @return {Void}
+ */
+export const use_iframe_download = download_path => {
+  const $iframe = document.createElement('iframe')
+
+  $iframe.style.height = '0px'
+  $iframe.style.width = '0px'
+  document.body.appendChild($iframe)
+  $iframe.setAttribute('src', download_path)
+
+  setTimeout(function () { $iframe.remove() }, 20000)
+}
+
 export default {
   getCookie,
   setCookie,

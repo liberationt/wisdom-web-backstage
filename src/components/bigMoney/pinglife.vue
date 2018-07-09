@@ -40,6 +40,7 @@
     </div>
 </template>
 <script>
+// import  {utils} from '@/utils'
 export default {
   data () {
     return {
@@ -177,15 +178,17 @@ export default {
 				 console.log(data)
           if(data.code == 'success'){
             if(pushname == 'luohui'){
-              console.log('luohui')
+							console.log('luohui')
               this.data1 = data.data.zxLhpinganList
             } else if(pushname == 'kunxuan'){
                console.log('kunxuan')
               this.data1 = data.data.zxKxpinganList
-            }else if(num == 1){
+            } else if(num == 1){
 							this.total = parseInt(data.data.total)
 							this.startRow = Math.ceil(data.data.startRow/this.endRow)
 						}
+						this.total = parseInt(data.data.total) 
+
           }
        }).catch(err=>{
          console.log(err)
@@ -216,7 +219,7 @@ export default {
         endTime : this.value2,
         pageNum: this.startRow == 0 ? 1 : this.startRow,
         pageSize: this.endRow,
-      }
+			}
       let pushname = this.$route.query.pushname
       if(pushname == 'luohui'){
         	console.log('luohui')
@@ -225,10 +228,17 @@ export default {
         	console.log('kunxuan')
         	this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
         }
-    },
+		},
     // 导出
     exports () {
-      window.open(BASE_URL + '/loan/dwqUser/export?step='+1)
+			let pushname = this.$route.query.pushname
+			if(pushname == 'luohui'){
+				console.log('luohui')
+        window.open(BASE_URL + '/loan/zxLhpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
+			} else if(pushname == 'kunxuan'){
+				console.log('kunxuan')
+        window.open(BASE_URL + '/loan/zxKxpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
+			}
     },
     
   },
@@ -237,13 +247,13 @@ export default {
     let list = {
       pushBatchNum: this.$route.query.id,
     }
-     if(pushname == 'luohui'){
-				console.log('luohui')
-				this.post('/loan/zxLhpingan/getZxLhpinganList',list,pushname)
-				} else if(pushname == 'kunxuan'){
-				console.log('kunxuan')
-				this.post('/loan/zxKxpingan/getZxKxpinganList',list,pushname)
-			}
+		if(pushname == 'luohui'){
+			console.log('luohui')
+			this.post('/loan/zxLhpingan/getZxLhpinganList',list,pushname)
+			} else if(pushname == 'kunxuan'){
+			console.log('kunxuan')
+			this.post('/loan/zxKxpingan/getZxKxpinganList',list,pushname)
+		}
   }
 }
 </script>

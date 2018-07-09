@@ -135,7 +135,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './insuranceReport' })
+                    this.$router.push({ path: params.row.uploadFailUrl })
                   }
                 }
               }, '下载')
@@ -272,8 +272,18 @@ export default {
           console.log(data)
           if(data.code == 'success'){
             this.changeLoading()
-            const title = '上传名单'
+            const title = '上传文件'
             let content = '<p>上传成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.value9 = ''
+          } else {
+             this.changeLoading()
+            const title = '上传文件'
+            let content = '<p>上传失败</p>'
             this.$Modal.success({
               title: title,
               content: content
@@ -304,7 +314,7 @@ export default {
         this.model1 = '卿见'
         this.zhuname = '卿见'
         this.pushname1 = 'qingjian'
-        this.batchKey = 'dk-pingan-qjpuhui'
+        this.batchKey = 'partya-qingjian-pinganpuhui'
         this.cityList = [{
           value: '卿见',
           label: '卿见'
@@ -313,7 +323,7 @@ export default {
         this.model1 = '保街'
         this.zhuname = '保街'
         this.pushname1 = 'baojie'
-        this.batchKey = 'dk-pingan-bjpuhui'
+        this.batchKey = 'partya-baojie-pinganpuhui'
         this.cityList = [{
           value: '保街',
           label: '保街'
@@ -322,7 +332,7 @@ export default {
         this.model1 = '本祥'
         this.zhuname = '本祥'
         this.pushname1 = 'benxiang'
-        this.batchKey = 'dk-pingan-bxpuhui'
+        this.batchKey = 'partya-benxiang-pinganpuhui'
         this.cityList = [{
           value: '本祥',
           label: '本祥'
@@ -331,7 +341,7 @@ export default {
         this.model1 = '坤玄'
         this.zhuname = '坤玄'
         this.pushname1 = 'kunxuan'
-        this.batchKey = 'dk-pingan-kxpuhui'
+        this.batchKey = 'partya-kunxuan-pinganpuhui'
         this.cityList = [{
           value: '坤玄',
           label: '坤玄'
@@ -370,11 +380,14 @@ export default {
         pageSize: this.endRow,
       }
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
-        console.log(data)
+        console.log(parseInt(data.data.total))
         if(data.code = 'success'){
           this.total = parseInt(data.data.total)
           this.startRow = Math.ceil(data.data.startRow/this.endRow)
           this.data6 = data.data.batchLogList;
+        }
+        if(parseInt(data.data.total) == '0') {
+          this.startRow = 1
         }
       }).catch(err=>{
         console.log(err)
@@ -407,8 +420,6 @@ export default {
       // console.log(resp)
       console.log(resp.data.startRow)
       if(resp.code == 'success'){
-          this.total = parseInt(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
           this.data6 = resp.data.batchLogList;
       }
     }).catch((err)=>{
@@ -426,8 +437,6 @@ export default {
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
         console.log(resp)
         if(resp.code == 'success'){
-          this.total = parseInt(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
           this.data6 = resp.data.batchLogList;
         }
       }).catch((err)=>{

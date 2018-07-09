@@ -61,7 +61,7 @@ import peaceBenefit from '@/components/bigMoney/peace-benefit' // 平安普惠 �
 import insuranceSetting from '@/components/bigMoney/insurance-setting' // 坤玄
 import insuranceReport from '@/components/bigMoney/insurance-report' // 平安普惠详情
 import pinglife from '@/components/bigMoney/pinglife' // 平安人寿详情
-import channelManagement from '@/components/bigMoney/channel-management'
+import channelManagement from '@/components/bigMoney/channel-management' // 渠道列表
 import channelLabelsz from '@/components/bigMoney/channel-labelsz'
 import channelCategory from '@/components/bigMoney/channel-category'
 import partyManagement from '@/components/bigMoney/party-management'
