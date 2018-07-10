@@ -18,14 +18,9 @@ import '../static/UE/ueditor.parse.min.js'
 Vue.config.productionTip = false
 
 // 设置接口全局变量
-global.BASE_URL = ''
-if (process.env.NODE_ENV !== 'testing') {
-  global.BASE_URL = 'http://192.168.1.85:3330'
-} else {
-  global.BASE_URL = ''
-}
+global.BASE_URL = process.env.API_HOST
 // 同步vuex和本地菜单数据
-if (!store.state.menu || Object.keys(store.state.menu).length === 0) {
+if (!store.state.menu || Object.keys(store.state.menu).length == 0) {
   // 从sessionStorage中读取状态
   store.state.menu = JSON.parse(utils.getlocal('userInfo'))
 }
@@ -35,6 +30,8 @@ if (!store.state.menu || Object.keys(store.state.menu).length === 0) {
 // }
 if (utils.getlocal('lefthidden')) {
   store.state.hidden = utils.getlocal('lefthidden')
+} else {
+  store.state.hidden = false
 }
 Vue.use(VueRouter)
 Vue.use(iView)
@@ -46,18 +43,18 @@ const router = new VueRouter({
   routes
 })
 router.beforeEach((to, from, next) => {
-  if(to.matched.some( m => m.meta.auth)){
+  if (to.matched.some( m => m.meta.auth)) {
     // 对路由进行验证
-    if(utils.getCookie('user')) { // 已经登陆
+    if (utils.getCookie('user')) { // 已经登陆
       iView.LoadingBar.start()
       next()
-    }else{
+    } else {
       // 未登录,跳转到登陆页面。
-      next({path:'/',query:{ referrer: '/'} })
+      next({ path: '/', query:{ referrer: '/' }})
     }
   } else {
-  iView.LoadingBar.start()
-  next()
+    iView.LoadingBar.start()
+    next()
   }
 })
 

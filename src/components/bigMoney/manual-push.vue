@@ -8,7 +8,7 @@
 		<div class="mt50">
 			<span>甲方名称:</span>
 			<Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
-				<Option v-for="item in cityList" :value="item.partyaCode " :key="item.partyaCode ">{{ item.partyaName }}</Option>
+				<Option v-for="item in cityList" :value="item.partyaKey " :key="item.partyaKey ">{{ item.partyaName }}</Option>
 			</Select>
 			<span>文件名称:</span>
 			<Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
@@ -32,7 +32,7 @@
 				<Form ref="formCustom" :label-width="80">
 					<FormItem label="甲方名称:">
 						<Select v-model="model4" style="width:300px" class="mr20">
-							<Option v-for="item in cityListmode" :value="item.partyaCode" :key="item.partyaCode">{{ item.partyaName }}</Option>
+							<Option v-for="item in cityListmode" :value="item.partyaKey" :key="item.partyaKey">{{ item.partyaName }}</Option>
 						</Select>
 					</FormItem>
 					<FormItem label="上传文件:">
@@ -168,7 +168,7 @@
 									on: {
 										click: () => {
 											this.$router.push({
-												path: './pushDetail'
+												path: './pushDetail?code='+params.row.partyaKey
 											})
 										}
 									}
@@ -217,7 +217,7 @@
 					return false
 				} else {
 					let formData = new FormData();
-					formData.append('partyaCode', this.model4)
+					formData.append('partyaKey', this.model4)
 					formData.append('filename', this.filename)
 					let config = {
 						headers: {
@@ -260,6 +260,7 @@
 				console.log(file)
 				this.value9 = file.name
 				this.filename = file
+				return false
 			},
 			changeLoading() {
 				this.loading = false
@@ -307,17 +308,12 @@
 			}
 		},
 		mounted() {
-
 			// 甲方名称
-			let partyname = {
-				pageSize: 1000,
-				sendType: 1
-			}
-			this.http.post(BASE_URL + '/loan/partya/getPartyaList', partyname)
+			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'2,3')
 				.then((resp) => {
 					if(resp.code == 'success') {
-						this.cityList = resp.data.partyaList
-						this.cityListmode = resp.data.partyaList
+						this.cityList = resp.data
+						this.cityListmode = resp.data
 					} else {
 
 					}
