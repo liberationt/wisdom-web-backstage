@@ -136,7 +136,6 @@ export default {
           width: 200,
           align: 'center',
           render: (h, params) => {
-            console.log(params)
             let type = 'success'
             let status
             if (params.row.status == '1') {

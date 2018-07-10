@@ -159,21 +159,20 @@ export default {
                 title: title,
                 content: content
               })
+              this.$refs[name].resetFields()
+               this.changeLoading()
+               this.modal9 = false
               this.inquire ()
             } else {
-
+              this.changeLoading()
+               this.modal9 = true
+              this.$Message.error(resp.message)
             }
           })
           .catch(() => {
           })
           // this.$Message.error('Success!')
         }
-        setTimeout(() => {
-          this.changeLoading()
-          this.modal9 = false
-          // this.formCustom.name = ''
-          this.$Message.success('done')
-        }, 1000)
       })
     },
     handleReset (name) {

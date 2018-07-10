@@ -124,7 +124,6 @@ export default {
           align: 'center',
           key: 'uploadFailUrl',
           render: (h, params) => {
-            // console.log(params.row.uploadFailUrl)
             return h('div', [
               h('Button', {
                 props: {
@@ -200,7 +199,6 @@ export default {
   methods: {
     // 分页
     pageChange (page) {
-      console.log(page)
       this.startRow = page
       this.registered()
     },
@@ -238,7 +236,6 @@ export default {
           }
         }
         this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel',formData,config).then(data=>{
-          console.log(data)
           if(data.code == 'success'){
             this.changeLoading()
             const title = '上传名单'
@@ -289,7 +286,6 @@ export default {
     },
     // 查询
     registered() {
-      // console.log(this.value9)
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -307,7 +303,6 @@ export default {
         pageNum: this.startRow == 0? 1: this.startRow,
         pageSize: this.endRow,
       }
-      console.log(list)
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
         if(data.code = 'success'){
           this.total = parseInt(data.data.total)
@@ -317,7 +312,6 @@ export default {
         if(parseInt(data.data.total) == '0') {
           this.startRow = 1
         }
-        console.log(data)
       }).catch(err=>{
         console.log(err)
       })
@@ -356,9 +350,7 @@ export default {
         pageNum: this.startRow,
         pageSize: this.endRow,
     };
-    console.log(list)
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-      console.log(resp)
       if(resp.code == 'success'){
         this.data6 = resp.data.batchLogList;
         this.total = parseInt(resp.data.total) 
@@ -374,7 +366,6 @@ export default {
     // 如果路由有变化，会再次执行该方法
     $route( to , from ){     
       let pushname = this.$route.query.life
-      // console.log(pushname)
       this.jname(pushname)
       let list = {
         partyaKey:this.jiakey,
@@ -382,7 +373,6 @@ export default {
         pageSize: this.endRow,
       };
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-        console.log(resp)
         if(resp.code == 'success'){
           this.data6 = resp.data.batchLogList;
           this.total = parseInt(resp.data.total) 

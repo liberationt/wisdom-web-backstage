@@ -144,21 +144,21 @@ export default {
             if (params.row.fieldName == '居住城市') {
               configureValues = [
                 params.row.configureValues,
-                h('Button', {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px',
-                    marginLeft: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.refuse()
-                    }
-                  }
-                }, '选择城市')
+                // h('Button', {
+                //   props: {
+                //     type: 'primary',
+                //     size: 'small'
+                //   },
+                //   style: {
+                //     marginRight: '5px',
+                //     marginLeft: '5px'
+                //   },
+                //   on: {
+                //     click: () => {
+                //       this.refuse()
+                //     }
+                //   }
+                // }, '选择城市')
               ]
             } else {
               configureValues = params.row.configureValues
@@ -212,7 +212,6 @@ export default {
   methods: {
     // 保存
     preservation () {
-console.log(this.time2)
       let sendType
       let status
       let list = {}

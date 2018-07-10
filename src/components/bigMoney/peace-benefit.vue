@@ -25,7 +25,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
         </div>
         <Modal
           title="上传文件"
@@ -222,13 +222,12 @@ export default {
   methods: {
     // 分页
     pageChange (page) {
-      console.log(page)
       this.startRow = page
-      this.registered()
+      this.registered ()
     },
     pagesizechange (page) {
       this.endRow = page
-      this.registered()
+      this.registered ()
     },
     rowClassName (row, index) {
       if (index === 0) {
@@ -259,7 +258,6 @@ export default {
         }else if(this.zhuname ==  '坤玄'){
           this.batchKey = 'dk-pingan-kxpuhui'
         }
-        console.log(this.batchKey)
         let formData = new FormData();
           formData.append('partyaKey', this.batchKey);
           formData.append('filename', this.filename2);
@@ -269,7 +267,6 @@ export default {
           }
         }
         this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel',formData,config).then(data=>{
-          console.log(data)
           if(data.code == 'success'){
             this.changeLoading()
             const title = '上传文件'
@@ -361,7 +358,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    registered() {
+    registered () {
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -380,9 +377,8 @@ export default {
         pageSize: this.endRow,
       }
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
-        console.log(parseInt(data.data.total))
         if(data.code = 'success'){
-          this.total = parseInt(data.data.total)
+          this.total = Number(data.data.total)
           this.startRow = Math.ceil(data.data.startRow/this.endRow)
           this.data6 = data.data.batchLogList;
         }
@@ -412,15 +408,14 @@ export default {
   created() {
     let pushname = this.$route.query.pushname
     this.jname(pushname)
-    // console.log(this.batchKey)
     let list = {
       partyaKey:this.batchKey,
     };
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-      // console.log(resp)
-      console.log(resp.data.startRow)
       if(resp.code == 'success'){
           this.data6 = resp.data.batchLogList;
+          this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
       }
     }).catch((err)=>{
       console.log(err)
@@ -428,16 +423,17 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    $route( to , from ){     
+    $route( to , from ){
       let pushname = this.$route.query.pushname
       this.jname(pushname)
         let list = {
         partyaKey:this.batchKey,
       };
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
-        console.log(resp)
         if(resp.code == 'success'){
           this.data6 = resp.data.batchLogList;
+          this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
         }
       }).catch((err)=>{
         console.log(err)

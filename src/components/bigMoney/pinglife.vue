@@ -165,7 +165,6 @@ export default {
     },
     // 分页
     pageChange (page) {
-      console.log(page)
       this.startRow = page
       this.registered()
     },
@@ -175,13 +174,10 @@ export default {
     },
     post(url,list,pushname,num) {
        this.http.post(BASE_URL + url,list).then(data=>{
-				 console.log(data)
           if(data.code == 'success'){
             if(pushname == 'luohui'){
-							console.log('luohui')
               this.data1 = data.data.zxLhpinganList
             } else if(pushname == 'kunxuan'){
-               console.log('kunxuan')
               this.data1 = data.data.zxKxpinganList
             } else if(num == 1){
 							this.total = parseInt(data.data.total)
@@ -222,10 +218,8 @@ export default {
 			}
       let pushname = this.$route.query.pushname
       if(pushname == 'luohui'){
-        	console.log('luohui')
 					this.post('/loan/zxLhpingan/getZxLhpinganList',params,pushname,1)
         } else if(pushname == 'kunxuan'){
-        	console.log('kunxuan')
         	this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
         }
 		},
@@ -233,10 +227,8 @@ export default {
     exports () {
 			let pushname = this.$route.query.pushname
 			if(pushname == 'luohui'){
-				console.log('luohui')
         window.open(BASE_URL + '/loan/zxLhpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
 			} else if(pushname == 'kunxuan'){
-				console.log('kunxuan')
         window.open(BASE_URL + '/loan/zxKxpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
 			}
     },
@@ -248,10 +240,8 @@ export default {
       pushBatchNum: this.$route.query.id,
     }
 		if(pushname == 'luohui'){
-			console.log('luohui')
 			this.post('/loan/zxLhpingan/getZxLhpinganList',list,pushname)
 			} else if(pushname == 'kunxuan'){
-			console.log('kunxuan')
 			this.post('/loan/zxKxpingan/getZxKxpinganList',list,pushname)
 		}
   }

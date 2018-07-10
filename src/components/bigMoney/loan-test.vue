@@ -199,7 +199,6 @@ export default {
           align: 'center',
           key: 'logoUrl',
           render: (h, params) => {
-            console.log(params.row.logoUrl)
             return h('div', [
               h('img', {
                 attrs: {
@@ -243,7 +242,6 @@ export default {
           title: '贷款额度',
           align: 'center',
           render: (h, params) => {
-            console.log(params)
             let money = params.row.startMoney+'-'+params.row.endMoney
             return h('div', [
               h('span', {
@@ -289,7 +287,6 @@ export default {
           align: 'center',
           width: 280,
           render: (h, params) => {
-            console.log(params)
             let type = 'success'
             let onshelf           
             if (params.row.status == 0) {
@@ -479,7 +476,6 @@ export default {
       let objectlist = this.data6[index]
       this.data6.splice(index, 1)
       this.data6.splice(num, 0, objectlist)
-      // console.log(this.data6[index])
     },
     onshelf (index) {
       let num = index - 1
@@ -522,7 +518,7 @@ export default {
         })
         this.modal9 = true
         this.hid = 1
-      } else {
+      } else {        
         this.hid = 0
         this.modal9 = true
       }
@@ -590,6 +586,7 @@ export default {
                   this.modal9 = false
                   this.inquire()
                 }, 1000)
+                this.$refs[name].resetFields()
                 } else {
                   setTimeout(() => {
                   this.changeLoading()
@@ -612,6 +609,7 @@ export default {
                     content: content
                   })
                   this.modal9 = false
+                this.$refs[name].resetFields()                  
                   this.inquire()
                 }, 1000)
                 } else {
@@ -634,7 +632,6 @@ export default {
       this.inquire()
     },
     pagesizechange (page) {
-      console.log(page)
       this.endRow = page
       this.inquire()
     },

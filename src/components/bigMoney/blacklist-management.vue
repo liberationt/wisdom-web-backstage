@@ -66,14 +66,14 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      filename: '',
       namelist: '',
       loading: true,
       columns7: [
         {
           title: 'NO',
           align: 'center',
-          render: (h, params) => {
-            console.log(params)
+          render: (h, params) => {          
             return h('div', [
               h('span', {
               }, params.index+1)
@@ -147,7 +147,7 @@ export default {
     },
     handleUpload (file) {
       this.namelist = file.name
-      console.log(file)
+      this.filename = file
       return false
     },
     // 上传格式校验
@@ -169,14 +169,14 @@ export default {
         return false
       } else {
         let formData = new FormData();
-        formData.append('partyaCode', this.model4)
+        // formData.append('partyaCode', this.model4)
         formData.append('filename', this.filename)
         let config = {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
         }
-        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', formData, config)
+        this.http.post(BASE_URL + '/loan/pushBlack/uploadFileExcel', formData, config)
         .then((resp) => {
           if (resp.code == 'success') {
             setTimeout(() => {

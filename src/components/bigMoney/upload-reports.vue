@@ -64,7 +64,6 @@ export default {
   methods: {
     handleUpload (file) {
       this.value9 = file.name
-      console.log(this.file)
     }
   }
 }

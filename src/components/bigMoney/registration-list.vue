@@ -22,19 +22,17 @@
                 <Option v-for="item in cityList" :value="item.channelCode" :key="item.channelCode">{{ item.channelName }}</Option>
             </Select>
             <span>供应商:</span>
-            <Select v-model="model2" placeholder="全部" style="width:200px" class="mr20">
+            <Select v-model="model2" placeholder="全部" style="width:200px" class="">
                 <Option v-for="item in cityList2" :value="item.supplierCode" :key="item.supplierCode">{{ item.supplierName }}</Option>
             </Select>
+            <span class="w100 displayib mt15 tr">注册时间:</span>
+            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span>  -  </span>
+            <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <span>步骤:</span>
             <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <br>
-
-            <span class="w100 displayib mt15 tr">注册时间:</span>
-            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr20 mt20">
                 <Button class="right w100" type="primary" @click="exports">导出</Button>
                 <Button class="right mr20 w100" type="info" @click="registered">查询</Button>

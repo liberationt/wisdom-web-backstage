@@ -257,7 +257,6 @@
 			},
 			// 选择文件后回调
 			handleUpload(file) {
-				console.log(file)
 				this.value9 = file.name
 				this.filename = file
 				return false
@@ -309,7 +308,7 @@
 		},
 		mounted() {
 			// 甲方名称
-			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'2,3')
+			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'1,3')
 				.then((resp) => {
 					if(resp.code == 'success') {
 						this.cityList = resp.data

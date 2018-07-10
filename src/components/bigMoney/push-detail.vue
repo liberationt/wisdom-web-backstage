@@ -26,13 +26,13 @@
             </Select> -->
             
             <div class="clearfix mr100 mt20">
-                <Button class="right w100" type="primary">导出</Button>
+                <Button class="right w100" type="primary" @click="exports">导出</Button>
                 <Button class="right mr20 w100" type="info" @click="inquire">查询</Button>
             </div>
         </div>
 
         <div class="mt20">
-            <Table :columns="columns1" :data="data1"></Table>
+            <Table :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
@@ -88,16 +88,6 @@ export default {
           label: '推送失败'
         }
       ],
-      // cityList3: [
-      //   {
-      //     value: '1',
-      //     label: '自动'
-      //   },
-      //   {
-      //     value: '2',
-      //     label: '手动'
-      //   }
-      // ],
       cityList4: [
         {
           value: '1',
@@ -108,234 +98,652 @@ export default {
           label: '2'
         }
       ],
+      party1: [],
+      // 车抵贷
       columns1: [
-        {
-          title: 'NO',
-          align: 'center',
-          width: 100,
-          key: 'no'
-        },
-        {
-          title: 'UID',
-          align: 'center',
-          width: 100,
-          key: 'did'
-        },
-        {
-          title: '甲方',
-          align: 'center',
-          width: 100,
-          key: 'media'
-        },
-        {
-          title: '推送主体',
-          align: 'center',
-          width: 100,
-          key: 'type'
-        },
-        {
-          title: '注册时间',
-          align: 'center',
-          width: 100,
-          key: 'time'
-        },
-        {
-          title: '渠道',
-          align: 'center',
-          width: 100,
-          key: 'channel'
-        },
-        {
-          title: 'step',
-          align: 'center',
-          width: 100,
-          key: 'step'
-        },
         {
           title: '姓名',
           align: 'center',
-          width: 100,
           key: 'name'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          width: 100,
-          key: 'phone'
-        },
-        {
-          title: '生日',
-          align: 'center',
-          width: 100,
-          key: 'birthday'
         },
         {
           title: '性别',
           align: 'center',
-          width: 100,
           key: 'sex'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'mobile'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '借款产品类型',
+          align: 'center',
+          key: 'gender',
+          render: (h, params) => {
+            let borrowType 
+            if (params.row.borrowType == '0') {
+              borrowType = '车抵贷'
+            }
+							return h('div', [
+								h('span', {}, borrowType)
+							])
+						}
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '上牌时间',
+          align: 'center',
+          key: 'licensTime'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '裸车价',
+          align: 'center',
+          key: 'price'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        },
+        {
+          title: '返回信息',
+          align: 'center',
+          key: 'message'
+        },
+        {
+          title: '备注',
+          align: 'center',
+          key: 'memo'
+        }
+      ],
+      // 凡普
+      columns2: [
+        {
+          title: '名称',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '性别',
+          align: 'center',
+          key: 'sex'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'mobile'
         },
         {
           title: '年龄',
           align: 'center',
-          width: 100,
           key: 'age'
         },
         {
           title: '城市',
           align: 'center',
-          width: 100,
           key: 'city'
         },
         {
-          title: 'M城市',
+          title: '推送批次号',
           align: 'center',
-          width: 100,
-          key: 'mcity'
+          key: 'pushBatchNum'
         },
         {
-          title: '借贷金额',
+          title: '开始时间',
           align: 'center',
-          width: 100,
-          key: 'toloan'
+          key: 'beginTime'
         },
         {
-          title: '社保',
+          title: '结束时间',
           align: 'center',
-          width: 100,
-          key: 'social'
+          key: 'endTime'
         },
         {
-          title: '公积金',
+          title: '推送状态',
           align: 'center',
-          width: 100,
-          key: 'accumulation'
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
         },
         {
-          title: '房',
+          title: '错误描述',
           align: 'center',
-          width: 100,
-          key: 'room'
-        },
-        {
-          title: '房贷',
-          align: 'center',
-          width: 100,
-          key: 'roomloan'
-        },
-        {
-          title: '车',
-          align: 'center',
-          width: 100,
-          key: 'car'
-        },
-        {
-          title: '车贷',
-          align: 'center',
-          width: 100,
-          key: 'carloan'
-        },
-        {
-          title: '寿险保单',
-          align: 'center',
-          width: 100,
-          key: 'insurance'
-        },
-        {
-          title: '微粒贷',
-          align: 'center',
-          width: 100,
-          key: 'tiny'
-        },
-        {
-          title: 'IP',
-          align: 'center',
-          width: 100,
-          key: 'ip'
-        },
-        {
-          title: '推送时间',
-          align: 'center',
-          width: 100,
-          key: 'pushtime'
-        },
-        {
-          title: '推送时间',
-          align: 'center',
-          width: 100,
-          key: 'pushtype'
-        },
-        {
-          title: '失败原因',
-          align: 'center',
-          width: 100,
-          key: 'errreason'
+          key: 'errorMessage'
         }
       ],
-      data1: [
+      // 秒贷
+      columns3: [
         {
-          no: '1',
-          did: '1',
-          media: '1',
-          type: '1',
-          time: '1',
-          channel: '1',
-          step: '1',
-          name: '1',
-          phone: '1',
-          birthday: '1',
-          city: '1',
-          sex: '1',
-          age: '1',
-          mcity: '1',
-          toloan: '1',
-          social: '1',
-          accumulation: '1',
-          roomloan: '1',
-          room: '1',
-          car: '1',
-          carloan: '1',
-          insurance: '1',
-          tiny: '1',
-          ip: '1',
-          pushtime: '1',
-          pushtype: '1',
-          errreason: '哈哈哈'
-
+          title: '名称',
+          align: 'center',
+          key: 'name'
         },
         {
-          no: '11',
-          did: '11',
-          media: '11',
-          type: '11',
-          time: '11',
-          channel: '11',
-          step: '11',
-          name: '11',
-          phone: '11',
-          birthday: '11',
-          city: '11',
-          sex: '11',
-          age: '11',
-          mcity: '11',
-          toloan: '11',
-          social: '11',
-          accumulation: '11',
-          roomloan: '11',
-          room: '11',
-          car: '11',
-          carloan: '11',
-          insurance: '11',
-          tiny: '11',
-          ip: '11',
-          pushtime: '1',
-          pushtype: '1',
-          errreason: '哈哈哈'
+          title: '电话',
+          align: 'center',
+          key: 'cellphone'
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        },
+        {
+          title: '备注',
+          align: 'center',
+          key: 'memo'
         }
-      ]
+      ],
+      // 厚本
+      columns4: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'phone'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '出生年月',
+          align: 'center',
+          key: 'birthday'
+        },
+        {
+          title: '证件号码',
+          align: 'center',
+          key: 'cardNo'
+        },
+        {
+          title: '证件类型',
+          align: 'center',
+          render: (h, params) => {
+            let cardType
+            if (params.row.cardType == '01') {
+              cardType = '身份证'
+            } else if (params.row.cardType == '02') {
+              cardType = '驾驶证'
+            } else if (params.row.cardType == '03') {
+              cardType = '护照'
+            } else if (params.row.cardType == '04') {
+              cardType = '军人证'
+            } else if (params.row.cardType == '05') {
+              cardType = '其它'
+            }
+							return h('div', [
+								h('span', {}, cardType)
+							])
+						}
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        },
+        {
+          title: '处理返回码',
+          align: 'center',
+          key: 'returnCode'
+        },
+        {
+          title: '失败返回的错误信息',
+          align: 'center',
+          key: 'returnMsg'
+        },
+        {
+          title: '备注',
+          align: 'center',
+          key: 'memo'
+        }
+      ],
+      // 助贷
+      columns5: [
+        {
+          title: '客户姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '客户手机号',
+          align: 'center',
+          key: 'mobile'
+        },
+        {
+          title: '性别',
+          align: 'center',
+          key: 'sex'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '渠道名称',
+          align: 'center',
+          key: 'channelName'
+        },
+        {
+          title: '供应商名称',
+          align: 'center',
+          key: 'supplierName'
+        },
+        {
+          title: '省',
+          align: 'center',
+          key: 'province'
+        },
+        {
+          title: '市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '贷款额度',
+          align: 'center',
+          key: 'money'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        },
+        {
+          title: '备注',
+          align: 'center',
+          key: 'memo'
+        }
+      ],
+      // 速易贷
+      columns6: [
+        {
+          title: '名称',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'phone'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '贷款金额(万)',
+          align: 'center',
+          key: 'loanAmount'
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '注册时间',
+          align: 'center',
+          key: 'registrationTime'
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        }
+      ],
+      // 银谷
+      columns7: [
+        {
+          title: '客户姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '客户手机号',
+          align: 'center',
+          key: 'phone'
+        },
+        {
+          title: '客户所在城市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '身份证号',
+          align: 'center',
+          key: 'idcard'
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '收入',
+          align: 'center',
+          key: 'salary'
+        },
+        {
+          title: '贷款',
+          align: 'center',
+          key: 'loan'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '是否有车',
+          align: 'center',
+          render: (h, params) => {
+            let car
+            if (params.row.car == '0') {
+              car = '没有'
+            } else if (params.row.car == '1') {
+              car = '有'
+            }
+            return h('div', [
+              h('span', {}, car)
+            ])
+						}
+        },
+        {
+          title: '是否有保单',
+          align: 'center',
+          render: (h, params) => {
+            let warranty
+            if (params.row.warranty == '0') {
+              warranty = '没有'
+            } else if (params.row.warranty == '1') {
+              warranty = '有'
+            }
+            return h('div', [
+              h('span', {}, warranty)
+            ])
+						}
+        },
+        {
+          title: '是否有房',
+          align: 'center',
+          render: (h, params) => {
+            let house
+            if (params.row.house == '0') {
+              house = '没有'
+            } else if (params.row.house == '1') {
+              house = '有'
+            }
+            return h('div', [
+              h('span', {}, house)
+            ])
+						}
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        },
+        {
+          title: '备注',
+          align: 'center',
+          key: 'memo'
+        },
+      ],
+      // 宜信
+      columns8: [
+        {
+          title: '客户姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '联系方式',
+          align: 'center',
+          key: 'phone'
+        },
+        {
+          title: '邮箱',
+          align: 'center',
+          key: 'email'
+        },
+        {
+          title: '性别',
+          align: 'center',
+          key: 'gender'
+        },
+        {
+          title: '开始时间',
+          align: 'center',
+          key: 'beginTime'
+        },
+        {
+          title: '结束时间',
+          align: 'center',
+          key: 'endTime'
+        },
+        {
+          title: '身份证',
+          align: 'center',
+          key: 'identityNumber'
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          key: 'pushBatchNum'
+        },
+        {
+          title: '注册日期',
+          align: 'center',
+          key: 'createDate'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.succ == 'true') {
+              succ = '成功'
+            } else if (params.row.succ == 'false') {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+						}
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+							return h('div', [
+								h('span', {}, pushStatus)
+							])
+						}
+        },
+        {
+          title: '备注',
+          align: 'center',
+          key: 'memo'
+        },
+        {
+          title: '附加信息',
+          align: 'center',
+          key: 'msg'
+        }
+      ],
+      data1: []
     }
   },
   methods: {
+    // 分页
     pageChange(page) {
 				this.startRow = page
 				this.inquire()
@@ -362,24 +770,52 @@ export default {
 					})
 					return false
         }
-        let url = '/common/partya/getDkBJpuhuiList?partyaKey='+this.model1+'&beginTime='+this.value1+'&endTime='+this.value2+'&pushBatchNum='+this.model5+'&pushStatus='+this.model2
-        console.log(BASE_URL+url)
+        let url = '/common/partya/getDkBJpuhuiList?partyaKey='+this.model1+'&beginTime='+this.value1+'&endTime='+this.value2+'&pushBatchNum='+this.model5+'&pushStatus='+this.model2+'&origin=0'
 				this.http.post(BASE_URL + url)
 					.then((resp) => {
 						if(resp.code == 'success') {
-							// this.data6 = resp.data.batchLogList
-							// this.total = Number(resp.data.total)
-							// this.startRow = Math.ceil(resp.data.startRow / this.endRow)
+              if (this.model1 == 'partya-chedidai') {
+                this.party1 = this.columns1
+                this.data1 = resp.data.dkChedidaiList
+              } else if (this.model1 == 'partya-fanpuwang') {
+                this.party1 = this.columns2
+                this.data1 = resp.data.dkFanpuList
+              } else if (this.model1 == 'partya-miaodai') {
+                this.party1 = this.columns3
+                this.data1 = resp.data.dkMiaodaiList
+              } else if (this.model1 == 'partya-houbenjinrong') {
+                this.party1 = this.columns4
+                this.data1 = resp.data.dkHoubenList
+              } else if (this.model1 == 'partya-zhudaiwang') {
+                this.party1 = this.columns5
+                this.data1 = resp.data.dkZhudaiList
+              } else if (this.model1 == 'partya-suyi') {
+                this.party1 = this.columns6
+                this.data1 = resp.data.dkSuyiList
+              } else if (this.model1 == 'partya-yingu') {
+                this.party1 = this.columns7
+                this.data1 = resp.data.dkYinguList
+              } else if (this.model1 == 'partya-yixin') {
+                this.party1 = this.columns8
+                this.data1 = resp.data.dkYinxinList
+              }
+							this.total = Number(resp.data.total)
+							this.startRow = Math.ceil(resp.data.startRow / this.endRow)
 						} else {
 
 						}
 					})
 					.catch(() => {})
-			}
+      },
+      // 导出
+      exports () {
+        let url = '/common/partya/exportExcel?partyaKey='+this.model1+'&beginTime='+this.value1+'&endTime='+this.value2+'&pushBatchNum='+this.model5+'&pushStatus='+this.model2+'&origin=0'
+        window.open(BASE_URL + url)
+      }     
   },
   mounted () {
     // 甲方名称
-			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'2,3')
+			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'1,3')
 				.then((resp) => {
 					if(resp.code == 'success') {
 						this.cityList = resp.data

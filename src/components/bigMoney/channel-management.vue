@@ -173,7 +173,6 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(params)
                       this.codel = params.row.manageCode
                       this.refusel(params.row.channelName, params.row.supplierCode, params.row.channelName, params.row.urlName)
                     }
@@ -191,7 +190,6 @@ export default {
                   on: {
                     click: () => {
                       // this.remove(params.index)
-                      // console.log(params.row)
                       this.delete (params.row.manageCode)
                     }
                   }
@@ -284,8 +282,6 @@ export default {
       this.formCustom.productid = supplierCode,
       this.modal9 = true
       this.judge = 1    
-      console.log(this.formCustom.links,this.formCustom.types)
-        
     },
     changeLoading () {
       this.loading = false
@@ -294,12 +290,10 @@ export default {
       })
     },
     handleSubmit (name) {
-      // console.log(this.formCustom.productid)
       this.$refs[name].validate((valid) => {
         if (!valid) {
           return this.changeLoading()
         } else {
-          console.log(this.judge)
           if (this.judge == 0){
             let list = {
               manageName : this.formCustom.name,
@@ -307,10 +301,8 @@ export default {
               supplierCode : this.formCustom.productid,
               urlCode: this.formCustom.links
             }
-            console.log(list)
             this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
             .then((resp) => {
-              console.log(resp)
               if (resp.code == 'success') {
                 const title = '保存'
                 let content = '<p>保存成功</p>'
@@ -340,9 +332,7 @@ export default {
               urlCode: this.formCustom.links,
               manageCode : this.codel,
             }
-            console.log(list)
             this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageByCode', list).then(data=>{
-              console.log(data)
               if(data.code == 'success'){
                 const title = '保存'
                 let content = '<p>编辑成功</p>'
@@ -379,7 +369,6 @@ export default {
     },
     // 查询
     inquire() {
-      console.log(this.model1)
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -399,7 +388,6 @@ export default {
         channelName: '',
         channelName: ''
       }
-      console.log(list)
       if(this.queryli == 'manageName'){
         list.manageName = this.value
       } else if(this.queryli == 'urlName'){
@@ -409,10 +397,8 @@ export default {
       } else if(this.queryli == 'supplierName'){
         list.supplierName = this.value
       }
-      // console.log(list)
       this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', list)
       .then((resp) => {
-          console.log(resp)
         if (resp.code == 'success') {
           this.data6 = resp.data.promotionManageList
           this.total = Number(resp.data.total)
@@ -430,10 +416,8 @@ export default {
         manageCode : code,
         dataFlag : 0
       }
-      console.log(list)
       this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageStateByCode',list)
       .then((resp) => {
-        console.log(resp)
       if (resp.code == 'success') {
         const title = '删除'
         let content = '<p>删除成功</p>'
