@@ -6,20 +6,20 @@
             </p>
         </div>
         <div class="mt50 p20">
-            <Select v-model="model1" style="width:100px" placeholder='全部' class="">
+            <Select v-model="model1" @on-change='queryl' style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="value" placeholder="" style="width: 100px" class="mr20"></Input>
             <span>更新时间:</span>
-            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time1"  placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            <Button class=" ml100 w100 " type="info">查询</Button>
+            <DatePicker type="date" @on-change="time2"  placeholder="结束时间" style="width: 200px"></DatePicker>
+            <Button class=" ml100 w100 " type="info" @click="inquire">查询</Button>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <!-- <Button type="primary" class="mr20" shape="circle" icon="code-working" @click="labelcon">标签配置</Button>
                 <Button type="primary" class="mr20" shape="circle" icon="android-options" @click="channel">渠道类别配置</Button> -->
-                <Button type="primary" shape="circle" icon="plus-round" @click="refuse">添加渠道</Button>
+                <Button type="primary" shape="circle" icon="plus-round" @click="refuse">新增</Button>
             </div>
         </div>
         <div class="">
@@ -33,7 +33,7 @@
           v-model="modal9"
           @on-ok="handleSubmit('formCustom')"
           @on-cancel="handleReset('formCustom')"
-          ok-text="保存"
+          ok-text='保存'
           cancel-text="取消"
           class-name="vertical-center-modal"
           width="800"
@@ -41,25 +41,24 @@
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
-              <FormItem label="渠道类别:" prop="types">
-                <Select v-model="formCustom.types" placeholder="请选择"  :class="" style="width:300px">
-                  <Option v-for="item in optioncha" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <FormItem label="名称:" prop="name">
+                <Input v-model="formCustom.name" placeholder="请输入名称" class="inputl" style="width: 300px"></Input>
+              </FormItem>
+              <FormItem label="渠道:" prop="productid" >
+                <Select v-model="formCustom.productid" placeholder="请选择渠道"  :class="" style="width:300px">
+                  <Option v-for="item in optioncha" :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
                 </Select>
               </FormItem>
-              <FormItem label="渠道编号:" prop="productid" >
-                <Input v-model="formCustom.productid"  placeholder="请输入渠道编号" style="width: 300px"></Input>
+              <FormItem label="供应商:" prop="types">
+                <Select v-model="formCustom.types" placeholder="请选择供应商"  :class="" style="width:300px">
+                  <Option v-for="item in optionlab" :value="String(item.channelCode)" :key="item.channelCode">{{ item.channelName }}</Option>
+                </Select>
               </FormItem>
-            <FormItem label="渠道名称:" prop="name">
-              <Input v-model="formCustom.name" placeholder="请输入渠道名称" style="width: 300px"></Input>
-            </FormItem>
-            <FormItem label="渠道标签:" prop="ratetype" >
-              <Select v-model="formCustom.ratetype" placeholder="请选择" style="width:300px" >
-                <Option v-for="item in optionlab" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
-            </FormItem>
-            <FormItem label="推广URL:" prop="producturl" >
-              <Input type="url" v-model="formCustom.producturl" disabled placeholder="请输入推广URL" style="width: 300px"></Input>
-            </FormItem>
+              <FormItem label="推广链接:" prop="links">
+                <Select v-model="formCustom.links" placeholder="请选择推广链接"  :class="" style="width:300px">
+                  <Option v-for="item in optionlac" :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
+                </Select>
+              </FormItem>
           </Form>
           </div>
           </Modal>
@@ -69,7 +68,7 @@
 export default {
   data () {
     return {
-      model1: '',
+      model1: '全部',
       value: '',
       value1: '',
       value2: '',
@@ -79,113 +78,81 @@ export default {
       startRow: 1,
       endRow: 10,
       formCustom: {
-        productid: '',
         name: '',
         types: '',
-        ratetype: '',
-        producturl: 'www.baidu.com'
+        productid: '',
+        links: ''
       },
       ruleCustom: {
-        name: [
-          { required: true, message: '请输入渠道名称', trigger: 'blur' },
-          { type: 'string', pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/, message: '请输入正确的渠道名称', trigger: 'blur' }
-        ],
-        types: { required: true, message: '请选择渠道类别', trigger: 'blur' },
-        ratetype: { required: true, message: '请选择渠道标签', trigger: 'blur' },
+        types: [
+          { required: true, message: '请选择供应商', trigger: 'blur', }, 
+          // { type: 'string', message: '请选择供应商', trigger: 'blur' } //  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
+        ], 
+        name: [{ required: true, message: '请输入正确的名称', trigger: 'blur', }],
         productid: [
-          { required: true, message: '请输入渠道编号', trigger: 'blur' },
-          { type: 'string', pattern: /^[a-zA-Z0-9]+$/, message: '请输入正确的渠道标号', trigger: 'blur' }
+          { required: true, message: '请选择渠道', trigger: 'blur',},
+          // { type: 'string', message: '请选择渠道', trigger: 'blur' } // pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
+        ],
+        links: [
+          { required: true, message: '请选择推广链接', trigger: 'blur',},
+          // { type: 'string', message: '请选择渠道', trigger: 'blur' } // pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ]
       },
-      optioncha: [
-        {
-          value: '供应商1',
-          label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
-        }
-      ],
-      optionlab: [
-        {
-          value: '供应商1',
-          label: '供应商1'
-        },
-        {
-          value: '供应商2',
-          label: '供应商2'
-        },
-        {
-          value: '供应商3',
-          label: '供应商3'
-        },
-        {
-          value: '供应商4',
-          label: '供应商4'
-        }
-      ],
+      optioncha: [],
+      optionlab: [],
+      optionlac: [],
       cityList: [
         {
-          value: '供应商1',
-          label: '供应商1'
+          value: '全部',
+          label: '全部'
         },
         {
-          value: '供应商2',
-          label: '供应商2'
+          value: 'manageName',
+          label: '名称'
         },
         {
-          value: '供应商3',
-          label: '供应商3'
+          value: 'urlName',
+          label: '推广链接名称'
         },
         {
-          value: '供应商4',
-          label: '供应商4'
+          value: 'channelName',
+          label: '渠道名称'
+        },
+        {
+          value: 'supplierName',
+          label: '供应商名称'
         }
       ],
       columns7: [
         {
-          title: '渠道类别',
+          title: '名称',
           align: 'center',
-          key: 'batch'
+          key: 'channelName'
         },
         {
-          title: '渠道编号',
+          title: '推广链接名称',
           align: 'center',
-          key: 'pattern'
+          key: 'urlName'
         },
         {
           title: '渠道名称',
           align: 'center',
-          key: 'time'
+          key: 'channelName'
         },
         {
           title: '供应商名称',
           align: 'center',
-          key: 'suppliername'
+          key: 'supplierName'
         },
         {
           title: '渠道标签',
           align: 'center',
-          key: 'pushnum'
+          key: 'channelTag'
         },
         {
-          title: 'URL',
+          title: '修改时间',
           align: 'center',
-          key: 'successnum'
-        },
-        {
-          title: '更新时间',
-          align: 'center',
-          key: 'errornum'
+          key: 'dataModifiedTime'
         },
         {
           title: '操作',
@@ -206,7 +173,9 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.refuse()
+                      console.log(params)
+                      this.codel = params.row.manageCode
+                      this.refusel(params.row.channelName, params.row.supplierCode, params.row.channelName, params.row.urlName)
                     }
                   }
                 },
@@ -222,7 +191,8 @@ export default {
                   on: {
                     click: () => {
                       // this.remove(params.index)
-                      this.delete (params.row.supplierCode)
+                      // console.log(params.row)
+                      this.delete (params.row.manageCode)
                     }
                   }
                 },
@@ -251,15 +221,27 @@ export default {
           successnum: '1000',
           errornum: '0'
         }
-      ]
+      ],
+      queryli: '',
+      supplierCode1: '',
+      channelCode1: '',
+      judge: 0,
+      codel:''
     }
   },
   methods: {
+    // 分页
     pageChange (page) {
-      this.params.page = page
+      this.startRow = page
+      this.inquire()
     },
-    PageSizeChange (limit) {
-      this.params.limit = limit
+    pagesizechange (page) {
+      this.endRow = page
+      this.inquire()
+    },
+    // 查询 select
+    queryl(value) {
+      this.queryli = value
     },
     rowClassName (row, index) {
       if (index === 0) {
@@ -273,8 +255,37 @@ export default {
     channel () {
       this.$router.push({ path: './channelCategory' })
     },
+    post(url,num){
+      this.http.post(BASE_URL + url,num).then(data=>{
+        if(data.code == 'success'){
+          if(num == 1){
+            this.optioncha = data.data
+          }
+          if(num == 2){
+            this.optionlab = data.data
+          }
+          if(num == 3){
+            this.optionlac = data.data
+          }
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     refuse () {
       this.modal9 = true
+      this.judge = 0
+    },
+    refusel (name, supplierCode, channell, urll) {
+      // document.getElementsByClassName('.inputl').attr('disabled')
+      this.formCustom.name = name,
+      this.formCustom.types = channell,
+      this.formCustom.links = urll,
+      this.formCustom.productid = supplierCode,
+      this.modal9 = true
+      this.judge = 1    
+      console.log(this.formCustom.links,this.formCustom.types)
+        
     },
     changeLoading () {
       this.loading = false
@@ -283,37 +294,77 @@ export default {
       })
     },
     handleSubmit (name) {
+      // console.log(this.formCustom.productid)
       this.$refs[name].validate((valid) => {
         if (!valid) {
           return this.changeLoading()
         } else {
-          let list = {
-            supplierKey : this.formCustom.productid,
-            supplierName : this.formCustom.name
-          }
-          this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
-          .then((resp) => {
-            if (resp.code == 'success') {
-              const title = '保存'
-              let content = '<p>保存成功</p>'
-              this.$Modal.success({
-                title: title,
-                content: content
-              })
-              this.inquire ()
-            } else {
-
+          console.log(this.judge)
+          if (this.judge == 0){
+            let list = {
+              manageName : this.formCustom.name,
+              channelCode : this.formCustom.types,
+              supplierCode : this.formCustom.productid,
+              urlCode: this.formCustom.links
             }
-          })
-          .catch(() => {
-          })
+            console.log(list)
+            this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
+            .then((resp) => {
+              console.log(resp)
+              if (resp.code == 'success') {
+                const title = '保存'
+                let content = '<p>保存成功</p>'
+                this.$Modal.success({
+                  title: title,
+                  content: content
+                })
+                this.$refs[name].resetFields()
+                this.modal9 = false
+                this.inquire ()
+              } else {
+                this.changeLoading()
+                this.modal9 = false
+                // this.formCustom.name = ''
+                this.$Message.success('保存失败')
+                this.$refs[name].resetFields()
+              }
+            })
+            .catch(() => {
+            })  
+          }
+          if(this.judge == 1){
+            let list = {
+              // manageName : this.formCustom.name,
+              channelCode : this.formCustom.types,
+              supplierCode : this.formCustom.productid,
+              urlCode: this.formCustom.links,
+              manageCode : this.codel,
+            }
+            console.log(list)
+            this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageByCode', list).then(data=>{
+              console.log(data)
+              if(data.code == 'success'){
+                const title = '保存'
+                let content = '<p>编辑成功</p>'
+                this.$Modal.success({
+                  title: title,
+                  content: content
+                })
+                this.$refs[name].resetFields()
+                this.modal9 = false
+                this.inquire ()
+              } else {
+                this.changeLoading()
+                this.modal9 = false
+                // this.formCustom.name = ''
+                this.$Message.success('编辑失败')
+                this.$refs[name].resetFields()
+              }
+            }).catch(err=>{
+              console.log(err)
+            })
+          }
         }
-        setTimeout(() => {
-          this.changeLoading()
-          this.modal9 = false
-          // this.formCustom.name = ''
-          this.$Message.success('done')
-        }, 1000)
       })
     },
     handleReset (name) {
@@ -327,7 +378,8 @@ export default {
       this.value2 = value
     },
     // 查询
-    inquire () {
+    inquire() {
+      console.log(this.model1)
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -338,17 +390,31 @@ export default {
         return false
       }
       let list = {
-        supplierName : this.formCustom.types,
-        supplierKey : this.value,
+        manageName : '',
+        urlName : '',
         beginTime : this.value1,
         endTime : this.value2,
         pageNum: this.startRow,
-        pageSize: this.endRow
+        pageSize: this.endRow,
+        channelName: '',
+        channelName: ''
       }
+      console.log(list)
+      if(this.queryli == 'manageName'){
+        list.manageName = this.value
+      } else if(this.queryli == 'urlName'){
+        list.urlName = this.value
+      } else if(this.queryli == 'channelName'){
+        list.channelName = this.value
+      } else if(this.queryli == 'supplierName'){
+        list.supplierName = this.value
+      }
+      // console.log(list)
       this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', list)
       .then((resp) => {
+          console.log(resp)
         if (resp.code == 'success') {
-          this.data6 = resp.data.promotionSupplierList
+          this.data6 = resp.data.promotionManageList
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
         } else {
@@ -360,8 +426,14 @@ export default {
     },
     // 删除
     delete (code) {
-      this.http.post(BASE_URL + '/loan/promotionManage/deletePromotionManageByCode?promotionManageCode='+code)
-    .then((resp) => {
+      let list = {
+        manageCode : code,
+        dataFlag : 0
+      }
+      console.log(list)
+      this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageStateByCode',list)
+      .then((resp) => {
+        console.log(resp)
       if (resp.code == 'success') {
         const title = '删除'
         let content = '<p>删除成功</p>'
@@ -380,6 +452,9 @@ export default {
     }
   },
   mounted () {
+    this.post('/loan/promotionSupplier/queryAllList',1)
+    this.post('/loan/promotionChannel/queryAllList',2)
+    this.post('/loan/promotionUrl/queryAllList',3)
     this.inquire ()
   }
 }

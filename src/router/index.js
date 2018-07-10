@@ -61,7 +61,7 @@ import peaceBenefit from '@/components/bigMoney/peace-benefit' // 平安普惠 �
 import insuranceSetting from '@/components/bigMoney/insurance-setting' // 坤玄
 import insuranceReport from '@/components/bigMoney/insurance-report' // 平安普惠详情
 import pinglife from '@/components/bigMoney/pinglife' // 平安人寿详情
-import channelManagement from '@/components/bigMoney/channel-management' // 渠道列表
+import channelManagement from '@/components/bigMoney/channel-management' // 渠道
 import channelLabelsz from '@/components/bigMoney/channel-labelsz'
 import channelCategory from '@/components/bigMoney/channel-category'
 import partyManagement from '@/components/bigMoney/party-management'
@@ -70,7 +70,7 @@ import blacklistManagement from '@/components/bigMoney/blacklist-management'
 import directWarning from '@/components/bigMoney/direct-warning'
 import manualPush from '@/components/bigMoney/manual-push'
 import supplierManagement from '@/components/bigMoney/supplier-management'
-import channelPromotion from '@/components/bigMoney/channel-promotion'
+import channelPromotion from '@/components/bigMoney/channel-promotion' // 渠道列表
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
