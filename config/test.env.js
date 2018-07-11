@@ -4,6 +4,6 @@ const devEnv = require('./dev.env')
 
 module.exports = merge(devEnv, {
   NODE_ENV: '"testing"',
-  API_HOST: '"http://dev.loan.zanfin.com/api/proxy"'  // 测试环境接口地址(这里是增加的内容)
+  API_HOST: '"http://dev.business.zanfin.com"'  // 测试环境接口地址(这里是增加的内容)
 
 })
