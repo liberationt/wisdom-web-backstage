@@ -32,9 +32,9 @@
               <FormItem label="产品ID:" prop="productid" >
                 <Input v-model="formCustom.productid" disabled placeholder="请输入产品ID" style="width: 300px"></Input>
               </FormItem>
-              <FormItem label="序号:" prop="sernum" >
+              <!-- <FormItem label="序号:" prop="sernum" >
                 <Input v-model="formCustom.sernum" placeholder="请输入序号" style="width: 300px"></Input>
-              </FormItem>
+              </FormItem> -->
               <FormItem label="产品LOGO:" prop="productlogo" class="productlogo">
                 <img :src="formCustom.logoUrl" alt="" class="left">
                 <Input v-model="formCustom.productlogo" disabled style="width: 120px;margin-top:24px" class="left ml5"></Input>
@@ -147,7 +147,7 @@ export default {
         object2: '万元',
         object3: '万元',
         quota: '',
-        sernum: '',
+        // sernum: '',
         logoUrl: require('../../image/head-portrait.jpg'),
         labelUrl: require('../../image/head-portrait.jpg')
       },
@@ -155,21 +155,21 @@ export default {
         productlogo: { required: true, message: '请上传产品LOGO', trigger: 'blur' },
         name: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
-          { max: 100, message: '产品名称最多输入100个字符', trigger: 'blur' },
-          { min: 2, message: '产品名称最少输入2个字符', trigger: 'blur' },
-          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          // { max: 100, message: '产品名称最多输入100个字符', trigger: 'blur' },
+          // { min: 2, message: '产品名称最少输入2个字符', trigger: 'blur' },
+          // {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         subtitle: [
           { required: true, message: '请输入产品副标题', trigger: 'blur' },
-          { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
-          { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
-          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          // { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
+          // { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
+          // {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         explain: [
           { required: true, message: '请输入产品说明', trigger: 'blur' },
-          { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
-          { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
-          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          // { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
+          // { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
+          // {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
         range: [
@@ -509,7 +509,7 @@ export default {
             this.formCustom.ratetype = resp.data.interestType
             this.formCustom.rate = resp.data.interest
             this.formCustom.producturl = resp.data.productUrl
-            this.formCustom.sernum = resp.data.sort
+            // this.formCustom.sernum = resp.data.sort
           } else {
             this.$Message.info(resp.message)
           }
@@ -565,7 +565,7 @@ export default {
             formData.append('startMoneyUnit', this.formCustom.object1)
             formData.append('endMoneyUnit', this.formCustom.object2)
             formData.append('loanLines', this.formCustom.object3)
-            formData.append('sort', this.formCustom.sernum)
+            // formData.append('sort', this.formCustom.sernum)
             let config = {
               headers: {
                 'Content-Type': 'multipart/form-data'

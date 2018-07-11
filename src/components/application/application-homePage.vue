@@ -30,31 +30,40 @@ export default {
 
   },
   mounted () {
-    this.http.post(BASE_URL + '/system/appManage/getAppManageList', {})
-          .then((resp) => {
-            console.log(resp)
-            if (resp.code == 'success') {
-              this.applicationlist = resp.data.appManageList
-            } else {
+    let that = this
+    let arrlist = []
+    let list = []
+    for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
+      arrlist = that.menu.menuInfo.children[i].children
+    }
+    for (let j = 0; j < arrlist.length; j++) {
+      list.push(arrlist[j].menuCode)
+    }
+    let code = {
+      data: list
+    }
+    this.http.post(BASE_URL + '/system/appManage/getAppManageByMenuCodes', code)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.applicationlist = resp.data.menuList
+      } else {
 
-            }
-          })
-          .catch(() => {
-          })
+      }
+    })
+    .catch(() => {
+    })
   },
   methods: {
     ...mapMutations(['leftlist', 'lefthidtrue']),
     gold_clothes (num) {
       let that = this
       let arrlist = []
-      console.log(document.getElementsByClassName("redWine")[0])
       let menucodes = document.getElementsByClassName("redWine")[0].getAttribute('menucode')
       for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
         if (that.menu.menuInfo.children[i].menuCode == menucodes) {
           arrlist = that.menu.menuInfo.children[i].children
         }
       }
-      console.log(arrlist)
       for (let j = 0; j < arrlist.length; j++) {
         if (arrlist[j].menuCode == num) {
           for (let k = 0; k < arrlist[j].children.length; k++) {
@@ -74,7 +83,7 @@ export default {
           return false
         }
       }
-      this.$router.push({ path: './operationLog' })
+      this.$router.push({ path: './registrationList' })
       utils.putlocal('lefthidden', true)
       // sessionStorage.setItem('lefthidden', true)
       that.lefthidtrue()

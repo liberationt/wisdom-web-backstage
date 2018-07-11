@@ -28,10 +28,14 @@ if (!store.state.menu || Object.keys(store.state.menu).length == 0) {
 //   store.state.menu = JSON.parse(sessionStorage.getItem('userInfo'))
 //   console.log(store.state.menu)
 // }
-if (utils.getlocal('lefthidden')) {
-  store.state.hidden = utils.getlocal('lefthidden')
+if (!sessionStorage.getItem('browse')) {
+  localStorage.removeItem('lefthidden')
 } else {
-  store.state.hidden = false
+  if (utils.getlocal('lefthidden')) {
+    store.state.hidden = utils.getlocal('lefthidden')
+  } else {
+    store.state.hidden = false
+  }
 }
 Vue.use(VueRouter)
 Vue.use(iView)
