@@ -4,5 +4,5 @@ const prodEnv = require('./prod.env')
 
 module.exports = merge(prodEnv, {
   NODE_ENV: '"development"',
-  API_HOST: '"http://dev.business.zanfin.com"' // 开发环境接口地址(这里是增加的内容)
+  API_HOST: '"http://dev.busadapter.zanfin.com"' // 开发环境接口地址(这里是增加的内容)
 })
