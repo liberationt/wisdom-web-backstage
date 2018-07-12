@@ -61,7 +61,9 @@ export default {
       }
       e.target.classList.add('blue')
       utils.putlocal('sideleft', Number(e.target.getAttribute('index')))
-      this.$router.push({ path: path })
+      if (path != '/homePage') {
+        this.$router.push({ path: path })     
+      }    
     },
     menuSelect: function (path) {
       this.$router.push({ path: path })
