@@ -39,10 +39,10 @@ export default {
     for (let j = 0; j < arrlist.length; j++) {
       list.push(arrlist[j].menuCode)
     }
-    let code = {
-      data: list
-    }
-    this.http.post(BASE_URL + '/system/appManage/getAppManageByMenuCodes', code)
+    // let code = {
+    //   list
+    // }
+    this.http.post(BASE_URL + '/system/appManage/getAppManageByMenuCodes', list)
     .then((resp) => {
       if (resp.code == 'success') {
         this.applicationlist = resp.data.menuList
