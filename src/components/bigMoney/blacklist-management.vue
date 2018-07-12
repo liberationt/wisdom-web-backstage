@@ -46,7 +46,7 @@
                     </li>
                     <li class="mt50">
                         <Button class="w100 ml50  " type="info" id="upload"  @click="upload">上传</Button>
-                        <Button class="w100 ml50">取消</Button>
+                        <Button class="w100 ml50" @click="cancel">取消</Button>
                     </li>
                 </ul>
             </div>
@@ -152,7 +152,7 @@ export default {
     },
     // 上传格式校验
     handleFormatError2 (file) {
-      this.value9 = ''
+      this.namelist = ''
       this.$Message.info("文件格式不正确,请上传excel格式文件")
     },
     // 上传文件
@@ -188,7 +188,7 @@ export default {
               content: content
             })
             this.modal9 = false
-            this.value9 = ''
+            this.namelist = ''
           }, 1000)
           } else {
             this.$Message.info(resp.message)
@@ -259,6 +259,9 @@ export default {
     })
     .catch(() => {
     })
+    },
+    cancel () {
+      this.namelist = ''
     }
 
   },

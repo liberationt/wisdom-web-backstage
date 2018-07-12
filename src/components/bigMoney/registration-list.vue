@@ -17,20 +17,20 @@
             </div>
         </div>
         <div class="mt50">
-            <span class="w100 displayib tr">渠道:</span>
-            <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+            <span class="w60 displayib tr mb15">渠道:</span>
+            <Select v-model="model1" placeholder="全部" style="width:200px" class="">
                 <Option v-for="item in cityList" :value="item.channelCode" :key="item.channelCode">{{ item.channelName }}</Option>
             </Select>
-            <span>供应商:</span>
-            <Select v-model="model2" placeholder="全部" style="width:200px" class="">
+            <span class="w60 displayib ml20 mt15 tr mb15">注册时间:</span>
+            <DatePicker type="date" class="mb15" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span class="mb15">  -  </span>
+            <DatePicker type="date" class="mr20 mb15" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <span class="w60 displayib tr">供应商:</span>
+            <Select v-model="model2" placeholder="全部" class="" style="width:200px">
                 <Option v-for="item in cityList2" :value="item.supplierCode" :key="item.supplierCode">{{ item.supplierName }}</Option>
-            </Select>
-            <span class="w100 displayib mt15 tr">注册时间:</span>
-            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            <span>步骤:</span>
-            <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20">
+            </Select>          
+            <span class="w60 displayib tr ">步骤:</span>
+            <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20 ">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <div class="clearfix mr20 mt20">
@@ -61,20 +61,20 @@ export default {
       endRow: 10,
       numregistrations: [
         {
-          onenum: 10,
-          twonum: 10,
+          onenum: 0,
+          twonum: 0,
           color: 'blue1',
           totalnum: '当日注册总人数'
         },
         {
-          onenum: 10,
-          twonum: 10,
+          onenum: 0,
+          twonum: 0,
           color: 'yellow1',
           totalnum: '本周注册总人数'
         },
         {
-          onenum: 10,
-          twonum: 10,
+          onenum: 0,
+          twonum: 0,
           color: 'purple1',
           totalnum: '本月注册总人数'
         }
@@ -82,6 +82,10 @@ export default {
       cityList: [],
       cityList2: [],
       cityList3: [
+        {
+          value: '',
+          label: '全部'
+        },
         {
           value: '1',
           label: '1'
@@ -107,7 +111,7 @@ export default {
         {
           title: '注册时间',
           align: 'center',
-          width: 100,
+          width: 120,
           key: 'time'
         },
         {
@@ -137,13 +141,13 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          width: 100,
+          width: 120,
           key: 'mobile'
         },
         {
           title: '生日',
           align: 'center',
-          width: 100,
+          width: 120,
           key: 'appBirthday'
         },
         {
@@ -328,7 +332,7 @@ export default {
         {
           title: 'IP',
           align: 'center',
-          width: 100,
+          width: 150,
           key: 'ip'
         }
       ],

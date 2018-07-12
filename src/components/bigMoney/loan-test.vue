@@ -9,6 +9,10 @@
             <span>产品名称:</span>
             <Input v-model="value" placeholder="请输入产品名称" style="width: 200px"></Input>
             <Button type="info" class="ml100 w100" @click="inquire">查询</Button>
+            <!-- <Button type="info" class="ml100 w100"  @click="inquire" :loading="loading2" icon="checkmark-round">
+                <span v-if="!loading2">查询</span>
+                <span v-else>查询中...</span>
+            </Button> -->
         </div>
         <Button type="primary" shape="circle" class="mt20" icon="plus-round" @click="refuse(2)">添加贷款产品</Button>
         <div class="mt20">
@@ -27,11 +31,11 @@
           width="800"
           :loading="loading"
           :mask-closable="false">
-          <div  class="newtype_file mt15 mb15">
+          <div  class="newtype_file mt15 mb15 loan_products">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:200px">
-              <FormItem label="产品ID:" prop="productid" >
+              <!-- <FormItem label="产品ID:" prop="productid" >
                 <Input v-model="formCustom.productid" disabled placeholder="请输入产品ID" style="width: 300px"></Input>
-              </FormItem>
+              </FormItem> -->
               <!-- <FormItem label="序号:" prop="sernum" >
                 <Input v-model="formCustom.sernum" placeholder="请输入序号" style="width: 300px"></Input>
               </FormItem> -->
@@ -131,7 +135,7 @@ export default {
       endRow: 10,
       lengths: 0,
       formCustom: {
-        productid: 'DWQ1234',
+        // productid: 'DWQ1234',
         productlogo: '',
         producticon: '',
         name: '',
@@ -149,7 +153,8 @@ export default {
         quota: '',
         // sernum: '',
         logoUrl: require('../../image/head-portrait.jpg'),
-        labelUrl: require('../../image/head-portrait.jpg')
+        labelUrl: require('../../image/head-portrait.jpg'),
+        // loading2: false
       },
       ruleCustom: {
         productlogo: { required: true, message: '请上传产品LOGO', trigger: 'blur' },
@@ -185,9 +190,14 @@ export default {
       },
       columns7: [      
         {
-          title: '产品ID',
+          title: '序号',
           align: 'center',
-          key: 'productCode'
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, params.index+1)
+            ])
+          }
         },
         {
           title: '产品名称',
@@ -241,23 +251,39 @@ export default {
         {
           title: '贷款额度',
           align: 'center',
-          render: (h, params) => {
-            let money = params.row.startMoney+'-'+params.row.endMoney
-            return h('div', [
-              h('span', {
-              }, money)
-            ])
-          }
+          key: 'loanLinesUnit'
+          // render: (h, params) => {
+          //   let money = params.row.startMoney+'-'+params.row.endMoney
+          //   return h('div', [
+          //     h('span', {
+          //     }, money)
+          //   ])
+          // }
         },
         {
           title: '利率类型',
           align: 'center',
-          key: 'lineType'
+          key: '',
+          render: (h, params) => {
+            let lilv = params.row.lineType
+            if(lilv == 1){lilv = '日利率'}else if(lilv == 2){lilv = '月利率'}else if(lilv == 3){lilv = '年利率'}else if(lilv == 4){live = '每期利率'}      
+            return h('div', [
+              h('span', {
+              }, lilv)
+            ])
+          } 
         },
         {
           title: '利率',
           align: 'center',
-          key: 'interest'
+          key: '',
+          render: (h, params) => {
+            let baif = params.row.interest+'%'       
+            return h('div', [
+              h('span', {
+              }, baif)
+            ])
+          }
         },
         {
           title: 'URL',
@@ -488,7 +514,7 @@ export default {
         this.http.get(BASE_URL + '/loan/loanProduct/getLoanProductByCode?loanProductCode='+code)
         .then((resp) => {
           if (resp.code == 'success') {
-            this.formCustom.productid = resp.data.productCode
+            // this.formCustom.productid = resp.data.productCode
             this.formCustom.productlogo = resp.data.logoUrl
             this.formCustom.producticon = resp.data.labelUrl
             this.formCustom.logoUrl = resp.data.logoUrl
@@ -546,7 +572,7 @@ export default {
           return this.changeLoading()
         } else {
           let formData = new FormData()
-            formData.append('productCode', this.formCustom.productid)
+            // formData.append('productCode', this.formCustom.productid)
             formData.append('logoUrl', this.formCustom.productlogo)
             formData.append('labelUrl', this.formCustom.producticon)
             formData.append('name', this.formCustom.name)
@@ -651,8 +677,9 @@ export default {
 
     },
     // 列表查询
-    inquire () {
+    inquire (num) {
       // 列表查询
+        // this.loading2 = true;              
     let list = {
       name : this.value,
       pageNum: this.startRow,
@@ -666,7 +693,6 @@ export default {
         this.total = Number(resp.data.total)
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
       } else {
-
       }
     })
     .catch(() => {
@@ -689,5 +715,9 @@ export default {
 }
 .newtype_file .ivu-form-item{
   margin-bottom: 20px
+}
+.loan_products{
+  height: 500px;
+  overflow-y: scroll
 }
 </style>

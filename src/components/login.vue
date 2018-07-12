@@ -87,13 +87,17 @@ export default {
                 location.reload()
               } else {
                 this.$Message.error(resp.message)
+                // this.loading = false
+                setTimeout(() => {
+                    this.loading = false
+                }, 1500)
                 return false
               }
             })
             .catch(() => {
             })
         } else {
-          this.$Message.error('表单验证失败!')
+          return false      
         }
         if (this.formLogin.remember[0] == '记住密码') {
           utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)

@@ -2,7 +2,7 @@
     <div>
         <div class="navigation">
             <p>
-                <span>渠道推广管理</span>
+                <span>渠道推广链接管理</span>
             </p>
         </div>
         <div class="mt50 p20">

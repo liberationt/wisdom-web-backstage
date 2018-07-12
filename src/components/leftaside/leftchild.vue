@@ -1,6 +1,6 @@
 <template>
  <li>
-    <span @click="toggle($event)" >
+    <span @click="toggle($event, model.path)" >
         &nbsp;&nbsp;&nbsp;&nbsp;
         {{ model.menuName }}
         <em v-if="model.children&&model.children.length>0">
@@ -50,7 +50,7 @@ export default {
     // }
   },
   methods: {
-    toggle (e) {
+    toggle (e, path) {
       if (this.isFolder) {
         this.open = !this.open
       }
@@ -61,6 +61,7 @@ export default {
       }
       e.target.classList.add('blue')
       utils.putlocal('sideleft', Number(e.target.getAttribute('index')))
+      this.$router.push({ path: path })
     },
     menuSelect: function (path) {
       this.$router.push({ path: path })

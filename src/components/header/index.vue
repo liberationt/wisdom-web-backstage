@@ -116,6 +116,7 @@ export default {
       localStorage.removeItem('token')
       localStorage.removeItem('userInfo')
       localStorage.removeItem('headace')
+      localStorage.removeItem('sideleft')
       utils.delCookie('user')
       this.$router.push({ path: './' })
     }
@@ -156,7 +157,7 @@ export default {
 .layout{
   height: 50px;
   width: 100%;
-  background: #465261;
+  background: #3e81f2;
   //overflow: hidden;
   // position: fixed;
   //   top: 0

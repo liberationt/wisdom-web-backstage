@@ -1,6 +1,6 @@
 <style lang="less" scoped>
 .layoutcon {
-    background: #f5f7f9;
+    background: #eaedf2;
     position: fixed;
     top: 50px;
     overflow: hidden;
@@ -17,8 +17,8 @@
     min-height: 200px;
     margin: 15px;
     overflow: auto;
-    background: #BCD3A5;
-    background:rgba(255,255,255,0.1) url(../../image/conbeijing.png);
+    background: #fff;
+    // background:rgba(255,255,255,0.1) url(../../image/conbeijing.png);
     // background: url(../image/bg.jpg);
         background-size:100% 100%;
         background-position: center 0;
