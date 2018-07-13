@@ -146,8 +146,25 @@ export default {
       })
     },
     handleUpload (file) {
+      let formData = new FormData()
+				formData.append('file', file)
+				formData.append('bucket', 'netmoney')
+				formData.append('dirs', 'blacklist')
+				let config = {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+				}
+				this.http.post(BASE_URL + '/fileUpload', formData, config)
+				.then((resp) => {
+				if (resp.code == 'success') {
+					this.filename = resp.data
+				} else {
+				}
+				})
+				.catch(() => {
+				})
       this.namelist = file.name
-      this.filename = file
       return false
     },
     // 上传格式校验
@@ -168,15 +185,10 @@ export default {
         })
         return false
       } else {
-        let formData = new FormData();
-        // formData.append('partyaCode', this.model4)
-        formData.append('filename', this.filename)
-        let config = {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-        this.http.post(BASE_URL + '/loan/pushBlack/uploadFileExcel', formData, config)
+        let list = {
+						url: this.filename
+					}
+        this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list)
         .then((resp) => {
           if (resp.code == 'success') {
             setTimeout(() => {

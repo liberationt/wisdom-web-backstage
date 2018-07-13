@@ -156,7 +156,6 @@ export default {
         },
         {
           title: '操作',
-          key: 'address',
           width: 150,
           align: 'center',
           render: (h, params) => {
@@ -200,26 +199,7 @@ export default {
           }
         }
       ],
-      data6: [
-        {
-          batch: '180601001',
-          pattern: '自动',
-          time: '2018/06/01 12:00:20',
-          suppliername: '啦啦',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0'
-        },
-        {
-          batch: '180601001',
-          pattern: '自动',
-          time: '2018/06/01 12:00:20',
-          suppliername: '啦啦',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0'
-        }
-      ],
+      data6: [],
       queryli: '',
       supplierCode1: '',
       channelCode1: '',
