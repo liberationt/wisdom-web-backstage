@@ -39,7 +39,7 @@
           width="800"
           :loading="loading"
           :mask-closable="false">
-          <div  class="newtype_file mt15 mb15">
+          <div  class="newtype_file mt15 mb15 ">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
               <FormItem label="名称:" prop="name">
                 <Input v-model="formCustom.name" placeholder="请输入名称" class="inputl" style="width: 300px"></Input>

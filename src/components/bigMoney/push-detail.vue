@@ -6,17 +6,17 @@
             </p>
         </div>
         <div class="mt50">
-            <span>甲方名称:</span>
+            <span class="w60 displayib">甲方名称:</span>
             <Select v-model="model1" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.partyaKey" :key="item.partyaKey">{{ item.partyaName }}</Option>
             </Select>
-            <span>推送时间:</span>
-              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span class="w60 displayib">推送时间:</span>
+              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="mb15" style="width: 200px"></DatePicker>
               <span>  -  </span>
               <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            <span>批次号:</span>
+            <span class="w60 displayib">批次号:</span>
             <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input>
-            <span>推送状态:</span>
+            <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:200px" class="mr20">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>

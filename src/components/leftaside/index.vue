@@ -47,7 +47,7 @@
     height: 60px;
     line-height: 60px;
     font-size: 20px;
-    text-align: center;
+    // text-align: center;
     color: #fff
 /*  background: #5b6270;
     border-radius: 3px;
@@ -97,9 +97,9 @@
     <div class="layoutcon" :class="{'layout-hide-text': spanLeft < 4}">
         <Row type="flex">
             <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
-                <div class="layout-logo-left">
-                    <Icon type="paper-airplane" ></Icon>
-                    <span class="layout-text">应用首页</span>
+                <div class="layout-logo-left tl">
+                    <a href="javascript:;" class="layout-text" @click="titleurl">应用首页</a>
+                    
                 </div>
                 <div class="tree-menu">
                   <ul v-for="(menuItem, index) in leftlist" :key="index" :mark="index" class="aceul">
@@ -196,6 +196,10 @@ export default {
     dropDown (name) {
       this.$router.push({ path: name })
     //   console.log(name)
+    },
+    titleurl () {
+        // localStorage.removeItem('lefthidden')
+        this.$router.push('/applicationHomePage')       
     }
   },
   mounted () {
@@ -213,6 +217,12 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.layout-text{
+    color:#fff;
+    width: 100%;
+    padding-left:40px;
+    display: inline-block;
+}
 ul{
     color:#fff
 }

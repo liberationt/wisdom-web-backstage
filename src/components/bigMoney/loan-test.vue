@@ -45,10 +45,9 @@
                 <Upload
                 :before-upload="handleUpload"
                 :show-upload-list="false"
-                :on-success="successimglogo"
                 :format="['jpg','jpeg','png', 'gif']"
                 :on-format-error="handleFormatError1"
-                action="http://192.168.1.85:3330/file-upload">
+                action=''>
                   <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">预览</Button>
                 </Upload>
               </FormItem>
@@ -58,10 +57,9 @@
                 <Upload
                 :before-upload="handleUploadicon"
                 :show-upload-list="false"
-                :on-success="successimglable"
                 :format="['jpg','jpeg','png', 'gif']"
                 :on-format-error="handleFormatError2"
-                action="http://192.168.1.85:3330/file-upload">
+                action=''>
                   <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">预览</Button>
                 </Upload>
               </FormItem>
@@ -80,27 +78,37 @@
                 <Option value="2">固定</Option>
               </Select>
             </FormItem>
-            <FormItem label="额度范围:" prop="range" v-if="formCustom.types=='1'">
-              <Input  v-model="formCustom.range" placeholder="请输入起始金额" style="width: 100px"></Input>
-              <Select v-model="formCustom.object1" placeholder="请选择" style="width:60px">
-                <Option value="元">元</Option>
-                <Option value="千元">千元</Option>
-                <Option value="万元">万元</Option>
-              </Select>
-              &nbsp;至&nbsp;
-              <Input  v-model="formCustom.rangeend" placeholder="请输入结束金额" style="width: 100px"></Input>
-              <Select v-model="formCustom.object2" placeholder="请选择" style="width:60px">
-                <Option value="元">元</Option>
-                <Option value="千元">千元</Option>
-                <Option value="万元">万元</Option>
-              </Select>
+            <FormItem label="额度范围:" class="ranges" v-if="formCustom.types=='1'">
+              <Row>
+                <Col span="9">
+                    <FormItem prop="range">
+                        <Input  v-model="formCustom.range" placeholder="请输入起始金额" style="width: 100px"></Input>
+                        <Select v-model="formCustom.object1" placeholder="请选择" style="width:60px">
+                          <Option value="元">元</Option>
+                          <Option value="千元">千元</Option>
+                          <Option value="万">万</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+                <Col span="2" style="text-align: center">至</Col>
+                <Col span="9">
+                    <FormItem prop="rangeend">                     
+                      <Input  v-model="formCustom.rangeend" placeholder="请输入结束金额" style="width: 100px"></Input>
+                        <Select v-model="formCustom.object2" placeholder="请选择" style="width:60px">
+                          <Option value="元">元</Option>
+                          <Option value="千元">千元</Option>
+                          <Option value="万">万</Option>
+                        </Select>
+                    </FormItem>
+                </Col>
+            </Row>                       
             </FormItem>
             <FormItem label="额度:" prop="quota" v-if="formCustom.types=='2'">
               <Input  v-model="formCustom.quota" placeholder="金额" style="width: 100px"></Input>
               <Select v-model="formCustom.object3" placeholder="请选择" style="width:60px">
                 <Option value="元">元</Option>
                 <Option value="千元">千元</Option>
-                <Option value="万元">万元</Option>
+                <Option value="万">万</Option>
               </Select>
             </FormItem>
             <FormItem label="利率类型:" prop="ratetype" >
@@ -134,6 +142,7 @@ export default {
       startRow: 1,
       endRow: 10,
       lengths: 0,
+      edit: '',
       formCustom: {
         // productid: 'DWQ1234',
         productlogo: '',
@@ -148,8 +157,8 @@ export default {
         rate: '',
         producturl: '',
         object1: '元',
-        object2: '万元',
-        object3: '万元',
+        object2: '万',
+        object3: '万',
         quota: '',
         // sernum: '',
         logoUrl: require('../../image/head-portrait.jpg'),
@@ -178,7 +187,11 @@ export default {
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
         range: [
-          { required: true, message: '请输入额度范围', trigger: 'blur' },
+          { required: true, message: '请输入开始金额', trigger: 'blur' },
+          {required: true, message: '额度范围只能输入正整数', pattern: /^[0-9]+$/, trigger: 'blur'}
+        ],
+        rangeend: [
+          { required: true, message: '请输入结束金额', trigger: 'blur' },
           {required: true, message: '额度范围只能输入正整数', pattern: /^[0-9]+$/, trigger: 'blur'}
         ],
         ratetype: { required: true, message: '请选择利率类型', trigger: 'blur' },
@@ -511,6 +524,7 @@ export default {
     },
     refuse (num, code) {
       if (num == 1) {
+        this.edit = code
         this.http.get(BASE_URL + '/loan/loanProduct/getLoanProductByCode?loanProductCode='+code)
         .then((resp) => {
           if (resp.code == 'success') {
@@ -571,34 +585,48 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
-          let formData = new FormData()
-            // formData.append('productCode', this.formCustom.productid)
-            formData.append('logoUrl', this.formCustom.productlogo)
-            formData.append('labelUrl', this.formCustom.producticon)
-            formData.append('name', this.formCustom.name)
-            formData.append('fname', this.formCustom.subtitle)
-            formData.append('subtitle', this.formCustom.explain)
-             formData.append('lineType', this.formCustom.types)
-             if (this.formCustom.types == 1) {
-               formData.append('startMoney', this.formCustom.range)       
+            let startMoney
+            if (this.formCustom.types == 1) {
+              startMoney = this.formCustom.range      
              } else {
-               formData.append('startMoney', this.formCustom.quota)
+               startMoney = this.formCustom.quota
              }
-            formData.append('endMoney', this.formCustom.rangeend)
-            formData.append('interestType', this.formCustom.ratetype)
-            formData.append('interest', this.formCustom.rate)
-            formData.append('productUrl', this.formCustom.producturl)
-            formData.append('startMoneyUnit', this.formCustom.object1)
-            formData.append('endMoneyUnit', this.formCustom.object2)
-            formData.append('loanLines', this.formCustom.object3)
-            // formData.append('sort', this.formCustom.sernum)
-            let config = {
-              headers: {
-                'Content-Type': 'multipart/form-data'
-              }
+            let list = {
+              logoUrl: this.formCustom.productlogo,
+              labelUrl: this.formCustom.producticon,
+              name: this.formCustom.name,
+              fname: this.formCustom.subtitle,
+              subtitle: this.formCustom.explain,
+              lineType: this.formCustom.types,
+              startMoney: startMoney,
+              endMoney: this.formCustom.rangeend,
+              interestType: this.formCustom.ratetype,
+              interest: this.formCustom.rate,
+              productUrl: this.formCustom.producturl,
+              startMoneyUnit:  this.formCustom.object1,
+              endMoneyUnit: this.formCustom.object2,
+              loanLines: this.formCustom.object3
             }
+            let listbj = {
+              logoUrl: this.formCustom.productlogo,
+              labelUrl: this.formCustom.producticon,
+              name: this.formCustom.name,
+              fname: this.formCustom.subtitle,
+              subtitle: this.formCustom.explain,
+              lineType: this.formCustom.types,
+              startMoney: startMoney,
+              endMoney: this.formCustom.rangeend,
+              interestType: this.formCustom.ratetype,
+              interest: this.formCustom.rate,
+              productUrl: this.formCustom.producturl,
+              startMoneyUnit:  this.formCustom.object1,
+              endMoneyUnit: this.formCustom.object2,
+              loanLines: this.formCustom.object3,
+              productCode: this.edit
+            }
+            console.log(listbj)
             if (this.hid == 0) {
-              this.http.post(BASE_URL + '/loan/loanProduct/saveLoanProduct', formData, config)
+              this.http.post(BASE_URL + '/loan/loanProduct/saveLoanProduct', list)
               .then((resp) => {
                 if (resp.code == 'success') {
                   setTimeout(() => {
@@ -623,7 +651,7 @@ export default {
               .catch(() => {
               })
             } else {
-              this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', formData, config)
+              this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', listbj)
               .then((resp) => {
                 if (resp.code == 'success') {
                   setTimeout(() => {
@@ -662,19 +690,44 @@ export default {
       this.inquire()
     },
     handleUpload (file) {
+      let formData = new FormData();
+          formData.append('file', file)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.formCustom.logoUrl = resp.data
+      } else {
+      }
+    })
+    .catch(() => {
+    })
       this.formCustom.productlogo = file.name
+      return false
     },
     handleUploadicon (file) {
+      let formData = new FormData();
+          formData.append('file', file)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        }
+      this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.formCustom.labelUrl = resp.data
+      } else {
+      }
+    })
+    .catch(() => {
+    })
       this.formCustom.producticon = file.name
-    },
-    successimglogo (file) {
-      this.formCustom.productlogo = file.data
-      this.formCustom.logoUrl = file.data
-    },
-    successimglable (file) {
-      this.formCustom.producticon = file.data
-      this.formCustom.labelUrl = file.data
-
+      return false
     },
     // 列表查询
     inquire (num) {
@@ -715,6 +768,9 @@ export default {
 }
 .newtype_file .ivu-form-item{
   margin-bottom: 20px
+}
+.newtype_file .ranges{
+  margin-bottom: 0
 }
 .loan_products{
   height: 500px;

@@ -166,8 +166,8 @@ export default {
   height: 100%;
   img{
     // width: 120px;
-    height: 50px;
-    margin: 0 auto;
+    height: 42px;
+    margin: 4px auto;
     display: block;
   }
 }

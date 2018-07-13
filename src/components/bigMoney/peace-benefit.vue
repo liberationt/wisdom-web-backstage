@@ -57,7 +57,7 @@
             :format="['xlsx', 'xls']"
             :on-format-error="handleFormatError2"
             :max-size="12800"
-            action='/loan/batchLog/uploadFileExcel'>
+            action=''>
             <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
         </Upload>
             </li>
@@ -250,23 +250,27 @@ export default {
         return false
       } else {
         if(this.zhuname ==  '卿见'){
-          this.batchKey = 'dk-pingan-qjpuhui'
+          this.batchKey = 'partya-qingjian-pinganpuhui'
         }else if(this.zhuname ==  '保街'){
-          this.batchKey = 'dk-pingan-bjpuhui'
+          this.batchKey = 'partya-baojie-pinganpuhui'
         }else if(this.zhuname ==  '本祥'){
-          this.batchKey = 'dk-pingan-bxpuhui'
+          this.batchKey = 'partya-benxiang-pinganpuhui'
         }else if(this.zhuname ==  '坤玄'){
-          this.batchKey = 'dk-pingan-kxpuhui'
+          this.batchKey = 'partya-kunxuan-pinganpuhui'
         }
-        let formData = new FormData();
-          formData.append('partyaKey', this.batchKey);
-          formData.append('filename', this.filename2);
-        let config = {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel',formData,config).then(data=>{
+        // let formData = new FormData();
+        //   formData.append('partyaKey', this.batchKey);
+        //   formData.append('filename', this.filename2);
+        // let config = {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // }
+        let list = {
+						partyaKey: this.batchKey,
+						url: this.filename2
+					}
+        this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list).then(data=>{
           if(data.code == 'success'){
             this.changeLoading()
             const title = '上传文件'
@@ -294,8 +298,26 @@ export default {
       }
     },
     handleUpload (file) {
+      let formData = new FormData()
+      formData.append('file', file)
+      formData.append('bucket', 'netmoney')
+			formData.append('dirs', 'excelfile')
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      }
+      this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.filename2 = resp.data
+      } else {
+      }
+    })
+    .catch(() => {
+    })
       this.value9 = file.name
-      this.filename2 = file
+      return false
     },
     changeLoading () {
       this.loading = false

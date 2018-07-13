@@ -48,11 +48,13 @@ export default {
       },
       formLoginRules: {
         username: [
-          { required: true, message: '请填写用户名', trigger: 'blur' }
+          { required: true, message: '请填写用户名', trigger: 'blur' },
+          { type: 'string', max: 50, message: '密码长度不能多于50位', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请填写密码', trigger: 'blur' },
-          { type: 'string', min: 6, message: '密码长度不能小于6位', trigger: 'blur' }
+          { type: 'string', min: 6, message: '密码长度不能少于6位', trigger: 'blur' },
+          { type: 'string', max: 18, message: '密码长度不能多于18位', trigger: 'blur' }
         ]
       }
     }

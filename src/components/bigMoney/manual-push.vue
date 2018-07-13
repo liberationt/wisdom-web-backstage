@@ -216,15 +216,19 @@
 					})
 					return false
 				} else {
-					let formData = new FormData();
-					formData.append('partyaKey', this.model4)
-					formData.append('filename', this.filename)
-					let config = {
-						headers: {
-							'Content-Type': 'multipart/form-data'
-						}
+					// let formData = new FormData();
+					// formData.append('partyaKey', this.model4)
+					// formData.append('filename', this.filename)
+					// let config = {
+					// 	headers: {
+					// 		'Content-Type': 'multipart/form-data'
+					// 	}
+					// }
+					let list = {
+						partyaKey: this.model4,
+						url: this.filename
 					}
-					this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel', formData, config)
+					this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list)
 						.then((resp) => {
 							if(resp.code == 'success') {
 								setTimeout(() => {
@@ -257,8 +261,25 @@
 			},
 			// 选择文件后回调
 			handleUpload(file) {
+				let formData = new FormData()
+				formData.append('file', file)
+				formData.append('bucket', 'netmoney')
+				formData.append('dirs', 'excelfile')
+				let config = {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+				}
+				this.http.post(BASE_URL + '/fileUpload', formData, config)
+				.then((resp) => {
+				if (resp.code == 'success') {
+					this.filename = resp.data
+				} else {
+				}
+				})
+				.catch(() => {
+				})
 				this.value9 = file.name
-				this.filename = file
 				return false
 			},
 			changeLoading() {

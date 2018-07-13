@@ -58,7 +58,7 @@
             :format="['xlsx', 'xls']"
             :on-format-error="handleFormatError2"
             :max-size="12800"
-            action="/loan/batchLog/uploadFileExcel">
+            action="">
             <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
         </Upload>
             </li>
@@ -227,15 +227,19 @@ export default {
         })
         return false
       } else {
-        let formData = new FormData();
-          formData.append('partyaKey', this.jiakey);
-          formData.append('filename', this.filename2);
-        let config = {
-          headers: {
-            'Content-Type': 'multipart/form-data'
-          }
-        }
-        this.http.post(BASE_URL + '/loan/batchLog/uploadFileExcel',formData,config).then(data=>{
+        // let formData = new FormData();
+        //   formData.append('partyaKey', this.jiakey);
+        //   formData.append('filename', this.filename2);
+        // let config = {
+        //   headers: {
+        //     'Content-Type': 'multipart/form-data'
+        //   }
+        // }
+        let list = {
+						partyaKey: this.jiakey,
+						url: this.filename2
+					}
+        this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list).then(data=>{
           if(data.code == 'success'){
             this.changeLoading()
             const title = '上传名单'
@@ -263,8 +267,26 @@ export default {
       }
     },
     handleUpload (file) {
+      let formData = new FormData()
+				formData.append('file', file)
+				formData.append('bucket', 'netmoney')
+				formData.append('dirs', 'excelfile')
+				let config = {
+				headers: {
+					'Content-Type': 'multipart/form-data'
+				}
+				}
+				this.http.post(BASE_URL + '/fileUpload', formData, config)
+				.then((resp) => {
+				if (resp.code == 'success') {
+					this.filename2 = resp.data
+				} else {
+				}
+				})
+				.catch(() => {
+				})
       this.value9 = file.name
-      this.filename2 = file
+      return false
     },
     changeLoading () {
       this.loading = false
