@@ -120,9 +120,9 @@ export default {
             let type
             if (params.row.status  == '1') {
 
-              type = '启用'
-            } else {
               type = '禁用'
+            } else {
+              type = '启用'
             }
             return h('div', [
               h('span', {
@@ -240,6 +240,7 @@ export default {
     }
     this.http.post(BASE_URL + '/loan/partya/getPartyaList', list)
     .then((resp) => {
+      console.log(resp)
       if (resp.code == 'success') {
         this.data6 = resp.data.partyaList
         this.total = Number(resp.data.total)

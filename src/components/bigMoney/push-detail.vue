@@ -781,7 +781,7 @@ export default {
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
-            console.log(resp)
+            // console.log(resp)
 						if(resp.code == 'success') {
               if (this.model1 == 'partya-chedidai') {
                 this.party1 = this.columns1
