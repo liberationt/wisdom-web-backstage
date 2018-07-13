@@ -43,7 +43,7 @@
 export default {
   data () {
     return {
-      model1: this.$route.query.code,
+      model1: 'partya-fanpuwang',
       model2: '',
       // model3: '',
       model4: '',
@@ -770,9 +770,18 @@ export default {
 					})
 					return false
         }
-        let url = '/common/partya/getDkBJpuhuiList?partyaKey='+this.model1+'&beginTime='+this.value1+'&endTime='+this.value2+'&pushBatchNum='+this.model5+'&pushStatus='+this.model2+'&origin=0'
-				this.http.post(BASE_URL + url)
+        let params = {
+          partyaKey: this.model1,
+          beginTime: this.value1,
+          endTime: this.value2,
+          pushBatchNum: this.model5,
+          pushStatus: this.model2,
+          origin: 0
+        }
+        // console.log(params)
+				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
+            console.log(resp)
 						if(resp.code == 'success') {
               if (this.model1 == 'partya-chedidai') {
                 this.party1 = this.columns1
