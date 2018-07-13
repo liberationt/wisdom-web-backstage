@@ -10,12 +10,13 @@
                 <Icon type="ios-person-outline" slot="prepend"></Icon>
             </i-input>
         </Form-item>
-        <Form-item prop="password">
+        <Form-item prop="password" class="errorhome">
             <i-input size="large"  type="password" v-model="formLogin.password" placeholder="密码">
                 <Icon type="ios-locked-outline" slot="prepend"></Icon>
             </i-input>
+            <span class="red" v-if="hid">{{errcon}}</span>
         </Form-item>
-          <Form-item class="login-no-bottom">
+          <Form-item class="login-no-bottom">           
             <Checkbox-group v-model="formLogin.remember">
                 <Checkbox label="记住密码" name="remember"></Checkbox>
             </Checkbox-group>
@@ -41,6 +42,8 @@ export default {
   data () {
     return {
       loading: false,
+      hid: false,
+      errcon: '',
       formLogin: {
         username: '',
         password: '',
@@ -76,6 +79,7 @@ export default {
           this.http.post(BASE_URL + '/user/Login', params)
             .then((resp) => {
               if (resp.code == 'success') {
+                this.hid = false
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
                 utils.putlocal('lefthidden', false)
@@ -88,11 +92,13 @@ export default {
                 this.$router.push({ path: '/applicationHomePage' })
                 location.reload()
               } else {
-                this.$Message.error(resp.message)
+                this.errcon = resp.message
+                this.hid = true
+                // this.$Message.error(resp.message)
                 // this.loading = false
                 setTimeout(() => {
                     this.loading = false
-                }, 1500)
+                }, 1000)
                 return false
               }
             })
@@ -181,4 +187,7 @@ export default {
   .ivu-btn-primary{
     background-color: rgb(4, 0, 255) !important;
   }
+  .ivu-form-item .errorhome{
+  margin-bottom: 0!important
+}
 </style>

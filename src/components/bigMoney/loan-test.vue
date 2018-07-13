@@ -48,7 +48,7 @@
                 :format="['jpg','jpeg','png', 'gif']"
                 :on-format-error="handleFormatError1"
                 action=''>
-                  <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">预览</Button>
+                  <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">选择</Button>
                 </Upload>
               </FormItem>
               <FormItem label="产品标签图标:" class="productlogo" >
@@ -60,7 +60,7 @@
                 :format="['jpg','jpeg','png', 'gif']"
                 :on-format-error="handleFormatError2"
                 action=''>
-                  <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">预览</Button>
+                  <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">选择</Button>
                 </Upload>
               </FormItem>
             <FormItem label="产品名称:" prop="name">
@@ -415,7 +415,11 @@ export default {
                 on: {
                   click: () => {
                     // this.remove(params.index)
-                    this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode?dataFlag=0&productCode='+params.row.productCode)
+                    let list = {
+                      dataFlag: 0,
+                      productCode: params.row.productCode
+                    }
+                    this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', list)
                       .then((resp) => {
                         if (resp.code == 'success') {
                           this.inquire()
@@ -524,6 +528,7 @@ export default {
     },
     refuse (num, code) {
       if (num == 1) {
+        this.$refs['formCustom'].resetFields()
         this.edit = code
         this.http.get(BASE_URL + '/loan/loanProduct/getLoanProductByCode?loanProductCode='+code)
         .then((resp) => {
@@ -538,16 +543,16 @@ export default {
             this.formCustom.explain = resp.data.subtitle
             this.formCustom.types = resp.data.lineType
             if (resp.data.lineType == 1) {
-               this.formCustom.range = resp.data.startMoney
-               this.formCustom.rangeend = resp.data.endMoney
+               this.formCustom.range = resp.data.startMoney+''
+               this.formCustom.rangeend = resp.data.endMoney+''
              } else {
-               this.formCustom.quota = resp.data.loanLines
+               this.formCustom.quota = resp.data.loanLines+''
              }
             this.formCustom.object1 = resp.data.startMoneyUnit
             this.formCustom.object2 = resp.data.endMoneyUnit
             this.formCustom.object3 = resp.data.startMoneyUnit//待定
             this.formCustom.ratetype = resp.data.interestType
-            this.formCustom.rate = resp.data.interest
+            this.formCustom.rate = resp.data.interest+''
             this.formCustom.producturl = resp.data.productUrl
             // this.formCustom.sernum = resp.data.sort
           } else {

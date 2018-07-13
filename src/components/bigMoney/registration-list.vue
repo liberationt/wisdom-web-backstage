@@ -96,18 +96,23 @@ export default {
         }
       ],
       columns1: [
-        // {
-        //   title: 'NO',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'no'
-        // },
-        // {
-        //   title: 'UID',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'did'
-        // },      
+        {
+          title: '序号',
+          align: 'center',
+          width: 100,
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, params.index+1)
+            ])
+          }
+        },
+        {
+          title: 'UID',
+          align: 'center',
+          width: 100,
+          key: 'dwqCode'
+        },
         {
           title: '注册时间',
           align: 'center',
