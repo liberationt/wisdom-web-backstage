@@ -304,13 +304,14 @@ export default {
       
     },
     time1 (value, data) {
+      // console.log(this.time2)
       if (this.time.length >= 4) {
         this.time2.push(','+value)
+
       } else {
         this.time.push(','+value)
         this.time2.push(','+value)
       }
-      
       
     }
   },

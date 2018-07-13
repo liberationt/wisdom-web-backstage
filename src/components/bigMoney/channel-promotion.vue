@@ -9,7 +9,7 @@
             <div class="left ml20">
                 <span>渠道名称:</span>
                 <Input v-model="value" placeholder="请输入渠道名称" style="width: 200px"></Input>
-                <span class="ml20">推送时间:</span>
+                <span class="ml20">创建时间:</span>
             <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
@@ -21,7 +21,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
         </div>
         <Modal
           title="添加渠道"

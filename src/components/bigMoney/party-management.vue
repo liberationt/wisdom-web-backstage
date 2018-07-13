@@ -20,7 +20,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page v-show="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+          <Page v-show="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -100,11 +100,11 @@ export default {
           render: (h, params) => {
             let type
             if (params.row.cycleUnint == '1') {
-              type = '分'
+              type = params.row.cycle + '分钟'
             } else if (params.row.cycleUnint == '2') {
-              type = '时'
+              type = params.row.cycle +'小时'
             } else {
-              type = '天'
+              type = params.row.cycle +'天'
             }
             return h('div', [
               h('span', {
@@ -120,9 +120,9 @@ export default {
             let type
             if (params.row.status  == '1') {
 
-              type = '禁用'
-            } else {
               type = '启用'
+            } else {
+              type = '禁用'
             }
             return h('div', [
               h('span', {
@@ -139,9 +139,9 @@ export default {
             let type = 'success'
             let status
             if (params.row.status == '1') {
-              status = '启用'
-            } else {
               status = '禁用'
+            } else {
+              status = '启用'
             }
             let shelf = [
               h('span', {}, status)
@@ -233,11 +233,11 @@ export default {
     // 查询
     inquire () {
       let list = {
-      partyaName : this.model1,
-      status : this.model2,
-      pageNum: this.startRow,
-      pageSize: this.endRow
-    }
+        partyaName : this.model1,
+        status : this.model2,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
     this.http.post(BASE_URL + '/loan/partya/getPartyaList', list)
     .then((resp) => {
       console.log(resp)
