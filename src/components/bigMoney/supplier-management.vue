@@ -159,7 +159,9 @@ export default {
                 title: title,
                 content: content
               })
+              this.modal9 = false
               this.inquire ()
+              this.$refs[name].resetFields()
             } else {
 
             }
@@ -168,12 +170,6 @@ export default {
           })
           // this.$Message.error('Success!')
         }
-        setTimeout(() => {
-          this.changeLoading()
-          this.modal9 = false
-          // this.formCustom.name = ''
-          this.$Message.success('done')
-        }, 1000)
       })
     },
     handleReset (name) {
