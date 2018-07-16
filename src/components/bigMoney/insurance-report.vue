@@ -16,10 +16,12 @@
             <Select v-model="model3" style="width:200px" class="mr20">
                 <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <span class=" tr displayib">推送时间:</span>
-            <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+            <div class="margin_top">
+              <span class=" tr displayib">推送时间:</span>
+              <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
+              <span>  -  </span>
+              <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+            </div>
             <!-- <div class="mt15">
             <span class=" tr displayib">推送时间:</span>
                 <DatePicker type="date"  placeholder="开始时间" style="width: 200px"></DatePicker>
@@ -213,58 +215,6 @@ export default {
         // }
       ],
       data1: [
-        {
-          // no: '1',
-          // uid: '1',
-          // media: '1',
-          // channel: '1',
-          // step: '1',
-          // name: '1',
-          // phone: '1',
-          // birthday: '1',
-          // sex: '1',
-          // age: '1',
-          // city: '1',
-          mcity: '1',
-          toloan: '1',
-          social: '1',
-          accumulation: '1',
-          roomloan: '1',
-          room: '1',
-          car: '1',
-          carloan: '1',
-          insurance: '1',
-          tiny: '1',
-          time: '0',
-          // type: '1',
-          // ip: '1'
-        },
-        {
-          // no: '1',
-          // uid: '1',
-          // media: '1',
-          // channel: '1',
-          // step: '1',
-          // name: '1',
-          // phone: '1',
-          // birthday: '1',
-          // sex: '1',
-          // age: '1',
-          // city: '1',
-          // mcity: '1',
-          // toloan: '1',
-          social: '1',
-          accumulation: '1',
-          roomloan: '1',
-          room: '1',
-          car: '1',
-          carloan: '1',
-          insurance: '1',
-          tiny: '1',
-          time: '0',
-          type: '1',
-          ip: '1'
-        }
       ],
       value1: '',
       value2: '',
@@ -373,5 +323,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.margin_top {
+  margin-top: 20px;
+}
 </style>

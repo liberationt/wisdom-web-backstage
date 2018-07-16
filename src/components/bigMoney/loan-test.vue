@@ -652,7 +652,6 @@ export default {
               this.http.post(BASE_URL + '/loan/loanProduct/saveLoanProduct', list)
               .then((resp) => {
                 if (resp.code == 'success') {
-                  setTimeout(() => {
                   this.changeLoading()
                   const title = '贷款产品设置'
                   let content = '<p>保存成功</p>'
@@ -662,12 +661,9 @@ export default {
                   })
                   this.modal9 = false
                   this.inquire()
-                }, 1000)
                 this.$refs[name].resetFields()
                 } else {
-                  setTimeout(() => {
                   this.changeLoading()
-                }, 1000)
                   this.$Message.info(resp.message)
                 }
               })
