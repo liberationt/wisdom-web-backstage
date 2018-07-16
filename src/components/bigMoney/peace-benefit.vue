@@ -281,6 +281,7 @@ export default {
             })
             this.modal9 = false
             this.value9 = ''
+            this.registered()
           } else {
              this.changeLoading()
             const title = '上传文件'

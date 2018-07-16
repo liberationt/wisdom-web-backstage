@@ -25,7 +25,7 @@
 			<Table border :columns="columns7" :data="data6"></Table>
 		</div>
 		<div class="tr mt15">
-			<Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
+			<Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
 		</div>
 		<Modal title="上传报表" v-model="modal9" @on-ok="upload" @on-cancel="cancel" ok-text="保存" cancel-text="取消" class-name="vertical-center-modal" width="500" :loading="loading" :mask-closable="false">
 			<div class="newtype_file mt15 mb15 pl10">
@@ -241,6 +241,7 @@
 									})
 									this.modal9 = false
 									this.value9 = ''
+									this.inquire()
 								}, 1000)
 							} else {
 								this.$Message.info(resp.message)
