@@ -8,6 +8,7 @@ import http from './utils/http'
 import Api from './utils/api'
 import store from './vuex/store'
 import utils from './utils/utils'
+import './utils/filters'
 // import aaa from './components/rightcontent'
 // import $ from 'jquery'
 // UE
@@ -42,9 +43,9 @@ Vue.use(iView)
 Vue.use(http)
 Vue.use(Api)
 Vue.use(store)
+// Vue.use(filter)
 
 const router = new VueRouter({
-  mode: 'history',
   routes
 })
 router.beforeEach((to, from, next) => {
