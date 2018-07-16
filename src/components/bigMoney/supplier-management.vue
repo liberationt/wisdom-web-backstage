@@ -114,7 +114,7 @@ export default {
         name: [
           { required: true, message: '请输入供应商名称', trigger: 'blur' },
           {required: true, message: '请输入正确的供应商名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'},
-          { max: 50, message: '供应商名称最多输入50个字符', trigger: 'blur' }
+          { max: 25, message: '供应商名称最多输入25个字符', trigger: 'blur' }
         ]
       }
     }
@@ -146,6 +146,9 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
+          // if(this.formCustom.name == this.formCustom.name){
+          //   alert(111)
+          // }else{}
           let list = {
             supplierKey : this.formCustom.productid,
             supplierName : this.formCustom.name
@@ -163,7 +166,15 @@ export default {
               this.inquire ()
               this.$refs[name].resetFields()
             } else {
-
+              const title = '保存'
+              let content = '<p>保存失败</p>'
+              this.$Modal.success({
+                title: title,
+                content: content
+              })
+              this.modal9 = false
+              this.inquire ()
+              this.$refs[name].resetFields()
             }
           })
           .catch(() => {
