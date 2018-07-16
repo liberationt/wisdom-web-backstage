@@ -38,6 +38,7 @@
 .layout-menu-left {
     background: #454E59;
     overflow: scroll;
+    padding-bottom: 50px;
 }
 .layout-header {
     height: 60px;
