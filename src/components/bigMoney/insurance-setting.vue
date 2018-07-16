@@ -26,7 +26,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+          <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
         </div>
         <Modal
           title="上传文件"
@@ -376,7 +376,9 @@ export default {
       if(resp.code == 'success'){
         this.data6 = resp.data.batchLogList;
         this.total = parseInt(resp.data.total) 
-        
+        if(parseInt(resp.data.total) == '0') {
+          this.startRow = 1
+        }
       }
     }).catch((err)=>{
       console.log(err)
@@ -398,6 +400,9 @@ export default {
         if(resp.code == 'success'){
           this.data6 = resp.data.batchLogList;
           this.total = parseInt(resp.data.total) 
+          if(parseInt(resp.data.total) == '0') {
+            this.startRow = 1
+          }
         }
       }).catch((err)=>{
         console.log(err)
