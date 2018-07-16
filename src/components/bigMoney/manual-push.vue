@@ -2,7 +2,7 @@
 	<div>
 		<div class="navigation">
 			<p>
-				<span>推广批次报表</span>
+				<span>推广明细报表</span>
 			</p>
 		</div>
 		<div class="mt50">
