@@ -42,15 +42,15 @@
           <div  class="newtype_file mt15 mb15 ">            
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
              <FormItem label="渠道类别:" prop="category" >
-              <Select v-model="formCustom.category" placeholder="请选择渠道类别" :class="" style="width:300px">
+              <Select v-model="formCustom.category" placeholder="请选择渠道类别" :disabled="judge=='1'" style="width:300px">
                   <Option v-for="item in optionlac" :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
                 </Select>
             </FormItem>
             <FormItem label="渠道编号:" prop="serialnum">
-                <Input v-model="formCustom.serialnum" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
+                <Input v-model="formCustom.serialnum" :disabled="judge=='1'" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
               </FormItem>
               <FormItem label="渠道供应商:" prop="productid" >
-                <Select v-model="formCustom.productid" placeholder="请选择渠道供应商"  :class="" style="width:300px">
+                <Select v-model="formCustom.productid" :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
                   <Option v-for="item in optioncha" :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
                 </Select>
               </FormItem>
@@ -81,6 +81,7 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      code: '',
       formCustom: {
         name: '',
         types: '',
@@ -144,7 +145,7 @@ export default {
         {
           title: '渠道名称',
           align: 'center',
-          key: 'channelName'
+          key: 'manageName'
         },
         {
           title: '供应商名称',
@@ -185,7 +186,7 @@ export default {
                   on: {
                     click: () => {
                       this.codel = params.row.manageCode
-                      this.refusel(params.row.channelName, params.row.supplierCode, params.row.channelName, params.row.urlName)
+                      this.refusel(params.row.manageCode)
                     }
                   }
                 },
@@ -266,14 +267,27 @@ export default {
       this.modal9 = true
       this.judge = 0
     },
-    refusel (name, supplierCode, channell, urll) {
+    refusel (code) {
+      this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageByCode?promotionManageCode='+code)
+            .then((resp) => {
+              if (resp.code == 'success') {
+                this.formCustom.category = resp.data.urlCode
+                this.formCustom.serialnum = resp.data.channelNum
+                this.formCustom.productid = resp.data.supplierCode
+                this.formCustom.name = resp.data.manageName
+                this.formCustom.types = resp.data.channelTag
+                this.formCustom.links = resp.data.manageUrl
+
+              } else {
+
+              }
+            })
+            .catch(() => {
+            })  
       // document.getElementsByClassName('.inputl').attr('disabled')
-      this.formCustom.name = name,
-      this.formCustom.types = channell,
-      this.formCustom.links = urll,
-      this.formCustom.productid = supplierCode,
       this.modal9 = true
-      this.judge = 1    
+      this.judge = 1
+      this.code = code
     },
     changeLoading () {
       this.loading = false
@@ -288,12 +302,12 @@ export default {
         } else {
           if (this.judge == 0){
             let list = {
-              urlCode : formCustom.category,
+              urlCode : this.formCustom.category,
               channelNum : this.formCustom.serialnum,//渠道编号
               manageName : this.formCustom.name,//渠道名称
-              channelCode : this.formCustom.types,//渠道标签
+              channelTag : this.formCustom.types,//渠道标签
               supplierCode : this.formCustom.productid,//渠道供应商
-              urlCode: this.formCustom.links//推广url
+              manageUrl: this.formCustom.links//推广url
             }
             this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
             .then((resp) => {
@@ -318,13 +332,16 @@ export default {
             .catch(() => {
             })  
           }
+          // 新增
           if(this.judge == 1){
             let list = {
-              // manageName : this.formCustom.name,
-              channelCode : this.formCustom.types,
-              supplierCode : this.formCustom.productid,
-              urlCode: this.formCustom.links,
-              manageCode : this.codel,
+              manageCode : this.code,
+              urlCode : this.formCustom.category,
+              channelNum : this.formCustom.serialnum,//渠道编号
+              manageName : this.formCustom.name,//渠道名称
+              channelTag : this.formCustom.types,//渠道标签
+              supplierCode : this.formCustom.productid,//渠道供应商
+              manageUrl: this.formCustom.links//推广url
             }
             this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageByCode', list).then(data=>{
               if(data.code == 'success'){
