@@ -122,6 +122,7 @@ export default {
       modal10: false,
       manual: false,
       loading: true,
+      value4: '',
       cycle: '',
       code: '',
       datatime: '分',
@@ -223,7 +224,7 @@ export default {
         partyaCode :this.code, 
         sendType: sendType,
         limitDay: this.value1,
-        partyaKey: this.value2,
+        partyaKey: this.value4,
         status : status
       }
       } else if(this.animal =='自动' || this.animal == '自动手动都可以') {
@@ -243,7 +244,7 @@ export default {
         partyaCode :this.code, 
         sendType: sendType,
         limitDay: this.value1,
-        partyaKey: this.value2,
+        partyaKey: this.value4,
         status : status,
         pausePush: time,
         cycle: this.cycle,
@@ -335,8 +336,9 @@ export default {
           this.time2.push(resp.data.pausePush)
         }
         this.data1 = resp.data.list
-        this.value1 = resp.data.limitDay
-        this.value2 = resp.data.partyaKey
+        this.value1 = resp.data.repateSendDay 
+        this.value2 = resp.data.limitDay
+        this.value4 = resp.data.partyaKey
         if (resp.data.status == '1') {
           this.enable = '启用'
         } else {
