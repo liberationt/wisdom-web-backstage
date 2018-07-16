@@ -146,9 +146,6 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
-          // if(this.formCustom.name == this.formCustom.name){
-          //   alert(111)
-          // }else{}
           let list = {
             supplierKey : this.formCustom.productid,
             supplierName : this.formCustom.name
