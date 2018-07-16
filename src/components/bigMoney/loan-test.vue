@@ -198,7 +198,8 @@ export default {
         ratetype: { required: true, message: '请选择利率类型', trigger: 'blur' },
         rate: [
           { required: true, message: '请输入利率', trigger: 'blur' },
-          {required: true, message: '利率只能输入正整数', pattern: /^[0-9]+$/, trigger: 'blur'}
+          { type: 'string',pattern:/^(([1-9]\d{0,3})|0)(\.\d{0,2})?$/, message:'小数点后不能超过两位', trigger:'blur'},          
+          {required: true, message: '利率不能大于100%', pattern: /^[1-9][0-9][0]$/, trigger: 'blur'},
         ],
         producturl: { required: true, message: '请输入产品URL', trigger: 'blur' }
       },
