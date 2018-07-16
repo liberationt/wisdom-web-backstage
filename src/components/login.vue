@@ -90,7 +90,7 @@ export default {
                 // Vue.http.headers.common['Authentication'] = resp.data
                 this.$Message.success('登录成功!')
                 this.$router.push({ path: '/applicationHomePage' })
-                location.reload()
+                // location.reload()
               } else {
                 this.errcon = resp.message
                 this.hid = true

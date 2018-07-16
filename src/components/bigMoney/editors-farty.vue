@@ -21,6 +21,7 @@
                     <RadioGroup v-model="animal" @on-change="pushmode(animal)"  class="ml5">
                         <Radio  label="手动"></Radio>
                         <Radio label="自动" ></Radio>
+                        <Radio label="自动手动都可以" ></Radio>
                     </RadioGroup>
                 </li>
                 <li class="mt15" v-if="manual">
@@ -225,7 +226,7 @@ export default {
         partyaKey: this.value2,
         status : status
       }
-      } else {
+      } else if(this.animal =='自动' || this.animal == '自动手动都可以') {
         sendType = '2'
         let time = ''
         this.time2.forEach((e)=>{

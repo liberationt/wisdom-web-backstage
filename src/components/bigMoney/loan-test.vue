@@ -25,6 +25,7 @@
           title="贷款产品设置"
           v-model="modal9"
           @on-ok="handleSubmit('formCustom')"
+          @on-cancel="handleReset('formCustom')"
           ok-text="保存"
           cancel-text="取消"
           class-name="vertical-center-modal"
@@ -85,7 +86,7 @@
                         <Input  v-model="formCustom.range" placeholder="请输入起始金额" style="width: 100px"></Input>
                         <Select v-model="formCustom.object1" placeholder="请选择" style="width:60px">
                           <Option value="元">元</Option>
-                          <Option value="千元">千元</Option>
+                          <Option value="千">千</Option>
                           <Option value="万">万</Option>
                         </Select>
                     </FormItem>
@@ -96,7 +97,7 @@
                       <Input  v-model="formCustom.rangeend" placeholder="请输入结束金额" style="width: 100px"></Input>
                         <Select v-model="formCustom.object2" placeholder="请选择" style="width:60px">
                           <Option value="元">元</Option>
-                          <Option value="千元">千元</Option>
+                          <Option value="千">千</Option>
                           <Option value="万">万</Option>
                         </Select>
                     </FormItem>
@@ -107,7 +108,7 @@
               <Input  v-model="formCustom.quota" placeholder="金额" style="width: 100px"></Input>
               <Select v-model="formCustom.object3" placeholder="请选择" style="width:60px">
                 <Option value="元">元</Option>
-                <Option value="千元">千元</Option>
+                <Option value="千">千</Option>
                 <Option value="万">万</Option>
               </Select>
             </FormItem>
@@ -188,11 +189,11 @@ export default {
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
         range: [
           { required: true, message: '请输入开始金额', trigger: 'blur' },
-          {required: true, message: '额度范围只能输入正整数', pattern: /^[0-9]+$/, trigger: 'blur'}
+          {required: true, message: '额度范围只能输入正整数', pattern: /^[1-9]+$/, trigger: 'blur'}
         ],
         rangeend: [
           { required: true, message: '请输入结束金额', trigger: 'blur' },
-          {required: true, message: '额度范围只能输入正整数', pattern: /^[0-9]+$/, trigger: 'blur'}
+          {required: true, message: '额度范围只能输入正整数', pattern: /^[1-9]+$/, trigger: 'blur'}
         ],
         ratetype: { required: true, message: '请选择利率类型', trigger: 'blur' },
         rate: [
@@ -349,7 +350,6 @@ export default {
                 },
                 on: {
                   click: () => {
-
                     this.refuse(1, params.row.productCode)
                   }
                 }
@@ -685,6 +685,9 @@ export default {
           // this.$Message.error('Success!')
         }
       })
+    },
+    handleReset (name) {
+      this.$refs[name].resetFields()
     },
     pageChange (page) {
       this.startRow = page

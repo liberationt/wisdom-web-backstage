@@ -37,6 +37,7 @@
 }
 .layout-menu-left {
     background: #454E59;
+    overflow: scroll;
 }
 .layout-header {
     height: 60px;
@@ -199,6 +200,10 @@ export default {
     },
     titleurl () {
         // localStorage.removeItem('lefthidden')
+        let left = document.getElementsByClassName('layout-menu-left')
+        let right = document.getElementsByClassName('contrig')
+        left[0].style.display = 'none'
+        right[0].style.width = '100%'
         this.$router.push('/applicationHomePage')       
     }
   },

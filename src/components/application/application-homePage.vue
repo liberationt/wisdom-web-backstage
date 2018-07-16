@@ -87,13 +87,18 @@ export default {
       utils.putlocal('lefthidden', true)
       // sessionStorage.setItem('lefthidden', true)
       that.lefthidtrue()
-      location.reload()
+      utils.putlocal('sideleft', '0')
+      let left = document.getElementsByClassName('layout-menu-left')
+        let right = document.getElementsByClassName('contrig')
+        left[0].style.display = 'block'
+        right[0].style.width = '83.3%'
+      // location.reload()
       // that.menu.menuInfo.childMenu
     }
   },
   computed: {
     ...mapState(['menu'])
-  }
+  },
 }
 </script>
 <style lang="less" scoped>

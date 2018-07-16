@@ -19,7 +19,7 @@
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <!-- <Button type="primary" class="mr20" shape="circle" icon="code-working" @click="labelcon">标签配置</Button>
                 <Button type="primary" class="mr20" shape="circle" icon="android-options" @click="channel">渠道类别配置</Button> -->
-                <Button type="primary" shape="circle" icon="plus-round" @click="refuse">新增</Button>
+                <Button type="primary" shape="circle" icon="plus-round" @click="refuse">添加渠道</Button>
             </div>
         </div>
         <div class="">
@@ -39,25 +39,29 @@
           width="800"
           :loading="loading"
           :mask-closable="false">
-          <div  class="newtype_file mt15 mb15 ">
+          <div  class="newtype_file mt15 mb15 ">            
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
-              <FormItem label="名称:" prop="name">
-                <Input v-model="formCustom.name" placeholder="请输入名称" class="inputl" style="width: 300px"></Input>
+             <FormItem label="渠道类别:" prop="category" >
+              <Select v-model="formCustom.category" placeholder="请选择渠道类别" :class="" style="width:300px">
+                  <Option v-for="item in optionlac" :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
+                </Select>
+            </FormItem>
+            <FormItem label="渠道编号:" prop="serialnum">
+                <Input v-model="formCustom.serialnum" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
               </FormItem>
-              <FormItem label="渠道:" prop="productid" >
-                <Select v-model="formCustom.productid" placeholder="请选择渠道"  :class="" style="width:300px">
+              <FormItem label="渠道供应商:" prop="productid" >
+                <Select v-model="formCustom.productid" placeholder="请选择渠道供应商"  :class="" style="width:300px">
                   <Option v-for="item in optioncha" :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
                 </Select>
               </FormItem>
-              <FormItem label="供应商:" prop="types">
-                <Select v-model="formCustom.types" placeholder="请选择供应商"  :class="" style="width:300px">
-                  <Option v-for="item in optionlab" :value="String(item.channelCode)" :key="item.channelCode">{{ item.channelName }}</Option>
-                </Select>
+              <FormItem label="渠道名称:" prop="name">
+                <Input v-model="formCustom.name" placeholder="请输入渠道名称" class="inputl" style="width: 300px"></Input>
+              </FormItem>             
+              <FormItem label="渠道标签:" prop="types">
+                <Input v-model="formCustom.types" placeholder="请输入渠道标签" class="inputl" style="width: 300px"></Input>
               </FormItem>
-              <FormItem label="推广链接:" prop="links">
-                <Select v-model="formCustom.links" placeholder="请选择推广链接"  :class="" style="width:300px">
-                  <Option v-for="item in optionlac" :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
-                </Select>
+              <FormItem label="推广URL:">
+                <Input v-model="formCustom.links" disabled  class="inputl" style="width: 300px"></Input>
               </FormItem>
           </Form>
           </div>
@@ -81,20 +85,23 @@ export default {
         name: '',
         types: '',
         productid: '',
-        links: ''
+        links: '',
+        category: '',
+        serialnum: ''
       },
       ruleCustom: {
-        types: [
-          { required: true, message: '请选择供应商', trigger: 'blur', }, 
+        category: [
+          { required: true, message: '请选择渠道类别', trigger: 'blur', }, 
           // { type: 'string', message: '请选择供应商', trigger: 'blur' } //  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
-        ], 
-        name: [{ required: true, message: '请输入正确的名称', trigger: 'blur', }],
-        productid: [
-          { required: true, message: '请选择渠道', trigger: 'blur',},
-          // { type: 'string', message: '请选择渠道', trigger: 'blur' } // pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ],
-        links: [
-          { required: true, message: '请选择推广链接', trigger: 'blur',},
+        serialnum: [{ required: true, message: '请输入渠道编号', trigger: 'blur', }],
+        types: [
+          { required: true, message: '请输入渠道标签', trigger: 'blur', }, 
+          // { type: 'string', message: '请选择供应商', trigger: 'blur' } //  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
+        ],
+        name: [{ required: true, message: '请输入渠道名称', trigger: 'blur', }],
+        productid: [
+          { required: true, message: '请选择渠道供应商', trigger: 'blur',},
           // { type: 'string', message: '请选择渠道', trigger: 'blur' } // pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ]
       },
@@ -125,14 +132,14 @@ export default {
       ],
       columns7: [
         {
-          title: '名称',
-          align: 'center',
-          key: 'channelName'
-        },
-        {
-          title: '推广链接名称',
+          title: '渠道类别',
           align: 'center',
           key: 'urlName'
+        },
+        {
+          title: '渠道编号',
+          align: 'center',
+          key: 'channelNum'
         },
         {
           title: '渠道名称',
@@ -150,7 +157,12 @@ export default {
           key: 'channelTag'
         },
         {
-          title: '修改时间',
+          title: 'URL',
+          align: 'center',
+          key: 'manageUrl'
+        },
+        {
+          title: '更新时间',
           align: 'center',
           key: 'dataModifiedTime'
         },
@@ -276,10 +288,12 @@ export default {
         } else {
           if (this.judge == 0){
             let list = {
-              manageName : this.formCustom.name,
-              channelCode : this.formCustom.types,
-              supplierCode : this.formCustom.productid,
-              urlCode: this.formCustom.links
+              urlCode : formCustom.category,
+              channelNum : this.formCustom.serialnum,//渠道编号
+              manageName : this.formCustom.name,//渠道名称
+              channelCode : this.formCustom.types,//渠道标签
+              supplierCode : this.formCustom.productid,//渠道供应商
+              urlCode: this.formCustom.links//推广url
             }
             this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
             .then((resp) => {
@@ -396,7 +410,7 @@ export default {
         manageCode : code,
         dataFlag : 0
       }
-      this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageStateByCode',list)
+      this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageByCode',list)
       .then((resp) => {
       if (resp.code == 'success') {
         const title = '删除'

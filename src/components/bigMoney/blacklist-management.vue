@@ -185,11 +185,12 @@ export default {
         })
         return false
       } else {
-        let list = {
-						url: this.filename
-					}
-        this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list)
+        // let list = {
+					let	url = this.filename
+					// }
+        this.http.get(BASE_URL + '/loan/pushBlack/uploadFileExcel?url='+url)
         .then((resp) => {
+          console.log(resp)
           if (resp.code == 'success') {
             setTimeout(() => {
             this.changeLoading()

@@ -7,7 +7,7 @@
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
-              <a href="javascript:;" :class="{redWine:index==isActive}" :menucode="item.menuCode"  @click="routerlink(index, item.path)">{{item.menuName}}</a>
+              <a href="javascript:;" :class="{redWine:index==isActive}" :menucode="item.menuCode"  @click="routerlink(index, item.path, item.menuName)">{{item.menuName}}</a>
             </li>
             <!-- <li><router-link to="/homePage">公众号</router-link></li>
             <li><router-link to="/homePage">小程序</router-link></li>
@@ -102,9 +102,16 @@ export default {
   },
   methods: {
     ...mapMutations(['lefthidfalse', 'lefthidtrue']),
-    routerlink: function (index, path) {
+    routerlink: function (index, path, name) {
+      // console.log(name)
       utils.putlocal('headace', index)
       this.isActive = index
+      if (name == '应用管理') {
+        let left = document.getElementsByClassName('layout-menu-left')
+        let right = document.getElementsByClassName('contrig')
+        left[0].style.display = 'none'
+        right[0].style.width = '100%'
+      }
       this.$router.push({ path: path })
     },
     introduction () {

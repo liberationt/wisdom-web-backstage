@@ -36,14 +36,14 @@
         </div>
         <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
-            </div>
+        </div>
     </div>
 </template>
 <script>
 export default {
   data () {
     return {
-      model1: 'partya-fanpuwang',
+      model1: 'partya-houbenjinrong',
       model2: '',
       // model3: '',
       model4: '',
@@ -781,8 +781,9 @@ export default {
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
-            // console.log(resp)
+            // console.log(resp) 
 						if(resp.code == 'success') {
+              console.log(this.model1)
               if (this.model1 == 'partya-chedidai') {
                 this.party1 = this.columns1
                 this.data1 = resp.data.dkChedidaiList
@@ -808,6 +809,7 @@ export default {
                 this.party1 = this.columns8
                 this.data1 = resp.data.dkYinxinList
               }
+              // console.log(this.data1,111)
 							this.total = Number(resp.data.total)
 							this.startRow = Math.ceil(resp.data.startRow / this.endRow)
 						} else {
@@ -818,6 +820,31 @@ export default {
       },
       // 导出
       exports () {
+        // 封装form 表单
+        var params = {// 参数
+        smartWatermeterId:this.$route.query.watermeterId,
+        startTime:this.formVal.startTime,
+        endTime:this.formVal.endTime,
+        };
+
+        var form = document.createElement('form');
+        form.id = 'form'
+        form.name = 'form'
+        document.body.appendChild(form);
+        for(var obj in params) {
+        if(params.hasOwnProperty(obj)) {
+        var input = document.createElement('input');
+        input.tpye='hidden';
+        input.name = obj;
+        input.value = params[obj];
+        form.appendChild(input)
+        }
+        }
+        form.method = "GET";//请求方式
+        form.action = runEnv.api_url+'请求地址';
+        form.submit();
+        document.body.removeChild(form);
+        
         let url = '/common/partya/exportExcel?partyaKey='+this.model1+'&beginTime='+this.value1+'&endTime='+this.value2+'&pushBatchNum='+this.model5+'&pushStatus='+this.model2+'&origin=0'
         window.open(BASE_URL + url)
       }     

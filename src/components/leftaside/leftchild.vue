@@ -37,7 +37,7 @@ export default {
     let leftul = document.querySelectorAll('.aceul')
     let index
     if (utils.getlocal('sideleft')) {
-      index = utils.getlocal('sideleft')
+      index = Number(utils.getlocal('sideleft'))
     } else {
       index = 0
     }
