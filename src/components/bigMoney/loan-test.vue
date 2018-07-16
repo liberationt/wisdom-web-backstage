@@ -162,8 +162,8 @@ export default {
         object3: '万',
         quota: '',
         // sernum: '',
-        logoUrl: require('../../image/head-portrait.jpg'),
-        labelUrl: require('../../image/head-portrait.jpg'),
+        logoUrl: require('../../image/moren.png'),
+        labelUrl: require('../../image/moren.png'),
         // loading2: false
       },
       ruleCustom: {
@@ -703,6 +703,8 @@ export default {
     handleReset (name) {
       this.$refs[name].resetFields()
       this.formCustom.producticon = ''
+      this.formCustom.logoUrl = require('../../image/moren.png')
+      this.formCustom.labelUrl = require('../../image/moren.png')
     },
     pageChange (page) {
       this.startRow = page
