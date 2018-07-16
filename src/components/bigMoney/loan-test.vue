@@ -365,8 +365,12 @@ export default {
                 },
                 on: {
                   click: () => {
-                    if (params.row.status == 1) {                   
-                      this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode?status=0&productCode='+params.row.productCode)
+                    if (params.row.status == 1) {
+                      let list = {
+                        status: 0,
+                        productCode: params.row.productCode
+                      }
+                      this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', list)
                       .then((resp) => {
                         if (resp.code == 'success') {
                           onshelf = '下架'
@@ -383,8 +387,12 @@ export default {
                       })
                       .catch(() => {
                       })
-                    } else {                    
-                      this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode?status=1&productCode='+params.row.productCode)
+                    } else {
+                      let list = {
+                        status: 1,
+                        productCode: params.row.productCode
+                      }
+                      this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', list)
                       .then((resp) => {
                         if (resp.code == 'success') {
                           onshelf = '上架'
@@ -423,7 +431,16 @@ export default {
                     this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', list)
                       .then((resp) => {
                         if (resp.code == 'success') {
-                          this.inquire()
+                          this.$Modal.confirm({
+                            title: '删除',
+                            content: '<p>确认要删除吗?</p>',
+                            onOk: () => {
+                                this.inquire()
+                            },
+                            onCancel: () => {
+                                
+                            }
+                          })                          
                         } else {
 
                         }
@@ -689,6 +706,7 @@ export default {
     },
     handleReset (name) {
       this.$refs[name].resetFields()
+      this.formCustom.producticon = ''
     },
     pageChange (page) {
       this.startRow = page
