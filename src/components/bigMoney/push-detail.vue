@@ -35,7 +35,7 @@
             <Table :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-            <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -781,7 +781,7 @@ export default {
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
-            // console.log(resp) 
+            console.log(resp) 
 						if(resp.code == 'success') {
               console.log(this.model1)
               if (this.model1 == 'partya-chedidai') {
@@ -811,7 +811,10 @@ export default {
               }
               // console.log(this.data1,111)
 							this.total = Number(resp.data.total)
-							this.startRow = Math.ceil(resp.data.startRow / this.endRow)
+              this.startRow = Math.ceil(resp.data.startRow / this.endRow)
+              if(parseInt(resp.data.total) == '0') {
+                this.startRow = 1
+              }
 						} else {
 
 						}

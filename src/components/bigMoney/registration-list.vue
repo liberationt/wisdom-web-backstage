@@ -383,6 +383,7 @@ export default {
       }
       this.http.post(BASE_URL + '/loan/dwqUser/registerList', list)
     .then((resp) => {
+      console.log(resp,11)
       if (resp.code == 'success') {
         this.data1 = resp.data.dataList
         this.total = resp.data.total
