@@ -50,8 +50,8 @@
                 <Input  v-on:input ="myfamily" v-model="formCustom.serialnum" :disabled="judge=='1'" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
             </FormItem>
               <FormItem label="渠道供应商:" prop="productid" >
-                <Select v-model="formCustom.productid" @on-change='productidl' :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
-                  <Option v-for="item in optioncha" :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
+                <Select v-model="formCustom.productid" :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
+                  <Option v-for="item in optioncha"  @click.native='hqurli(item.supplierKey)' :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
                 </Select>
               </FormItem>
               <FormItem label="渠道名称:" prop="name">
@@ -218,19 +218,22 @@ export default {
       channelCode1: '',
       judge: 0,
       codel:'',
-      turl:''
+      turl:'',
+      turli:'',
     }
   },
   methods: {
     hqurl(url){
       this.turl = url
-      this.formCustom.links = url + '?c=' +this.formCustom.serialnum + '&s='+ this.formCustom.productid
+      this.formCustom.links = url + '?c=' +this.formCustom.serialnum + '&s='+ this.turli
     },
     myfamily(value){
-      this.formCustom.links = this.turl + '?c=' + value + '&s='+ this.formCustom.productid
+      this.formCustom.links = this.turl + '?c=' + value + '&s='+ this.turli
     },
-    productidl(value){
-      this.formCustom.links = this.turl + '?c=' +this.formCustom.serialnum + '&s='+ value
+    hqurli(urll){
+      this.turli = urll
+      // console.log(urll)
+      this.formCustom.links = this.turl + '?c=' +this.formCustom.serialnum + '&s='+ urll
     },
     // 分页
     pageChange (page) {
