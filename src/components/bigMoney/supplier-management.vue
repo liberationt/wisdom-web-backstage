@@ -133,6 +133,11 @@ export default {
       this.data6.splice(index, 1)
     },
     refuse () {
+      this.http.post(BASE_URL + '/loan/promotionSupplier/getSupplierKey').then(data=>{
+        console.log(data)
+      }).catch(err=>{
+        console.log(err) 
+      })
       this.modal9 = true
     },
     changeLoading () {
