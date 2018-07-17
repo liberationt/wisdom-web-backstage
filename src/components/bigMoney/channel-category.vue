@@ -105,11 +105,8 @@ export default {
         name: ''
       },
       ruleCustom: {
-        productid: {
-          required: true,
-          message: '请输入类别名称',
-          trigger: 'blur'
-        },
+        productid: [{required: true,message: '请输入类别名称',trigger: 'blur'},
+        { max: 50, message: '输入内容超限，请重新输入', trigger: 'blur' }],
         name: { required: true, message: '请输入URL', trigger: 'blur' }
       }
     }
@@ -145,6 +142,7 @@ export default {
           }
           this.http.post(BASE_URL + '/loan/promotionUrl/savePromotionUrl', list)
           .then((resp) => {
+            console.log(resp);
             if (resp.code == 'success') {
               const title = '保存'
               let content = '<p>保存成功</p>'
