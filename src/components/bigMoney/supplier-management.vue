@@ -37,7 +37,7 @@
           <div  class="newtype_file mt15 mb15">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:15px">
               <FormItem label="供应商编码:" prop="productid" >
-                <Input v-model="formCustom.productid" placeholder="请输入类别名称" style="width: 300px"></Input>
+                <Input disabled v-model="formCustom.productid" placeholder="请输入类别名称" style="width: 300px"></Input>
               </FormItem>
             <FormItem label="供应商名称:" prop="name">
               <Input v-model="formCustom.name" placeholder="请输入供应商名称" style="width: 300px"></Input>
@@ -107,7 +107,7 @@ export default {
       ],
       data6: [],
       formCustom: {
-        productid: '00001',
+        productid: '',
         name: ''
       },
       ruleCustom: {
@@ -134,7 +134,10 @@ export default {
     },
     refuse () {
       this.http.post(BASE_URL + '/loan/promotionSupplier/getSupplierKey').then(data=>{
-        console.log(data)
+        // console.log(data)
+        if(data.code == 'success'){
+          this.formCustom.productid = data.data
+        }
       }).catch(err=>{
         console.log(err) 
       })
