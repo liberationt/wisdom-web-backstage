@@ -50,7 +50,7 @@
                 <Input v-model="formCustom.serialnum" :disabled="judge=='1'" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
               </FormItem>
               <FormItem label="渠道供应商:" prop="productid" >
-                <Select v-model="formCustom.productid" :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
+                <Select v-model="formCustom.productid" @on-change='productidl' :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
                   <Option v-for="item in optioncha" :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
                 </Select>
               </FormItem>
@@ -217,10 +217,14 @@ export default {
       supplierCode1: '',
       channelCode1: '',
       judge: 0,
-      codel:''
+      codel:'',
     }
   },
   methods: {
+    productidl(value){
+      console.log(value)
+      this.formCustom.links = this.formCustom.category + '?c=' +this.formCustom.serialnum + '&s='+ value
+    },
     // 分页
     pageChange (page) {
       this.startRow = page
@@ -277,7 +281,6 @@ export default {
                 this.formCustom.name = resp.data.manageName
                 this.formCustom.types = resp.data.channelTag
                 this.formCustom.links = resp.data.manageUrl
-
               } else {
 
               }
