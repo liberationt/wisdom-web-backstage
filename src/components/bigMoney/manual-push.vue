@@ -118,22 +118,26 @@
 						title: '上传失败详情',
 						align: 'center',
 						render: (h, params) => {
-							return h('div', [
-								h('Button', {
-									props: {
-										type: 'primary',
-										size: 'small'
-									},
-									style: {
-										marginRight: '5px'
-									},
-									on: {
-										click: () => {
-											// this.$router.push({ path: './pushDetail' })
+							console.log(params.row.uploadFailUrl)
+							if(params.row.uploadFailUrl != null){
+								return h('div', [
+									h('Button', {
+										props: {
+											type: 'primary',
+											size: 'small'
+										},
+										style: {
+											marginRight: '5px'
+										},
+										on: {
+											click: () => {
+												window.location.href = params.row.uploadFailUrl
+											}
 										}
-									}
 								}, '下载')
 							])
+							}
+							
 						}
 					},
 					{
@@ -317,6 +321,7 @@
 				}
 				this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list)
 					.then((resp) => {
+						console.log(resp)
 						if(resp.code == 'success') {
 							this.data6 = resp.data.batchLogList
 							this.total = Number(resp.data.total)

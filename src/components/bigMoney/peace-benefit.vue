@@ -124,22 +124,25 @@ export default {
           align: 'center',
           key: 'uploadFailUrl',
           render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'primary',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push({ path: params.row.uploadFailUrl })
+            if(params.row.uploadFailUrl != null){
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push({ path: params.row.uploadFailUrl })
+                    }
                   }
-                }
-              }, '下载')
-            ])
+                }, '下载')
+              ])
+            }
+            
           }
         },
         {
