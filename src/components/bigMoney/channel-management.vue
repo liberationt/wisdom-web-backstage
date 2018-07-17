@@ -95,12 +95,16 @@ export default {
           { required: true, message: '请选择渠道类别', trigger: 'change', }, 
           // { type: 'string', message: '请选择供应商', trigger: 'blur' } //  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ],
-        serialnum: [{ required: true, message: '请输入渠道编号', trigger: 'blur', }],
+        serialnum: [{ required: true, message: '请输入渠道编号', trigger: 'blur', },
+          { max: 20, message: '输入内容超限，请重新输入!', trigger: 'blur' },
+          {required: true, message: '请输入正确的渠道编号', pattern: /^[a-zA-Z0-9]+$/, trigger: 'blur'}
+        ],
         types: [
           { required: true, message: '请输入渠道标签', trigger: 'blur', }, 
           // { type: 'string', message: '请选择供应商', trigger: 'blur' } //  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ],
-        name: [{ required: true, message: '请输入渠道名称', trigger: 'blur', }],
+        name: [{ required: true, message: '请输入渠道名称', trigger: 'blur', },
+        { max: 25, message: '输入内容超限，请重新输入!', trigger: 'blur' },],
         productid: [
           { required: true, message: '请选择渠道供应商', trigger: 'change',},
           // { type: 'string', message: '请选择渠道', trigger: 'blur' } // pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
