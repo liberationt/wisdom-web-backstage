@@ -170,20 +170,20 @@ export default {
         productlogo: { required: true, message: '请上传产品LOGO', trigger: 'blur' },
         name: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
-          { max: 100, message: '产品名称最多输入50个字', trigger: 'blur' },
-          { min: 2, message: '产品名称最少输入1个字', trigger: 'blur' },
+          { max: 50, message: '产品名称最多输入50个字', trigger: 'blur' },
+          { min: 1, message: '产品名称最少输入1个字', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         subtitle: [
           { required: true, message: '请输入产品副标题', trigger: 'blur' },
-          { max: 100, message: '产品副标题最多输入50个字', trigger: 'blur' },
-          { min: 2, message: '产品副标题最少输入1个字', trigger: 'blur' },
+          { max: 50, message: '产品副标题最多输入50个字', trigger: 'blur' },
+          { min: 1, message: '产品副标题最少输入1个字', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         explain: [
           { required: true, message: '请输入产品说明', trigger: 'blur' },
-          { max: 100, message: '产品副标题最多输入50个字', trigger: 'blur' },
-          { min: 2, message: '产品副标题最少输入1个字符', trigger: 'blur' },
+          { max: 50, message: '产品副标题最多输入50个字', trigger: 'blur' },
+          { min: 1, message: '产品副标题最少输入1个字符', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
