@@ -143,7 +143,7 @@
 					{
 						title: '推送成功条数',
 						align: 'center',
-						key: 'pullSuccNum'
+						key: 'partyaSuccNum'
 					},
 					{
 						title: '推送失败条数',
@@ -153,7 +153,7 @@
 					{
 						title: '转化成功条数',
 						align: 'center',
-						key: 'failNum'
+						key: 'pullSuccNum'
 					},
 					{
 						title: '推送详情',
