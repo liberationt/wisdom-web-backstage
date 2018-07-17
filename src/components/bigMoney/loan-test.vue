@@ -29,11 +29,11 @@
           ok-text="保存"
           cancel-text="取消"
           class-name="vertical-center-modal"
-          width="800"
+          width="750"
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15 loan_products">
-            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:200px">
+            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:110px">
               <!-- <FormItem label="产品ID:" prop="productid" >
                 <Input v-model="formCustom.productid" disabled placeholder="请输入产品ID" style="width: 300px"></Input>
               </FormItem> -->
@@ -81,7 +81,7 @@
             </FormItem>
             <FormItem label="额度范围:" class="ranges" v-if="formCustom.types=='1'">
               <Row>
-                <Col span="9">
+                <Col span="8">
                     <FormItem prop="range">
                         <Input  v-model="formCustom.range" placeholder="请输入起始金额" style="width: 100px"></Input>
                         <Select v-model="formCustom.object1" placeholder="请选择" style="width:60px">
@@ -188,17 +188,18 @@ export default {
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
         range: [
-          { required: true, message: '请输入开始金额', trigger: 'blur' },
-          {required: true, message: '额度范围只能输入正整数', pattern: /^[1-9]+$/, trigger: 'blur'}
+          { required: true, message: '请输入开始金额', trigger: 'blur' }
         ],
         rangeend: [
-          { required: true, message: '请输入结束金额', trigger: 'blur' },
-          {required: true, message: '额度范围只能输入正整数', pattern: /^[1-9]+$/, trigger: 'blur'}
+          { required: true, message: '请输入结束金额', trigger: 'blur' }
+        ],
+        quota: [
+          { required: true, message: '请输入贷款金额', trigger: 'blur' }
         ],
         ratetype: { required: true, message: '请选择利率类型', trigger: 'blur' },
         rate: [
           { required: true, message: '请输入利率', trigger: 'blur' },
-          { type: 'string',pattern:/^(([1-9]\d{0,3})|0)(\.\d{0,2})?$/, message:'小数点后不能超过两位', trigger:'blur'},          
+          { type: 'string',pattern:/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^99(\.[0-9]{1,2}){0,1}$/, message:'利率输入错误，请重新输入(小数点后保留两位且最大不超过100)', trigger:'blur'},
           //{required: true, message: '利率不能大于100%', pattern: /^[1-9][0-9][0]$/, trigger: 'blur'},
         ],
         producturl: { required: true, message: '请输入产品URL', trigger: 'blur' }
@@ -620,6 +621,154 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
+          if (this.formCustom.types == '1') {
+            let reg = /^[1-9]\d*$/
+          if (!reg.test(this.formCustom.range) || !reg.test(this.formCustom.rangeend)) {
+            let title = '提示'
+            let content = '<p>贷款额度最小值为1且不能为小数</p>'
+            this.$Modal.warning({
+            title: title,
+            content: content
+            })
+            this.changeLoading()
+            return false       
+          }
+          if (this.formCustom.object1 == '元') {
+            if (this.formCustom.range > 5000000) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于5000000 (元)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object2 == '元') {
+            if (this.formCustom.rangeend > 5000000) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于5000000 (元)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object1 == '千') {
+            if (this.formCustom.range > 5000) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于5000 (千)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object2 == '千') {
+            if (this.formCustom.rangeend > 5000) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于5000 (千)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object1 == '万') {
+            if (this.formCustom.range > 500) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于500 (万)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object2 == '万') {
+            if (this.formCustom.rangeend > 500) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于500 (万)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+            
+          } else {
+              let reg = /^[1-9]\d*$/
+          if (!reg.test(this.formCustom.quota)) {
+            let title = '提示'
+            let content = '<p>贷款额度最小值为1且不能为小数</p>'
+            this.$Modal.warning({
+            title: title,
+            content: content
+            })
+            this.changeLoading()
+            return false       
+          }
+          if (this.formCustom.object3 == '元') {
+            if (this.formCustom.quota > 5000000) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于5000000 (元)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object3 == '千') {
+            if (this.formCustom.quota > 5000) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于5000 (千)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+          if (this.formCustom.object3 == '万') {
+            if (this.formCustom.quota > 500) {
+                let title = '提示'
+                let content = '<p>贷款金额最大值不得大于500 (万)</p>'
+                this.$Modal.warning({
+                title: title,
+                content: content
+                })
+                this.changeLoading()
+                return false 
+              }
+          }
+            
+          }
+          
+          
+
+          if (this.formCustom.range >= this.formCustom.rangeend) {       
+            let title = '提示'
+            let content = '<p>开始金额不得大于结束金额</p>'
+            this.$Modal.warning({
+            title: title,
+            content: content
+            })
+            this.changeLoading()
+            return false
+          }
             let startMoney
             if (this.formCustom.types == 1) {
               startMoney = this.formCustom.range      
