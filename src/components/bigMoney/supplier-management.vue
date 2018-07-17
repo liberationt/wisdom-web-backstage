@@ -36,7 +36,7 @@
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:15px">
-              <FormItem label="供应商编码:" prop="productid" >
+              <FormItem label="供应商编码:" prop="productid" v-show='isshow'>
                 <Input disabled v-model="formCustom.productid" placeholder="请输入类别名称" style="width: 300px"></Input>
               </FormItem>
             <FormItem label="供应商名称:" prop="name">
@@ -60,6 +60,7 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      isshow: false,
       columns7: [
         {
           title: '供应商编号',
