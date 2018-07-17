@@ -42,9 +42,9 @@
           <div  class="newtype_file mt15 mb15 ">            
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
              <FormItem label="渠道类别:" prop="category" >
-              <Select v-model="formCustom.category" @on-change='categoryl' placeholder="请选择渠道类别" :disabled="judge=='1'" style="width:300px">
-                  <Option v-for="item in optionlac" :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
-                </Select>
+              <Select v-model="formCustom.category" placeholder="请选择渠道类别" :disabled="judge=='1'" style="width:300px">
+                  <Option v-for="item in optionlac" @click.native='hqurl(item.urlUrl)' :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
+              </Select>
             </FormItem>
             <FormItem label="渠道编号:" prop="serialnum">
                 <Input  v-on:input ="myfamily" v-model="formCustom.serialnum" :disabled="judge=='1'" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
@@ -92,7 +92,7 @@ export default {
       },
       ruleCustom: {
         category: [
-          { required: true, message: '请选择渠道类别', trigger: 'blur', }, 
+          { required: true, message: '请选择渠道类别', trigger: 'change', }, 
           // { type: 'string', message: '请选择供应商', trigger: 'blur' } //  pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ],
         serialnum: [{ required: true, message: '请输入渠道编号', trigger: 'blur', }],
@@ -102,7 +102,7 @@ export default {
         ],
         name: [{ required: true, message: '请输入渠道名称', trigger: 'blur', }],
         productid: [
-          { required: true, message: '请选择渠道供应商', trigger: 'blur',},
+          { required: true, message: '请选择渠道供应商', trigger: 'change',},
           // { type: 'string', message: '请选择渠道', trigger: 'blur' } // pattern: /^[\u4e00-\u9fa5_a-zA-Z0-9]+$/
         ]
       },
@@ -221,14 +221,14 @@ export default {
     }
   },
   methods: {
+    hqurl(url){
+      this.formCustom.links = url + '?c=' +this.formCustom.serialnum + '&s='+ this.formCustom.productid
+    },
     myfamily(value){
       this.formCustom.links = this.formCustom.category + '?c=' + value + '&s='+ this.formCustom.productid
     },
     productidl(value){
       this.formCustom.links = this.formCustom.category + '?c=' +this.formCustom.serialnum + '&s='+ value
-    },
-    categoryl(value){
-      this.formCustom.links = value + '?c=' +this.formCustom.serialnum + '&s='+ this.formCustom.productid
     },
     // 分页
     pageChange (page) {
@@ -318,6 +318,7 @@ export default {
               supplierCode : this.formCustom.productid,//渠道供应商
               manageUrl: this.formCustom.links//推广url
             }
+            console.log(list)
             this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
             .then((resp) => {
               if (resp.code == 'success') {
