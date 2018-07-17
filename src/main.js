@@ -29,15 +29,7 @@ if (!store.state.menu || Object.keys(store.state.menu).length == 0) {
 //   store.state.menu = JSON.parse(sessionStorage.getItem('userInfo'))
 //   console.log(store.state.menu)
 // }
-if (!sessionStorage.getItem('browse')) {
-  localStorage.removeItem('lefthidden')
-} else {
-  if (utils.getlocal('lefthidden')) {
-    store.state.hidden = utils.getlocal('lefthidden')
-  } else {
-    store.state.hidden = false
-  }
-}
+
 Vue.use(VueRouter)
 Vue.use(iView)
 Vue.use(http)
@@ -54,6 +46,15 @@ router.beforeEach((to, from, next) => {
     if (utils.getCookie('user')) { // 已经登陆
       iView.LoadingBar.start()
       next()
+      if (!sessionStorage.getItem('browse')) {
+        localStorage.removeItem('lefthidden')
+      } else {
+        if (utils.getlocal('lefthidden') == '1') {
+          store.state.hidden = true
+        } else {
+          store.state.hidden = false
+        }
+      }
     } else {
       // 未登录,跳转到登陆页面。
       next({ path: '/', query:{ referrer: '/' }})

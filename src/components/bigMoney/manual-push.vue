@@ -2,7 +2,7 @@
 	<div>
 		<div class="navigation">
 			<p>
-				<span>推广明细报表</span>
+				<span>贷款推送明细</span>
 			</p>
 		</div>
 		<div class="mt50">
