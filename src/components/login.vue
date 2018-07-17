@@ -82,7 +82,7 @@ export default {
                 this.hid = false
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
-                utils.putlocal('lefthidden', false)
+                
                 utils.putlocal('headace', '0')
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 sessionStorage.setItem('browse', 1)
@@ -90,6 +90,7 @@ export default {
                 // Vue.http.headers.common['Authentication'] = resp.data
                 this.$Message.success('登录成功!')
                 this.$router.push({ path: '/applicationHomePage' })
+                utils.putlocal('lefthidden', '0')
                 // location.reload()
               } else {
                 this.errcon = resp.message
@@ -105,6 +106,7 @@ export default {
             .catch(() => {
             })
         } else {
+          this.hid = false
           return false      
         }
         if (this.formLogin.remember[0] == '记住密码') {

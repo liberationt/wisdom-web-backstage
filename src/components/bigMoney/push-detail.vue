@@ -2,7 +2,7 @@
     <div>
         <div class="navigation">
             <p>
-                <span>推广批次报表</span>
+                <span>贷款推送明细</span>
             </p>
         </div>
         <div class="mt50">
@@ -43,7 +43,7 @@
 export default {
   data () {
     return {
-      model1: 'partya-houbenjinrong',
+      model1: this.$route.query.code,
       model2: '',
       // model3: '',
       model4: '',
@@ -109,7 +109,17 @@ export default {
         {
           title: '性别',
           align: 'center',
-          key: 'sex'
+          render: (h, params) => {
+            let borrowType 
+            if (params.row.sex == '1') {
+              borrowType = '男'
+            } else if (params.row.sex == '2') {
+              borrowType = '女'
+            }
+							return h('div', [
+								h('span', {}, borrowType)
+							])
+						}
         },
         {
           title: '手机号',
@@ -124,7 +134,6 @@ export default {
         {
           title: '借款产品类型',
           align: 'center',
-          key: 'gender',
           render: (h, params) => {
             let borrowType 
             if (params.row.borrowType == '0') {
@@ -198,7 +207,17 @@ export default {
         {
           title: '性别',
           align: 'center',
-          key: 'sex'
+          render: (h, params) => {
+            let borrowType 
+            if (params.row.sex == '1') {
+              borrowType = '男'
+            } else if (params.row.sex == '2') {
+              borrowType = '女'
+            }
+							return h('div', [
+								h('span', {}, borrowType)
+							])
+						}
         },
         {
           title: '手机号',
@@ -669,7 +688,17 @@ export default {
         {
           title: '性别',
           align: 'center',
-          key: 'gender'
+          render: (h, params) => {
+            let borrowType 
+            if (params.row.gender == '0') {
+              borrowType = '男'
+            } else if (params.row.gender == '1') {
+              borrowType = '女'
+            }
+							return h('div', [
+								h('span', {}, borrowType)
+							])
+						}
         },
         {
           title: '开始时间',
@@ -808,6 +837,8 @@ export default {
               } else if (this.model1 == 'partya-yixin') {
                 this.party1 = this.columns8
                 this.data1 = resp.data.dkYinxinList
+              } else if (this.model1 == 'partya-dadi') {
+
               }
               // console.log(this.data1,111)
 							this.total = Number(resp.data.total)
@@ -865,6 +896,7 @@ export default {
         .catch(() => {})
         // 列表
         this.inquire ()
+        
   }
 }
 </script>

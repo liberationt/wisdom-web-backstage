@@ -83,22 +83,24 @@ export default {
           return false
         }
       }
+      // let left = document.getElementsByClassName('layout-menu-left')
+      // let right = document.getElementsByClassName('contrig')
+      // left[0].style.display = 'block'
+      // right[0].style.width = '83.3%'
+      // console.log(left[0].style)
       this.$router.push({ path: './registrationList' })
-      utils.putlocal('lefthidden', true)
+      utils.putlocal('lefthidden', '1')
       // sessionStorage.setItem('lefthidden', true)
       that.lefthidtrue()
       utils.putlocal('sideleft', '0')
-      let left = document.getElementsByClassName('layout-menu-left')
-        let right = document.getElementsByClassName('contrig')
-        left[0].style.display = 'block'
-        right[0].style.width = '83.3%'
-      // location.reload()
+      
+      location.reload()
       // that.menu.menuInfo.childMenu
     }
   },
   computed: {
     ...mapState(['menu'])
-  },
+  }
 }
 </script>
 <style lang="less" scoped>

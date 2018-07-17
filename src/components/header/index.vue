@@ -125,6 +125,10 @@ export default {
       localStorage.removeItem('headace')
       localStorage.removeItem('sideleft')
       utils.delCookie('user')
+      // let left = document.getElementsByClassName('layout-menu-left')
+      // let right = document.getElementsByClassName('contrig')
+      // left[0].style.display = 'none'
+      // right[0].style.width = '100%'
       this.$router.push({ path: './' })
     }
   },
