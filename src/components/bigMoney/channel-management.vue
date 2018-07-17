@@ -270,6 +270,7 @@ export default {
     refuse () {
       this.modal9 = true
       this.judge = 0
+      this.formCustom.links = ''
     },
     refusel (code) {
       this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageByCode?promotionManageCode='+code)
@@ -373,6 +374,7 @@ export default {
     },
     handleReset (name) {
       this.$refs[name].resetFields()
+      this.formCustom.links = ''
     },
      // 时间判断
     time1 (value, data) {
