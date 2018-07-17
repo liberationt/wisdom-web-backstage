@@ -46,15 +46,15 @@ router.beforeEach((to, from, next) => {
     if (utils.getCookie('user')) { // 已经登陆
       iView.LoadingBar.start()
       next()
-      if (!sessionStorage.getItem('browse')) {
-        localStorage.removeItem('lefthidden')
-      } else {
+      // if (!sessionStorage.getItem('browse')) {
+      //   localStorage.removeItem('lefthidden')
+      // } else {
         if (utils.getlocal('lefthidden') == '1') {
           store.state.hidden = true
         } else {
           store.state.hidden = false
         }
-      }
+     // }
     } else {
       // 未登录,跳转到登陆页面。
       next({ path: '/', query:{ referrer: '/' }})

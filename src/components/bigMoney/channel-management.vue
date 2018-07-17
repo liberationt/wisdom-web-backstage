@@ -321,7 +321,7 @@ export default {
               manageName : this.formCustom.name,//渠道名称
               channelTag : this.formCustom.types,//渠道标签
               supplierCode : this.formCustom.productid,//渠道供应商
-              manageUrl: this.formCustom.links//推广url
+              // manageUrl: this.formCustom.links//推广url
             }
             console.log(list)
             this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
@@ -356,7 +356,7 @@ export default {
               manageName : this.formCustom.name,//渠道名称
               channelTag : this.formCustom.types,//渠道标签
               supplierCode : this.formCustom.productid,//渠道供应商
-              manageUrl: this.formCustom.links//推广url
+              // manageUrl: this.formCustom.links//推广url
             }
             this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageByCode', list).then(data=>{
               if(data.code == 'success'){
@@ -443,7 +443,7 @@ export default {
         manageCode : code,
         dataFlag : 0
       }
-      this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageByCode',list)
+      this.http.post(BASE_URL + '/loan/promotionManage/updatePromotionManageStateByCode',list)
       .then((resp) => {
       if (resp.code == 'success') {
         const title = '删除'

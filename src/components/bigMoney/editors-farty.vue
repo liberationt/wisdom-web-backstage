@@ -27,9 +27,9 @@
                 <li class="mt15" v-if="manual">
                   <span>暂停推送日期设置:</span>
                   <DatePicker type="date" :value="value3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
-                  <span>
+                  <span class="spots">
                     已选择
-                    <em class="red" v-for="(item, index) in time" :key="index">{{item}}  </em>
+                    <em class="red" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></em>
                     <Button type="info" @click="modal10 = true">更多</Button>
                   </span>
                 </li>
@@ -41,6 +41,7 @@
                         <Radio label="小时"></Radio>
                         <Radio label="天"></Radio>
                     </RadioGroup>
+                    <p class="red" v-if="error1" style="margin-left:90px">输入有误,请输入0~1440间的整数</p>
                 </li>
                 <li class="mt15">
                     <span >推送字段:</span>
@@ -103,7 +104,7 @@
         v-model="modal10"
         class-name="vertical-center-modal">
         <p>
-          <span v-for="(item, index) in time2">{{item}}</span>
+          <span v-for="(item, index) in time2">{{item}}<i >&nbsp;&nbsp;</i></span>
         </p>
     </Modal>
     </div>
@@ -122,6 +123,7 @@ export default {
       modal10: false,
       manual: false,
       loading: true,
+      error1: false,
       value4: '',
       cycle: '',
       code: '',
@@ -214,6 +216,13 @@ export default {
   methods: {
     // 保存
     preservation () {
+      let reg = /^(0|[1-9][0-9]*)$/
+      if (!reg.test(this.cycle) || Number(this.cycle) > 1440) {
+        this.error1 = true
+        return false
+      } else {
+        this.error1 = false
+      }
       let sendType
       let status
       let list = {}
@@ -230,8 +239,12 @@ export default {
       } else if(this.animal =='自动' || this.animal == '自动手动都可以') {
         sendType = '2'
         let time = ''
-        this.time2.forEach((e)=>{
-          time+=e
+        this.time2.forEach((e, i)=>{
+          if (i == this.time2.length-1) {
+            time+=e
+          } else {
+            time=time+e+','
+          }        
         })
         if (this.datatime == '分') {
           datatime = '1'
@@ -240,6 +253,9 @@ export default {
         } else {
           datatime = '3'
         }
+        console.log(time)
+
+ 
         list = {
         partyaCode :this.code, 
         sendType: sendType,
@@ -306,15 +322,21 @@ export default {
       
     },
     time1 (value, data) {
-      // console.log(this.time2)
       if (this.time.length >= 4) {
-        this.time2.push(','+value)
-
+        this.time2.push(value)
       } else {
-        this.time.push(','+value)
-        this.time2.push(','+value)
+        let list = []
+        list.push(value)
+        for (let i = 0; i < list.length; i++) {
+          if (this.time.indexOf(list[i]) == -1) {
+            this.time.push(value)
+            this.time2.push(value)
+          }        
+        }    
       }
-      
+      // console.log(this.time)
+      // this.time[this.time.length - 1] = this.time[this.time.length - 1].split(',')[0]
+      // console.log(this.time[this.time.length - 1])
     }
   },
   mounted () {
@@ -364,4 +386,5 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+
 </style>

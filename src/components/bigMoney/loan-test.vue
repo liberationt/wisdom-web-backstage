@@ -170,20 +170,20 @@ export default {
         productlogo: { required: true, message: '请上传产品LOGO', trigger: 'blur' },
         name: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
-          { max: 50, message: '产品名称最多输入50个字', trigger: 'blur' },
-          { min: 1, message: '产品名称最少输入1个字', trigger: 'blur' },
+          { max: 50, message: '输入内容超限，请重新输入!', trigger: 'blur' },
+          { min: 1, message: '输入内容过少，请重新输入!', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         subtitle: [
           { required: true, message: '请输入产品副标题', trigger: 'blur' },
-          { max: 50, message: '产品副标题最多输入50个字', trigger: 'blur' },
-          { min: 1, message: '产品副标题最少输入1个字', trigger: 'blur' },
+          { max: 50, message: '输入内容超限，请重新输入!', trigger: 'blur' },
+          { min: 1, message: '输入内容过少，请重新输入!', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         explain: [
           { required: true, message: '请输入产品说明', trigger: 'blur' },
-          { max: 50, message: '产品副标题最多输入50个字', trigger: 'blur' },
-          { min: 1, message: '产品副标题最少输入1个字符', trigger: 'blur' },
+          { max: 50, message: '输入内容超限，请重新输入!', trigger: 'blur' },
+          { min: 1, message: '输入内容过少，请重新输入!', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
@@ -196,7 +196,7 @@ export default {
         quota: [
           { required: true, message: '请输入贷款金额', trigger: 'blur' }
         ],
-        ratetype: { required: true, message: '请选择利率类型', trigger: 'blur' },
+        ratetype: { required: true, message: '请选择利率类型', trigger: 'change' },
         rate: [
           { required: true, message: '请输入利率', trigger: 'blur' },
           { type: 'string',pattern:/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^99(\.[0-9]{1,2}){0,1}$/, message:'利率输入错误，请重新输入(小数点后保留两位且最大不超过100)', trigger:'blur'},

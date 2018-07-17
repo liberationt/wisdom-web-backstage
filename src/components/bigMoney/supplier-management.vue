@@ -232,7 +232,11 @@ export default {
     },
     // 删除
     delete (code) {
-      this.http.post(BASE_URL + '/loan/promotionSupplier/deletePromotionSupplierByCode?promotionSupplierCode='+code)
+      let list = {
+        supplierCode: code,
+        dataFlag: 0
+      }
+      this.http.post(BASE_URL + '/loan/promotionSupplier/updatePromotionSupplierByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
         const title = '删除'
