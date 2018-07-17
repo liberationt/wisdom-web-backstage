@@ -69,7 +69,7 @@
                     </RadioGroup>
                 </li>
                 <li class="mt15 tc mb50">
-                    <Button class="w100">取消</Button>
+                    <Button class="w100" @click="cancel">取消</Button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <Button class="w100" type="primary" @click="preservation">保存</Button>
                 </li>
@@ -232,8 +232,9 @@ export default {
         list = {
         partyaCode :this.code, 
         sendType: sendType,
-        limitDay: this.value1,
+        limitDay: this.value2,
         partyaKey: this.value4,
+        repateSendDay: this.value1,
         status : status
       }
       } else if(this.animal =='自动' || this.animal == '自动手动都可以') {
@@ -253,13 +254,12 @@ export default {
         } else {
           datatime = '3'
         }
-        console.log(time)
 
- 
         list = {
-        partyaCode :this.code, 
+        partyaCode:this.code, 
         sendType: sendType,
-        limitDay: this.value1,
+        limitDay: this.value2,
+        repateSendDay: this.value1,
         partyaKey: this.value4,
         status : status,
         pausePush: time,
@@ -277,11 +277,15 @@ export default {
       this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
-        const title = '甲方管理'
-        let content = '<p>保存成功</p>'
         this.$Modal.success({
-          title: title,
-          content: content
+          title: '甲方管理',
+          content: '<p>保存成功</p>',
+          onOk: () => {
+              this.$router.push({ path: './partyManagement' })
+          },
+          onCancel: () => {
+              // this.$Message.info('Clicked cancel');
+          }
         })
 
       } else {
@@ -294,6 +298,9 @@ export default {
     },
     refuse () {
       this.modal9 = true
+    },
+    cancel () {
+      this.$router.push({ path: './partyManagement' })
     },
     upload () {
       setTimeout(() => {

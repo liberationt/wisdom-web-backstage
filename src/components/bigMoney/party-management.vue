@@ -92,7 +92,7 @@ export default {
         {
           title: '日推送限制条数',
           align: 'center',
-          key: 'partyaKey'
+          key: 'limitDay'
         },
         {
           title: '推送周期设置',
