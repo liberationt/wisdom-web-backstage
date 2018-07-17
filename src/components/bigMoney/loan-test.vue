@@ -333,19 +333,6 @@ export default {
               }, zhuangtai)
             ])
           }
-          // render: (h, params) => {
-          //   let type = 'success'
-          //   let onshelf           
-          //   if (params.row.status == 0) {
-          //     onshelf = '上架'
-          //     type = 'success'
-          //   } else {
-          //     onshelf = '下架'
-          //     type = 'warning'
-          //   }
-          //   let shelf = [
-          //     h('span', {}, onshelf)
-          //   ]}
         },
         {
           title: '操作',
