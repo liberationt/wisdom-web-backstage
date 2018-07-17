@@ -170,21 +170,21 @@ export default {
         productlogo: { required: true, message: '请上传产品LOGO', trigger: 'blur' },
         name: [
           { required: true, message: '请输入产品名称', trigger: 'blur' },
-          // { max: 100, message: '产品名称最多输入100个字符', trigger: 'blur' },
-          // { min: 2, message: '产品名称最少输入2个字符', trigger: 'blur' },
-          // {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          { max: 100, message: '产品名称最多输入100个字符', trigger: 'blur' },
+          { min: 2, message: '产品名称最少输入2个字符', trigger: 'blur' },
+          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         subtitle: [
           { required: true, message: '请输入产品副标题', trigger: 'blur' },
-          // { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
-          // { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
-          // {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
+          { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
+          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         explain: [
           { required: true, message: '请输入产品说明', trigger: 'blur' },
-          // { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
-          // { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
-          // {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          { max: 100, message: '产品副标题最多输入100个字符', trigger: 'blur' },
+          { min: 2, message: '产品副标题最少输入2个字符', trigger: 'blur' },
+          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
         range: [
@@ -596,6 +596,7 @@ export default {
     // 上传文件提示
     // 上传格式校验
     handleFormatError1 (file) {
+      alert(222)
       this.formCustom.productlogo = ''
       this.$Message.info("图片格式不正确,请上传正确的图片格式")
     },
