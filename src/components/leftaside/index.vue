@@ -100,7 +100,7 @@
         <Row type="flex">
             <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
                 <div class="layout-logo-left tl">
-                    <a href="javascript:;" class="layout-text" @click="titleurl">首页</a>
+                    <a href="javascript:;" class="layout-text" @click="titleurl">应用首页</a>
                     
                 </div>
                 <div class="tree-menu">
