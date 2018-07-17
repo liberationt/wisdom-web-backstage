@@ -48,7 +48,7 @@
                 :show-upload-list="false"
                 :format="['jpg','jpeg','png', 'gif']"
                 :on-format-error="handleFormatError1"
-                <!-- action=''> -->
+                action=''>
                   <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">选择</Button>
                 </Upload>
               </FormItem>
@@ -321,6 +321,31 @@ export default {
               }, params.row.labelUrl)
             ])
           }
+        },
+        {
+          title: '状态',
+          align: 'center',
+          key: 'status',
+          render: (h, params) => {
+            let zhuangtai = params.row.status == 1 ? '上架' : '下架'
+            return h('div', [
+              h('span', {
+              }, zhuangtai)
+            ])
+          }
+          // render: (h, params) => {
+          //   let type = 'success'
+          //   let onshelf           
+          //   if (params.row.status == 0) {
+          //     onshelf = '上架'
+          //     type = 'success'
+          //   } else {
+          //     onshelf = '下架'
+          //     type = 'warning'
+          //   }
+          //   let shelf = [
+          //     h('span', {}, onshelf)
+          //   ]}
         },
         {
           title: '操作',
