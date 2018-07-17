@@ -115,16 +115,20 @@ export default {
           label: '全部'
         },
         {
-          value: 'manageName',
-          label: '名称'
-        },
-        {
-          value: 'urlName',
-          label: '推广链接名称'
+          value: 'channelNum',
+          label: '渠道编号'
         },
         {
           value: 'channelName',
           label: '渠道名称'
+        },
+        {
+          value: 'channelTag',
+          label: '渠道标签'
+        },
+        {
+          value: 'urlName',
+          label: '渠道类别'
         },
         {
           value: 'supplierName',
