@@ -218,17 +218,19 @@ export default {
       channelCode1: '',
       judge: 0,
       codel:'',
+      turl:''
     }
   },
   methods: {
     hqurl(url){
+      this.turl = url
       this.formCustom.links = url + '?c=' +this.formCustom.serialnum + '&s='+ this.formCustom.productid
     },
     myfamily(value){
-      this.formCustom.links = this.formCustom.category + '?c=' + value + '&s='+ this.formCustom.productid
+      this.formCustom.links = this.turl + '?c=' + value + '&s='+ this.formCustom.productid
     },
     productidl(value){
-      this.formCustom.links = this.formCustom.category + '?c=' +this.formCustom.serialnum + '&s='+ value
+      this.formCustom.links = this.turl + '?c=' +this.formCustom.serialnum + '&s='+ value
     },
     // 分页
     pageChange (page) {
