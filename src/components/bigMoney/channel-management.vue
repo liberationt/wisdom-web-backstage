@@ -42,13 +42,13 @@
           <div  class="newtype_file mt15 mb15 ">            
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
              <FormItem label="渠道类别:" prop="category" >
-              <Select v-model="formCustom.category" placeholder="请选择渠道类别" :disabled="judge=='1'" style="width:300px">
+              <Select v-model="formCustom.category" @on-change='categoryl' placeholder="请选择渠道类别" :disabled="judge=='1'" style="width:300px">
                   <Option v-for="item in optionlac" :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
                 </Select>
             </FormItem>
             <FormItem label="渠道编号:" prop="serialnum">
-                <Input v-model="formCustom.serialnum" :disabled="judge=='1'" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
-              </FormItem>
+                <Input  v-on:input ="myfamily" v-model="formCustom.serialnum" :disabled="judge=='1'" placeholder="请输入渠道编号" class="inputl" style="width: 300px"></Input>
+            </FormItem>
               <FormItem label="渠道供应商:" prop="productid" >
                 <Select v-model="formCustom.productid" @on-change='productidl' :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
                   <Option v-for="item in optioncha" :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
@@ -221,9 +221,14 @@ export default {
     }
   },
   methods: {
+    myfamily(value){
+      this.formCustom.links = this.formCustom.category + '?c=' + value + '&s='+ this.formCustom.productid
+    },
     productidl(value){
-      console.log(value)
       this.formCustom.links = this.formCustom.category + '?c=' +this.formCustom.serialnum + '&s='+ value
+    },
+    categoryl(value){
+      this.formCustom.links = value + '?c=' +this.formCustom.serialnum + '&s='+ this.formCustom.productid
     },
     // 分页
     pageChange (page) {
