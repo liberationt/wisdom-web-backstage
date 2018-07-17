@@ -154,7 +154,7 @@ export default {
         types: '1',
         range: '',
         rangeend: '',
-        ratetype: '',
+        ratetype: '2',
         rate: '',
         producturl: '',
         object1: '元',
@@ -199,7 +199,7 @@ export default {
         ratetype: { required: true, message: '请选择利率类型', trigger: 'change' },
         rate: [
           { required: true, message: '请输入利率', trigger: 'blur' },
-          { type: 'string',pattern:/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^99(\.[0-9]{1,2}){0,1}$/, message:'利率输入错误，请重新输入(小数点后保留两位且最大不超过100)', trigger:'blur'},
+          { type: 'string',pattern:/^\d\.([1-9]{1,2}|[0-9][1-9])$|^[1-9]\d{0,1}(\.\d{1,2}){0,1}$|^100(\.[0]{1,2}){0,1}$/, message:'利率输入错误，请重新输入(小数点后保留两位且最大不超过100)', trigger:'blur'},
           //{required: true, message: '利率不能大于100%', pattern: /^[1-9][0-9][0]$/, trigger: 'blur'},
         ],
         producturl: { required: true, message: '请输入产品URL', trigger: 'blur' }
