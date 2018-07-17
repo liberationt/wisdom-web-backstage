@@ -85,7 +85,7 @@ export default {
                 
                 utils.putlocal('headace', '0')
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
-                sessionStorage.setItem('browse', 1)
+                // sessionStorage.setItem('browse', 1)
                 utils.putlocal('token', resp.data.token)
                 // Vue.http.headers.common['Authentication'] = resp.data
                 this.$Message.success('登录成功!')

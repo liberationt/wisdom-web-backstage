@@ -192,7 +192,11 @@ export default {
     },
     // 删除
     delete (code) {
-      this.http.post(BASE_URL + '/loan/promotionUrl/deletePromotionUrlByCode?promotionUrlCode='+code)
+      let list = {
+        urlCode: code,
+        dataFlag: 0
+      }
+      this.http.post(BASE_URL + '/loan/promotionUrl/updatePromotionUrlByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
         const title = '删除'
