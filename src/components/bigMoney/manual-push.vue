@@ -73,7 +73,7 @@
 					{
 						title: '文件名称',
 						align: 'center',
-						key: 'fileName'
+						key: 'originName'
 					},
 					{
 						title: '推送模式',
@@ -230,7 +230,8 @@
 					// }
 					let list = {
 						partyaKey: this.model4,
-						url: this.filename
+						url: this.filename,
+						originName: this.value9
 					}
 					this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list)
 						.then((resp) => {
@@ -316,7 +317,7 @@
 				}
 				let list = {
 					partyaName: this.model1,
-					fileName: this.model2,
+					originName: this.model2,
 					beginTime: this.value1,
 					endTime: this.value2,
 					pageNum: this.startRow,
