@@ -341,7 +341,7 @@ export default {
           key: 'ip'
         }
       ],
-      data1: []
+      data1: [],
     }
   },
   methods: {
@@ -363,6 +363,11 @@ export default {
     },
     // 查询
     registered () {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -376,8 +381,8 @@ export default {
         cid: this.model1,
         sid: this.model2,
         step: this.model3,
-        beginTime: this.value1,
-        endTime: this.value2,
+        beginTime: this.value1 ? this.value1 : date,
+        endTime: this.value2 ? this.value2 : date,
         pageNum: this.startRow,
         pageSize: this.endRow
       }
