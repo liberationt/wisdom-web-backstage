@@ -45,13 +45,12 @@
                     <span class="left lh32">上传名单:</span>
                     <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
                     <Upload
-                    ref="upload"
-                    :before-upload="handleUpload"
-                    :show-upload-list="false"
-                    :format="['xlsx', 'xls']"
-                    action=''
-                    :on-format-error="handleFormatError2">
-                    <Button type="primary" icon="ios-cloud-upload-outline">预览</Button>
+                      :before-upload="handleUpload"
+                      :show-upload-list="false"
+                      :format="['xlsx', 'xls']"
+                      :on-format-error="handleFormatError2"
+                      action=''>
+                      <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
                     </Upload>
                   </li>
                   <!-- <li class="mt50">
@@ -163,7 +162,9 @@ export default {
         this.loading = true
       })
     },
-    handleUpload (file) {
+    handleUpload(file) {
+      let splic = file.name.split('.')
+			if (splic[splic.length-1] == 'xlsx' || splic[splic.length-1] == 'xls') {
       let formData = new FormData()
 				formData.append('file', file)
 				formData.append('bucket', 'netmoney')
@@ -181,12 +182,12 @@ export default {
 				}
 				})
 				.catch(() => {
-				})
-      this.namelist = file.name
-      return false
+        })
+          this.namelist = file.name
+        }
     },
     // 上传格式校验
-    handleFormatError2 (file) {
+    handleFormatError2(file) {
       this.namelist = ''
       this.$Message.info("文件格式不正确,请上传excel格式文件")
     },
