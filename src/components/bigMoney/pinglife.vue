@@ -35,7 +35,7 @@
             <Table :columns="columns1" :data="data1"></Table>
         </div>
        <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -174,6 +174,7 @@ export default {
     },
     post(url,list,pushname,num) {
        this.http.post(BASE_URL + url,list).then(data=>{
+          console.log(data)
           if(data.code == 'success'){
             if(pushname == 'luohui'){
               this.data1 = data.data.zxLhpinganList
@@ -225,7 +226,9 @@ export default {
 		},
     // 导出
     exports () {
-			let pushname = this.$route.query.pushname
+    
+      let pushname = 'kunxuan'
+      //  this.$route.query.pushname
 			if(pushname == 'luohui'){
 
         // window.open(BASE_URL + '/loan/zxLhpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
@@ -251,7 +254,19 @@ export default {
           // }
           // }
           // form.method = "GET";//请求方式
-          this.http.get(BASE_URL+'/loan/zxKxpingan/exportExcel', {params: params,headers:{"Authentication":"eyJhbGciOiJIUzI1NiJ9.eyJqdGkiOiI4ZDRlYTc4ZTEzZjA0NzE3OTBkYzk2MWI0ZTJhMWI0OSIsImlzcyI6InNobGgiLCJzdWIiOiIyMDE4MDYzMDExMjkxNDAwMTAwMTY0NTAwMTAzNDAiLCJpYXQiOjE1MzE1NTYzMzMsImV4cCI6MTUzMTU2MzUzM30.z26CBUOBDkViGwUBqBzg01qcJrBqMhwJQSWSU_1-nYI"}})
+          this.http.get(BASE_URL+'/loan/zxLhpingan/exportExcel',{params, responseType:'blob'}).then(data=>{
+            alert(11)
+          }).catch(err=>{
+            alert(222)
+            console.log(err)
+          })
+
+          // axios({
+          //   method: 'get',
+          //   url:BASE_URL+'/loan/zxLhpingan/exportExcel',
+          //   data:params,
+          //   responseType:'blob'
+          // })
           // form.action = BASE_URL+'/loan/zxKxpingan/exportExcel';
           // form.submit();
           // document.body.removeChild(form);
