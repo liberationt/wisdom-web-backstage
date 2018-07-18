@@ -231,6 +231,18 @@ export default {
       } else {
         this.error1 = false
       }
+      if(0 > Number(this.value1) || Number(this.value1) > 366 || !/^[0-9]*$/.test(this.value1) || this.value1 == ''){
+        this.error2 = true
+        return false
+      } else {
+        this.error2 = false
+      }
+      if(0 > Number(this.value2) || Number(this.value2)>100000 || !/^[0-9]*$/.test(this.value2) || this.value2 == ''){
+        this.error3 = true
+        return false
+      } else {
+        this.error3 = false
+      }
       let sendType
       let status
       let list = {}
@@ -262,7 +274,6 @@ export default {
         } else {
           datatime = '3'
         }
-
         list = {
         partyaCode:this.code, 
         sendType: sendType,
@@ -280,18 +291,6 @@ export default {
       } else {
         status = '2'
       }
-    if(0 > Number(this.value1) || Number(this.value1) > 366 || !/^[0-9]*$/.test(this.value1) || this.value1 == ''){
-      this.error2 = true
-      return false
-    } else {
-      this.error2 = false
-    }
-    if(0 > Number(this.value2) || Number(this.value2)>100000 || !/^[0-9]*$/.test(this.value2) || this.value2 == ''){
-      this.error3 = true
-      return false
-    } else {
-      this.error3 = false
-    }
     this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
