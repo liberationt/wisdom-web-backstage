@@ -153,18 +153,15 @@ export default {
               this.inquire ()
               this.$refs['formCustom'].resetFields()
             } else {
-
+              this.$Message.info(resp.message)
+              this.$refs[name].resetFields()
             }
           })
           .catch(() => {
           })
         }
-        setTimeout(() => {
           this.changeLoading()
           this.modal9 = false
-          // this.formCustom.name = ''
-          // this.$Message.success('done')
-        }, 1000)
       })
     },
     handleReset (name) {

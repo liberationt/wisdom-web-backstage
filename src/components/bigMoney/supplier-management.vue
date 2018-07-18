@@ -172,15 +172,9 @@ export default {
               this.inquire ()
               this.$refs[name].resetFields()
             } else {
-              const title = '保存'
-              let content = '<p>'+resp.message+'</p>'
-              this.$Modal.success({
-                title: title,
-                content: content
-              })
-              this.modal9 = false
-              this.inquire ()
+              this.$Message.info(resp.message)
               this.$refs[name].resetFields()
+              this.modal9 = false
             }
           })
           .catch(() => {
