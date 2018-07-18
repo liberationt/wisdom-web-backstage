@@ -19,7 +19,7 @@
         <div class="mt50">
             <span class="w60 displayib tr mb15">渠道:</span>
             <Select v-model="model1" placeholder="全部" style="width:200px" class="">
-                <Option v-for="item in cityList" :value="item.channelCode" :key="item.channelCode">{{ item.channelName }}</Option>
+                <Option v-for="item in cityList" :value="item.channelNum" >{{ item.manageName }}</Option>
             </Select>
             <span class="w60 displayib ml20 mt15 tr mb15">注册时间:</span>
             <DatePicker type="date" class="mb15" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
@@ -190,7 +190,7 @@ export default {
           title: 'M城市',
           align: 'center',
           width: 100,
-          key: 'mobileCityCode'
+          key: 'mobileCity'
         },
         {
           title: '借贷金额',
@@ -418,10 +418,10 @@ export default {
     .catch(() => {
     })
     // 渠道
-    this.http.post(BASE_URL + '/loan/promotionChannel/queryAllList', {})
+    this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', {pageSize: 1000})
     .then((resp) => {
       if (resp.code == 'success') {
-        this.cityList = resp.data
+        this.cityList = resp.data.promotionManageList
       } else {
 
       }
