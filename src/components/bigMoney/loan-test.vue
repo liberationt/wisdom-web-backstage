@@ -44,10 +44,10 @@
                 <img :src="formCustom.logoUrl" alt="" class="left">
                 <Input v-model="formCustom.productlogo" disabled style="width: 120px;margin-top:24px" class="left ml5"></Input>
                 <Upload
-                :before-upload="handleUpload"
-                :show-upload-list="false"
-                :format="['jpg','jpeg','png', 'gif']"
+                :format="['jpg','jpeg','png']"
                 :on-format-error="handleFormatError1"
+                :before-upload="handleUpload"
+                :show-upload-list="false"                        
                 action=''>
                   <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">选择</Button>
                 </Upload>
@@ -464,6 +464,7 @@ export default {
                 }
               }, '删除')
             ]
+            console.log(params.index)
             if (params.index != this.lengths) {
               listbut.push(
                 h('Button', {
@@ -754,11 +755,6 @@ export default {
                 return false 
               }
           }
-            
-          }
-          
-          
-
           if (this.formCustom.range >= this.formCustom.rangeend) {       
             let title = '提示'
             let content = '<p>开始金额不得大于结束金额</p>'
@@ -769,6 +765,9 @@ export default {
             this.changeLoading()
             return false
           }
+          }
+                   
+          
             let startMoney
             if (this.formCustom.types == 1) {
               startMoney = this.formCustom.range      
@@ -876,7 +875,9 @@ export default {
       this.inquire()
     },
     handleUpload (file) {
-      let formData = new FormData();
+      let splic = file.name.split('.')
+      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+        let formData = new FormData();
           formData.append('file', file)
         let config = {
           headers: {
@@ -893,10 +894,14 @@ export default {
     .catch(() => {
     })
       this.formCustom.productlogo = file.name
-      return false
+      }
+      
+      // return false
     },
     handleUploadicon (file) {
-      let formData = new FormData();
+      let splic = file.name.split('.')
+      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+        let formData = new FormData();
           formData.append('file', file)
         let config = {
           headers: {
@@ -913,7 +918,7 @@ export default {
     .catch(() => {
     })
       this.formCustom.producticon = file.name
-      return false
+      }
     },
     // 列表查询
     inquire (num) {

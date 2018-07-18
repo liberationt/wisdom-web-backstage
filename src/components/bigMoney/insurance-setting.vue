@@ -268,7 +268,9 @@ export default {
       }
     },
     handleUpload (file) {
-      let formData = new FormData()
+      let splic = file.name.split('.')
+			if (splic[splic.length-1] == 'xlsx' || splic[splic.length-1] == 'xls') {
+        let formData = new FormData()
 				formData.append('file', file)
 				formData.append('bucket', 'netmoney')
 				formData.append('dirs', 'excelfile')
@@ -287,7 +289,7 @@ export default {
 				.catch(() => {
 				})
       this.value9 = file.name
-      return false
+      }
     },
     changeLoading () {
       this.loading = false

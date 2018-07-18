@@ -302,26 +302,28 @@ export default {
       }
     },
     handleUpload (file) {
-      let formData = new FormData()
-      formData.append('file', file)
-      formData.append('bucket', 'netmoney')
-			formData.append('dirs', 'excelfile')
-      let config = {
-        headers: {
-          'Content-Type': 'multipart/form-data'
+      let splic = file.name.split('.')
+				if (splic[splic.length-1] == 'xlsx' || splic[splic.length-1] == 'xls') {
+          let formData = new FormData()
+          formData.append('file', file)
+          formData.append('bucket', 'netmoney')
+          formData.append('dirs', 'excelfile')
+          let config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
+          }
+          this.http.post(BASE_URL + '/fileUpload', formData, config)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.filename2 = resp.data
+          } else {
+          }
+        })
+        .catch(() => {
+        })
+          this.value9 = file.name
         }
-      }
-      this.http.post(BASE_URL + '/fileUpload', formData, config)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.filename2 = resp.data
-      } else {
-      }
-    })
-    .catch(() => {
-    })
-      this.value9 = file.name
-      return false
     },
     changeLoading () {
       this.loading = false
