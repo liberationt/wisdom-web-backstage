@@ -173,7 +173,7 @@ export default {
               this.$refs[name].resetFields()
             } else {
               const title = '保存'
-              let content = '<p>保存失败</p>'
+              let content = '<p>'+resp.message+'</p>'
               this.$Modal.success({
                 title: title,
                 content: content
