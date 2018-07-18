@@ -262,7 +262,7 @@ export default {
         })
         if (this.datatime == '分') {
           datatime = '1'
-        } else if (this.datatime == '时') {
+        } else if (this.datatime == '小时') {
           datatime = '2'
         } else {
           datatime = '3'
@@ -279,8 +279,7 @@ export default {
         cycleUnint: datatime
       }
       }
-     
-      console.log(list)
+     console.log(list)
     this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
