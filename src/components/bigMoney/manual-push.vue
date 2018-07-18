@@ -316,7 +316,7 @@
 					return false
 				}
 				let list = {
-					partyaName: this.model1,
+					partyaKey: this.model1,
 					originName: this.model2,
 					beginTime: this.value1,
 					endTime: this.value2,

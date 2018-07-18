@@ -133,7 +133,7 @@ export default {
         {
           title: '操作',
           key: 'address',
-          width: 200,
+          width: 150,
           align: 'center',
           render: (h, params) => {
             let type = 'success'
@@ -185,25 +185,25 @@ export default {
                   }
                 }
               }, shelf),
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'error',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.delete (params.row.partyaCode)
-                      // this.remove(params.index)
-                    }
-                  }
-                },
-                '删除'
-              )
+              // h(
+              //   'Button',
+              //   {
+              //     props: {
+              //       type: 'error',
+              //       size: 'small'
+              //     },
+              //     style: {
+              //       marginRight: '5px'
+              //     },
+              //     on: {
+              //       click: () => {
+              //         this.delete (params.row.partyaCode)
+              //         // this.remove(params.index)
+              //       }
+              //     }
+              //   },
+              //   '删除'
+              // )
             ])
           }
         }

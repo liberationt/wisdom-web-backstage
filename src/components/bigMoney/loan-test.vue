@@ -211,12 +211,7 @@ export default {
         {
           title: '序号',
           align: 'center',
-          render: (h, params) => {
-            return h('div', [
-              h('span', {
-              }, params.index+1)
-            ])
-          }
+          key: 'sort'
         },
         {
           title: '产品名称',

@@ -26,7 +26,7 @@
                 </li>
                 <li class="mt15" v-if="manual">
                   <span>暂停推送日期设置:</span>
-                  <DatePicker type="date" :value="value3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" :value="value3" :options="options3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
                   <span class="spots">
                     已选择
                     <Tag @on-close="handleClose" :name="index" closable class="red" v-if="item != ''" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
@@ -124,6 +124,11 @@ export default {
       cycle: '',
       code: '',
       datatime: '分',
+      options3: {
+        disabledDate (date) {
+          return date && date.valueOf() < Date.now() - 86400000
+        }
+      },
       cityList: [
         {
           value: '',
