@@ -220,15 +220,21 @@ export default {
     preservation () {
       let reg = /^(0|[1-9][0-9]*)$/
       if (!reg.test(this.cycle) || Number(this.cycle) > 1440 || Number(this.cycle) < 1 ||  this.cycle == '') {
-        this.$Message.info("请输入正确的推送周期(1-1440)")
+         this.$Modal.warning({
+          content: '<p>请输入正确的推送周期(1-1440)</p>'
+        })
         return false
       }
       if(0 > Number(this.value1) || Number(this.value1) > 366 || !reg.test(this.value1) || String(this.value1) == ''){
-        this.$Message.info("请输入正确的推送天数(0-366)")
+        this.$Modal.warning({
+          content: '<p>请输入正确的推送天数(0-366)</p>'
+        })
         return false
       }
       if(0 > Number(this.value2) || Number(this.value2) > 100000 || !reg.test(this.value2) || String(this.value2) == ''){
-       this.$Message.info("请输入正确的推送天数(0-100000)")
+        this.$Modal.warning({
+          content: '<p>请输入正确的推送天数(0-100000)</p>'
+        })
         return false
       }
       let sendType
