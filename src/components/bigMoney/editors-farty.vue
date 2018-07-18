@@ -29,7 +29,7 @@
                   <DatePicker type="date" :value="value3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
                   <span class="spots">
                     已选择
-                    <em class="red" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></em>
+                    <Tag @on-close="handleClose" :name="index" closable class="red" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
                     <Button type="info" @click="modal10 = true">更多</Button>
                   </span>
                 </li>
@@ -41,7 +41,7 @@
                         <Radio label="小时"></Radio>
                         <Radio label="天"></Radio>
                     </RadioGroup>
-                    <p class="red" v-if="error1" style="margin-left:90px">输入有误,请输入0~1440间的整数</p>
+                    <p class="red" v-if="error1" style="margin-left:90px">请输入正确的推送周期(1-1440)</p>
                 </li>
                 <li class="mt15">
                     <span >推送字段:</span>
@@ -212,14 +212,20 @@ export default {
       ],
       time:[],
       time2: [],
-      error3: false
+      error3: false,
+      show: true,
     }
   },
   methods: {
+    handleClose(event, name){
+        console.log(name)
+        const index = this.time.indexOf(name);
+        this.time.splice(index, 1);
+    },
     // 保存
     preservation () {
       let reg = /^(0|[1-9][0-9]*)$/
-      if (!reg.test(this.cycle) || Number(this.cycle) > 1440) {
+      if (!reg.test(this.cycle) || Number(this.cycle) > 1440 || Number(this.cycle) < 1 ||  this.cycle == '') {
         this.error1 = true
         return false
       } else {
@@ -274,24 +280,18 @@ export default {
       } else {
         status = '2'
       }
-    if(0> Number(this.value1) || Number(this.value1)>366){
+    if(0 > Number(this.value1) || Number(this.value1) > 366 || !/^[0-9]*$/.test(this.value1) || this.value1 == ''){
       this.error2 = true
       return false
+    } else {
+      this.error2 = false
     }
-    if(!/^[0-9]*$/.test(this.value1)){
-      this.error2 = true
-      return false
-    }
-    if(0> Number(this.value2) || Number(this.value2)>100000){
+    if(0 > Number(this.value2) || Number(this.value2)>100000 || !/^[0-9]*$/.test(this.value2) || this.value2 == ''){
       this.error3 = true
       return false
+    } else {
+      this.error3 = false
     }
-    if(!/^[0-9]*$/.test(this.value2)){
-      this.error3 = true
-      return false
-    }
-    this.error2 = false
-    this.error3 = false
     this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
@@ -347,6 +347,7 @@ export default {
       
     },
     time1 (value, data) {
+      this.show = true
       if (this.time.length >= 4) {
         this.time2.push(value)
       } else {
