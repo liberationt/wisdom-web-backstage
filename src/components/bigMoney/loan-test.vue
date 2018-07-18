@@ -777,8 +777,8 @@ export default {
                startMoney = this.formCustom.quota
              }
             let list = {
-              logoUrl: this.formCustom.productlogo,
-              labelUrl: this.formCustom.producticon,
+              logoUrl: this.formCustom.logoUrl,
+              labelUrl: this.formCustom.labelUrl,
               name: this.formCustom.name,
               fname: this.formCustom.subtitle,
               subtitle: this.formCustom.explain,
@@ -793,8 +793,8 @@ export default {
               loanLines: this.formCustom.object3
             }
             let listbj = {
-              logoUrl: this.formCustom.productlogo,
-              labelUrl: this.formCustom.producticon,
+              logoUrl: this.formCustom.logoUrl,
+              labelUrl: this.formCustom.labelUrl,
               name: this.formCustom.name,
               fname: this.formCustom.subtitle,
               subtitle: this.formCustom.explain,
