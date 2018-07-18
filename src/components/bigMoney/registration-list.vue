@@ -342,6 +342,7 @@ export default {
         }
       ],
       data1: [],
+      data:''
     }
   },
   methods: {
@@ -368,6 +369,14 @@ export default {
       var year = date.getFullYear();
       var month = date.getMonth() + 1;
       var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+        month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+        strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      this.data =  currentdate;
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -381,8 +390,8 @@ export default {
         cid: this.model1,
         sid: this.model2,
         step: this.model3,
-        beginTime: this.value1 ? this.value1 : date,
-        endTime: this.value2 ? this.value2 : date,
+        beginTime: this.value1 ? this.value1 : this.data,
+        endTime: this.value2 ? this.value2 : this.data,
         pageNum: this.startRow,
         pageSize: this.endRow
       }
