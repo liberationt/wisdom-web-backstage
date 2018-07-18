@@ -123,7 +123,7 @@ export default {
           label: '渠道编号'
         },
         {
-          value: 'channelName',
+          value: 'manageName',
           label: '渠道名称'
         },
         {
@@ -132,7 +132,7 @@ export default {
         },
         {
           value: 'urlName',
-          label: '渠道类别'
+          label: '推广链接'
         },
         {
           value: 'supplierName',
@@ -420,17 +420,20 @@ export default {
         endTime : this.value2,
         pageNum: this.startRow,
         pageSize: this.endRow,
-        channelName: '',
-        channelName: ''
+        manageName: '',
+        supplierName: '',
+        channelNum: ''
       }
       if(this.queryli == 'manageName'){
         list.manageName = this.value
       } else if(this.queryli == 'urlName'){
         list.urlName = this.value
-      } else if(this.queryli == 'channelName'){
-        list.channelName = this.value
+      } else if(this.queryli == 'manageName'){
+        list.manageName = this.value
       } else if(this.queryli == 'supplierName'){
         list.supplierName = this.value
+      } else if(this.queryli == 'channelNum'){
+        list.channelNum = this.value
       }
       this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', list)
       .then((resp) => {
