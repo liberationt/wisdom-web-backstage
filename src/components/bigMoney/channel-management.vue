@@ -348,7 +348,7 @@ export default {
                 this.changeLoading()
                 this.modal9 = false
                 // this.formCustom.name = ''
-                this.$Message.success('保存失败')
+                this.$Message.success(resp.message)
                 this.$refs[name].resetFields()
               }
             })
