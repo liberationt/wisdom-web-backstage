@@ -30,6 +30,15 @@ export default {
 
   },
   mounted () {
+    if (utils.getlocal('lefthidden') == '0') {
+      let left = document.getElementsByClassName('layout-menu-left')
+      let right = document.getElementsByClassName('contrig')
+      if (left[0]) {
+        left[0].style.display = 'none'
+        right[0].style.width = '100%'   
+      }
+      
+    }
     let that = this
     let arrlist = []
     let list = []
@@ -89,7 +98,7 @@ export default {
       // right[0].style.width = '83.3%'
       // console.log(left[0].style)
       this.$router.push({ path: './registrationList' })
-      utils.putlocal('lefthidden', '1')
+      utils.putlocal('lefthidden', '0')
       // sessionStorage.setItem('lefthidden', true)
       that.lefthidtrue()
       utils.putlocal('sideleft', '0')

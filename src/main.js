@@ -48,8 +48,9 @@ router.beforeEach((to, from, next) => {
       next()
       // if (!sessionStorage.getItem('browse')) {
       //   localStorage.removeItem('lefthidden')
-      // } else {
-        if (utils.getlocal('lefthidden') == '1') {
+      // }
+      //  else {
+        if (utils.getlocal('lefthidden') == '0') {
           store.state.hidden = true
         } else {
           store.state.hidden = false

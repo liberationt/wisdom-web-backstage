@@ -257,14 +257,16 @@ export default {
       this.http.post(BASE_URL + '/loan/partya/deletePartyaByCode?partyaCode='+code)
     .then((resp) => {
       if (resp.code == 'success') {
-        const title = '删除'
-        let content = '<p>删除成功</p>'
-        this.$Modal.success({
-          title: title,
-          content: content
+        this.$Modal.confirm({
+          title: '删除',
+          content: '<p>确认要删除吗?</p>',
+          onOk: () => {
+             this.inquire ()
+          },
+          onCancel: () => {
+              
+          }
         })
-        this.inquire ()
-  
       } else {
 
       }
