@@ -223,11 +223,11 @@ export default {
         this.$Message.info("请输入正确的推送周期(1-1440)")
         return false
       }
-      if(0 > Number(this.value1) || Number(this.value1) > 366 || !/^[0-9]*$/.test(this.value1) || this.value1 == ''){
+      if(0 > Number(this.value1) || Number(this.value1) > 366 || !reg.test(this.value1) || String(this.value1) == ''){
         this.$Message.info("请输入正确的推送天数(0-366)")
         return false
       }
-      if(0 > Number(this.value2) || Number(this.value2)>100000 || !/^[0-9]*$/.test(this.value2) || this.value2 == ''){
+      if(0 > Number(this.value2) || Number(this.value2) > 100000 || !reg.test(this.value2) || String(this.value2) == ''){
        this.$Message.info("请输入正确的推送天数(0-100000)")
         return false
       }
@@ -235,6 +235,11 @@ export default {
       let status
       let list = {}
       let datatime
+      if (this.enable == '启用') {
+        status = '1'
+      } else {
+        status = '2'
+      }
       if (this.animal == '手动') {
         sendType = '1'
         list = {
@@ -274,11 +279,8 @@ export default {
         cycleUnint: datatime
       }
       }
-      if (this.enable == '启用') {
-        status = '1'
-      } else {
-        status = '2'
-      }
+     
+      console.log(list)
     this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
