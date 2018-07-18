@@ -29,7 +29,7 @@
                   <DatePicker type="date" :value="value3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
                   <span class="spots">
                     已选择
-                    <Tag @on-close="handleClose" :name="index" closable class="red" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
+                    <Tag @on-close="handleClose" :name="index" closable class="red" v-if="item != ''" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
                     <Button type="info" @click="modal10 = true">更多</Button>
                   </span>
                 </li>
@@ -212,8 +212,8 @@ export default {
   },
   methods: {
     handleClose(event, name){
-        console.log(name)
-        const index = this.time.indexOf(name);
+        // console.log(name)
+        const index = this.time.indexOf(name+1);
         this.time.splice(index, 1);
     },
     // 保存
@@ -335,6 +335,7 @@ export default {
       
     },
     time1 (value, data) {
+      console.log(value)
       this.show = true
       if (this.time.length >= 4) {
         this.time2.push(value)
