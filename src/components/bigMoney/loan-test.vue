@@ -188,13 +188,16 @@ export default {
         ],
         types: { required: true, message: '请选择额度类型', trigger: 'blur' },
         range: [
-          { required: true, message: '请输入开始金额', trigger: 'blur' }
+          { required: true, message: '请输入开始金额', trigger: 'blur' },
+          { type: 'string',pattern:/^[0-9]*$/, message:'请输入数字', trigger:'blur'}
         ],
         rangeend: [
-          { required: true, message: '请输入结束金额', trigger: 'blur' }
+          { required: true, message: '请输入结束金额', trigger: 'blur' },
+          { type: 'string',pattern:/^[0-9]*$/, message:'请输入数字', trigger:'blur'}
         ],
         quota: [
-          { required: true, message: '请输入贷款金额', trigger: 'blur' }
+          { required: true, message: '请输入贷款金额', trigger: 'blur' },
+          { type: 'string',pattern:/^[0-9]*$/, message:'请输入数字', trigger:'blur'}
         ],
         ratetype: { required: true, message: '请选择利率类型', trigger: 'change' },
         rate: [
@@ -705,7 +708,8 @@ export default {
                 return false 
               }
           }
-          if (this.formCustom.range >= this.formCustom.rangeend) {       
+          if (this.formCustom.object1 == this.formCustom.object2) {
+            if (this.formCustom.range > this.formCustom.rangeend) {
             let title = '提示'
             let content = '<p>开始金额不得大于结束金额</p>'
             this.$Modal.warning({
@@ -714,8 +718,8 @@ export default {
             })
             this.changeLoading()
             return false
-          }
-            
+          }          
+          }       
           } else {
               let reg = /^[1-9]\d*$/
           if (!reg.test(this.formCustom.quota)) {
