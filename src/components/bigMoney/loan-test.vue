@@ -144,6 +144,7 @@ export default {
       endRow: 10,
       lengths: 0,
       edit: '',
+      imgnum: 0,
       formCustom: {
         // productid: 'DWQ1234',
         productlogo: '',
@@ -301,9 +302,8 @@ export default {
         },
         {
           title: 'URL',
-          align: 'labelUrl',
+          align: 'center',
           ellipsis: true,
-          key: 'url',
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -557,16 +557,23 @@ export default {
     },
     refuse (num, code) {
       if (num == 1) {
+        // 编辑
         this.$refs['formCustom'].resetFields()
         this.edit = code
         this.http.get(BASE_URL + '/loan/loanProduct/getLoanProductByCode?loanProductCode='+code)
         .then((resp) => {
           if (resp.code == 'success') {
             // this.formCustom.productid = resp.data.productCode
-            this.formCustom.productlogo = resp.data.logoUrl
-            this.formCustom.producticon = resp.data.labelUrl
-            this.formCustom.logoUrl = resp.data.logoUrl
-            this.formCustom.labelUrl = resp.data.labelUrl
+            if (resp.data.labelUrl == '') {
+              this.formCustom.producticon = ''
+              this.formCustom.labelUrl = require('../../image/moren.png')
+
+            } else {
+              this.formCustom.producticon = resp.data.labelUrl
+              this.formCustom.labelUrl = resp.data.labelUrl
+            }
+            this.formCustom.productlogo = resp.data.logoUrl           
+            this.formCustom.logoUrl = resp.data.logoUrl         
             this.formCustom.name = resp.data.name
             this.formCustom.subtitle = resp.data.fname
             this.formCustom.explain = resp.data.subtitle
@@ -592,7 +599,7 @@ export default {
         })
         this.modal9 = true
         this.hid = 1
-      } else {        
+      } else {
         this.hid = 0
         this.modal9 = true
       }
@@ -771,9 +778,15 @@ export default {
              } else {
                startMoney = this.formCustom.quota
              }
+             let labelUrl
+             if (this.imgnum == 0) {
+               labelUrl = ''
+             } else {
+               labelUrl = this.formCustom.labelUrl
+             }
             let list = {
               logoUrl: this.formCustom.logoUrl,
-              labelUrl: this.formCustom.labelUrl,
+              labelUrl: labelUrl,
               name: this.formCustom.name,
               fname: this.formCustom.subtitle,
               subtitle: this.formCustom.explain,
@@ -789,7 +802,7 @@ export default {
             }
             let listbj = {
               logoUrl: this.formCustom.logoUrl,
-              labelUrl: this.formCustom.labelUrl,
+              labelUrl: labelUrl,
               name: this.formCustom.name,
               fname: this.formCustom.subtitle,
               subtitle: this.formCustom.explain,
@@ -824,6 +837,7 @@ export default {
                 } else {
                   this.changeLoading()
                   this.$Message.info(resp.message)
+                  this.imgnum == 0
                 }
               })
               .catch(() => {
@@ -912,6 +926,7 @@ export default {
     .then((resp) => {
       if (resp.code == 'success') {
         this.formCustom.labelUrl = resp.data
+        this.imgnum = 1
       } else {
       }
     })
