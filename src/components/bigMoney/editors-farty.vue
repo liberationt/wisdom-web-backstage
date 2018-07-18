@@ -384,7 +384,7 @@ export default {
         if (resp.data.cycleUnint == '1') {
           this.datatime = '分'
         } else if (resp.data.cycleUnint == '2') {
-          this.datatime = '时'
+          this.datatime = '小时'
         } else {
           this.datatime = '天'
         }
