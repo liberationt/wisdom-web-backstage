@@ -203,14 +203,11 @@ export default {
         })
         return false
       } else {
-        // let list = {
-					let	url = this.filename
-					// }
+				let	url = this.filename
         this.http.get(BASE_URL + '/loan/pushBlack/uploadFileExcel?url='+url)
         .then((resp) => {
           console.log(resp)
           if (resp.code == 'success') {
-            setTimeout(() => {
             this.changeLoading()
             const title = '上传名单'
             let content = '<p>上传成功</p>'
@@ -220,7 +217,7 @@ export default {
             })
             this.modal9 = false
             this.namelist = ''
-          }, 1000)
+            this.inquire()
           } else {
             this.$Message.info(resp.message)
           }
