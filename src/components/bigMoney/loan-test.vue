@@ -614,11 +614,11 @@ export default {
     // 上传文件提示
     // 上传格式校验
     handleFormatError1 (file) {
-      this.formCustom.productlogo = ''
+      // this.formCustom.productlogo = ''
       this.$Message.info("图片格式不正确,请上传正确的图片格式")
     },
     handleFormatError2 (file) {
-      this.formCustom.producticon = ''
+      // this.formCustom.producticon = ''
       this.$Message.info("图片格式不正确,请上传正确的图片格式")
     },
     handleSubmit (name) {
