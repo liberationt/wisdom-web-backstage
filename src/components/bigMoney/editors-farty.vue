@@ -41,7 +41,6 @@
                         <Radio label="小时"></Radio>
                         <Radio label="天"></Radio>
                     </RadioGroup>
-                    <p class="red" v-if="error1" style="margin-left:90px">请输入正确的推送周期(1-1440)</p>
                 </li>
                 <li class="mt15">
                     <span >推送字段:</span>
@@ -53,13 +52,11 @@
                    <span class="w150 displayib">重复数据间隔推送天数:</span>
                    <Input v-model="value1" class="ml5 numday" style="width: 200px"></Input>
                    <span>天</span>
-                   <p class="red correctnum" v-if="error2" style="margin-left:152px">请输入正确的推送天数(0-366)</p>
                 </li>
                 <li class="mt15">
                    <span class="w150 displayib">每日推送总条数限制:</span>
                    <Input v-model="value2" class="ml5 numday" style="width: 200px"></Input>
                    <span>条</span>
-                   <p class="red correctnum" v-if="error3" style="margin-left:152px">请输入正确的推送天数(0-100000)</p>
                 </li>
                 <li class="mt15">
                     <span >状态:</span>
@@ -123,8 +120,6 @@ export default {
       modal10: false,
       manual: false,
       loading: true,
-      error1: false,
-      error2: false,
       value4: '',
       cycle: '',
       code: '',
@@ -212,7 +207,6 @@ export default {
       ],
       time:[],
       time2: [],
-      error3: false,
       show: true,
     }
   },
@@ -226,22 +220,16 @@ export default {
     preservation () {
       let reg = /^(0|[1-9][0-9]*)$/
       if (!reg.test(this.cycle) || Number(this.cycle) > 1440 || Number(this.cycle) < 1 ||  this.cycle == '') {
-        this.error1 = true
+        this.$Message.info("请输入正确的推送周期(1-1440)")
         return false
-      } else {
-        this.error1 = false
       }
       if(0 > Number(this.value1) || Number(this.value1) > 366 || !/^[0-9]*$/.test(this.value1) || this.value1 == ''){
-        this.error2 = true
+        this.$Message.info("请输入正确的推送天数(0-366)")
         return false
-      } else {
-        this.error2 = false
       }
       if(0 > Number(this.value2) || Number(this.value2)>100000 || !/^[0-9]*$/.test(this.value2) || this.value2 == ''){
-        this.error3 = true
+       this.$Message.info("请输入正确的推送天数(0-100000)")
         return false
-      } else {
-        this.error3 = false
       }
       let sendType
       let status
