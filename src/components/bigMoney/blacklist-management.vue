@@ -5,9 +5,8 @@
                 <span>黑名单管理</span>
             </p>
         </div>
-        <Tabs type="card" :animated="false">
-        <TabPane label="黑名单列表">
-             <div class="mt50">
+        <!-- <Tabs type="card" :animated="false"> -->
+          <div class="mt50">
             <span>手机号:</span>
             <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 200px"></Input>
             <span>创建时间:</span>
@@ -16,7 +15,9 @@
             <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
-                <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
+                <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
+                <Button class="left mr20 w100 " type="info" @click="inquire">查询</Button>
+                
             </div>
         </div>
         <div class="mt20">
@@ -25,35 +26,44 @@
         <div class="tr mt15">
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-elevator show-sizer show-total></Page>
         </div>
-        </TabPane>
-        <TabPane label="黑名单管理">
-            <Row>
-                <Col span="10" offset="6">
-                <div class="mt50">
+         <Modal
+          title="上传黑名单"
+          v-model="modal9"
+          @on-ok="handleSubmit('formCustom')"
+          @on-cancel="handleReset('formCustom')"
+          ok-text="上传"
+          cancel-text="取消"
+          class-name="vertical-center-modal"
+          width="500"
+          :loading="loading"
+          :mask-closable="false">
+          <Row>
+            <Col span="10" offset="6">
+              <div class="mt50">
                 <ul>
-                    <li class="clearfix">
-                        <span class="left lh32">上传名单:</span>
-                        <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
-                        <Upload
-                          ref="upload"
-                          :before-upload="handleUpload"
-                          :show-upload-list="false"
-                          :format="['xlsx', 'xls']"
-                          action=''
-                          :on-format-error="handleFormatError2">
-                          <Button type="primary" icon="ios-cloud-upload-outline">预览</Button>
-                      </Upload>
-                    </li>
-                    <li class="mt50">
-                        <Button class="w100 ml50  " type="info" id="upload"  @click="upload">上传</Button>
-                        <Button class="w100 ml50" @click="cancel">取消</Button>
-                    </li>
-                </ul>
-            </div>
-                </Col>
-            </Row>
-        </TabPane>
-    </Tabs>
+                  <li class="clearfix updatel">
+                    <span class="left lh32">上传名单:</span>
+                    <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
+                    <Upload
+                    ref="upload"
+                    :before-upload="handleUpload"
+                    :show-upload-list="false"
+                    :format="['xlsx', 'xls']"
+                    action=''
+                    :on-format-error="handleFormatError2">
+                    <Button type="primary" icon="ios-cloud-upload-outline">预览</Button>
+                    </Upload>
+                  </li>
+                  <!-- <li class="mt50">
+                      <Button class="w100 ml50  " type="info" id="upload"  @click="upload">上传</Button>
+                      <Button class="w100 ml50" @click="cancel">取消</Button>
+                  </li> -->
+                  </ul>
+              </div>
+            </Col>
+          </Row>
+        </Modal>
+    <!-- </Tabs> -->
     </div>
 </template>
 <script>
@@ -126,11 +136,19 @@ export default {
           }
         }
       ],
-      data6: []
+      data6: [],
+      modal9: false,
     }
   },
   methods: {
+    // 上传弹框
+    handleReset (name) {
+      this.namelist = ''
+    },
     // 分页
+    updatelist(){
+      this.modal9 = true
+    },
     pageChange (page) {
       this.startRow = page
       this.inquire()
@@ -174,7 +192,7 @@ export default {
     },
     // 上传文件
     // 上传
-    upload () {
+    handleSubmit () {
       if (this.namelist == '') {
         this.changeLoading()
         const title = '上传文件'
@@ -273,9 +291,6 @@ export default {
     .catch(() => {
     })
     },
-    cancel () {
-      this.namelist = ''
-    }
 
   },
   mounted () {
@@ -293,4 +308,14 @@ export default {
             top: 0;
         }
     }
+.updatel {
+  width: 400px;
+
+}
+.ivu-col-offset-6 {
+  margin-left: 10px !important;
+}
+.ivu-row{
+  padding-bottom: 25px !important;
+}
 </style>
