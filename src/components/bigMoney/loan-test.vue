@@ -464,7 +464,6 @@ export default {
                 }
               }, '删除')
             ]
-            console.log(params.index)
             if (params.index != this.lengths) {
               listbut.push(
                 h('Button', {
@@ -706,6 +705,16 @@ export default {
                 return false 
               }
           }
+          if (this.formCustom.range >= this.formCustom.rangeend) {       
+            let title = '提示'
+            let content = '<p>开始金额不得大于结束金额</p>'
+            this.$Modal.warning({
+            title: title,
+            content: content
+            })
+            this.changeLoading()
+            return false
+          }
             
           } else {
               let reg = /^[1-9]\d*$/
@@ -755,19 +764,8 @@ export default {
                 return false 
               }
           }
-          if (this.formCustom.range >= this.formCustom.rangeend) {       
-            let title = '提示'
-            let content = '<p>开始金额不得大于结束金额</p>'
-            this.$Modal.warning({
-            title: title,
-            content: content
-            })
-            this.changeLoading()
-            return false
-          }
-          }
-                   
           
+          }                        
             let startMoney
             if (this.formCustom.types == 1) {
               startMoney = this.formCustom.range      
@@ -807,8 +805,8 @@ export default {
               loanLines: this.formCustom.object3,
               productCode: this.edit
             }
-            console.log(listbj)
             if (this.hid == 0) {
+              // 新增
               this.http.post(BASE_URL + '/loan/loanProduct/saveLoanProduct', list)
               .then((resp) => {
                 if (resp.code == 'success') {
@@ -822,6 +820,8 @@ export default {
                   this.modal9 = false
                   this.inquire()
                 this.$refs[name].resetFields()
+                this.formCustom.logoUrl = require('../../image/moren.png')
+                this.formCustom.labelUrl = require('../../image/moren.png')
                 } else {
                   this.changeLoading()
                   this.$Message.info(resp.message)
@@ -830,6 +830,7 @@ export default {
               .catch(() => {
               })
             } else {
+              // 编辑
               this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', listbj)
               .then((resp) => {
                 if (resp.code == 'success') {

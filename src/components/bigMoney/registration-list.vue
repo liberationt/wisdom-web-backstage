@@ -117,7 +117,7 @@ export default {
           title: '注册时间',
           align: 'center',
           width: 120,
-          key: 'time'
+          key: 'registrationTime'
         },
         {
           title: '供应商',
