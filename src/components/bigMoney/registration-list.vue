@@ -22,9 +22,9 @@
                 <Option v-for="item in cityList" :value="item.channelNum" >{{ item.manageName }}</Option>
             </Select>
             <span class="w60 displayib ml20 mt15 tr mb15">注册时间:</span>
-            <DatePicker type="date" class="mb15" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value1' class="mb15" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" class="mr20 mb15" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value2' class="mr20 mb15" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <span class="w60 displayib tr">供应商:</span>
             <Select v-model="model2" placeholder="全部" class="" style="width:200px">
                 <Option v-for="item in cityList2" :value="item.supplierKey" :key="item.supplierKey">{{ item.supplierName }}</Option>
@@ -43,7 +43,7 @@
             <Table :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-            <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+            <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
             </div>
     </div>
 </template>
@@ -363,7 +363,6 @@ export default {
     },
     // 查询
     registered () {
-     
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
