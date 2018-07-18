@@ -53,13 +53,13 @@
                    <span class="w150 displayib">重复数据间隔推送天数:</span>
                    <Input v-model="value1" class="ml5 numday" style="width: 200px"></Input>
                    <span>天</span>
-                   <p class="red hidden correctnum" style="margin-left:152px">请输入正确的推送天数</p>
+                   <p class="red correctnum" v-if="error2" style="margin-left:152px">请输入正确的推送天数(0-366)</p>
                 </li>
                 <li class="mt15">
                    <span class="w150 displayib">每日推送总条数限制:</span>
                    <Input v-model="value2" class="ml5 numday" style="width: 200px"></Input>
                    <span>条</span>
-                   <p class="red hidden correctnum" style="margin-left:152px">请输入正确的推送天数</p>
+                   <p class="red correctnum" v-if="error3" style="margin-left:152px">请输入正确的推送天数(0-100000)</p>
                 </li>
                 <li class="mt15">
                     <span >状态:</span>
@@ -124,6 +124,7 @@ export default {
       manual: false,
       loading: true,
       error1: false,
+      error2: false,
       value4: '',
       cycle: '',
       code: '',
@@ -210,7 +211,8 @@ export default {
         }
       ],
       time:[],
-      time2: []
+      time2: [],
+      error3: false
     }
   },
   methods: {
@@ -272,9 +274,25 @@ export default {
       } else {
         status = '2'
       }
-
-      
-      this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
+    if(0> Number(this.value1) || Number(this.value1)>366){
+      this.error2 = true
+      return false
+    }
+    if(!/^[0-9]*$/.test(this.value1)){
+      this.error2 = true
+      return false
+    }
+    if(0> Number(this.value2) || Number(this.value2)>100000){
+      this.error3 = true
+      return false
+    }
+    if(!/^[0-9]*$/.test(this.value2)){
+      this.error3 = true
+      return false
+    }
+    this.error2 = false
+    this.error3 = false
+    this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
         this.$Modal.success({
