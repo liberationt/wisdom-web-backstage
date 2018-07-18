@@ -27,7 +27,7 @@
             <DatePicker type="date" class="mr20 mb15" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             <span class="w60 displayib tr">供应商:</span>
             <Select v-model="model2" placeholder="全部" class="" style="width:200px">
-                <Option v-for="item in cityList2" :value="item.supplierCode" :key="item.supplierCode">{{ item.supplierName }}</Option>
+                <Option v-for="item in cityList2" :value="item.supplierKey" :key="item.supplierKey">{{ item.supplierName }}</Option>
             </Select>          
             <span class="w60 displayib tr ">步骤:</span>
             <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20 ">

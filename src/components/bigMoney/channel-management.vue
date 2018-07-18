@@ -41,8 +41,8 @@
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15 ">            
             <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:150px">
-             <FormItem label="渠道类别:" prop="category" >
-              <Select v-model="formCustom.category" placeholder="请选择渠道类别" :disabled="judge=='1'" style="width:300px">
+             <FormItem label="渠道链接:" prop="category" >
+              <Select v-model="formCustom.category" placeholder="请选择渠道链接" :disabled="judge=='1'" style="width:300px">
                   <Option v-for="item in optionlac" @click.native='hqurl(item.urlUrl)' :value="String(item.urlCode)" :key="item.urlCode">{{ item.urlName }}</Option>
               </Select>
             </FormItem>
