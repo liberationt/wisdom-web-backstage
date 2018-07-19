@@ -56,7 +56,7 @@ export const use_iframe_download = download_path => {
 }
 
 // 导出
-export function exporttable (httpUrl,token, formData) {
+export function exporttable (httpUrl,token, formData, callback) {
   var xhr = new XMLHttpRequest()
   if (xhr.withCredentials === undefined){ 
     return false
@@ -65,7 +65,10 @@ export function exporttable (httpUrl,token, formData) {
   xhr.setRequestHeader("Authentication", token)
   xhr.responseType = "blob"
   xhr.onreadystatechange = function () {
-      if (xhr.readyState !== 4) return //忽略未完成的调用
+      if (xhr.readyState !== 4) {
+        callback && callback(false)
+        return
+      } //忽略未完成的调用
       if (this.status === 200) {
         var blob = this.response
         var contentType = this.getResponseHeader('content-type')
@@ -77,6 +80,9 @@ export function exporttable (httpUrl,token, formData) {
         aTag.href = URL.createObjectURL(blob)
         aTag.click()
         URL.revokeObjectURL(blob)
+        callback && callback(true)
+      } else {
+        callback && callback(false)
       }
   }
   xhr.send(formData);
