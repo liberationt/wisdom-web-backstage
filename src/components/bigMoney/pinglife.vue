@@ -211,6 +211,7 @@ export default {
           }
        }).catch(err=>{
          console.log(err)
+         this.loading3 = false;
        })
     },
       // 时间判断
@@ -274,7 +275,7 @@ export default {
     let pushname = this.$route.query.pushname
     let list = {
       pushBatchNum: this.$route.query.id,
-    }
+    } 
 		if(pushname == 'luohui'){
 			this.post('/loan/zxLhpingan/getZxLhpinganList',list,pushname)
 			} else if(pushname == 'kunxuan'){

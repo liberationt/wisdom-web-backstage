@@ -19,7 +19,11 @@
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
-                <Button class="right mr20 w100 " type="info" @click="registered">查询</Button>
+                <!-- <Button class="right mr20 w100 " type="info" @click="registered">查询</Button> -->
+                <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                  <span v-if="!loading3">查询</span>
+                  <span v-else>查询</span>
+                </Button>
             </div>
         </div>
         <div class="mt20">
@@ -193,7 +197,8 @@ export default {
       jianame: '',
       zhuname: '',
       filename2: '',
-      pushname1: ''
+      pushname1: '',
+      loading3: false
     }
   },
   methods: {
@@ -227,14 +232,6 @@ export default {
         })
         return false
       } else {
-        // let formData = new FormData();
-        //   formData.append('partyaKey', this.jiakey);
-        //   formData.append('filename', this.filename2);
-        // let config = {
-        //   headers: {
-        //     'Content-Type': 'multipart/form-data'
-        //   }
-        // }
         let list = {
 						partyaKey: this.jiakey,
 						url: this.filename2
@@ -311,6 +308,7 @@ export default {
     },
     // 查询
     registered() {
+      this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -325,7 +323,7 @@ export default {
         beginTime : this.value1,
         endTime : this.value2,
         partyaKey:this.jiakey,
-        pageNum: this.startRow == 0? 1: this.startRow,
+        pageNum: this.startRow == 0 ? 1: this.startRow,
         pageSize: this.endRow,
       }
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
@@ -333,12 +331,14 @@ export default {
           this.total = parseInt(data.data.total)
           this.startRow = Math.ceil(data.data.startRow/this.endRow)
           this.data6 = data.data.batchLogList;
+          this.loading3 = false;
         }
         if(parseInt(data.data.total) == '0') {
           this.startRow = 1
         }
       }).catch(err=>{
         console.log(err)
+        this.loading3 = false;
       })
     },
     jname(pushname) {

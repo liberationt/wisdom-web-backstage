@@ -18,7 +18,11 @@
             <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
-                <Button class="right mr20 w100" type="info" @click="registered">查询</Button>
+                <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
+                 <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                  <span v-if="!loading3">查询</span>
+                  <span v-else>查询</span>
+                </Button>
             </div>
         </div>
         <div class="mt20">
@@ -219,7 +223,8 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
-      pushname1: ''
+      pushname1: '',
+      loading3: false
     }
   },
   methods: {
@@ -387,6 +392,7 @@ export default {
     },
     // 查询
     registered () {
+      this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -409,12 +415,14 @@ export default {
           this.total = Number(data.data.total)
           this.startRow = Math.ceil(data.data.startRow/this.endRow)
           this.data6 = data.data.batchLogList;
+          this.loading3 = false
         }
         if(parseInt(data.data.total) == '0') {
           this.startRow = 1
         }
       }).catch(err=>{
         console.log(err)
+        this.loading3 = false
       })
     }
     // handleSubmit (name) {
