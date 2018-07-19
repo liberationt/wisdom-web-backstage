@@ -40,7 +40,6 @@
     </div>
 </template>
 <script>
-// import  {utils} from '@/utils'
 import utils from '../../utils/utils'
 export default {
   data () {
@@ -225,95 +224,23 @@ export default {
         	this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
         }
     },
-    getHttpObj() {
-        var httpobj = null;
-        try {
-            httpobj = new ActiveXObject("Msxml2.XMLHTTP");
-        }
-        catch (e) {
-            try {
-                httpobj = new ActiveXObject("Microsoft.XMLHTTP");
-            }
-            catch (e1) {
-                httpobj = new XMLHttpRequest();
-            }
-        }
-        return httpobj;
-    },
     // 导出
     exports () {
-      var xhr = new XMLHttpRequest();
-	    if (xhr.withCredentials === undefined){ 
-	    	return false
-	    };
-	    xhr.open("get", BASE_URL+'/loan/zxLhpingan/exportExcel');
-	    xhr.setRequestHeader("Authentication", utils.getlocal('token'));
-	    xhr.responseType = "blob";
-	    xhr.onreadystatechange = function () {
-	        if (xhr.readyState !== 4) return;//忽略未完成的调用
-	        if (this.status === 200) {
-	        	var blob = this.response;
-	        	var contentType = this.getResponseHeader('content-type');
-	        	var fileName = contentType.split(";")[1].split("=")[1];
-	        	fileName = decodeURI(fileName);
-	        	let aTag = document.createElement('a');
-            // 下载的文件名
-            aTag.download = fileName;
-            aTag.href = URL.createObjectURL(blob);
-            aTag.click();　　
-            URL.revokeObjectURL(blob);
-	        }
-	    }
-	    xhr.send(null);
-
-
-
-
-   
-      let pushname = 'kunxuan'
-      //  this.$route.query.pushname
+      let pushname = this.$route.query.pushname
+      let httpUrl
 			if(pushname == 'luohui'){
-
-        // window.open(BASE_URL + '/loan/zxLhpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
-			} else if(pushname == 'kunxuan'){
-          // 封装form 表单
-          var params = {// 参数
-            pushBatchNum:this.model2,
-            pushStatus:this.model3,
-            beginTime:this.value1,
-            endTime:this.value2
-          };
-          // var form = document.createElement('form');
-          // form.id = 'form'
-          // form.name = 'form'
-          // document.body.appendChild(form);
-          // for(var obj in params) {
-          // if(params.hasOwnProperty(obj)) {
-          // var input = document.createElement('input');
-          // input.tpye='hidden';
-          // input.name = obj;
-          // input.value = params[obj];
-          // form.appendChild(input)
-          // }
-          // }
-          // form.method = "GET";//请求方式
-          
-          
-          
-          // this.axios({
-          //   method: 'get',
-          //   url:BASE_URL+'/loan/zxLhpingan/exportExcel',
-          //   data:params,
-          //   responseType:'blob'
-          // })
-          // form.action = BASE_URL+'/loan/zxKxpingan/exportExcel';
-          // form.submit();
-          // document.body.removeChild(form);
-
-        // window.open(BASE_URL + '/loan/zxKxpingan/exportExcel?pushBatchNum='+this.model2+'&&pushStatus='+this.model3+'&&beginTime='+this.value1+'&&endTime='+this.value2)
-			}
+        httpUrl = BASE_URL+'/loan/zxLhpingan/exportExcel'
+      } else if(pushname == 'kunxuan'){
+        httpUrl = BASE_URL+'/loan/zxKxpingan/exportExcel'
+      }
+      let formData = new FormData()
+      formData.append("pushBatchNum",this.model2)
+      formData.append("pushStatus",this.model3)
+      formData.append("beginTime",this.value1)
+      formData.append("endTime",this.value2)
+      formData.append("methodType",1)
+      utils.exporttable(httpUrl, utils.getlocal('token'),formData)
     },
-    
   },
   created() {
     let pushname = this.$route.query.pushname
