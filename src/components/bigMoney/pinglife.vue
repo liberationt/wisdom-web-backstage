@@ -266,6 +266,7 @@ export default {
       formData.append("methodType",1)
       utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
         if(e == true){
+          alert(222)
           this.loading2 = false;
         }
       })
