@@ -20,12 +20,6 @@
             <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 150px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 150px"></DatePicker>
-            <!-- <div class="mt15">
-            <span class=" tr displayib">推送时间:</span>
-                <DatePicker type="date"  placeholder="开始时间" style="width: 200px"></DatePicker>
-                <span>  -  </span>
-                <DatePicker type="date" placeholder="结束时间" style="width: 200px"></DatePicker>
-            </div > -->
             <div class="clearfix mr100 mt20">
                 <Button type="primary" class="right w100" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
@@ -146,6 +140,8 @@ export default {
             let resultCode 
             if (params.row.resultCode == '0') {
               resultCode = '成功'
+            } else if(params.row.resultCode == ''){
+              resultCode = ''
             } else {
               resultCode = '失败'
             }
