@@ -254,6 +254,7 @@ export default {
     },
     // 查询 select
     queryl(value) {
+      console.log(value)
       this.queryli = value
     },
     rowClassName (row, index) {
@@ -414,7 +415,7 @@ export default {
         return false
       }
       let list = {
-        manageName : '',
+        channelNum : '',
         urlName : '',
         beginTime : this.value1,
         endTime : this.value2,
@@ -422,18 +423,18 @@ export default {
         pageSize: this.endRow,
         manageName: '',
         supplierName: '',
-        channelNum: ''
+        channelTag: ''
       }
-      if(this.queryli == 'manageName'){
-        list.manageName = this.value
+      if(this.queryli == 'channelNum'){
+        list.channelNum = this.value
       } else if(this.queryli == 'urlName'){
         list.urlName = this.value
       } else if(this.queryli == 'manageName'){
         list.manageName = this.value
       } else if(this.queryli == 'supplierName'){
         list.supplierName = this.value
-      } else if(this.queryli == 'channelNum'){
-        list.channelNum = this.value
+      } else if(this.queryli == 'channelTag'){
+        list.channelTag = this.value
       }
       this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', list)
       .then((resp) => {
