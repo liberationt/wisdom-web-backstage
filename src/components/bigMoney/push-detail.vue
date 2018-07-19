@@ -11,19 +11,15 @@
                 <Option v-for="item in cityList" :value="item.partyaKey" :key="item.partyaKey">{{ item.partyaName }}</Option>
             </Select>
             <span class="w60 displayib">推送时间:</span>
-              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="mb15" style="width: 200px"></DatePicker>
+              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="mb15" style="width: 190px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 190px"></DatePicker>
             <span class="w60 displayib">批次号:</span>
-            <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input>
+            <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 180px"></Input>
             <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:200px" class="mr20">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <!-- <span>推送类型:</span>
-            <Select v-model="model3" style="width:200px" class="mr20">
-                <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select> -->
             
             <div class="clearfix mr100 mt20">
                 <Button class="right w100" type="primary" @click="exports">导出</Button>
@@ -40,6 +36,7 @@
     </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -635,13 +632,15 @@ export default {
   methods: {
     // 分页
     pageChange(page) {
+        console.log(page)
 				this.startRow = page
 				this.inquire()
-			},
-			pagesizechange(page) {
-				this.endRow = page
-				this.inquire()
-			},
+		},
+    pagesizechange(page) {
+      console.log(page)
+      this.endRow = page
+      this.inquire()
+    },
     // 时间判断
 			time1(value, data) {
 				this.value1 = value
@@ -666,7 +665,9 @@ export default {
           endTime: this.value2,
           pushBatchNum: this.model5,
           pushStatus: this.model2,
-          origin: 0
+          origin: 0,
+          pageNum: this.startRow,
+          pageSize: this.endRow,
         }
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
@@ -713,32 +714,16 @@ export default {
       // 导出
       exports () {
         // 封装form 表单
-        var params = {// 参数
-        smartWatermeterId:this.$route.query.watermeterId,
-        startTime:this.formVal.startTime,
-        endTime:this.formVal.endTime,
-        };
-
-        var form = document.createElement('form');
-        form.id = 'form'
-        form.name = 'form'
-        document.body.appendChild(form);
-        for(var obj in params) {
-        if(params.hasOwnProperty(obj)) {
-        var input = document.createElement('input');
-        input.tpye='hidden';
-        input.name = obj;
-        input.value = params[obj];
-        form.appendChild(input)
-        }
-        }
-        form.method = "GET";//请求方式
-        form.action = runEnv.api_url+'请求地址';
-        form.submit();
-        document.body.removeChild(form);
-        
-        let url = '/common/partya/exportExcel?partyaKey='+this.model1+'&beginTime='+this.value1+'&endTime='+this.value2+'&pushBatchNum='+this.model5+'&pushStatus='+this.model2+'&origin=0'
-        window.open(BASE_URL + url)
+        let formData = new FormData()
+        formData.append("partyaKey",this.model1)
+        formData.append("beginTime",this.value1)
+        formData.append("endTime",this.value2)
+        formData.append("pushBatchNum",this.model5)
+        formData.append("pushStatus",this.model2)
+        formData.append("origin",0)
+        formData.append("methodType",1)
+        let httpUrl = BASE_URL+'/common/partya/exportExcel'
+        utils.exporttable(httpUrl, utils.getlocal('token'),formData)                      
       }     
   },
   mounted () {
