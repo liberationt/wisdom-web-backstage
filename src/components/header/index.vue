@@ -101,18 +101,14 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['lefthidfalse', 'lefthidtrue']),
+    ...mapMutations(['lefthidfalse']),
     routerlink: function (index, path, name) {
-      // console.log(name)
       utils.putlocal('headace', index)
       this.isActive = index
-      if (name == '应用管理') {
-        let left = document.getElementsByClassName('layout-menu-left')
-        let right = document.getElementsByClassName('contrig')
-        left[0].style.display = 'none'
-        right[0].style.width = '100%'
-      }
       this.$router.push({ path: path })
+      if (name == '应用管理') {
+        this.lefthidfalse()
+      }  
     },
     introduction () {
       this.modal8 = true
@@ -125,10 +121,6 @@ export default {
       localStorage.removeItem('headace')
       localStorage.removeItem('sideleft')
       utils.delCookie('user')
-      // let left = document.getElementsByClassName('layout-menu-left')
-      // let right = document.getElementsByClassName('contrig')
-      // left[0].style.display = 'none'
-      // right[0].style.width = '100%'
       this.$router.push({ path: './' })
     }
   },
@@ -139,27 +131,6 @@ export default {
     let that = this
     that.username = JSON.parse(utils.getCookie('user'))
     that.headerdata = JSON.parse(utils.getlocal('userInfo')).menuInfo.children
-    // that.headerdata = JSON.parse(sessionStorage.getItem('userInfo')).menuInfo.children
-    // alert(JSON.parse(sessionStorage.getItem('userInfo')))
-    // if (that.headerdata.length>0) {
-    //   console.log(that.headerdata)
-    //   let headacc = document.querySelectorAll('.headrigui ul li')
-    //   console.log(headacc)
-    // }
-    // for (let i = 0; i < headacc.length; i++) {
-    //   headacc[i].onclick = function () {
-    //     alert('s')
-    //     for (let j = 0; j < headacc.length; j++) {
-    //       headacc[j].style.backgroundColor = ''
-    //     }
-    //     this.style.backgroundColor = '#D64635'
-    //     if (this.innerText === '应用') {
-    //       that.lefthidfalse()
-    //     } else {
-    //       that.lefthidtrue()
-    //     }
-    //   }
-    // }
   }
 }
 </script>
@@ -169,9 +140,6 @@ export default {
   height: 50px;
   width: 100%;
   background: #3e81f2;
-  //overflow: hidden;
-  // position: fixed;
-  //   top: 0
 }
 .headleft{
   height: 100%;

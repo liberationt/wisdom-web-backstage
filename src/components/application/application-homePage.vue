@@ -30,15 +30,7 @@ export default {
 
   },
   mounted () {
-    if (utils.getlocal('lefthidden') == '0') {
-      let left = document.getElementsByClassName('layout-menu-left')
-      let right = document.getElementsByClassName('contrig')
-      if (left[0]) {
-        left[0].style.display = 'none'
-        right[0].style.width = '100%'   
-      }
-      
-    }
+    
     let that = this
     let arrlist = []
     let list = []
@@ -48,9 +40,6 @@ export default {
     for (let j = 0; j < arrlist.length; j++) {
       list.push(arrlist[j].menuCode)
     }
-    // let code = {
-    //   list
-    // }
     this.http.post(BASE_URL + '/system/appManage/getAppManageByMenuCodes', list)
     .then((resp) => {
       if (resp.code == 'success') {
@@ -85,26 +74,15 @@ export default {
           }
           that.leftlist(arrlist[j].children)
           utils.putlocal('leftlist', JSON.stringify(arrlist[j].children))
-          // sessionStorage.setItem('leftlist', JSON.stringify(arrlist[j].children))
-        // console.log(arrlist[j].childMenu)
         } else {
           this.$Message.warning('网站建设中...')
           return false
         }
       }
-      // let left = document.getElementsByClassName('layout-menu-left')
-      // let right = document.getElementsByClassName('contrig')
-      // left[0].style.display = 'block'
-      // right[0].style.width = '83.3%'
-      // console.log(left[0].style)
-      this.$router.push({ path: './registrationList' })
       utils.putlocal('lefthidden', '0')
-      // sessionStorage.setItem('lefthidden', true)
+      this.$router.push({ path: './registrationList' })
       that.lefthidtrue()
       utils.putlocal('sideleft', '0')
-      
-      location.reload()
-      // that.menu.menuInfo.childMenu
     }
   },
   computed: {
