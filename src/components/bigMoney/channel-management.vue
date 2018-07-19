@@ -132,7 +132,7 @@ export default {
         },
         {
           value: 'urlName',
-          label: '推广链接'
+          label: '渠道链接'
         },
         {
           value: 'supplierName',
@@ -141,7 +141,7 @@ export default {
       ],
       columns7: [
         {
-          title: '渠道类别',
+          title: '渠道链接',
           align: 'center',
           key: 'urlName'
         },
