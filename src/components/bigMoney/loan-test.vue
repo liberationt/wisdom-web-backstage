@@ -834,6 +834,7 @@ export default {
                 this.$refs[name].resetFields()
                 this.formCustom.logoUrl = require('../../image/moren.png')
                 this.formCustom.labelUrl = require('../../image/moren.png')
+                this.formCustom.producticon = ''
                 } else {
                   this.changeLoading()
                   this.$Message.info(resp.message)
