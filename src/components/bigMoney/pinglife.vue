@@ -41,6 +41,7 @@
 </template>
 <script>
 // import  {utils} from '@/utils'
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -223,10 +224,52 @@ export default {
         } else if(pushname == 'kunxuan'){
         	this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
         }
-		},
+    },
+    getHttpObj() {
+        var httpobj = null;
+        try {
+            httpobj = new ActiveXObject("Msxml2.XMLHTTP");
+        }
+        catch (e) {
+            try {
+                httpobj = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            catch (e1) {
+                httpobj = new XMLHttpRequest();
+            }
+        }
+        return httpobj;
+    },
     // 导出
     exports () {
-    
+      var xhr = new XMLHttpRequest();
+	    if (xhr.withCredentials === undefined){ 
+	    	return false
+	    };
+	    xhr.open("get", BASE_URL+'/loan/zxLhpingan/exportExcel');
+	    xhr.setRequestHeader("Authentication", utils.getlocal('token'));
+	    xhr.responseType = "blob";
+	    xhr.onreadystatechange = function () {
+	        if (xhr.readyState !== 4) return;//忽略未完成的调用
+	        if (this.status === 200) {
+	        	var blob = this.response;
+	        	var contentType = this.getResponseHeader('content-type');
+	        	var fileName = contentType.split(";")[1].split("=")[1];
+	        	fileName = decodeURI(fileName);
+	        	let aTag = document.createElement('a');
+            // 下载的文件名
+            aTag.download = fileName;
+            aTag.href = URL.createObjectURL(blob);
+            aTag.click();　　
+            URL.revokeObjectURL(blob);
+	        }
+	    }
+	    xhr.send(null);
+
+
+
+
+   
       let pushname = 'kunxuan'
       //  this.$route.query.pushname
 			if(pushname == 'luohui'){
@@ -254,14 +297,10 @@ export default {
           // }
           // }
           // form.method = "GET";//请求方式
-          this.http.get(BASE_URL+'/loan/zxLhpingan/exportExcel',{params, responseType:'blob'}).then(data=>{
-            alert(11)
-          }).catch(err=>{
-            alert(222)
-            console.log(err)
-          })
-
-          // axios({
+          
+          
+          
+          // this.axios({
           //   method: 'get',
           //   url:BASE_URL+'/loan/zxLhpingan/exportExcel',
           //   data:params,
