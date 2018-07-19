@@ -215,14 +215,6 @@
 					})
 					return false
 				} else {
-					// let formData = new FormData();
-					// formData.append('partyaKey', this.model4)
-					// formData.append('filename', this.filename)
-					// let config = {
-					// 	headers: {
-					// 		'Content-Type': 'multipart/form-data'
-					// 	}
-					// }
 					let list = {
 						partyaKey: this.model4,
 						url: this.filename,

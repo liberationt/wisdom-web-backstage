@@ -42,6 +42,7 @@
     </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -69,36 +70,12 @@ export default {
         }
       ],
       columns1: [
-        // {
-        //   title: 'NO',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'adsId'
-        // },
-        // {
-        //   title: 'UID',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'uid'
-        // },
-        // {
-        //   title: '推送主体',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'media'
-        // },
         {
           title: '渠道',
           align: 'center',
           width: 200,
           key: 'channelName'
         },
-        // {
-        //   title: 'step',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'step'
-        // },
         {
           title: '姓名',
           align: 'center',
@@ -111,12 +88,6 @@ export default {
           width: 200,
           key: 'mobile'
         },
-        // {
-        //   title: '生日',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'birthday'
-        // },
         {
           title: '性别',
           align: 'center',
@@ -135,36 +106,6 @@ export default {
           width: 100,
           key: 'city'
         },
-        // {
-        //   title: 'M城市',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'mcity'
-        // },
-        // {
-        //   title: '借贷金额',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'toloan'
-        // },
-        // {
-        //   title: '社保',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'social'
-        // },
-        // {
-        //   title: '公积金',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'accumulation'
-        // },
-        // {
-        //   title: '房',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'room'
-        // },
         {
           title: '房贷',
           align: 'center',
@@ -183,18 +124,6 @@ export default {
           width: 150,
           key: 'hasCarLoan'
         },
-        // {
-        //   title: '寿险保单',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'insurance'
-        // },
-        // {
-        //   title: '微粒贷',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'tiny'
-        // },
         {
           title: '推送时间',
           align: 'center',
@@ -207,12 +136,6 @@ export default {
           width: 200,
           key: 'pushStatus'
         },
-        // {
-        //   title: 'IP',
-        //   align: 'center',
-        //   width: 100,
-        //   key: 'ip'
-        // }
       ],
       data1: [
       ],
@@ -299,7 +222,24 @@ export default {
     },
     // 导出
     exports () {
-      window.open(BASE_URL + '/loan/dwqUser/export?step='+1)
+      let pushname = this.$route.query.pushname
+      let httpUrl
+      if(pushname == 'qingjian'){
+        httpUrl = BASE_URL+'/loan/dkQjpuhui/exportExcel'
+      } else if(pushname == 'baojie'){
+        httpUrl = BASE_URL+'/loan/dkBJpuhui/exportExcel'
+      } else if(pushname == 'benxiang'){
+        httpUrl = BASE_URL+'/loan/dkBxpuhui/exportExcel'
+      } else if(pushname == 'kunxuan'){
+        httpUrl = BASE_URL+'/loan/dkKxpuhui/exportExcel'
+      }
+      let formData = new FormData()
+      formData.append("pushBatchNum",this.model2)
+      formData.append("pushStatus",this.model3)
+      formData.append("beginTime",this.value1)
+      formData.append("endTime",this.value2)
+      formData.append("methodType",1)
+      utils.exporttable(httpUrl, utils.getlocal('token'),formData)
     },
     
   },

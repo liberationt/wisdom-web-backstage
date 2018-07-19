@@ -68,12 +68,6 @@ export default {
         }
       ],
       columns1: [
-        // {
-        //   title: '渠道',
-        //   align: 'center',
-        //   width: 200,
-        //   key: 'channelName'
-        // },
         {
           title: '姓名',
           align: 'center',
@@ -86,65 +80,85 @@ export default {
           width: 200,
           key: 'mobile'
 				},
-				{
+        {
+          title: '性别',
+          align: 'center',
+          width: 100,
+          render: (h, params) => {
+            let sex 
+            if (params.row.sex == 'M') {
+              sex = '男'
+            } else if (params.row.sex == 'F'){
+              sex = '女'
+            }
+            return h('div', [
+              h('span', {}, sex)
+            ])
+          }
+        },
+        {
           title: '生日',
           align: 'center',
           width: 100,
           key: 'birthday'
         },
         {
-          title: '性别',
+          title: '媒体来源编号',
           align: 'center',
           width: 100,
-          key: 'sex'
+          key: 'mediaSource'
         },
         {
-          title: '渠道名称',
+          title: '投保日期',
           align: 'center',
           width: 100,
-          key: 'channelName'
+          key: 'policyBeginTime'
         },
         {
-          title: '城市',
+          title: '备注',
           align: 'center',
-          width: 100,
-          key: 'city'
-        },
-        {
-          title: '创建时间',
-          align: 'center',
-          width: 100,
-          key: 'dataCreateTime'
-        },
-        {
-          title: '选择赠险产品',
-          align: 'center',
-          width: 100,
-          key: 'insurance'
-        },
-        {
-          title: '来源',
-          align: 'center',
-          width: 150,
-          key: 'origin'
+          width: 200,
+          key: 'memo'
         },
         {
           title: '保单号',
           align: 'center',
-          width: 200,
-          key: 'policyNo'
+          width: 150,
+          key: 'productCode'
         },
         {
-          title: '省',
+          title: '创建时间',
           align: 'center',
           width: 200,
-          key: 'province'
+          key: 'dataCreateTime'
+        },
+        {
+          title: 'resultCode',
+          align: 'center',
+          width: 200,
+          render: (h, params) => {
+            let resultCode 
+            if (params.row.resultCode == '0') {
+              resultCode = '成功'
+            } else {
+              resultCode = '失败'
+            }
+            return h('div', [
+              h('span', {}, resultCode)
+            ])
+          }
 				},
         {
-          title: '批次号',
+          title: 'errCode',
           align: 'center',
           width: 200,
-          key: 'pushBatchNum'
+          key: 'errCode'
+        },
+        {
+          title: 'errMsg',
+          align: 'center',
+          width: 200,
+          key: 'errMsg'
         }
       ],
       data1: [
