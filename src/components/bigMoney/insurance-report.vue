@@ -251,7 +251,7 @@ export default {
       formData.append("beginTime",this.value1)
       formData.append("endTime",this.value2)
       formData.append("methodType",1)
-      utils.exporttable(httpUrl, utils.getlocal('token'),formData,   e => {
+      utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
         // console.log(e)
         if(e == true ){
           this.loading2 = false;
