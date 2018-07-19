@@ -37,7 +37,7 @@
             <Table :columns="columns1" :data="data1"></Table>
         </div>
        <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-elevator show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -71,71 +71,69 @@ export default {
       ],
       columns1: [
         {
-          title: '渠道',
-          align: 'center',
-          width: 200,
-          key: 'channelName'
-        },
-        {
           title: '姓名',
           align: 'center',
-          width: 100,
+          width: 200,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
-          width: 200,
+          width: 100,
           key: 'mobile'
-        },
-        {
-          title: '性别',
-          align: 'center',
-          width: 100,
-          key: 'sex'
-        },
-        {
-          title: '年龄',
-          align: 'center',
-          width: 100,
-          key: 'ageGroup'
         },
         {
           title: '城市',
           align: 'center',
-          width: 100,
+          width: 200,
           key: 'city'
         },
         {
-          title: '房贷',
+          title: '媒体来源编号',
           align: 'center',
           width: 100,
-          key: 'hasHouseLoan'
+          key: 'mediaSource'
         },
         {
-          title: '车',
+          title: 'Ip',
           align: 'center',
           width: 100,
-          key: 'car'
+          key: 'ip'
         },
         {
-          title: '车贷',
+          title: '创建时间',
+          align: 'center',
+          width: 100,
+          key: 'dataCreateTime'
+        },
+        {
+          title: 'errorMsg',
+          align: 'center',
+          width: 100,
+          render: (h, params) => {
+            let errorMsg 
+            if (params.row.errorMsg == '0') {
+              errorMsg = '成功'
+            } else {
+              errorMsg = '失败'
+            }
+            return h('div', [
+              h('span', {}, errorMsg)
+            ])
+          }
+        },
+        {
+          title: 'resultCode',
+          align: 'center',
+          width: 100,
+          key: 'resultCode'
+        },
+        {
+          title: 'errorCode',
           align: 'center',
           width: 150,
-          key: 'hasCarLoan'
-        },
-        {
-          title: '推送时间',
-          align: 'center',
-          width: 200,
-          key: 'pushTime'
-        },
-        {
-          title: '推送状态',
-          align: 'center',
-          width: 200,
-          key: 'pushStatus'
-        },
+          key: 'errorCode'
+        }
       ],
       data1: [
       ],
@@ -165,9 +163,11 @@ export default {
     post(url,list,pushname,num) {
         this.http.post(BASE_URL + url,list).then(data=>{
           if(data.code == 'success'){
-            if(num == 1){
-              this.total = parseInt(data.data.total)
-              this.startRow = Math.ceil(data.data.startRow/this.endRow)
+            console.log(data.data.total)
+            this.total = parseInt(data.data.total)
+            this.startRow = Math.ceil(data.data.startRow/this.endRow)
+            if(parseInt(data.data.total) == 0 ){
+              this.startRow = 1
             }
             if(pushname == 'qingjian'){
               this.data1 = data.data.dkQjpuhuiList
@@ -211,13 +211,13 @@ export default {
       }
       let pushname = this.$route.query.pushname
       if(pushname == 'qingjian'){
-        this.post('/loan/dkQjpuhui/getDkQjpuhuiList',params,pushname,1)
+        this.post('/loan/dkQjpuhui/getDkQjpuhuiList',params,pushname)
       } else if(pushname == 'baojie'){
-        this.post('/loan/dkBJpuhui/getDkBJpuhuiList',params,pushname,1)
+        this.post('/loan/dkBJpuhui/getDkBJpuhuiList',params,pushname)
       } else if(pushname == 'benxiang'){
-        this.post('/loan/dkBxpuhui/getDkBxpuhuiList',params,pushname,1)
+        this.post('/loan/dkBxpuhui/getDkBxpuhuiList',params,pushname)
       } else if(pushname == 'kunxuan'){
-        this.post('/loan/dkKxpuhui/getDkKxpuhuiList',params,pushname,1)
+        this.post('/loan/dkKxpuhui/getDkKxpuhuiList',params,pushname)
       }
     },
     // 导出
