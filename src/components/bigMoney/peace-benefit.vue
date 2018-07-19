@@ -341,7 +341,7 @@ export default {
     },
     jname(pushname) {
       if(pushname == 'qingjian'){
-        // this.model1 = '卿见'
+        this.model1 = '卿见'
         this.zhuname = '卿见'
         this.pushname1 = 'qingjian'
         this.batchKey = 'partya-qingjian-pinganpuhui'
@@ -350,7 +350,7 @@ export default {
           label: '卿见'
         }]
       } else if(pushname == 'baojie'){
-        // this.model1 = '保街'
+        this.model1 = '保街'
         this.zhuname = '保街'
         this.pushname1 = 'baojie'
         this.batchKey = 'partya-baojie-pinganpuhui'
@@ -359,7 +359,7 @@ export default {
           label: '保街'
         }]
       } else if(pushname == 'benxiang'){
-        // this.model1 = '本祥'
+        this.model1 = '本祥'
         this.zhuname = '本祥'
         this.pushname1 = 'benxiang'
         this.batchKey = 'partya-benxiang-pinganpuhui'
@@ -368,7 +368,7 @@ export default {
           label: '本祥'
         }]
       } else if(pushname == 'kunxuan'){
-        // this.model1 = '坤玄'
+        this.model1 = '坤玄'
         this.zhuname = '坤玄'
         this.pushname1 = 'kunxuan'
         this.batchKey = 'partya-kunxuan-pinganpuhui'
