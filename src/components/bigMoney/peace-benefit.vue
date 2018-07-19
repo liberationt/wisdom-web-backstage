@@ -6,7 +6,7 @@
             </p>
         </div>
         <div class="mt50">
-            <span>甲方名称:</span>
+            <span>平安普惠:</span>
             <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
