@@ -59,149 +59,149 @@
 </template>
 
 <script>
-import {mapState, mapMutations} from 'vuex'
-import utils from '../../utils/utils'
+import { mapState, mapMutations } from "vuex";
+import utils from "../../utils/utils";
 export default {
-  name: 'headerpt',
-  data () {
+  name: "headerpt",
+  data() {
     return {
       modal8: false,
-      username: '',
+      username: "",
       cityList: [
         {
-          value: 'New York',
-          label: 'New York'
+          value: "New York",
+          label: "New York"
         },
         {
-          value: 'London',
-          label: 'London'
+          value: "London",
+          label: "London"
         },
         {
-          value: 'Sydney',
-          label: 'Sydney'
+          value: "Sydney",
+          label: "Sydney"
         },
         {
-          value: 'Ottawa',
-          label: 'Ottawa'
+          value: "Ottawa",
+          label: "Ottawa"
         },
         {
-          value: 'Paris',
-          label: 'Paris'
+          value: "Paris",
+          label: "Paris"
         },
         {
-          value: 'Canberra',
-          label: 'Canberra'
+          value: "Canberra",
+          label: "Canberra"
         }
       ],
-      model2: '',
-      model3: '',
-      model4: '',
+      model2: "",
+      model3: "",
+      model4: "",
       headerdata: [],
-      isActive: utils.getlocal('headace')
-    }
+      isActive: utils.getlocal("headace")
+    };
   },
   methods: {
-    ...mapMutations(['lefthidfalse']),
-    routerlink: function (index, path, name) {
-      utils.putlocal('headace', index)
-      this.isActive = index
-      this.$router.push({ path: path })
-      if (name == '应用管理') {
-        this.lefthidfalse()
-      }  
+    ...mapMutations(["lefthidfalse"]),
+    routerlink: function(index, path, name) {
+      utils.putlocal("headace", index);
+      this.isActive = index;
+      this.$router.push({ path: path });
+      if (name == "应用管理") {
+        this.lefthidfalse();
+      }
     },
-    introduction () {
-      this.modal8 = true
+    introduction() {
+      this.modal8 = true;
     },
-    determine () {
-      localStorage.removeItem('lefthidden')
-      localStorage.removeItem('leftlist')
-      localStorage.removeItem('token')
-      localStorage.removeItem('userInfo')
-      localStorage.removeItem('headace')
-      localStorage.removeItem('sideleft')
-      utils.delCookie('user')
-      this.$router.push({ path: './' })
+    determine() {
+      localStorage.removeItem("lefthidden");
+      localStorage.removeItem("leftlist");
+      localStorage.removeItem("token");
+      localStorage.removeItem("userInfo");
+      localStorage.removeItem("headace");
+      localStorage.removeItem("sideleft");
+      utils.delCookie("user");
+      this.$router.push({ path: "./" });
     }
   },
   computed: {
-    ...mapState(['menu'])
+    ...mapState(["menu"])
   },
-  mounted () {
-    let that = this
-    that.username = JSON.parse(utils.getCookie('user'))
-    that.headerdata = JSON.parse(utils.getlocal('userInfo')).menuInfo.children
+  mounted() {
+    let that = this;
+    that.username = JSON.parse(utils.getCookie("user"));
+    that.headerdata = JSON.parse(utils.getlocal("userInfo")).menuInfo.children;
   }
-}
+};
 </script>
 
 <style lang="less" scoped>
-.layout{
+.layout {
   height: 50px;
   width: 100%;
   background: #3e81f2;
 }
-.headleft{
+.headleft {
   height: 100%;
-  img{
+  img {
     // width: 120px;
     height: 42px;
     margin: 4px auto;
     display: block;
   }
 }
-.headrigui{
-  ul{
+.headrigui {
+  ul {
     overflow: hidden;
     float: left;
     li {
-     float: left;
+      float: left;
       width: 100px;
       line-height: 50px;
       text-align: center;
-      a{
+      a {
         width: 100%;
         height: 100%;
         display: inline-block;
-        color: #fff
+        color: #fff;
       }
     }
   }
 }
 
-.headright{
+.headright {
   height: 100%;
   float: right;
-  ul{
+  ul {
     overflow: hidden;
-    li{
+    li {
       float: left;
       line-height: 50px;
       width: 50px;
     }
-    .adminhead{
+    .adminhead {
       overflow: hidden;
       width: 200px;
       margin-left: 10px;
       color: #fff;
-      img{
+      img {
         width: 30px;
         height: 30px;
         border-radius: 50%;
         float: left;
         margin-top: 10px;
-        margin-right: 5px
+        margin-right: 5px;
       }
-      a{
+      a {
         color: #fff;
-        margin-left: 5px
+        margin-left: 5px;
       }
-      .ivu-select-selection{
+      .ivu-select-selection {
         float: left;
       }
-      .ivu-select-dropdown ul li{
+      .ivu-select-dropdown ul li {
         width: 85px;
-        line-height: 20px
+        line-height: 20px;
       }
     }
   }
