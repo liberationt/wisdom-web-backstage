@@ -153,7 +153,7 @@
 </template>
 
 <script>
-import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import myTree from './leftchild'
 import utils from '../../utils/utils'
 export default {
@@ -167,16 +167,16 @@ export default {
       spanLeft: 4,
       spanRight: 20,
       modal1: false,
-      leftlist: []
     }
   },
   computed: {
     iconSize () {
       return this.spanLeft === 4 ? 14 : 24
     },
-    ...mapState(['hidden'])
+    ...mapState(['hidden', 'leftlist'])
   },
   methods: {
+      ...mapMutations(['lefthidfalse']),
     toggleClick () {
       if (this.spanLeft === 4) {
         this.spanLeft = 1
@@ -200,25 +200,11 @@ export default {
     //   console.log(name)
     },
     titleurl () {
-        // localStorage.removeItem('lefthidden')
-        let left = document.getElementsByClassName('layout-menu-left')
-        let right = document.getElementsByClassName('contrig')
-        left[0].style.display = 'none'
-        right[0].style.width = '100%'
-        this.$router.push('/applicationHomePage')       
+        this.$router.push('/applicationHomePage')  
+        this.lefthidfalse()           
     }
   },
   mounted () {
-    // let leftlist = []
-    if (utils.getlocal('leftlist')) {
-      JSON.parse(utils.getlocal('leftlist')).forEach((item) => {
-        let menu = Object.assign({}, item)
-        menu.component = null
-        this.leftlist.push(menu)
-      })
-    //   console.log(this.leftlist)
-    // leftlist = JSON.parse(sessionStorage.getItem('leftlist'))
-    }
   }
 }
 </script>
