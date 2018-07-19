@@ -90,11 +90,6 @@
 						key: 'mediaName'
 					},
 					{
-						title: '推送主体',
-						align: 'center',
-						key: 'pushMain'
-					},
-					{
 						title: '上传时间',
 						align: 'center',
 						key: 'dataCreateTime'
