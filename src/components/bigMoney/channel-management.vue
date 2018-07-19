@@ -14,11 +14,12 @@
             <DatePicker type="date" @on-change="time1"  placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" @on-change="time2"  placeholder="结束时间" style="width: 200px"></DatePicker>
-            <Button class=" ml100 w100 " type="info" @click="inquire">查询</Button>
+            <!-- <Button class=" ml100 w100 " type="info" @click="inquire">查询</Button> -->
+            <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             <div class="clearfix mr100 mt20">
-                <!-- <Button class="right" type="primary">导出</Button> -->
-                <!-- <Button type="primary" class="mr20" shape="circle" icon="code-working" @click="labelcon">标签配置</Button>
-                <Button type="primary" class="mr20" shape="circle" icon="android-options" @click="channel">渠道类别配置</Button> -->
                 <Button type="primary" shape="circle" icon="plus-round" @click="refuse">添加渠道</Button>
             </div>
         </div>
@@ -228,6 +229,7 @@ export default {
       codel:'',
       turl:'',
       turli:'',
+      loading3: false
     }
   },
   methods: {
@@ -405,6 +407,7 @@ export default {
     },
     // 查询
     inquire() {
+      this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -442,11 +445,13 @@ export default {
           this.data6 = resp.data.promotionManageList
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.loading3 = false
         } else {
 
         }
       })
       .catch(() => {
+        this.loading3 = false
       })
     },
     // 删除

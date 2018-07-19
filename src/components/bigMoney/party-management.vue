@@ -14,7 +14,11 @@
                     <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
-            <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
+            <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
         </div>
         <div class="mt20">
             <Table border :columns="columns7" :data="data6"></Table>
@@ -28,6 +32,7 @@
 export default {
   data () {
     return {
+      loading3: false,
       model1: '',
       model2: '',
       modal9: false,
@@ -232,6 +237,7 @@ export default {
     },
     // 查询
     inquire () {
+      this.loading3 = true
       let list = {
         partyaName : this.model1,
         status : this.model2,
@@ -245,11 +251,13 @@ export default {
         this.data6 = resp.data.partyaList
         this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.loading3 = false
       } else {
 
       }
     })
     .catch(() => {
+      this.loading3 = false
     })
     },
     // 删除

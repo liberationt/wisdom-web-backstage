@@ -10,7 +10,11 @@
                 <span>链接名称:</span>
                 <Input v-model="value" placeholder="请输入类别名称" style="width: 200px"></Input>
             </div>
-            <Button class=" ml50 w100 " type="info" @click="inquire">查询</Button>
+            <!-- <Button class=" ml50 w100 " type="info" @click="inquire">查询</Button> -->
+            <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
         </div>
         <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加渠道链接</Button>
         <div class="mt20">
@@ -47,6 +51,7 @@
 export default {
   data () {
     return {
+      loading3: false,
       model1: '',
       value: '',
       modal9: false,
@@ -169,6 +174,7 @@ export default {
     },
     // 查询
     inquire () {
+      this.loading3 = true
       let list = {
         urlName : this.value,
         pageNum: this.startRow,
@@ -180,11 +186,13 @@ export default {
           this.data6 = resp.data.promotionUrlList
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.loading3 = false
         } else {
 
         }
       })
       .catch(() => {
+        this.loading3 = false
       })
     },
     // 删除

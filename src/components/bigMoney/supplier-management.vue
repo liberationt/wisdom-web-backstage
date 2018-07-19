@@ -14,7 +14,11 @@
             <span>  -  </span>
             <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             </div>
-            <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
+            <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
         </div>
         <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加供应商</Button>
         <div class="mt20">
@@ -61,6 +65,7 @@ export default {
       startRow: 1,
       endRow: 10,
       isshow: false,
+      loading3: false,
       columns7: [
         {
           title: '供应商编号',
@@ -195,6 +200,7 @@ export default {
     },
     // 查询
     inquire () {
+      this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -217,11 +223,13 @@ export default {
           this.data6 = resp.data.promotionSupplierList
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.loading3 = false          
         } else {
 
         }
       })
       .catch(() => {
+        this.loading3 = false
       })
     },
     // 删除

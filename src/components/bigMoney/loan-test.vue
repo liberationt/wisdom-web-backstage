@@ -8,11 +8,11 @@
         <div>
             <span>产品名称:</span>
             <Input v-model="value" placeholder="请输入产品名称" style="width: 200px"></Input>
-            <Button type="info" class="ml100 w100" @click="inquire">查询</Button>
-            <!-- <Button type="info" class="ml100 w100"  @click="inquire" :loading="loading2" icon="checkmark-round">
-                <span v-if="!loading2">查询</span>
-                <span v-else>查询中...</span>
-            </Button> -->
+            <!-- <Button type="info" class="ml100 w100" @click="inquire">查询</Button> -->
+            <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
         </div>
         <Button type="primary" shape="circle" class="mt20" icon="plus-round" @click="refuse(2)">添加贷款产品</Button>
         <div class="mt20">
@@ -530,7 +530,8 @@ export default {
           }
         }
       ],
-      data6: []
+      data6: [],
+      loading3: false
     }
   },
   methods: {
@@ -938,8 +939,7 @@ export default {
     },
     // 列表查询
     inquire (num) {
-      // 列表查询
-        // this.loading2 = true;              
+    this.loading3 = true            
     let list = {
       name : this.value,
       pageNum: this.startRow,
@@ -952,10 +952,12 @@ export default {
         this.lengths = resp.data.loanProductList.length-1
         this.total = Number(resp.data.total)
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        this.loading3 = false
       } else {
       }
     })
     .catch(() => {
+      this.loading3 = false
     })
     }
   },

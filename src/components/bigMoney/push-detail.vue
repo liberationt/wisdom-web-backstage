@@ -22,8 +22,16 @@
             </Select>
             
             <div class="clearfix mr100 mt20">
-                <Button class="right w100" type="primary" @click="exports">导出</Button>
-                <Button class="right mr20 w100" type="info" @click="inquire">查询</Button>
+                <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
+                <Button type="primary" class="right w100" :loading="loading2" @click="exports">
+                  <span v-if="!loading2">导出</span>
+                  <span v-else>请稍等...</span>
+                </Button>
+                <!-- <Button class="right mr20 w100" type="info" @click="inquire">查询</Button> -->
+                <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+                  <span v-if="!loading3">查询</span>
+                  <span v-else>查询</span>
+                </Button>
             </div>
         </div>
 
@@ -40,6 +48,8 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
+      loading2: false,
+      loading3: false,
       model1: this.$route.query.code,
       model2: '',
       // model3: '',
@@ -649,7 +659,8 @@ export default {
 				this.value2 = value
 			},
 			inquire () {
-				// 列表查询
+        // 列表查询
+        this.loading3 = true
 				let date1 = Date.parse(new Date(this.value1)) / 1000
 				let date2 = Date.parse(new Date(this.value2)) / 1000
 				if(date1 > date2) {
@@ -705,15 +716,19 @@ export default {
               if(parseInt(resp.data.total) == '0') {
                 this.startRow = 1
               }
+              this.loading3 = false
 						} else {
-
+              this.loading3 = false
 						}
 					})
-					.catch(() => {})
+					.catch(() => {
+            this.loading3 = false
+          })
       },
       // 导出
       exports () {
         // 封装form 表单
+        this.loading2 = true
         let formData = new FormData()
         formData.append("partyaKey",this.model1)
         formData.append("beginTime",this.value1)
@@ -723,7 +738,11 @@ export default {
         formData.append("origin",0)
         formData.append("methodType",1)
         let httpUrl = BASE_URL+'/common/partya/exportExcel'
-        utils.exporttable(httpUrl, utils.getlocal('token'),formData)                      
+        utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
+          if(e == true){
+            this.loading2 = false
+          }
+        })                      
       }     
   },
   mounted () {

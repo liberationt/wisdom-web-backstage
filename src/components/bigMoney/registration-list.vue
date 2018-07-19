@@ -34,8 +34,16 @@
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <div class="clearfix mr20 mt20">
-                <Button class="right w100" type="primary" @click="exports">导出</Button>
-                <Button class="right mr20 w100" type="info" @click="registered">查询</Button>
+                <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
+                <Button type="primary" class="right w100" :loading="loading2" @click="exports">
+                  <span v-if="!loading2">导出</span>
+                  <span v-else>请稍等...</span>
+                </Button>
+                <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
+                <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                  <span v-if="!loading3">查询</span>
+                  <span v-else>查询</span>
+                </Button>
             </div>
         </div>
 
@@ -48,9 +56,12 @@
     </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
+      loading2: false,
+      loading3: false,
       model1: '',
       model2: '',
       model3: '',
@@ -363,6 +374,7 @@ export default {
     },
     // 查询
     registered () {
+      this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -387,17 +399,33 @@ export default {
         this.data1 = resp.data.dataList
         this.total = resp.data.total
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        this.loading3 = false
       } else {
-
+        this.loading3 = false
       }
     })
     .catch(() => {
+      this.loading3 = false
     })
 
     },
     // 导出
     exports () {
-      window.open(BASE_URL + '/loan/dwqUser/export?step='+1)
+      this.loading2 = true
+      let formData = new FormData()
+      formData.append("cid",this.model1)
+      formData.append("beginTime",this.value1)
+      formData.append("endTime",this.value2)
+      formData.append("sid",this.model2)
+      formData.append("step",this.model3)
+      formData.append("methodType",1)
+      let httpUrl = BASE_URL+'loan/dwqUser/export'
+      utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
+        if(e == true){
+          this.loading2 = false
+        }
+      })
+
     }
   },
   mounted () {
