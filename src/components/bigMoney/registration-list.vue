@@ -247,9 +247,11 @@ export default {
           width: 100,
           render: (h, params) => {
             let security = ''
-            if (params.row.security == '1') {
+            if (params.row.security == 1) {
               security = '有'
-            }else {
+            }else if (params.row.security == 0) {
+              security = '无'
+            } else {
               security = ''
             }
             return h('div', [
@@ -264,9 +266,11 @@ export default {
           width: 100,
           render: (h, params) => {
             let fund = ''
-            if (params.row.fund == '1') {
+            if (params.row.fund == 1) {
               fund = '有'
-            }else {
+            }else if (params.row.fund == 0) {
+              fund = '无'
+            } else {
               fund = ''
             }
             return h('div', [
@@ -281,9 +285,11 @@ export default {
           width: 100,
           render: (h, params) => {
             let house = ''
-            if (params.row.house == '1') {
+            if (params.row.house == 1) {
               house = '有'
-            }else {
+            } else if (params.row.house == 0) {
+              house = '无'
+            } else {
               house = ''
             }
             return h('div', [
@@ -300,7 +306,9 @@ export default {
             let hasHouseLoan = ''
             if (params.row.hasHouseLoan == '1') {
               hasHouseLoan = '有'
-            }else {
+            } else if (params.row.hasHouseLoan == '0') {
+              hasHouseLoan = '无'
+            } else {
               hasHouseLoan = ''
             }
             return h('div', [
@@ -315,9 +323,11 @@ export default {
           width: 100,
           render: (h, params) => {
             let car = ''
-            if (params.row.car == '1') {
+            if (params.row.car == 1) {
               car = '有'
-            }else {
+            } else if(params.row.car == 0) {
+              car = '无'
+            } else {
               car = ''
             }
             return h('div', [
@@ -334,7 +344,9 @@ export default {
             let hasCarLoan = ''
             if (params.row.hasCarLoan == '1') {
               hasCarLoan = '有'
-            }else {
+            } else if (params.row.hasCarLoan == '0') {
+              hasCarLoan = '无'
+            } else {
               hasCarLoan = ''
             }
             return h('div', [
@@ -349,9 +361,11 @@ export default {
           width: 100,
           render: (h, params) => {
             let policy = ''
-            if (params.row.policy == '1') {
+            if (params.row.policy == 1) {
               policy = '有'
-            }else {
+            } else if (params.row.policy == 0) {
+              policy = '无'
+            } else {
               policy = ''
             }
             return h('div', [
@@ -366,9 +380,11 @@ export default {
           width: 100,
           render: (h, params) => {
             let weilidai = ''
-            if (params.row.weilidai == '1') {
+            if (params.row.weilidai == 1) {
               weilidai = '有'
-            }else {
+            } else if (params.row.weilidai == 0) {
+              weilidai = '无'
+            } else {
               weilidai = ''
             }
             return h('div', [
