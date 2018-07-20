@@ -672,7 +672,7 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          key: 'Phone'
+          key: 'phone'
         },
         {
           title: '城市',
