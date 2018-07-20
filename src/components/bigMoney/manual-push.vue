@@ -109,6 +109,7 @@ import utils from '../../utils/utils'
 					{
 						title: '推送模式',
 						align: 'center',
+						width: 140,
 						render: (h, params) => {
 							return h('div', [
 								h('span', {}, '手动')
@@ -118,6 +119,7 @@ import utils from '../../utils/utils'
 					{
 						title: '甲方名称',
 						align: 'center',
+						width: 140,
 						key: 'mediaName'
 					},
 					{
@@ -129,21 +131,25 @@ import utils from '../../utils/utils'
 					{
 						title: '上传条数',
 						align: 'center',
+						width: 140,
 						key: 'sendNum'
 					},
 					{
 						title: '上传成功条数',
 						align: 'center',
+						width: 140,
 						key: 'succNum'
 					},
 					{
 						title: '上传失败条数',
 						align: 'center',
+						width: 140,
 						key: 'failNum'
 					},
 					{
 						title: '上传失败详情',
 						align: 'center',
+						width: 140,
 						render: (h, params) => {
 							// console.log(params.row.uploadFailUrl)
 							if(params.row.uploadFailUrl != null){
@@ -179,16 +185,19 @@ import utils from '../../utils/utils'
 					{
 						title: '推送总条数',
 						align: 'center',
+						width: 140,
 						key: 'partyaSuccNum'
 					},
 					{
 						title: '推送失败条数',
 						align: 'center',
+						width: 140,
 						key: 'pullFailNum'
 					},
 					{
 						title: '转化成功条数',
 						align: 'center',
+						width: 140,
 						key: 'pullSuccNum'
 					},
 					{
