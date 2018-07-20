@@ -81,6 +81,7 @@
     </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -127,7 +128,12 @@ export default {
         {
           title: '推送主体',
           align: 'center',
-          key: 'pushMain'
+          render: (h, params) => {
+            let Code = this.zhuname
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
         {
           title: '上传时间',
@@ -167,7 +173,15 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: params.row.uploadFailUrl })
+                      let formData = new FormData()
+                      formData.append("ossPath",params.row.uploadFailUrl)
+                      let httpUrl = BASE_URL + '/fileOssDownload'
+                      utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
+                        if(e == true){
+                          // alert(333)
+                          // this.loading2 = false;
+                        }
+                      })
                     }
                   }
                 }, '下载')
