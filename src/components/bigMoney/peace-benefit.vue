@@ -498,7 +498,19 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.navigation_batch ,.navigation_detailed {
+  display: inline-block;
+  width: 140px;
+  background-color: #2DB7F5;
+  text-align: center;
+}
+.navigation{
+  background-color: #fff;
+  
+}
+.navigation>p{
+  padding-left: 0 !important;
+}
 .navigation_detailed {
   background-color: #ccc;
 }

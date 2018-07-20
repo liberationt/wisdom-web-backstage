@@ -322,4 +322,18 @@ export default {
 .navigation_batch{
   background-color: #ccc;
 }
+
+.navigation_batch ,.navigation_detailed {
+  display: inline-block;
+  width: 140px;
+  // background-color: #2DB7F5;
+  text-align: center;
+}
+.navigation{
+  background-color: #fff;
+  
+}
+.navigation>p{
+  padding-left: 0 !important;
+}
 </style>
