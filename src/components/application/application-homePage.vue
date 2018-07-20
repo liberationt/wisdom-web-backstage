@@ -49,7 +49,6 @@ export default {
       .catch(() => {});
   },
   methods: {
-    ...mapMutations(["leftlist", "lefthidtrue"]),
     gold_clothes(num) {
       let that = this;
       let arrlist = [];
@@ -61,6 +60,7 @@ export default {
           arrlist = that.menu.menuInfo.children[i].children;
         }
       }
+      let menuList = null
       for (let j = 0; j < arrlist.length; j++) {
         if (arrlist[j].menuCode == num) {
           for (let k = 0; k < arrlist[j].children.length; k++) {
@@ -73,16 +73,32 @@ export default {
           }
           that.leftlist(arrlist[j].children);
           utils.putlocal("leftlist", JSON.stringify(arrlist[j].children));
+          menuList = arrlist[j].children;
         } else {
           this.$Message.warning("网站建设中...");
           return false;
         }
       }
+
       utils.putlocal("lefthidden", "0");
-      this.$router.push({ path: "./registrationList" });
+
+      if (menuList && menuList.length > 0) {
+        const firstGroupMenu = menuList[0]
+        if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
+          this.$router.push({ path: firstGroupMenu.path });
+        } else {
+          const firstChildrenMenu = firstGroupMenu.children && firstGroupMenu.children[0]
+          if (firstChildrenMenu && firstChildrenMenu.path && firstChildrenMenu.path.length > 0) {
+            this.$router.push({ path: firstChildrenMenu.path });
+          }
+        }
+      }
       that.lefthidtrue();
+
+      //TODO 需要修正
       utils.putlocal("sideleft", "0");
-    }
+    },
+    ...mapMutations(["leftlist", "lefthidtrue"])
   },
   computed: {
     ...mapState(["menu"])
