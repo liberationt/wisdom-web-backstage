@@ -94,19 +94,20 @@ export default {
                 utils.putlocal('token', resp.data.token)
                 // Vue.http.headers.common['Authentication'] = resp.data
                 this.$Message.success('登录成功!')
-                this.$router.push({ path: '/applicationHomePage' })
-                utils.putlocal('lefthidden', '0')
-                // location.reload()
 
                 if (this.formLogin.remember[0] == '记住密码') {
                   utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
                   utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
                   // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
                   // sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
-                } else {
-                  // TODO 待确认user key 是否使用
-                  utils.setCookie('user', JSON.stringify(this.formLogin.username), 1)
                 }
+                // TODO 待确认user key 是否使用
+                utils.setCookie('user', JSON.stringify(this.formLogin.username), 1)
+
+                this.$router.push({ path: '/applicationHomePage' })
+                utils.putlocal('lefthidden', '0')
+                // location.reload()
+
               } else {
                 this.errcon = resp.message
                 this.hid = true
