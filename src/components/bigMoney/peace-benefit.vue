@@ -2,7 +2,8 @@
     <div>
         <div class="navigation">
             <p>
-                <span>推广批次报表</span>
+              <span class="navigation_batch">推广批次报表</span>
+              <span class="navigation_detailed">推广明细报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -190,30 +191,6 @@ export default {
         }
       ],
       data6: [
-        {
-          batch: '180601001',
-          pattern: '自动',
-          name: '大地',
-          theme: '哈哈',
-          partyname: '啦啦',
-          starttime: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0',
-          remarks: '哈哈'
-        },
-        {
-          batch: '180601001',
-          pattern: '自动',
-          name: '大地',
-          theme: '哈哈',
-          partyname: '啦啦',
-          starttime: '2018/06/01 12:00:20',
-          pushnum: '1000',
-          successnum: '1000',
-          errornum: '0',
-          remarks: '哈哈'
-        }
       ],
       value1 : '',
       value2 : '',
@@ -487,4 +464,7 @@ export default {
 </script>
 <style lang="less" scoped>
 
+.navigation_detailed {
+  background-color: #ccc;
+}
 </style>

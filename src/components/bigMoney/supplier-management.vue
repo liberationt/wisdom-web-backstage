@@ -225,7 +225,7 @@ export default {
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
           this.loading3 = false          
         } else {
-
+          this.loading3 = false  
         }
       })
       .catch(() => {
