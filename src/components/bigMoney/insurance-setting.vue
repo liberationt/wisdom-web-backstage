@@ -270,8 +270,10 @@ export default {
       } else {
         let list = {
 						partyaKey: this.jiakey,
-						url: this.filename2
-					}
+            url: this.filename2,
+            originName: this.value2
+          }
+          		// formData.append('file', file)
         this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list).then(data=>{
           if(data.code == 'success'){
             this.changeLoading()

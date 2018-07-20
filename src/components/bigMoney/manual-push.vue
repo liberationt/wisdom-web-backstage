@@ -261,6 +261,7 @@ import utils from '../../utils/utils'
 						url: this.filename,
 						originName: this.value9
 					}
+					
 					this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list)
 						.then((resp) => {
 							if(resp.code == 'success') {
