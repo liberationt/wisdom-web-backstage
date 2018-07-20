@@ -133,7 +133,7 @@ export default {
         {
           title: 'resultCode',
           align: 'center',
-          width: 100,
+          width: 120,
           key: 'resultCode'
         },
         {
@@ -141,7 +141,31 @@ export default {
           align: 'center',
           width: 150,
           key: 'errorCode'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          width: 150,
+          key: 'push_time'
+        },
       ],
       data1: [
       ],
