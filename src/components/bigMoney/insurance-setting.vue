@@ -91,12 +91,29 @@ export default {
         {
           title: '批次',
           align: 'center',
+          width: 140,
           key: 'batchCode'
         },
         {
           title: '文件名称',
           align: 'center',
-          key: 'fileName'
+          width: 150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.fileName
+							}
+						}, params.row.fileName)
+						])
+						}
         },
         {
           title: '推送主体',
@@ -105,12 +122,13 @@ export default {
         },
         {
           title: '上传时间',
-          align: 'uploaddate',
+          align: 'center',
+          width: 160,
           key: 'dataCreateTime'
         },
         {
           title: '上传条数',
-          align: 'uploadnum',
+          align: 'center',
           key: 'sendNum'
         },
         {

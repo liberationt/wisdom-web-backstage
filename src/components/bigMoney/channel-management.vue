@@ -169,7 +169,22 @@ export default {
         {
           title: 'URL',
           align: 'center',
-          key: 'manageUrl'
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.manageUrl
+							}
+						}, params.row.manageUrl)
+						])
+						}
         },
         {
           title: '更新时间',
