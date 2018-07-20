@@ -6,21 +6,36 @@
             </p>
         </div>
         <div class="mt50">
-            <span class="w60 displayib">甲方名称:</span>
+          <ul class="querysty">
+            <li>
+              <span class="w60 displayib">甲方名称:</span>
             <Select v-model="model1" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.partyaKey" :key="item.partyaKey">{{ item.partyaName }}</Option>
             </Select>
-            <span class="w60 displayib">推送时间:</span>
-              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="mb15" style="width: 190px"></DatePicker>
+            </li>
+            <li>
+              <span class="w60 displayib">推送时间:</span>
+              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="" style="width: 190px"></DatePicker>
               <span>  -  </span>
               <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 190px"></DatePicker>
-            <span class="w60 displayib">批次号:</span>
+            </li>
+            <li>
+              <span class="w60 displayib">批次号:</span>
             <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 180px"></Input>
-            <span class="w60 displayib">推送状态:</span>
+            </li>
+            <li>
+              <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:200px" class="mr20">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            
+            </li>
+            <li v-if="fashionmod">
+              <span class="w60 displayib">推送方式:</span>
+            <Select v-model="model3" style="width:200px" class="mr20">
+                <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+            </li>
+          </ul> 
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
                 <Button type="primary" class="right w100" :loading="loading2" @click="exports">
@@ -50,9 +65,10 @@ export default {
     return {
       loading2: false,
       loading3: false,
+      fashionmod: false,
       model1: this.$route.query.code,
       model2: '',
-      // model3: '',
+      model3: '',
       model4: '',
       model5: '',
       value1: '',
@@ -93,6 +109,16 @@ export default {
         {
           value: '2',
           label: '推送失败'
+        }
+      ],
+      cityList3: [
+        {
+          value: '0',
+          label: '手动'
+        },
+        {
+          value: '1',
+          label: '自动'
         }
       ],
       cityList4: [
@@ -670,16 +696,23 @@ export default {
 					})
 					return false
         }
+        let origin
+        if (!this.$route.query.detailed) {
+          origin = 0      
+        } else {
+          origin = this.model3
+        }
         let params = {
           partyaKey: this.model1,
           beginTime: this.value1,
           endTime: this.value2,
           pushBatchNum: this.model5,
           pushStatus: this.model2,
-          origin: 0,
+          origin: origin,
           pageNum: this.startRow,
           pageSize: this.endRow,
         }
+
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
@@ -746,6 +779,12 @@ export default {
       }     
   },
   mounted () {
+    if (!this.$route.query.detailed) {
+      this.model5 = this.$route.query.batchCode
+    } else {
+      this.model5 = ''
+      this.fashionmod = true
+    }
     // 甲方名称
 			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'1,3')
 				.then((resp) => {
@@ -763,5 +802,4 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
 </style>

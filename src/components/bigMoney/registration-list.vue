@@ -112,7 +112,7 @@ export default {
         {
           title: '序号',
           align: 'center',
-          width: 100,
+          width: 60,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -124,25 +124,40 @@ export default {
           title: 'UID',
           align: 'center',
           width: 100,
-          key: 'dwqCode'
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                },
+                domProps: {
+                  title: params.row.dataId
+                }
+              }, params.row.dataId)
+            ])
+          }
         },
         {
           title: '注册时间',
           align: 'center',
-          width: 120,
+          width: 160,
           key: 'registrationTime'
         },
         {
           title: '供应商',
           align: 'center',
-          width: 100,
-          key: 'sid'
+          width: 120,
+          key: 'supplierName'
         },
         {
           title: '渠道',
           align: 'center',
           width: 100,
-          key: 'cid'
+          key: 'channelName'
         },
         {
           title: '步骤',
@@ -220,7 +235,7 @@ export default {
             if (params.row.security == '1') {
               security = '有'
             }else {
-              security = '无'
+              security = ''
             }
             return h('div', [
               h('span', {
@@ -237,7 +252,7 @@ export default {
             if (params.row.fund == '1') {
               fund = '有'
             }else {
-              fund = '无'
+              fund = ''
             }
             return h('div', [
               h('span', {
@@ -254,7 +269,7 @@ export default {
             if (params.row.house == '1') {
               house = '有'
             }else {
-              house = '无'
+              house = ''
             }
             return h('div', [
               h('span', {
@@ -271,7 +286,7 @@ export default {
             if (params.row.hasHouseLoan == '1') {
               hasHouseLoan = '有'
             }else {
-              hasHouseLoan = '无'
+              hasHouseLoan = ''
             }
             return h('div', [
               h('span', {
@@ -288,7 +303,7 @@ export default {
             if (params.row.car == '1') {
               car = '有'
             }else {
-              car = '无'
+              car = ''
             }
             return h('div', [
               h('span', {
@@ -305,7 +320,7 @@ export default {
             if (params.row.hasCarLoan == '1') {
               hasCarLoan = '有'
             }else {
-              hasCarLoan = '无'
+              hasCarLoan = ''
             }
             return h('div', [
               h('span', {
@@ -322,7 +337,7 @@ export default {
             if (params.row.policy == '1') {
               policy = '有'
             }else {
-              policy = '无'
+              policy = ''
             }
             return h('div', [
               h('span', {
@@ -339,7 +354,7 @@ export default {
             if (params.row.weilidai == '1') {
               weilidai = '有'
             }else {
-              weilidai = '无'
+              weilidai = ''
             }
             return h('div', [
               h('span', {

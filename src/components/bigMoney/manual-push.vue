@@ -73,12 +73,29 @@
 				columns7: [{
 						title: '批次',
 						align: 'center',
+						width: 140,
 						key: 'batchCode'
 					},
 					{
 						title: '文件名称',
 						align: 'center',
-						key: 'originName'
+						width: 140,
+						render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.originName
+							}
+						}, params.row.originName)
+						])
+						}
 					},
 					{
 						title: '推送模式',
@@ -97,6 +114,7 @@
 					{
 						title: '上传时间',
 						align: 'center',
+						width: 160,
 						key: 'dataCreateTime'
 					},
 					{
@@ -172,7 +190,7 @@
 									on: {
 										click: () => {
 											this.$router.push({
-												path: './pushDetail?code='+params.row.partyaKey
+												path: './pushDetail?code='+params.row.partyaKey+'&batchCode='+params.row.batchCode+'&pattern=0'
 											})
 										}
 									}

@@ -73,7 +73,22 @@ export default {
         {
           title: 'URL',
           align: 'center',
-          key: 'urlUrl'
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.urlUrl
+							}
+						}, params.row.urlUrl)
+						])
+						}
         },
         {
           title: '编辑',
