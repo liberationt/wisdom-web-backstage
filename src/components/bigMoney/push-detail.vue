@@ -386,14 +386,16 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let Code
-            if (params.row.Code == '-1') {
-              Code = '成功'
+            let code
+            if (params.row.code == '-1') {
+              code = '成功'
+            } else if (params.row.code == ''){
+              code = ''
             } else {
-              Code = '失败'
-            } 
+              code = '失败'
+            }
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, code)
             ])
           }
         },
@@ -404,6 +406,8 @@ export default {
             let validResult
             if (params.row.validResult == 'success') {
               validResult = '有效数据'
+            } else if (params.row.validResult == '') {
+              validResult = ''
             } else {
               validResult = '无效数据'
             } 
@@ -570,7 +574,15 @@ export default {
           render: (h, params) => {
           let retCode
           if (params.row.retCode > 7) {
-            pushStatus = '成功'
+            pushStatus = '推送成功'
+          } else if (params.row.retCode == '3') {
+            pushStatus = '当天重复申请'
+          } else if (params.row.retCode == '5') {
+            pushStatus = '失败'
+          } else if (params.row.retCode == '6') {
+            pushStatus = '恶意IP'
+          } else if (params.row.retCode == '7') {
+            pushStatus = '恶意电话'
           } else {
             retCode = '失败'
           }
@@ -696,6 +708,8 @@ export default {
             let rspCode
             if (params.row.rspCode == '200') {
               rspCode = '成功'
+            } else if (params.row.rspCode == '') {
+              rspCode = ''
             } else {
               rspCode = '失败'
             }
@@ -788,6 +802,8 @@ export default {
             let succ
             if (params.row.succ == true) {
               succ = '推送成功'
+            } else  if (params.row.succ == '') {
+              succ = ''
             } else {
               succ = '推送失败'
             }
