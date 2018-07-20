@@ -16,7 +16,7 @@
             </i-input>
             <span class="red" v-if="hid">{{errcon}}</span>
         </Form-item>
-          <Form-item class="login-no-bottom">           
+          <Form-item class="login-no-bottom">
             <Checkbox-group v-model="formLogin.remember">
                 <Checkbox label="记住密码" name="remember"></Checkbox>
             </Checkbox-group>
@@ -67,7 +67,6 @@ export default {
     handleSubmit (name) {
       let that = this
       this.$refs[name].validate((valid) => {
-        utils.setCookie('user', JSON.stringify(this.formLogin.username), 1)
         // sessionStorage.setItem('user', JSON.stringify(this.formLogin.username))
         if (valid) {
           that.changeLoading()
@@ -76,13 +75,19 @@ export default {
             'password': this.formLogin.password
           }
           // let BASE_URL
+
+          //请求前清空缓存
+          utils.delCookie('username')
+          utils.delCookie('password')
+          utils.delCookie('user')
+
           this.http.post(BASE_URL + '/user/Login', params)
             .then((resp) => {
               if (resp.code == 'success') {
                 this.hid = false
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
-                
+
                 utils.putlocal('headace', '0')
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 // sessionStorage.setItem('browse', 1)
@@ -92,6 +97,16 @@ export default {
                 this.$router.push({ path: '/applicationHomePage' })
                 utils.putlocal('lefthidden', '0')
                 // location.reload()
+
+                if (this.formLogin.remember[0] == '记住密码') {
+                  utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
+                  utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
+                  // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
+                  // sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
+                } else {
+                  // TODO 待确认user key 是否使用
+                  utils.setCookie('user', JSON.stringify(this.formLogin.username), 1)
+                }
               } else {
                 this.errcon = resp.message
                 this.hid = true
@@ -107,17 +122,16 @@ export default {
             })
         } else {
           this.hid = false
-          return false      
+          return false
         }
-        if (this.formLogin.remember[0] == '记住密码') {
-          utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
-          utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
-          // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
-          // sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
-        } else {
-          utils.delCookie('username')
-          utils.delCookie('password')
-        }
+        // if (this.formLogin.remember[0] == '记住密码') {
+        //   // utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
+        //   // utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
+        //   // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
+        //   // sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
+        // } else {
+        //
+        // }
       })
     },
     formLoginReset (name) {
