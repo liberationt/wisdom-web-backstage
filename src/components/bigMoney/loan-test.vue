@@ -206,16 +206,19 @@ export default {
         {
           title: '序号',
           align: 'center',
+          width: 140,
           key: 'sort'
         },
         {
           title: '产品名称',
           align: 'center',
+           width: 140,
           key: 'name'
         },
         {
           title: '产品logo',
           align: 'center',
+           width: 140,
           key: 'logoUrl',
           render: (h, params) => {
             return h('div', [
@@ -234,11 +237,13 @@ export default {
         {
           title: '产品副标题',
           align: 'center',
+           width: 140,
           key: 'fname'
         },
         {
           title: '产品说明',
           align: 'center',
+           width: 140,
           key: 'subtitle',
           render: (h, params) => {
             return h('div', [
@@ -260,6 +265,7 @@ export default {
         {
           title: '贷款额度',
           align: 'center',
+           width: 140,
           key: 'loanLinesUnit'
           // render: (h, params) => {
           //   let money = params.row.startMoney+'-'+params.row.endMoney
@@ -272,6 +278,7 @@ export default {
         {
           title: '利率类型',
           align: 'center',
+           width: 140,
           key: '',
           render: (h, params) => {
             let lilv = params.row.lineType
@@ -285,6 +292,7 @@ export default {
         {
           title: '利率',
           align: 'center',
+           width: 140,
           key: '',
           render: (h, params) => {
             let baif = params.row.interest+'%'       
@@ -297,6 +305,7 @@ export default {
         {
           title: 'URL',
           align: 'center',
+           width: 140,
           ellipsis: true,
           render: (h, params) => {
             console.log(params.row.labelUrl,11)
@@ -319,6 +328,7 @@ export default {
         {
           title: '状态',
           align: 'center',
+           width: 140,
           key: 'status',
           render: (h, params) => {
             let zhuangtai = params.row.status == 1 ? '上架' : '下架'
