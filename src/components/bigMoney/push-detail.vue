@@ -412,7 +412,7 @@ export default {
             let returnCode
             if (params.row.returnCode == '0000') {
               returnCode = '成功'
-            } else if(params.row.returnCode = ''){
+            } else if(params.row.returnCode ==  ''){
               returnCode = ''
             } else {
               returnCode = '失败'
