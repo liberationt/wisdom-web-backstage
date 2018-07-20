@@ -17,24 +17,39 @@
             </div>
         </div>
         <div class="mt50">
-            <span class="w60 displayib tr mb15">渠道:</span>
+          <ul class="querysty">
+            <li>
+              <span class="w60 displayib tr ">渠道:</span>
             <Select v-model="model1" placeholder="全部" style="width:200px" class="">
                 <Option value="" >全部</Option>
                 <Option v-for="item in cityList" :value="item.channelNum" >{{ item.manageName }}</Option>
             </Select>
-            <span class="w60 displayib ml20 mt15 tr mb15">注册时间:</span>
-            <DatePicker type="date" :value = 'value1' class="mb15" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            </li>
+            <li>
+              <span class="w60 displayib ml20  tr mb15">注册时间:</span>
+            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" :value = 'value2' class="mr20 mb15" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
-            <span class="w60 displayib tr">供应商:</span>
+            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+
+            </li>
+            <li>
+              <span class="w60 displayib tr">供应商:</span>
             <Select v-model="model2" placeholder="全部" class="" style="width:200px">
                 <Option value="" >全部</Option>
                 <Option v-for="item in cityList2" :value="item.supplierKey" :key="item.supplierKey">{{ item.supplierName }}</Option>
-            </Select>          
-            <span class="w60 displayib tr ">步骤:</span>
+            </Select> 
+            </li>
+            <li>
+              <span class="w60 displayib tr ">步骤:</span>
             <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20 ">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
+            </li>
+          </ul>
+            
+            
+                     
+            
             <div class="clearfix mr20 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
                 <Button type="primary" class="right w100" :loading="loading2" @click="exports">

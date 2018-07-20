@@ -6,19 +6,31 @@
             </p>
         </div>
         <div class="mt50 p20">
-            <Select v-model="model1" @on-change='queryl' style="width:100px">
+          <ul class="querysty">
+            <li>
+              <Select v-model="model1" @on-change='queryl' style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="value" placeholder="" style="width: 100px" class="mr20"></Input>
-            <span>更新时间:</span>
+            </li>
+            <li>
+              <span>更新时间:</span>
             <DatePicker type="date" @on-change="time1"  placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" @on-change="time2"  placeholder="结束时间" style="width: 200px"></DatePicker>
-            <!-- <Button class=" ml100 w100 " type="info" @click="inquire">查询</Button> -->
-            <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+            </li>
+            <li class="ml10">
+              <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
+
+            </li>
+          </ul>
+            
+            
+            <!-- <Button class=" ml100 w100 " type="info" @click="inquire">查询</Button> -->
+            
             <div class="clearfix mr100 mt20">
                 <Button type="primary" shape="circle" icon="plus-round" @click="refuse">添加渠道</Button>
             </div>
@@ -112,7 +124,6 @@ export default {
         ]
       },
       optioncha: [],
-      optionlab: [],
       optionlac: [],
       cityList: [
         {
@@ -271,7 +282,6 @@ export default {
     },
     // 查询 select
     queryl(value) {
-      console.log(value)
       this.queryli = value
     },
     rowClassName (row, index) {
@@ -291,9 +301,6 @@ export default {
         if(data.code == 'success'){
           if(num == 1){
             this.optioncha = data.data
-          }
-          if(num == 2){
-            this.optionlab = data.data
           }
           if(num == 3){
             this.optionlac = data.data
@@ -349,7 +356,6 @@ export default {
               supplierCode : this.formCustom.productid,//渠道供应商
               // manageUrl: this.formCustom.links//推广url
             }
-            console.log(list)
             this.http.post(BASE_URL + '/loan/promotionManage/savePromotionManage', list)
             .then((resp) => {
               if (resp.code == 'success') {
@@ -498,7 +504,6 @@ export default {
   },
   mounted () {
     this.post('/loan/promotionSupplier/queryAllList',1)
-    this.post('/loan/promotionChannel/queryAllList',2)
     this.post('/loan/promotionUrl/queryAllList',3)
     this.inquire ()
   }

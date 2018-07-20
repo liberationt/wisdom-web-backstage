@@ -7,18 +7,26 @@
         </div>
         <div class="mt50 clearfix">
             <div class="left ml20">
-                <span>供应商名称:</span>
-                <Input v-model="value" placeholder="请输入标签名称" style="width: 200px"></Input>
-                <span class="ml20">创建时间:</span>
-            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+              <ul class="querysty">
+                <li>
+                  <span>供应商名称:</span>
+                  <Input v-model="value" placeholder="请输入标签名称" style="width: 200px"></Input>
+                </li>
+                <li>
+                  <span class="ml20">创建时间:</span>
+                  <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+                  <span>  -  </span>
+                  <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+                </li>
+                <li class="ml10">
+                  <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+                    <span v-if="!loading3">查询</span>
+                    <span v-else>查询</span>
+                  </Button>
+                </li>
+              </ul>       
             </div>
-            <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
-              <span v-if="!loading3">查询</span>
-              <span v-else>查询</span>
-            </Button>
+            <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->       
         </div>
         <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加供应商</Button>
         <div class="mt20">

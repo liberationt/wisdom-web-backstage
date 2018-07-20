@@ -173,7 +173,7 @@ export default {
           { required: true, message: '请输入产品名称', trigger: 'blur' },
           { max: 50, message: '输入内容超限，请重新输入!', trigger: 'blur' },
           { min: 1, message: '输入内容过少，请重新输入!', trigger: 'blur' },
-          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'}
+          {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9`~!@#\$%\^\&\*\(\)_\+<>\?:"\{\},\.\\\/;'\[\]]+$/, trigger: 'blur'}
         ],
         explain: [
           { required: true, message: '请输入产品说明', trigger: 'blur' },
