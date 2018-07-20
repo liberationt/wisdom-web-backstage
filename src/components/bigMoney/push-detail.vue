@@ -175,16 +175,16 @@ export default {
           title: '来源',
           align: 'center',
           render: (h, params) => {
-            let originate 
-            if (params.row.originate == '0') {
-              originate = '手动'
-            } else if(params.row.originate == '1'){
-              originate = '官网'
-            } else if(params.row.originate == '2'){
-              originate = '微信'
+            let origin
+            if (params.row.origin == '0') {
+              origin = '手动'
+            } else if(params.row.origin == '1'){
+              origin = '官网'
+            } else if(params.row.origin == '2'){
+              origin = '微信'
             }
             return h('div', [
-              h('span', {}, originate)
+              h('span', {}, origin)
             ])
           }
         },
