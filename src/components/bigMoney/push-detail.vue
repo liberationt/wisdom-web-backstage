@@ -161,7 +161,7 @@ export default {
               borrowType = '车分期'
             } else if(params.row.borrowType == '5'){
               borrowType = '易起行'
-            } else if(params.row.borrowType == '5'){
+            } else if(params.row.borrowType == '6'){
               borrowType = '车主信用贷'
             } else if(params.row.borrowType == '100'){
               borrowType = '其他'
@@ -174,7 +174,19 @@ export default {
         {
           title: '来源',
           align: 'center',
-          key: 'originate'
+          render: (h, params) => {
+            let originate 
+            if (params.row.originate == '0') {
+              originate = '手动'
+            } else if(params.row.originate == '1'){
+              originate = '官网'
+            } else if(params.row.originate == '2'){
+              originate = '微信'
+            }
+            return h('div', [
+              h('span', {}, originate)
+            ])
+          }
         },
         {
           title: '创建时间',
@@ -188,6 +200,8 @@ export default {
             let Code 
             if (params.row.Code == '1000') {
               Code = '成功'
+            } else if(params.row.Code == '') {
+              Code = ''
             } else {
               Code = '失败'
             }
@@ -199,7 +213,7 @@ export default {
         {
           title: 'Message',
           align: 'center',
-          key: 'Message'
+          key: 'message'
         },
         {
           title: '推送状态',
