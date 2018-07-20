@@ -59,6 +59,7 @@
 	</div>
 </template>
 <script>
+import utils from '../../utils/utils'
 	export default {
 		data() {
 			return {
@@ -144,20 +145,29 @@
 						title: '上传失败详情',
 						align: 'center',
 						render: (h, params) => {
-							console.log(params.row.uploadFailUrl)
+							// console.log(params.row.uploadFailUrl)
 							if(params.row.uploadFailUrl != null){
 								return h('div', [
 									h('Button', {
 										props: {
 											type: 'primary',
-											size: 'small'
+											size: 'small',
 										},
 										style: {
 											marginRight: '5px'
 										},
 										on: {
 											click: () => {
-												window.location.href = params.row.uploadFailUrl
+												console.log(params.row.uploadFailUrl)
+												let formData = new FormData()
+												formData.append("ossPath",params.row.uploadFailUrl)
+												let httpUrl = BASE_URL + '/fileOssDownload'
+												utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
+													if(e == true){
+														// alert(333)
+														// this.loading2 = false;
+													}
+												})
 											}
 										}
 								}, '下载')
@@ -270,7 +280,9 @@
 								this.$Message.info(resp.message)
 							}
 						})
-						.catch(() => {})
+						.catch(() => {
+							
+						})
 				}
 			},
 			// 点击取消清空已选择
