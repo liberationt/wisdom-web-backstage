@@ -2,8 +2,8 @@
     <div>
         <div class="navigation">
             <p>
-              <span class="navigation_batch">推广批次报表</span>
-              <span class="navigation_detailed">推广明细报表</span>
+              <span class="navigation_batch" @click="batch">推广批次报表</span>
+              <span class="navigation_detailed" @click="detailed">推广明细报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -169,7 +169,7 @@ export default {
           }
         },
         {
-          title: '推送成功条数',
+          title: '推送总条数',
           align: 'center',
           key: 'pull_succ_num + pullFailNum'
         },
@@ -419,22 +419,16 @@ export default {
         console.log(err)
         this.loading3 = false
       })
+    },
+    batch() {
+      // alert(21)
+    },
+    detailed() {
+      // alert(222)
+      let pushname = this.$route.query.pushname
+      // this.jname(pushname)
+      this.$router.push({ path: 'insuranceReport?id=""&pushname='+pushname });
     }
-    // handleSubmit (name) {
-    //   this.$refs[name].validate(valid => {
-    //     if (!valid) {
-    //       return this.changeLoading()
-    //     } else {
-    //       this.$Message.error('Success!')
-    //     }
-    //     setTimeout(() => {
-    //       this.changeLoading()
-    //       this.modal9 = false
-    //       // this.formCustom.name = ''
-    //       this.$Message.success('done')
-    //     }, 1000)
-    //   })
-    // },
   },
   created() {
     let pushname = this.$route.query.pushname

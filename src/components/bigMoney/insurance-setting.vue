@@ -165,7 +165,7 @@ export default {
           }
         },
         {
-          title: '推送成功条数',
+          title: '推送总条数',
           align: 'center',
           key: 'partyaSuccNum'
         },

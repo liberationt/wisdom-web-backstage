@@ -2,7 +2,8 @@
     <div>
         <div class="navigation">
             <p>
-                <span>推广明细报表</span>
+              <span class="navigation_batch" @click="batch">推广批次报表</span>
+              <span class="navigation_detailed" @click="detailed">推广明细报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -258,7 +259,14 @@ export default {
         }
       })
     },
-    
+    batch () {
+      let pushname = this.$route.query.pushname
+      // this.jname(pushname)
+      this.$router.push({ path: 'peaceBenefit?pushname='+pushname });
+    },
+    detailed() {
+      
+    }
   },
   created() {
     let pushname = this.$route.query.pushname
@@ -282,5 +290,11 @@ export default {
 <style lang="less" scoped>
 .margin_top {
   margin-top: 20px;
+}
+.navigation_detailed {
+   background-color: #2DB7F5;
+}
+.navigation_batch{
+  background-color: #ccc;
 }
 </style>
