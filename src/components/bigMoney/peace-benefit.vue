@@ -7,16 +7,24 @@
             </p>
         </div>
         <div class="mt50">
-            <span>甲方名称:</span>
-            <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">平安普惠</Option>
-            </Select>
-            <span>文件名称:</span>
-            <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
-            <span>推送时间:</span>
-            <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+          <ul class="querysty">
+            <li>
+              <span>甲方名称:</span>
+              <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+                  <Option v-for="item in cityList" :value="item.value" :key="item.value">平安普惠</Option>
+              </Select>
+            </li>
+            <li>
+              <span>文件名称:</span>
+              <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
+            </li>
+            <li>
+              <span>推送时间:</span>
+              <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
+              <span>  -  </span>
+              <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+            </li>
+          </ul>
             <div class="clearfix mr100 mt20">
                 <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
