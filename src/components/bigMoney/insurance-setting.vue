@@ -118,9 +118,9 @@ export default {
 							whiteSpace: 'nowrap'
 							},
 							domProps: {
-							title: params.row.fileName
+							title: params.row.originName
 							}
-						}, params.row.fileName)
+						}, params.row.originName)
 						])
 						}
         },
@@ -271,7 +271,7 @@ export default {
         let list = {
 						partyaKey: this.jiakey,
             url: this.filename2,
-            originName: this.value2
+            originName: this.value9
           }
           		// formData.append('file', file)
         this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list).then(data=>{
