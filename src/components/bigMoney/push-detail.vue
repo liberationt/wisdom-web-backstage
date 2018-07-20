@@ -200,7 +200,29 @@ export default {
           title: 'Message',
           align: 'center',
           key: 'Message'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       // 凡普
       columns2: [
@@ -293,7 +315,29 @@ export default {
           title: 'errorMessage',
           align: 'center',
           key: 'errorMessage'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       // 秒贷
       columns3: [
@@ -361,7 +405,29 @@ export default {
           title: 'msg',
           align: 'center',
           key: 'msg'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       // 厚本
       columns4: [
@@ -427,6 +493,28 @@ export default {
           align: 'center',
           key: 'returnMsg'
         },
+         {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       // 助贷
       columns5: [
@@ -474,7 +562,29 @@ export default {
             h('span', {}, retCode)
           ])
           }
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       // 速易贷
       // columns6: [
@@ -587,7 +697,29 @@ export default {
           title: 'showMsg',
           align: 'center',
           key: 'showMsg'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       // 宜信
       columns8: [
@@ -662,7 +794,29 @@ export default {
 								h('span', {}, msg)
 							])
 						}
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let push_status
+            if (params.row.push_status == '0') {
+              push_status = '未推送'
+            } else if(params.row.push_status ==  '1'){
+              push_status = '推送成功'
+            } else {
+              push_status = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, push_status)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'push_time'
+        },
       ],
       data1: []
     }
