@@ -127,6 +127,7 @@ export default {
         },
         {
           title: '推送主体',
+           width: 150,
           align: 'center',
           render: (h, params) => {
             let Code = this.zhuname
@@ -144,21 +145,25 @@ export default {
         {
           title: '上传条数',
           align: 'center',
+           width: 150,
           key: 'sendNum'
         },
         {
           title: '上传成功条数',
           align: 'center',
+           width: 150,
           key: 'succNum'
         },
         {
           title: '上传失败条数',
           align: 'center',
+           width: 150,
           key: 'failNum'
         },
         {
           title: '上传失败详情',
           align: 'center',
+           width: 150,
           key: 'uploadFailUrl',
           render: (h, params) => {
             if(params.row.uploadFailUrl != null){
@@ -193,16 +198,19 @@ export default {
         {
           title: '推送总条数',
           align: 'center',
+           width: 150,
           key: 'pull_succ_num + pullFailNum'
         },
         {
           title: '推送失败条数',
           align: 'center',
+           width: 150,
           key: 'pullFailNum'
         },
         {
           title: '转化成功条数',
           align: 'center',
+           width: 150,
           key: 'pullSuccNum'
         },
         {
