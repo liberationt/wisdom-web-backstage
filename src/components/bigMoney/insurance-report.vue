@@ -69,12 +69,16 @@ export default {
           label: '全部'
         },
         {
+          value: '0',
+          label: '未推送'
+        },
+        {
           value: '1',
-          label: '成功'
+          label: '推送成功'
         },
         {
           value: '2',
-          label: '失败'
+          label: '推送失败'
         }
       ],
       columns1: [
@@ -122,6 +126,8 @@ export default {
             let errorMsg 
             if (params.row.errorMsg == '0') {
               errorMsg = '成功'
+            } else if (params.row.errorMsg == '') {
+              errorMsg = ''
             } else {
               errorMsg = '失败'
             }
@@ -152,6 +158,8 @@ export default {
               push_status = '未推送'
             } else if(params.row.push_status ==  '1'){
               push_status = '推送成功'
+            } else if(params.row.push_status ==  ''){
+              push_status = ''
             } else {
               push_status = '推送失败'
             }
