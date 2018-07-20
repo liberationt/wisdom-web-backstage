@@ -26,7 +26,7 @@
             </Select>
             </li>
             <li>
-              <span class="w60 displayib ml20  tr mb15">注册时间:</span>
+              <span class="w60 displayib ml20  tr">注册时间:</span>
             <DatePicker type="date" :value = 'value1' class="" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
             <span class="mb15">  -  </span>
             <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
@@ -451,7 +451,7 @@ export default {
       formData.append("sid",this.model2)
       formData.append("step",this.model3)
       formData.append("methodType",1)
-      let httpUrl = BASE_URL+'loan/dwqUser/export'
+      let httpUrl = BASE_URL+'/loan/dwqUser/export'
       utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
         if(e == true){
           this.loading2 = false

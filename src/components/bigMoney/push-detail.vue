@@ -29,12 +29,6 @@
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
-            <li v-if="fashionmod">
-              <span class="w60 displayib">推送方式:</span>
-            <Select v-model="model3" style="width:200px" class="mr20">
-                <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            </li>
           </ul> 
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
@@ -51,7 +45,7 @@
         </div>
 
         <div class="mt20">
-            <Table :columns="party1" :data="data1"></Table>
+            <Table border :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -65,10 +59,8 @@ export default {
     return {
       loading2: false,
       loading3: false,
-      fashionmod: false,
       model1: this.$route.query.code,
       model2: '',
-      model3: '',
       model4: '',
       model5: '',
       value1: '',
@@ -815,7 +807,17 @@ export default {
         {
           title: 'msg',
           align: 'center',
-          key: 'msg'
+          render: (h, params) => {
+            let msg
+            if (params.row.msg == 'save') {
+              msg = '转化成功'
+            } else {
+              msg = '转化失败'
+            }
+							return h('div', [
+								h('span', {}, msg)
+							])
+						}
         },
         {
           title: '推送状态',
@@ -839,6 +841,375 @@ export default {
           align: 'center',
           key: 'pushTime'
         },
+      ],
+       // 大地
+      columns9: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'customerName'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'mobile'
+        },
+        {
+          title: '城市编码',
+          align: 'center',
+          key: 'cityId'
+        },
+        {
+          title: '媒体来源编号',
+          align: 'center',
+          key: 'mediaSource'
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
+        },
+        {
+          title: 'databusStatus',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.databusStatus == '0000') {
+              succ = '成功'
+            } else {
+              succ = ''
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: 'errorMessage',
+          align: 'center',
+          key: 'errorMessage'
+        }
+      ],
+      // fangcrm
+      columns10: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'telephonenumber'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '借款金额(元)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.loanAmount == '0') {
+              succ = '手动'
+            } else if (params.row.loanAmount == '1') {
+              succ = '官网'
+            } else {
+              succ = '微信'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '借款期限(月)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.duration == '1000') {
+              succ = '成功'
+            } else if (params.row.duration == '') {
+              succ = ''
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+
+        },
+        {
+          title: '公积金(有/无)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.accumulationFund == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '社保(有/无)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.socialSecurity == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '寿险(有/无)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.lifeInsurance == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '保单(有/无)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.policy == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '微粒贷(有/无)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.particleLoan == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '信用卡(有/无)',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.creditCard == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '车',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.car == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '房',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.house == '0') {
+              succ = '无'
+            } else {
+              succ = '有'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
+        },
+        {
+          title: 'errMsg',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.errMsg == 'success') {
+              succ = '成功'
+            } else if (params.row.errMsg == '') {
+              succ = ''
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        }
+      ],
+      // 新一贷
+      columns11: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'teleNum'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '页面类型',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.pageType == '1') {
+              succ = '小消'
+            } else if (params.row.pageType == '2') {
+              succ = '新一贷'
+            } else if (params.row.pageType == '3') {
+              succ = '统一获客'
+            } else {
+              succ = ''
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '是否直通',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.isDirectForm == 'Y') {
+              succ = '直通'
+            } else if (params.row.isDirectForm == '') {
+              succ = ''
+            } else {
+              succ = '非直通'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+
+        },
+        {
+          title: '数据来源',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.custSrc == '1') {
+              succ = '自有表单'
+            } else if (params.row.custSrc == '2') {
+              succ = '外部合作伙伴'
+            } else if (params.row.custSrc == '3') {
+              succ = '第三方数据'
+            } else {
+              succ = ''
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '媒体来源投放代码',
+          align: 'center',
+          key: 'mediaSourceId'
+        },
+        {
+          title: '活动名称代码',
+          align: 'center',
+          key: 'campaignCode'
+        },
+        {
+          title: '职业类型',
+          align: 'center',
+          key: 'profession'
+        },
+        {
+          title: '发薪方式',
+          align: 'center',
+          key: 'payoffType'
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
+        },
+        {
+          title: 'resultCode',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.resultCode == '0') {
+              succ = '成功'
+            } else if (params.row.resultCode == '') {
+              succ = ''
+            } else  {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: 'errorCode',
+          align: 'center',
+          key: 'errorCode'
+        },
+        {
+          title: 'errorMsg',
+          align: 'center',
+          key: 'errorMsg'
+        }
       ],
       data1: []
     }
@@ -873,20 +1244,14 @@ export default {
 						content: '<p>开始时间不得大于结束时间</p>'
 					})
 					return false
-        }
-        let origin
-        if (!this.$route.query.detailed) {
-          origin = 0      
-        } else {
-          origin = this.model3
-        }
+       }
         let params = {
           partyaKey: this.model1,
           beginTime: this.value1,
           endTime: this.value2,
           pushBatchNum: this.model5,
           pushStatus: this.model2,
-          origin: origin,
+          origin: 0,
           pageNum: this.startRow,
           pageSize: this.endRow,
         }
@@ -918,8 +1283,18 @@ export default {
               } else if (this.model1 == 'partya-yixin') {
                 this.party1 = this.columns8
                 this.data1 = resp.data.dkYinxinList
-              } else if (this.model1 == 'partya-dadi') {
-
+              } else if (this.model1 == 'partya-dadi') {//大地
+                this.party1 = this.columns9
+                this.data1 = resp.data.dkDadiList
+              } else if (this.model1 == 'partya-fangcrm') {//fangcrm
+                this.party1 = this.columns10
+                this.data1 = resp.data.dkFangcrmList
+              } else if (this.model1 == 'partya-xinyidai') {//新一贷
+                this.party1 = this.columns11
+                this.data1 = resp.data.batchLogList
+              } else {
+                this.party1 = ''
+                this.data1 = ''
               }
               // console.log(this.data1,111)
 							this.total = Number(resp.data.total)
@@ -957,14 +1332,8 @@ export default {
       }     
   },
   mounted () {
-    if (!this.$route.query.detailed) {
-      this.model5 = this.$route.query.batchCode
-    } else {
-      this.model5 = ''
-      this.fashionmod = true
-    }
     // 甲方名称
-			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes='+'1,3')
+			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes=1')
 				.then((resp) => {
 					if(resp.code == 'success') {
 						this.cityList = resp.data

@@ -87,7 +87,7 @@ export default {
                 this.hid = false
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
-
+                tils.setCookie('user', JSON.stringify(this.formLogin.username), 1)
                 utils.putlocal('headace', '0')
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 // sessionStorage.setItem('browse', 1)

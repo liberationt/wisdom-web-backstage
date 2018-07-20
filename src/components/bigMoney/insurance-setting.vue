@@ -367,7 +367,7 @@ export default {
         return false
       };
       let list = {
-        fileName : this.model2,
+        originName : this.model2,
         beginTime : this.value1,
         endTime : this.value2,
         partyaKey:this.jiakey,

@@ -175,6 +175,9 @@ export default {
           { min: 1, message: '输入内容过少，请重新输入!', trigger: 'blur' },
           {required: true, message: '请输入正确的产品名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9`~!@#\$%\^\&\*\(\)_\+<>\?:"\{\},\.\\\/;'\[\]]+$/, trigger: 'blur'}
         ],
+        subtitle: [
+          { max: 50, message: '输入内容超限，请重新输入!', trigger: 'blur' }
+        ],
         explain: [
           { required: true, message: '请输入产品说明', trigger: 'blur' },
           { max: 50, message: '输入内容超限，请重新输入!', trigger: 'blur' },
@@ -212,8 +215,23 @@ export default {
         {
           title: '产品名称',
           align: 'center',
-           width: 140,
-          key: 'name'
+          width: 140,
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                },
+                domProps: {
+                  title: params.row.name
+                }
+              }, params.row.name)
+            ])
+          }
         },
         {
           title: '产品logo',
@@ -238,7 +256,22 @@ export default {
           title: '产品副标题',
           align: 'center',
            width: 140,
-          key: 'fname'
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                },
+                domProps: {
+                  title: params.row.fname
+                }
+              }, params.row.fname)
+            ])
+          }
         },
         {
           title: '产品说明',
@@ -279,9 +312,8 @@ export default {
           title: '利率类型',
           align: 'center',
            width: 140,
-          key: '',
           render: (h, params) => {
-            let lilv = params.row.lineType
+            let lilv = params.row.interestType
             if(lilv == 1){lilv = '日利率'}else if(lilv == 2){lilv = '月利率'}else if(lilv == 3){lilv = '年利率'}else if(lilv == 4){live = '每期利率'}      
             return h('div', [
               h('span', {
