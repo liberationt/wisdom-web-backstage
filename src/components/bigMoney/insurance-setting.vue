@@ -155,6 +155,7 @@ export default {
           align: 'center',
           key: 'uploadFailUrl',
           render: (h, params) => {
+          if(params.row.uploadFailUrl != null){
             return h('div', [
               h('Button', {
                 props: {
@@ -180,6 +181,7 @@ export default {
                 }
               }, '下载')
             ])
+          }
           }
         },
         {
