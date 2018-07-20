@@ -191,6 +191,7 @@ export default {
             this.loading3= false
           }
        }).catch(err=>{
+         this.loading3= false
          console.log(err)
        })
     },
@@ -265,7 +266,7 @@ export default {
       this.$router.push({ path: 'peaceBenefit?pushname='+pushname });
     },
     detailed() {
-      
+
     }
   },
   created() {
