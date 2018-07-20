@@ -198,9 +198,11 @@ export default {
           align: 'center',
           render: (h, params) => {
             let Code 
+            console.log(params.row.Code)
+            
             if (params.row.Code == '1000') {
               Code = '成功'
-            } else if(params.row.Code == '') {
+            } else if(params.row.Code == '' || params.row.Code == undefined) {
               Code = ''
             } else {
               Code = '失败'
