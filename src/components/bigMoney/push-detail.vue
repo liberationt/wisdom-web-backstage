@@ -542,7 +542,7 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          key: 'Phone'
+          key: 'mobile'
         },
         {
           title: '城市',
