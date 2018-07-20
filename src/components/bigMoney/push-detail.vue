@@ -197,18 +197,18 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let Code 
-            console.log(params.row.Code)
+            let code 
+            console.log(params.row.code)
             
-            if (params.row.Code == '1000') {
-              Code = '成功'
-            } else if(params.row.Code == '' || params.row.Code == undefined) {
-              Code = ''
+            if (params.row.code == '1000') {
+              code = '成功'
+            } else if(params.row.code == '') {
+              code = ''
             } else {
-              Code = '失败'
+              code = '失败'
             }
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, code)
             ])
           }
         },
