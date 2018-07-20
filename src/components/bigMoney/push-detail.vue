@@ -221,7 +221,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       // 凡普
@@ -336,7 +336,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       // 秒贷
@@ -426,7 +426,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       // 厚本
@@ -513,7 +513,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       // 助贷
@@ -583,7 +583,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       // 速易贷
@@ -718,7 +718,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       // 宜信
@@ -815,7 +815,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       data1: []
