@@ -463,7 +463,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        },
+        }
       ],
       // 厚本
       columns4: [
@@ -631,7 +631,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        },
+        }
       ],
       // 速易贷
       // columns6: [
@@ -773,7 +773,7 @@ export default {
       // 宜信
       columns8: [
         {
-          title: '姓名',
+          title: '姓名',  
           align: 'center',
           key: 'name'
         },
@@ -837,8 +837,14 @@ export default {
           title: 'msg',
           align: 'center',
           render: (h, params) => {
+            let msg
+            if (params.row.msg == 'save') {
+              msg = '转化成功'
+            } else {
+              msg = '转化失败'
+            }
 							return h('div', [
-								h('span', {}, params.row.msg )
+								h('span', {}, msg)
 							])
 						}
         },
@@ -863,7 +869,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        },
+        }
       ],
        // 大地
       columns9: [
@@ -1152,7 +1158,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        },
+        }
       ],
       // 新一贷
       columns11: [
@@ -1322,7 +1328,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        },
+        }
       ],
       data1: []
     }

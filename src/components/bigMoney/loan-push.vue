@@ -136,7 +136,7 @@ export default {
       ],
       party1: [],
       // 车抵贷
-      columns1: [
+     columns1: [
         {
           title: '姓名',
           align: 'center',
@@ -164,7 +164,7 @@ export default {
               borrowType = '车分期'
             } else if(params.row.borrowType == '5'){
               borrowType = '易起行'
-            } else if(params.row.borrowType == '5'){
+            } else if(params.row.borrowType == '6'){
               borrowType = '车主信用贷'
             } else if(params.row.borrowType == '100'){
               borrowType = '其他'
@@ -177,7 +177,19 @@ export default {
         {
           title: '来源',
           align: 'center',
-          key: 'originate'
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == '0') {
+              origin = '手动'
+            } else if(params.row.origin == '1'){
+              origin = '官网'
+            } else if(params.row.origin == '2'){
+              origin = '微信'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+          }
         },
         {
           title: '创建时间',
@@ -188,21 +200,25 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let Code 
-            if (params.row.Code == '1000') {
-              Code = '成功'
+            let code 
+            console.log(params.row.code)
+            
+            if (params.row.code == '1000') {
+              code = '成功'
+            } else if(params.row.code == '') {
+              code = ''
             } else {
-              Code = '失败'
+              code = '失败'
             }
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, code)
             ])
           }
         },
         {
           title: 'Message',
           align: 'center',
-          key: 'Message'
+          key: 'message'
         },
         {
           title: '推送状态',
@@ -225,8 +241,31 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
       ],
+
       // 凡普
       columns2: [
         {
@@ -303,14 +342,16 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let Code 
-            if (params.row.Code == '200') {
-              Code = '成功'
-            } else {
-              Code = '失败'
+            let code 
+            if (!params.row.code) {
+              code = ''
+            } else if (params.row.code == '200') {
+              code = '成功'
+            } else{
+              code = '失败'
             }
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, code)
             ])
 						}
         },
@@ -340,7 +381,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        }
+        },
       ],
       // 秒贷
       columns3: [
@@ -373,14 +414,16 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let Code
-            if (params.row.Code == '-1') {
-              Code = '成功'
+            let code
+            if (params.row.code == '-1') {
+              code = '成功'
+            } else if (params.row.code == '' || params.row.code == null){
+              code = ''
             } else {
-              Code = '失败'
-            } 
+              code = '失败'
+            }
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, code)
             ])
           }
         },
@@ -391,6 +434,8 @@ export default {
             let validResult
             if (params.row.validResult == 'success') {
               validResult = '有效数据'
+            } else if (params.row.validResult == '') {
+              validResult = ''
             } else {
               validResult = '无效数据'
             } 
@@ -433,7 +478,7 @@ export default {
         }
       ],
       // 厚本
-      columns4: [
+       columns4: [
         {
           title: '供应商',
           align: 'center',
@@ -481,6 +526,8 @@ export default {
             let returnCode
             if (params.row.returnCode == '0000') {
               returnCode = '成功'
+            } else if(params.row.returnCode ==  ''){
+              returnCode = ''
             } else {
               returnCode = '失败'
             }
@@ -494,7 +541,7 @@ export default {
           align: 'center',
           key: 'returnMsg'
         },
-        {
+         {
           title: '推送状态',
           align: 'center',
           render: (h, params) => {
@@ -515,7 +562,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        }
+        },
       ],
       // 助贷
       columns5: [
@@ -527,7 +574,7 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          key: 'Phone'
+          key: 'mobile'
         },
         {
           title: '城市',
@@ -553,14 +600,25 @@ export default {
           title: 'retCode',
           align: 'center',
           render: (h, params) => {
-          let retCode
-          if (params.row.retCode > 7) {
-            pushStatus = '成功'
+          const retCode = params.row.retCode
+          let pushStatus = ''
+          if (!retCode) {
+            pushStatus = ''
+          } else if (parseInt(retCode) > 7) {
+            pushStatus = '推送成功'
+          } else if (retCode == '3') {
+            pushStatus = '当天重复申请'
+          } else if (retCode == '5') {
+            pushStatus = '失败'
+          } else if (retCode == '6') {
+            pushStatus = '恶意IP'
+          } else if (retCode == '7') {
+            pushStatus = '恶意电话'
           } else {
-            retCode = '失败'
+            pushStatus = '成功'
           }
           return h('div', [
-            h('span', {}, retCode)
+            h('span', {}, pushStatus)
           ])
           }
         },
@@ -648,7 +706,7 @@ export default {
       //   }
       // ],
       // 银谷
-      columns7: [
+       columns7: [
         {
           title: '姓名',
           align: 'center',
@@ -657,7 +715,7 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          key: 'Phone'
+          key: 'phone'
         },
         {
           title: '城市',
@@ -681,6 +739,8 @@ export default {
             let rspCode
             if (params.row.rspCode == '200') {
               rspCode = '成功'
+            } else if (params.row.rspCode == '') {
+              rspCode = ''
             } else {
               rspCode = '失败'
             }
@@ -720,7 +780,7 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
-        }
+        },
       ],
       // 宜信
       columns8: [
@@ -765,16 +825,20 @@ export default {
           title: '创建时间',
           align: 'center',
           key: 'dataCreateTime'
-        },
+        },  
         {
           title: 'succ',
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.succ == 'true') {
+            if (params.row.succ) {
               succ = '推送成功'
+              // console.log('推送成功')
+            } else if (params.row.succ == '') {
+              succ = ''
             } else {
               succ = '推送失败'
+              // console.log('推送失败')
             }
             return h('div', [
               h('span', {}, succ)
@@ -1109,7 +1173,7 @@ export default {
         }
       ],
       // 新一贷
-      columns11: [
+          columns11: [
         {
           title: '姓名',
           align: 'center',
@@ -1167,11 +1231,11 @@ export default {
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.custSrc == '1') {
+            if (params.row.profession == '1') {
               succ = '自有表单'
-            } else if (params.row.custSrc == '2') {
+            } else if (params.row.profession == '2') {
               succ = '外部合作伙伴'
-            } else if (params.row.custSrc == '3') {
+            } else if (params.row.profession == '3') {
               succ = '第三方数据'
             } else {
               succ = ''
@@ -1194,12 +1258,34 @@ export default {
         {
           title: '职业类型',
           align: 'center',
-          key: 'profession'
+          render: (h, params) => {
+          let profession
+            if (params.row.profession == '0') {
+              profession = '公司职员'
+            } else if (params.row.profession == '2') {
+              profession = '私营业主'
+            } else if (params.row.profession == '4') {
+              profession = '公务员'
+            }
+            return h('div', [
+              h('span', {}, profession)
+            ])
+          }
         },
         {
           title: '发薪方式',
           align: 'center',
-          key: 'payoffType'
+          render: (h, params) => {
+          let payoffType
+            if (params.row.payoffType == '0') {
+              payoffType = '银行转账发薪'
+            } else if (params.row.payoffType == '1') {
+              payoffType = '通过现金发薪'
+            } 
+            return h('div', [
+              h('span', {}, payoffType)
+            ])
+          }
         },
         {
           title: '创建时间',
