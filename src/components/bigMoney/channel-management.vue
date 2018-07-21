@@ -142,10 +142,10 @@ export default {
           value: 'channelTag',
           label: '渠道标签'
         },
-        {
-          value: 'urlName',
-          label: '渠道链接'
-        },
+        // {
+        //   value: 'urlName',
+        //   label: '渠道链接'
+        // },
         {
           value: 'supplierName',
           label: '供应商名称'
