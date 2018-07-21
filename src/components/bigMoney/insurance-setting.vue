@@ -128,7 +128,12 @@ export default {
           title: '推送主体',
           align: 'center',
           width: 160,
-          key: 'pushMain'
+          // key: 'pushMain', //{{ this.$route.query.name }}
+          render: (h, params) => {
+						return h('div', [
+              h('span', {}, this.$route.query.name)
+            ])
+          }  
         },
         {
           title: '上传时间',

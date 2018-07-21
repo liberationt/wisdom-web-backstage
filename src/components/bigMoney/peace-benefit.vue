@@ -132,7 +132,7 @@ export default {
           render: (h, params) => {
             let Code = this.zhuname
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, this.$route.query.name)
             ])
           }
         },
