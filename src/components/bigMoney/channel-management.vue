@@ -74,7 +74,7 @@
                 <Input v-model="formCustom.types" placeholder="请输入渠道标签" class="inputl" style="width: 300px"></Input>
               </FormItem>
               <FormItem label="推广URL:">
-                <Input v-model="formCustom.links" disabled  class="inputl" style="width: 300px"></Input>
+                <span  class="inputl" style="width: 300px">{{formCustom.links}}</span>
               </FormItem>
           </Form>
           </div>
