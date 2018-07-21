@@ -863,7 +863,7 @@ export default {
         {
           title: '媒体来源编号',
           align: 'center',
-          key: 'mediaSource'
+          key: 'businessChannel'
         },
         {
           title: '创建时间',
