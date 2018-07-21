@@ -216,8 +216,8 @@ export default {
   },
   methods: {
     handleClose(event, name){
-        const index = this.time.indexOf(name+1);
-        this.time.splice(index, 1);
+        // const index = this.time.indexOf(name+1);
+        this.time.splice(name, 1);
     },
     // 保存
     preservation () {
@@ -266,7 +266,9 @@ export default {
           if (i == this.time2.length-1) {
             time+=e
           } else {
-            time=time+e+','
+            if (e != '') {
+              time=time+e+','
+            }        
           }        
         })
         if (this.datatime == '分') {
@@ -351,6 +353,7 @@ export default {
             this.time.push(value)
           }
         }
+        this.time2 = this.time
       } else {
            this.time2.push(value)
       }
@@ -371,7 +374,12 @@ export default {
           this.animal = '自动'
           this.manual = true
           this.value3 = resp.data.pausePush
-          if (resp.data.pausePushJson > 4) {
+          if (resp.data.pausePushJson == null) {
+            this.time = []
+            this.time2 = []
+
+          } else {
+            if (resp.data.pausePushJson > 4) {
             for (let i = 0; i < 4; i++) {
             this.time.push(resp.data.pausePushJson[i])
             this.time2.push(resp.data.pausePushJson[i])
@@ -379,7 +387,8 @@ export default {
           } else {
             this.time = resp.data.pausePushJson
             this.time2 = resp.data.pausePushJson
-          }   
+          }
+          }           
         }
         this.data1 = resp.data.list
         this.value1 = resp.data.repateSendDay 
