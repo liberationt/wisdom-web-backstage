@@ -833,20 +833,10 @@ export default {
             ])
 					}
         },
-        {
+       {
           title: 'msg',
           align: 'center',
-          render: (h, params) => {
-            let msg
-            if (params.row.msg == 'save') {
-              msg = '转化成功'
-            } else {
-              msg = '转化失败'
-            }
-							return h('div', [
-								h('span', {}, msg)
-							])
-						}
+           key: 'msg'
         },
         {
           title: '推送状态',
