@@ -29,7 +29,7 @@
                   <DatePicker type="date" :value="value3" :options="options3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
                   <span class="spots">
                     已选择
-                    <Tag @on-close="handleClose" :name="index" closable class="red" v-if="item != ''" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
+                    <Tag @on-close="handleClose" :name="index" closable class="red" v-if="item != ''&&index<4" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
                     <Button type="info" @click="modal10 = true">更多</Button>
                   </span>
                 </li>
@@ -211,13 +211,11 @@ export default {
         }
       ],
       time:[],
-      time2: [],
-      show: true,
+      time2: []
     }
   },
   methods: {
     handleClose(event, name){
-        // console.log(name)
         const index = this.time.indexOf(name+1);
         this.time.splice(index, 1);
     },
@@ -290,7 +288,6 @@ export default {
         cycleUnint: datatime
       }
       }
-     console.log(list)
     this.http.post(BASE_URL + '/loan/partya/updatePartyaByCode', list)
     .then((resp) => {
       if (resp.code == 'success') {
@@ -346,23 +343,17 @@ export default {
       
     },
     time1 (value, data) {
-      console.log(value)
-      this.show = true
-      if (this.time.length >= 4) {
-        this.time2.push(value)
-      } else {
+      if (this.time.length <= 3) {
         let list = []
         list.push(value)
         for (let i = 0; i < list.length; i++) {
           if (this.time.indexOf(list[i]) == -1) {
             this.time.push(value)
-            this.time2.push(value)
-          }        
-        }    
+          }
+        }
+      } else {
+           this.time2.push(value)
       }
-      // console.log(this.time)
-      // this.time[this.time.length - 1] = this.time[this.time.length - 1].split(',')[0]
-      // console.log(this.time[this.time.length - 1])
     }
   },
   mounted () {
@@ -380,8 +371,15 @@ export default {
           this.animal = '自动'
           this.manual = true
           this.value3 = resp.data.pausePush
-          this.time.push(resp.data.pausePush)
-          this.time2.push(resp.data.pausePush)
+          if (resp.data.pausePushJson > 4) {
+            for (let i = 0; i < 4; i++) {
+            this.time.push(resp.data.pausePushJson[i])
+            this.time2.push(resp.data.pausePushJson[i])
+          }        
+          } else {
+            this.time = resp.data.pausePushJson
+            this.time2 = resp.data.pausePushJson
+          }   
         }
         this.data1 = resp.data.list
         this.value1 = resp.data.repateSendDay 
