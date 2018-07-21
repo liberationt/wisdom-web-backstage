@@ -63,14 +63,14 @@ export default {
       let menuList = null
       for (let j = 0; j < arrlist.length; j++) {
         if (arrlist[j].menuCode == num) {
-          for (let k = 0; k < arrlist[j].children.length; k++) {
-            if (arrlist[j].children[k].component == null) {
-              arrlist[j].children[k].component = "HomePage";
-            }
-            if (arrlist[j].children[k].path == "") {
-              arrlist[j].children[k].path = "/homePage";
-            }
-          }
+          // for (let k = 0; k < arrlist[j].children.length; k++) {
+          //   if (arrlist[j].children[k].component == null) {
+          //     arrlist[j].children[k].component = "HomePage";
+          //   }
+          //   if (arrlist[j].children[k].path == "") {
+          //     arrlist[j].children[k].path = "/homePage";
+          //   }
+          // }
           that.leftlist(arrlist[j].children);
           utils.putlocal("leftlist", JSON.stringify(arrlist[j].children));
           menuList = arrlist[j].children;
@@ -86,17 +86,16 @@ export default {
         const firstGroupMenu = menuList[0]
         if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
           this.$router.push({ path: firstGroupMenu.path });
+          utils.putlocal("sideleft", "0");
         } else {
           const firstChildrenMenu = firstGroupMenu.children && firstGroupMenu.children[0]
           if (firstChildrenMenu && firstChildrenMenu.path && firstChildrenMenu.path.length > 0) {
             this.$router.push({ path: firstChildrenMenu.path });
+            utils.putlocal("sideleft", "1");
           }
         }
       }
       that.lefthidtrue();
-
-      //TODO 需要修正
-      utils.putlocal("sideleft", "0");
     },
     ...mapMutations(["leftlist", "lefthidtrue"])
   },
