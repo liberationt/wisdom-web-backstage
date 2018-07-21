@@ -143,12 +143,15 @@ export default {
           align: 'center',
           render: (h, params) => {
           let fieldName = params.row.fieldName
-            if(params.row.hasShow == 1){
-              fieldName = '*'+ fieldName
+          let prefix = ''
+          if(params.row.hasShow == 1){
+            prefix = '*'
+            fieldName = fieldName
           } else if(params.row.hasShow == 0){
               fieldName = fieldName
           }
           return h('div', [
+            h('span', {style: {color: 'red'}}, prefix),
             h('span', {}, fieldName)
           ])
           }
