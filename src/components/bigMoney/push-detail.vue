@@ -880,7 +880,7 @@ export default {
             } else if (params.row.databusStatus == '0000') {
               succ = '成功'
             } else {
-              succ = '失败
+              succ = '失败'
             }
             return h('div', [
               h('span', {}, succ)
