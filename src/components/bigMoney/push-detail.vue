@@ -1145,11 +1145,11 @@ export default {
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.custSrc == '1') {
+            if (params.row.profession == '1') {
               succ = '自有表单'
-            } else if (params.row.custSrc == '2') {
+            } else if (params.row.profession == '2') {
               succ = '外部合作伙伴'
-            } else if (params.row.custSrc == '3') {
+            } else if (params.row.profession == '3') {
               succ = '第三方数据'
             } else {
               succ = ''
@@ -1172,7 +1172,19 @@ export default {
         {
           title: '职业类型',
           align: 'center',
-          key: 'profession'
+          render: (h, params) => {
+          let profession
+            if (params.row.profession == '1') {
+              profession = '公司职员'
+            } else if (params.row.profession == '2') {
+              profession = '私营业主'
+            } else if (params.row.profession == '3') {
+              profession = '公务员'
+            }
+            return h('div', [
+              h('span', {}, profession)
+            ])
+          }
         },
         {
           title: '发薪方式',

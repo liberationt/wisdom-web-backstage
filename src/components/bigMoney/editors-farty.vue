@@ -16,23 +16,6 @@
                         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                 </li>
-                <li class="mt15">
-                    <span >推送方式:</span>
-                    <RadioGroup v-model="animal" @on-change="pushmode(animal)"  class="ml5">
-                        <Radio  label="手动"></Radio>
-                        <Radio label="自动" ></Radio>
-                        <!-- <Radio label="自动手动都可以" ></Radio> -->
-                    </RadioGroup>
-                </li>                
-                <li class="mt15" v-if="manual">
-                  <span>推送周期设置:</span>
-                  <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
-                  <RadioGroup v-model="datatime" class="ml5">
-                        <Radio label="分"></Radio>
-                        <Radio label="小时"></Radio>
-                        <Radio label="天"></Radio>
-                    </RadioGroup>
-                </li>
                 <li class="mt15" >
                   <span>暂停推送日期设置:</span>
                   <DatePicker type="date" :value="value3" :options="options3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
@@ -42,6 +25,23 @@
                     <Button type="info" @click="modal10 = true">更多</Button>
                   </span>
                 </li>
+                <li class="mt15">
+                    <span >推送方式:</span>
+                    <RadioGroup v-model="animal" @on-change="pushmode(animal)"  class="ml5">
+                        <Radio  label="手动"></Radio>
+                        <Radio label="自动" ></Radio>
+                        <!-- <Radio label="自动手动都可以" ></Radio> -->
+                    </RadioGroup>
+                </li>                             
+                <li class="mt15" v-if="manual">
+                  <span>推送周期设置:</span>
+                  <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
+                  <RadioGroup v-model="datatime" class="ml5">
+                        <Radio label="分"></Radio>
+                        <Radio label="小时"></Radio>
+                        <Radio label="天"></Radio>
+                    </RadioGroup>
+                </li>              
                 <li class="mt15">
                     <span >推送字段:</span>
                 </li>
