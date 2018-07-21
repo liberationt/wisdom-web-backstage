@@ -104,7 +104,10 @@ export default {
           align: 'center',
           render: (h, params) => {
             let type
-            if (params.row.cycleUnint == '1') {
+            //手动隐藏推送周期
+            if (params.row.sendType == '1') {
+              type = ''
+            } else if (params.row.cycleUnint == '1') {
               type = params.row.cycle + '分钟'
             } else if (params.row.cycleUnint == '2') {
               type = params.row.cycle +'小时'
