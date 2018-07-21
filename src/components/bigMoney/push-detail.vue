@@ -1293,6 +1293,7 @@ export default {
               } else if (this.model1 == 'partya-xinyidai') {//新一贷
                 this.party1 = this.columns11
                 this.data1 = resp.data.dkXinyidaiList
+                //dkXinyidaiList
               } else {
                 this.party1 = ''
                 this.data1 = ''
