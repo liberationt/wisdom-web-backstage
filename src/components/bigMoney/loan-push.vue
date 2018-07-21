@@ -201,7 +201,7 @@ export default {
           align: 'center',
           render: (h, params) => {
             let code 
-            console.log(params.row.code)
+            // console.log(params.row.code)
             
             if (params.row.code == '1000') {
               code = '成功'
@@ -848,17 +848,7 @@ export default {
         {
           title: 'msg',
           align: 'center',
-          render: (h, params) => {
-            let msg
-            if (params.row.msg == 'save') {
-              msg = '转化成功'
-            } else {
-              msg = '转化失败'
-            }
-							return h('div', [
-								h('span', {}, msg)
-							])
-						}
+           key: 'msg'
         },
         {
           title: '推送状态',
@@ -1348,12 +1338,12 @@ export default {
   methods: {
     // 分页
     pageChange(page) {
-        console.log(page)
+        // console.log(page)
 				this.startRow = page
 				this.inquire()
 		},
     pagesizechange(page) {
-      console.log(page)
+      // console.log(page)
       this.endRow = page
       this.inquire()
     },
@@ -1387,13 +1377,12 @@ export default {
           pageSize: this.endRow,
 
         }
-
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
-            console.log(resp) 
+            // console.log(resp) 
 						if(resp.code == 'success') {
-              console.log(this.model1)
+              // console.log(this.model1)
               if (this.model1 == 'partya-chedidai') {//车抵贷
                 this.party1 = this.columns1
                 this.data1 = resp.data.dkChedidaiList
@@ -1429,11 +1418,12 @@ export default {
                 this.data1 = ''
               }
               // console.log(this.data1,111)
-							this.total = Number(resp.data.total)
+              console.log(resp.data)
+                if(parseInt(resp.data.total) == '0') {
+                  this.startRow = 1
+                }
+              this.total = Number(resp.data.total)
               this.startRow = Math.ceil(resp.data.startRow / this.endRow)
-              if(parseInt(resp.data.total) == '0') {
-                this.startRow = 1
-              }
               this.loading3 = false
 						} else {
               this.loading3 = false
