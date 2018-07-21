@@ -20,6 +20,7 @@ Vue.config.productionTip = false
 
 // 设置接口全局变量
 global.BASE_URL = process.env.API_HOST
+
 // 同步vuex和本地菜单数据
 if (!store.state.menu || Object.keys(store.state.menu).length == 0) {
   // 从sessionStorage中读取状态
