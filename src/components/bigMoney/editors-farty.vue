@@ -75,24 +75,25 @@
         </Col>
     </Row>
     <Modal
-          title="已选城市"
+          title="居住城市"
           v-model="modal9"
           @on-ok="upload"
-          ok-text="保存"
-          cancel-text="取消"
+          ok-text="确定"
+          cancel-text=""
           class-name="vertical-center-modal"
           width="500"
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15 pl10">
-           <ul>
+            <label>{{cityText}}</label>
+           <!-- <ul>
             <li >
             <CheckboxGroup v-for="(item, index) in city" :key="index" >
               <Checkbox v-for="tion in item.garden" :label="tion.town"></Checkbox>
             </CheckboxGroup>
             </li>
  
-        </ul>
+        </ul> -->
           </div>
           </Modal>
 
@@ -124,6 +125,7 @@ export default {
       cycle: '',
       code: '',
       datatime: '分',
+      cityText: '',
       options3: {
         disabledDate (date) {
           return date && date.valueOf() < Date.now() - 86400000
@@ -147,27 +149,34 @@ export default {
           render: (h, params) => {
             let configureValues
             if (params.row.fieldName == '居住城市') {
+
+              let value = params.row.configureValues
+              this.cityText = params.row.configureValues
+              if (value && value.length > 20) {
+                value = value.slice(0, 20) + '...'
+              }
               configureValues = [
-                params.row.configureValues,
-                // h('Button', {
-                //   props: {
-                //     type: 'primary',
-                //     size: 'small'
-                //   },
-                //   style: {
-                //     marginRight: '5px',
-                //     marginLeft: '5px'
-                //   },
-                //   on: {
-                //     click: () => {
-                //       this.refuse()
-                //     }
-                //   }
-                // }, '选择城市')
+                value,
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px',
+                    marginLeft: '15px'
+                  },
+                  on: {
+                    click: () => {
+                      this.refuse()
+                    }
+                  }
+                }, '查看')
               ]
             } else {
               configureValues = params.row.configureValues
             }
+
             return h('div', {
 
               }, configureValues )
@@ -330,16 +339,17 @@ export default {
       this.$router.push({ path: './partyManagement' })
     },
     upload () {
-      setTimeout(() => {
-        this.changeLoading()
-        const title = '选择城市'
-        let content = '<p>保存成功</p>'
-        this.$Modal.success({
-          title: title,
-          content: content
-        })
-        this.modal9 = false
-      }, 1000)
+      this.modal9 = false
+      // setTimeout(() => {
+      //   this.changeLoading()
+      //   const title = '选择城市'
+      //   let content = '<p>保存成功</p>'
+      //   this.$Modal.success({
+      //     title: title,
+      //     content: content
+      //   })
+      //   this.modal9 = false
+      // }, 1000)
     },
     changeLoading () {
       this.loading = false
