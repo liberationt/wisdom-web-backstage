@@ -155,9 +155,10 @@ export default {
               if (value && value.length > 20) {
                 value = value.slice(0, 20) + '...'
               }
-              configureValues = [
-                value,
-                h('Button', {
+              if (value && value.length > 0) {
+                configureValues = [
+                  value, 
+                  h('Button', {
                   props: {
                     type: 'primary',
                     size: 'small'
@@ -172,7 +173,13 @@ export default {
                     }
                   }
                 }, '查看')
-              ]
+                ]
+              } else {
+                configureValues = [
+                value,
+                ]
+              }
+              
             } else {
               configureValues = params.row.configureValues
             }
