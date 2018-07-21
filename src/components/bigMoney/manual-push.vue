@@ -389,13 +389,14 @@ import utils from '../../utils/utils'
 						this.cityList = resp.data
 						this.cityListmode = resp.data
 						this.model1 = resp.data[0].partyaKey
+						this.inquire()
 					} else {
 
 					}
 				})
 				.catch(() => {})
 			// 列表初始化
-			this.inquire()
+			
 		}
 	}
 </script>
