@@ -231,6 +231,28 @@ export default {
           align: 'center',
           key: 'pushTime'
         },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
       ],
       // 凡普
       columns2: [
@@ -891,6 +913,28 @@ export default {
           title: 'errorMessage',
           align: 'center',
           key: 'errorMessage'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
         }
       ],
       // fangcrm
@@ -1086,7 +1130,29 @@ export default {
               h('span', {}, succ)
             ])
 					}
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
       ],
       // 新一贷
       columns11: [
@@ -1234,7 +1300,29 @@ export default {
           title: 'errorMsg',
           align: 'center',
           key: 'errorMsg'
-        }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
       ],
       data1: []
     }
