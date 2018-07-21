@@ -308,14 +308,16 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let Code 
-            if (params.row.Code == '200') {
-              Code = '成功'
-            } else {
-              Code = '失败'
+            let code 
+            if (!params.row.code) {
+              code = ''
+            } else if (params.row.code == '200') {
+              code = '成功'
+            } else{
+              code = '失败'
             }
             return h('div', [
-              h('span', {}, Code)
+              h('span', {}, code)
             ])
 						}
         },
