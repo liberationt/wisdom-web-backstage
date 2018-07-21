@@ -381,7 +381,7 @@ export default {
             let code
             if (params.row.code == '-1') {
               code = '成功'
-            } else if (params.row.code == ''){
+            } else if (params.row.code == '' || params.row.code == null){
               code = ''
             } else {
               code = '失败'
