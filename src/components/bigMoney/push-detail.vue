@@ -1176,11 +1176,11 @@ export default {
           align: 'center',
           render: (h, params) => {
           let profession
-            if (params.row.profession == '1') {
+            if (params.row.profession == '0') {
               profession = '公司职员'
             } else if (params.row.profession == '2') {
               profession = '私营业主'
-            } else if (params.row.profession == '3') {
+            } else if (params.row.profession == '4') {
               profession = '公务员'
             }
             return h('div', [
@@ -1191,7 +1191,17 @@ export default {
         {
           title: '发薪方式',
           align: 'center',
-          key: 'payoffType'
+          render: (h, params) => {
+          let payoffType
+            if (params.row.payoffType == '0') {
+              payoffType = '银行转账发薪'
+            } else if (params.row.payoffType == '1') {
+              payoffType = '通过现金发薪'
+            } 
+            return h('div', [
+              h('span', {}, payoffType)
+            ])
+          }
         },
         {
           title: '创建时间',
@@ -1348,6 +1358,7 @@ export default {
       }     
   },
   mounted () {
+    this.model5 = this.$route.query.batchCode
     // 甲方名称
 			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes=1')
 				.then((resp) => {
