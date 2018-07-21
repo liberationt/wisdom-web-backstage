@@ -30,6 +30,7 @@ export default {
   },
   mounted() {
     let that = this;
+    that.lefthidfalse()
     let arrlist = [];
     let list = [];
     for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
@@ -97,7 +98,7 @@ export default {
       }
       that.lefthidtrue();
     },
-    ...mapMutations(["leftlist", "lefthidtrue"])
+    ...mapMutations(["leftlist", "lefthidtrue", "lefthidfalse"])
   },
   computed: {
     ...mapState(["menu"])
