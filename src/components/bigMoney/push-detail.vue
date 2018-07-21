@@ -1356,6 +1356,7 @@ export default {
       }     
   },
   mounted () {
+    this.model5 = this.$route.query.batchCode
     // 甲方名称
 			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes=1')
 				.then((resp) => {
