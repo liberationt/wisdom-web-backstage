@@ -1412,13 +1412,13 @@ export default {
                 this.data1 = resp.data.dkFangcrmList
               } else if (this.model1 == 'partya-xinyidai') {//新一贷
                 this.party1 = this.columns11
-                this.data1 = resp.data.batchLogList
+                this.data1 = resp.data.dkXinyidaiList
               } else {
                 this.party1 = ''
                 this.data1 = ''
               }
               // console.log(this.data1,111)
-              console.log(resp.data)
+              console.log(resp.data.total)
                 if(parseInt(resp.data.total) == '0') {
                   this.startRow = 1
                 }
