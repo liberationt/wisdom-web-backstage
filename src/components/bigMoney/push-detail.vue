@@ -566,22 +566,25 @@ export default {
           title: 'retCode',
           align: 'center',
           render: (h, params) => {
-          let retCode
-          if (params.row.retCode > 7) {
+          const retCode = params.row.retCode
+          let pushStatus = ''
+          if (!retCode) {
+            pushStatus = ''
+          } else if (parseInt(retCode) > 7) {
             pushStatus = '推送成功'
-          } else if (params.row.retCode == '3') {
+          } else if (retCode == '3') {
             pushStatus = '当天重复申请'
-          } else if (params.row.retCode == '5') {
+          } else if (retCode == '5') {
             pushStatus = '失败'
-          } else if (params.row.retCode == '6') {
+          } else if (retCode == '6') {
             pushStatus = '恶意IP'
-          } else if (params.row.retCode == '7') {
+          } else if (retCode == '7') {
             pushStatus = '恶意电话'
           } else {
-            retCode = '失败'
+            pushStatus = '成功'
           }
           return h('div', [
-            h('span', {}, retCode)
+            h('span', {}, pushStatus)
           ])
           }
         },
@@ -796,12 +799,12 @@ export default {
             let succ
             if (params.row.succ) {
               succ = '推送成功'
-              console.log('推送成功')
+              // console.log('推送成功')
             } else if (params.row.succ == '') {
               succ = ''
             } else {
               succ = '推送失败'
-              console.log('推送失败')
+              // console.log('推送失败')
             }
             return h('div', [
               h('span', {}, succ)
