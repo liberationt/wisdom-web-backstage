@@ -296,27 +296,29 @@ export default {
       let pushname = this.$route.query.pushname
       // this.jname(pushname)
       this.$router.push({ path: 'peaceBenefit?pushname='+pushname });
+
     },
     detailed() {
 
     }
   },
   created() {
-    let pushname = this.$route.query.pushname
-    let list = {
-      pushBatchNum: this.$route.query.id,
-      pageNum: this.startRow,
-      pageSize: this.endRow,
-    }
-    if(pushname == 'qingjian'){
-      this.post('/loan/dkQjpuhui/getDkQjpuhuiList',list,pushname)
-    } else if(pushname == 'baojie'){
-      this.post('/loan/dkBJpuhui/getDkBJpuhuiList',list,pushname)
-    } else if(pushname == 'benxiang'){
-      this.post('/loan/dkBxpuhui/getDkBxpuhuiList',list,pushname)
-    } else if(pushname == 'kunxuan'){
-      this.post('/loan/dkKxpuhui/getDkKxpuhuiList',list,pushname)
-    }
+    // let pushname = this.$route.query.pushname
+    // let list = {
+    //   pushBatchNum: this.$route.query.id,
+    //   pageNum: this.startRow,
+    //   pageSize: this.endRow,
+    // }
+    // if(pushname == 'qingjian'){
+    //   this.post('/loan/dkQjpuhui/getDkQjpuhuiList',list,pushname)
+    // } else if(pushname == 'baojie'){
+    //   this.post('/loan/dkBJpuhui/getDkBJpuhuiList',list,pushname)
+    // } else if(pushname == 'benxiang'){
+    //   this.post('/loan/dkBxpuhui/getDkBxpuhuiList',list,pushname)
+    // } else if(pushname == 'kunxuan'){
+    //   this.post('/loan/dkKxpuhui/getDkKxpuhuiList',list,pushname)
+    // }
+    this.registered()
   }
 }
 </script>
