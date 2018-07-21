@@ -241,20 +241,20 @@ export default {
                   }
                 }
               }, '编辑'),
-              // h('Button', {
-              //   props: {
-              //     type: 'primary',
-              //     size: 'small'
-              //   },
-              //   style: {
-              //     marginRight: '5px'
-              //   },
-              //   on: {
-              //     click: () => {
-              //       this.$router.push({path: './applicationDetail'})
-              //     }
-              //   }
-              // }, '渠道链接'),
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({path: './applicationDetail'})
+                  }
+                }
+              }, '渠道链接'),
               h('Button', {
                 props: {
                   type: 'primary',
