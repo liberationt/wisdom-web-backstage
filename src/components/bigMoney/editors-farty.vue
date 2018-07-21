@@ -23,16 +23,7 @@
                         <Radio label="自动" ></Radio>
                         <!-- <Radio label="自动手动都可以" ></Radio> -->
                     </RadioGroup>
-                </li>
-                <li class="mt15" v-if="manual">
-                  <span>暂停推送日期设置:</span>
-                  <DatePicker type="date" :value="value3" :options="options3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
-                  <span class="spots">
-                    已选择
-                    <Tag @on-close="handleClose" :name="index" closable class="red" v-if="item != ''&&index<4" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
-                    <Button type="info" @click="modal10 = true">更多</Button>
-                  </span>
-                </li>
+                </li>                
                 <li class="mt15" v-if="manual">
                   <span>推送周期设置:</span>
                   <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
@@ -41,6 +32,15 @@
                         <Radio label="小时"></Radio>
                         <Radio label="天"></Radio>
                     </RadioGroup>
+                </li>
+                <li class="mt15" >
+                  <span>暂停推送日期设置:</span>
+                  <DatePicker type="date" :value="value3" :options="options3" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                  <span class="spots">
+                    已选择
+                    <Tag @on-close="handleClose" :name="index" closable class="red" v-if="item != ''&&index<4" v-for="(item, index) in time" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
+                    <Button type="info" @click="modal10 = true">更多</Button>
+                  </span>
                 </li>
                 <li class="mt15">
                     <span >推送字段:</span>
@@ -249,19 +249,7 @@ export default {
       } else {
         status = '2'
       }
-      if (this.animal == '手动') {
-        sendType = '1'
-        list = {
-        partyaCode :this.code, 
-        sendType: sendType,
-        limitDay: this.value2,
-        partyaKey: this.value4,
-        repateSendDay: this.value1,
-        status : status
-      }
-      } else if(this.animal =='自动') {
-        sendType = '2'
-        let time = ''
+      let time = ''
         this.time2.forEach((e, i)=>{
           if (i == this.time2.length-1) {
             time+=e
@@ -271,6 +259,29 @@ export default {
             }        
           }        
         })
+      if (this.animal == '手动') {
+        sendType = '1'
+        list = {
+        partyaCode :this.code, 
+        sendType: sendType,
+        limitDay: this.value2,
+        partyaKey: this.value4,
+        repateSendDay: this.value1,
+        pausePush: time,
+        status : status
+      }
+      } else if(this.animal =='自动') {
+        sendType = '2'
+        // let time = ''
+        // this.time2.forEach((e, i)=>{
+        //   if (i == this.time2.length-1) {
+        //     time+=e
+        //   } else {
+        //     if (e != '') {
+        //       time=time+e+','
+        //     }        
+        //   }        
+        // })
         if (this.datatime == '分') {
           datatime = '1'
         } else if (this.datatime == '小时') {
@@ -373,11 +384,11 @@ export default {
         } else {
           this.animal = '自动'
           this.manual = true
-          this.value3 = resp.data.pausePush
-          if (resp.data.pausePushJson == null) {
+          this.value3 = resp.data.pausePush                   
+        }
+        if (resp.data.pausePushJson == null) {
             this.time = []
             this.time2 = []
-
           } else {
             if (resp.data.pausePushJson > 4) {
             for (let i = 0; i < 4; i++) {
@@ -388,8 +399,7 @@ export default {
             this.time = resp.data.pausePushJson
             this.time2 = resp.data.pausePushJson
           }
-          }           
-        }
+          } 
         this.data1 = resp.data.list
         this.value1 = resp.data.repateSendDay 
         this.value2 = resp.data.limitDay
