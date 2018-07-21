@@ -141,15 +141,25 @@ export default {
         {
           title: '标签',
           align: 'center',
-          key: 'fieldName'
+          render: (h, params) => {
+          let fieldName = params.row.fieldName
+            if(params.row.hasShow == 1){
+              fieldName = '*'+ fieldName
+          } else if(params.row.hasShow == 0){
+              fieldName = fieldName
+          }
+          return h('div', [
+            h('span', {}, fieldName)
+          ])
+          }
         },
         {
           title: '标签值',
           align: 'center',
           render: (h, params) => {
             let configureValues
+            console.log(params.row.hasShow,111)
             if (params.row.fieldName == '居住城市') {
-
               let value = params.row.configureValues
               this.cityText = params.row.configureValues
               if (value && value.length > 20) {
@@ -179,13 +189,10 @@ export default {
                 value,
                 ]
               }
-              
             } else {
               configureValues = params.row.configureValues
             }
-
             return h('div', {
-
               }, configureValues )
 
           }
