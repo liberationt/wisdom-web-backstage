@@ -794,12 +794,14 @@ export default {
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.succ == true) {
+            if (params.row.succ) {
               succ = '推送成功'
-            } else  if (params.row.succ == '') {
+              console.log('推送成功')
+            } else if (params.row.succ == '') {
               succ = ''
             } else {
               succ = '推送失败'
+              console.log('推送失败')
             }
             return h('div', [
               h('span', {}, succ)
@@ -810,14 +812,8 @@ export default {
           title: 'msg',
           align: 'center',
           render: (h, params) => {
-            let msg
-            if (params.row.msg == 'save') {
-              msg = '转化成功'
-            } else {
-              msg = '转化失败'
-            }
 							return h('div', [
-								h('span', {}, msg)
+								h('span', {}, params.row.msg )
 							])
 						}
         },
