@@ -697,10 +697,12 @@ export default {
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.databusStatus == '0000') {
+            if (!params.row.databusStatus) {
+              succ = ''
+            } else if (params.row.databusStatus == '0000') {
               succ = '成功'
             } else {
-              succ = ''
+              succ = '失败'
             }
             return h('div', [
               h('span', {}, succ)
