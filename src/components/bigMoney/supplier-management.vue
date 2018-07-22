@@ -127,7 +127,7 @@ export default {
       ruleCustom: {
         name: [
           { required: true, message: '请输入供应商名称', trigger: 'blur' },
-          {required: true, message: '请输入正确的供应商名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'},
+         // {required: true, message: '请输入正确的供应商名称', pattern: /^[\u4e00-\u9fa5a-zA-Z0-9]+$/, trigger: 'blur'},
           { max: 25, message: '供应商名称最多输入25个字符', trigger: 'blur' }
         ]
       }
