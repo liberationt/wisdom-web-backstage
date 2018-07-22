@@ -393,7 +393,13 @@ export default {
         }
         this.time2 = this.time
       } else {
-           this.time2.push(value)
+          let list = []
+          list.push(value)
+          for (let i = 0; i < list.length; i++) {
+          if (this.time2.indexOf(list[i]) == -1) {
+            this.time2.push(value)
+          }
+        }
       }
     }
   },
