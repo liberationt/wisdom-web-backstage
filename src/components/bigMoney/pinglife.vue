@@ -220,7 +220,6 @@ export default {
     },
     post(url,list,pushname,num) {
        this.http.post(BASE_URL + url,list).then(data=>{
-          console.log(data)
           if(data.code == 'success'){
             if(pushname == 'luohui'){
               this.data1 = data.data.zxLhpinganList

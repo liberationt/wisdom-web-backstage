@@ -163,7 +163,6 @@ export default {
           }
           this.http.post(BASE_URL + '/loan/promotionUrl/savePromotionUrl', list)
           .then((resp) => {
-            console.log(resp);
             if (resp.code == 'success') {
               const title = '保存'
               let content = '<p>保存成功</p>'

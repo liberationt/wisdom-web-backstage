@@ -177,7 +177,6 @@ export default {
                 },
                 on: {
                   click: () => {
-                    console.log(params.row.uploadFailUrl)
                     let formData = new FormData()
                     formData.append("ossPath",params.row.uploadFailUrl)
                     let httpUrl = BASE_URL + '/fileOssDownload'

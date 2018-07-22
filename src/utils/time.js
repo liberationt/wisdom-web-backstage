@@ -3,7 +3,6 @@
 const test = 'test';
 const pre = 'pre';
 const pro = 'pro';
-console.log(test + pre + pro);
 
 export function judeType (param, typeString) {
     if (Object.prototype.toString.call(param) === typeString) return true;

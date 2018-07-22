@@ -250,7 +250,6 @@ export default {
       }
     this.http.post(BASE_URL + '/loan/partya/getPartyaList', list)
     .then((resp) => {
-      console.log(resp)
       if (resp.code == 'success') {
         this.data6 = resp.data.partyaList
         this.total = Number(resp.data.total)

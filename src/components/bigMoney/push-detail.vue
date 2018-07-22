@@ -189,9 +189,7 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let code 
-            console.log(params.row.code)
-            
+            let code            
             if (params.row.code == '1000') {
               code = '成功'
             } else if(params.row.code == '') {
@@ -797,13 +795,13 @@ export default {
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.succ) {
-              succ = '推送成功'
+            if (params.row.succ == 'true') {
+              succ = '转化成功'
               // console.log('推送成功')
-            } else if (params.row.succ == '') {
-              succ = ''
+            } else if (params.row.succ == 'false') {
+              succ = '转化失败'
             } else {
-              succ = '推送失败'
+              succ = ''
               // console.log('推送失败')
             }
             return h('div', [
@@ -1162,11 +1160,11 @@ export default {
           align: 'center',
           render: (h, params) => {
             let succ
-            if (params.row.profession == '1') {
+            if (params.row.custSrc == '1') {
               succ = '自有表单'
-            } else if (params.row.profession == '2') {
+            } else if (params.row.custSrc == '2') {
               succ = '外部合作伙伴'
-            } else if (params.row.profession == '3') {
+            } else if (params.row.custSrc == '3') {
               succ = '第三方数据'
             } else {
               succ = ''
@@ -1320,9 +1318,7 @@ export default {
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
-            console.log(resp) 
 						if(resp.code == 'success') {
-              console.log(this.model1)
               if (this.model1 == 'partya-chedidai') {
                 this.party1 = this.columns1
                 this.data1 = resp.data.dkChedidaiList

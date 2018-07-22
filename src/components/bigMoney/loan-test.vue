@@ -340,7 +340,6 @@ export default {
            width: 140,
           ellipsis: true,
           render: (h, params) => {
-            console.log(params.row.labelUrl,11)
             return h('div', [
               h('span', {
                 style: {
@@ -882,7 +881,6 @@ export default {
               this.http.post(BASE_URL + '/loan/loanProduct/saveLoanProduct', list)
               .then((resp) => {
                 if (resp.code == 'success') {
-                  console.log()
                   this.changeLoading()
                   const title = '贷款产品设置'
                   let content = '<p>保存成功</p>'

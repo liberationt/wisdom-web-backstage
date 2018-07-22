@@ -205,7 +205,6 @@ export default {
     post(url,list,pushname,num) {
         this.http.post(BASE_URL + url,list).then(data=>{
           if(data.code == 'success'){
-            console.log(data.data.total)
             this.total = parseInt(data.data.total)
             this.startRow = Math.ceil(data.data.startRow/this.endRow)
             if(parseInt(data.data.total) == 0 ){

@@ -213,7 +213,6 @@ export default {
 				let	url = this.filename
         this.http.get(BASE_URL + '/loan/pushBlack/uploadFileExcel?url='+url)
         .then((resp) => {
-          console.log(resp)
           if (resp.code == 'success') {
             this.changeLoading()
             const title = '上传名单'

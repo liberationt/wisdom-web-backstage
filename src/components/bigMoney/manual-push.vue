@@ -164,7 +164,6 @@ import utils from '../../utils/utils'
 										},
 										on: {
 											click: () => {
-												console.log(params.row.uploadFailUrl)
 												let formData = new FormData()
 												formData.append("ossPath",params.row.uploadFailUrl)
 												let httpUrl = BASE_URL + '/fileOssDownload'
@@ -369,7 +368,6 @@ import utils from '../../utils/utils'
 				}
 				this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list)
 					.then((resp) => {
-						console.log(resp)
 						if(resp.code == 'success') {
 							this.data6 = resp.data.batchLogList
 							this.total = Number(resp.data.total)
