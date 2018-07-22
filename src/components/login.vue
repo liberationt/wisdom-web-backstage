@@ -66,7 +66,7 @@ export default {
     ...mapMutations(['menuTree']),
     handleSubmit (name) {
       let that = this
-      this.$refs[name].validate((valid) => {        
+      that.$refs[name].validate((valid) => {        
         // sessionStorage.setItem('user', JSON.stringify(this.formLogin.username))
         if (valid) {
           that.changeLoading()
@@ -136,7 +136,16 @@ export default {
     if (utils.getCookie('password')) {
       this.formLogin.password = JSON.parse(utils.getCookie('password'))
     }
-  }
+  },
+  created:function(){
+    let _this = this;
+    document.onkeydown = function(e){
+      let _key = window.event.keyCode
+      if(_key === 13){
+        _this.handleSubmit('formLogin')
+      }
+    }
+}
 }
 </script>
 
