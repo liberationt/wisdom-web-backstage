@@ -200,7 +200,7 @@ export default {
         ratetype: { required: true, message: '请选择利率类型', trigger: 'change' },
         rate: [
           { required: true, message: '请输入利率', trigger: 'blur' },
-          { type: 'string',pattern:/^\d\.([1-9]{1,4}|[0-9]{0,3}[1-9])$|^[1-9]\d{0,1}(\.\d{1,4}){0,1}$|^100(\.[0]{1,4}){0,1}$/, message:'利率输入错误，请重新输入(小数点后保留四位且最大不超过100)', trigger:'blur'},
+          { type: 'string',pattern:/^\d+(\.\d{1,4})?$|^100(\.[0]{1,4}){0,1}$/, message:'利率输入错误，请重新输入(小数点后保留四位且最大不超过100)', trigger:'blur'},
           //{required: true, message: '利率不能大于100%', pattern: /^[1-9][0-9][0]$/, trigger: 'blur'},
         ],
         producturl: { required: true, message: '请输入产品URL', trigger: 'blur' }
@@ -809,7 +809,18 @@ export default {
               }
           }
           
-          }                        
+          }
+          if (this.formCustom.rate <= 0) {
+            let title = '提示'
+            let content = '<p>利率输入不得小于0.0001</p>'
+            this.$Modal.warning({
+            title: title,
+            content: content
+            })
+            this.changeLoading()
+            return false
+
+          }
             let startMoney
             if (this.formCustom.types == 1) {
               startMoney = this.formCustom.range      
