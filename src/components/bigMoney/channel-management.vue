@@ -62,7 +62,6 @@
                 <Select v-model="formCustom.productid" :disabled="judge=='1'" placeholder="请选择渠道供应商"  :class="" style="width:300px">
                   <Option v-for="item in optioncha"  @click.native='hqurli(item.supplierKey)' :value="String(item.supplierCode)" :key="item.supplierCode">{{ item.supplierName }}</Option>
                 </Select>
-                <span>{{sid}}</span>
               </FormItem>
               <FormItem label="渠道名称:" prop="name">
                 <Input v-model="formCustom.name" placeholder="请输入渠道名称" class="inputl" style="width: 300px"></Input>
@@ -253,7 +252,6 @@ export default {
       turl:'',
       turli:'',
       loading3: false,
-      sid:''
     }
   },
   methods: {
@@ -266,7 +264,6 @@ export default {
     },
     hqurli(urll){
       this.turli = urll
-      this.sid = urll
       // console.log(urll)
       this.formCustom.links = this.turl + '?c=' +this.formCustom.serialnum + '&s='+ urll
     },

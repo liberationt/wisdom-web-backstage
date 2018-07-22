@@ -135,12 +135,6 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '推送时间',
-          align: 'center',
-          width: 200,
-          key: 'pushTime'
-        },
-        {
           title: 'resultCode',
           align: 'center',
           width: 200,
