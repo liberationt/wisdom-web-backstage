@@ -201,7 +201,12 @@ export default {
           title: '推送总条数',
           align: 'center',
            width: 150,
-          key: 'pull_succ_num + pullFailNum'
+           render: (h, params) => {
+            let Code = params.row.pullSuccNum+params.row.pullFailNum
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
         {
           title: '推送失败条数',

@@ -152,7 +152,7 @@ import utils from '../../utils/utils'
 						width: 140,
 						render: (h, params) => {
 							// console.log(params.row.uploadFailUrl)
-							if(params.row.uploadFailUrl != null){
+							if(params.row.uploadFailUrl != null || params.row.uploadFailUrl != ''){
 								return h('div', [
 									h('Button', {
 										props: {
@@ -188,7 +188,7 @@ import utils from '../../utils/utils'
 						key: 'partyaSuccNum'
 					},
 					{
-						title: '推送失败条数',
+						title: '转化失败条数',
 						align: 'center',
 						width: 140,
 						key: 'pullFailNum'
