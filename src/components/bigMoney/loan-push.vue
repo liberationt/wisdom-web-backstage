@@ -1297,6 +1297,7 @@ export default {
 		},
     pagesizechange(page) {
       // console.log(page)
+      this.startRow = 1
       this.endRow = page
       this.inquire()
     },
