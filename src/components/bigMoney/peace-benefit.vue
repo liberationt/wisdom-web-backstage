@@ -20,9 +20,9 @@
             </li>
             <li>
               <span>推送时间:</span>
-              <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
             </li>
           </ul>
             <div class="clearfix mr100 mt20">
@@ -487,6 +487,8 @@ export default {
     // 如果路由有变化，会再次执行该方法
     $route( to , from ){
       this.model2 = ''
+      this.value1 = ''
+      this.value2 = ''
       let pushname = this.$route.query.pushname
       this.jname(pushname)
         let list = {
