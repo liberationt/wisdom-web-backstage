@@ -252,9 +252,9 @@ export default {
     preservation () {
       let reg = /^(0|[1-9][0-9]*)$/
       if (this.animal != '手动') {
-        if (!reg.test(this.cycle) || Number(this.cycle) > 1440 || Number(this.cycle) < 1 ||  this.cycle == '') {
+        if (!reg.test(this.cycle) || Number(this.cycle) > 1440 || Number(this.cycle) < 0 ||  this.cycle === '') {
          this.$Modal.warning({
-          content: '<p>请输入正确的推送周期(1-1440)</p>'
+          content: '<p>请输入正确的推送周期(0-1440)</p>'
         })
         return false
       }
