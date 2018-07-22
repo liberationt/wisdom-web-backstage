@@ -152,7 +152,7 @@ import utils from '../../utils/utils'
 						width: 140,
 						render: (h, params) => {
 							// console.log(params.row.uploadFailUrl)
-							if(params.row.uploadFailUrl != null || params.row.uploadFailUrl != ''){
+							if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != ''){
 								return h('div', [
 									h('Button', {
 										props: {
