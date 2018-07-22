@@ -155,7 +155,7 @@ export default {
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
-              push_status = '未推送'
+              pushStatus = '未推送'
             } else if(params.row.pushStatus ==  '1'){
               pushStatus = '推送成功'
             } else if(params.row.pushStatus ==  ''){
