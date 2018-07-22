@@ -948,6 +948,7 @@ export default {
     .catch(() => {
     })
       this.formCustom.productlogo = file.name
+      return false
       }
       
       // return false
@@ -973,6 +974,7 @@ export default {
     .catch(() => {
     })
       this.formCustom.producticon = file.name
+      return false
       }
     },
     // 列表查询
