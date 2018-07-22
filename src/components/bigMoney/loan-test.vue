@@ -324,7 +324,7 @@ export default {
         {
           title: '利率',
           align: 'center',
-           width: 140,
+          width: 140,
           key: '',
           render: (h, params) => {
             let baif = params.row.interest+'%'       
@@ -813,6 +813,17 @@ export default {
           if (this.formCustom.rate <= 0) {
             let title = '提示'
             let content = '<p>利率输入不得小于0.0001</p>'
+            this.$Modal.warning({
+            title: title,
+            content: content
+            })
+            this.changeLoading()
+            return false
+
+          }
+           if (this.formCustom.rate >100) {
+            let title = '提示'
+            let content = '<p>利率输入不得大于100</p>'
             this.$Modal.warning({
             title: title,
             content: content
