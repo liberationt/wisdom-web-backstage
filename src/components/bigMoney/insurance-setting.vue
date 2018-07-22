@@ -131,7 +131,7 @@ export default {
           // key: 'pushMain', //{{ this.$route.query.name }}
           render: (h, params) => {
 						return h('div', [
-              h('span', {}, this.$route.query.name)
+              h('span', {}, this.zhuname)
             ])
           }  
         },
