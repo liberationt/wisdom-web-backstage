@@ -1279,12 +1279,11 @@ export default {
   methods: {
     // 分页
     pageChange(page) {
-        console.log(page)
 				this.startRow = page
 				this.inquire()
 		},
     pagesizechange(page) {
-      console.log(page)
+      this.startRow = 1
       this.endRow = page
       this.inquire()
     },

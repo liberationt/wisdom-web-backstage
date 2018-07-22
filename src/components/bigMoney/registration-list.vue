@@ -410,6 +410,7 @@ export default {
       this.registered()
     },
     pagesizechange (page) {
+      this.startRow = 1
       this.endRow = page
       this.registered()
     },

@@ -936,6 +936,7 @@ export default {
       this.inquire()
     },
     pagesizechange (page) {
+      this.startRow = 1
       this.endRow = page
       this.inquire()
     },
