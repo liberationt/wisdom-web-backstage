@@ -931,37 +931,12 @@ export default {
         {
           title: '借款金额(元)',
           align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.loanAmount == '0') {
-              succ = '手动'
-            } else if (params.row.loanAmount == '1') {
-              succ = '官网'
-            } else {
-              succ = '微信'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
+          key:'loanAmount'
         },
         {
           title: '借款期限(月)',
           align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.duration == '1000') {
-              succ = '成功'
-            } else if (params.row.duration == '') {
-              succ = ''
-            } else {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-
+          key:'duration'
         },
         {
           title: '公积金(有/无)',
