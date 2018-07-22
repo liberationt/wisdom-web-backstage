@@ -173,16 +173,18 @@ export default {
           align: 'center',
           width: 150,
           render: (h, params) => {
-            let push_status
-            if (params.row.push_status == '0') {
-              push_status = '未推送'
-            } else if(params.row.push_status ==  '1'){
-              push_status = '推送成功'
-            } else {
-              push_status = '推送失败'
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else if(params.row.pushStatus == '2') {
+              pushStatus = '推送失败'
+            } else if(!params.row.pushStatus){
+              pushStatus = ''
             }
             return h('div', [
-              h('span', {}, push_status)
+              h('span', {}, pushStatus)
             ])
 						}
         },

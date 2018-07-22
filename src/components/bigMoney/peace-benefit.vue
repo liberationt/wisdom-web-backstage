@@ -85,6 +85,8 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
+      cleardate:'',
+      cleardate1:'',
       model1: '平安普惠',
       model2: '',
       model3: '',
@@ -484,6 +486,7 @@ export default {
   watch: {
     // 如果路由有变化，会再次执行该方法
     $route( to , from ){
+      this.model2 = ''
       let pushname = this.$route.query.pushname
       this.jname(pushname)
         let list = {
