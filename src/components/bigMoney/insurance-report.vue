@@ -172,7 +172,7 @@ export default {
           title: '推送时间',
           align: 'center',
           width: 150,
-          key: 'push_time'
+          key: 'pushTime'
         },
       ],
       data1: [
