@@ -253,6 +253,7 @@ export default {
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
+        this.loading3 = false
         this.$Modal.warning({
           title: '注册时间',
           content: '<p>开始时间不得大于结束时间</p>'

@@ -24,13 +24,9 @@
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
-
             </li>
           </ul>
-            
-            
             <!-- <Button class=" ml100 w100 " type="info" @click="inquire">查询</Button> -->
-            
             <div class="clearfix mr100 mt20">
                 <Button type="primary" shape="circle" icon="plus-round" @click="refuse">添加渠道</Button>
             </div>
@@ -367,7 +363,7 @@ export default {
                 })
                 this.$refs[name].resetFields()
                 this.modal9 = false
-                this.inquire ()
+                this.inquire (1)
               } else {
                 this.changeLoading()
                 this.modal9 = false
@@ -400,7 +396,7 @@ export default {
                 })
                 this.$refs[name].resetFields()
                 this.modal9 = false
-                this.inquire ()
+                this.inquire (1)
               } else {
                 this.changeLoading()
                 this.modal9 = false
@@ -427,11 +423,12 @@ export default {
       this.value2 = value
     },
     // 查询
-    inquire() {
+    inquire(num) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
+        this.loading3 = false
         this.$Modal.warning({
           title: '更新时间',
           content: '<p>开始时间不得大于结束时间</p>'
@@ -448,6 +445,9 @@ export default {
         manageName: '',
         supplierName: '',
         channelTag: ''
+      }
+      if(num == 1){
+       list.pageNum = 1
       }
       if(this.queryli == 'channelNum'){
         list.channelNum = this.value

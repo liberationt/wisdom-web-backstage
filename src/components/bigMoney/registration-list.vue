@@ -27,9 +27,9 @@
             </li>
             <li>
               <span class="w60 displayib ml20  tr">注册时间:</span>
-            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
 
             </li>
             <li>
@@ -426,6 +426,7 @@ export default {
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
+        this.loading3 = false        
         this.$Modal.warning({
           title: '注册时间',
           content: '<p>开始时间不得大于结束时间</p>'

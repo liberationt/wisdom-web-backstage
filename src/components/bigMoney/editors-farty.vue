@@ -145,7 +145,7 @@ export default {
           let fieldName = params.row.fieldName
           let prefix = ''
           if(params.row.hasShow == 1){
-            prefix = '*'
+             prefix = '*'
             fieldName = fieldName
           } else if(params.row.hasShow == 0){
               fieldName = fieldName

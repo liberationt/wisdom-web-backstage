@@ -10,9 +10,9 @@
             <span>手机号:</span>
             <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 200px"></Input>
             <span>创建时间:</span>
-            <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
@@ -244,6 +244,7 @@ export default {
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
+        this.loading3 = false
         this.$Modal.warning({
           title: '注册时间',
           content: '<p>开始时间不得大于结束时间</p>'
