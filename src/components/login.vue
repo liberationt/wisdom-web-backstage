@@ -145,7 +145,7 @@ export default {
         _this.handleSubmit('formLogin')
       }
     }
-},
+}
 }
 </script>
 
