@@ -53,7 +53,7 @@ addResponseInterceptor(
   (error) => {
     if (error.response) {
       const title = '温馨提示';
-      const content = '<p>token过期请重新登录</p>'
+      const content = '<p>登录过期请重新登录</p>'
       switch (error.response.status) {
         case 401:
           // 返回 401 跳转到登录页面       
