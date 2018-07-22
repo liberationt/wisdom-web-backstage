@@ -102,7 +102,8 @@
         v-model="modal10"
         class-name="vertical-center-modal">
         <p>
-          <span v-for="(item, index) in time2">{{item}}<i >&nbsp;&nbsp;</i></span>
+          <Tag @on-close="handleClosemod" :name="index" closable class="red" v-if="item != ''" v-for="(item, index) in time2" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
+          <!-- <span v-for="(item, index) in time2">{{item}}<i >&nbsp;&nbsp;</i></span> -->
         </p>
     </Modal>
     </div>
@@ -161,7 +162,6 @@ export default {
           align: 'center',
           render: (h, params) => {
             let configureValues
-            console.log(params.row.hasShow,111)
             if (params.row.fieldName == '居住城市') {
               let value = params.row.configureValues
               this.cityText = params.row.configureValues
@@ -243,7 +243,10 @@ export default {
   methods: {
     handleClose(event, name){
         // const index = this.time.indexOf(name+1);
-        this.time.splice(name, 1);
+        this.time.splice(name, 1)
+    },
+    handleClosemod (event, name) {
+      this.time2.splice(name, 1)
     },
     // 保存
     preservation () {
