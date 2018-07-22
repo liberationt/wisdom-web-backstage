@@ -54,7 +54,7 @@
             <Table border :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -1370,14 +1370,12 @@ export default {
               } else {
                 this.party1 = ''
                 this.data1 = ''
-              }
-              // console.log(this.data1,111)
-              console.log(resp.data.total)
-                if(parseInt(resp.data.total) == '0') {
-                  this.startRow = 1
-                }
+              }               
               this.total = Number(resp.data.total)
               this.startRow = Math.ceil(resp.data.startRow / this.endRow)
+              if(Number(resp.data.total) == 0) {
+                  this.startRow = 1
+                }
               this.loading3 = false
 						} else {
               this.loading3 = false
