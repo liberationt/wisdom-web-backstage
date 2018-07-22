@@ -314,7 +314,7 @@ export default {
            width: 140,
           render: (h, params) => {
             let lilv = params.row.interestType
-            if(lilv == 1){lilv = '日利率'}else if(lilv == 2){lilv = '月利率'}else if(lilv == 3){lilv = '年利率'}else if(lilv == 4){live = '每期利率'}      
+            if(lilv == 1){lilv = '日利率'}else if(lilv == 2){lilv = '月利率'}else if(lilv == 3){lilv = '年利率'}else if(lilv == 4){lilv = '每期利率'}      
             return h('div', [
               h('span', {
               }, lilv)
