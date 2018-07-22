@@ -170,7 +170,7 @@ export default {
                 title: title,
                 content: content
               })
-              this.inquire ()
+              this.inquire (1)
               this.$refs['formCustom'].resetFields()
             } else {
               this.$Message.info(resp.message)
@@ -188,12 +188,15 @@ export default {
       this.$refs[name].resetFields()
     },
     // 查询
-    inquire () {
+    inquire (num) {
       this.loading3 = true
       let list = {
         urlName : this.value,
         pageNum: this.startRow,
         pageSize: this.endRow
+      }
+      if(num == 1){
+        list.pageNum = 1
       }
       this.http.post(BASE_URL + '/loan/promotionUrl/getPromotionUrlList', list)
       .then((resp) => {

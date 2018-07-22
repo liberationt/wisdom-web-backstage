@@ -182,7 +182,7 @@ export default {
                 content: content
               })
               this.modal9 = false
-              this.inquire ()
+              this.inquire (1)
               this.$refs[name].resetFields()
             } else {
               this.$Message.info(resp.message)
@@ -207,7 +207,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    inquire () {
+    inquire (num) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -225,6 +225,9 @@ export default {
         endTime : this.value2,
         pageNum: this.startRow,
         pageSize: this.endRow
+      }
+      if(num == 1){
+        list.pageNum = 1
       }
       this.http.post(BASE_URL + '/loan/promotionSupplier/getPromotionSupplierList', list)
       .then((resp) => {
