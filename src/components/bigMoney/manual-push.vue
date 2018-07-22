@@ -328,6 +328,7 @@ import utils from '../../utils/utils'
 					.catch(() => {
 					})
 					this.value9 = file.name
+					return false
 				}
 				
 			},

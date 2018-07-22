@@ -188,6 +188,7 @@ export default {
 				.catch(() => {
         })
           this.namelist = file.name
+          return false
         }
     },
     // 上传格式校验

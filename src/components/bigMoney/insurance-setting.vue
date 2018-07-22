@@ -339,6 +339,7 @@ export default {
 				.catch(() => {
 				})
       this.value9 = file.name
+      return false
       }
     },
     changeLoading () {
