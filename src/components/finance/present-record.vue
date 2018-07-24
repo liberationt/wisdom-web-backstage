@@ -9,8 +9,8 @@
         <Tabs type="card" :animated="false" @on-click="handleReset('formValidate')">
             <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab" >
                 <div class="application_state">
-                    <Tabs value="name1" :animated="false">
-                        <TabPane :label="label" name="name1">
+                    <Tabs value="0" :animated="false" @on-click="recordType">
+                        <TabPane label="待审核" name="0">
                             <div class="mt50 clearfix">
                                 <div class="left">
                                     <Select v-model="model1" style="width:120px">
@@ -23,8 +23,8 @@
                                 <DatePicker type="date" confirm placeholder="" style="width: 200px"></DatePicker>
                                 </div>
                                 <div class="right">
-                                    <Button type="primary">查询</Button>
-                                <Button type="primary" class="ml10">导出</Button>
+                                    <Button type="primary" @click="auditedQuery">查询</Button>
+                                <Button type="primary" class="ml10" @click="auditedExport">导出</Button>
                                 </div>
                             </div>
                             <p class="mt15">
@@ -48,7 +48,7 @@
                                 <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
                             </div>
                         </TabPane>
-                        <TabPane :label="label2" name="name2">
+                        <TabPane label="异常待审核" name="1">
                             <div class="mt50 clearfix">
                                 <div class="left">
                                     <Select v-model="model1" style="width:120px">
@@ -75,7 +75,7 @@
                                 <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
                             </div>
                         </TabPane>
-                        <TabPane :label="label3" name="name3">
+                        <TabPane label="已审核" name="2">
                             <div class="mt50 clearfix">
                                 <div class="left">
                                     <Select v-model="model1" style="width:120px">
@@ -118,51 +118,13 @@ export default {
       value: '',
       value1: '',
       value2: '',
+      value3: 0,
       tabs: [
         '抢单侠',
         '华赞金服',
         '百姓钱袋'
       ],
-      label: (h) => {
-        return h('div', [
-          h('span', '待审核'),
-          h('Badge', {
-            props: {
-              count: 3
-            }
-          })
-        ])
-      },
-      label2: (h) => {
-        return h('div', [
-          h('span', '异常记录'),
-          h('Badge', {
-            props: {
-              count: 10
-            }
-          })
-        ])
-      },
-      label3: (h) => {
-        return h('div', [
-          h('span', '正常记录'),
-          h('Badge', {
-            props: {
-              count: 3
-            }
-          })
-        ])
-      },
-      cityList: [
-        {
-          value: '姓名',
-          label: '姓名'
-        },
-        {
-          value: '手机号',
-          label: '手机号'
-        }
-      ],
+      cityList: [],
       model1: '',
       columns7: [
         {
@@ -467,9 +429,72 @@ export default {
     },
     PageSizeChange (limit) {
       this.params.limit = limit
+    },
+    // 待审核查询
+    auditedQuery () {
+      let audited = {
+        recordType: 0,
+        phone: "",
+        name: "",
+        beginTime: "",
+        endTime: "",
+        pageNum: 1,
+        pageSize: 10
+      }
+      this.http.post(BASE_URL + '/loan/withdraw/query/list',  audited)
+      .then((resp) => {
+        console.log(resp)
+        if (resp.code == 'success') {
+
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
+    },
+    // 待审核导出
+    auditedExport () {
+      let audited = {
+        recordType: this.value3,
+        phone: "",
+        name: "",
+        beginTime: "",
+        endTime: "",
+        pageNum: 1,
+        pageSize: 10
+      }
+      // let link = "recordType=0&phone=''&name=''&beginTime=''&endTime=''&pageNum=1&pageSize=10"
+      this.http.get(BASE_URL + '/loan/withdraw/exportToExcel',  JSON.stringify(audited))
+      .then((resp) => {
+        console.log(resp)
+        if (resp.code == 'success') {
+
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
+    },
+    recordType (name) {
+      this.value3 = name
     }
+
   },
   mounted () {
+    this.http.post(BASE_URL + '/loan/withdraw/getQueryOption',  {})
+      .then((resp) => {
+        console.log(resp)
+        if (resp.code == 'success') {
+          this.cityList = resp.data.searchOptionList
+
+        } else {
+
+        }
+      })
+      .catch(() => {
+      })
   }
 }
 </script>

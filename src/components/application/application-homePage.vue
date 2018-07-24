@@ -1,3 +1,4 @@
+
 <template>
 <div>
   <div class="navigation">
@@ -6,104 +7,138 @@
     </p>
   </div>
   <div id="application-con">
-    <div id="application-clothes">
-      <img src="../../image/application-hzjf.png" alt="">
-      <span><em>华赞金服</em></br><em>版本数量:4</em></span>
-      <p><a href="javascript:;" @click="gold_clothes('201805142023380010060940490952')">进入管理</a></p>
+    <div class="application-clothes" v-for="(item, index) in applicationlist" :key="index">
+      <img :src="item.logoUrl" alt="">
+      <span><em>{{item.appName}}</em></br><em>版本数量:1</em></span>
+      <Button type="primary" class="mt15" long @click="gold_clothes(item.menuCode)">进入管理</Button>
     </div>
-    <div id="application-app">
+    <!-- <div id="application-app">
       <img src="../../image/application-hzjf.png" alt="">
-      <span><em>APP名称</em></br><em>版本数量:4</em></span>
-      <p><a href="javascript:;">进入管理</a></p>
-    </div>
+      <span><em>APP名称</em></br><em>版本数量:1</em></span>
+      <Button type="primary" long >进入管理</Button>
+    </div> -->
   </div>
 </div>
 </template>
 <script>
-// import {mapState, mapMutations} from 'vuex'
-import utils from '../../utils/utils'
+import { mapState, mapMutations } from "vuex";
+import utils from "../../utils/utils";
 export default {
-  methods: {
-    // ...mapMutations(['leftlist', 'lefthidtrue']),
-    gold_clothes (num) {
-      let that = this
-      let arrlist = []
-      for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
-        if (that.menu.menuInfo.children[i].menuCode === '201805101406040010063461953451') {
-          arrlist = that.menu.menuInfo.children[i].children
-        }
-      }
-      for (let j = 0; j < arrlist.length; j++) {
-        if (arrlist[j].menuCode === num) {
-          for (let k = 0; k < arrlist[j].children.length; k++) {
-            if (arrlist[j].children[k].component == null) {
-              arrlist[j].children[k].component = 'HomePage'
-            }
-            if (arrlist[j].children[k].path === '') {
-              arrlist[j].children[k].path = '/homePage'
-            }
-          }
-          that.leftlist(arrlist[j].children)
-          utils.putlocal('leftlist', JSON.stringify(arrlist[j].children))
-          // sessionStorage.setItem('leftlist', JSON.stringify(arrlist[j].children))
-        // console.log(arrlist[j].childMenu)
-        }
-      }
-      this.$router.push({ path: './operationLog' })
-      utils.putlocal('lefthidden', true)
-      // sessionStorage.setItem('lefthidden', true)
-      that.lefthidtrue()
-      location.reload()
-      // that.menu.menuInfo.childMenu
+  data() {
+    return {
+      applicationlist: []
+    };
+  },
+  mounted() {
+    let that = this;
+    that.lefthidfalse()
+    let arrlist = [];
+    let list = [];
+    for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
+      arrlist = that.menu.menuInfo.children[i].children;
     }
+    for (let j = 0; j < arrlist.length; j++) {
+      list.push(arrlist[j].menuCode);
+    }
+    this.http
+      .post(BASE_URL + "/system/appManage/getAppManageByMenuCodes", list)
+      .then(resp => {
+        if (resp.code == "success") {
+          this.applicationlist = resp.data.menuList;
+        } else {
+        }
+      })
+      .catch(() => {});
+  },
+  methods: {
+    gold_clothes(num) {
+      let that = this;
+      let arrlist = [];
+      let menucodes = document
+        .getElementsByClassName("redWine")[0]
+        .getAttribute("menucode");
+      for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
+        if (that.menu.menuInfo.children[i].menuCode == menucodes) {
+          arrlist = that.menu.menuInfo.children[i].children;
+        }
+      }
+      let menuList = null
+      for (let j = 0; j < arrlist.length; j++) {
+        if (arrlist[j].menuCode == num) {
+          // for (let k = 0; k < arrlist[j].children.length; k++) {
+          //   if (arrlist[j].children[k].component == null) {
+          //     arrlist[j].children[k].component = "HomePage";
+          //   }
+          //   if (arrlist[j].children[k].path == "") {
+          //     arrlist[j].children[k].path = "/homePage";
+          //   }
+          // }
+          that.leftlist(arrlist[j].children);
+          utils.putlocal("leftlist", JSON.stringify(arrlist[j].children));
+          menuList = arrlist[j].children;
+        } else {
+          this.$Message.warning("网站建设中...");
+          return false;
+        }
+      }
+
+      utils.putlocal("lefthidden", "0");
+
+      if (menuList && menuList.length > 0) {
+        const firstGroupMenu = menuList[0]
+        if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
+          this.$router.push({ path: firstGroupMenu.path });
+          utils.putlocal("sideleft", "0");
+        } else {
+          const firstChildrenMenu = firstGroupMenu.children && firstGroupMenu.children[0]
+          if (firstChildrenMenu && firstChildrenMenu.path && firstChildrenMenu.path.length > 0) {
+            this.$router.push({ path: firstChildrenMenu.path });
+            utils.putlocal("sideleft", "1");
+          }
+        }
+      }
+      that.lefthidtrue();
+    },
+    ...mapMutations(["leftlist", "lefthidtrue", "lefthidfalse"])
   },
   computed: {
-    // ...mapState(['menu'])
+    ...mapState(["menu"])
   }
-}
+};
 </script>
 <style lang="less" scoped>
-#application-con{
+#application-con {
   overflow: hidden;
-  #application-clothes, #application-app{
-  width: 300px;
-  height: 160px;
-  border: 1px solid #E7ECF1;
-  float: left;
-  margin-right: 15px;
-  border-radius: 5px;
-  text-align: center;
-  overflow: hidden;
-  padding: 10px;
-  color: #666666;
-  img{
-    width: 100px;
+  .application-clothes {
+    width: 300px;
+    height: 180px;
+    border: 1px solid #e7ecf1;
+    float: left;
+    margin-right: 15px;
     border-radius: 5px;
-    vertical-align: middle;
-    float: left;
-  }
-  span{
-    float: left;
-    display: block;
-    height: 100px;
-    margin-left: 10px;
-    line-height: 24px;
-    padding-top: 20px;
-    em:first-child{
-      font-size: 18px
+    text-align: center;
+    overflow: hidden;
+    padding: 10px;
+    color: #666666;
+    background: #fff;
+    img {
+      width: 90px;
+      height: 90px;
+      border-radius: 5px;
+      vertical-align: middle;
+      float: left;
     }
-  }
-  p{
-    clear: both;
-    background: #E1E5EC;
-    line-height: 35px;
-    a{
-      width: 100%;
-      height: 100%;
-      display: inline-block
+    span {
+      float: left;
+      display: block;
+      height: 100px;
+      margin-left: 10px;
+      line-height: 24px;
+      padding-top: 20px;
+      em:first-child {
+        font-size: 18px;
+      }
     }
-  }
-
   }
 }
 </style>

@@ -15,9 +15,9 @@
             </li>
             <li>
               <span class="w60 displayib">推送时间:</span>
-              <DatePicker type="date" @on-change="time1" placeholder="开始时间" class="" style="width: 190px"></DatePicker>
+              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="" style="width: 190px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" class="mr20" @on-change="time2" placeholder="结束时间" style="width: 190px"></DatePicker>
+              <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 190px"></DatePicker>
             </li>
             <li>
               <span class="w60 displayib">批次号:</span>
@@ -27,12 +27,6 @@
               <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:200px" class="mr20">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            </li>
-            <li >
-              <span class="w60 displayib">推送方式:</span>
-            <Select v-model="model3" style="width:200px" class="mr20">
-                <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
           </ul> 
@@ -54,7 +48,7 @@
             <Table border :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
         </div>
     </div>
 </template>
@@ -67,7 +61,6 @@ export default {
       loading3: false,
       model1: this.$route.query.code,
       model2: '',
-      model3: '',
       model4: '',
       model5: '',
       value1: '',
@@ -112,10 +105,6 @@ export default {
       ],
       cityList3: [
         {
-          value: '',
-          label: '全部'
-        },
-        {
           value: '0',
           label: '手动'
         },
@@ -136,7 +125,7 @@ export default {
       ],
       party1: [],
       // 车抵贷
-     columns1: [
+      columns1: [
         {
           title: '姓名',
           align: 'center',
@@ -200,9 +189,7 @@ export default {
           title: 'Code',
           align: 'center',
           render: (h, params) => {
-            let code 
-            // console.log(params.row.code)
-            
+            let code            
             if (params.row.code == '1000') {
               code = '成功'
             } else if(params.row.code == '') {
@@ -243,7 +230,6 @@ export default {
           key: 'pushTime'
         },
       ],
-
       // 凡普
       columns2: [
         {
@@ -456,7 +442,7 @@ export default {
         }
       ],
       // 厚本
-       columns4: [
+      columns4: [
         {
           title: '供应商',
           align: 'center',
@@ -684,7 +670,7 @@ export default {
       //   }
       // ],
       // 银谷
-       columns7: [
+      columns7: [
         {
           title: '姓名',
           align: 'center',
@@ -763,7 +749,7 @@ export default {
       // 宜信
       columns8: [
         {
-          title: '姓名',
+          title: '姓名',  
           align: 'center',
           key: 'name'
         },
@@ -803,7 +789,7 @@ export default {
           title: '创建时间',
           align: 'center',
           key: 'dataCreateTime'
-        },  
+        },
         {
           title: 'succ',
           align: 'center',
@@ -823,7 +809,7 @@ export default {
             ])
 					}
         },
-        {
+       {
           title: 'msg',
           align: 'center',
            key: 'msg'
@@ -851,7 +837,7 @@ export default {
           key: 'pushTime'
         }
       ],
-      // 大地
+       // 大地
       columns9: [
         {
           title: '姓名',
@@ -1116,7 +1102,7 @@ export default {
         }
       ],
       // 新一贷
-          columns11: [
+      columns11: [
         {
           title: '姓名',
           align: 'center',
@@ -1291,12 +1277,10 @@ export default {
   methods: {
     // 分页
     pageChange(page) {
-        // console.log(page)
 				this.startRow = page
 				this.inquire()
 		},
     pagesizechange(page) {
-      // console.log(page)
       this.startRow = 1
       this.endRow = page
       this.inquire()
@@ -1314,49 +1298,46 @@ export default {
 				let date1 = Date.parse(new Date(this.value1)) / 1000
 				let date2 = Date.parse(new Date(this.value2)) / 1000
 				if(date1 > date2) {
-          this.loading3 = false
 					this.$Modal.warning({
 						title: '注册时间',
 						content: '<p>开始时间不得大于结束时间</p>'
 					})
 					return false
-        }
+       }
         let params = {
           partyaKey: this.model1,
           beginTime: this.value1,
           endTime: this.value2,
           pushBatchNum: this.model5,
           pushStatus: this.model2,
-          origin: this.model3,
+          origin: 0,
           pageNum: this.startRow,
           pageSize: this.endRow,
-
         }
+
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
-            // console.log(resp) 
 						if(resp.code == 'success') {
-              // console.log(this.model1)
-              if (this.model1 == 'partya-chedidai') {//车抵贷
+              if (this.model1 == 'partya-chedidai') {
                 this.party1 = this.columns1
                 this.data1 = resp.data.dkChedidaiList
-              } else if (this.model1 == 'partya-fanpuwang') {//凡普网
+              } else if (this.model1 == 'partya-fanpuwang') {
                 this.party1 = this.columns2
                 this.data1 = resp.data.dkFanpuList
-              } else if (this.model1 == 'partya-miaodai') {//秒贷
+              } else if (this.model1 == 'partya-miaodai') {
                 this.party1 = this.columns3
                 this.data1 = resp.data.dkMiaodaiList
-              } else if (this.model1 == 'partya-houbenjinrong') {//厚本
+              } else if (this.model1 == 'partya-houbenjinrong') {
                 this.party1 = this.columns4
                 this.data1 = resp.data.dkHoubenList
-              } else if (this.model1 == 'partya-zhudaiwang') {//助贷网
+              } else if (this.model1 == 'partya-zhudaiwang') {
                 this.party1 = this.columns5
                 this.data1 = resp.data.dkZhudaiList
-              } else if (this.model1 == 'partya-yingu') {//银谷
+              } else if (this.model1 == 'partya-yingu') {
                 this.party1 = this.columns7
                 this.data1 = resp.data.dkYinguList
-              } else if (this.model1 == 'partya-yixin') {//宜信
+              } else if (this.model1 == 'partya-yixin') {
                 this.party1 = this.columns8
                 this.data1 = resp.data.dkYinxinList
               } else if (this.model1 == 'partya-dadi') {//大地
@@ -1368,15 +1349,17 @@ export default {
               } else if (this.model1 == 'partya-xinyidai') {//新一贷
                 this.party1 = this.columns11
                 this.data1 = resp.data.dkXinyidaiList
+                //dkXinyidaiList
               } else {
                 this.party1 = ''
                 this.data1 = ''
-              }               
-              this.total = Number(resp.data.total)
+              }
+              // console.log(this.data1,111)
+							this.total = Number(resp.data.total)
               this.startRow = Math.ceil(resp.data.startRow / this.endRow)
-              if(Number(resp.data.total) == 0) {
-                  this.startRow = 1
-                }
+              if(parseInt(resp.data.total) == '0') {
+                this.startRow = 1
+              }
               this.loading3 = false
 						} else {
               this.loading3 = false
@@ -1396,7 +1379,7 @@ export default {
         formData.append("endTime",this.value2)
         formData.append("pushBatchNum",this.model5)
         formData.append("pushStatus",this.model2)
-        formData.append("origin",this.model3)
+        formData.append("origin",0)
         formData.append("methodType",1)
         let httpUrl = BASE_URL+'/common/partya/exportExcel'
         utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
@@ -1407,20 +1390,19 @@ export default {
       }     
   },
   mounted () {
+    this.model5 = this.$route.query.batchCode
     // 甲方名称
-			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes=2')
+			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes=1')
 				.then((resp) => {
 					if(resp.code == 'success') {
-            this.cityList = resp.data
-            this.model1 = resp.data[0].partyaKey
-            this.inquire ()
+						this.cityList = resp.data
 					} else {
 
 					}
 				})
         .catch(() => {})
         // 列表
-        
+        this.inquire ()
         
   }
 }

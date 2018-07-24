@@ -3,24 +3,18 @@
   top: 50px
 }
 .navigation{
-  background: #F1F4F7;
+  background: #2DB7F5;
   height: 40px;
   margin-bottom: 20px;
+  border-radius: 5px;
   p{
     line-height: 40px;
     padding-left: 20px;
-    color: #888888
+    color: #fff
   }
+  border-bottom: 1px solid #ccc;/*no*/
 }
-// .ivu-tabs-ink-bar{
-//   background: #32C5D2
-// }
-// .ivu-tabs-nav .ivu-tabs-tab-active{
-//   color: #32C5D2
-// }
-// .ivu-tabs-nav .ivu-tabs-tab:hover{
-//   color: #32C5D2
-// }
+
 .red {
   color: red;
 }
@@ -30,9 +24,17 @@
  .h1 {
   margin: 6px 0 12px 0;
 }
-.ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
-  padding: 5px 50px 4px
+// .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab{
+//   background: #4FC1E9;
+//   color: #fff
+// }
+.ivu-tabs-nav .ivu-tabs-tab-active {
+  background: #4FC1E9!important;
+  color: #fff!important
 }
+// .ivu-tabs.ivu-tabs-card>.ivu-tabs-bar .ivu-tabs-tab {
+//   padding: 5px 50px 4px
+// }
 .vertical-center-modal{
   display: flex;
   align-items: center;
@@ -43,4 +45,29 @@
 }
 .layout-content{
   height: 91%!important;
+}
+.ivu-table-header th{
+  background-color: #63B8FF!important;
+        color: #fff;
+}
+.ivu-tabs-bar {
+  border-bottom: 1px solid #b6b9c1;
+}
+.beyond{
+  overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-line-clamp:1;
+    -webkit-box-orient: vertical; 
+}
+.contacts .ivu-form-item-error-tip{
+  // margin-top: 40px
+}
+.querysty{
+  overflow: hidden;
+  >li{
+    width: auto;
+    float: left;
+    margin-bottom: 15px
+  }
 }

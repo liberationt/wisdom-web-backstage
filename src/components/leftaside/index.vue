@@ -1,11 +1,14 @@
 <style lang="less" scoped>
 .layoutcon {
-    background: #f5f7f9;
+    background: #eaedf2;
     position: fixed;
     top: 50px;
     overflow: hidden;
     height: 100%;
     width: 100%;
+}
+.contrig{
+    background: #fff
 }
 .layout-breadcrumb {
     padding: 10px 15px 0
@@ -15,6 +18,12 @@
     margin: 15px;
     overflow: auto;
     background: #fff;
+    // background:rgba(255,255,255,0.1) url(../../image/conbeijing.png);
+    // background: url(../image/bg.jpg);
+        background-size:100% 100%;
+        background-position: center 0;
+        background-repeat: no-repeat;
+        background-size: cover;
     border-radius: 4px;
     height: 80%;
 }
@@ -27,7 +36,9 @@
     color: #9ea7b4;
 }
 .layout-menu-left {
-    background: #464c5b;
+    background: #454E59;
+    overflow: scroll;
+    padding-bottom: 50px;
 }
 .layout-header {
     height: 60px;
@@ -38,7 +49,7 @@
     height: 60px;
     line-height: 60px;
     font-size: 20px;
-    text-align: center;
+    // text-align: center;
     color: #fff
 /*  background: #5b6270;
     border-radius: 3px;
@@ -49,6 +60,7 @@
 }
 .ivu-col {
     transition: width .2s ease-in-out;
+    height: 100%;
 }
 .ivu-row-flex {
     height: 100%;
@@ -87,12 +99,12 @@
     <div class="layoutcon" :class="{'layout-hide-text': spanLeft < 4}">
         <Row type="flex">
             <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
-                <div class="layout-logo-left">
-                    <Icon type="paper-airplane" ></Icon>
-                    <span class="layout-text">应用首页</span>
+                <div class="layout-logo-left tl">
+                    <a href="javascript:;" class="layout-text" @click="titleurl">应用首页</a>
+                    
                 </div>
                 <div class="tree-menu">
-                  <ul v-for="(menuItem, index) in leftlist" :key="index">
+                  <ul v-for="(menuItem, index) in leftlist" :key="index" :mark="index" class="aceul">
                     <myTree :model="menuItem"></myTree>
                   </ul>
                 </div>
@@ -114,7 +126,7 @@
                    </template>
                 </Menu> -->
             </i-col>
-            <i-col :span="spanRight" v-if="hidden">
+            <i-col :span="spanRight" v-if="hidden" class="contrig">
                 <!-- <div class="layout-breadcrumb">
                     <Breadcrumb>
                         <Breadcrumb-item href="#">应用中心</Breadcrumb-item>
@@ -141,8 +153,9 @@
 </template>
 
 <script>
-// import {mapState} from 'vuex'
+import {mapState, mapMutations} from 'vuex'
 import myTree from './leftchild'
+import utils from '../../utils/utils'
 export default {
   components: {
     myTree
@@ -154,16 +167,16 @@ export default {
       spanLeft: 4,
       spanRight: 20,
       modal1: false,
-      leftlist: []
     }
   },
   computed: {
     iconSize () {
       return this.spanLeft === 4 ? 14 : 24
     },
-    // ...mapState(['hidden'])
+    ...mapState(['hidden', 'leftlist'])
   },
   methods: {
+      ...mapMutations(['lefthidfalse']),
     toggleClick () {
       if (this.spanLeft === 4) {
         this.spanLeft = 1
@@ -184,26 +197,31 @@ export default {
     },
     dropDown (name) {
       this.$router.push({ path: name })
-      console.log(name)
+    //   console.log(name)
+    },
+    titleurl () {
+        this.$router.push('/applicationHomePage')  
+        this.lefthidfalse()           
     }
   },
   mounted () {
-    // let leftlist = []
-    if (sessionStorage.getItem('leftlist')) {
-      JSON.parse(sessionStorage.getItem('leftlist')).forEach((item) => {
-        let menu = Object.assign({}, item)
-        menu.component = null
-        this.leftlist.push(menu)
-      })
-      console.log(this.leftlist)
-    // leftlist = JSON.parse(sessionStorage.getItem('leftlist'))
-    }
   }
 }
 </script>
 <style lang="less" scoped>
+.layout-text{
+    color:#fff;
+    width: 100%;
+    padding-left:40px;
+    display: inline-block;
+    font-size: 20px;
+}
 ul{
     color:#fff
+}
+.aceul{
+    margin:2px 0;
+    background:#495060
 }
 .ivu-select-dropdown .ivu-dropdown {
      margin: 0px 12px 0px 0px;
