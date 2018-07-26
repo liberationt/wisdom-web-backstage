@@ -10,7 +10,7 @@
           <div class="titregist">
             <div class="registrations" v-for="(item, index) in numregistrations" :key="index" :class="item.color">
                 <div>
-                    <p>{{item.totalnum}}</p>
+                  <p>{{item.totalnum}}</p>
                 </div>
                 <div>
                     <span>第一步注册人数:<strong>{{item.onenum}}</strong>人</span><br>
