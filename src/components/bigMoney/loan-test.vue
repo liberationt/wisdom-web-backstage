@@ -209,7 +209,7 @@ export default {
         {
           title: '序号',
           align: 'center',
-          width: 140,
+          width: 60,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -220,13 +220,13 @@ export default {
         {
           title: '排序',
           align: 'center',
-          width: 140,
+          width: 60,
           key: 'sort'
         },
         {
           title: '产品名称',
           align: 'center',
-          width: 140,
+          width: 90,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -247,7 +247,7 @@ export default {
         {
           title: '产品logo',
           align: 'center',
-           width: 140,
+           width: 100,
           key: 'logoUrl',
           render: (h, params) => {
             return h('div', [
@@ -309,7 +309,7 @@ export default {
         {
           title: '贷款额度',
           align: 'center',
-           width: 140,
+           width: 100,
           key: 'loanLinesUnit'
           // render: (h, params) => {
           //   let money = params.row.startMoney+'-'+params.row.endMoney
@@ -322,7 +322,7 @@ export default {
         {
           title: '利率类型',
           align: 'center',
-           width: 140,
+           width: 100,
           render: (h, params) => {
             let lilv = params.row.interestType
             if(lilv == 1){lilv = '日利率'}else if(lilv == 2){lilv = '月利率'}else if(lilv == 3){lilv = '年利率'}else if(lilv == 4){lilv = '每期利率'}      
@@ -335,7 +335,7 @@ export default {
         {
           title: '利率',
           align: 'center',
-          width: 140,
+          width: 100,
           key: '',
           render: (h, params) => {
             let baif = params.row.interest+'%'       
@@ -370,7 +370,7 @@ export default {
         {
           title: '状态',
           align: 'center',
-           width: 140,
+           width: 80,
           key: 'status',
           render: (h, params) => {
             let zhuangtai = params.row.status == 1 ? '上架' : '下架'

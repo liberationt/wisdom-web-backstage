@@ -234,7 +234,7 @@ export default {
         {
           title: '转化成功条数',
           align: 'center',
-           width: 150,
+           width: 80,
           key: 'pullSuccNum'
         },
         {

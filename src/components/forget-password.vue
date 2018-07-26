@@ -83,11 +83,10 @@ export default {
                 oldPassword: this.formCustom.passwd,
                 reNewPassword: this.formCustom.newpwd ,
                 userCode: utils.getCookie('userCode')
-
               }
-              console.log(passwd)
+              // console.log(passwd)
               this.http.post(BASE_URL + '/user/updatePassword',passwd).then(data=>{
-                console.log(data)
+                // console.log(data)
                 if(data.code = 'success'){
                   this.changeLoading()
                   const title = '密码成功!'
