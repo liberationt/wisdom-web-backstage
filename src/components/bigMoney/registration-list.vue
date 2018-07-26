@@ -79,9 +79,9 @@
             <ul class="querysty">
             <li>
               <span class="w60 displayib ml20  tr">注册时间:</span>
-            <DatePicker type="date" :value = 'value3' class="" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value3' class="" @on-change="time3" placeholder="开始时间" style="width: 200px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" :value = 'value4' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value4' class="mr20 " @on-change="time4" placeholder="结束时间" style="width: 200px"></DatePicker>
             </li>
             <li class=" clearfix ml20">
               <Button type="info" class="right mr20 w100" :loading="loading3" @click="statistics">
@@ -638,10 +638,14 @@ export default {
     // 时间判断
     time1 (value, data) {
       this.value1 = value
-      this.value3 = value
     },
     time2 (value, data) {
       this.value2 = value
+    },
+    time3 (value, data) {
+      this.value3 = value
+    },
+    time4 (value, data) {
       this.value4 = value
     },
     // 查询
