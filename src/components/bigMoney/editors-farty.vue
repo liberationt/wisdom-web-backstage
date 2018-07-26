@@ -80,7 +80,7 @@
           v-model="modal9"
           @on-ok="upload"
           ok-text="确定"
-          cancel-text=""
+          cancel-text="取消"
           class-name="vertical-center-modal"
           width="700"
           :loading="loading"
@@ -89,10 +89,11 @@
             <label>{{cityText}}</label>
            <ul>
             <li >
-            <CheckboxGroup v-model="social" @on-change="checkAllGroupChange" >
-              <Checkbox v-for="tion in city" class="mb5"  :label="tion.city">
+            <CheckboxGroup v-model="social"  @click.native="checkoutxz($event)">
+              <Checkbox v-for="tion in city" style="max-width:50%;display:inline-block" class="mb5"  :label="tion.city">
                 <span>{{tion.city}}</span>
-                <Input v-if="tion.dataId!=null" :value="tion.limitNum"  style="width: 60px"></Input>
+                <Input v-if="tion.dataId!=null" :value="tion.limitNum" class="limitnum"  style="width: 60px"></Input>
+                <Input v-if="tion.dataId==null" :value="tion.limitNum" class="limitnum"  style="width: 60px;display:none"></Input>
               </Checkbox>
             </CheckboxGroup>
             </li>
@@ -131,6 +132,7 @@ export default {
       code: '',
       datatime: '分',
       cityText: '',
+      key: '',
       options3: {
         disabledDate (date) {
           return date && date.valueOf() < Date.now() - 86400000
@@ -168,10 +170,6 @@ export default {
             let configureValues
             if (params.row.fieldName == '居住城市') {
               let value = params.row.configureValues
-              
-              // this.city.push()
-              // this.cityText = params.row.configureValues
-              console.log(params.row)
               if (value && value.length > 20) {
                 value = value.slice(0, 20) + '...'
               }
@@ -189,7 +187,6 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(params.row.partyaKey)
                       this.choosecity(params.row.partyaKey)
                       this.refuse()                     
                     }
@@ -334,13 +331,16 @@ export default {
     refuse () {
       this.modal9 = true
     },
+    // 城市
     choosecity (key) {
       let list = {
         partyaKey : key
       }
+      this.key = key
       this.http.post(BASE_URL + '/loan/pushCity/getPushCityListAll', list)
     .then((resp) => {
       if (resp.code == 'success') {
+        let limitnum = document.getElementsByClassName('limitnum')
         for (let i = 0; i < resp.data.length; i++) {
           let obj = new Object ()
           obj.dataId = resp.data[i].dataId
@@ -350,10 +350,7 @@ export default {
           if (resp.data[i].dataId != null) {
             this.social.push(resp.data[i].city)
           }
-        }
-        console.log(this.city)
-        
-
+        }     
       } else {
 
       }
@@ -362,25 +359,79 @@ export default {
     })
 
     },
-    checkAllGroupChange (data) {
-      console.log(this.social)
-
-    },
+    // 勾选城市时的函数
+    // checkAllGroupChange (data) {
+    //   console.log(this.social)
+    // },
     cancel () {
       this.$router.push({ path: './partyManagement' })
     },
+    // 点击勾选输入框判断
+    checkoutxz (event) {
+      if (event.target.parentNode.className.indexOf('ivu-checkbox-checked') > -1 ) {
+        event.target.parentNode.parentNode.getElementsByClassName('limitnum')[0].style.display = 'none'
+      } else {
+        event.target.parentNode.parentNode.getElementsByClassName('limitnum')[0].style.display = 'inline-block'
+      }
+    },
+    // 城市保存
     upload () {
-      this.modal9 = false
-      // setTimeout(() => {
-      //   this.changeLoading()
-      //   const title = '选择城市'
-      //   let content = '<p>保存成功</p>'
-      //   this.$Modal.success({
-      //     title: title,
-      //     content: content
-      //   })
-      //   this.modal9 = false
-      // }, 1000)
+      // let limitnum = document.getElementsByClassName('limitnum')
+      let checkets = document.getElementsByClassName('ivu-checkbox-checked')
+      let reg = /^[0-9]*$/
+      for (let j = 0; j < checkets.length; j++) {
+        if (checkets[j].parentNode.getElementsByClassName('ivu-input')[0].value == '') {
+          checkets[j].parentNode.getElementsByClassName('ivu-input')[0].style.borderColor = 'red'
+          const title = '居住城市'
+          let content = '<p>请输入推送条数</p>'
+          this.$Modal.warning({
+            title: title,
+            content: content
+          })
+          this.changeLoading()
+          return false
+        } else if (!reg.test(checkets[j].parentNode.getElementsByClassName('ivu-input')[0].value)) {
+          checkets[j].parentNode.getElementsByClassName('ivu-input')[0].style.borderColor = 'red'
+          const title = '居住城市'
+          let content = '<p>请输入正确的推送条数</p>'
+          this.$Modal.warning({
+            title: title,
+            content: content
+          })
+          this.changeLoading()
+          return false
+        }
+        
+      }
+      let obj = {
+        list :[],
+        partyaKey: this.key
+      }
+      for (let i = 0; i < this.social.length; i++) {
+        let obj1 = new Object ()
+        obj1.city = this.social[i]
+        obj1.limitNum = checkets[i].parentNode.getElementsByClassName('ivu-input')[0].value
+        obj.list.push(obj1)
+
+        // console.log(limitnum[i].getElementsByClassName('ivu-input')[0].value)
+        
+      }
+      this.http.post(BASE_URL + '/loan/pushCity/addPartyaCitys', obj)
+    .then((resp) => {
+      if (resp.code == 'success') {
+       const title = '居住城市'
+        let content = '<p>保存成功</p>'
+        this.$Modal.success({
+          title: title,
+          content: content
+        })
+        this.modal9 = false
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })   
     },
     changeLoading () {
       this.loading = false
