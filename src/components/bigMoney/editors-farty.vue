@@ -333,6 +333,7 @@ export default {
     },
     // 城市
     choosecity (key) {
+      this.social = []
       let list = {
         partyaKey : key
       }
