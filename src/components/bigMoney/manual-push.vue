@@ -50,7 +50,7 @@
 					<FormItem label="选择文件:">
 						<Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
 						<Upload ref="upload" :before-upload="handleUpload" :show-upload-list="false" :format="['xlsx', 'xls']" action='' :on-format-error="handleFormatError2">
-							<Button type="ghost" style="margin-top:-3px" icon="ios-cloud-upload-outline">预览</Button>
+							<Button type="ghost" style="margin-top:-3px" icon="ios-cloud-upload-outline">浏览</Button>
 						</Upload>
 					</FormItem>
 					<FormItem label="上传模板:">

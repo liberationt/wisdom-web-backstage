@@ -508,21 +508,6 @@ export default {
       // 厚本
        columns4: [
         {
-          title: '供应商',
-          align: 'center',
-          key: 'sid'
-        },
-        {
-          title: '渠道',
-          align: 'center',
-          key: 'cid'
-        },
-        {
-          title: '广告位ID',
-          align: 'center',
-          key: 'supplierCodeSub'
-        },
-        {
           title: '姓名',
           align: 'center',
           key: 'name'
@@ -533,19 +518,26 @@ export default {
           key: 'phone'
         },
         {
-          title: '城市编码',
+          title: '推送状态',
           align: 'center',
-          key: 'cityCode'
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
         },
         {
-          title: '生日',
+          title: '推送时间',
           align: 'center',
-          key: 'birthday'
-        },
-        {
-          title: '创建时间',
-          align: 'center',
-          key: 'dataCreateTime'
+          key: 'pushTime'
         },
         {
           title: '返回码',
@@ -569,23 +561,6 @@ export default {
           align: 'center',
           key: 'returnMsg'
         },
-         {
-          title: '推送状态',
-          align: 'center',
-          render: (h, params) => {
-            let pushStatus
-            if (params.row.pushStatus == '0') {
-              pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
-              pushStatus = '推送成功'
-            } else {
-              pushStatus = '推送失败'
-            }
-            return h('div', [
-              h('span', {}, pushStatus)
-            ])
-						}
-        },
         {
           title: '推送方式',
           align: 'center',
@@ -602,10 +577,36 @@ export default {
             ])
           }
         },
-         {
-          title: '推送时间',
+        {
+          title: '供应商',
           align: 'center',
-          key: 'pushTime'
+          key: 'sid'
+        },
+        {
+          title: '渠道',
+          align: 'center',
+          key: 'cid'
+        },
+        {
+          title: '广告位ID',
+          align: 'center',
+          key: 'supplierCodeSub'
+        },
+       
+        {
+          title: '城市编码',
+          align: 'center',
+          key: 'cityCode'
+        },
+        {
+          title: '生日',
+          align: 'center',
+          key: 'birthday'
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
         },
       ],
       // 助贷
@@ -778,19 +779,26 @@ export default {
           key: 'phone'
         },
         {
-          title: '城市',
+          title: '推送状态',
           align: 'center',
-          key: 'city'
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
         },
         {
-          title: '渠道编号',
+          title: '推送时间',
           align: 'center',
-          key: 'channelCode'
-        },
-        {
-          title: '创建时间',
-          align: 'center',
-          key: 'dataCreateTime'
+          key: 'pushTime'
         },
         {
           title: '返回码',
@@ -810,6 +818,38 @@ export default {
 						}
         },
         {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
+        },
+        {
+          title: '城市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '渠道编号',
+          align: 'center',
+          key: 'channelCode'
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
+        },
+   
+        {
           title: '返回信息',
           align: 'center',
           key: 'rspMsg'
@@ -818,6 +858,19 @@ export default {
           title: '展示信息',
           align: 'center',
           key: 'showMsg'
+        },
+      ],
+      // 宜信
+      columns8: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'phone'
         },
         {
           title: '推送状态',
@@ -837,6 +890,11 @@ export default {
 						}
         },
         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
           title: '推送方式',
           align: 'center',
           width: 150,
@@ -852,23 +910,10 @@ export default {
             ])
           }
         },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        },
-      ],
-      // 宜信
-      columns8: [
         {
-          title: '姓名',
+          title: '返回码',
           align: 'center',
-          key: 'name'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          key: 'phone'
+           key: 'msg'
         },
         {
           title: '邮箱',
@@ -921,10 +966,18 @@ export default {
             ])
 					}
         },
+      ],
+      // 大地
+      columns9: [
         {
-          title: '返回码',
+          title: '姓名',
           align: 'center',
-           key: 'msg'
+          key: 'customerName'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'mobile'
         },
         {
           title: '推送状态',
@@ -944,6 +997,11 @@ export default {
 						}
         },
         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
           title: '推送方式',
           align: 'center',
           width: 150,
@@ -958,24 +1016,6 @@ export default {
               h('span', {}, Code)
             ])
           }
-        },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        }
-      ],
-      // 大地
-      columns9: [
-        {
-          title: '姓名',
-          align: 'center',
-          key: 'customerName'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          key: 'mobile'
         },
         {
           title: '城市编码',
@@ -1014,6 +1054,20 @@ export default {
           align: 'center',
           key: 'errorMessage'
         },
+        
+      ],
+      // fangcrm
+      columns10: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'telephonenumber'
+        },
         {
           title: '推送状态',
           align: 'center',
@@ -1032,6 +1086,11 @@ export default {
 						}
         },
         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
           title: '推送方式',
           align: 'center',
           width: 150,
@@ -1047,24 +1106,6 @@ export default {
             ])
           }
         },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        }
-      ],
-      // fangcrm
-      columns10: [
-        {
-          title: '姓名',
-          align: 'center',
-          key: 'name'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          key: 'telephonenumber'
-        },
         {
           title: '城市',
           align: 'center',
@@ -1079,6 +1120,23 @@ export default {
           title: '借款期限(月)',
           align: 'center',
           key:'duration'
+        },
+        {
+          title: '错误信息',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.errMsg == 'success') {
+              succ = '成功'
+            } else if (params.row.errMsg == '') {
+              succ = ''
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
         },
         {
           title: '公积金',
@@ -1205,22 +1263,20 @@ export default {
           align: 'center',
           key: 'dataCreateTime'
         },
+        
+       
+      ],
+      // 新一贷
+      columns11: [
         {
-          title: '错误信息',
+          title: '姓名',
           align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.errMsg == 'success') {
-              succ = '成功'
-            } else if (params.row.errMsg == '') {
-              succ = ''
-            } else {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'teleNum'
         },
         {
           title: '推送状态',
@@ -1240,6 +1296,11 @@ export default {
 						}
         },
         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
           title: '推送方式',
           align: 'center',
           width: 150,
@@ -1255,23 +1316,22 @@ export default {
             ])
           }
         },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        }
-      ],
-      // 新一贷
-          columns11: [
         {
-          title: '姓名',
+          title: '返回码',
           align: 'center',
-          key: 'name'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          key: 'teleNum'
+          render: (h, params) => {
+            let succ
+            if (params.row.resultCode == '0') {
+              succ = '成功'
+            } else if (params.row.resultCode == '') {
+              succ = ''
+            } else  {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
         },
         {
           title: '城市',
@@ -1382,23 +1442,6 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '返回码',
-          align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.resultCode == '0') {
-              succ = '成功'
-            } else if (params.row.resultCode == '') {
-              succ = ''
-            } else  {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
-        {
           title: '错误码',
           align: 'center',
           key: 'errorCode'
@@ -1408,44 +1451,6 @@ export default {
           align: 'center',
           key: 'errorMsg'
         },
-        {
-          title: '推送状态',
-          align: 'center',
-          render: (h, params) => {
-            let pushStatus
-            if (params.row.pushStatus == '0') {
-              pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
-              pushStatus = '推送成功'
-            } else {
-              pushStatus = '推送失败'
-            }
-            return h('div', [
-              h('span', {}, pushStatus)
-            ])
-						}
-        },
-        {
-          title: '推送方式',
-          align: 'center',
-          width: 150,
-          render: (h, params) => {
-            let Code
-            if (params.row.origin == 0) {
-              Code = '手动'
-            } else if (params.row.origin == 1) {
-              Code = '自动'
-            }
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
-        },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        }
       ],
       data1: []
     }
