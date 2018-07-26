@@ -122,6 +122,7 @@ export default {
       localStorage.removeItem("headace");
       localStorage.removeItem("sideleft");
       utils.delCookie("user");
+      utils.delCookie("userCode");
       this.lefthidfalse();
       this.$router.push({ path: "./" });
     }

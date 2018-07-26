@@ -85,6 +85,7 @@ export default {
                 that.menuTree(resp.data.userInfo)
                 utils.putlocal('userInfo', JSON.stringify(resp.data.userInfo))
                 utils.setCookie('user', JSON.stringify(this.formLogin.username), 1)
+                utils.setCookie('userCode',resp.data.userInfo.userCode)
                 utils.putlocal('headace', '0')
                 // sessionStorage.setItem('userInfo', JSON.stringify(resp.data.userInfo))
                 // sessionStorage.setItem('browse', 1)
