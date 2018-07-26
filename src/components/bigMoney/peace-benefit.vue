@@ -72,7 +72,7 @@
             :max-size="12800"
             action=''>
             <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
-        </Upload>
+            </Upload>
             </li>
             <li class="mt15 clearfix">
               <span class="left lh32">上传模板:</span>
@@ -275,7 +275,8 @@ export default {
       startRow: 1,
       endRow: 10,
       pushname1: '',
-      loading3: false
+      loading3: false,
+      uploadl: '',
     }
   },
   methods: {
@@ -303,6 +304,15 @@ export default {
         this.changeLoading()
         const title = '上传报表'
         let content = '<p>请先选择文件</p>'
+        this.$Modal.warning({
+        title: title,
+        content: content
+        })
+        return false
+      } else if(this.uploadl == ''){
+        this.changeLoading()
+        const title = '上传报表'
+        let content = '<p>文件过大，请在点击一次！</p>'
         this.$Modal.warning({
         title: title,
         content: content
@@ -357,6 +367,15 @@ export default {
           }
         }).catch(err=>{
           console.log(err)
+          this.modal9 = false
+          this.namelist = ''
+          this.changeLoading()
+          const title = '上传文件'
+          let content = '<p>上传失败</p>'
+          this.$Modal.success({
+            title: title,
+            content: content
+          })
         })
       }
     },
@@ -370,12 +389,14 @@ export default {
           let config = {
             headers: {
               'Content-Type': 'multipart/form-data'
-            }
+            },
+            timeout:1000*60*5
           }
           this.http.post(BASE_URL + '/fileUpload', formData, config)
         .then((resp) => {
           if (resp.code == 'success') {
             this.filename2 = resp.data
+            this.uploadl = 'success'
           } else {
           }
         })

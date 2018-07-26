@@ -147,6 +147,7 @@ export default {
       ],
       data6: [],
       modal9: false,
+      uploadl: '',
     }
   },
   methods: {
@@ -181,14 +182,16 @@ export default {
 				formData.append('bucket', 'netmoney')
 				formData.append('dirs', 'blacklist')
 				let config = {
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				}
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            timeout:1000*60*5
 				}
 				this.http.post(BASE_URL + '/fileUpload', formData, config)
 				.then((resp) => {
 				if (resp.code == 'success') {
-					this.filename = resp.data
+          this.filename = resp.data
+          this.uploadl = 'success'
 				} else {
 				}
 				})
@@ -215,8 +218,17 @@ export default {
           content: content
         })
         return false
+      } else if(this.uploadl == ''){
+        this.changeLoading()
+        const title = '上传报表'
+        let content = '<p>文件过大，请再点击一次！</p>'
+        this.$Modal.warning({
+        title: title,
+        content: content
+        })
+        return false
       } else {
-				let	url = this.filename
+        let	url = this.filename
         this.http.get(BASE_URL + '/loan/pushBlack/uploadFileExcel?url='+url)
         .then((resp) => {
           if (resp.code == 'success') {
@@ -234,9 +246,19 @@ export default {
             this.$Message.info(resp.message)
           }
         })
-        .catch(() => {
-        })
-      }
+        .catch(err => {
+          console.log(err)
+          this.modal9 = false
+          this.namelist = ''
+          this.changeLoading()
+          const title = '上传名单'
+          let content = '<p>上传失败</p>'
+          this.$Modal.success({
+            title: title,
+            content: content
+          })
+          })  
+        }
     },
      // 时间判断
     time1 (value, data) {
@@ -324,7 +346,7 @@ export default {
     this.value1 =  currentdate;
     this.value2 = currentdate;
     this.inquire ()
-    this.hrefxls = 'pinganpuhui_qj.xlsx'
+    this.hrefxls = 'shangchuanheimingdan.xlsx'
     this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_qj.xlsx'
   }
 }

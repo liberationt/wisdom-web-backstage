@@ -214,7 +214,8 @@ export default {
       startRow: 1,
       endRow: 10,
       loading2: false,
-      loading3: false
+      loading3: false,
+      upload: ''
     }
   },
   methods: {

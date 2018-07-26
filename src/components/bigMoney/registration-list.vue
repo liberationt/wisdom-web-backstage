@@ -164,39 +164,27 @@ export default {
             ])
           }
         },
-        {
-          title: 'UID',
-          align: 'center',
-          width: 100,
-          render: (h, params) => {
-            return h('div', [
-              h('span', {
-                style: {
-                  display: 'inline-block',
-                  width: '100%',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                },
-                domProps: {
-                  title: params.row.dataId
-                }
-              }, params.row.dataId)
-            ])
-          }
-        },
-        {
-          title: '注册时间',
-          align: 'center',
-          width: 160,
-          key: 'registrationTime'
-        },
-        {
-          title: '供应商',
-          align: 'center',
-          width: 120,
-          key: 'supplierName'
-        },
+        // {
+        //   title: 'UID',
+        //   align: 'center',
+        //   width: 100,
+        //   render: (h, params) => {
+        //     return h('div', [
+        //       h('span', {
+        //         style: {
+        //           display: 'inline-block',
+        //           width: '100%',
+        //           overflow: 'hidden',
+        //           textOverflow: 'ellipsis',
+        //           whiteSpace: 'nowrap'
+        //         },
+        //         domProps: {
+        //           title: params.row.dataId
+        //         }
+        //       }, params.row.dataId)
+        //     ])
+        //   }
+        // },
         {
           title: '渠道',
           align: 'center',
@@ -204,10 +192,10 @@ export default {
           key: 'channelName'
         },
         {
-          title: '步骤',
+          title: '供应商',
           align: 'center',
-          width: 100,
-          key: 'step'
+          width: 120,
+          key: 'supplierName'
         },
         {
           title: '姓名',
@@ -230,6 +218,24 @@ export default {
               }, params.row.mobile)
             ])
           }
+        },
+        {
+          title: '步骤',
+          align: 'center',
+          width: 100,
+          key: 'step'
+        },
+         {
+          title: '注册时间',
+          align: 'center',
+          width: 160,
+          key: 'registrationTime'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          width: 100,
+          key: 'city'
         },
         {
           title: '生日',
@@ -268,12 +274,7 @@ export default {
           width: 150,
           key: 'ip'
         },
-        {
-          title: '城市',
-          align: 'center',
-          width: 100,
-          key: 'city'
-        },
+        
         {
           title: 'M城市',
           align: 'center',

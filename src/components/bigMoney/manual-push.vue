@@ -233,7 +233,8 @@ import utils from '../../utils/utils'
 						key: 'pullSuccNum'
 					},
 				],
-				data6: []
+				data6: [],
+				uploadl:''
 			}
 		},
 		methods: {
@@ -307,6 +308,15 @@ import utils from '../../utils/utils'
 						content: content
 					})
 					return false
+				} else if(this.uploadl == ''){
+					this.changeLoading()
+					const title = '上传文件'
+					let content = '<p>文件过大请再点击一次</p>'
+					this.$Modal.warning({
+					title: title,
+					content: content
+					})
+					return false
 				} else {
 					let list = {
 						partyaKey: this.model4,
@@ -334,8 +344,16 @@ import utils from '../../utils/utils'
 								this.$Message.info(resp.message)
 							}
 						})
-						.catch(() => {
-							
+						.catch(err => {
+							this.modal9 = false
+							this.namelist = ''
+							this.changeLoading()
+							const title = '上传文件'
+							let content = '<p>上传失败</p>'
+							this.$Modal.success({
+								title: title,
+								content: content
+							})
 						})
 				}
 			},
@@ -359,14 +377,16 @@ import utils from '../../utils/utils'
 					formData.append('bucket', 'netmoney')
 					formData.append('dirs', 'excelfile')
 					let config = {
-					headers: {
-						'Content-Type': 'multipart/form-data'
-					}
+						headers: {
+							'Content-Type': 'multipart/form-data'
+						},
+						timeout:1000*60*5
 					}
 					this.http.post(BASE_URL + '/fileUpload', formData, config)
 					.then((resp) => {
 					if (resp.code == 'success') {
 						this.filename = resp.data
+						this.uploadl = 'success'
 					} else {
 					}
 					})

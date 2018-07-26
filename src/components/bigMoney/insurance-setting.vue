@@ -45,7 +45,7 @@
           v-model="modal9"
           @on-ok="upload"
           @on-cancel="handleReset"
-          ok-text="上传"
+          ok-text= '上传'
           cancel-text="取消"
           class-name="vertical-center-modal"
           width="500"
@@ -266,7 +266,9 @@ export default {
       zhuname: '',
       filename2: '',
       pushname1: '',
-      loading3: false
+      loading3: false,
+      uploadl: '',
+     
     }
   },
   methods: {
@@ -295,6 +297,15 @@ export default {
         this.changeLoading()
         const title = '上传文件'
         let content = '<p>请先上传文件</p>'
+        this.$Modal.warning({
+          title: title,
+          content: content
+        })
+        return false
+      } else if(this.uploadl == ''){
+        this.changeLoading()
+        const title = '上传文件'
+        let content = '<p>文件过大请再点击一次</p>'
         this.$Modal.warning({
           title: title,
           content: content
@@ -333,6 +344,15 @@ export default {
           }
         }).catch(err=> {
           console.log(err)
+          this.modal9 = false
+          this.namelist = ''
+          this.changeLoading()
+          const title = '上传文件'
+          let content = '<p>上传失败</p>'
+          this.$Modal.success({
+            title: title,
+            content: content
+          })
         })
       }
     },
@@ -344,14 +364,16 @@ export default {
 				formData.append('bucket', 'netmoney')
 				formData.append('dirs', 'excelfile')
 				let config = {
-				headers: {
-					'Content-Type': 'multipart/form-data'
-				}
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          timeout:1000*60*5
 				}
 				this.http.post(BASE_URL + '/fileUpload', formData, config)
 				.then((resp) => {
 				if (resp.code == 'success') {
-					this.filename2 = resp.data
+          this.filename2 = resp.data
+          this.uploadl = 'success'
 				} else {
 				}
 				})

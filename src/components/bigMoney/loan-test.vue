@@ -594,7 +594,7 @@ export default {
         }
       ],
       data6: [],
-      loading3: false
+      loading3: false,
     }
   },
   methods: {
@@ -984,7 +984,8 @@ export default {
         let config = {
           headers: {
             'Content-Type': 'multipart/form-data'
-          }
+          },
+          timeout:1000*60*5
         }
       this.http.post(BASE_URL + '/fileUpload', formData, config)
     .then((resp) => {
