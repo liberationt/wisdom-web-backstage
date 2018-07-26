@@ -177,9 +177,9 @@ export default {
           width: 150,
           render: (h, params) => {
             let Code
-            if (params.row.origin == 0) {
+            if (params.row.originate == 0) {
               Code = '手动'
-            } else if (params.row.origin == 1) {
+            } else if (params.row.originate == 1) {
               Code = '自动'
             }
             return h('div', [
@@ -188,7 +188,7 @@ export default {
           }
         },
          {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let code 
@@ -313,7 +313,7 @@ export default {
           }
         },
          {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let code 
@@ -446,6 +446,23 @@ export default {
           }
         },
         {
+          title: '返回状态',
+          align: 'center',
+          render: (h, params) => {
+            let code
+            if (params.row.code == '-1') {
+              code = '成功'
+            } else if (params.row.code == '' || params.row.code == null){
+              code = ''
+            } else {
+              code = '失败'
+            }
+            return h('div', [
+              h('span', {}, code)
+            ])
+          }
+        },
+        {
           title: '返回信息',
           align: 'center',
           key: 'msg'
@@ -465,23 +482,7 @@ export default {
           align: 'center',
           key: 'dataCreateTime'
         },
-        {
-          title: '返回码',
-          align: 'center',
-          render: (h, params) => {
-            let code
-            if (params.row.code == '-1') {
-              code = '成功'
-            } else if (params.row.code == '' || params.row.code == null){
-              code = ''
-            } else {
-              code = '失败'
-            }
-            return h('div', [
-              h('span', {}, code)
-            ])
-          }
-        },
+
         {
           title: '验证结果',
           align: 'center',
@@ -500,7 +501,7 @@ export default {
           }
         },
         {
-          title: '验证失败信息',
+          title: '数据有效性',
           align: 'center',
           key: 'validFailMsg'
         },
@@ -540,7 +541,23 @@ export default {
           key: 'pushTime'
         },
         {
-          title: '返回码',
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
+        },
+        {
+          title: '返回状态',
           align: 'center',
           render: (h, params) => {
             let returnCode
@@ -560,22 +577,6 @@ export default {
           title: '返回信息',
           align: 'center',
           key: 'returnMsg'
-        },
-        {
-          title: '推送方式',
-          align: 'center',
-          width: 150,
-          render: (h, params) => {
-            let Code
-            if (params.row.origin == 0) {
-              Code = '手动'
-            } else if (params.row.origin == 1) {
-              Code = '自动'
-            }
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
         },
         {
           title: '供应商',
@@ -660,7 +661,7 @@ export default {
           }
         },
          {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
           const retCode = params.row.retCode
@@ -801,7 +802,7 @@ export default {
           key: 'pushTime'
         },
         {
-          title: '返回码',
+          title: '返回状态',
           align: 'center',
           render: (h, params) => {
             let rspCode
@@ -911,7 +912,26 @@ export default {
           }
         },
         {
-          title: '返回码',
+          title: '返回状态',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.succ == 'true') {
+              succ = '转化成功'
+              // console.log('推送成功')
+            } else if (params.row.succ == 'false') {
+              succ = '转化失败'
+            } else {
+              succ = ''
+              // console.log('推送失败')
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
+          title: '返回信息',
           align: 'center',
            key: 'msg'
         },
@@ -947,25 +967,7 @@ export default {
           align: 'center',
           key: 'dataCreateTime'
         },  
-        {
-          title: '转化结果',
-          align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.succ == 'true') {
-              succ = '转化成功'
-              // console.log('推送成功')
-            } else if (params.row.succ == 'false') {
-              succ = '转化失败'
-            } else {
-              succ = ''
-              // console.log('推送失败')
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
+        
       ],
       // 大地
       columns9: [
@@ -1018,22 +1020,7 @@ export default {
           }
         },
         {
-          title: '城市编码',
-          align: 'center',
-          key: 'cityId'
-        },
-        {
-          title: '媒体来源编号',
-          align: 'center',
-          key: 'businessChannel'
-        },
-        {
-          title: '创建时间',
-          align: 'center',
-          key: 'dataCreateTime'
-        },
-        {
-          title: '数据状态',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1048,6 +1035,21 @@ export default {
               h('span', {}, succ)
             ])
 					}
+        },
+        {
+          title: '城市编码',
+          align: 'center',
+          key: 'cityId'
+        },
+        {
+          title: '媒体来源编号',
+          align: 'center',
+          key: 'businessChannel'
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
         },
         {
           title: '错误信息',
@@ -1107,22 +1109,7 @@ export default {
           }
         },
         {
-          title: '城市',
-          align: 'center',
-          key: 'city'
-        },
-        {
-          title: '借款金额(元)',
-          align: 'center',
-          key:'loanAmount'
-        },
-        {
-          title: '借款期限(月)',
-          align: 'center',
-          key:'duration'
-        },
-        {
-          title: '错误信息',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1138,6 +1125,22 @@ export default {
             ])
 					}
         },
+        {
+          title: '城市',
+          align: 'center',
+          key: 'city'
+        },
+        {
+          title: '借款金额(元)',
+          align: 'center',
+          key:'loanAmount'
+        },
+        {
+          title: '借款期限(月)',
+          align: 'center',
+          key:'duration'
+        },
+      
         {
           title: '公积金',
           align: 'center',
@@ -1317,7 +1320,7 @@ export default {
           }
         },
         {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let succ

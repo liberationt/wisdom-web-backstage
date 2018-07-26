@@ -160,6 +160,24 @@ export default {
           width: 150,
           key: 'pushTime'
         },
+         {
+          title: '结果代码',
+          align: 'center',
+          width: 100,
+          render: (h, params) => {
+            let resultCode 
+            if (params.row.resultCode == '0') {
+              resultCode = '成功'
+            } else if(params.row.resultCode == ''){
+              resultCode = ''
+            } else {
+              resultCode = '失败'
+            }
+            return h('div', [
+              h('span', {}, resultCode)
+            ])
+          }
+				},
         {
           title: '性别',
           align: 'center',
@@ -206,24 +224,7 @@ export default {
           width: 150,
           key: 'productCode'
         },
-        {
-          title: '结果代码',
-          align: 'center',
-          width: 100,
-          render: (h, params) => {
-            let resultCode 
-            if (params.row.resultCode == '0') {
-              resultCode = '成功'
-            } else if(params.row.resultCode == ''){
-              resultCode = ''
-            } else {
-              resultCode = '失败'
-            }
-            return h('div', [
-              h('span', {}, resultCode)
-            ])
-          }
-				},
+       
         {
           title: '错误代码',
           align: 'center',

@@ -163,7 +163,7 @@ export default {
           key: 'pushTime'
         },
          {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let code            
@@ -271,7 +271,7 @@ export default {
           key: 'pushTime'
         },
          {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
             let code 
@@ -389,7 +389,7 @@ export default {
           key: 'pushTime'
         },
          {
-          title: '返回码',
+          title: '返回状态',
           align: 'center',
           render: (h, params) => {
             let code
@@ -438,12 +438,12 @@ export default {
           }
         },
         {
-          title: '验证失败消息',
+          title: '数据有效性',
           align: 'center',
           key: 'validFailMsg'
         },
         {
-          title: '消息',
+          title: '返回信息',
           align: 'center',
           key: 'msg'
         },
@@ -530,7 +530,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '返回消息',
+          title: '返回信息',
           align: 'center',
           key: 'returnMsg'
         },
@@ -570,7 +570,7 @@ export default {
           key: 'pushTime'
         },
         {
-          title: '返回码',
+          title: '返回信息',
           align: 'center',
           render: (h, params) => {
           const retCode = params.row.retCode
@@ -711,7 +711,7 @@ export default {
           key: 'pushTime'
         },
         {
-          title: '响应码',
+          title: '返回状态',
           align: 'center',
           render: (h, params) => {
             let rspCode
@@ -788,6 +788,25 @@ export default {
           key: 'pushTime'
         },
         {
+          title: '返回状态',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.succ == 'true') {
+              succ = '转化成功'
+              // console.log('推送成功')
+            } else if (params.row.succ == 'false') {
+              succ = '转化失败'
+            } else {
+              succ = ''
+              // console.log('推送失败')
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        {
           title: '返回信息',
           align: 'center',
            key: 'msg'
@@ -824,25 +843,6 @@ export default {
           align: 'center',
           key: 'dataCreateTime'
         },
-        {
-          title: '转化结果',
-          align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.succ == 'true') {
-              succ = '转化成功'
-              // console.log('推送成功')
-            } else if (params.row.succ == 'false') {
-              succ = '转化失败'
-            } else {
-              succ = ''
-              // console.log('推送失败')
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
       ],
        // 大地
       columns9: [
@@ -878,6 +878,23 @@ export default {
           align: 'center',
           key: 'pushTime'
         },
+        {
+          title: '返回信息',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (!params.row.databusStatus) {
+              succ = ''
+            } else if (params.row.databusStatus == '0000') {
+              succ = '成功'
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
          {
           title: '错误消息',
           align: 'center',
@@ -898,23 +915,7 @@ export default {
           align: 'center',
           key: 'dataCreateTime'
         },
-        {
-          title: '数据状态',
-          align: 'center',
-          render: (h, params) => {
-            let succ
-            if (!params.row.databusStatus) {
-              succ = ''
-            } else if (params.row.databusStatus == '0000') {
-              succ = '成功'
-            } else {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
+        
       ],
       // fangcrm
       columns10: [
@@ -950,6 +951,24 @@ export default {
           align: 'center',
           key: 'pushTime'
         },
+         {
+          title: '返回信息',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.errMsg == 'success') {
+              succ = '成功'
+            } else if (params.row.errMsg == '') {
+              succ = ''
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
+        },
+        
         {
           title: '城市',
           align: 'center',
@@ -1090,24 +1109,7 @@ export default {
           align: 'center',
           key: 'dataCreateTime'
         },
-        {
-          title: '错误信息',
-          align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.errMsg == 'success') {
-              succ = '成功'
-            } else if (params.row.errMsg == '') {
-              succ = ''
-            } else {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
-        
+       
       ],
       // 新一贷
       columns11: [
@@ -1142,6 +1144,23 @@ export default {
           title: '推送时间',
           align: 'center',
           key: 'pushTime'
+        },
+         {
+          title: '返回信息',
+          align: 'center',
+          render: (h, params) => {
+            let succ
+            if (params.row.resultCode == '0') {
+              succ = '成功'
+            } else if (params.row.resultCode == '') {
+              succ = ''
+            } else  {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span', {}, succ)
+            ])
+					}
         },
         {
           title: '城市',
@@ -1250,23 +1269,6 @@ export default {
           title: '创建时间',
           align: 'center',
           key: 'dataCreateTime'
-        },
-        {
-          title: '返回码',
-          align: 'center',
-          render: (h, params) => {
-            let succ
-            if (params.row.resultCode == '0') {
-              succ = '成功'
-            } else if (params.row.resultCode == '') {
-              succ = ''
-            } else  {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
         },
         {
           title: '错误码',
