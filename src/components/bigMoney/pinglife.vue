@@ -1,8 +1,9 @@
 <template>
     <div>
-        <div class="navigation">
+         <div class="navigation">
             <p>
-                <span>保险明细报表</span>
+              <span class="navigation_batch" @click="batch">推送批次报表</span>
+              <span class="navigation_detailed" @click="detailed">推送明细报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -96,7 +97,7 @@ export default {
           width: 140,
           // key: 'mobile',
           render: (h,params)=>{
-            console.log(params.row.mobile)
+            // console.log(params.row.mobile)
             return h('div', [
 									h('Button', {
 										props: {
@@ -107,7 +108,7 @@ export default {
 										},
 										on: {
 											click: () => {
-                        console.log(params.row.kxpinganCode)
+                        // console.log(params.row.kxpinganCode)
                         this.modal10 = true
                         this.userAgent = params.row.userAgent
                         this.ip = params.row.ip
@@ -270,6 +271,11 @@ export default {
       this.registered()
     },
     post(url,list,pushname,num) {
+      // console.log(this.$route.query.id)
+      if(this.$route.query.id != ""){
+        this.value2 = ''
+        this.value1 = ''
+      }
        this.http.post(BASE_URL + url,list).then(data=>{
           if(data.code == 'success'){
             if(pushname == 'luohui'){
@@ -282,6 +288,8 @@ export default {
 						}
 						this.total = parseInt(data.data.total) 
             this.loading3 = false
+          }else {
+            this.loading3 = false;
           }
        }).catch(err=>{
          console.log(err)
@@ -345,6 +353,15 @@ export default {
         }
       })
     },
+    batch () {
+      let pushname = this.$route.query.pushname
+      // this.jname(pushname)
+      this.$router.push({ path: 'insuranceSetting?life='+pushname });
+
+    },
+    detailed() {
+
+    }
   },
   created() {
     var date = new Date();
@@ -374,5 +391,27 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.margin_top {
+  margin-top: 20px;
+}
+.navigation_detailed {
+   background-color: #2DB7F5;
+}
+.navigation_batch{
+  background-color: #ccc;
+}
 
+.navigation_batch ,.navigation_detailed {
+  display: inline-block;
+  width: 140px;
+  // background-color: #2DB7F5;
+  text-align: center;
+}
+.navigation{
+  background-color: #fff;
+  
+}
+.navigation>p{
+  padding-left: 0 !important;
+}
 </style>

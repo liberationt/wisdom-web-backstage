@@ -2,7 +2,8 @@
     <div>
         <div class="navigation">
             <p>
-                <span>平安人寿</span>
+              <span class="navigation_batch" @click="batch">推送批次报表</span>
+              <span class="navigation_detailed" @click="detailed">推送明细报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -18,7 +19,7 @@
               <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
             </li>
             <li>
-              <span>推送时间:</span>
+              <span>上传时间:</span>
               <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
               <span>  -  </span>
               <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
@@ -407,6 +408,7 @@ export default {
         pageNum: this.startRow == 0 ? 1: this.startRow,
         pageSize: this.endRow,
       }
+      console.log(list)
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
         if(data.code = 'success'){
           this.total = parseInt(data.data.total)
@@ -450,7 +452,16 @@ export default {
           }
         ]
       }
-    } 
+    },
+    batch() {
+      // alert(21)
+    },
+     detailed() {
+      // alert(222)
+      let pushname = this.$route.query.life
+      // this.jname(pushname)
+      this.$router.push({ path: 'pinglife?id=&pushname='+pushname });
+    }
   },
   created() {
     var date = new Date();
@@ -473,6 +484,8 @@ export default {
         partyaKey:this.jiakey,
         pageNum: this.startRow,
         pageSize: this.endRow,
+         endTime : this.value2,
+      beginTime : this.value1,
     };
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
       if(resp.code == 'success'){
@@ -498,6 +511,8 @@ export default {
         partyaKey:this.jiakey,
         pageNum: this.startRow,
         pageSize: this.endRow,
+         endTime : this.value2,
+      beginTime : this.value1,
       };
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
         if(resp.code == 'success'){
@@ -516,5 +531,20 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.navigation_batch ,.navigation_detailed {
+  display: inline-block;
+  width: 140px;
+  background-color: #2DB7F5;
+  text-align: center;
+}
+.navigation{
+  background-color: #fff;
+  
+}
+.navigation>p{
+  padding-left: 0 !important;
+}
+.navigation_detailed {
+  background-color: #ccc;
+}
 </style>

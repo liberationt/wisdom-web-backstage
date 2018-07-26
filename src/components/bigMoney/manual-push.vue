@@ -18,7 +18,7 @@
 					<Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
 				</li>
 				<li>
-					<span>推送时间:</span>
+					<span>上传时间:</span>
 					<DatePicker type="date" :value = 'value1' @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
 					<span>  -  </span>
 					<DatePicker type="date" :value = 'value2' @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>

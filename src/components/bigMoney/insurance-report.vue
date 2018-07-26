@@ -295,7 +295,13 @@ export default {
         return false
       };
       if(n != 1){
-        this.model2 = ''
+        this.model2 = '' 
+      }
+      console.log(this.$route.query.id)
+      
+      if(this.$route.query.id != ""){
+        this.value2 = ''
+        this.value1 = ''
       }
       let params = {
         pushBatchNum :this.model2,

@@ -19,7 +19,7 @@
               <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
             </li>
             <li>
-              <span>推送时间:</span>
+              <span>上传时间:</span>
               <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
               <span>  -  </span>
               <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
@@ -480,6 +480,7 @@ export default {
         pageNum: this.startRow,
         pageSize: this.endRow,
       }
+      console.log(list)
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
         if(data.code = 'success'){
           this.total = Number(data.data.total)
@@ -502,7 +503,7 @@ export default {
       // alert(222)
       let pushname = this.$route.query.pushname
       // this.jname(pushname)
-      this.$router.push({ path: 'insuranceReport?id=""&pushname='+pushname });
+      this.$router.push({ path: 'insuranceReport?id=&pushname='+pushname });
     }
   },
   created() {
@@ -524,6 +525,8 @@ export default {
     this.jname(pushname)
     let list = {
       partyaKey:this.batchKey,
+      endTime : this.value2,
+      beginTime : this.value1,
     };
     this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
       if(resp.code == 'success'){
@@ -531,7 +534,7 @@ export default {
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)
           if(parseInt(resp.data.total) == '0') {
-                this.startRow = 1
+            this.startRow = 1
           }
       }
     }).catch((err)=>{
@@ -546,6 +549,8 @@ export default {
       this.jname(pushname)
         let list = {
         partyaKey:this.batchKey,
+         endTime : this.value2,
+         beginTime : this.value1,
       };
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then((resp)=>{
         if(resp.code == 'success'){
