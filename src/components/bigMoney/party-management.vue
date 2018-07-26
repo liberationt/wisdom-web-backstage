@@ -298,17 +298,38 @@ export default {
           let title
           let content
           if (stop == 2) {
-            title = '启用'
-            content = '<p>启用成功</p>'
+            this.$Modal.confirm({
+              title: '启用',
+              content: '<p>确认要启用吗?</p>',
+              onOk: () => {
+                  const title = '启用'
+                  let content = '<p>启用成功</p>'
+                  this.$Modal.success({
+                    title: title,
+                    content: content
+                  })
+                  this.inquire()
+              },
+              onCancel: () => {                               
+              }
+            })
           } else {
-            title = '禁用'
-            content = '<p>禁用成功</p>'
+            this.$Modal.confirm({
+              title: '禁用',
+              content: '<p>确认要禁用吗?</p>',
+              onOk: () => {
+                  const title = '禁用'
+                  let content = '<p>禁用成功</p>'
+                  this.$Modal.success({
+                    title: title,
+                    content: content
+                  })
+                  this.inquire()
+              },
+              onCancel: () => {                               
+              }
+            })
           }
-          this.$Modal.success({
-            title: title,
-            content: content
-          })
-          this.inquire ()
         } else {
 
         }
