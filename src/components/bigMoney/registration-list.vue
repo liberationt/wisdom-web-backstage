@@ -1,10 +1,10 @@
 <template>
     <div>
-        <div class="navigation">
+        <!-- <div class="navigation">
             <p>
                 <span>注册列表</span>
             </p>
-        </div>
+        </div> -->
         <Tabs type="card" :animated="false">
         <TabPane label="注册列表" >
           <div class="titregist">
