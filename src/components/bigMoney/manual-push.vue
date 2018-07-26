@@ -2,7 +2,7 @@
 	<div>
 		<div class="navigation">
 			<p>
-				<span>贷款推送明细</span>
+				<span>手动推送批次列表</span>
 			</p>
 		</div>
 		<div class="mt50">
@@ -127,6 +127,18 @@ import utils from '../../utils/utils'
 						key: 'partyaSuccNum'
 					},
 					{
+						title: '转化成功条数',
+						align: 'center',
+						width: 120,
+						key: 'pullSuccNum'
+					},
+					{
+						title: '转化失败条数',
+						align: 'center',
+						width: 120,
+						key: 'pullFailNum'
+					},
+					{
 						title: '推送详情',
 						width: 170,
 						align: 'center',
@@ -150,18 +162,6 @@ import utils from '../../utils/utils'
 								}, '详情')
 							])
 						}
-					},
-					{
-						title: '转化失败条数',
-						align: 'center',
-						width: 120,
-						key: 'pullFailNum'
-					},
-					{
-						title: '转化成功条数',
-						align: 'center',
-						width: 120,
-						key: 'pullSuccNum'
 					},
 					{
 						title: '上传时间',

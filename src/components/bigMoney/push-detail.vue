@@ -19,10 +19,10 @@
               <span>  -  </span>
               <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 190px"></DatePicker>
             </li>
-            <li>
+            <!-- <li>
               <span class="w60 displayib">批次号:</span>
             <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 180px"></Input>
-            </li>
+            </li> -->
             <li>
               <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:200px" class="mr20">
@@ -90,6 +90,10 @@ export default {
       ],
       cityList: [],
       cityList2: [
+        {
+          value: '全部',
+          label: '全部'
+        },
         {
           value: '0',
           label: '未推送'
@@ -1297,7 +1301,7 @@ export default {
 			time2(value, data) {
 				this.value2 = value
 			},
-			inquire () {
+			inquire (n) {
         // 列表查询
         this.loading3 = true
 				let date1 = Date.parse(new Date(this.value1)) / 1000
@@ -1309,6 +1313,9 @@ export default {
 					})
 					return false
        }
+       if(n != 1){
+          this.model5 = ''
+       }
         let params = {
           partyaKey: this.model1,
           beginTime: this.value1,
@@ -1319,7 +1326,7 @@ export default {
           pageNum: this.startRow,
           pageSize: this.endRow,
         }
-
+        console.log(this.model5)
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
@@ -1407,7 +1414,7 @@ export default {
 				})
         .catch(() => {})
         // 列表
-        this.inquire ()
+        this.inquire (1)
         
   }
 }

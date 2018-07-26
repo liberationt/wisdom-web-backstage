@@ -11,8 +11,8 @@
             <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <span class="w100 tr displayib">批次号:</span>
-            <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input>
+            <!-- <span class="w100 tr displayib">批次号:</span>
+            <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input> -->
             <span class=" tr displayib">推送状态:</span>
             <Select v-model="model3" style="width:200px" class="mr20">
                 <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -282,7 +282,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    registered() {
+    registered(n) {
       this.loading3= true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -294,6 +294,9 @@ export default {
         })
         return false
       };
+      if(n != 1){
+        this.model2 = ''
+      }
       let params = {
         pushBatchNum :this.model2,
         pushStatus : this.model3,
@@ -351,6 +354,7 @@ export default {
     }
   },
   created() {
+    this.model2 = this.$route.query.id    
     var date = new Date();
     var seperator1 = "-";
     var year = date.getFullYear();
@@ -365,7 +369,7 @@ export default {
     var currentdate = year + seperator1 + month + seperator1 + strDate;
     this.value1 = currentdate
     this.value2 = currentdate
-    this.registered()
+    this.registered(1)
   }
 }
 </script>

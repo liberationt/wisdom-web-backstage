@@ -10,8 +10,8 @@
             <Select v-model="model1" placeholder="全部" style="width:150px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <span class="w100 tr displayib">批次号:</span>
-            <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 150px"></Input>
+            <!-- <span class="w100 tr displayib">批次号:</span>
+            <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 150px"></Input> -->
             <span class=" tr displayib">推送状态:</span>
             <Select v-model="model3" style="width:200px" class="mr20">
                 <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -69,6 +69,10 @@ export default {
         {
           value: '全部',
           label: '全部'
+        },
+        {
+          value: '0',
+          label: '未推送'
         },
         {
           value: '1',

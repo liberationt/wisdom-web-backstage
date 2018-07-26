@@ -138,8 +138,8 @@ export default {
            width: 160,
           align: 'center',
           key: 'mediaName'
-        },         
-         {
+        },
+        {
           title: '推送总条数',
           align: 'center',
            width: 115,
@@ -150,6 +150,12 @@ export default {
             ])
           }
         },
+        {
+          title: '转化成功条数',
+          align: 'center',
+           width: 110,
+          key: 'pullSuccNum'
+        },         
         {
           title: '推送失败条数',
           align: 'center',
@@ -240,12 +246,7 @@ export default {
           }
         },
        
-        {
-          title: '转化成功条数',
-          align: 'center',
-           width: 110,
-          key: 'pullSuccNum'
-        },
+        
         
       ],
       data6: [

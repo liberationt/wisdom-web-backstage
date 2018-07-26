@@ -143,6 +143,12 @@ export default {
           key: 'partyaSuccNum'
         },
         {
+          title: '转化成功条数',
+          align: 'center',
+           width: 125,
+          key: 'pullSuccNum'
+        },
+        {
           title: '推送失败条数',
           align: 'center',
            width: 120,
@@ -230,12 +236,7 @@ export default {
           }
           }
         },
-        {
-          title: '转化成功条数',
-          align: 'center',
-           width: 125,
-          key: 'pullSuccNum'
-        },
+        
         
       ],
       data6: [
