@@ -347,7 +347,7 @@ export default {
     this.value2 = currentdate;
     this.inquire ()
     this.hrefxls = 'shangchuanheimingdan.xlsx'
-    this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_qj.xlsx'
+    this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/black_list.xlsx'
   }
 }
 </script>

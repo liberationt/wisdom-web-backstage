@@ -112,7 +112,7 @@ export default {
         {
           title: '文件名称',
           align: 'center',
-          width: 140,
+          width: 160,
           render: (h, params) => {
 						return h('div', [
 						h('span', {
@@ -135,23 +135,7 @@ export default {
           align: 'center',
           width: 140,
           key: 'mediaName', //{{ this.$route.query.name }}
-        },
-        {
-          title: '推送方式',
-          align: 'center',
-          width: 125,
-          render: (h, params) => {
-            let Code
-            if (params.row.origin == 0) {
-              Code = '手动'
-            } else if (params.row.origin == 1) {
-              Code = '自动'
-            }
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
-        },
+        },       
         {
           title: '推送总条数',
           align: 'center',
@@ -167,7 +151,7 @@ export default {
         {
           title: '推送详情',
           key: 'address',
-          width: 130,
+          width: 170,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -215,7 +199,7 @@ export default {
         {
           title: '上传失败详情',
           align: 'center',
-           width: 120,
+           width: 180,
           key: 'uploadFailUrl',
           render: (h, params) => {
           if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){

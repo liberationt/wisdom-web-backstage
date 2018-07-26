@@ -21,6 +21,10 @@
         <div class="mt50">
           <ul class="querysty">
             <li>
+              <span class="w60 displayib tr ">手机号:</span>
+              <Input v-model="phone" class="mr20" placeholder="请输入手机号" style="width: 200px"></Input>
+            </li>
+            <li>
               <span class="w60 displayib tr ">渠道:</span>
             <Select v-model="model1" placeholder="全部" style="width:200px" class="">
                 <Option value="" >全部</Option>
@@ -107,8 +111,16 @@
           <div  class="newtype_file mt15 mb15">
             <ul class="reg_particulars">
               <li>
-                <span>UID:</span>
-                <span>{{regpart.dataId}}</span>
+                <span>序号:</span>
+                <span>{{num}}</span>
+              </li>
+              <li>
+                <span>渠道:</span>
+                <span>{{regpart.channelName}}</span>
+              </li>
+              <li>
+                <span>供应商:</span>
+                <span>{{regpart.supplierName}}</span>
               </li>
               <li>
                 <span>姓名:</span>
@@ -118,6 +130,14 @@
                 <span>手机号:</span>
                 <span>{{regpart.mobile}}</span>
               </li>
+              <li>
+                <span>步骤:</span>
+                <span>{{regpart.step}}</span>
+              </li>
+              <li>
+                <span>城市:</span>
+                <span>{{regpart.city}}</span>
+              </li> 
               <li>
                 <span>生日:</span>
                 <span>{{regpart.appBirthday}}</span>
@@ -131,11 +151,7 @@
               <li>
                 <span>年龄:</span>
                 <span>{{regpart.age}}</span>
-              </li>
-              <li>
-                <span>城市:</span>
-                <span>{{regpart.city}}</span>
-              </li>
+              </li>            
               <li>
                 <span>M城市:</span>
                 <span>{{regpart.mobileCity}}</span>
@@ -147,23 +163,7 @@
               <li>
                 <span>注册时间:</span>
                 <span>{{regpart.registrationTime}}</span>
-              </li>
-              <li>
-                <span>供应商:</span>
-                <span>{{regpart.supplierName}}</span>
-              </li>
-              <li>
-                <span>渠道:</span>
-                <span>{{regpart.channelName}}</span>
-              </li>
-              <li>
-                <span>步骤:</span>
-                <span>{{regpart.step}}</span>
-              </li>
-              <li>
-                <span>IP:</span>
-                <span>{{regpart.ip}}</span>
-              </li>
+              </li>              
               <li>
                 <span>社保:</span>
                 <span v-if="regpart.security==1">有</span>
@@ -209,6 +209,10 @@
                 <span v-if="regpart.creditCard==1">有</span>
                 <span v-if="regpart.creditCard==0">无</span>
               </li>
+              <li>
+                <span>IP:</span>
+                <span>{{regpart.ip}}</span>
+              </li>
               <li class="w100b">
                 <span>浏览器版本号:</span>
                 <span>{{regpart.userAgent}}</span>
@@ -233,7 +237,9 @@ export default {
       value2: '',
       value3: '',
       value4: '',
+      phone: '',
       total: 0,
+      num: '',
       startRow: 1,
       endRow: 10,
       regpart: {},
@@ -285,39 +291,27 @@ export default {
             ])
           }
         },
-        // {
-        //   title: 'UID',
-        //   align: 'center',
-        //   width: 100,
-        //   render: (h, params) => {
-        //     return h('div', [
-        //       h('span', {
-        //         style: {
-        //           display: 'inline-block',
-        //           width: '100%',
-        //           overflow: 'hidden',
-        //           textOverflow: 'ellipsis',
-        //           whiteSpace: 'nowrap'
-        //         },
-        //         domProps: {
-        //           title: params.row.dataId
-        //         }
-        //       }, params.row.dataId)
-        //     ])
-        //   }
-        // },
         {
-          title: '渠道',
+          title: 'UID',
           align: 'center',
           width: 100,
-          key: 'channelName'
-        },
-        {
-          title: '供应商',
-          align: 'center',
-          width: 120,
-          key: 'supplierName'
-        },
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  display: 'inline-block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap'
+                },
+                domProps: {
+                  title: params.row.dataId
+                }
+              }, params.row.dataId)
+            ])
+          }
+        },       
         {
           title: '姓名',
           align: 'center',
@@ -329,8 +323,7 @@ export default {
           align: 'center',
           width: 120,
           key: 'mobile',
-          render: (h, params) => {
-            this.regpart = params.row
+          render: (h, params) => {           
             return h('div', [
               h('span', {
                 style: {
@@ -340,30 +333,14 @@ export default {
                 on: {
                   click: () => {
                     this.modal9 = true
+                    this.num = params.index+1
+                    this.regpart = params.row
                   }
                 }
                 
               }, params.row.mobile)
             ])
           }
-        },
-        {
-          title: '步骤',
-          align: 'center',
-          width: 100,
-          key: 'step'
-        },
-         {
-          title: '注册时间',
-          align: 'center',
-          width: 160,
-          key: 'registrationTime'
-        },
-        {
-          title: '城市',
-          align: 'center',
-          width: 100,
-          key: 'city'
         },
         {
           title: '生日',
@@ -395,12 +372,12 @@ export default {
           align: 'center',
           width: 80,
           key: 'age'
-        },
+        },        
         {
-          title: 'IP',
+          title: '城市',
           align: 'center',
-          width: 150,
-          key: 'ip'
+          width: 100,
+          key: 'city'
         },
         {
           title: 'M城市',
@@ -687,7 +664,8 @@ export default {
         beginTime: this.value1,
         endTime: this.value2,
         pageNum: this.startRow,
-        pageSize: this.endRow
+        pageSize: this.endRow,
+        mobile : this.phone
       }
       this.http.post(BASE_URL + '/loan/dwqUser/registerList', list)
     .then((resp) => {

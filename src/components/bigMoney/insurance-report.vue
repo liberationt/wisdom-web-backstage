@@ -124,6 +124,22 @@ export default {
 							])
           }
         },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 110,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
+        },
          {
           title: '推送状态',
           align: 'center',

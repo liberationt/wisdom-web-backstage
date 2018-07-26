@@ -34,14 +34,13 @@
                     </RadioGroup>
                 </li>                             
                 <li class="mt15" v-if="manual">
-                  <span>注册后:</span>
+                  <span>注册后XX时间段内推送:</span>
                   <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
                   <RadioGroup v-model="datatime" class="ml5" style="margin-top:-5px">
                         <Radio label="分"></Radio>
                         <Radio label="小时"></Radio>
                         <Radio label="天"></Radio>
                     </RadioGroup>
-                    <span>推送</span>
                 </li>              
                 <li class="mt15">
                     <span >推送字段:</span>
@@ -79,6 +78,7 @@
           title="居住城市"
           v-model="modal9"
           @on-ok="upload"
+          @on-cancel="cancel"
           ok-text="确定"
           cancel-text="取消"
           class-name="vertical-center-modal"
@@ -374,6 +374,9 @@ export default {
         event.target.parentNode.parentNode.getElementsByClassName('limitnum')[0].style.display = 'inline-block'
       }
     },
+    cancel () {
+      this.city = []
+    },
     // 城市保存
     upload () {
       // let limitnum = document.getElementsByClassName('limitnum')
@@ -425,6 +428,7 @@ export default {
           title: title,
           content: content
         })
+        this.city = []
         this.modal9 = false
       } else {
 

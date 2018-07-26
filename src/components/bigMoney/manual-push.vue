@@ -96,7 +96,7 @@ import utils from '../../utils/utils'
 					{
 						title: '文件名称',
 						align: 'center',
-						width: 130,
+						width: 170,
 						render: (h, params) => {
 						return h('div', [
 						h('span', {
@@ -115,30 +115,20 @@ import utils from '../../utils/utils'
 						}
 					},
 					{
-						title: '推送模式',
-						align: 'center',
-						width: 125,
-						render: (h, params) => {
-							return h('div', [
-								h('span', {}, '手动')
-							])
-						}
-					},
-					{
 						title: '甲方名称',
 						align: 'center',
 						width: 125,
 						key: 'mediaName'
-					},
+					},										
 					{
-						title: '上传时间',
+						title: '推送总条数',
 						align: 'center',
-						width: 160,
-						key: 'dataCreateTime'
+						width: 120,
+						key: 'partyaSuccNum'
 					},
 					{
 						title: '推送详情',
-						width: 150,
+						width: 170,
 						align: 'center',
 						render: (h, params) => {
 							return h('div', [
@@ -162,10 +152,22 @@ import utils from '../../utils/utils'
 						}
 					},
 					{
-						title: '推送总条数',
+						title: '转化失败条数',
 						align: 'center',
 						width: 120,
-						key: 'partyaSuccNum'
+						key: 'pullFailNum'
+					},
+					{
+						title: '转化成功条数',
+						align: 'center',
+						width: 120,
+						key: 'pullSuccNum'
+					},
+					{
+						title: '上传时间',
+						align: 'center',
+						width: 170,
+						key: 'dataCreateTime'
 					},
 					{
 						title: '上传条数',
@@ -188,7 +190,7 @@ import utils from '../../utils/utils'
 					{
 						title: '上传失败详情',
 						align: 'center',
-						width: 125,
+						width: 180,
 						render: (h, params) => {
 							// console.log(params.row.uploadFailUrl)
 							if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
@@ -219,19 +221,7 @@ import utils from '../../utils/utils'
 							}
 							
 						}
-					},
-					{
-						title: '转化失败条数',
-						align: 'center',
-						width: 120,
-						key: 'pullFailNum'
-					},
-					{
-						title: '转化成功条数',
-						align: 'center',
-						width: 120,
-						key: 'pullSuccNum'
-					},
+					}
 				],
 				data6: [],
 				uploadl:''

@@ -3,7 +3,7 @@
 <div>
   <div class="navigation">
     <p>
-      <span>忘记密码</span>
+      <span>修改密码</span>
     </p>
   </div>
    <Row class="mt50">
