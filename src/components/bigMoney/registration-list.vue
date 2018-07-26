@@ -456,8 +456,7 @@ export default {
               }, weilidai)
             ])
           }
-        },
-        
+        }
       ],
       data1: [],
       columns2: [
@@ -642,6 +641,7 @@ export default {
     // 渠道
     this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', {pageSize: 1000})
     .then((resp) => {
+      // console.log(resp.data.promotionManageList)
       if (resp.code == 'success') {
         this.cityList = resp.data.promotionManageList
       } else {
@@ -653,6 +653,7 @@ export default {
      // 供应商
     this.http.post(BASE_URL + '/loan/promotionSupplier/queryAllList', {})
     .then((resp) => {
+      // console.log(resp.data)
       if (resp.code == 'success') {
         this.cityList2 = resp.data
       } else {
