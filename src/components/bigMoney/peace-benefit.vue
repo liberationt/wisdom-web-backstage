@@ -2,8 +2,8 @@
     <div>
         <div class="navigation">
             <p>
-              <span class="navigation_batch" @click="batch">推广批次报表</span>
-              <span class="navigation_detailed" @click="detailed">推广明细报表</span>
+              <span class="navigation_batch" @click="batch">推送批次报表</span>
+              <span class="navigation_detailed" @click="detailed">推送明细报表</span>
             </p>
         </div>
         <div class="mt50">
@@ -480,7 +480,6 @@ export default {
         pageNum: this.startRow,
         pageSize: this.endRow,
       }
-      console.log(list)
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
         if(data.code = 'success'){
           this.total = Number(data.data.total)

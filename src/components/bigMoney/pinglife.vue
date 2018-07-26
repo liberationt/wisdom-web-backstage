@@ -306,6 +306,7 @@ export default {
     },
     // 查询
     registered() {
+      alert(1)
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -382,6 +383,11 @@ export default {
     let pushname = this.$route.query.pushname
     let list = {
       pushBatchNum: this.$route.query.id,
+      pushStatus : this.model3,
+      beginTime : this.value1,
+      endTime : this.value2,
+      pageNum: this.startRow == 0 ? 1 : this.startRow,
+      pageSize: this.endRow
     } 
 		if(pushname == 'luohui'){
 			this.post('/loan/zxLhpingan/getZxLhpinganList',list,pushname)

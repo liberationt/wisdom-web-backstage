@@ -34,7 +34,7 @@
                     </RadioGroup>
                 </li>                             
                 <li class="mt15" v-if="manual">
-                  <span>注册后XX时间段内推送:</span>
+                  <span>注册XX时间段后推送:</span>
                   <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
                   <RadioGroup v-model="datatime" class="ml5" style="margin-top:-5px">
                         <Radio label="分"></Radio>
