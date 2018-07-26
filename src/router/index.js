@@ -103,7 +103,7 @@ let routes = [
     iconCls: 'ios-home', // 图标样式class
     children: [
       {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true, meta: { auth: true }},
-      {path: '/forgetpass', component: forgetpass, names: '忘记密码', hidden: true},
+      {path: '/forgetpass', component: forgetpass, names: '修改密码', hidden: true, meta: { auth: true }},
       {path: '/versionManagement', component: versionManagement, names: '版本管理', meta: { auth: true }},
       {path: '/cardCenter', component: cardCenter, names: '信用卡中心', meta: { auth: true }},
       {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置', meta: { auth: true }},

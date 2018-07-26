@@ -395,7 +395,6 @@ export default {
           align: 'center',
           width: 80,
           key: 'age'
-<<<<<<< HEAD
         },
         {
           title: 'IP',
@@ -403,16 +402,6 @@ export default {
           width: 150,
           key: 'ip'
         },
-        
-=======
-        },        
-        {
-          title: '城市',
-          align: 'center',
-          width: 100,
-          key: 'city'
-        },
->>>>>>> 7082b222ce7e8ec8f0db4498d942f67beeac7644
         {
           title: 'M城市',
           align: 'center',
