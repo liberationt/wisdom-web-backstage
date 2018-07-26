@@ -19,9 +19,9 @@
             </Select>
             <div class="margin_top">
               <span class=" tr displayib">推送时间:</span>
-              <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
             </div>
             <!-- <div class="mt15">
             <span class=" tr displayib">推送时间:</span>
@@ -85,25 +85,25 @@ export default {
         {
           title: '姓名',
           align: 'center',
-          width: 200,
+          width: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
-          width: 200,
+          width: 140,
           key: 'mobile'
         },
         {
           title: '城市',
           align: 'center',
-          width: 150,
+          width: 120,
           key: 'city'
         },
         {
           title: '媒体来源编号',
           align: 'center',
-          width: 300,
+          width: 200,
           key: 'mediaSource'
         },
         {
@@ -119,7 +119,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'errorMsg',
+          title: '错误信息',
           align: 'center',
           width: 100,
           render: (h, params) => {
@@ -137,13 +137,13 @@ export default {
           }
         },
         {
-          title: 'resultCode',
+          title: '结果代码',
           align: 'center',
           width: 120,
           key: 'resultCode'
         },
         {
-          title: 'errorCode',
+          title: '错误代码',
           align: 'center',
           width: 150,
           key: 'errorCode'
@@ -151,7 +151,7 @@ export default {
         {
           title: '推送状态',
           align: 'center',
-          width: 150,
+          width: 110,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -303,21 +303,20 @@ export default {
     }
   },
   created() {
-    // let pushname = this.$route.query.pushname
-    // let list = {
-    //   pushBatchNum: this.$route.query.id,
-    //   pageNum: this.startRow,
-    //   pageSize: this.endRow,
-    // }
-    // if(pushname == 'qingjian'){
-    //   this.post('/loan/dkQjpuhui/getDkQjpuhuiList',list,pushname)
-    // } else if(pushname == 'baojie'){
-    //   this.post('/loan/dkBJpuhui/getDkBJpuhuiList',list,pushname)
-    // } else if(pushname == 'benxiang'){
-    //   this.post('/loan/dkBxpuhui/getDkBxpuhuiList',list,pushname)
-    // } else if(pushname == 'kunxuan'){
-    //   this.post('/loan/dkKxpuhui/getDkKxpuhuiList',list,pushname)
-    // }
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    this.value1 = currentdate
+    this.value2 = currentdate
     this.registered()
   }
 }

@@ -220,13 +220,13 @@ export default {
         {
           title: '排序',
           align: 'center',
-          width: 60,
+          width: 100,
           key: 'sort'
         },
         {
           title: '产品名称',
           align: 'center',
-          width: 90,
+          width: 100,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -287,7 +287,7 @@ export default {
         {
           title: '产品说明',
           align: 'center',
-           width: 140,
+           width: 210,
           key: 'subtitle',
           render: (h, params) => {
             return h('div', [
@@ -335,7 +335,7 @@ export default {
         {
           title: '利率',
           align: 'center',
-          width: 100,
+          width: 110,
           key: '',
           render: (h, params) => {
             let baif = params.row.interest+'%'       
@@ -348,7 +348,7 @@ export default {
         {
           title: 'URL',
           align: 'center',
-           width: 140,
+           width: 160,
           ellipsis: true,
           render: (h, params) => {
             return h('div', [

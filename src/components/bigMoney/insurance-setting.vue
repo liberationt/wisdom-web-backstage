@@ -112,7 +112,7 @@ export default {
         {
           title: '文件名称',
           align: 'center',
-          width: 150,
+          width: 140,
           render: (h, params) => {
 						return h('div', [
 						h('span', {
@@ -133,7 +133,7 @@ export default {
         {
           title: '推送主体',
           align: 'center',
-          width: 160,
+          width: 140,
           key: 'mediaName', //{{ this.$route.query.name }}
         },
         {
@@ -145,25 +145,25 @@ export default {
         {
           title: '上传条数',
           align: 'center',
-          width: 160,
+          width: 120,
           key: 'sendNum'
         },
         {
           title: '上传成功条数',
           align: 'center',
-           width: 160,
+           width: 120,
           key: 'succNum'
         },
         {
           title: '上传失败条数',
           align: 'center',
-           width: 160,
+           width: 120,
           key: 'failNum'
         },
         {
           title: '上传失败详情',
           align: 'center',
-           width: 160,
+           width: 120,
           key: 'uploadFailUrl',
           render: (h, params) => {
           if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
@@ -197,19 +197,19 @@ export default {
         {
           title: '推送总条数',
           align: 'center',
-           width: 160,
+           width: 120,
           key: 'partyaSuccNum'
         },
         {
           title: '推送失败条数',
           align: 'center',
-           width: 160,
+           width: 120,
           key: 'pullFailNum'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          width: 125,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -225,13 +225,13 @@ export default {
         {
           title: '转化成功条数',
           align: 'center',
-           width: 160,
+           width: 125,
           key: 'pullSuccNum'
         },
         {
           title: '推送详情',
           key: 'address',
-          width: 150,
+          width: 130,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -484,8 +484,6 @@ export default {
     // 如果路由有变化，会再次执行该方法
     $route( to , from ){   
       this.model2 = ''
-      this.value2 = ''
-      this.value1 = ''  
       let pushname = this.$route.query.life
       this.jname(pushname)
       let list = {

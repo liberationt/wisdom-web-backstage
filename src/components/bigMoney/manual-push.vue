@@ -90,13 +90,13 @@ import utils from '../../utils/utils'
 					// {
 					// 	title: '批次',
 					// 	align: 'center',
-					// 	width: 140,
+					// 	width: 125,
 					// 	key: 'batchCode'
 					// },
 					{
 						title: '文件名称',
 						align: 'center',
-						width: 140,
+						width: 130,
 						render: (h, params) => {
 						return h('div', [
 						h('span', {
@@ -117,7 +117,7 @@ import utils from '../../utils/utils'
 					{
 						title: '推送模式',
 						align: 'center',
-						width: 140,
+						width: 125,
 						render: (h, params) => {
 							return h('div', [
 								h('span', {}, '手动')
@@ -127,7 +127,7 @@ import utils from '../../utils/utils'
 					{
 						title: '甲方名称',
 						align: 'center',
-						width: 140,
+						width: 125,
 						key: 'mediaName'
 					},
 					{
@@ -139,25 +139,25 @@ import utils from '../../utils/utils'
 					{
 						title: '上传条数',
 						align: 'center',
-						width: 140,
+						width: 120,
 						key: 'sendNum'
 					},
 					{
 						title: '上传成功条数',
 						align: 'center',
-						width: 140,
+						width: 120,
 						key: 'succNum'
 					},
 					{
 						title: '上传失败条数',
 						align: 'center',
-						width: 140,
+						width: 120,
 						key: 'failNum'
 					},
 					{
 						title: '上传失败详情',
 						align: 'center',
-						width: 140,
+						width: 125,
 						render: (h, params) => {
 							// console.log(params.row.uploadFailUrl)
 							if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
@@ -192,19 +192,19 @@ import utils from '../../utils/utils'
 					{
 						title: '推送总条数',
 						align: 'center',
-						width: 140,
+						width: 120,
 						key: 'partyaSuccNum'
 					},
 					{
 						title: '转化失败条数',
 						align: 'center',
-						width: 140,
+						width: 120,
 						key: 'pullFailNum'
 					},
 					{
 						title: '转化成功条数',
 						align: 'center',
-						width: 140,
+						width: 120,
 						key: 'pullSuccNum'
 					},
 					{

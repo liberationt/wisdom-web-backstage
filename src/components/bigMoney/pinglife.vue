@@ -73,7 +73,7 @@ export default {
         {
           title: '姓名',
           align: 'center',
-          width: 100,
+          width: 80,
           key: 'name'
         },
         {
@@ -85,7 +85,7 @@ export default {
         {
           title: '性别',
           align: 'center',
-          width: 100,
+          width: 60,
           render: (h, params) => {
             let sex 
             if (params.row.sex == 'M') {
@@ -153,13 +153,13 @@ export default {
           }
 				},
         {
-          title: 'errCode',
+          title: '错误代码',
           align: 'center',
           width: 200,
           key: 'errCode'
         },
         {
-          title: 'errMsg',
+          title: '错误信息',
           align: 'center',
           width: 200,
           key: 'errMsg'
@@ -191,8 +191,7 @@ export default {
           key: 'pushTime'
         },
       ],
-      data1: [
-      ],
+      data1: [],
       value1: '',
       value2: '',
       total: 0,

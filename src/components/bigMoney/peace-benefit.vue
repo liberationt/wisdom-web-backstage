@@ -135,7 +135,7 @@ export default {
         },
         {
           title: '推送主体',
-           width: 150,
+           width: 160,
           align: 'center',
           key: 'mediaName'
         },
@@ -148,25 +148,25 @@ export default {
         {
           title: '上传条数',
           align: 'center',
-           width: 150,
+           width: 110,
           key: 'sendNum'
         },
         {
           title: '上传成功条数',
           align: 'center',
-           width: 150,
+           width: 115,
           key: 'succNum'
         },
         {
           title: '上传失败条数',
           align: 'center',
-           width: 150,
+           width: 115,
           key: 'failNum'
         },
         {
           title: '上传失败详情',
           align: 'center',
-           width: 150,
+           width: 120,
           key: 'uploadFailUrl',
           render: (h, params) => {
             if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
@@ -201,7 +201,7 @@ export default {
         {
           title: '推送总条数',
           align: 'center',
-           width: 150,
+           width: 115,
            render: (h, params) => {
             let Code = params.row.pullSuccNum+params.row.pullFailNum
             return h('div', [
@@ -212,13 +212,13 @@ export default {
         {
           title: '推送失败条数',
           align: 'center',
-           width: 150,
+           width: 110,
           key: 'pullFailNum'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          width: 110,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -234,7 +234,7 @@ export default {
         {
           title: '转化成功条数',
           align: 'center',
-           width: 80,
+           width: 110,
           key: 'pullSuccNum'
         },
         {
@@ -534,8 +534,6 @@ export default {
     // 如果路由有变化，会再次执行该方法
     $route( to , from ){
       this.model2 = ''
-      this.value1 = ''
-      this.value2 = ''
       let pushname = this.$route.query.pushname
       this.jname(pushname)
         let list = {

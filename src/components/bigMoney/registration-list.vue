@@ -240,7 +240,7 @@ export default {
         {
           title: '性别',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let appSex = ''
             if (params.row.appSex == '1') {
@@ -259,7 +259,7 @@ export default {
         {
           title: '年龄',
           align: 'center',
-          width: 100,
+          width: 80,
           key: 'age'
         },
         {
@@ -283,7 +283,7 @@ export default {
         {
           title: '社保',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let security = ''
             if (params.row.security == 1) {
@@ -302,7 +302,7 @@ export default {
         {
           title: '公积金',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let fund = ''
             if (params.row.fund == 1) {
@@ -321,7 +321,7 @@ export default {
         {
           title: '房',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let house = ''
             if (params.row.house == 1) {
@@ -340,7 +340,7 @@ export default {
         {
           title: '房贷',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let hasHouseLoan = ''
             if (params.row.hasHouseLoan == '1') {
@@ -359,7 +359,7 @@ export default {
         {
           title: '车',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let car = ''
             if (params.row.car == 1) {
@@ -378,7 +378,7 @@ export default {
         {
           title: '车贷',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let hasCarLoan = ''
             if (params.row.hasCarLoan == '1') {
@@ -397,7 +397,7 @@ export default {
         {
           title: '寿险保单',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let policy = ''
             if (params.row.policy == 1) {
@@ -416,7 +416,7 @@ export default {
         {
           title: '微粒贷',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let weilidai = ''
             if (params.row.weilidai == 1) {
@@ -435,7 +435,7 @@ export default {
         {
           title: '有无信用卡',
           align: 'center',
-          width: 100,
+          width: 80,
           render: (h, params) => {
             let weilidai = ''
             if (params.row.creditCard == 1) {
