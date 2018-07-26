@@ -10,13 +10,13 @@
         <Col span="8" offset="8">
         <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" style="width:400px" :label-width="80">
             <FormItem label="原密码" prop="passwd" style="width:400px">
-                <Input type="password" v-model="formCustom.passwd"></Input>
+                <Input type="password" placeholder="请输入当前使用密码" v-model="formCustom.passwd"></Input>
             </FormItem>
             <FormItem label="新密码" prop="passwdCheck" style="width:400px">
-                <Input type="password" v-model="formCustom.passwdCheck"></Input>
+                <Input type="password" placeholder="请输入6-18位新密码" v-model="formCustom.passwdCheck"></Input>
             </FormItem>
             <FormItem label="确认密码" prop="newpwd" style="width:400px">
-                <Input type="password" v-model="formCustom.newpwd"></Input>
+                <Input type="password" placeholder="请再次输入新密码确认" v-model="formCustom.newpwd"></Input>
             </FormItem>
             <FormItem class="mt50 clearfix">
                 <Button type="primary" class="w100 left ml20" @click="handleSubmit('formCustom')">保存</Button>
@@ -72,7 +72,7 @@ export default {
           if(this.formCustom.passwdCheck != this.formCustom.newpwd){
             this.changeLoading()
             const title = '密码有误'
-            let content = '<p>请重新输入</p>'
+            let content = '<p>确认密码和新密码不匹配</p>'
             this.$Modal.warning({
               title: title,
               content: content,

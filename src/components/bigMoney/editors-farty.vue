@@ -66,7 +66,7 @@
                     </RadioGroup>
                 </li>
                 <li class="mt15 tc mb50">
-                    <Button class="w100" @click="cancel">取消</Button>
+                    <Button class="w100" @click="cancelfh">取消</Button>
                     &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                     <Button class="w100" type="primary" @click="preservation">保存</Button>
                 </li>
@@ -363,7 +363,7 @@ export default {
     // checkAllGroupChange (data) {
     //   console.log(this.social)
     // },
-    cancel () {
+    cancelfh () {
       this.$router.push({ path: './partyManagement' })
     },
     // 点击勾选输入框判断
