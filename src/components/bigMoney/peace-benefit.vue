@@ -35,7 +35,7 @@
             </div>
         </div>
         <div class="mt20">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
           <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -45,7 +45,7 @@
           v-model="modal9"
           @on-ok="upload"
           @on-cancel="handleReset"
-          ok-text="提交"
+          ok-text="上传"
           cancel-text="取消"
           class-name="vertical-center-modal"
           width="500"
@@ -62,7 +62,7 @@
                 <span>{{zhuname}}</span>
             </li>
             <li class="mt15 clearfix">
-                <span class="left lh32">上传文件:</span>
+                <span class="left lh32">选择文件:</span>
             <Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
             <Upload
             :before-upload="handleUpload"
@@ -71,8 +71,12 @@
             :on-format-error="handleFormatError2"
             :max-size="12800"
             action=''>
-            <Button type="ghost" icon="ios-cloud-upload-outline">上传</Button>
+            <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
         </Upload>
+            </li>
+            <li class="mt15 clearfix">
+              <span class="left lh32">上传模板:</span>
+              <a :href="value3" class="blue1 left lh32 ml5" >{{hrefxls}}</a>
             </li>
         </ul>
           </div>
@@ -93,6 +97,8 @@ export default {
       modal9: false,
       loading: true,
       value9: '',
+      hrefxls: '',
+      value3: '',
       cityList: [
         {
           value: '平安普惠',
@@ -100,12 +106,12 @@ export default {
         }
       ],
       columns7: [
-        {
-          title: '批次',
-          align: 'center',
-          width: 150,
-          key: 'batchCode'
-        },
+        // {
+        //   title: '批次',
+        //   align: 'center',
+        //   width: 150,
+        //   key: 'batchCode'
+        // },
         {
           title: '文件名称',
           align: 'center',
@@ -131,12 +137,7 @@ export default {
           title: '推送主体',
            width: 150,
           align: 'center',
-          render: (h, params) => {
-            let Code = this.zhuname
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
+          key: 'mediaName'
         },
         {
           title: '上传时间',
@@ -168,7 +169,7 @@ export default {
            width: 150,
           key: 'uploadFailUrl',
           render: (h, params) => {
-            if(params.row.uploadFailUrl != null){
+            if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
               return h('div', [
                 h('Button', {
                   props: {
@@ -213,6 +214,22 @@ export default {
           align: 'center',
            width: 150,
           key: 'pullFailNum'
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
         {
           title: '转化成功条数',
@@ -310,7 +327,8 @@ export default {
         let list = {
 						partyaKey: this.batchKey,
             url: this.filename2,
-            originName: this.value9
+            originName: this.value9,
+            pushMain: this.zhuname
 					}
         this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list).then(data=>{
           if(data.code == 'success'){
@@ -380,6 +398,8 @@ export default {
         this.zhuname = '卿见'
         this.pushname1 = 'qingjian'
         this.batchKey = 'partya-qingjian-pinganpuhui'
+        this.hrefxls = 'pinganpuhui_qj.xlsx'
+        this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_qj.xlsx'
         this.cityList = [{
           value: '卿见',
           label: '卿见'
@@ -389,6 +409,8 @@ export default {
         this.zhuname = '保街'
         this.pushname1 = 'baojie'
         this.batchKey = 'partya-baojie-pinganpuhui'
+        this.hrefxls = 'pinganpuhui_bj.xlsx'
+        this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_bj.xlsx'
         this.cityList = [{
           value: '保街',
           label: '保街'
@@ -398,6 +420,8 @@ export default {
         this.zhuname = '本祥'
         this.pushname1 = 'benxiang'
         this.batchKey = 'partya-benxiang-pinganpuhui'
+        this.hrefxls = 'pinganpuhui_bx.xlsx'
+        this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_bx.xlsx'
         this.cityList = [{
           value: '本祥',
           label: '本祥'
@@ -407,6 +431,8 @@ export default {
         this.zhuname = '坤玄'
         this.pushname1 = 'kunxuan'
         this.batchKey = 'partya-kunxuan-pinganpuhui'
+        this.hrefxls = 'pinganpuhui_kx.xlsx'
+        this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_kx.xlsx'
         this.cityList = [{
           value: '坤玄',
           label: '坤玄'
@@ -472,6 +498,20 @@ export default {
     }
   },
   created() {
+    var date = new Date();
+			var seperator1 = "-";
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+			month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+			}
+			var currentdate = year + seperator1 + month + seperator1 + strDate;
+			this.value1 =  currentdate;
+			this.value2 = currentdate;
     let pushname = this.$route.query.pushname
     this.jname(pushname)
     let list = {

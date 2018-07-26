@@ -34,7 +34,7 @@
                 <img src="../../image/small.png" alt="">
               </Badge>
             </li> -->
-            <li class="adminhead">
+            <li v-if="users" class="adminhead">
               <img src="../../image/poptx.jpeg" alt="">
               <span class="ml5">{{username}}</span>
               <a href="javascript:;" @click="introduction">退出</a>
@@ -66,6 +66,7 @@ export default {
   data() {
     return {
       modal8: false,
+      users: false,
       username: "",
       cityList: [
         {
@@ -130,8 +131,22 @@ export default {
   },
   mounted() {
     let that = this;
-    that.username = JSON.parse(utils.getCookie("user"));
-    that.headerdata = JSON.parse(utils.getlocal("userInfo")).menuInfo.children;
+    if (utils.getCookie("user")) {
+      that.username = JSON.parse(utils.getCookie("user"));
+      this.users = true
+    } else {
+      that.username = ''
+      this.users = false
+    }
+    if (utils.getlocal("userInfo")) {
+      that.headerdata = JSON.parse(utils.getlocal("userInfo")).menuInfo.children;
+      this.users = true
+    } else {
+      that.headerdata = ''
+      this.users = false
+    }
+    
+    
   }
 };
 </script>
@@ -141,13 +156,16 @@ export default {
   height: 50px;
   width: 100%;
   background: #3e81f2;
+  position: fixed;
+  top: 0;
+  z-index: 100;
 }
 .headleft {
   height: 100%;
   img {
     // width: 120px;
-    height: 42px;
-    margin: 4px auto;
+    height: 40px;
+    margin: 5px auto;
     display: block;
   }
 }

@@ -15,14 +15,14 @@
             </li>
             <li>
               <span class="w60 displayib">推送时间:</span>
-              <DatePicker type="date" @on-change="time1" placeholder="开始时间" class="" style="width: 190px"></DatePicker>
+              <DatePicker type="date" :value='value1' @on-change="time1" placeholder="开始时间" class="" style="width: 190px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" class="mr20" @on-change="time2" placeholder="结束时间" style="width: 190px"></DatePicker>
+              <DatePicker type="date" :value='value2' class="mr20" @on-change="time2" placeholder="结束时间" style="width: 190px"></DatePicker>
             </li>
-            <li>
+            <!-- <li>
               <span class="w60 displayib">批次号:</span>
             <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 180px"></Input>
-            </li>
+            </li> -->
             <li>
               <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:200px" class="mr20">
@@ -51,7 +51,7 @@
         </div>
 
         <div class="mt20">
-            <Table border :columns="party1" :data="data1"></Table>
+            <Table border highlight-row :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -72,6 +72,8 @@ export default {
       model5: '',
       value1: '',
       value2: '',
+      timval1: '',
+      timval2: '',
       total: 0,
 			startRow: 1,
 			endRow: 10,
@@ -197,7 +199,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'Code',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let code 
@@ -216,7 +218,7 @@ export default {
           }
         },
         {
-          title: 'Message',
+          title: '返回信息',
           align: 'center',
           key: 'message'
         },
@@ -236,6 +238,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -262,7 +280,7 @@ export default {
           key: 'city'
         },
         {
-          title: '是否打卡发薪',
+          title: '打卡发薪',
           align: 'center',
           render: (h, params) => {
             let salaryGetForm 
@@ -277,7 +295,7 @@ export default {
 						}
         },
         {
-          title: '社保(有/无)',
+          title: '社保',
           align: 'center',
           render: (h, params) => {
             let socialSecurity 
@@ -292,7 +310,7 @@ export default {
 						}
         },
          {
-          title: '公积金(有/无)',
+          title: '公积金',
           align: 'center',
           render: (h, params) => {
             let accumulationFund 
@@ -317,7 +335,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'Code',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let code 
@@ -334,7 +352,7 @@ export default {
 						}
         },
         {
-          title: 'errorMessage',
+          title: '错误信息',
           align: 'center',
           key: 'errorMessage'
         },
@@ -354,6 +372,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -389,7 +423,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'Code',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let code
@@ -406,7 +440,7 @@ export default {
           }
         },
         {
-          title: 'validResult',
+          title: '验证结果',
           align: 'center',
           render: (h, params) => {
             let validResult
@@ -423,12 +457,12 @@ export default {
           }
         },
         {
-          title: 'validFailMsg',
+          title: '验证失败信息',
           align: 'center',
           key: 'validFailMsg'
         },
         {
-          title: 'msg',
+          title: '返回信息',
           align: 'center',
           key: 'msg'
         },
@@ -448,6 +482,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -498,7 +548,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'returnCode',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let returnCode
@@ -515,7 +565,7 @@ export default {
 						}
         },
         {
-          title: 'returnMsg',
+          title: '返回信息',
           align: 'center',
           key: 'returnMsg'
         },
@@ -535,6 +585,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -575,7 +641,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'retCode',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
           const retCode = params.row.retCode
@@ -593,7 +659,7 @@ export default {
           } else if (retCode == '7') {
             pushStatus = '恶意电话'
           } else {
-            pushStatus = '成功'
+            pushStatus = '失败'
           }
           return h('div', [
             h('span', {}, pushStatus)
@@ -616,6 +682,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -711,7 +793,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'rspCode',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let rspCode
@@ -728,12 +810,12 @@ export default {
 						}
         },
         {
-          title: 'rspMsg',
+          title: '返回信息',
           align: 'center',
           key: 'rspMsg'
         },
         {
-          title: 'showMsg',
+          title: '展示信息',
           align: 'center',
           key: 'showMsg'
         },
@@ -753,6 +835,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -805,7 +903,7 @@ export default {
           key: 'dataCreateTime'
         },  
         {
-          title: 'succ',
+          title: '转化结果',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -824,7 +922,7 @@ export default {
 					}
         },
         {
-          title: 'msg',
+          title: '返回码',
           align: 'center',
            key: 'msg'
         },
@@ -844,6 +942,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -879,7 +993,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'databusStatus',
+          title: '数据状态',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -896,7 +1010,7 @@ export default {
 					}
         },
         {
-          title: 'errorMessage',
+          title: '错误信息',
           align: 'center',
           key: 'errorMessage'
         },
@@ -916,6 +1030,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -951,7 +1081,7 @@ export default {
           key:'duration'
         },
         {
-          title: '公积金(有/无)',
+          title: '公积金',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -966,7 +1096,7 @@ export default {
 					}
         },
         {
-          title: '社保(有/无)',
+          title: '社保',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -981,7 +1111,7 @@ export default {
 					}
         },
         {
-          title: '寿险(有/无)',
+          title: '寿险',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -996,7 +1126,7 @@ export default {
 					}
         },
         {
-          title: '保单(有/无)',
+          title: '保单',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1011,7 +1141,7 @@ export default {
 					}
         },
         {
-          title: '微粒贷(有/无)',
+          title: '微粒贷',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1026,7 +1156,7 @@ export default {
 					}
         },
         {
-          title: '信用卡(有/无)',
+          title: '信用卡',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1076,7 +1206,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'errMsg',
+          title: '错误信息',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1108,6 +1238,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -1236,7 +1382,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'resultCode',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1253,12 +1399,12 @@ export default {
 					}
         },
         {
-          title: 'errorCode',
+          title: '错误码',
           align: 'center',
           key: 'errorCode'
         },
         {
-          title: 'errorMsg',
+          title: '错误信息',
           align: 'center',
           key: 'errorMsg'
         },
@@ -1278,6 +1424,22 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
          {
           title: '推送时间',
@@ -1325,7 +1487,7 @@ export default {
           partyaKey: this.model1,
           beginTime: this.value1,
           endTime: this.value2,
-          pushBatchNum: this.model5,
+          // pushBatchNum: this.model5,
           pushStatus: this.model2,
           origin: this.model3,
           pageNum: this.startRow,
@@ -1394,7 +1556,7 @@ export default {
         formData.append("partyaKey",this.model1)
         formData.append("beginTime",this.value1)
         formData.append("endTime",this.value2)
-        formData.append("pushBatchNum",this.model5)
+        // formData.append("pushBatchNum",this.model5)
         formData.append("pushStatus",this.model2)
         formData.append("origin",this.model3)
         formData.append("methodType",1)
@@ -1407,6 +1569,20 @@ export default {
       }     
   },
   mounted () {
+      var date = new Date();
+			var seperator1 = "-";
+			var year = date.getFullYear();
+			var month = date.getMonth() + 1;
+			var strDate = date.getDate();
+			if (month >= 1 && month <= 9) {
+			month = "0" + month;
+			}
+			if (strDate >= 0 && strDate <= 9) {
+			strDate = "0" + strDate;
+			}
+			var currentdate = year + seperator1 + month + seperator1 + strDate;
+			this.value1 =  currentdate;
+			this.value2 = currentdate;
     // 甲方名称
 			this.http.post(BASE_URL + '/loan/partya/queryCompanyPartyaList?company=luohui&partyaBusiness=0&sendTypes=2')
 				.then((resp) => {

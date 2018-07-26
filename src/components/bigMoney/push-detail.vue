@@ -45,7 +45,7 @@
         </div>
 
         <div class="mt20">
-            <Table border :columns="party1" :data="data1"></Table>
+            <Table border highlight-row :columns="party1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -186,7 +186,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'Code',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let code            
@@ -203,7 +203,7 @@ export default {
           }
         },
         {
-          title: 'Message',
+          title: '消息',
           align: 'center',
           key: 'message'
         },
@@ -248,7 +248,7 @@ export default {
           key: 'city'
         },
         {
-          title: '是否打卡发薪',
+          title: '打卡发薪',
           align: 'center',
           render: (h, params) => {
             let salaryGetForm 
@@ -263,7 +263,7 @@ export default {
 						}
         },
         {
-          title: '社保(有/无)',
+          title: '社保',
           align: 'center',
           render: (h, params) => {
             let socialSecurity 
@@ -278,7 +278,7 @@ export default {
 						}
         },
          {
-          title: '公积金(有/无)',
+          title: '公积金',
           align: 'center',
           render: (h, params) => {
             let accumulationFund 
@@ -303,7 +303,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'Code',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let code 
@@ -320,7 +320,7 @@ export default {
 						}
         },
         {
-          title: 'errorMessage',
+          title: '错误消息',
           align: 'center',
           key: 'errorMessage'
         },
@@ -375,7 +375,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'Code',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let code
@@ -392,7 +392,7 @@ export default {
           }
         },
         {
-          title: 'validResult',
+          title: '验证结果',
           align: 'center',
           render: (h, params) => {
             let validResult
@@ -409,12 +409,12 @@ export default {
           }
         },
         {
-          title: 'validFailMsg',
+          title: '验证失败消息',
           align: 'center',
           key: 'validFailMsg'
         },
         {
-          title: 'msg',
+          title: '消息',
           align: 'center',
           key: 'msg'
         },
@@ -484,7 +484,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'returnCode',
+          title: '返回状态',
           align: 'center',
           render: (h, params) => {
             let returnCode
@@ -501,7 +501,7 @@ export default {
 						}
         },
         {
-          title: 'returnMsg',
+          title: '返回消息',
           align: 'center',
           key: 'returnMsg'
         },
@@ -561,7 +561,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'retCode',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
           const retCode = params.row.retCode
@@ -579,7 +579,7 @@ export default {
           } else if (retCode == '7') {
             pushStatus = '恶意电话'
           } else {
-            pushStatus = '成功'
+            pushStatus = '失败'
           }
           return h('div', [
             h('span', {}, pushStatus)
@@ -697,7 +697,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'rspCode',
+          title: '响应码',
           align: 'center',
           render: (h, params) => {
             let rspCode
@@ -714,12 +714,12 @@ export default {
 						}
         },
         {
-          title: 'rspMsg',
+          title: '响应信息',
           align: 'center',
           key: 'rspMsg'
         },
         {
-          title: 'showMsg',
+          title: '展示信息',
           align: 'center',
           key: 'showMsg'
         },
@@ -791,7 +791,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'succ',
+          title: '转化结果',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -810,7 +810,7 @@ export default {
 					}
         },
        {
-          title: 'msg',
+          title: '返回信息',
           align: 'center',
            key: 'msg'
         },
@@ -865,7 +865,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'databusStatus',
+          title: '数据状态',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -882,7 +882,7 @@ export default {
 					}
         },
         {
-          title: 'errorMessage',
+          title: '错误消息',
           align: 'center',
           key: 'errorMessage'
         },
@@ -937,7 +937,7 @@ export default {
           key:'duration'
         },
         {
-          title: '公积金(有/无)',
+          title: '公积金',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -952,7 +952,7 @@ export default {
 					}
         },
         {
-          title: '社保(有/无)',
+          title: '社保',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -967,7 +967,7 @@ export default {
 					}
         },
         {
-          title: '寿险(有/无)',
+          title: '寿险',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -982,7 +982,7 @@ export default {
 					}
         },
         {
-          title: '保单(有/无)',
+          title: '保单',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -997,7 +997,7 @@ export default {
 					}
         },
         {
-          title: '微粒贷(有/无)',
+          title: '微粒贷',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1012,7 +1012,7 @@ export default {
 					}
         },
         {
-          title: '信用卡(有/无)',
+          title: '信用卡',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1222,7 +1222,7 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: 'resultCode',
+          title: '返回码',
           align: 'center',
           render: (h, params) => {
             let succ
@@ -1239,12 +1239,12 @@ export default {
 					}
         },
         {
-          title: 'errorCode',
+          title: '错误码',
           align: 'center',
           key: 'errorCode'
         },
         {
-          title: 'errorMsg',
+          title: '错误信息',
           align: 'center',
           key: 'errorMsg'
         },

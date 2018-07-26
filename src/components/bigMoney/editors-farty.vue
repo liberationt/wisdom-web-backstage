@@ -34,13 +34,14 @@
                     </RadioGroup>
                 </li>                             
                 <li class="mt15" v-if="manual">
-                  <span>推送周期设置:</span>
+                  <span>注册后:</span>
                   <Input v-model="cycle" placeholder="请输入推送周期" style="width: 200px"></Input>
-                  <RadioGroup v-model="datatime" class="ml5">
+                  <RadioGroup v-model="datatime" class="ml5" style="margin-top:-5px">
                         <Radio label="分"></Radio>
                         <Radio label="小时"></Radio>
                         <Radio label="天"></Radio>
                     </RadioGroup>
+                    <span>推送</span>
                 </li>              
                 <li class="mt15">
                     <span >推送字段:</span>
@@ -81,19 +82,22 @@
           ok-text="确定"
           cancel-text=""
           class-name="vertical-center-modal"
-          width="500"
+          width="700"
           :loading="loading"
           :mask-closable="false">
-          <div  class="newtype_file mt15 mb15 pl10">
+          <div  class="newtype_file mt15 mb15 pl10 citymod">
             <label>{{cityText}}</label>
-           <!-- <ul>
+           <ul>
             <li >
-            <CheckboxGroup v-for="(item, index) in city" :key="index" >
-              <Checkbox v-for="tion in item.garden" :label="tion.town"></Checkbox>
+            <CheckboxGroup v-model="social" @on-change="checkAllGroupChange" >
+              <Checkbox v-for="tion in city" class="mb5"  :label="tion.city">
+                <span>{{tion.city}}</span>
+                <Input v-if="tion.dataId!=null" :value="tion.limitNum"  style="width: 60px"></Input>
+              </Checkbox>
             </CheckboxGroup>
             </li>
  
-        </ul> -->
+        </ul>
           </div>
           </Modal>
 
@@ -164,7 +168,10 @@ export default {
             let configureValues
             if (params.row.fieldName == '居住城市') {
               let value = params.row.configureValues
-              this.cityText = params.row.configureValues
+              
+              // this.city.push()
+              // this.cityText = params.row.configureValues
+              console.log(params.row)
               if (value && value.length > 20) {
                 value = value.slice(0, 20) + '...'
               }
@@ -182,7 +189,9 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.refuse()
+                      console.log(params.row.partyaKey)
+                      this.choosecity(params.row.partyaKey)
+                      this.refuse()                     
                     }
                   }
                 }, '查看')
@@ -202,42 +211,10 @@ export default {
         }
       ],
       data1: [],
-      city: [
-        {
-          garden: [
-            {
-              check: 1,
-              town: '上海市'
-            },
-            {
-              check: 1,
-              town: '北京市'
-            },
-            {
-              check: 1,
-              town: '重庆市'
-            }
-          ]
-        },
-        {
-          garden: [
-            {
-              check: 1,
-              town: '苏州市'
-            },
-            {
-              check: 1,
-              town: '杭州市'
-            },
-            {
-              check: 1,
-              town: '西安市'
-            }
-          ]
-        }
-      ],
+      city: [],
       time:[],
-      time2: []
+      time2: [],
+      social: []
     }
   },
   methods: {
@@ -357,6 +334,38 @@ export default {
     refuse () {
       this.modal9 = true
     },
+    choosecity (key) {
+      let list = {
+        partyaKey : key
+      }
+      this.http.post(BASE_URL + '/loan/pushCity/getPushCityListAll', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        for (let i = 0; i < resp.data.length; i++) {
+          let obj = new Object ()
+          obj.dataId = resp.data[i].dataId
+          obj.city = resp.data[i].city
+          obj.limitNum = resp.data[i].limitNum
+          this.city.push(obj)
+          if (resp.data[i].dataId != null) {
+            this.social.push(resp.data[i].city)
+          }
+        }
+        console.log(this.city)
+        
+
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+
+    },
+    checkAllGroupChange (data) {
+      console.log(this.social)
+
+    },
     cancel () {
       this.$router.push({ path: './partyManagement' })
     },
@@ -467,5 +476,8 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.citymod{
+  height: 400px;
+  overflow-y: scroll
+}
 </style>

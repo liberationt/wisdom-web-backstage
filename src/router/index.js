@@ -3,6 +3,7 @@ import HomePage from '@/components/homePage'
 // import Ciunt from '@/components/ciunt'
 import mberTab from '@/components/member/admintable'
 import Login from '@/components/login'
+import forgetpass from '@/components/forget-password'
 // 站内信
 import applicationHomePage from '@/components/application/application-homePage'
 import applicationMail from '@/components/application/application-mail'
@@ -102,6 +103,7 @@ let routes = [
     iconCls: 'ios-home', // 图标样式class
     children: [
       {path: '/applicationHomePage', component: applicationHomePage, names: '应用首页', hidden: true, meta: { auth: true }},
+      {path: '/forgetpass', component: forgetpass, names: '忘记密码', hidden: true},
       {path: '/versionManagement', component: versionManagement, names: '版本管理', meta: { auth: true }},
       {path: '/cardCenter', component: cardCenter, names: '信用卡中心', meta: { auth: true }},
       {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置', meta: { auth: true }},

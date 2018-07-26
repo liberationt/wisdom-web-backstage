@@ -10,9 +10,9 @@
             <span>手机号:</span>
             <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 200px"></Input>
             <span>创建时间:</span>
-            <DatePicker type="date" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
@@ -24,7 +24,7 @@
             </div>
         </div>
         <div class="mt20">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -45,7 +45,7 @@
               <div class="mt50">
                 <ul>
                   <li class="clearfix updatel">
-                    <span class="left lh32">上传名单:</span>
+                    <span class="left lh32">选择文件:</span>
                     <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
                     <Upload
                       :before-upload="handleUpload"
@@ -53,9 +53,13 @@
                       :format="['xlsx', 'xls']"
                       :on-format-error="handleFormatError2"
                       action=''>
-                      <Button type="ghost" icon="ios-cloud-upload-outline">预览</Button>
+                      <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
                     </Upload>
                   </li>
+                    <li class="mt15 clearfix">
+                      <span class="left lh32">上传模板:</span>
+                      <a :href="value3" class="blue1 left lh32 ml5" >{{hrefxls}}</a>
+                    </li>
                   <!-- <li class="mt50">
                       <Button class="w100 ml50  " type="info" id="upload"  @click="upload">上传</Button>
                       <Button class="w100 ml50" @click="cancel">取消</Button>
@@ -76,6 +80,8 @@ export default {
       model1: '',
       value1: '',
       value2: '',
+      value3: '',
+      hrefxls: '',
       total: 0,
       startRow: 1,
       endRow: 10,
@@ -303,7 +309,23 @@ export default {
 
   },
   mounted () {
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+    month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    this.value1 =  currentdate;
+    this.value2 = currentdate;
     this.inquire ()
+    this.hrefxls = 'pinganpuhui_qj.xlsx'
+    this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_qj.xlsx'
   }
 }
 </script>

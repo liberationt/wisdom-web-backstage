@@ -1,14 +1,18 @@
 <style lang="less" scoped>
 .layoutcon {
     background: #eaedf2;
-    position: fixed;
+    position: absolute;
     top: 50px;
-    overflow: hidden;
+    // overflow: hidden;
     height: 100%;
     width: 100%;
+    // min-width: 800px;
 }
 .contrig{
-    background: #fff
+    background: #fff;
+    // min-width: 750px!important;
+    position: absolute;
+    right: 0;
 }
 .layout-breadcrumb {
     padding: 10px 15px 0
@@ -37,8 +41,12 @@
 }
 .layout-menu-left {
     background: #454E59;
-    overflow: scroll;
+    overflow-y: scroll;
     padding-bottom: 50px;
+    min-width: 150px;
+    position: fixed;
+    left: 0;
+    z-index: 100;
 }
 .layout-header {
     height: 60px;

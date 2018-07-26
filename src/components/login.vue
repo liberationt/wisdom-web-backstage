@@ -17,10 +17,12 @@
             </i-input>
             <span class="red" v-if="hid">{{errcon}}</span>
         </Form-item>
-          <Form-item class="login-no-bottom">           
-            <Checkbox-group v-model="formLogin.remember">
+          <Form-item class="login-no-bottom clearfix">           
+            <Checkbox-group class="w150 left" v-model="formLogin.remember">
                 <Checkbox label="记住密码" name="remember"></Checkbox>
             </Checkbox-group>
+            <router-link to="/forgetpass" class="right forgetpas">修改密码</router-link>
+            <!-- <a href="/forgetpass" >忘记密码</a> -->
         </Form-item>
         <Form-item class="login-no-bottom">
             <Row >
@@ -200,5 +202,11 @@ export default {
   }
   .ivu-form-item .errorhome{
   margin-bottom: 0!important
+}
+.forgetpas{
+  color: #fff;
+}
+.forgetpas:hover{
+  color: #fff
 }
 </style>

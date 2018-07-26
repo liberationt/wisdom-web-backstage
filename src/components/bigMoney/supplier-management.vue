@@ -14,9 +14,9 @@
                 </li>
                 <li>
                   <span class="ml20">创建时间:</span>
-                  <DatePicker type="date" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" :value='value1' @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
                   <span>  -  </span>
-                  <DatePicker type="date" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" :value='value2' @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
                 </li>
                 <li class="ml10">
                   <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
@@ -30,7 +30,7 @@
         </div>
         <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加供应商</Button>
         <div class="mt20">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table highlight-row border :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -273,6 +273,20 @@ export default {
     }
   },
   mounted () {
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+    month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    this.value1 =  currentdate;
+    this.value2 = currentdate;
     this.inquire ()
   }
 }

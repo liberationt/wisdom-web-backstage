@@ -5,7 +5,9 @@
                 <span>注册列表</span>
             </p>
         </div>
-        <div class="titregist">
+        <Tabs type="card" :animated="false">
+        <TabPane label="注册列表" >
+          <div class="titregist">
             <div class="registrations" v-for="(item, index) in numregistrations" :key="index" :class="item.color">
                 <div>
                     <p>{{item.totalnum}}</p>
@@ -45,11 +47,7 @@
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
-          </ul>
-            
-            
-                     
-            
+          </ul>                                                 
             <div class="clearfix mr20 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
                 <Button type="primary" class="right w100" :loading="loading2" @click="exports">
@@ -65,11 +63,40 @@
         </div>
 
         <div class="mt20">
-            <Table :columns="columns1" :data="data1"></Table>
+            <Table highlight-row :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
             </div>
+
+        </TabPane>
+        <TabPane label="统计列表" >
+          <div class="mt50">
+            <ul class="querysty">
+            <li>
+              <span class="w60 displayib ml20  tr">注册时间:</span>
+            <DatePicker type="date" :value = 'value3' class="" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span class="mb15">  -  </span>
+            <DatePicker type="date" :value = 'value4' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            </li>
+            <li class=" clearfix ml20">
+              <Button type="info" class="right mr20 w100" :loading="loading3" @click="statistics">
+                  <span v-if="!loading3">查询</span>
+                  <span v-else>查询</span>
+                </Button>
+
+            </li>
+          </ul>
+            <div>
+              <div class="mt20">
+                <Table border highlight-row :columns="columns2" :data="data2"></Table>
+              </div>
+            </div>
+
+          </div>
+        </TabPane>
+    </Tabs>
+        
     </div>
 </template>
 <script>
@@ -84,6 +111,8 @@ export default {
       model3: '',
       value1: '',
       value2: '',
+      value3: '',
+      value4: '',
       total: 0,
       startRow: 1,
       endRow: 10,
@@ -190,7 +219,17 @@ export default {
           title: '手机号',
           align: 'center',
           width: 120,
-          key: 'mobile'
+          key: 'mobile',
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+                style: {
+                  color: '#3E81F2'
+                },
+                
+              }, params.row.mobile)
+            ])
+          }
         },
         {
           title: '生日',
@@ -394,6 +433,25 @@ export default {
           }
         },
         {
+          title: '有无信用卡',
+          align: 'center',
+          width: 100,
+          render: (h, params) => {
+            let weilidai = ''
+            if (params.row.creditCard == 1) {
+              weilidai = '有'
+            } else if (params.row.creditCard == 0) {
+              weilidai = '无'
+            } else {
+              weilidai = ''
+            }
+            return h('div', [
+              h('span', {
+              }, weilidai)
+            ])
+          }
+        },
+        {
           title: 'IP',
           align: 'center',
           width: 150,
@@ -401,6 +459,34 @@ export default {
         }
       ],
       data1: [],
+      columns2: [
+        {
+          title: '供应商',
+          align: 'center',
+          key: 'supplierName'
+        },
+        {
+          title: '渠道',
+          align: 'center',
+          key: 'manageName'
+        },
+        {
+          title: '注册量',
+          align: 'center',
+          key: 'registrationCount'
+        },
+        {
+          title: '点击量',
+          align: 'center',
+          key: 'visitCount'
+        },
+        {
+          title: '转化率',
+          align: 'center',
+          key: 'rate'
+        }
+      ],
+      data2: []
     }
   },
   methods: {
@@ -417,9 +503,11 @@ export default {
     // 时间判断
     time1 (value, data) {
       this.value1 = value
+      this.value3 = value
     },
     time2 (value, data) {
       this.value2 = value
+      this.value4 = value
     },
     // 查询
     registered () {
@@ -459,6 +547,45 @@ export default {
     })
 
     },
+    // 统计列表
+    statistics () {
+      this.loading3 = true
+      let date1 = Date.parse(new Date(this.value3))/1000
+      let date2 = Date.parse(new Date(this.value4))/1000
+      if (date1 > date2) {
+        this.loading3 = false        
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      }
+      let list = {
+        beginTime: this.value3,
+        endTime: this.value4
+      }
+       this.http.post(BASE_URL + '/loan/dwqTongjiVisit/getStatisticAnalysis', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.data2 = resp.data.list
+          let obj = new Object ()
+          obj.supplierName = 'All'
+          obj.manageName = '汇总'
+          obj.registrationCount = resp.data.registerAll 
+          obj.visitCount = resp.data.clickAll 
+          obj.rate = resp.data.rateAll
+          this.data2.push(obj)
+          
+          this.loading3 = false
+        } else {
+          this.loading3 = false
+        }
+      })
+      .catch(() => {
+        this.loading3 = false
+      })
+
+    },
     // 导出
     exports () {
       this.loading2 = true
@@ -493,7 +620,9 @@ export default {
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate;
     this.value1 =  currentdate;
-    this.value2 = currentdate;    
+    this.value2 = currentdate; 
+    this.value3 =  currentdate
+    this.value4 = currentdate  
     this.http.post(BASE_URL + '/loan/dwqUser/registerCount', {})
     .then((resp) => {
       if (resp.code == 'success') {
@@ -534,6 +663,7 @@ export default {
 
     // 列表初始化
     this.registered()
+    this.statistics ()
   }
 }
 </script>

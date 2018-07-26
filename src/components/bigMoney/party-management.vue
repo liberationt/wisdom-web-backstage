@@ -10,7 +10,8 @@
                 <span>甲方名称:</span>
                 <Input v-model="model1" class="mr20" placeholder="请输入甲方名称" style="width: 200px"></Input>
                 <span class="ml20">状态:</span>
-                <Select v-model="model2" style="width:200px">
+                <Select v-model="model2" placeholder="全部" style="width:200px">
+                  <Option  value="" >全部</Option>
                     <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
@@ -21,7 +22,7 @@
             </Button>
         </div>
         <div class="mt20">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
           <Page v-show="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>

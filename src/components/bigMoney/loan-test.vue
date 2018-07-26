@@ -16,7 +16,7 @@
         </div>
         <Button type="primary" shape="circle" class="mt20" icon="plus-round" @click="refuse(2)">添加贷款产品</Button>
         <div class="mt20">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
         </div>
         <div class="tr mt15">
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -208,6 +208,17 @@ export default {
       columns7: [      
         {
           title: '序号',
+          align: 'center',
+          width: 140,
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, params.index+1)
+            ])
+          }
+        },
+        {
+          title: '排序',
           align: 'center',
           width: 140,
           key: 'sort'
@@ -419,14 +430,22 @@ export default {
                       }
                       this.http.post(BASE_URL + '/loan/loanProduct/updateLoanProductByCode', list)
                       .then((resp) => {
-                        if (resp.code == 'success') {
-                          onshelf = '下架'
-                          this.inquire()
-                          const title = '下架'
-                          let content = '<p>下架成功</p>'
-                          this.$Modal.success({
-                            title: title,
-                            content: content
+                        if (resp.code == 'success') {                         
+                          onshelf = '下架'                         
+                          this.$Modal.confirm({
+                            title: '下架',
+                            content: '<p>确认要下架吗?</p>',
+                            onOk: () => {
+                                const title = '下架'
+                                let content = '<p>下架成功</p>'
+                                this.$Modal.success({
+                                  title: title,
+                                  content: content
+                                })
+                                this.inquire()
+                            },
+                            onCancel: () => {                               
+                            }
                           })
                         } else {
 
@@ -443,12 +462,20 @@ export default {
                       .then((resp) => {
                         if (resp.code == 'success') {
                           onshelf = '上架'
-                          this.inquire()
-                          const title = '上架'
-                          let content = '<p>上架成功</p>'
-                          this.$Modal.success({
-                            title: title,
-                            content: content
+                          this.$Modal.confirm({
+                            title: '上架',
+                            content: '<p>确认要上架吗?</p>',
+                            onOk: () => {
+                                const title = '上架'
+                                let content = '<p>上架成功</p>'
+                                this.$Modal.success({
+                                  title: title,
+                                  content: content
+                                })
+                                this.inquire()
+                            },
+                            onCancel: () => {                               
+                            }
                           })
                         } else {
 
