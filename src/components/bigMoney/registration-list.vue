@@ -145,7 +145,7 @@
               <li>
                 <span>性别:</span>
                 <span v-if="regpart.appSex=='1'">女</span>
-                <span v-if="regpart.appSex=='0'">男</span>
+                <span v-else-if="regpart.appSex=='0'">男</span>
                 <span v-else>其它</span>
               </li>
               <li>
