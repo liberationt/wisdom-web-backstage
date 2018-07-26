@@ -346,7 +346,7 @@ export default {
     this.value1 =  currentdate;
     this.value2 = currentdate;
     this.inquire ()
-    this.hrefxls = 'shangchuanheimingdan.xlsx'
+    this.hrefxls = 'black_list.xlsx'
     this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/black_list.xlsx'
   }
 }

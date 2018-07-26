@@ -117,7 +117,8 @@ export default {
     },
     handleReset (name) {
       this.$refs[name].resetFields();
-      this.$router.push({ path: '/' });
+      window.history.go(-1);
+      // this.$router.push({ path: '/' });
     },
     changeLoading() {
       this.loading = false
