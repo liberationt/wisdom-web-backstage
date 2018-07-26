@@ -7,7 +7,7 @@
     </p>
   </div>
    <Row class="mt50">
-        <Col span="10" offset="9">
+        <Col span="8" offset="8">
         <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" style="width:400px" :label-width="80">
             <FormItem label="原密码" prop="passwd" style="width:400px">
                 <Input type="password" v-model="formCustom.passwd"></Input>
@@ -30,7 +30,7 @@
 </template>
 <script>
 import utils from '../utils/utils'
-import { mapMutations } from "vuex";
+// import { mapMutations } from "vuex";
 export default {
   data () {
     return {
@@ -61,11 +61,11 @@ export default {
     }
   },
   mounted() {
-    let that = this;
-    that.lefthidfalse()
+    // let that = this;
+    // that.lefthidfalse()
   },
   methods: {
-    ...mapMutations(["lefthidfalse"]),
+    // ...mapMutations(["lefthidfalse"]),
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
