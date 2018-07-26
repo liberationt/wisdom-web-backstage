@@ -148,7 +148,64 @@ export default {
           title: '手机号',
           align: 'center',
           key: 'mobile'
-        },        
+        }, 
+         {
+          title: '推送状态',
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
+          title: '推送方式',
+          align: 'center',
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
+        },
+         {
+          title: '返回码',
+          align: 'center',
+          render: (h, params) => {
+            let code 
+            // console.log(params.row.code)
+            
+            if (params.row.code == '1000') {
+              code = '成功'
+            } else if(params.row.code == '') {
+              code = ''
+            } else {
+              code = '失败'
+            }
+            return h('div', [
+              h('span', {}, code)
+            ])
+          }
+        },
         {
           title: '借款产品类型',
           align: 'center',
@@ -199,28 +256,23 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '返回码',
-          align: 'center',
-          render: (h, params) => {
-            let code 
-            // console.log(params.row.code)
-            
-            if (params.row.code == '1000') {
-              code = '成功'
-            } else if(params.row.code == '') {
-              code = ''
-            } else {
-              code = '失败'
-            }
-            return h('div', [
-              h('span', {}, code)
-            ])
-          }
-        },
-        {
           title: '返回信息',
           align: 'center',
           key: 'message'
+        },
+      ],
+
+      // 凡普
+      columns2: [
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'mobile'
         },
         {
           title: '推送状态',
@@ -240,6 +292,11 @@ export default {
 						}
         },
         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
+        },
+        {
           title: '推送方式',
           align: 'center',
           width: 150,
@@ -256,23 +313,21 @@ export default {
           }
         },
          {
-          title: '推送时间',
+          title: '返回码',
           align: 'center',
-          key: 'pushTime'
-        },
-      ],
-
-      // 凡普
-      columns2: [
-        {
-          title: '姓名',
-          align: 'center',
-          key: 'name'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          key: 'mobile'
+          render: (h, params) => {
+            let code 
+            if (!params.row.code) {
+              code = ''
+            } else if (params.row.code == '200') {
+              code = '成功'
+            } else{
+              code = '失败'
+            }
+            return h('div', [
+              h('span', {}, code)
+            ])
+						}
         },
         {
           title: '城市',
@@ -335,28 +390,24 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '返回码',
-          align: 'center',
-          render: (h, params) => {
-            let code 
-            if (!params.row.code) {
-              code = ''
-            } else if (params.row.code == '200') {
-              code = '成功'
-            } else{
-              code = '失败'
-            }
-            return h('div', [
-              h('span', {}, code)
-            ])
-						}
-        },
-        {
           title: '错误信息',
           align: 'center',
           key: 'errorMessage'
         },
+      ],
+      // 秒贷
+      columns3: [
         {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          key: 'cellphone'
+        },
+         {
           title: '推送状态',
           align: 'center',
           render: (h, params) => {
@@ -372,6 +423,11 @@ export default {
               h('span', {}, pushStatus)
             ])
 						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          key: 'pushTime'
         },
         {
           title: '推送方式',
@@ -389,23 +445,10 @@ export default {
             ])
           }
         },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        },
-      ],
-      // 秒贷
-      columns3: [
         {
-          title: '姓名',
+          title: '返回信息',
           align: 'center',
-          key: 'name'
-        },
-        {
-          title: '手机号',
-          align: 'center',
-          key: 'cellphone'
+          key: 'msg'
         },
         {
           title: '城市编码',
@@ -461,49 +504,6 @@ export default {
           align: 'center',
           key: 'validFailMsg'
         },
-        {
-          title: '返回信息',
-          align: 'center',
-          key: 'msg'
-        },
-        {
-          title: '推送状态',
-          align: 'center',
-          render: (h, params) => {
-            let pushStatus
-            if (params.row.pushStatus == '0') {
-              pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
-              pushStatus = '推送成功'
-            } else {
-              pushStatus = '推送失败'
-            }
-            return h('div', [
-              h('span', {}, pushStatus)
-            ])
-						}
-        },
-        {
-          title: '推送方式',
-          align: 'center',
-          width: 150,
-          render: (h, params) => {
-            let Code
-            if (params.row.origin == 0) {
-              Code = '手动'
-            } else if (params.row.origin == 1) {
-              Code = '自动'
-            }
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
-        },
-         {
-          title: '推送时间',
-          align: 'center',
-          key: 'pushTime'
-        }
       ],
       // 厚本
        columns4: [
@@ -622,26 +622,44 @@ export default {
           key: 'mobile'
         },
         {
-          title: '城市',
+          title: '推送状态',
           align: 'center',
-          key: 'city'
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+					}
         },
         {
-          title: '贷款来源',
+          title: '推送时间',
           align: 'center',
-          key: 'source'
+          key: 'pushTime'
         },
         {
-          title: '媒体名称',
+          title: '推送方式',
           align: 'center',
-          key: 'meiti'
+          width: 150,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
         },
-        {
-          title: '创建时间',
-          align: 'center',
-          key: 'dataCreateTime'
-        },
-        {
+         {
           title: '返回码',
           align: 'center',
           render: (h, params) => {
@@ -668,43 +686,25 @@ export default {
           }
         },
         {
-          title: '推送状态',
+          title: '城市',
           align: 'center',
-          render: (h, params) => {
-            let pushStatus
-            if (params.row.pushStatus == '0') {
-              pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
-              pushStatus = '推送成功'
-            } else {
-              pushStatus = '推送失败'
-            }
-            return h('div', [
-              h('span', {}, pushStatus)
-            ])
-						}
+          key: 'city'
         },
         {
-          title: '推送方式',
+          title: '贷款来源',
           align: 'center',
-          width: 150,
-          render: (h, params) => {
-            let Code
-            if (params.row.origin == 0) {
-              Code = '手动'
-            } else if (params.row.origin == 1) {
-              Code = '自动'
-            }
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
+          key: 'source'
         },
-         {
-          title: '推送时间',
+        {
+          title: '媒体名称',
           align: 'center',
-          key: 'pushTime'
-        }
+          key: 'meiti'
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
+        },
       ],
       // 速易贷
       // columns6: [

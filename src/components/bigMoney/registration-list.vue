@@ -263,6 +263,12 @@ export default {
           key: 'age'
         },
         {
+          title: 'IP',
+          align: 'center',
+          width: 150,
+          key: 'ip'
+        },
+        {
           title: '城市',
           align: 'center',
           width: 100,
@@ -451,12 +457,7 @@ export default {
             ])
           }
         },
-        {
-          title: 'IP',
-          align: 'center',
-          width: 150,
-          key: 'ip'
-        }
+        
       ],
       data1: [],
       columns2: [

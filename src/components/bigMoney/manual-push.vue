@@ -137,6 +137,37 @@ import utils from '../../utils/utils'
 						key: 'dataCreateTime'
 					},
 					{
+						title: '推送详情',
+						width: 150,
+						align: 'center',
+						render: (h, params) => {
+							return h('div', [
+								h('Button', {
+									props: {
+										type: 'primary',
+										size: 'small'
+									},
+									style: {
+										marginRight: '5px'
+									},
+									on: {
+										click: () => {
+											this.$router.push({
+												path: './pushDetail?code='+params.row.partyaKey+'&batchCode='+params.row.batchCode+'&pattern=0'
+											})
+										}
+									}
+								}, '详情')
+							])
+						}
+					},
+					{
+						title: '推送总条数',
+						align: 'center',
+						width: 120,
+						key: 'partyaSuccNum'
+					},
+					{
 						title: '上传条数',
 						align: 'center',
 						width: 120,
@@ -190,12 +221,6 @@ import utils from '../../utils/utils'
 						}
 					},
 					{
-						title: '推送总条数',
-						align: 'center',
-						width: 120,
-						key: 'partyaSuccNum'
-					},
-					{
 						title: '转化失败条数',
 						align: 'center',
 						width: 120,
@@ -207,31 +232,6 @@ import utils from '../../utils/utils'
 						width: 120,
 						key: 'pullSuccNum'
 					},
-					{
-						title: '推送详情',
-						width: 150,
-						align: 'center',
-						render: (h, params) => {
-							return h('div', [
-								h('Button', {
-									props: {
-										type: 'primary',
-										size: 'small'
-									},
-									style: {
-										marginRight: '5px'
-									},
-									on: {
-										click: () => {
-											this.$router.push({
-												path: './pushDetail?code='+params.row.partyaKey+'&batchCode='+params.row.batchCode+'&pattern=0'
-											})
-										}
-									}
-								}, '详情')
-							])
-						}
-					}
 				],
 				data6: []
 			}
