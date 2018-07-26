@@ -18,9 +18,9 @@
             </Select>
             <div style='margin-top:10px'>
               <span class=" tr displayib">推送时间:</span>
-              <DatePicker type="date" @on-change='time1' placeholder="开始时间" style="width: 150px"></DatePicker>
+              <DatePicker type="date" :value="value1" @on-change='time1' placeholder="开始时间" style="width: 150px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" @on-change='time2' placeholder="结束时间" style="width: 150px"></DatePicker>
+              <DatePicker type="date" :value="value2" @on-change='time2' placeholder="结束时间" style="width: 150px"></DatePicker>
             </div>
             <div class="clearfix mr100 mt20">
                 <Button type="primary" class="right w100" :loading="loading2" @click="exports">
@@ -39,6 +39,14 @@
        <div class="tr mt15">
             <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
         </div>
+        <!-- 详细弹框 -->
+        <Modal
+        title="详细信息"
+        v-model="modal10"
+        class-name="vertical-center-modal">
+        <p>IP：{{ip}}</p>
+        <p>userAgent：{{userAgent}}</p>
+        </Modal>
     </div>
 </template>
 <script>
@@ -47,6 +55,8 @@ export default {
   data () {
     return {
       model1: '平安普惠',
+      userAgent:'',
+      ip:'',
       cityList: [
         {
           value: '平安普惠',
@@ -79,9 +89,56 @@ export default {
         {
           title: '手机号',
           align: 'center',
-          width: 200,
-          key: 'mobile'
-				},
+          width: 140,
+          // key: 'mobile',
+          render: (h,params)=>{
+            console.log(params.row.mobile)
+            return h('div', [
+									h('Button', {
+										props: {
+											type: 'primary',
+										},
+										style: {
+											marginRight: '5px'
+										},
+										on: {
+											click: () => {
+                        console.log(params.row.kxpinganCode)
+                        this.modal10 = true
+                        this.userAgent = params.row.userAgent
+                        this.ip = params.row.ip
+											}
+										}
+								}, params.row.mobile)
+							])
+          }
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          width: 100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else if(params.row.pushStatus == '2') {
+              pushStatus = '推送失败'
+            } else if(!params.row.pushStatus){
+              pushStatus = ''
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          width: 150,
+          key: 'pushTime'
+        },
         {
           title: '性别',
           align: 'center',
@@ -119,7 +176,7 @@ export default {
         {
           title: '备注',
           align: 'center',
-          width: 200,
+          width: 100,
           key: 'memo'
         },
         {
@@ -129,15 +186,9 @@ export default {
           key: 'productCode'
         },
         {
-          title: '创建时间',
+          title: '结果代码',
           align: 'center',
-          width: 200,
-          key: 'dataCreateTime'
-        },
-        {
-          title: 'resultCode',
-          align: 'center',
-          width: 200,
+          width: 100,
           render: (h, params) => {
             let resultCode 
             if (params.row.resultCode == '0') {
@@ -155,40 +206,20 @@ export default {
         {
           title: '错误代码',
           align: 'center',
-          width: 200,
+          width: 100,
           key: 'errCode'
         },
         {
           title: '错误信息',
           align: 'center',
-          width: 200,
+          width: 100,
           key: 'errMsg'
         },
-         {
-          title: '推送状态',
+        {
+          title: '创建时间',
           align: 'center',
           width: 150,
-          render: (h, params) => {
-            let pushStatus
-            if (params.row.pushStatus == '0') {
-              pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
-              pushStatus = '推送成功'
-            } else if(params.row.pushStatus == '2') {
-              pushStatus = '推送失败'
-            } else if(!params.row.pushStatus){
-              pushStatus = ''
-            }
-            return h('div', [
-              h('span', {}, pushStatus)
-            ])
-						}
-        },
-         {
-          title: '推送时间',
-          align: 'center',
-          width: 150,
-          key: 'pushTime'
+          key: 'dataCreateTime'
         },
       ],
       data1: [],
@@ -198,7 +229,8 @@ export default {
       startRow: 1,
       endRow: 10,
       loading2: false,
-      loading3: false 
+      loading3: false,
+      modal10: false
     }
   },
   methods: {
@@ -295,6 +327,20 @@ export default {
     },
   },
   created() {
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+      month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    this.value1 =  currentdate;
+    this.value2 = currentdate;
     let pushname = this.$route.query.pushname
     let list = {
       pushBatchNum: this.$route.query.id,

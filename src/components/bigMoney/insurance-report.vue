@@ -47,6 +47,13 @@
        <div class="tr mt15">
             <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
         </div>
+         <!-- 详细弹框 -->
+        <Modal
+        title="详细信息"
+        v-model="modal10"
+        class-name="vertical-center-modal">
+        <p>IP：{{ip}}</p>
+        </Modal>
     </div>
 </template>
 <script>
@@ -81,6 +88,8 @@ export default {
           label: '推送失败'
         }
       ],
+      modal10: false,
+      ip:'',
       columns1: [
         {
           title: '姓名',
@@ -92,7 +101,28 @@ export default {
           title: '手机号',
           align: 'center',
           width: 140,
-          key: 'mobile'
+          // key: 'mobile'
+          render: (h,params)=>{
+            console.log(params.row.mobile)
+            return h('div', [
+									h('Button', {
+										props: {
+											type: 'primary',
+										},
+										style: {
+											marginRight: '5px'
+										},
+										on: {
+											click: () => {
+                        console.log(params.row.kxpinganCode)
+                        this.modal10 = true
+                        // this.userAgent = params.row.userAgent
+                        this.ip = params.row.ip
+											}
+										}
+								}, params.row.mobile)
+							])
+          }
         },
         {
           title: '城市',
