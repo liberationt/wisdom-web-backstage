@@ -47,6 +47,8 @@
     position: fixed;
     left: 0;
     z-index: 100;
+    overflow-x: scroll;
+    min-width: 200px;
 }
 .layout-header {
     height: 60px;
