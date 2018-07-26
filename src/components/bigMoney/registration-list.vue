@@ -96,7 +96,126 @@
           </div>
         </TabPane>
     </Tabs>
-        
+        <Modal
+          title="注册详情"
+          v-model="modal9"
+          ok-text="确定"
+          cancel-text="取消"
+          class-name="vertical-center-modal"
+          width="700"
+          :mask-closable="false">
+          <div  class="newtype_file mt15 mb15">
+            <ul class="reg_particulars">
+              <li>
+                <span>UID:</span>
+                <span>{{regpart.dataId}}</span>
+              </li>
+              <li>
+                <span>姓名:</span>
+                <span>{{regpart.username}}</span>
+              </li>
+              <li>
+                <span>手机号:</span>
+                <span>{{regpart.mobile}}</span>
+              </li>
+              <li>
+                <span>生日:</span>
+                <span>{{regpart.appBirthday}}</span>
+              </li>
+              <li>
+                <span>性别:</span>
+                <span v-if="regpart.appSex=='1'">女</span>
+                <span v-if="regpart.appSex=='0'">男</span>
+                <span v-else>其它</span>
+              </li>
+              <li>
+                <span>年龄:</span>
+                <span>{{regpart.age}}</span>
+              </li>
+              <li>
+                <span>城市:</span>
+                <span>{{regpart.city}}</span>
+              </li>
+              <li>
+                <span>M城市:</span>
+                <span>{{regpart.mobileCity}}</span>
+              </li>
+              <li>
+                <span>借贷金额:</span>
+                <span>{{regpart.loanMoney}}</span>
+              </li>
+              <li>
+                <span>注册时间:</span>
+                <span>{{regpart.registrationTime}}</span>
+              </li>
+              <li>
+                <span>供应商:</span>
+                <span>{{regpart.supplierName}}</span>
+              </li>
+              <li>
+                <span>渠道:</span>
+                <span>{{regpart.channelName}}</span>
+              </li>
+              <li>
+                <span>步骤:</span>
+                <span>{{regpart.step}}</span>
+              </li>
+              <li>
+                <span>IP:</span>
+                <span>{{regpart.ip}}</span>
+              </li>
+              <li>
+                <span>社保:</span>
+                <span v-if="regpart.security==1">有</span>
+                <span v-if="regpart.security==0">无</span>
+              </li>
+              <li>
+                <span>公积金:</span>
+                <span v-if="regpart.fund==1">有</span>
+                <span v-if="regpart.fund==0">无</span>
+              </li>
+              <li>
+                <span>房:</span>
+                <span v-if="regpart.house==1">有</span>
+                <span v-if="regpart.house==0">无</span>
+              </li>
+              <li>
+                <span>房贷:</span>
+                <span v-if="regpart.hasHouseLoan==1">有</span>
+                <span v-if="regpart.hasHouseLoan==0">无</span>
+              </li>
+              <li>
+                <span>车:</span>
+                <span v-if="regpart.car==1">有</span>
+                <span v-if="regpart.car==0">无</span>
+              </li>
+              <li>
+                <span>车贷:</span>
+                <span v-if="regpart.hasCarLoan=='1'">有</span>
+                <span v-if="regpart.hasCarLoan=='0'">无</span>
+              </li>
+              <li>
+                <span>寿险保单:</span>
+                <span v-if="regpart.policy==1">有</span>
+                <span v-if="regpart.policy==0">无</span>
+              </li>
+              <li>
+                <span>微粒贷:</span>
+                <span v-if="regpart.weilidai==1">有</span>
+                <span v-if="regpart.weilidai==0">无</span>
+              </li>
+              <li>
+                <span>有无信用卡:</span>
+                <span v-if="regpart.creditCard==1">有</span>
+                <span v-if="regpart.creditCard==0">无</span>
+              </li>
+              <li class="w100b">
+                <span>浏览器版本号:</span>
+                <span>{{regpart.userAgent}}</span>
+              </li>
+            </ul>
+          </div>
+          </Modal>
     </div>
 </template>
 <script>
@@ -106,6 +225,7 @@ export default {
     return {
       loading2: false,
       loading3: false,
+      modal9: false,
       model1: '',
       model2: '',
       model3: '',
@@ -116,6 +236,7 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      regpart: {},
       numregistrations: [
         {
           onenum: 0,
@@ -209,11 +330,18 @@ export default {
           width: 120,
           key: 'mobile',
           render: (h, params) => {
+            this.regpart = params.row
             return h('div', [
               h('span', {
                 style: {
-                  color: '#3E81F2'
+                  color: '#3E81F2',
+                  cursor: 'pointer'
                 },
+                on: {
+                  click: () => {
+                    this.modal9 = true
+                  }
+                }
                 
               }, params.row.mobile)
             ])
@@ -267,6 +395,7 @@ export default {
           align: 'center',
           width: 80,
           key: 'age'
+<<<<<<< HEAD
         },
         {
           title: 'IP',
@@ -275,6 +404,15 @@ export default {
           key: 'ip'
         },
         
+=======
+        },        
+        {
+          title: '城市',
+          align: 'center',
+          width: 100,
+          key: 'city'
+        },
+>>>>>>> 7082b222ce7e8ec8f0db4498d942f67beeac7644
         {
           title: 'M城市',
           align: 'center',
@@ -286,6 +424,36 @@ export default {
           align: 'center',
           width: 100,
           key: 'loanMoney'
+        },
+        {
+          title: '注册时间',
+          align: 'center',
+          width: 160,
+          key: 'registrationTime'
+        },
+        {
+          title: '供应商',
+          align: 'center',
+          width: 120,
+          key: 'supplierName'
+        },
+        {
+          title: '渠道',
+          align: 'center',
+          width: 100,
+          key: 'channelName'
+        },
+        {
+          title: '步骤',
+          align: 'center',
+          width: 100,
+          key: 'step'
+        },
+        {
+          title: 'IP',
+          align: 'center',
+          width: 150,
+          key: 'ip'
         },
         {
           title: '社保',
@@ -724,5 +892,19 @@ export default {
     background: -o-linear-gradient(right, #6F60E0, #53D3C7); /* Opera 11.1 - 12.0 */
     background: -moz-linear-gradient(right, #6F60E0, #53D3C7); /* Firefox 3.6 - 15 */
     background: linear-gradient(to right, #6F60E0 , #53D3C7); /* 标准的语法（必须放在最后） */
+}
+.reg_particulars{
+  overflow: hidden;
+  padding: 0 50px;
+  li{
+    float: left;
+    width: 280px;
+    margin-bottom: 10px;
+    span:first-child{
+      display: inline-block;
+      width: 80px;
+      text-align: right
+    }
+  }
 }
 </style>

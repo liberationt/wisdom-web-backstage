@@ -21,7 +21,7 @@
             <Checkbox-group class="w150 left" v-model="formLogin.remember">
                 <Checkbox label="记住密码" name="remember"></Checkbox>
             </Checkbox-group>
-            <router-link to="/forgetpass" class="right forgetpas">修改密码</router-link>
+            <!-- <router-link to="/forgetpass" class="right forgetpas">修改密码</router-link> -->
             <!-- <a href="/forgetpass" >忘记密码</a> -->
         </Form-item>
         <Form-item class="login-no-bottom">
