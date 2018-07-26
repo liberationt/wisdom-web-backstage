@@ -43,7 +43,7 @@
           <Row>
             <Col span="10" offset="6">
               <div class="mt50">
-                <ul>
+                <ul >
                   <li class="clearfix updatel">
                     <span class="left lh32">选择文件:</span>
                     <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
@@ -56,7 +56,7 @@
                       <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
                     </Upload>
                   </li>
-                    <li class="mt15 clearfix">
+                    <li class="mt15 clearfix" style="width:400px">
                       <span class="left lh32">上传模板:</span>
                       <a :href="value3" class="blue1 left lh32 ml5" >{{hrefxls}}</a>
                     </li>
