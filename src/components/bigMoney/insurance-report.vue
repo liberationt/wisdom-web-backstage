@@ -124,6 +124,38 @@ export default {
 							])
           }
         },
+         {
+          title: '推送状态',
+          align: 'center',
+          width: 110,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else if(params.row.pushStatus ==  ''){
+              pushStatus = ''
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          width: 150,
+          key: 'pushTime'
+        },
+        {
+          title: '结果代码',
+          align: 'center',
+          width: 120,
+          key: 'resultCode'
+        },
         {
           title: '城市',
           align: 'center',
@@ -167,43 +199,12 @@ export default {
           }
         },
         {
-          title: '结果代码',
-          align: 'center',
-          width: 120,
-          key: 'resultCode'
-        },
-        {
           title: '错误代码',
           align: 'center',
           width: 150,
           key: 'errorCode'
         },
-        {
-          title: '推送状态',
-          align: 'center',
-          width: 110,
-          render: (h, params) => {
-            let pushStatus
-            if (params.row.pushStatus == '0') {
-              pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
-              pushStatus = '推送成功'
-            } else if(params.row.pushStatus ==  ''){
-              pushStatus = ''
-            } else {
-              pushStatus = '推送失败'
-            }
-            return h('div', [
-              h('span', {}, pushStatus)
-            ])
-						}
-        },
-         {
-          title: '推送时间',
-          align: 'center',
-          width: 150,
-          key: 'pushTime'
-        },
+       
       ],
       data1: [
       ],

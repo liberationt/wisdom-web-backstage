@@ -139,6 +139,63 @@ export default {
           align: 'center',
           key: 'mediaName'
         },
+         {
+          title: '推送方式',
+          align: 'center',
+          width: 110,
+          render: (h, params) => {
+            let Code
+            if (params.row.origin == 0) {
+              Code = '手动'
+            } else if (params.row.origin == 1) {
+              Code = '自动'
+            }
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
+        },
+         {
+          title: '推送总条数',
+          align: 'center',
+           width: 115,
+           render: (h, params) => {
+            let Code = params.row.pullSuccNum+params.row.pullFailNum
+            return h('div', [
+              h('span', {}, Code)
+            ])
+          }
+        },
+        {
+          title: '推送失败条数',
+          align: 'center',
+           width: 110,
+          key: 'pullFailNum'
+        },
+       {
+          title: '推送详情',
+          key: 'address',
+          width: 150,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.$router.push({ path: './insuranceReport?id='+params.row.batchCode+'&&pushname='+this.pushname1 })
+                  }
+                }
+              }, '详情')
+            ])
+          }
+        },
         {
           title: '上传时间',
           align: 'center',
@@ -198,69 +255,14 @@ export default {
             
           }
         },
-        {
-          title: '推送总条数',
-          align: 'center',
-           width: 115,
-           render: (h, params) => {
-            let Code = params.row.pullSuccNum+params.row.pullFailNum
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
-        },
-        {
-          title: '推送失败条数',
-          align: 'center',
-           width: 110,
-          key: 'pullFailNum'
-        },
-        {
-          title: '推送方式',
-          align: 'center',
-          width: 110,
-          render: (h, params) => {
-            let Code
-            if (params.row.origin == 0) {
-              Code = '手动'
-            } else if (params.row.origin == 1) {
-              Code = '自动'
-            }
-            return h('div', [
-              h('span', {}, Code)
-            ])
-          }
-        },
+       
         {
           title: '转化成功条数',
           align: 'center',
            width: 110,
           key: 'pullSuccNum'
         },
-        {
-          title: '推送详情',
-          key: 'address',
-          width: 150,
-          align: 'center',
-          render: (h, params) => {
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'primary',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push({ path: './insuranceReport?id='+params.row.batchCode+'&&pushname='+this.pushname1 })
-                  }
-                }
-              }, '详情')
-            ])
-          }
-        }
+        
       ],
       data6: [
       ],
