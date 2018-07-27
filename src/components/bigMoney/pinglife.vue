@@ -273,10 +273,7 @@ export default {
     },
     post(url,list,pushname,num) {
       // console.log(this.$route.query.id)
-      if(this.$route.query.id != ""){
-        this.value2 = ''
-        this.value1 = ''
-      }
+     
        this.http.post(BASE_URL + url,list).then(data=>{
           if(data.code == 'success'){
             if(pushname == 'luohui'){
@@ -306,7 +303,6 @@ export default {
     },
     // 查询
     registered() {
-      alert(1)
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -381,6 +377,11 @@ export default {
     this.value1 =  currentdate;
     this.value2 = currentdate;
     let pushname = this.$route.query.pushname
+    if(this.$route.query.id != ""){
+      // alert(222)
+      this.value2 = ''
+      this.value1 = ''
+    }
     let list = {
       pushBatchNum: this.$route.query.id,
       pushStatus : this.model3,
@@ -389,6 +390,7 @@ export default {
       pageNum: this.startRow == 0 ? 1 : this.startRow,
       pageSize: this.endRow
     } 
+    
 		if(pushname == 'luohui'){
 			this.post('/loan/zxLhpingan/getZxLhpinganList',list,pushname)
 			} else if(pushname == 'kunxuan'){
