@@ -67,7 +67,7 @@
         </div>
 
         <div class="mt20">
-            <Table highlight-row :columns="columns1" :data="data1"></Table>
+            <Table border highlight-row :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
@@ -292,26 +292,38 @@ export default {
           }
         },
         {
-          title: 'UID',
+          title: '供应商',
+          align: 'center',
+          width: 120,
+          key: 'supplierName'
+        },
+        {
+          title: '渠道',
           align: 'center',
           width: 100,
-          render: (h, params) => {
-            return h('div', [
-              h('span', {
-                style: {
-                  display: 'inline-block',
-                  width: '100%',
-                  overflow: 'hidden',
-                  textOverflow: 'ellipsis',
-                  whiteSpace: 'nowrap'
-                },
-                domProps: {
-                  title: params.row.dataId
-                }
-              }, params.row.dataId)
-            ])
-          }
-        },       
+          key: 'channelName'
+        },
+        // {
+        //   title: 'UID',
+        //   align: 'center',
+        //   width: 100,
+        //   render: (h, params) => {
+        //     return h('div', [
+        //       h('span', {
+        //         style: {
+        //           display: 'inline-block',
+        //           width: '100%',
+        //           overflow: 'hidden',
+        //           textOverflow: 'ellipsis',
+        //           whiteSpace: 'nowrap'
+        //         },
+        //         domProps: {
+        //           title: params.row.dataId
+        //         }
+        //       }, params.row.dataId)
+        //     ])
+        //   }
+        // },       
         {
           title: '姓名',
           align: 'center',
@@ -342,6 +354,18 @@ export default {
             ])
           }
         },
+        {
+          title: '城市',
+          align: 'center',
+          width: 100,
+          key: 'city'
+        },
+        {
+          title: '注册时间',
+          align: 'center',
+          width: 160,
+          key: 'registrationTime'
+        },    
         {
           title: '生日',
           align: 'center',
@@ -374,12 +398,6 @@ export default {
           key: 'age'
         },        
         {
-          title: '城市',
-          align: 'center',
-          width: 100,
-          key: 'city'
-        },
-        {
           title: 'M城市',
           align: 'center',
           width: 100,
@@ -390,25 +408,7 @@ export default {
           align: 'center',
           width: 100,
           key: 'loanMoney'
-        },
-        {
-          title: '注册时间',
-          align: 'center',
-          width: 160,
-          key: 'registrationTime'
-        },
-        {
-          title: '供应商',
-          align: 'center',
-          width: 120,
-          key: 'supplierName'
-        },
-        {
-          title: '渠道',
-          align: 'center',
-          width: 100,
-          key: 'channelName'
-        },
+        },   
         {
           title: '步骤',
           align: 'center',
