@@ -2,7 +2,7 @@ import axios from 'axios'
 import utils from '../utils/utils'
 import {Modal} from 'iview'
 // import qs from 'qs';
-axios.defaults.timeout = 5000
+axios.defaults.timeout = 1000*60
 axios.defaults.baseURL = ''
 const defaultHeaders = {
   Accept: 'application/json, text/plain, */*; charset=utf-8',
