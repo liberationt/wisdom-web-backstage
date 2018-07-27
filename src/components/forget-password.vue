@@ -87,7 +87,7 @@ export default {
               // console.log(passwd)
               this.http.post(BASE_URL + '/user/updatePassword',passwd).then(data=>{
                 // console.log(data)
-                if(data.code = 'success'){
+                if(data.code == 'success'){
                   this.changeLoading()
                   const title = '密码成功!'
                   let content = '<p>恭喜你密码已修改成功！</p>'

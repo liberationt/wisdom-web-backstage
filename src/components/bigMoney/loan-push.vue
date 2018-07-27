@@ -1570,15 +1570,13 @@ export default {
         formData.append("methodType",1)
         let httpUrl = BASE_URL+'/common/partya/exportExcel'
         utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
-          if(e == true){
-            this.loading2 = false
-          } else {
+          this.loading2 = false          
+          if(e == false){
             this.loading2 = false
             this.$Modal.warning({
 						title: '导出文件',
 						content: '<p>导出失败</p>'
-					})
-					return false
+            })
           }
         })                      
       }     

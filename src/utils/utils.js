@@ -55,6 +55,13 @@ export const use_iframe_download = download_path => {
   setTimeout(function () { $iframe.remove() }, 20000)
 }
 
+function requestTimeout (xhr) {
+  const timer = setTimeout(() => {
+    timer && clearTimeout(timer)
+    xhr.abort()
+  }, 5000)
+  return timer
+}
 // 导出
 export function exporttable (httpUrl,token, formData, callback) {
   var xhr = new XMLHttpRequest()
@@ -62,28 +69,31 @@ export function exporttable (httpUrl,token, formData, callback) {
     return false
   };
   xhr.open("post", httpUrl)
+  // xhr.timeout=5000
   xhr.setRequestHeader("Authentication", token)
   xhr.responseType = "blob"
+  let timer = requestTimeout(xhr)
   xhr.onreadystatechange = function () {
-      if (xhr.readyState !== 4) {
-        callback && callback(false)
-        return
-      } //忽略未完成的调用
-      if (this.status === 200) {
-        var blob = this.response
-        var contentType = this.getResponseHeader('content-type')
-        var fileName = contentType.split(";")[1].split("=")[1]
-        fileName = decodeURI(fileName)
-        let aTag = document.createElement('a')
-        // 下载的文件名
-        aTag.download = fileName
-        aTag.href = URL.createObjectURL(blob)
-        aTag.click()
-        URL.revokeObjectURL(blob)
-        callback && callback(true)
-      } else {
-        callback && callback(false)
-      }
+    timer && clearTimeout(timer)
+    if (xhr.readyState !== 4) {
+      timer = requestTimeout(xhr)
+      return
+    }
+    if (this.status === 200) {
+      var blob = this.response
+      var contentType = this.getResponseHeader('content-type')
+      var fileName = contentType.split(";")[1].split("=")[1]
+      fileName = decodeURI(fileName)
+      let aTag = document.createElement('a')
+      // 下载的文件名
+      aTag.download = fileName
+      aTag.href = URL.createObjectURL(blob)
+      aTag.click()
+      URL.revokeObjectURL(blob)
+      callback && callback(true)
+    } else {
+      callback && callback(false)
+    }  
   }
   xhr.send(formData);
 }
