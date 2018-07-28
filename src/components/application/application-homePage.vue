@@ -35,7 +35,9 @@ export default {
     let arrlist = [];
     let list = [];
     for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
-      arrlist = that.menu.menuInfo.children[i].children;
+      if (that.menu.menuInfo.children[i].menuName == '应用管理') {
+        arrlist = that.menu.menuInfo.children[i].children;
+      }     
     }
     for (let j = 0; j < arrlist.length; j++) {
       list.push(arrlist[j].menuCode);
@@ -54,9 +56,7 @@ export default {
     gold_clothes(num) {
       let that = this;
       let arrlist = [];
-      let menucodes = document
-        .getElementsByClassName("redWine")[0]
-        .getAttribute("menucode");
+      let menucodes = document.getElementsByClassName("redWine")[0].getAttribute("menucode");
       for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
         if (that.menu.menuInfo.children[i].menuCode == menucodes) {
           arrlist = that.menu.menuInfo.children[i].children;
@@ -65,14 +65,6 @@ export default {
       let menuList = null
       for (let j = 0; j < arrlist.length; j++) {
         if (arrlist[j].menuCode == num) {
-          // for (let k = 0; k < arrlist[j].children.length; k++) {
-          //   if (arrlist[j].children[k].component == null) {
-          //     arrlist[j].children[k].component = "HomePage";
-          //   }
-          //   if (arrlist[j].children[k].path == "") {
-          //     arrlist[j].children[k].path = "/homePage";
-          //   }
-          // }
           that.leftlist(arrlist[j].children);
           utils.putlocal("leftlist", JSON.stringify(arrlist[j].children));
           menuList = arrlist[j].children;
@@ -86,6 +78,7 @@ export default {
 
       if (menuList && menuList.length > 0) {
         const firstGroupMenu = menuList[0]
+        alert(firstGroupMenu.path)
         if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
           this.$router.push({ path: firstGroupMenu.path });
           utils.putlocal("sideleft", "0");
