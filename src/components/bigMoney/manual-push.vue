@@ -224,7 +224,8 @@ import utils from '../../utils/utils'
 					}
 				],
 				data6: [],
-				uploadl:''
+				uploadl:'',
+				fileerror: ''
 			}
 		},
 		methods: {
@@ -298,23 +299,42 @@ import utils from '../../utils/utils'
 						content: content
 					})
 					return false
-				} else if(this.uploadl == ''){
+				} else if(this.fileerror == 'error'){
 					this.changeLoading()
 					const title = '上传文件'
-					let content = '<p>文件过大请再点击一次</p>'
+					let content = '<p>上传失败，请稍后再试</p>'
 					this.$Modal.warning({
 					title: title,
 					content: content
 					})
 					return false
+				} else if(this.uploadl == ''){
+					// alert(111)
+					this.changeLoading()
+					const title = '上传文件'
+					let content = '<p>文件上传中...请稍后点击上传按钮！</p>'
+					this.$Modal.warning({
+					title: title,
+					content: content
+					})
+					return false
+				}  else if(this.filename == ""){
+					this.changeLoading()
+					const title = '上传文件'
+					let content = '<p>文件上传中...请稍后点击上传按钮！</p>'
+					this.$Modal.warning({
+					title: title,
+					content: content
+					})
+					return false
+					this.filename == ""
 				} else {
 					let list = {
 						partyaKey: this.model4,
 						url: this.filename,
 						originName: this.value9,
 						pushMain: '络慧'
-					}
-					
+				}
 					this.http.post(BASE_URL + '/loan/batchLog/saveBatchLog', list)
 						.then((resp) => {
 							if(resp.code == 'success') {
@@ -340,7 +360,7 @@ import utils from '../../utils/utils'
 							this.changeLoading()
 							const title = '上传文件'
 							let content = '<p>上传失败</p>'
-							this.$Modal.success({
+							this.$Modal.error({
 								title: title,
 								content: content
 							})
@@ -360,8 +380,15 @@ import utils from '../../utils/utils'
 			},
 			// 选择文件后回调
 			handleUpload(file) {
+				 if(file.size > 22949339){
+					this.value9 = ""
+					this.$Message.info("请选择20兆以内的文件")
+					return false
+				}
 				let splic = file.name.split('.')
 				if (splic[splic.length-1] == 'xlsx' || splic[splic.length-1] == 'xls') {
+					this.filename = ''
+					this.fileerror = ''
 					let formData = new FormData()
 					formData.append('file', file)
 					formData.append('bucket', 'netmoney')
@@ -380,7 +407,8 @@ import utils from '../../utils/utils'
 					} else {
 					}
 					})
-					.catch(() => {
+					.catch(err => {
+						this.fileerror = 'error'
 					})
 					this.value9 = file.name
 					return false

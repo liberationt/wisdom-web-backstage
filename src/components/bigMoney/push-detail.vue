@@ -91,7 +91,7 @@ export default {
       cityList: [],
       cityList2: [
         {
-          value: '全部',
+          value: '',
           label: '全部'
         },
         {
@@ -1328,7 +1328,6 @@ export default {
           pageNum: this.startRow,
           pageSize: this.endRow,
         }
-        console.log(this.model5)
         // console.log(params)
 				this.http.post(BASE_URL + '/common/partya/getDkBJpuhuiList',params)
 					.then((resp) => {
