@@ -1,0 +1,342 @@
+[
+    {
+        "cityAddressCode": "20180524192635010099135886918",
+        "citycode": "010",
+        "padcode": "100000",
+        "adcode": "110000",
+        "level": "province",
+        "lng": "116.405285",
+        "lat": "39.904989",
+        "name": "北京市"
+    },
+    {
+        "cityAddressCode": "20180524192635010091066433918",
+        "citycode": "022",
+        "padcode": "100000",
+        "adcode": "120000",
+        "level": "province",
+        "lng": "117.190182",
+        "lat": "39.125596",
+        "name": "天津市"
+    },
+    {
+        "cityAddressCode": "20180524192635010090657699140",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "130000",
+        "level": "province",
+        "lng": "114.502461",
+        "lat": "38.045474",
+        "name": "河北省"
+    },
+    {
+        "cityAddressCode": "20180524192635010090317779946",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "140000",
+        "level": "province",
+        "lng": "112.549248",
+        "lat": "37.857014",
+        "name": "山西省"
+    },
+    {
+        "cityAddressCode": "20180524192635010096219135816",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "150000",
+        "level": "province",
+        "lng": "111.670801",
+        "lat": "40.818311",
+        "name": "内蒙古自治区"
+    },
+    {
+        "cityAddressCode": "20180524192635010096489362152",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "210000",
+        "level": "province",
+        "lng": "123.429096",
+        "lat": "41.796767",
+        "name": "辽宁省"
+    },
+    {
+        "cityAddressCode": "20180524192635010090319678041",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "220000",
+        "level": "province",
+        "lng": "125.3245",
+        "lat": "43.886841",
+        "name": "吉林省"
+    },
+    {
+        "cityAddressCode": "20180524192635010099139528797",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "230000",
+        "level": "province",
+        "lng": "126.642464",
+        "lat": "45.756967",
+        "name": "黑龙江省"
+    },
+    {
+        "cityAddressCode": "20180524192635010096331145233",
+        "citycode": "021",
+        "padcode": "100000",
+        "adcode": "310000",
+        "level": "province",
+        "lng": "121.472644",
+        "lat": "31.231706",
+        "name": "上海市"
+    },
+    {
+        "cityAddressCode": "20180524192635010098529087619",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "320000",
+        "level": "province",
+        "lng": "118.767413",
+        "lat": "32.041544",
+        "name": "江苏省"
+    },
+    {
+        "cityAddressCode": "20180524192635010090713056605",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "330000",
+        "level": "province",
+        "lng": "120.153576",
+        "lat": "30.287459",
+        "name": "浙江省"
+    },
+    {
+        "cityAddressCode": "20180524192635010096421004940",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "340000",
+        "level": "province",
+        "lng": "117.283042",
+        "lat": "31.86119",
+        "name": "安徽省"
+    },
+    {
+        "cityAddressCode": "20180524192635010095234570393",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "350000",
+        "level": "province",
+        "lng": "119.306239",
+        "lat": "26.075302",
+        "name": "福建省"
+    },
+    {
+        "cityAddressCode": "20180524192635010093997045790",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "360000",
+        "level": "province",
+        "lng": "115.892151",
+        "lat": "28.676493",
+        "name": "江西省"
+    },
+    {
+        "cityAddressCode": "20180524192635010092529369181",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "370000",
+        "level": "province",
+        "lng": "117.000923",
+        "lat": "36.675807",
+        "name": "山东省"
+    },
+    {
+        "cityAddressCode": "20180524192635010092558798060",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "410000",
+        "level": "province",
+        "lng": "113.665412",
+        "lat": "34.757975",
+        "name": "河南省"
+    },
+    {
+        "cityAddressCode": "20180524192635010092244394722",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "420000",
+        "level": "province",
+        "lng": "114.298572",
+        "lat": "30.584355",
+        "name": "湖北省"
+    },
+    {
+        "cityAddressCode": "20180524192635010093942425663",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "430000",
+        "level": "province",
+        "lng": "112.982279",
+        "lat": "28.19409",
+        "name": "湖南省"
+    },
+    {
+        "cityAddressCode": "20180524192635010095297323566",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "440000",
+        "level": "province",
+        "lng": "113.280637",
+        "lat": "23.125178",
+        "name": "广东省"
+    },
+    {
+        "cityAddressCode": "20180524192635010099608085837",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "450000",
+        "level": "province",
+        "lng": "108.320004",
+        "lat": "22.82402",
+        "name": "广西壮族自治区"
+    },
+    {
+        "cityAddressCode": "20180524192635010098475319150",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "460000",
+        "level": "province",
+        "lng": "110.33119",
+        "lat": "20.031971",
+        "name": "海南省"
+    },
+    {
+        "cityAddressCode": "20180524192635010093001144587",
+        "citycode": "023",
+        "padcode": "100000",
+        "adcode": "500000",
+        "level": "province",
+        "lng": "106.504962",
+        "lat": "29.533155",
+        "name": "重庆市"
+    },
+    {
+        "cityAddressCode": "20180524192635010096610396284",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "510000",
+        "level": "province",
+        "lng": "104.065735",
+        "lat": "30.659462",
+        "name": "四川省"
+    },
+    {
+        "cityAddressCode": "20180524192635010093352278485",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "520000",
+        "level": "province",
+        "lng": "106.713478",
+        "lat": "26.578343",
+        "name": "贵州省"
+    },
+    {
+        "cityAddressCode": "20180524192635010098034610835",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "530000",
+        "level": "province",
+        "lng": "102.712251",
+        "lat": "25.040609",
+        "name": "云南省"
+    },
+    {
+        "cityAddressCode": "20180524192635010090417806007",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "540000",
+        "level": "province",
+        "lng": "91.132212",
+        "lat": "29.660361",
+        "name": "西藏自治区"
+    },
+    {
+        "cityAddressCode": "20180524192635010098647949146",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "610000",
+        "level": "province",
+        "lng": "108.948024",
+        "lat": "34.263161",
+        "name": "陕西省"
+    },
+    {
+        "cityAddressCode": "20180524192635010096809515045",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "620000",
+        "level": "province",
+        "lng": "103.823557",
+        "lat": "36.058039",
+        "name": "甘肃省"
+    },
+    {
+        "cityAddressCode": "20180524192635010096675606769",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "630000",
+        "level": "province",
+        "lng": "101.778916",
+        "lat": "36.623178",
+        "name": "青海省"
+    },
+    {
+        "cityAddressCode": "20180524192635010092022111768",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "640000",
+        "level": "province",
+        "lng": "106.278179",
+        "lat": "38.46637",
+        "name": "宁夏回族自治区"
+    },
+    {
+        "cityAddressCode": "20180524192635010091503906156",
+        "citycode": "[]",
+        "padcode": "100000",
+        "adcode": "650000",
+        "level": "province",
+        "lng": "87.617733",
+        "lat": "43.792818",
+        "name": "新疆维吾尔自治区"
+    },
+    {
+        "cityAddressCode": "20180524192635010094572049583",
+        "citycode": "1886",
+        "padcode": "100000",
+        "adcode": "710000",
+        "level": "province",
+        "lng": "121.509062",
+        "lat": "25.044332",
+        "name": "台湾省"
+    },
+    {
+        "cityAddressCode": "20180524192635010099453691331",
+        "citycode": "1852",
+        "padcode": "100000",
+        "adcode": "810000",
+        "level": "province",
+        "lng": "114.173355",
+        "lat": "22.320048",
+        "name": "香港特别行政区"
+    },
+    {
+        "cityAddressCode": "20180524192635010090562305686",
+        "citycode": "1853",
+        "padcode": "100000",
+        "adcode": "820000",
+        "level": "province",
+        "lng": "113.54909",
+        "lat": "22.198951",
+        "name": "澳门特别行政区"
+    }
+]
