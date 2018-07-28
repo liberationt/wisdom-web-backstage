@@ -78,7 +78,6 @@ export default {
 
       if (menuList && menuList.length > 0) {
         const firstGroupMenu = menuList[0]
-        alert(firstGroupMenu.path)
         if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
           this.$router.push({ path: firstGroupMenu.path });
           utils.putlocal("sideleft", "0");
