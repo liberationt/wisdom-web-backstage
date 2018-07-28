@@ -1,6 +1,6 @@
 <template>
 <Row>
-    <Col span="6">
+    <Col span="5">
     <div id="memberLeft">
         <div class="memberphoto">
             <img src="../../image/application-hzjf.png" alt="">
@@ -9,8 +9,8 @@
                 <img v-for='(item, index) in img' v-bind:src='item' :key="index" alt=''>
             </p>
             <!-- <span class="member_type green1">账户正常</span> -->
-            <Button type="info" shape="circle">账户正常</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Button type="error" shape="circle">账户冻结</Button>
+            <Button type="info" shape="circle">账户正常</Button>
+            <!-- <Button type="error" shape="circle">账户冻结</Button> -->
         </div>
         <ul class="member_left_ul">
             <li>
@@ -21,7 +21,7 @@
                     <strong>150.5</strong>
                     </Col>
                     <Col span="12">
-                    <span>现金余额:</span>
+                    <span style="margin-left:0">现金余额:</span>
                     <strong>1500.00</strong>
                     </Col>
                 </Row>
@@ -37,7 +37,10 @@
             <li>
                 <span class="w50 tr displayib">邀请人:</span>
                 <span class="">未实名</span>
-
+            </li>
+            <li>
+                <span class="w50 tr displayib">已邀请:</span>
+                <span class="">未实名</span>
             </li>
             <li>
                 <span class="w50 tr displayib">注册:</span>
@@ -51,7 +54,7 @@
         </ul>
     </div>
     </Col>
-    <Col span="18">
+    <Col span="19">
     <div id="memberRight">
         <Tabs :animated="false">
             <TabPane label="基本信息">
@@ -503,9 +506,11 @@ export default {
     }
   },
   methods: {
+    // 认证审核通过
     handleRender () {
       this.modal8 = true
     },
+    // 认证审核拒绝
     refuse () {
       this.modal9 = true
     },
@@ -531,9 +536,29 @@ export default {
         }, 1000)
       })
     },
+    // 查看操作日志
     journal () {
       this.$router.push({ path: './operationLog' })
+    },
+    // 基本信息
+    information () {
+      let list = {
+        loanOfficerCode: this.$route.query.code
+      }
+      this.http.post(BASE_URL + '/loan/officer/getOfficerDetailInfo', list)
+            .then((resp) => {
+              if (resp.code == 'success') {
+
+              } else {
+
+              }
+            })
+            .catch(() => {
+            })
     }
+  },
+  mounted () {
+    this.information()
   }
 }
 </script>
@@ -561,7 +586,7 @@ export default {
     .member_left_ul li{
         line-height: 50px;
         border-bottom: 1px solid #E7ECF1;
-        padding-left: 20px;
+        // padding-left: 20px;
         span{
             margin-left: 20px
         }
