@@ -543,18 +543,21 @@ export default {
     // 基本信息
     information () {
       let list = {
-        loanOfficerCode: this.$route.query.code
+        // loanOfficerCode: this.$route.query.code
+        loanOfficerCode: ''
       }
       this.http.post(BASE_URL + '/loan/officer/getOfficerDetailInfo', list)
-            .then((resp) => {
-              if (resp.code == 'success') {
+        .then((resp) => {
+          if (resp.code == 'success') {
+            let obj = new Object ()
+            
 
-              } else {
+          } else {
 
-              }
-            })
-            .catch(() => {
-            })
+          }
+        })
+        .catch(() => {
+        })
     }
   },
   mounted () {
