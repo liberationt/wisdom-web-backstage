@@ -6,8 +6,8 @@
       </p>
     </div>
     <Tabs type="card" :animated="false">
-        <TabPane :label="label" >
-            <div class="clearfix">
+        <TabPane :label="label"  on-click	="labelll">
+            <div class="clearfix" >
             <div class="left">
             <Select v-model="model1" placeholder="姓名" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -26,7 +26,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane :label="label2">
@@ -43,7 +43,7 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="注册无资料" >
@@ -66,7 +66,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷员列表" >
@@ -92,7 +92,7 @@
             <Table border :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷机构" >
@@ -628,6 +628,10 @@ export default {
     },
     addManage () {
       this.$router.push({ path: './addMechanism' })
+    },
+    // 入驻待审核
+    labelll() {
+      console.log(111)
     }
   }
 }
