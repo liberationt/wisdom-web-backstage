@@ -103,25 +103,23 @@ export default {
           width: 140,
           // key: 'mobile'
           render: (h,params)=>{
-            console.log(params.row.mobile)
-            return h('div', [
-									h('Button', {
-										props: {
-											type: 'primary',
-										},
-										style: {
-											marginRight: '5px'
-										},
-										on: {
-											click: () => {
-                        console.log(params.row.kxpinganCode)
-                        this.modal10 = true
-                        // this.userAgent = params.row.userAgent
-                        this.ip = params.row.ip
-											}
-										}
-								}, params.row.mobile)
-							])
+          return h('div', [
+            h('Button', {
+              props: {
+                type: 'primary',
+              },
+              style: {
+                marginRight: '5px'
+              },
+              on: {
+                click: () => {
+                  this.modal10 = true
+                  // this.userAgent = params.row.userAgent
+                  this.ip = params.row.ip
+                }
+              }
+              }, params.row.mobile)
+            ])
           }
         },
         {
@@ -140,7 +138,7 @@ export default {
             ])
           }
         },
-         {
+        {
           title: '推送状态',
           align: 'center',
           width: 110,
@@ -148,9 +146,9 @@ export default {
             let pushStatus
             if (params.row.pushStatus == '0') {
               pushStatus = '未推送'
-            } else if(params.row.pushStatus ==  '1'){
+            } else if(params.row.pushStatus == '1'){
               pushStatus = '推送成功'
-            } else if(params.row.pushStatus ==  ''){
+            } else if(params.row.pushStatus == ''){
               pushStatus = ''
             } else {
               pushStatus = '推送失败'
@@ -158,19 +156,31 @@ export default {
             return h('div', [
               h('span', {}, pushStatus)
             ])
-						}
+          }
         },
-         {
+        {
           title: '推送时间',
           align: 'center',
           width: 150,
           key: 'pushTime'
         },
         {
-          title: '结果代码',
+          title: '返回信息',
           align: 'center',
-          width: 120,
-          key: 'resultCode'
+          width: 100,
+          render: (h, params) => {
+            let errorMsg 
+            if (params.row.errorMsg == '0') {
+              errorMsg = '成功'
+            } else if (params.row.errorMsg == '') {
+              errorMsg = ''
+            } else {
+              errorMsg = '失败'
+            }
+            return h('div', [
+              h('span', {}, errorMsg)
+            ])
+          }
         },
         {
           title: '城市',
@@ -197,33 +207,19 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '错误信息',
+          title: '结果代码',
           align: 'center',
-          width: 100,
-          render: (h, params) => {
-            let errorMsg 
-            if (params.row.errorMsg == '0') {
-              errorMsg = '成功'
-            } else if (params.row.errorMsg == '') {
-              errorMsg = ''
-            } else {
-              errorMsg = '失败'
-            }
-            return h('div', [
-              h('span', {}, errorMsg)
-            ])
-          }
+          width: 120,
+          key: 'resultCode'
         },
         {
           title: '错误代码',
           align: 'center',
           width: 150,
           key: 'errorCode'
-        },
-       
+        }, 
       ],
-      data1: [
-      ],
+      data1: [],
       value1: '',
       value2: '',
       total: 0,
@@ -297,8 +293,6 @@ export default {
       if(n != 1){
         this.model2 = '' 
       }
-      console.log(this.$route.query.id)
-      
       if(this.$route.query.id != ""){
         this.value2 = ''
         this.value1 = ''

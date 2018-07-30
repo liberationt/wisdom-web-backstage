@@ -262,6 +262,7 @@ export default {
       pushname1: '',
       loading3: false,
       uploadl: '',
+      fileerror: '',
     }
   },
   methods: {
@@ -294,16 +295,35 @@ export default {
         content: content
         })
         return false
-      } else if(this.uploadl == ''){
+      } else if(this.fileerror == 'error'){
+					this.changeLoading()
+					const title = '上传文件'
+					let content = '<p>上传失败，请稍后再试</p>'
+					this.$Modal.warning({
+					title: title,
+					content: content
+					})
+					return false
+				} else if(this.uploadl == ''){
         this.changeLoading()
         const title = '上传报表'
-        let content = '<p>文件过大，请在点击一次！</p>'
+        let content = '<p>文件上传中...请稍后点击上传按钮！</p>'
         this.$Modal.warning({
         title: title,
         content: content
         })
         return false
-      } else {
+      }  else if(this.filename2 == ""){
+					this.changeLoading()
+					const title = '上传文件'
+					let content = '<p>文件上传中...请稍后点击上传按钮！</p>'
+					this.$Modal.warning({
+					title: title,
+					content: content
+					})
+					return false
+					this.filename == ""
+				}  else {
         if(this.zhuname ==  '卿见'){
           this.batchKey = 'partya-qingjian-pinganpuhui'
         }else if(this.zhuname ==  '保街'){
@@ -365,8 +385,15 @@ export default {
       }
     },
     handleUpload (file) {
+       if(file.size > 22949339){
+        this.value9 = ""
+        this.$Message.info("请选择20兆以内的文件")
+        return false
+      }
       let splic = file.name.split('.')
 				if (splic[splic.length-1] == 'xlsx' || splic[splic.length-1] == 'xls') {
+          this.filename2 = ''
+          this.fileerror = ''
           let formData = new FormData()
           formData.append('file', file)
           formData.append('bucket', 'netmoney')
@@ -385,7 +412,8 @@ export default {
           } else {
           }
         })
-        .catch(() => {
+        .catch(err => {
+						this.fileerror = 'error'
         })
           this.value9 = file.name
           return false

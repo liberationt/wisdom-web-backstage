@@ -64,38 +64,49 @@ function requestTimeout (xhr) {
 }
 // 导出
 export function exporttable (httpUrl,token, formData, callback) {
-  var xhr = new XMLHttpRequest()
-  if (xhr.withCredentials === undefined){ 
-    return false
-  };
-  xhr.open("post", httpUrl)
-  // xhr.timeout=5000
-  xhr.setRequestHeader("Authentication", token)
-  xhr.responseType = "blob"
-  let timer = requestTimeout(xhr)
-  xhr.onreadystatechange = function () {
-    timer && clearTimeout(timer)
-    if (xhr.readyState !== 4) {
-      timer = requestTimeout(xhr)
-      return
-    }
-    if (this.status === 200) {
-      var blob = this.response
-      var contentType = this.getResponseHeader('content-type')
-      var fileName = contentType.split(";")[1].split("=")[1]
-      fileName = decodeURI(fileName)
-      let aTag = document.createElement('a')
-      // 下载的文件名
-      aTag.download = fileName
-      aTag.href = URL.createObjectURL(blob)
-      aTag.click()
-      URL.revokeObjectURL(blob)
-      callback && callback(true)
-    } else {
-      callback && callback(false)
-    }  
-  }
-  xhr.send(formData);
+let i = formData.entries();
+  let param = "?Authentication="+token;
+  do{
+    var v = i.next();
+    if(!v.done){
+      param+="&"+v.value[0]+"="+v.value[1];     
+    }
+    
+  }while(!v.done);
+//   console.log(param);
+window.open(httpUrl+param)
+// var xhr = new XMLHttpRequest()
+// if (xhr.withCredentials === undefined){ 
+// return false
+// };
+// xhr.open("post", httpUrl)
+// // xhr.timeout=5000
+// xhr.setRequestHeader("Authentication", token)
+// xhr.responseType = "blob"
+// let timer = requestTimeout(xhr)
+// xhr.onreadystatechange = function () {
+// timer && clearTimeout(timer)
+// if (xhr.readyState !== 4) {
+// timer = requestTimeout(xhr)
+// return
+// }
+// if (this.status === 200) {
+// var blob = this.response
+// var contentType = this.getResponseHeader('content-type')
+// var fileName = contentType.split(";")[1].split("=")[1]
+// fileName = decodeURI(fileName)
+// let aTag = document.createElement('a')
+// // 下载的文件名
+// aTag.download = fileName
+// aTag.href = URL.createObjectURL(blob)
+// aTag.click()
+// URL.revokeObjectURL(blob)
+callback && callback(true)
+// } else {
+// callback && callback(false)
+// } 
+// }
+// xhr.send(formData);
 }
 
 export default {
