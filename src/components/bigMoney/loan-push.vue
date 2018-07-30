@@ -267,11 +267,13 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          width: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          width: 100,
           key: 'mobile'
         },
         {
@@ -974,16 +976,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          width: 100,
           key: 'customerName'
         },
         {
           title: '手机号',
           align: 'center',
+          width: 120,
           key: 'mobile'
         },
         {
           title: '推送状态',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -1001,6 +1006,7 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          width: 160,
           key: 'pushTime'
         },
         {
@@ -1022,6 +1028,7 @@ export default {
         {
           title: '返回信息',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (!params.row.databusStatus) {
@@ -1039,21 +1046,25 @@ export default {
         {
           title: '城市编码',
           align: 'center',
+          width: 100,
           key: 'cityId'
         },
         {
           title: '媒体来源编号',
           align: 'center',
+          width: 120,
           key: 'businessChannel'
         },
         {
           title: '创建时间',
           align: 'center',
+          width: 160,
           key: 'dataCreateTime'
         },
         {
           title: '错误信息',
           align: 'center',
+          width: 100,
           key: 'errorMessage'
         },
         
@@ -1063,6 +1074,7 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          width: 100,
           key: 'name'
         },
         {
@@ -1074,6 +1086,7 @@ export default {
         {
           title: '推送状态',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -1097,6 +1110,7 @@ export default {
         {
           title: '推送方式',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -1112,6 +1126,7 @@ export default {
         {
           title: '返回信息',
           align: 'center',
+          width: 150,
           render: (h, params) => {
             let succ
             if (params.row.errMsg == 'success') {
@@ -1129,22 +1144,26 @@ export default {
         {
           title: '城市',
           align: 'center',
+          width: 120,
           key: 'city'
         },
         {
           title: '借款金额(元)',
           align: 'center',
+          width: 120,
           key:'loanAmount'
         },
         {
           title: '借款期限(月)',
           align: 'center',
+          width: 120,
           key:'duration'
         },
       
         {
           title: '公积金',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.accumulationFund == '0') {
@@ -1160,6 +1179,7 @@ export default {
         {
           title: '社保',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.socialSecurity == '0') {
@@ -1175,6 +1195,7 @@ export default {
         {
           title: '寿险',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.lifeInsurance == '0') {
@@ -1190,6 +1211,7 @@ export default {
         {
           title: '保单',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.policy == '0') {
@@ -1205,6 +1227,7 @@ export default {
         {
           title: '微粒贷',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.particleLoan == '0') {
@@ -1220,6 +1243,7 @@ export default {
         {
           title: '信用卡',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.creditCard == '0') {
@@ -1235,6 +1259,7 @@ export default {
         {
           title: '车',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.car == '0') {
@@ -1250,6 +1275,7 @@ export default {
         {
           title: '房',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.house == '0') {
