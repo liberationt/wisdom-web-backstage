@@ -142,16 +142,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth:110,
           key: 'mobile'
         }, 
          {
           title: '推送状态',
           align: 'center',
+          minWidth:110,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -169,12 +172,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth:160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 100,
           render: (h, params) => {
             let Code
             if (params.row.originate == 0) {
@@ -190,6 +194,7 @@ export default {
          {
           title: '返回信息',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let code 
             // console.log(params.row.code)
@@ -209,6 +214,7 @@ export default {
         {
           title: '借款产品类型',
           align: 'center',
+          minWidth:110,
           render: (h, params) => {
             let borrowType 
             if (params.row.borrowType == '0') {
@@ -236,6 +242,7 @@ export default {
         {
           title: '来源',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let origin
             if (params.row.origin == '0') {
@@ -253,12 +260,29 @@ export default {
         {
           title: '创建时间',
           align: 'center',
+          minWidth:160,
           key: 'dataCreateTime'
         },
         {
           title: '返回信息',
           align: 'center',
-          key: 'message'
+          minWidth:150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.message
+							}
+						}, params.row.message)
+						])
+						}
         },
       ],
 

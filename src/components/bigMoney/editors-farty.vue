@@ -377,7 +377,7 @@ export default {
     upload () {
       // let limitnum = document.getElementsByClassName('limitnum')
       let checkets = document.getElementsByClassName('ivu-checkbox-checked')
-      let reg = /^[0-9]*$/
+      let reg = /^[0-9]{1,6}$/
       for (let j = 0; j < checkets.length; j++) {
         if (checkets[j].parentNode.getElementsByClassName('ivu-input')[0].value == '') {
           checkets[j].parentNode.getElementsByClassName('ivu-input')[0].style.borderColor = 'red'
@@ -392,7 +392,7 @@ export default {
         } else if (!reg.test(checkets[j].parentNode.getElementsByClassName('ivu-input')[0].value)) {
           checkets[j].parentNode.getElementsByClassName('ivu-input')[0].style.borderColor = 'red'
           const title = '居住城市'
-          let content = '<p>请输入正确的推送条数</p>'
+          let content = '<p>请输入正确的推送条数 (最多只能输入6位数字)</p>'
           this.$Modal.warning({
             title: title,
             content: content
