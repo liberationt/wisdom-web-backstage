@@ -22,7 +22,7 @@
           <ul class="querysty">
             <li>
               <span class="w60 displayib tr ">手机号:</span>
-              <Input v-model="phone" class="mr20" placeholder="请输入手机号" style="width: 200px"></Input>
+              <Input v-model="phone" class="" placeholder="请输入手机号" style="width: 200px"></Input>
             </li>
             <li>
               <span class="w60 displayib tr ">渠道:</span>

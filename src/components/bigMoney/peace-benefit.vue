@@ -9,10 +9,11 @@
         <div class="mt50">
           <ul class="querysty">
             <li>
-              <span>甲方名称:</span>
-              <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+              <span>推送主体:</span>
+              <Input v-model="model1" class="mr20" disabled style="width: 200px"></Input>
+              <!-- <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
                   <Option v-for="item in cityList" :value="item.value" :key="item.value">平安普惠</Option>
-              </Select>
+              </Select> -->
             </li>
             <li>
               <span>文件名称:</span>
@@ -99,12 +100,12 @@ export default {
       value9: '',
       hrefxls: '',
       value3: '',
-      cityList: [
-        {
-          value: '平安普惠',
-          label: '平安普惠'
-        }
-      ],
+      // cityList: [
+      //   {
+      //     value: '平安普惠',
+      //     label: '平安普惠'
+      //   }
+      // ],
       columns7: [
         // {
         //   title: '批次',
@@ -324,13 +325,13 @@ export default {
 					return false
 					this.filename == ""
 				}  else {
-        if(this.zhuname ==  '卿见'){
+        if(this.zhuname ==  '卿见普惠'){
           this.batchKey = 'partya-qingjian-pinganpuhui'
-        }else if(this.zhuname ==  '保街'){
+        }else if(this.zhuname ==  '保街普惠'){
           this.batchKey = 'partya-baojie-pinganpuhui'
-        }else if(this.zhuname ==  '本祥'){
+        }else if(this.zhuname ==  '本翔普惠'){
           this.batchKey = 'partya-benxiang-pinganpuhui'
-        }else if(this.zhuname ==  '坤玄'){
+        }else if(this.zhuname ==  '坤玄普惠'){
           this.batchKey = 'partya-kunxuan-pinganpuhui'
         }
         // let formData = new FormData();
@@ -430,49 +431,49 @@ export default {
     },
     jname(pushname) {
       if(pushname == 'qingjian'){
-        this.model1 = '卿见'
-        this.zhuname = '卿见'
+        this.model1 = '卿见普惠'
+        this.zhuname = '卿见普惠'
         this.pushname1 = 'qingjian'
         this.batchKey = 'partya-qingjian-pinganpuhui'
         this.hrefxls = 'pinganpuhui_qj.xlsx'
         this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_qj.xlsx'
-        this.cityList = [{
-          value: '卿见',
-          label: '卿见'
-        }]
+        // this.cityList = [{
+        //   value: '卿见',
+        //   label: '卿见'
+        // }]
       } else if(pushname == 'baojie'){
-        this.model1 = '保街'
-        this.zhuname = '保街'
+        this.model1 = '保街普惠'
+        this.zhuname = '保街普惠'
         this.pushname1 = 'baojie'
         this.batchKey = 'partya-baojie-pinganpuhui'
         this.hrefxls = 'pinganpuhui_bj.xlsx'
         this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_bj.xlsx'
-        this.cityList = [{
-          value: '保街',
-          label: '保街'
-        }]
+        // this.cityList = [{
+        //   value: '保街',
+        //   label: '保街'
+        // }]
       } else if(pushname == 'benxiang'){
-        this.model1 = '本祥'
-        this.zhuname = '本祥'
+        this.model1 = '本翔普惠'
+        this.zhuname = '本翔普惠'
         this.pushname1 = 'benxiang'
         this.batchKey = 'partya-benxiang-pinganpuhui'
         this.hrefxls = 'pinganpuhui_bx.xlsx'
         this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_bx.xlsx'
-        this.cityList = [{
-          value: '本祥',
-          label: '本祥'
-        }]
+        // this.cityList = [{
+        //   value: '本翔',
+        //   label: '本翔'
+        // }]
       } else if(pushname == 'kunxuan'){
-        this.model1 = '坤玄'
-        this.zhuname = '坤玄'
+        this.model1 = '坤玄普惠'
+        this.zhuname = '坤玄普惠'
         this.pushname1 = 'kunxuan'
         this.batchKey = 'partya-kunxuan-pinganpuhui'
         this.hrefxls = 'pinganpuhui_kx.xlsx'
         this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pinganpuhui_kx.xlsx'
-        this.cityList = [{
-          value: '坤玄',
-          label: '坤玄'
-        }]
+        // this.cityList = [{
+        //   value: '坤玄',
+        //   label: '坤玄'
+        // }]
       }
     },
     // 文件格式判断
