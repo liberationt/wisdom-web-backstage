@@ -3,14 +3,14 @@
     <Col span="5">
     <div id="memberLeft">
         <div class="memberphoto">
-            <img src="../../image/application-hzjf.png" alt="">
-            <p>139****5599</p>
+            <img :src="inform.loanPersonImg" alt="">
+            <p>{{inform.phoneMember}}</p>
             <p class="stre_evaluate">
                 <img v-for='(item, index) in img' v-bind:src='item' :key="index" alt=''>
             </p>
             <!-- <span class="member_type green1">账户正常</span> -->
-            <Button type="info" shape="circle">账户正常</Button>
-            <!-- <Button type="error" shape="circle">账户冻结</Button> -->
+            <Button v-if="account" type="info" shape="circle" @click="thaw">解冻账户</Button>
+            <Button v-if="!account" type="error" shape="circle">冻结账户</Button>
         </div>
         <ul class="member_left_ul">
             <li>
@@ -18,38 +18,41 @@
                     <Col span="12" class="vertical_bar">
                     <span>虚拟余额:</span>
                     <span></span>
-                    <strong>150.5</strong>
+                    <strong>{{inform.virtualBalance}}</strong>
                     </Col>
                     <Col span="12">
                     <span style="margin-left:0">现金余额:</span>
-                    <strong>1500.00</strong>
+                    <strong>{{inform.cashBalance}}</strong>
                     </Col>
                 </Row>
             </li>
             <li>
                 <span class="w50 tr displayib">姓名:</span>
-                <span>哈哈</span>
+                <span>{{inform.realName}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">性别:</span>
-                <span>男</span>
+                <span v-if="inform.gender=='0'">男</span>
+                <span v-else-if="inform.gender=='1'">女</span>
+                <span v-else-if="inform.gender=='2'">请选择</span>
+                <span v-else></span>
             </li>
             <li>
                 <span class="w50 tr displayib">邀请人:</span>
-                <span class="">未实名</span>
+                <span class="">{{inform.loanInviterCode}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">已邀请:</span>
-                <span class="">未实名</span>
+                <span class="">{{inform.loanInviterCount}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">注册:</span>
-                <span>2018-03-29 15:12:34</span>
+                <span>{{inform.registerTime}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">银行卡:</span>
-                <span class="">工商银行</span>
-                <span>6544 ****2210</span>
+                <span class="">{{inform.bank}}</span>
+                <!-- <span>6544 ****2210</span> -->
             </li>
         </ul>
     </div>
@@ -61,60 +64,73 @@
                 <div class="basic">
                     <p>
                         <span>所属区域:</span>
-                        <span>上海市</span>
+                        <span>{{inform.loanLocationName}}</span>
                     </p>
                     <p>
                         <span>贷款额度:</span>
-                        <span>3万-300万</span>
+                        <span>{{inform.serviceAmount}}</span>
                     </p>
                     <p>
                         <span>贷款利率:</span>
-                        <span>0.5%-1.9%</span>
+                        <span>{{inform.serviceRate}}</span>
                     </p>
                     <p>
                         <span>贷款类型:</span>
-                        <span>信用贷 公积金贷</span>
+                        <span v-for="item in inform.loanHaveType">{{item}}</span>
                     </p>
                     <p>
                         <span>服务时间:</span>
-                        <span>08:00-20:00</span>
+                        <span>{{inform.serviceTime}}</span>
                     </p>
                     <p>
                         <span>扣费设置:</span>
-                        <span>服务时间外留言扣费</span>
+                        <span>{{inform.loanDeductionSet}}</span>
                     </p>
                     <p class="credit_prove">
                         <strong>身份证</strong>
-                        <img v-for='(item, index) in identity' v-bind:src='item' :key="index" alt=''>
+                        <img :src='inform.loanIdcardFrontImg'  alt=''>
+                        <img :src='inform.loanIdcardBackImg'  alt=''>
                     </p>
                     <p class="credit_prove mt20 ">
                         <strong >工作证明</strong>
-                        <img v-for="(item, index) in identity" v-bind:src="item" :key="index" alt="">
+                        <img v-bind:src="inform.loanJobImg" alt="">
                     </p>
-                    <div class="mt20 service_introduction hidden">
+                    
+                    <div class="mt20 service_introduction" v-if="introduce">
                         <h3><strong>服务介绍</strong></h3>
                         <p>
                             <span>1.</span>
                             贷款要求
                         </p>
                         <p>
-                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            {{inform.serviceLoanRequire}}
                         </p>
                         <p>
                             <span>2.</span>
                             申请条件
                         </p>
                         <p>
-                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            {{inform.serviceApplyRequire}}
                         </p>
                         <p>
                             <span>3.</span>
                             其它说明
                         </p>
                         <p>
-                            内容内容内容内容内容内容内容内容内容内容内容内容内容内容
+                            {{inform.serviceOtherRequire}}
                         </p>
                     </div>
+                    <p>
+                        <span>认证状态:</span>
+                        <span v-if="inform.loanStatus==0">注册无资料</span>
+                        <span v-else-if="inform.loanStatus==1">信贷员待审核</span>
+                        <span v-else-if="inform.loanStatus==2">审核通过</span>
+                        <span v-else-if="inform.loanStatus==3">审核失败</span>
+                    </p>
+                    <p>
+                        <span>拒绝原因:</span>
+                        <span>{{inform.loanStatusMsg}}</span>
+                    </p>
                     <div class="mt50 tc">
                         <Button type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -139,22 +155,9 @@
                         </Form>
                     </div>
                     </Modal>
-                    <Modal
-                    title="认证审核"
-                    v-model="modal8"
-                    @on-ok="preservation"
-                    ok-text="确认通过"
-                    cancel-text="取消"
-                    class-name="vertical-center-modal"
-                    width="500"
-                    :mask-closable="false">
-                    <div class="newtype_file">
-                        <p>确认审核通过吗？</p>
-                    </div>
-                    </Modal>
                 </div>
             </TabPane>
-            <TabPane label="订单记录">
+            <TabPane label="咨询订单记录">
                 <Table border :columns="columns1" :data="data1"></Table>
                 <div class="tr mt15">
                     <Page :total="100"  show-elevator show-sizer show-total></Page>
@@ -172,7 +175,7 @@
                     <Page :total="100" show-elevator show-sizer show-total></Page>
                 </div>
             </TabPane>
-            <TabPane label="账户流水">
+            <TabPane label="现金流水">
                 <Table stripe :columns="columns4" :data="data4"></Table>
                 <div class="tr mt15">
                     <Page :total="100" show-elevator show-sizer show-total></Page>
@@ -198,21 +201,17 @@
 <script>
 export default {
   data () {
-    return {
-      img: [
-        require('../../image/pointed-star.png'),
-        require('../../image/pointed-star.png'),
-        require('../../image/pointed-star.png'),
-        require('../../image/pointed-star.png'),
-        require('../../image/pointed-star.png')
-      ],
+    return {      
+      img: [],
       formValidate: {
         name: ''
       },
-      modal8: false,
       modal9: false,
       loading: true,
+      account: true,
+      introduce: true,
       name: '',
+      inform: {},
       ruleInline: {
         name: [
           { required: true, message: '请输入拒绝原因', trigger: 'blur' }
@@ -506,9 +505,51 @@ export default {
     }
   },
   methods: {
+    // 解冻账户
+    thaw () {
+      this.$Modal.confirm({
+          title: '解冻账户',
+          content: '<p>确认要解冻吗?</p>',
+          onOk: () => {
+            
+          },
+          onCancel: () => {
+              
+          }
+        })
+
+    },
+    reviewthrough () {
+      let list = {
+        loanOfficerCode: inform.loanOfficerCode
+      }
+      this.http.post(BASE_URL + '/loan/officer/getOfficerDetailInfo', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.inform= resp.data
+            for (let i = 0; i < resp.data.loanOfficerGrade; i++) {
+              this.img.push(require('../../image/pointed-star.png'))
+            }
+            console.log(this.img)
+          } else {
+
+          }
+        })
+        .catch(() => {
+        })
+    },
     // 认证审核通过
     handleRender () {
-      this.modal8 = true
+      this.$Modal.confirm({
+          title: '认证审核',
+          content: '<p>确认认证审核通过吗?</p>',
+          onOk: () => {
+            
+          },
+          onCancel: () => {
+              
+          }
+        })
     },
     // 认证审核拒绝
     refuse () {
@@ -544,14 +585,16 @@ export default {
     information () {
       let list = {
         // loanOfficerCode: this.$route.query.code
-        loanOfficerCode: ''
+        loanOfficerCode: '20180728155527070105579769709'
       }
       this.http.post(BASE_URL + '/loan/officer/getOfficerDetailInfo', list)
         .then((resp) => {
           if (resp.code == 'success') {
-            let obj = new Object ()
-            
-
+            this.inform= resp.data
+            for (let i = 0; i < resp.data.loanOfficerGrade; i++) {
+              this.img.push(require('../../image/pointed-star.png'))
+            }
+            console.log(this.img)
           } else {
 
           }
