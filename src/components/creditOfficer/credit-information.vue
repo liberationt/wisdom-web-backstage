@@ -9,8 +9,8 @@
                 <img v-for='(item, index) in img' v-bind:src='item' :key="index" alt=''>
             </p>
             <!-- <span class="member_type green1">账户正常</span> -->
-            <Button v-if="account" type="info" shape="circle" @click="thaw">解冻账户</Button>
-            <Button v-if="!account" type="error" shape="circle">冻结账户</Button>
+            <Button v-if="inform.accountStatus == 0" type="info" shape="circle" @click="thaw(1)">解冻账户</Button>
+            <Button type="error" shape="circle" v-if="inform.accountStatus == 1" @click="thaw(0)">冻结账户</Button>
         </div>
         <ul class="member_left_ul">
             <li>
@@ -76,7 +76,7 @@
                     </p>
                     <p>
                         <span>贷款类型:</span>
-                        <span v-for="item in inform.loanHaveType">{{item}}</span>
+                        <span v-for="item in inform.loanHaveType">{{item}} </span>
                     </p>
                     <p>
                         <span>服务时间:</span>
@@ -96,7 +96,7 @@
                         <img v-bind:src="inform.loanJobImg" alt="">
                     </p>
                     
-                    <div class="mt20 service_introduction" v-if="introduce">
+                    <div class="mt20 service_introduction" v-if="inform.serviceIntroductionStatus==2">
                         <h3><strong>服务介绍</strong></h3>
                         <p>
                             <span>1.</span>
@@ -131,7 +131,8 @@
                         <span>拒绝原因:</span>
                         <span>{{inform.loanStatusMsg}}</span>
                     </p>
-                    <div class="mt50 tc">
+                    <!-- v-if="inform.loanStatus==1" -->
+                    <div class="mt50 tc" v-if="inform.loanStatus==1">
                         <Button type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button type="ghost" @click="journal">查看操作日志</Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -208,7 +209,6 @@ export default {
       },
       modal9: false,
       loading: true,
-      account: true,
       introduce: true,
       name: '',
       inform: {},
@@ -506,33 +506,93 @@ export default {
   },
   methods: {
     // 解冻账户
-    thaw () {
-      this.$Modal.confirm({
-          title: '解冻账户',
-          content: '<p>确认要解冻吗?</p>',
+    thaw (num) {
+      if (num == 0) {
+        this.$Modal.confirm({
+          title: '冻结账户',
+          content: '<p>确认要冻结吗?</p>',
           onOk: () => {
-            
+            this.acctype (0)
           },
-          onCancel: () => {
-              
+          onCancel: () => {             
           }
+        })
+      } else {
+        this.$Modal.confirm({
+          title: '冻结账户',
+          content: '<p>确认要冻结吗?</p>',
+          onOk: () => {
+            this.acctype (1)
+          },
+          onCancel: () => {            
+          }
+        })
+      }     
+    },
+    // 冻结账户
+    acctype (num) {
+      let list = {
+        loanOfficerCode: this.inform.loanOfficerCode,
+        accountStatus: num
+      }
+      this.http.post(BASE_URL + '/loan/officerInfo/updateOfficerInfoAccountStatusByCode', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            const title = '冻结'
+            content = '<p>冻结成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.information()
+
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
         })
 
     },
-    reviewthrough () {
-      let list = {
-        loanOfficerCode: inform.loanOfficerCode
+    // 审核
+    reviewthrough (num) {
+      let loanStatusMsg
+      let loanStatus
+      if (num ==1) {
+        loanStatusMsg = ''
+        loanStatus = 2
+      } else {
+        loanStatusMsg = this.formValidate.name
+        loanStatus = 3
       }
-      this.http.post(BASE_URL + '/loan/officer/getOfficerDetailInfo', list)
+
+      let list = {
+        loanOfficerCode: this.inform.loanOfficerCode,
+        loanStatus: loanStatus,
+        loanStatusMsg: loanStatusMsg
+      }
+      this.http.post(BASE_URL + '/loan/officer/updateOfficerInfoLoanStatus', list)
         .then((resp) => {
           if (resp.code == 'success') {
-            this.inform= resp.data
-            for (let i = 0; i < resp.data.loanOfficerGrade; i++) {
-              this.img.push(require('../../image/pointed-star.png'))
-            }
-            console.log(this.img)
+            const title = '审核'
+            let content
+            if (num == 1) {
+              content = '<p>审核成功</p>'              
+            } else {
+              content = '<p>审核拒绝成功</p>'
+            }          
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
           } else {
-
+            this.$Message.info(resp.message)
+            // const title = '审核'
+            // let content = '<p>+resp.message+</p>'
+            // this.$Modal.success({
+            //   title: title,
+            //   content: content
+            // })
           }
         })
         .catch(() => {
@@ -544,7 +604,7 @@ export default {
           title: '认证审核',
           content: '<p>确认认证审核通过吗?</p>',
           onOk: () => {
-            
+            this.reviewthrough (1)
           },
           onCancel: () => {
               
@@ -554,9 +614,6 @@ export default {
     // 认证审核拒绝
     refuse () {
       this.modal9 = true
-    },
-    preservation () {
-      this.$Message.info('审核通过')
     },
     changeLoading () {
       this.loading = false
@@ -579,13 +636,12 @@ export default {
     },
     // 查看操作日志
     journal () {
-      this.$router.push({ path: './operationLog' })
+      this.$router.push({ path: './operationLog?loanOfficerCode='+ this.inform.loanOfficerCode })
     },
     // 基本信息
     information () {
       let list = {
-        // loanOfficerCode: this.$route.query.code
-        loanOfficerCode: '20180728155527070105579769709'
+        loanOfficerCode: this.$route.query.loanOfficerCode
       }
       this.http.post(BASE_URL + '/loan/officer/getOfficerDetailInfo', list)
         .then((resp) => {
@@ -594,9 +650,8 @@ export default {
             for (let i = 0; i < resp.data.loanOfficerGrade; i++) {
               this.img.push(require('../../image/pointed-star.png'))
             }
-            console.log(this.img)
           } else {
-
+            this.$Message.info(resp.message)
           }
         })
         .catch(() => {
@@ -616,7 +671,8 @@ export default {
         margin-bottom: 20px;
         img{
         width: 200px;
-        margin-top: 20px
+        margin-top: 20px;
+        border-radius: 50%
         }
         p{
             line-height: 25px;
