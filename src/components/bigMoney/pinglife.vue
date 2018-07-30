@@ -56,7 +56,7 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
-      model1: '平安普惠',
+      model1: '络慧赠险',
       userAgent:'',
       ip:'',
       // cityList: [
@@ -325,9 +325,11 @@ export default {
 			}
       let pushname = this.$route.query.pushname
       if(pushname == 'luohui'){
-					this.post('/loan/zxLhpingan/getZxLhpinganList',params,pushname,1)
+          this.post('/loan/zxLhpingan/getZxLhpinganList',params,pushname,1)
+          this.model1 = '络慧赠险'
         } else if(pushname == 'kunxuan'){
-        	this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
+          this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
+          this.model1 = '坤玄赠险'
         }
     },
     // 导出
