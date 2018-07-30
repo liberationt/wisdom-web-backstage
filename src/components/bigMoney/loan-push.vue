@@ -1594,7 +1594,7 @@ export default {
         {
           title: '数据来源',
           align: 'center',
-          width: 100,
+          width: 150,
           render: (h, params) => {
             let succ
             if (params.row.custSrc == '1') {
