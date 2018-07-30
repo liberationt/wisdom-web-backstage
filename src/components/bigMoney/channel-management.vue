@@ -367,10 +367,10 @@ export default {
                 this.inquire (1)
               } else {
                 this.changeLoading()
-                this.modal9 = false
+                // this.modal9 = false
                 // this.formCustom.name = ''
-                this.$Message.success(resp.message)
-                this.$refs[name].resetFields()
+                this.$Message.warning(resp.message)
+                // this.$refs[name].resetFields()
               }
             })
             .catch(() => {

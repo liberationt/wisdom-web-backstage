@@ -173,7 +173,6 @@ export default {
               if (value && value.length > 20) {
                 value = value.slice(0, 20) + '...'
               }
-              if (value && value.length > 0) {
                 configureValues = [
                   value, 
                   h('Button', {
@@ -191,13 +190,9 @@ export default {
                       this.refuse()                     
                     }
                   }
-                }, '查看')
+                }, '选择城市')
                 ]
-              } else {
-                configureValues = [
-                value,
-                ]
-              }
+              
             } else {
               configureValues = params.row.configureValues
             }

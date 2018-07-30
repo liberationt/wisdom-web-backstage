@@ -10,9 +10,10 @@
           <ul class="querysty">
             <li>
               <span>推送主体:</span>
-              <Select v-model="model1" style="width:200px" class="mr20">
+              <Input v-model="model1" disabled class="mr20" style="width: 200px"></Input>
+              <!-- <Select v-model="model1" style="width:200px" class="mr20">
                   <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-              </Select>
+              </Select> -->
             </li>
             <li>
               <span>文件名称:</span>
@@ -90,19 +91,19 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
-      model1: '坤玄',
+      model1: '坤玄赠险',
       model2: '',
       value9: '',
       value3: '',
       hrefxls: '',
       modal9: false,
       loading: true,
-      cityList: [
-        {
-          value: '坤玄',
-          label: '坤玄'
-        }
-      ],
+      // cityList: [
+      //   {
+      //     value: '坤玄',
+      //     label: '坤玄'
+      //   }
+      // ],
       columns7: [
         // {
         //   title: '批次',
@@ -455,30 +456,30 @@ export default {
     jname(pushname) {
       if(pushname == 'luohui'){
         this.pushname1 = 'luohui'
-        this.model1 = '络慧'
+        this.model1 = '络慧赠险'
         this.jiakey = 'partya-luohui-pinganzx'
         this.jianame = '平安人寿'
-        this.zhuname = '络慧'
+        this.zhuname = '络慧赠险'
         this.hrefxls = 'pingan_zx_lh.xlsx'
         this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pingan_zx_lh.xlsx'
-        this.cityList = [{
-          value: '络慧',
-          label: '络慧'
-        }]
+        // this.cityList = [{
+        //   value: '络慧',
+        //   label: '络慧'
+        // }]
       } else if(pushname == 'kunxuan'){
         this.pushname1 = 'kunxuan'
-        this.model1 = '坤玄'
+        this.model1 = '坤玄赠险'
         this.jiakey = 'partya-kunxuan-pinganzx'
         this.hrefxls = 'pingan_zx_kx.xlsx'
         this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/pingan_zx_kx.xlsx'
         this.jianame = '平安人寿'
-        this.zhuname = '坤玄'
-        this.cityList = [
-          {
-            value: '坤玄',
-            label: '坤玄'
-          }
-        ]
+        this.zhuname = '坤玄赠险'
+        // this.cityList = [
+        //   {
+        //     value: '坤玄',
+        //     label: '坤玄'
+        //   }
+        // ]
       }
     },
     batch() {

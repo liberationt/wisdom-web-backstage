@@ -8,9 +8,10 @@
         </div>
         <div class="mt50">
             <span>甲方名称:</span>
-            <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+            <Input v-model="model1" disabled class="mr20" style="width: 200px"></Input>
+            <!-- <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
+            </Select> -->
             <!-- <span class="w100 tr displayib">批次号:</span>
             <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input> -->
             <span class=" tr displayib">推送状态:</span>
