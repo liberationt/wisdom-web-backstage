@@ -170,8 +170,8 @@ export default {
             let configureValues
             if (params.row.fieldName == '居住城市') {
               let value = params.row.configureValues
-              if (value && value.length > 20) {
-                value = value.slice(0, 20) + '...'
+              if (value && value.length > 12) {
+                value = value.slice(0, 12) + '...'
               }
                 configureValues = [
                   value, 
