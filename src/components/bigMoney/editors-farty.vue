@@ -422,10 +422,14 @@ export default {
         let content = '<p>保存成功</p>'
         this.$Modal.success({
           title: title,
-          content: content
+          content: content,
+          onOk: () => {
+            this.city = []
+            this.modal9 = false
+            location.reload()
+          },
         })
-        this.city = []
-        this.modal9 = false
+        
       } else {
 
       }
