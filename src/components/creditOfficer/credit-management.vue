@@ -6,39 +6,42 @@
       </p>
     </div>
     <Tabs type="card" :animated="false" @on-click="labell1">
+        <!-- 入驻待审核 -->
         <TabPane :label="label" >
             <div class="clearfix" >
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model1" style="width:100px" @on-change="label_option">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model3" placeholder="所属状态" style="width:200px;margin-left:50px">
+            <Input v-model="name" placeholder="请输入关键字" style="width: 150px">
+            </Input>
+            <Select v-model="model3" @on-change="label_state" placeholder="所属状态" style="width:200px;margin-left:20px">
                 <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
+            <Select v-model="models" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:20px">
                 <Option v-for="item in cityType" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="modell" @on-change="cityh" placeholder="请选择市" style="width:200px;margin-left:50px">
+            <Select v-model="modelshi" @on-change="cityh" placeholder="请选择市" style="width:200px;">
                 <Option v-for="item in cityTypel" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
+            <Button class="right mr100" type="primary" icon="ios-search" @click="label_query('warning')">查询</Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
+        <!-- 资料待审核 -->
         <TabPane :label="label2">
             <div class="clearfix">
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model2" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
+            <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>
             </div>
             <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
             </div>
@@ -46,20 +49,20 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="注册无资料" >
             <div class="clearfix">
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model3" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
             <Select v-model="model3" placeholder="所属状态" style="width:200px;margin-left:50px">
                 <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Select v-model="model2" placeholder="所属区域" style="width:200px;margin-left:50px">
+            <Select v-model="model" placeholder="所属区域" style="width:200px;margin-left:50px">
                 <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
@@ -75,11 +78,11 @@
         <TabPane label="信贷员列表" >
             <div class="clearfix">
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model4" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model2" placeholder="所属区域" style="width:200px;margin-left:50px">
+            <Select v-model="model" placeholder="所属区域" style="width:200px;margin-left:50px">
                 <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="model3" placeholder="上架状态" style="width:200px;margin-left:50px">
@@ -116,7 +119,7 @@
             <Table border :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
@@ -202,11 +205,15 @@ export default {
           label: '否'
         }
       ],
-      model1: '',
-      model2: '',
+      model: '',
+      model1: '手机号',
+      model2: '手机号',
+      model3: '手机号',
+      model4: '手机号',
       model3: '',
       model4: '',
       name: '',
+      name1: '',
       params: {
         page: 1,
         limit: 10
@@ -214,17 +221,17 @@ export default {
       columns7: [
         {
           title: 'ID',
-          key: 'id',
+          key: 'dataId',
           align: 'center'
         },
         {
           title: '手机号',
-          key: 'phone',
+          key: 'phoneMember',
           align: 'center'
         },
         {
           title: '姓名',
-          key: 'name',
+          key: 'realName',
           align: 'center'
         },
         {
@@ -234,27 +241,52 @@ export default {
         },
         {
           title: '所属区域',
-          key: 'region',
+          key: 'loanLocationName',
           align: 'center'
         },
         {
           title: '贷款额度',
-          key: 'quota',
+          key: 'serviceAmount',
           align: 'center'
         },
         {
           title: '贷款类型',
-          key: 'type',
+          key: 'loanHaveType',
           align: 'center'
         },
         {
           title: '证件',
-          key: 'certificates',
+          key: 'status',
           align: 'center'
         },
         {
+          title: '审核状态',
+          // key: 'loanStatus',
+          align: 'center',
+          render: (h, params) => {
+            let loanStatus = params.row.loanStatus;
+            let status;
+            if(loanStatus == 1){
+              status = '待审核'
+            } else if(loanStatus == 3){
+              status = '审核失败'
+            }
+            return h('div', [
+              h(
+                'span',
+                {
+                  style: {
+                    marginRight: '5px'
+                  },
+                },
+                status
+              )
+            ])
+          }
+        },
+        {
           title: '注册时间',
-          key: 'time',
+          key: 'registerTime',
           align: 'center'
         },
         {
@@ -263,6 +295,14 @@ export default {
           width: 150,
           align: 'center',
           render: (h, params) => {
+            // console.log(params)
+            let status = params.row.loanStatus
+            let statusn
+            if(status ==  1){
+              statusn = '审核'
+            } else if(status == 3) {
+              statusn = '详情'
+            }
             return h('div', [
               h(
                 'Button',
@@ -276,48 +316,71 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: './creditInformation' })
+                        if(status ==  1){
+                          this.$router.push({ path: './creditInformation?loanOfficerCode='+params.row.loanOfficerCode })
+                        } else if(status == 3) {
+                          statusn = '详情'
+                        }
+                        
                     }
                   }
                 },
-                '查看审核'
+                statusn
               )
             ])
           }
         }
       ],
-      data6: [
-        {
-          id: '110101',
-          phone: '139****5599',
-          name: '李明明',
-          gender: '男',
-          region: '上海',
-          quota: '3万-30万',
-          type: '车抵贷 房抵贷 保单贷',
-          certificates: '已上传',
-          time: '2018-03-29 15:12:34'
-        }
-      ],
+      data6: [],
       columns8: [
         {
           title: 'ID',
-          key: 'id',
+          key: 'dataId',
           align: 'center'
         },
         {
           title: '手机号',
-          key: 'phone',
+          key: 'phoneMember',
           align: 'center'
         },
         {
           title: '姓名',
-          key: 'plantime',
+          key: 'realName',
           align: 'center'
         },
         {
+          title: '修改类型',
+          key: 'auditType',
+          align: 'center'
+        },
+        {
+          title: '审核状态',
+          // key: 'auditStatus',
+          align: 'center',
+          render: (h, params) => {
+            let audstatus = params.row.auditStatus;
+            let auditStatus;
+            if(audstatus == 0){
+              auditStatus = '待审核'
+            } else if(audstatus == 2){
+              auditStatus = '审核失败'
+            }
+            return h('div', [
+              h(
+                'span',
+                {
+                  style: {
+                    marginRight: '5px'
+                  },
+                },
+                auditStatus
+              )
+            ])
+          }
+        },
+        {
           title: '提交修改时间',
-          key: 'time',
+          key: 'auditUpdateTime',
           align: 'center'
         },
         {
@@ -326,6 +389,13 @@ export default {
           width: 150,
           align: 'center',
           render: (h, params) => {
+            let audstatus = params.row.auditStatus;
+            let auditStatus;
+            if(audstatus == 0){
+              auditStatus = '待审核'
+            } else if(audstatus == 2){
+              auditStatus = '审核失败'
+            }
             return h('div', [
               h(
                 'Button',
@@ -339,6 +409,7 @@ export default {
                   },
                   on: {
                     click: () => {
+
                       this.$router.push({ path: './revisionReview' })
                     }
                   }
@@ -349,14 +420,7 @@ export default {
           }
         }
       ],
-      data7: [
-        {
-          id: 'A1111',
-          phone: '135****7766',
-          plantime: '唐哈哈',
-          time: '2018-03-29 15:12:34'
-        }
-      ],
+      data7: [],
       columns9: [
         {
           title: 'ID',
@@ -593,7 +657,11 @@ export default {
       startRow: 1,
       endRow: 10,
       total: 0,
-      modell : ''
+      modell : '',
+      labelstate: '',
+      labelcitys:'',
+      modelshi: '', // 市
+      models: '' //省
     }
   },
   methods: {
@@ -626,10 +694,29 @@ export default {
         console.log(num)
         console.log(data)
         if(data.code == 'success'){
+          if(num == 0){
+            this.data6 = data.data.dataList
+            this.total = parseInt(data.data.total) 
+            return false
+          }
+          if(num == 1){
+            this.data7 = data.data.dataList
+            this.total = parseInt(data.data.total) 
+            return false
+          }
+          if(num == 2){
+            this.data6 = data.data.dataList
+            this.total = parseInt(data.data.total) 
+            return false
+          }
           if(num == 3){
             this.data9 = data.data.dataList
             this.total = parseInt(data.data.total) 
+            return false 
           }
+          
+        } else {
+          this.total = 0
         }
       }).catch(err=>{
         console.log(err)
@@ -638,21 +725,24 @@ export default {
     //tab 栏
     labell1(name) {
       let parameter = {
-          pageSize : this.endRow,
-          pageNum : this.startRow,
+        pageSize : this.endRow,
+        pageNum : this.startRow,
       }
       let data
       //入驻待审核
       if(name == 0){
         data = Object.assign({
-
+          searchOptions : this.name, //手机号or 姓名
+          loanStatus : this.labelstate, //选择状态
+          loanAdCodeFirst : this.labelcitys,//区域 省
+          loanAdCodeSecond :'', //市
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerAdmissionList',data,0)
       }
       //资料改带审核
       if(name == 1){
         data = Object.assign({
-
+          searchOptions : '' //姓名or手机号
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerDataWaitCheckList',data,1)
       }
@@ -690,11 +780,10 @@ export default {
     citys(v){
       console.log(v)
       let data = {
-        "data": {
-          "data": v
-        }
+        "data": v
       }
       this.httpshi(data)
+      this.labelcitys = v
     },
     //市
     cityh(v){
@@ -703,8 +792,32 @@ export default {
     // 市接口
     httpshi(data) {
       this.http.post(BASE_URL+"/loan/hotcity/queryCityAddressList",data).then(data=>{
-        console.log(data)
+        this.cityTypel = data.data
       })
+    },
+    // 入住待审核查询
+    label_query(type) {
+      if(this.model1 == '手机号'){
+        if(this.name == "" || this.name.length < 3){
+          const title = '温馨提示';
+          const content = '<p>手机号不能小于3位数</p>';
+          switch (type) {
+            case 'warning':
+              this.$Modal.warning({
+                  title: title,
+                  content: content
+              });
+              break;
+          }
+        }
+      }
+    },
+    // 入住 下拉框
+    label_option(v){
+      this.model1 = v
+    },
+    label_state(v){
+      this.labelstate = v
     }
   },
   created() {
@@ -713,8 +826,13 @@ export default {
       this.cityType1 = data
       this.cityType2 = data
     })
+    // 入住待审核
+    this.labell1(0)
   }
 }
 </script>
 <style lang="less" scoped>
+.ivu-select-selection {
+  margin-top: 10px;
+}
 </style>
