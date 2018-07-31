@@ -43,7 +43,7 @@
             </Select>
             <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
+            <Button class="right mr100" type="primary" icon="ios-search" @click="label2_query('warning')">查询</Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns8" :data="data7"></Table>
@@ -141,7 +141,7 @@ export default {
       },
       label2: h => {
         return h('div', [
-          h('span', '资料修改待审核'),
+          h('span', '资料待审核'),
           h('Badge', {
             props: {
               count: 3
@@ -385,16 +385,16 @@ export default {
         },
         {
           title: '操作',
-          key: 'action',
+          // key: 'action',
           width: 150,
           align: 'center',
           render: (h, params) => {
             let audstatus = params.row.auditStatus;
             let auditStatus;
             if(audstatus == 0){
-              auditStatus = '待审核'
+              auditStatus = '审核'
             } else if(audstatus == 2){
-              auditStatus = '审核失败'
+              auditStatus = '查看'
             }
             return h('div', [
               h(
@@ -409,12 +409,16 @@ export default {
                   },
                   on: {
                     click: () => {
-
-                      this.$router.push({ path: './revisionReview' })
+                      if(audstatus == 0){
+                        auditStatus = '0'
+                      } else if(audstatus == 2){
+                        auditStatus = '2'
+                      }
+                      this.$router.push({ path: './revisionReview?auditCode='+params.row.auditCode+'&&auditStatus='+auditStatus }) //审核
                     }
                   }
                 },
-                '查看审核'
+                auditStatus
               )
             ])
           }
@@ -799,16 +803,7 @@ export default {
     label_query(type) {
       if(this.model1 == '手机号'){
         if(this.name == "" || this.name.length < 3){
-          const title = '温馨提示';
-          const content = '<p>手机号不能小于3位数</p>';
-          switch (type) {
-            case 'warning':
-              this.$Modal.warning({
-                  title: title,
-                  content: content
-              });
-              break;
-          }
+          this.phoneti(type)
         }
       }
     },
@@ -818,6 +813,27 @@ export default {
     },
     label_state(v){
       this.labelstate = v
+    },
+    //资料待审核
+    label2_query(type) {
+      if(this.model2 == '手机号'){
+        if(this.name1 == "" || this.name1.length < 3){
+          this.phoneti(type)
+        }
+      }
+    },
+    // 手机号提示
+    phoneti(type){
+      const title = '温馨提示';
+      const content = '<p>手机号不能小于3位数</p>';
+      switch (type) {
+        case 'warning':
+          this.$Modal.warning({
+              title: title,
+              content: content
+          });
+        break;
+      }
     }
   },
   created() {
