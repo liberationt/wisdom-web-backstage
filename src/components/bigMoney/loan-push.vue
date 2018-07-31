@@ -51,7 +51,7 @@
         </div>
 
         <div class="mt20">
-            <Table border highlight-row :columns="party1" :data="data1"></Table>
+            <Table border highlight-row :columns="party1" :data="data1" ></Table>
         </div>
         <div class="tr mt15">
           <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -142,16 +142,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth:110,
           key: 'mobile'
         }, 
          {
           title: '推送状态',
           align: 'center',
+          minWidth:110,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -169,12 +172,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth:160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 100,
           render: (h, params) => {
             let Code
             if (params.row.originate == 0) {
@@ -190,6 +194,7 @@ export default {
          {
           title: '返回信息',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let code 
             // console.log(params.row.code)
@@ -209,6 +214,7 @@ export default {
         {
           title: '借款产品类型',
           align: 'center',
+          minWidth:110,
           render: (h, params) => {
             let borrowType 
             if (params.row.borrowType == '0') {
@@ -236,6 +242,7 @@ export default {
         {
           title: '来源',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let origin
             if (params.row.origin == '0') {
@@ -253,12 +260,29 @@ export default {
         {
           title: '创建时间',
           align: 'center',
+          minWidth:160,
           key: 'dataCreateTime'
         },
         {
           title: '返回信息',
           align: 'center',
-          key: 'message'
+          minWidth:150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.message
+							}
+						}, params.row.message)
+						])
+						}
         },
       ],
 
@@ -267,16 +291,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth: 110,
           key: 'mobile'
         },
         {
           title: '推送状态',
-          align: 'center',
+          minWidth: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -294,12 +321,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth: 160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 100,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -315,6 +343,7 @@ export default {
          {
           title: '返回信息',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let code 
             if (!params.row.code) {
@@ -332,11 +361,13 @@ export default {
         {
           title: '城市',
           align: 'center',
+          minWidth: 100,
           key: 'city'
         },
         {
           title: '打卡发薪',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let salaryGetForm 
             if (params.row.salaryGetForm == '0') {
@@ -352,6 +383,7 @@ export default {
         {
           title: '社保',
           align: 'center',
+          minWidth: 80,
           render: (h, params) => {
             let socialSecurity 
             if (params.row.socialSecurity == '0') {
@@ -367,6 +399,7 @@ export default {
          {
           title: '公积金',
           align: 'center',
+          minWidth: 80,
           render: (h, params) => {
             let accumulationFund 
             if (params.row.accumulationFund == '0') {
@@ -382,17 +415,36 @@ export default {
         {
           title: '渠道',
           align: 'center',
+          minWidth: 150,
           key: 'channel'
         },
         {
           title: '创建时间',
           align: 'center',
+          minWidth: 160,
           key: 'dataCreateTime'
         },
         {
           title: '错误信息',
           align: 'center',
-          key: 'errorMessage'
+          minWidth: 150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.errorMessage
+							}
+						}, params.row.errorMessage)
+						])
+						}
+
         },
       ],
       // 秒贷
@@ -400,16 +452,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth: 110,
           key: 'cellphone'
         },
          {
           title: '推送状态',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -427,12 +482,13 @@ export default {
          {
           title: '推送时间',
           align: 'center',
+          minWidth: 160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 100,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -448,6 +504,7 @@ export default {
         {
           title: '返回状态',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let code
             if (params.row.code == '-1') {
@@ -465,27 +522,47 @@ export default {
         {
           title: '返回信息',
           align: 'center',
-          key: 'msg'
+          minWidth: 160,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.msg
+							}
+						}, params.row.msg)
+						])
+						}
         },
         {
           title: '城市编码',
           align: 'center',
+          minWidth: 120,
           key: 'belongCity'
         },
         {
           title: '媒体来源编号',
           align: 'center',
+          minWidth: 120,
           key: 'sourceId'
         },
         {
           title: '创建时间',
           align: 'center',
+          minWidth: 160,
           key: 'dataCreateTime'
         },
 
         {
           title: '验证结果',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let validResult
             if (params.row.validResult == 'success') {
@@ -503,6 +580,7 @@ export default {
         {
           title: '数据有效性',
           align: 'center',
+          minWidth: 100,
           key: 'validFailMsg'
         },
       ],
@@ -511,16 +589,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          width: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          width: 110,
           key: 'phone'
         },
         {
           title: '推送状态',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -538,12 +619,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          width: 160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          width: 100,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -559,6 +641,7 @@ export default {
         {
           title: '返回状态',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let returnCode
             if (params.row.returnCode == '0000') {
@@ -576,37 +659,59 @@ export default {
         {
           title: '返回信息',
           align: 'center',
-          key: 'returnMsg'
+          width: 150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.returnMsg
+							}
+						}, params.row.returnMsg)
+						])
+						}
         },
         {
           title: '供应商',
           align: 'center',
+          width: 100,
           key: 'sid'
         },
         {
           title: '渠道',
           align: 'center',
+          width: 100,
           key: 'cid'
         },
         {
           title: '广告位ID',
           align: 'center',
+          width: 160,
           key: 'supplierCodeSub'
         },
        
         {
           title: '城市编码',
           align: 'center',
+          width: 100,
           key: 'cityCode'
         },
         {
           title: '生日',
           align: 'center',
+          width: 150,
           key: 'birthday'
         },
         {
           title: '创建时间',
           align: 'center',
+          width: 160,
           key: 'dataCreateTime'
         },
       ],
@@ -615,16 +720,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth: 110,
           key: 'mobile'
         },
         {
           title: '推送状态',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -642,12 +750,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth:160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 100,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -663,6 +772,7 @@ export default {
          {
           title: '返回信息',
           align: 'center',
+          minWidth:120,
           render: (h, params) => {
           const retCode = params.row.retCode
           let pushStatus = ''
@@ -689,21 +799,25 @@ export default {
         {
           title: '城市',
           align: 'center',
+          minWidth:120,
           key: 'city'
         },
         {
           title: '贷款来源',
           align: 'center',
+          minWidth:120,
           key: 'source'
         },
         {
           title: '媒体名称',
           align: 'center',
+          minWidth:120,
           key: 'meiti'
         },
         {
           title: '创建时间',
           align: 'center',
+          minWidth:160,
           key: 'dataCreateTime'
         },
       ],
@@ -772,16 +886,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth:110,
           key: 'phone'
         },
         {
           title: '推送状态',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -799,11 +916,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth: 160,
           key: 'pushTime'
         },
         {
           title: '返回状态',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let rspCode
             if (params.row.rspCode == '200') {
@@ -837,45 +956,83 @@ export default {
         {
           title: '城市',
           align: 'center',
+          minWidth: 120,
           key: 'city'
         },
         {
           title: '渠道编号',
           align: 'center',
+          minWidth: 120,
           key: 'channelCode'
         },
         {
           title: '创建时间',
           align: 'center',
+          minWidth: 160,
           key: 'dataCreateTime'
         },
    
         {
           title: '返回信息',
           align: 'center',
-          key: 'rspMsg'
+          minWidth: 150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.rspMsg
+							}
+						}, params.row.rspMsg)
+						])
+						}
         },
         {
           title: '展示信息',
           align: 'center',
-          key: 'showMsg'
+          minWidth: 150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.showMsg
+							}
+						}, params.row.showMsg)
+						])
+						}
         },
       ],
       // 宜信
       columns8: [
         {
           title: '姓名',
-          align: 'center',
+          align: 'center', 
+          minWidth:100,        
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth: 110,
           key: 'phone'
         },
         {
           title: '推送状态',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -893,12 +1050,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth: 160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 150,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -914,6 +1072,7 @@ export default {
         {
           title: '返回状态',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
             let succ
             if (params.row.succ == 'true') {
@@ -933,16 +1092,34 @@ export default {
         {
           title: '返回信息',
           align: 'center',
-           key: 'msg'
+          minWidth: 150,
+           render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.msg
+							}
+						}, params.row.msg)
+						])
+						}
         },
         {
           title: '邮箱',
           align: 'center',
+          minWidth:100,
           key: 'email'
         },
         {
           title: '性别',
           align: 'center',
+          minWidth:100,
           render: (h, params) => {
           let gender
           if (params.row.gender == '0') {
@@ -960,11 +1137,13 @@ export default {
         {
           title: '生日',
           align: 'center',
+          minWidth:160,
           key: 'birthDate'
         },
         {
           title: '创建时间',
           align: 'center',
+          minWidth: 160,
           key: 'dataCreateTime'
         },  
         
@@ -974,16 +1153,19 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          minWidth: 100,
           key: 'customerName'
         },
         {
           title: '手机号',
           align: 'center',
+          minWidth: 120,
           key: 'mobile'
         },
         {
           title: '推送状态',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -1001,12 +1183,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
+          minWidth: 160,
           key: 'pushTime'
         },
         {
           title: '推送方式',
           align: 'center',
-          width: 150,
+          minWidth: 150,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -1022,6 +1205,7 @@ export default {
         {
           title: '返回信息',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let succ
             if (!params.row.databusStatus) {
@@ -1039,21 +1223,25 @@ export default {
         {
           title: '城市编码',
           align: 'center',
+          minWidth: 100,
           key: 'cityId'
         },
         {
           title: '媒体来源编号',
           align: 'center',
+          minWidth: 120,
           key: 'businessChannel'
         },
         {
           title: '创建时间',
           align: 'center',
+          minWidth: 160,
           key: 'dataCreateTime'
         },
         {
           title: '错误信息',
           align: 'center',
+          minWidth: 100,
           key: 'errorMessage'
         },
         
@@ -1063,6 +1251,7 @@ export default {
         {
           title: '姓名',
           align: 'center',
+          width: 100,
           key: 'name'
         },
         {
@@ -1074,6 +1263,7 @@ export default {
         {
           title: '推送状态',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -1097,6 +1287,7 @@ export default {
         {
           title: '推送方式',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
@@ -1112,6 +1303,7 @@ export default {
         {
           title: '返回信息',
           align: 'center',
+          width: 150,
           render: (h, params) => {
             let succ
             if (params.row.errMsg == 'success') {
@@ -1129,22 +1321,26 @@ export default {
         {
           title: '城市',
           align: 'center',
+          width: 120,
           key: 'city'
         },
         {
           title: '借款金额(元)',
           align: 'center',
+          width: 120,
           key:'loanAmount'
         },
         {
           title: '借款期限(月)',
           align: 'center',
+          width: 120,
           key:'duration'
         },
       
         {
           title: '公积金',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.accumulationFund == '0') {
@@ -1160,6 +1356,7 @@ export default {
         {
           title: '社保',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.socialSecurity == '0') {
@@ -1175,6 +1372,7 @@ export default {
         {
           title: '寿险',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.lifeInsurance == '0') {
@@ -1190,6 +1388,7 @@ export default {
         {
           title: '保单',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.policy == '0') {
@@ -1205,6 +1404,7 @@ export default {
         {
           title: '微粒贷',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.particleLoan == '0') {
@@ -1220,6 +1420,7 @@ export default {
         {
           title: '信用卡',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.creditCard == '0') {
@@ -1235,6 +1436,7 @@ export default {
         {
           title: '车',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.car == '0') {
@@ -1250,6 +1452,7 @@ export default {
         {
           title: '房',
           align: 'center',
+          width: 100,
           render: (h, params) => {
             let succ
             if (params.row.house == '0') {
@@ -1391,7 +1594,7 @@ export default {
         {
           title: '数据来源',
           align: 'center',
-          width: 100,
+          width: 150,
           render: (h, params) => {
             let succ
             if (params.row.custSrc == '1') {
@@ -1470,7 +1673,22 @@ export default {
           title: '错误信息',
           align: 'center',
           width: 150,
-          key: 'errorMsg'
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.errorMsg
+							}
+						}, params.row.errorMsg)
+						])
+						}
         },
       ],
       data1: []

@@ -7,7 +7,7 @@
             </p>
         </div>
         <div class="mt50">
-            <span>甲方名称:</span>
+            <span>推送主体:</span>
             <Input v-model="model1" disabled class="mr20" style="width: 200px"></Input>
             <!-- <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -62,13 +62,13 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
-      model1: '平安普惠',
-      cityList: [
-        {
-          value: '平安普惠',
-          label: '平安普惠'
-        }
-      ],
+      model1: '卿见普惠',
+      // cityList: [
+      //   {
+      //     value: '平安普惠',
+      //     label: '平安普惠'
+      //   }
+      // ],
       model2: '',
       model3: '',
       cityList3: [
@@ -309,12 +309,16 @@ export default {
       let pushname = this.$route.query.pushname
       if(pushname == 'qingjian'){
         this.post('/loan/dkQjpuhui/getDkQjpuhuiList',params,pushname)
+        this.model1 = '卿见普惠'
       } else if(pushname == 'baojie'){
         this.post('/loan/dkBJpuhui/getDkBJpuhuiList',params,pushname)
+        this.model1 = '保街普惠'
       } else if(pushname == 'benxiang'){
         this.post('/loan/dkBxpuhui/getDkBxpuhuiList',params,pushname)
+        this.model1 = '本翔普惠'
       } else if(pushname == 'kunxuan'){
         this.post('/loan/dkKxpuhui/getDkKxpuhuiList',params,pushname)
+        this.model1 = '坤玄普惠'
       }
     },
     // 导出

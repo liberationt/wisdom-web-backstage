@@ -56,7 +56,7 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
-      model1: '平安普惠',
+      model1: '络慧赠险',
       userAgent:'',
       ip:'',
       // cityList: [
@@ -89,7 +89,7 @@ export default {
         {
           title: '姓名',
           align: 'center',
-          width: 80,
+          width: 100,
           key: 'name'
         },
         {
@@ -158,7 +158,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          width: 150,
+          minWidth: 160,
           key: 'pushTime'
         },
          {
@@ -198,7 +198,7 @@ export default {
         {
           title: '生日',
           align: 'center',
-          width: 100,
+          minWidth: 160,
           key: 'birthday'
         },
         {
@@ -210,20 +210,35 @@ export default {
         {
           title: '投保日期',
           align: 'center',
-          width: 100,
+          minWidth: 160,
           key: 'policyBeginTime'
         },
         {
           title: '备注',
           align: 'center',
           width: 100,
-          key: 'memo'
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.memo
+							}
+						}, params.row.memo)
+						])
+						}
         },
         {
           title: '保单号',
           align: 'center',
           width: 150,
-          key: 'productCode'
+          key: 'policyNo'
         },
        
         {
@@ -241,7 +256,7 @@ export default {
         {
           title: '创建时间',
           align: 'center',
-          width: 150,
+          minWidth: 160,
           key: 'dataCreateTime'
         },
       ],
@@ -325,9 +340,11 @@ export default {
 			}
       let pushname = this.$route.query.pushname
       if(pushname == 'luohui'){
-					this.post('/loan/zxLhpingan/getZxLhpinganList',params,pushname,1)
+          this.post('/loan/zxLhpingan/getZxLhpinganList',params,pushname,1)
+          this.model1 = '络慧赠险'
         } else if(pushname == 'kunxuan'){
-        	this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
+          this.post('/loan/zxKxpingan/getZxKxpinganList',params,pushname,1)
+          this.model1 = '坤玄赠险'
         }
     },
     // 导出
