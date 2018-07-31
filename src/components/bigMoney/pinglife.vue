@@ -223,7 +223,7 @@ export default {
           title: '保单号',
           align: 'center',
           width: 150,
-          key: 'productCode'
+          key: 'policyNo'
         },
        
         {
