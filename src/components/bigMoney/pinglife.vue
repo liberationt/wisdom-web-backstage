@@ -89,7 +89,7 @@ export default {
         {
           title: '姓名',
           align: 'center',
-          width: 80,
+          width: 100,
           key: 'name'
         },
         {
@@ -158,7 +158,7 @@ export default {
          {
           title: '推送时间',
           align: 'center',
-          width: 150,
+          minWidth: 160,
           key: 'pushTime'
         },
          {
@@ -198,7 +198,7 @@ export default {
         {
           title: '生日',
           align: 'center',
-          width: 100,
+          minWidth: 160,
           key: 'birthday'
         },
         {
@@ -210,14 +210,29 @@ export default {
         {
           title: '投保日期',
           align: 'center',
-          width: 100,
+          minWidth: 160,
           key: 'policyBeginTime'
         },
         {
           title: '备注',
           align: 'center',
           width: 100,
-          key: 'memo'
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.memo
+							}
+						}, params.row.memo)
+						])
+						}
         },
         {
           title: '保单号',
@@ -241,7 +256,7 @@ export default {
         {
           title: '创建时间',
           align: 'center',
-          width: 150,
+          minWidth: 160,
           key: 'dataCreateTime'
         },
       ],
