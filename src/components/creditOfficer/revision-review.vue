@@ -39,7 +39,7 @@
         <div class="mt50">
             <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
             <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Button type="ghost">返回</Button>
+            <router-link to="/creditManagement"><Button type="ghost">返回</Button></router-link>
         </div>
 				<!-- model 框 -->
 				<Modal
@@ -82,8 +82,8 @@ export default {
 				]
 			},
 			loading: true,
-			auditMessl: false 
-			
+			auditMessl: false,
+			auditMess: ''
 		}
 	},
 	created(){
@@ -105,6 +105,7 @@ export default {
 			this.serviceLoanRequire =data.data.serviceLoanRequire 
 			this.serviceApplyRequire = data.data.serviceApplyRequire 
 			this.serviceOtherRequire = data.data.serviceOtherRequire 
+			this.auditMess = data.data.auditMess
 		}).then(err=>{
 			console.log(err)
 		})

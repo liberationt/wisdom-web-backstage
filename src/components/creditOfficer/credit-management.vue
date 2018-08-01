@@ -35,7 +35,7 @@
             </div>
         </TabPane>
         <!-- 资料待审核 -->
-        <TabPane :label="label2">
+        <TabPane :label="label2" :value="label2">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model2" style="width:100px">
@@ -132,21 +132,11 @@ export default {
       label: h => {
         return h('div', [
           h('span', '入驻待审核'),
-          h('Badge', {
-            props: {
-              count: 3
-            }
-          })
         ])
       },
       label2: h => {
         return h('div', [
           h('span', '资料待审核'),
-          h('Badge', {
-            props: {
-              count: 3
-            }
-          })
         ])
       },
       cityList: [
@@ -665,7 +655,7 @@ export default {
       labelstate: '',
       labelcitys:'',
       modelshi: '', // 市
-      models: '' //省
+      models: '', //省
     }
   },
   methods: {
