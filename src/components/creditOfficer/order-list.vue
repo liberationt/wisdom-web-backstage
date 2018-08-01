@@ -9,15 +9,15 @@
         <TabPane :label="label" >
             <div class="clearfix">
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model1" placeholder="全部" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model3" placeholder="所属状态" style="width:200px;margin-left:50px">
-                <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>           
+            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
+                <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model2" placeholder="所属区域" style="width:200px;margin-left:50px">
-                <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model3" placeholder="请选择市" style="width:200px;margin-left:10px">
+                <Option v-for="item in status" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
             <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
@@ -32,15 +32,15 @@
         <TabPane label="抢单订单">
             <div class="clearfix">
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model1" placeholder="全部" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model3" placeholder="所属状态" style="width:200px;margin-left:50px">
-                <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>           
+            <Select v-model="model2" placeholder="请选择省" style="width:200px;margin-left:50px">
+                <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model2" placeholder="所属区域" style="width:200px;margin-left:50px">
-                <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model3" placeholder="请选择市" style="width:200px;margin-left:10px">
+                <Option v-for="item in status" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
             <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
@@ -55,12 +55,15 @@
         <TabPane :label="label3" >
             <div class="clearfix">
             <div class="left">
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Select v-model="model1" placeholder="全部" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model2" placeholder="所属区域" style="width:200px;margin-left:50px">
-                <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model2" placeholder="请选择省" style="width:200px;margin-left:50px">
+                <Option v-for="item in cityType3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+            </Select>
+            <Select v-model="model3" placeholder="请选择市" style="width:200px;margin-left:10px">
+                <Option v-for="item in status" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
             <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
@@ -109,16 +112,9 @@ export default {
           label: '手机号'
         }
       ],
-      cityType: [
-        {
-          value: '上海',
-          label: '上海'
-        },
-        {
-          value: '北京',
-          label: '北京'
-        }
-      ],
+      cityType1: [],
+      cityType2: [],
+      cityType3: [],
       status: [
         {
           value: '已咨询',
@@ -406,7 +402,31 @@ export default {
     },
     PageSizeChange (limit) {
       this.params.limit = limit
-    }
+    },
+    created () {
+    this.http.get('../../../static/city.json').then(data=>{
+      this.cityType1 = data
+      this.cityType2 = data
+      this.cityType3 = data
+    })
+  },
+  //省 
+    citys(v){
+      let data = {
+        "data": v
+      }
+      this.httpshi(data)
+      // this.model2 = v
+    },
+    // 市接口
+    httpshi(data) {
+      this.http.post(BASE_URL+"/loan/hotcity/queryCityAddressList",data).then(data=>{
+        this.status = data.data
+      })
+    },
+  },
+  mounted () {
+    this.created ()
   }
 }
 </script>
