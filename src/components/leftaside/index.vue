@@ -20,7 +20,7 @@
 .layout-content {
     min-height: 200px;
     margin: 15px;
-    overflow: auto;
+    // overflow: auto;
     background: #fff;
     // background:rgba(255,255,255,0.1) url(../../image/conbeijing.png);
     // background: url(../image/bg.jpg);

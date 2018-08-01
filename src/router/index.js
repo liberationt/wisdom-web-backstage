@@ -72,6 +72,7 @@ import directWarning from '@/components/bigMoney/direct-warning'
 import manualPush from '@/components/bigMoney/manual-push'
 import supplierManagement from '@/components/bigMoney/supplier-management'
 import channelPromotion from '@/components/bigMoney/channel-promotion' // 渠道列表
+import poslist from '@/components/bigMoney/poslist' 
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
@@ -242,7 +243,8 @@ let routes = [
       {path: '/editorsFarty', component: editorsFarty, names: '甲方管理编辑', meta: { auth: true }},
       {path: '/uploadReports', component: uploadReports, names: '上传报表', meta: { auth: true }},
       {path: '/channelLabelsz', component: channelLabelsz, names: '渠道标签配置', meta: { auth: true }},
-      {path: '/directWarning', component: directWarning, names: '坤玄直鉴', meta: { auth: true }}
+      {path: '/directWarning', component: directWarning, names: '坤玄直鉴', meta: { auth: true }},
+      {path: '/poslist', component: poslist, names: 'pos推广管理', meta: { auth: true }}
     ]
   }
 ]
