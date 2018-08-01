@@ -678,6 +678,7 @@ export default {
         this.total = resp.data.total
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
         this.loading3 = false
+        this.summarizing()
       } else {
         this.loading3 = false
       }
@@ -749,6 +750,24 @@ export default {
         }
       })
 
+    },
+    //列表数据总结更改
+    summarizing(){
+      this.http.post(BASE_URL + '/loan/dwqUser/registerCount', {})
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.numregistrations[0].onenum = resp.data.nowFirstCount
+            this.numregistrations[0].twonum = resp.data.nowSecondCount
+            this.numregistrations[1].onenum = resp.data.firstWeekCount
+            this.numregistrations[1].twonum = resp.data.secondWeekCount
+            this.numregistrations[2].onenum = resp.data.firstYearCount
+            this.numregistrations[2].twonum = resp.data.secondYearCount
+          } else {
+
+          }
+        })
+        .catch(() => {
+        })
     }
   },
   mounted () {
@@ -769,21 +788,8 @@ export default {
     this.value2 = currentdate; 
     this.value3 =  currentdate
     this.value4 = currentdate  
-    this.http.post(BASE_URL + '/loan/dwqUser/registerCount', {})
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.numregistrations[0].onenum = resp.data.nowFirstCount
-        this.numregistrations[0].twonum = resp.data.nowSecondCount
-        this.numregistrations[1].onenum = resp.data.firstWeekCount
-        this.numregistrations[1].twonum = resp.data.secondWeekCount
-        this.numregistrations[2].onenum = resp.data.firstYearCount
-        this.numregistrations[2].twonum = resp.data.secondYearCount
-      } else {
-
-      }
-    })
-    .catch(() => {
-    })
+    //列表统计更改
+      this.summarizing()
     // 渠道
     this.http.post(BASE_URL + '/loan/promotionManage/getPromotionManageList', {pageSize: 1000})
     .then((resp) => {
