@@ -5,9 +5,9 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;信贷员管理</span>
       </p>
     </div>
-    <Tabs type="card" :animated="false" @on-click="labell1">
+    <Tabs type="card" :animated="false" @on-click="labell1" :value="tabs">
         <!-- 入驻待审核 -->
-        <TabPane :label="label" >
+        <TabPane :label="label" name="tab1">
             <div class="clearfix" >
             <div class="left">
             <Select v-model="model1" style="width:100px" @on-change="label_option">
@@ -35,7 +35,7 @@
             </div>
         </TabPane>
         <!-- 资料待审核 -->
-        <TabPane :label="label2" :value="label2">
+        <TabPane :label="label2" name="tab2">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model2" style="width:100px">
@@ -52,7 +52,7 @@
             <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
-        <TabPane label="注册无资料" >
+        <TabPane label="注册无资料" name="tab3">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model3" style="width:100px">
@@ -75,7 +75,7 @@
             <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
-        <TabPane label="信贷员列表" >
+        <TabPane label="信贷员列表" name="tab4">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model4" style="width:100px">
@@ -101,7 +101,7 @@
             <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
-        <TabPane label="信贷机构" >
+        <TabPane label="信贷机构" name="tab5">
             <div class="clearfix">
             <div class="left">
             <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
@@ -149,6 +149,7 @@ export default {
           label: '手机号'
         }
       ],
+      tabs: 'tab1',
       cityType: [],
       cityTypel: [],
       cityType1: [],
@@ -827,6 +828,9 @@ export default {
     }
   },
   created() {
+    if (this.$route.query.num == 1) {
+      this.tabs = 'tab2'
+    }
     this.http.get('../../../static/city.json').then(data=>{
       this.cityType = data
       this.cityType1 = data

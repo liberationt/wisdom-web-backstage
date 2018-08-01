@@ -86,7 +86,7 @@ export default {
 			auditMess: ''
 		}
 	},
-	created(){
+	mounted (){
 		//判断是否审核通过
 		if(this.$route.query.auditStatus == '0'){
 			this.examine = true
@@ -113,7 +113,16 @@ export default {
 	methods:{
 		//通过
 		adopt(){
-			
+			this.$Modal.confirm({
+          title: '认证审核',
+          content: '<p>确认认证审核通过吗?</p>',
+          onOk: () => {
+            this.spost (0)
+          },
+          onCancel: () => {
+              
+          }
+        })		
 		},
 		//拒绝
 		refuse(){
@@ -127,22 +136,10 @@ export default {
     },
 		// 确认
 		handleSubmit (name) {
-			let primary = {
-				auditCode : this.$route.query.auditCode,
-				auditMess : this.formValidate.desc,
-				auditStatus : 2
-			}
-			let that = this
 			this.$refs[name].validate((valid) => {
 				if (valid) {
-					that.spost(primary,e=>{
-						if(e){
-							//跳转列列表页
-						} else {
-							this.$Message.info('服务器开小差！');
-						}
-					})
-          that.modal10 = false
+					this.spost (1)
+          			that.modal10 = false
 				} else {
 					return this.changeLoading()
 				}
@@ -153,13 +150,42 @@ export default {
       this.$refs[name].resetFields()
 		},
 		//审核
-		spost(data,callback){
-			this.http.post(BASE_URL + '/loan/officerServiceAudit/updateOfficerServiceAuditCheckStatusByAuditCode',data).then(data=>{
-				console.log(data)
-				callback && callback(true)
-			}).catch(err=>{
-				console.log(err)
-			})
+		spost(num){
+			let auditStatus
+			if (num ==0) {
+				auditStatus = 1
+			} else {
+				auditStatus = 2
+			}
+			let list = {
+				auditCode : this.$route.query.auditCode,
+				auditMess : this.formValidate.desc,
+				auditStatus : auditStatus
+			}
+			this.http.post(BASE_URL + '/loan/officerServiceAudit/updateOfficerServiceAuditCheckStatusByAuditCode', list)
+				.then((resp) => {
+				if (resp.code == 'success') {
+					const title = '审核'
+					let content
+					if (num == 0) {
+					content = '<p>审核成功</p>'              
+					} else {
+					content = '<p>审核拒绝成功</p>'
+					}          
+					this.$Modal.success({
+					title: title,
+					content: content,
+					onOk: () => {
+						this.$router.push({ path: './creditManagement?num=1' })            
+					},
+					})
+				} else {
+					this.$Message.info(resp.message)
+				}
+				})
+				.catch((error) => {
+					console.log(error)
+				})		
 		}
 	}
 }

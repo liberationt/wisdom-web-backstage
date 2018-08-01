@@ -16,7 +16,7 @@
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
-                <Button class="w100 ml20" type="primary">返回</Button>
+                <Button class="w100 ml20" @click=" backingout" type="primary">返回</Button>
         </div>
         <Table border highlight-row class="mt20" :columns="columns1" :data="data1"></Table>
         <div class="tr mt15">
@@ -40,17 +40,17 @@ export default {
         {
           title: '操作时间',
           align:'center',
-          key: 'name'
+          key: 'dataCreateTime'
         },
         {
           title: '操作人',
           align:'center',
-          key: 'age'
+          key: 'operator'
         },
         {
           title: '操作内容',
           align:'center',
-          key: 'address'
+          key: 'content'
         }
       ],
       data1: [],
@@ -72,6 +72,10 @@ export default {
       this.startRow = 1
       this.endRow = page
       this.inquire()
+    },
+    // 返回
+    backingout () {
+      window.history.go(-1)
     },
      // 时间判断
     time1 (value, data) {
@@ -105,7 +109,7 @@ export default {
         if (resp.code == 'success') {
           this.data1 = resp.data.dataList
           this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
           this.loading3 = false
         } else {
           this.loading3 = false

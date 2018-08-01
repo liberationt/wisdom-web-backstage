@@ -59,7 +59,7 @@
     </Col>
     <Col span="19">
     <div id="memberRight">
-        <Tabs :animated="false">
+        <Tabs :animated="false" @on-click="tabswitch">
             <TabPane label="基本信息">
                 <div class="basic">
                     <p>
@@ -136,7 +136,7 @@
                         <Button type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button type="ghost" @click="journal">查看操作日志</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="ghost">返回</Button>
+                        <Button type="ghost" @click="ationreturn">返回</Button>
                     </div>
                     <Modal
                     title="认证审核拒绝"
@@ -159,39 +159,39 @@
                 </div>
             </TabPane>
             <TabPane label="咨询订单记录">
-                <Table border :columns="columns1" :data="data1"></Table>
+                <Table border highlight-row :columns="columns1" :data="data1"></Table>               
                 <div class="tr mt15">
-                    <Page :total="100"  show-elevator show-sizer show-total></Page>
+                  <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
             <TabPane label="抢单记录">
-                <Table border :columns="columns2" :data="data2"></Table>
+                <Table border highlight-row :columns="columns2" :data="data2"></Table>
                 <div class="tr mt15">
-                    <Page :total="100"  show-elevator show-sizer show-total></Page>
+                  <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
             <TabPane label="通话记录">
-                <Table stripe :columns="columns3" :data="data3"></Table>
+                <Table border highlight-row :columns="columns3" :data="data3"></Table>
                 <div class="tr mt15">
-                    <Page :total="100" show-elevator show-sizer show-total></Page>
+                  <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
             <TabPane label="现金流水">
-                <Table stripe :columns="columns4" :data="data4"></Table>
+                <Table border highlight-row :columns="columns4" :data="data4"></Table>
                 <div class="tr mt15">
-                    <Page :total="100" show-elevator show-sizer show-total></Page>
+                  <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
             <TabPane label="评价记录">
-                <Table stripe :columns="columns5" :data="data5"></Table>
+                <Table border highlight-row :columns="columns5" :data="data5"></Table>
                 <div class="tr mt15">
                     <Page :total="100" show-elevator show-sizer show-total></Page>
                 </div>
             </TabPane>
             <TabPane label="登录日志">
-              <Table stripe :columns="columns6" :data="data6"></Table>
+              <Table border highlight-row :columns="columns6" :data="data6"></Table>
                 <div class="tr mt15">
-                    <Page :total="100" show-elevator show-sizer show-total></Page>
+                    <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
         </Tabs>
@@ -210,11 +210,16 @@ export default {
       modal9: false,
       loading: true,
       introduce: true,
+      tabnum: 0,
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       name: '',
       inform: {},
       ruleInline: {
         name: [
-          { required: true, message: '请输入拒绝原因', trigger: 'blur' }
+          { required: true, message: '请输入拒绝原因', trigger: 'blur' },
+          { max: 50, message: '输入内容超限，请重新输入', trigger: 'blur' }
         ]
       },
       identity: [
@@ -225,199 +230,164 @@ export default {
         {
           title: '订单时间',
           align: 'center',
-          key: 'time'
+          minWidth:160,
+          key: 'orderCreateTime'
         },
         {
           title: '订单编号',
           align: 'center',
-          key: 'number'
+          minWidth:160,
+          key: 'orderNum'
         },
         {
           title: '客户姓名',
           align: 'center',
-          key: 'name'
+          minWidth:120,
+          key: 'loanUserName'
         },
         {
           title: '手机',
           align: 'center',
-          key: 'phone'
+          minWidth:110,
+          key: 'loanUserPhone'
         },
         {
           title: '订单状态',
           align: 'center',
-          key: 'type'
+          minWidth:120,
+          key: 'orderStatusName'
         },
         {
           title: '服务费用',
           align: 'center',
-          key: 'money'
+          minWidth:120,
+          key: 'serviceCost'
         }
       ],
-      data1: [
-        {
-          time: '2016-10-03',
-          number: 'XD2018091099',
-          name: '李*明',
-          phone: '130****3333',
-          type: '已咨询',
-          money: '200元'
-        },
-        {
-          time: '2016-10-03',
-          number: 'XD2018091099',
-          name: '李*明',
-          phone: '130****3333',
-          type: '已咨询',
-          money: '200元'
-        }
-      ],
+      data1: [],
       columns2: [
         {
           title: '抢单时间',
           align: 'center',
-          key: 'time'
+          minWidth:160,
+          key: 'orderCreateTime'
         },
         {
           title: '抢单编号',
           align: 'center',
-          key: 'number'
+          minWidth:120,
+          key: 'orderNum'
         },
         {
           title: '客户姓名',
           align: 'center',
-          key: 'name'
+          minWidth:120,
+          key: 'loanUserName'
         },
         {
           title: '手机',
           align: 'center',
-          key: 'phone'
+          minWidth:110,
+          key: 'loanUserPhone'
         },
         {
           title: '抢单费用',
           align: 'center',
-          key: 'money'
+          minWidth:100,
+          key: 'serviceCost'
         }
       ],
-      data2: [
-        {
-          time: '2018-03-29 15:12:34',
-          number: 'XD2018091099',
-          name: '李*明',
-          phone: '130****1111',
-          money: 22
-        },
-        {
-          time: '2018-03-29 15:12:34',
-          number: 'XD2018091099',
-          name: '李*明',
-          phone: '130****1111',
-          money: 22
-        }
-      ],
+      data2: [],
       columns3: [
         {
           title: '通话时间',
           align: 'center',
-          key: 'time'
+          minWidth:160,
+          key: 'beginTime'
         },
         {
           title: '手机',
           align: 'center',
-          key: 'phone'
+          minWidth:110,
+          key: 'calledMobileNo'
         },
         {
           title: '流水编号',
           align: 'center',
-          key: 'number'
+          minWidth:120,
+          key: 'callNum'
         },
         {
           title: '通话时长',
           align: 'center',
-          key: 'lengthTime'
+          minWidth:160,
+          key: 'duration'
         },
         {
           title: '通话扣费',
           align: 'center',
-          key: 'deductions'
+          minWidth:120,
+          key: 'zanbiConsumer'
         }
       ],
-      data3: [
-        {
-          time: '2018-03-29 15:12:34',
-          phone: '130****2222',
-          number: 'XD2018091099',
-          lengthTime: '3分30秒',
-          deductions: 22
-        },
-        {
-          time: '2018-03-29 15:12:34',
-          phone: '130****2222',
-          number: 'XD2018091099',
-          lengthTime: '3分30秒',
-          deductions: 22
-        }
-      ],
+      data3: [],
       columns4: [
         {
           title: '账户类型',
           align: 'center',
+          minWidth:100,
           key: 'type'
         },
         {
           title: '操作',
           align: 'center',
+          minWidth:120,
           key: 'operation'
         },
         {
           title: '金额 (元)',
           align: 'center',
+          minWidth:120,
           key: 'money'
         },
         {
           title: '操作时间',
           align: 'center',
+          minWidth:160,
           key: 'operTime'
         }
       ],
-      data4: [
-        {
-          type: '虚拟货币',
-          operation: '充值成功',
-          money: '+100',
-          operTime: '2018-03-29 15:12:34'
-        },
-        {
-          type: '虚拟货币',
-          operation: '充值成功',
-          money: '+100',
-          operTime: '2018-03-29 15:12:34'
-        }
-      ],
+      data4: [],
       columns5: [
         {
           title: '评价时间',
           align: 'center',
+          minWidth:160,
           key: 'evaltime'
         },
         {
           title: '订单编号',
           align: 'center',
+          minWidth:120,
           key: 'number'
         },
         {
           title: '客户姓名',
           align: 'center',
+          minWidth:100,
           key: 'name'
         },
         {
           title: '手机',
           align: 'center',
+          minWidth:110,
           key: 'phone'
         },
         {
           title: '评分',
           align: 'center',
           key: 'score',
+          minWidth:150,
           render: (h, params) => {
             let listimg = []
             for (let i = 0; i < params.row.score.length; i++) {
@@ -440,11 +410,13 @@ export default {
         {
           title: '内容',
           align: 'center',
+          minWidth:150,
           key: 'content'
         },
         {
           title: '评价状态',
           align: 'center',
+          minWidth:120,
           key: 'evaltype'
         }
       ],
@@ -490,18 +462,7 @@ export default {
           key: 'equipment'
         }
       ],
-      data6: [
-        {
-          time: '2018-03-29 15:12:34',
-          port: '安卓',
-          equipment: 'MI 5S'
-        },
-        {
-          time: '2018-03-29 15:12:34',
-          port: '安卓',
-          equipment: 'MI 5S'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
@@ -510,19 +471,31 @@ export default {
       if (num == 0) {
         this.$Modal.confirm({
           title: '冻结账户',
-          content: '<p>确认要冻结吗?</p>',
+          content: '<p>确认要冻结账户吗?</p>',
           onOk: () => {
             this.acctype (0)
+            const title = '冻结'
+              const content = '<p>冻结成功</p>'
+              this.$Modal.success({
+              title: title,
+              content: content
+            })
           },
           onCancel: () => {             
           }
         })
       } else {
         this.$Modal.confirm({
-          title: '冻结账户',
-          content: '<p>确认要冻结吗?</p>',
+          title: '解冻账户',
+          content: '<p>确认要解冻账户吗?</p>',
           onOk: () => {
             this.acctype (1)
+            const title = '解冻'
+              const content = '<p>解冻成功</p>'
+              this.$Modal.success({
+              title: title,
+              content: content
+            }) 
           },
           onCancel: () => {            
           }
@@ -538,14 +511,7 @@ export default {
       this.http.post(BASE_URL + '/loan/officerInfo/updateOfficerInfoAccountStatusByCode', list)
         .then((resp) => {
           if (resp.code == 'success') {
-            const title = '冻结'
-            content = '<p>冻结成功</p>'
-            this.$Modal.success({
-              title: title,
-              content: content
-            })
             this.information()
-
           } else {
             this.$Message.info(resp.message)
           }
@@ -583,16 +549,13 @@ export default {
             }          
             this.$Modal.success({
               title: title,
-              content: content
+              content: content,
+              onOk: () => {
+                this.$router.push({ path: './creditManagement' })            
+              },
             })
           } else {
             this.$Message.info(resp.message)
-            // const title = '审核'
-            // let content = '<p>+resp.message+</p>'
-            // this.$Modal.success({
-            //   title: title,
-            //   content: content
-            // })
           }
         })
         .catch(() => {
@@ -615,6 +578,10 @@ export default {
     refuse () {
       this.modal9 = true
     },
+    // 返回
+    ationreturn () {
+      window.history.go(-1)
+    },
     changeLoading () {
       this.loading = false
       this.$nextTick(() => {
@@ -626,12 +593,10 @@ export default {
         if (!valid) {
           return this.changeLoading()
         }
-        setTimeout(() => {
-          this.changeLoading()
-          this.modal9 = false
-          this.formValidate.name = ''
-          this.$Message.success('done')
-        }, 1000)
+        this.changeLoading()
+        this.modal9 = false
+        this.reviewthrough (0)
+        this.formValidate.name = ''       
       })
     },
     // 查看操作日志
@@ -650,6 +615,140 @@ export default {
             for (let i = 0; i < resp.data.loanOfficerGrade; i++) {
               this.img.push(require('../../image/pointed-star.png'))
             }
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 点击tab
+    tabswitch (name) {
+      this.tabnum = name
+      console.log(name)
+      if (name == 1) {
+        this.consultation ()
+      } else if (name == 2) {
+        this.robbing ()
+      } else if (name == 3) {
+        this.conversation ()
+      } else if (name == 4) {
+        this.cashflow ()
+      } else if (name == 6) {
+        this.logonlog ()
+      }
+
+    },
+    pageChange (page) {
+      this.startRow = page
+      if (this.tabnum == 1) {
+        this.consultation ()
+      } else if (this.tabnum == 2) {
+        this.robbing ()
+      }
+    },
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      if (this.tabnum == 1) {
+        this.consultation ()
+      } else if (this.tabnum == 2) {
+        this.robbing ()
+      }
+    },
+    // 咨询订单
+    consultation () {
+      let list = {
+        loanOfficerCode:this.$route.query.loanOfficerCode,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/baseOrder/queryOfficerBaseOrderConsultList', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data1 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 抢单
+    robbing () {
+      let llist = {
+        loanOfficerCode:this.$route.query.loanOfficerCode,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/baseOrder/queryOfficerBaseOrderRobList', llist)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data2 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 通话记录
+    conversation () {
+      let llist = {
+        loanOfficerCode:this.$route.query.loanOfficerCode,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/calllog/queryCallLogList', llist)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data3 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 现金流水
+    cashflow () {
+      let llist = {
+        userCode:this.$route.query.loanOfficerCode,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/tradeFlow/qiangDanXia/list', llist)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data4 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 登录日志
+    logonlog () {
+      let llist = {
+        userCode:this.$route.query.loanOfficerCode,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/userInfo/queryUserLoginLog', llist)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data6 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
           } else {
             this.$Message.info(resp.message)
           }
