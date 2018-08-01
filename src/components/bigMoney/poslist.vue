@@ -60,266 +60,57 @@ export default {
       endRow: 10,
       columns1: [
         {
-          title: "序号",
-          align: "center",
-          width: 60,
-          render: (h, params) => {
-            return h("div", [h("span", {}, params.index + 1)]);
-          }
-        },
-        {
-          title: "供应商",
-          align: "center",
-          width: 120,
-          key: "supplierName"
-        },
-        {
-          title: "渠道",
-          align: "center",
-          width: 100,
-          key: "channelName"
-        },
-        {
           title: "姓名",
           align: "center",
-          width: 100,
-          key: "username"
+        //   width: 100,
+          key: "realname"
         },
         {
           title: "手机号",
           align: "center",
           width: 120,
           key: "mobile",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "span",
-                {
-                  style: {
-                    color: "#3E81F2",
-                    cursor: "pointer"
-                  },
-                  on: {
-                    click: () => {
-                      this.modal9 = true;
-                      this.num = params.index + 1;
-                      this.regpart = params.row;
-                    }
-                  }
-                },
-                params.row.mobile
-              )
-            ]);
-          }
         },
         {
-          title: "城市",
+          title: "省",
           align: "center",
-          width: 100,
+        //   width: 100,
+          key: "province"
+        },
+        {
+          title: "市",
+          align: "center",
+        //   width: 160,
           key: "city"
         },
         {
-          title: "注册时间",
+          title: "区",
           align: "center",
-          width: 160,
-          key: "registrationTime"
+        //   width: 120,
+          key: "district"
         },
+        // {
+        //   title: "性别",
+        //   align: "center",
+        //   width: 80,
+        //   render: (h, params) => {
+        //     let appSex = "";
+        //     if (params.row.appSex == "1") {
+        //       appSex = "女";
+        //     } else if (params.row.appSex == "0") {
+        //       appSex = "男";
+        //     } else {
+        //       appSex = "其它";
+        //     }
+        //     return h("div", [h("span", {}, appSex)]);
+        //   }
+        // },
         {
-          title: "生日",
+          title: "详细地址",
           align: "center",
-          width: 120,
-          key: "appBirthday"
+          width: 280,
+          key: "address"
         },
-        {
-          title: "性别",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let appSex = "";
-            if (params.row.appSex == "1") {
-              appSex = "女";
-            } else if (params.row.appSex == "0") {
-              appSex = "男";
-            } else {
-              appSex = "其它";
-            }
-            return h("div", [h("span", {}, appSex)]);
-          }
-        },
-        {
-          title: "年龄",
-          align: "center",
-          width: 80,
-          key: "age"
-        },
-        {
-          title: "M城市",
-          align: "center",
-          width: 100,
-          key: "mobileCity"
-        },
-        {
-          title: "借贷金额",
-          align: "center",
-          width: 100,
-          key: "loanMoney"
-        },
-        {
-          title: "步骤",
-          align: "center",
-          width: 100,
-          key: "step"
-        },
-        {
-          title: "IP",
-          align: "center",
-          width: 150,
-          key: "ip"
-        },
-        {
-          title: "社保",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let security = "";
-            if (params.row.security == 1) {
-              security = "有";
-            } else if (params.row.security == 0) {
-              security = "无";
-            } else {
-              security = "";
-            }
-            return h("div", [h("span", {}, security)]);
-          }
-        },
-        {
-          title: "公积金",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let fund = "";
-            if (params.row.fund == 1) {
-              fund = "有";
-            } else if (params.row.fund == 0) {
-              fund = "无";
-            } else {
-              fund = "";
-            }
-            return h("div", [h("span", {}, fund)]);
-          }
-        },
-        {
-          title: "房",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let house = "";
-            if (params.row.house == 1) {
-              house = "有";
-            } else if (params.row.house == 0) {
-              house = "无";
-            } else {
-              house = "";
-            }
-            return h("div", [h("span", {}, house)]);
-          }
-        },
-        {
-          title: "房贷",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let hasHouseLoan = "";
-            if (params.row.hasHouseLoan == "1") {
-              hasHouseLoan = "有";
-            } else if (params.row.hasHouseLoan == "0") {
-              hasHouseLoan = "无";
-            } else {
-              hasHouseLoan = "";
-            }
-            return h("div", [h("span", {}, hasHouseLoan)]);
-          }
-        },
-        {
-          title: "车",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let car = "";
-            if (params.row.car == 1) {
-              car = "有";
-            } else if (params.row.car == 0) {
-              car = "无";
-            } else {
-              car = "";
-            }
-            return h("div", [h("span", {}, car)]);
-          }
-        },
-        {
-          title: "车贷",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let hasCarLoan = "";
-            if (params.row.hasCarLoan == "1") {
-              hasCarLoan = "有";
-            } else if (params.row.hasCarLoan == "0") {
-              hasCarLoan = "无";
-            } else {
-              hasCarLoan = "";
-            }
-            return h("div", [h("span", {}, hasCarLoan)]);
-          }
-        },
-        {
-          title: "寿险保单",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let policy = "";
-            if (params.row.policy == 1) {
-              policy = "有";
-            } else if (params.row.policy == 0) {
-              policy = "无";
-            } else {
-              policy = "";
-            }
-            return h("div", [h("span", {}, policy)]);
-          }
-        },
-        {
-          title: "微粒贷",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let weilidai = "";
-            if (params.row.weilidai == 1) {
-              weilidai = "有";
-            } else if (params.row.weilidai == 0) {
-              weilidai = "无";
-            } else {
-              weilidai = "";
-            }
-            return h("div", [h("span", {}, weilidai)]);
-          }
-        },
-        {
-          title: "有无信用卡",
-          align: "center",
-          width: 80,
-          render: (h, params) => {
-            let weilidai = "";
-            if (params.row.creditCard == 1) {
-              weilidai = "有";
-            } else if (params.row.creditCard == 0) {
-              weilidai = "无";
-            } else {
-              weilidai = "";
-            }
-            return h("div", [h("span", {}, weilidai)]);
-          }
-        }
       ],
       data1: [],
     };
@@ -356,8 +147,7 @@ export default {
         return false;
       }
       let list = {
-        cid: this.model1,
-        sid: this.model2,
+        realname : this.username,
         beginTime: this.value1,
         endTime: this.value2,
         pageNum: this.startRow,
@@ -365,8 +155,9 @@ export default {
         mobile: this.phone
       };
       this.http
-        .post(BASE_URL + "/loan/dwqUser/registerList", list)
+        .post(BASE_URL + "/loan/dwqPos/getDwqPosList", list)
         .then(resp => {
+            console.log(resp)
           if (resp.code == "success") {
             this.data1 = resp.data.dataList;
             this.total = resp.data.total;
@@ -390,7 +181,7 @@ export default {
       formData.append("endTime", this.value2);
       formData.append("sid", this.model2);
       formData.append("methodType", 1);
-      let httpUrl = BASE_URL + "/loan/dwqUser/export";
+      let httpUrl = BASE_URL + "/loan/dwqPos/export";
       utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
         if (e == true) {
           this.loading2 = false;
