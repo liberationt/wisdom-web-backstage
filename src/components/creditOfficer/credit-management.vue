@@ -719,13 +719,14 @@ export default {
     },
     //tab 栏
     labell1(name) {
+      console.log(name)
       let parameter = {
         pageSize : this.endRow,
         pageNum : this.startRow,
       }
       let data
       //入驻待审核
-      if(name == 0){
+      if(name == 'tab0'){
         data = Object.assign({
           searchOptions : this.name, //手机号or 姓名
           loanStatus : this.labelstate, //选择状态
@@ -735,21 +736,22 @@ export default {
         this.post(BASE_URL + '/loan/officer/queryOfficerAdmissionList',data,0)
       }
       //资料改带审核
-      if(name == 1){
+      if(name == 'tab1'){
+        alertl(33)
         data = Object.assign({
           searchOptions : '' //姓名or手机号
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerDataWaitCheckList',data,1)
       }
       //注册无资料
-      if(name == 2){
+      if(name == 'tab2'){
         data = Object.assign({
 
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerNoneDataList',data,2)
       }
       //信贷员列表
-      if(name == 3){
+      if(name == 'tab3'){
         data = Object.assign({
           queryStr : '',
           searchOptions : '',
@@ -763,7 +765,7 @@ export default {
         return false
       }
       //信贷机构
-      if(name == 4){
+      if(name == 'tab4'){
         data = Object.assign({
 
         },parameter)

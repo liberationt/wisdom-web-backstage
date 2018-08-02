@@ -203,10 +203,11 @@
                 </FormItem>
             </Form>
             </TabPane>
+
             <TabPane label="营销设置" >
                 <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="200" class="mt50">
                     <FormItem label="注册入驻成功送:" class="clearfix">
-                        <Select v-model="model1" style="width:100px" class="left">
+                        <Select v-model="model1" style="width:100px" class="left" @on-change="admissionsucc">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <Select v-model="range1" style="width:100px" class="left ml10">
@@ -503,6 +504,11 @@ export default {
           .catch(() => {
           })
       }
+    },
+    // 入驻成功开启关闭
+    admissionsucc (val) {
+        console.log(val)
+
     }
   },
   mounted () {     
