@@ -32,14 +32,14 @@
                 </div>
             </div>
         </div>
-				<p v-if="auditMessl">
+			<p v-if="auditMessl">
             <span>拒绝原因:</span>
             <span>{{auditMess}}</span>
         </p>
         <div class="mt50">
             <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
             <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <router-link to="/creditManagement"><Button type="ghost">返回</Button></router-link>
+            <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
         </div>
 				<!-- model 框 -->
 				<Modal
@@ -63,185 +63,198 @@
 </template>
 <script>
 export default {
-	data(){
-		return {
-			detailed: '',
-			auditUpdateTime : '',
-			serviceLoanRequire :'',
-			serviceApplyRequire : '',
-			serviceOtherRequire : '',
-			examine: true,
-			modal10: false,
-			formValidate: {
-					desc: ''
-			},
-			ruleValidate: {
-				desc: [
-						{ required: true, message: '请输入拒绝原因', trigger: 'blur' },
-						{ type: 'string', max: 50, message: '拒绝原因不得多于50个字', trigger: 'blur' }
-				]
-			},
-			loading: true,
-			auditMessl: false,
-			auditMess: ''
-		}
-	},
-	mounted (){
-		//判断是否审核通过
-		if(this.$route.query.auditStatus == '0'){
-			this.examine = true
-			this.auditMessl = false
-		}else{
-			this.examine = false
-			this.auditMessl = true
-		}
-		let data = {
-			auditCode : this.$route.query.auditCode
-		}
-		this.http.post(BASE_URL + '/loan/officerServiceAudit/getOfficerServiceAuditDetail',data).then(data=>{
-			console.log(data)
-			this.detailed = data.data.realName
-			this.auditUpdateTime =data.data.auditUpdateTime
-			this.serviceLoanRequire =data.data.serviceLoanRequire 
-			this.serviceApplyRequire = data.data.serviceApplyRequire 
-			this.serviceOtherRequire = data.data.serviceOtherRequire 
-			this.auditMess = data.data.auditMess
-		}).then(err=>{
-			console.log(err)
-		})
-	},
-	methods:{
-		//通过
-		adopt(){
-			this.$Modal.confirm({
-          title: '认证审核',
-          content: '<p>确认认证审核通过吗?</p>',
-          onOk: () => {
-            this.spost (0)
-          },
-          onCancel: () => {
-              
+  data() {
+    return {
+      detailed: "",
+      auditUpdateTime: "",
+      serviceLoanRequire: "",
+      serviceApplyRequire: "",
+      serviceOtherRequire: "",
+      examine: true,
+      modal10: false,
+      formValidate: {
+        desc: ""
+      },
+      ruleValidate: {
+        desc: [
+          { required: true, message: "请输入拒绝原因", trigger: "blur" },
+          {
+            type: "string",
+            max: 50,
+            message: "拒绝原因不得多于50个字",
+            trigger: "blur"
           }
-        })		
-		},
-		//拒绝
-		refuse(){
-			this.modal10 = true
-		},
-		changeLoading () {
-      this.loading = false
-      this.$nextTick(() => {
-        this.loading = true
+        ]
+      },
+      loading: true,
+      auditMessl: false,
+      auditMess: ""
+    };
+  },
+  mounted() {
+    //判断是否审核通过
+    if (this.$route.query.auditStatus == "0") {
+      this.examine = true;
+      this.auditMessl = false;
+    } else {
+      this.examine = false;
+      this.auditMessl = true;
+    }
+    let data = {
+      auditCode: this.$route.query.auditCode
+    };
+    this.http
+      .post(
+        BASE_URL + "/loan/officerServiceAudit/getOfficerServiceAuditDetail",
+        data
+      )
+      .then(data => {
+        console.log(data);
+        this.detailed = data.data.realName;
+        this.auditUpdateTime = data.data.auditUpdateTime;
+        this.serviceLoanRequire = data.data.serviceLoanRequire;
+        this.serviceApplyRequire = data.data.serviceApplyRequire;
+        this.serviceOtherRequire = data.data.serviceOtherRequire;
+        this.auditMess = data.data.auditMess;
       })
+      .then(err => {
+        console.log(err);
+      });
+  },
+  methods: {
+    //通过
+    adopt() {
+      this.$Modal.confirm({
+        title: "认证审核",
+        content: "<p>确认认证审核通过吗?</p>",
+        onOk: () => {
+          this.spost(0);
+        },
+        onCancel: () => {}
+      });
     },
-		// 确认
-		handleSubmit (name) {
-			this.$refs[name].validate((valid) => {
-				if (valid) {
-					this.spost (1)
-          			that.modal10 = false
-				} else {
-					return this.changeLoading()
-				}
-			})
-		},
-		//取消
-		handleReset (name) {
-      this.$refs[name].resetFields()
-		},
-		//审核
-		spost(num){
-			let auditStatus
-			if (num ==0) {
-				auditStatus = 1
-			} else {
-				auditStatus = 2
-			}
-			let list = {
-				auditCode : this.$route.query.auditCode,
-				auditMess : this.formValidate.desc,
-				auditStatus : auditStatus
-			}
-			this.http.post(BASE_URL + '/loan/officerServiceAudit/updateOfficerServiceAuditCheckStatusByAuditCode', list)
-				.then((resp) => {
-				if (resp.code == 'success') {
-					const title = '审核'
-					let content
-					if (num == 0) {
-					content = '<p>审核成功</p>'              
-					} else {
-					content = '<p>审核拒绝成功</p>'
-					}          
-					this.$Modal.success({
-					title: title,
-					content: content,
-					onOk: () => {
-						this.$router.push({ path: './creditManagement?num=1' })            
-					},
-					})
-				} else {
-					this.$Message.info(resp.message)
-				}
-				})
-				.catch((error) => {
-					console.log(error)
-				})		
-		}
-	}
-}
+    //拒绝
+    refuse() {
+      this.modal10 = true;
+    },
+    changeLoading() {
+      this.loading = false;
+      this.$nextTick(() => {
+        this.loading = true;
+      });
+    },
+    // 确认
+    handleSubmit(name) {
+      this.$refs[name].validate(valid => {
+        if (valid) {
+          this.spost(1);
+          that.modal10 = false;
+        } else {
+          return this.changeLoading();
+        }
+      });
+    },
+    //取消
+    handleReset(name) {
+      this.$refs[name].resetFields();
+    },
+    //审核
+    spost(num) {
+      let auditStatus;
+      if (num == 0) {
+        auditStatus = 1;
+      } else {
+        auditStatus = 2;
+      }
+      let list = {
+        auditCode: this.$route.query.auditCode,
+        auditMess: this.formValidate.desc,
+        auditStatus: auditStatus
+      };
+      this.http
+        .post(
+          BASE_URL +
+            "/loan/officerServiceAudit/updateOfficerServiceAuditCheckStatusByAuditCode",
+          list
+        )
+        .then(resp => {
+          if (resp.code == "success") {
+            const title = "审核";
+            let content;
+            if (num == 0) {
+              content = "<p>审核成功</p>";
+            } else {
+              content = "<p>审核拒绝成功</p>";
+            }
+            this.$Modal.success({
+              title: title,
+              content: content,
+              onOk: () => {
+                this.$router.push({ path: "./creditManagement?num=1" });
+              }
+            });
+          } else {
+            this.$Message.info(resp.message);
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
-#feedback_details{
-    border: 1px solid #E7ECF1;
-    padding: 30px 50px;
-    h3{
-        line-height: 50px;
-        border-bottom: 1px solid #E7ECF1;
-        margin-bottom: 20px;
-    }
-    p{
-        line-height: 40px;
-        padding-left: 50px;
-        span:first-child{
-            width: 100px;
-            display: inline-block;
-            text-align: right
-        }
-
-    }
-    div{
-        text-align: center;
-        margin-top: 20px
-    }
-}
-.evaluation_grade{
-    display: inline-block;
-    border: 1px solid #FF6600;
-    line-height: 30px;
-    padding: 0px 20px;
-    color: #FF6600;
-}
-.examine_con{
+#feedback_details {
+  border: 1px solid #e7ecf1;
+  padding: 30px 50px;
+  h3 {
+    line-height: 50px;
+    border-bottom: 1px solid #e7ecf1;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 40px;
     padding-left: 50px;
-    margin-top: 0!important;
-    span{
-        width: 100px;
-        text-align: right;
-        line-height: 40px;
+    span:first-child {
+      width: 100px;
+      display: inline-block;
+      text-align: right;
     }
-  .examine_chi{
-      margin-top: 0!important;
-      margin-left: 5px;
-    div{
-        margin-top: 0!important;
-        margin-bottom: 20px;
-        p{
-            text-align: left;
-            padding-left: 0!important;
-            span{
-                width: auto!important;
-            }
+  }
+  div {
+    text-align: center;
+    margin-top: 20px;
+  }
+}
+.evaluation_grade {
+  display: inline-block;
+  border: 1px solid #ff6600;
+  line-height: 30px;
+  padding: 0px 20px;
+  color: #ff6600;
+}
+.examine_con {
+  padding-left: 50px;
+  margin-top: 0 !important;
+  span {
+    width: 100px;
+    text-align: right;
+    line-height: 40px;
+  }
+  .examine_chi {
+    margin-top: 0 !important;
+    margin-left: 5px;
+    div {
+      margin-top: 0 !important;
+      margin-bottom: 20px;
+      p {
+        text-align: left;
+        padding-left: 0 !important;
+        span {
+          width: auto !important;
         }
+      }
     }
   }
 }
