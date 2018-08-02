@@ -561,7 +561,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: './detailsComplaint' })
+                      this.$router.push({ path: 'creditInformation?loanOfficerCode='+ params.row.loanOfficerCode })
                     }
                   }
                 },
