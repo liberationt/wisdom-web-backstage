@@ -449,17 +449,17 @@ export default {
         {
           title: '登录时间',
           align: 'center',
-          key: 'time'
+          key: 'loginTime'
         },
         {
           title: '登录端口',
           align: 'center',
-          key: 'port'
+          key: 'loginPort'
         },
         {
           title: '登录设备',
           align: 'center',
-          key: 'equipment'
+          key: 'loginDevice'
         }
       ],
       data6: []
@@ -645,6 +645,12 @@ export default {
         this.consultation ()
       } else if (this.tabnum == 2) {
         this.robbing ()
+      } else if (this.tabnum == 3) {
+        this.conversation ()
+      } else if (this.tabnum == 4) {
+        this.cashflow ()
+      } else if (this.tabnum == 6) {
+        this.logonlog ()
       }
     },
     pagesizechange (page) {
@@ -654,6 +660,12 @@ export default {
         this.consultation ()
       } else if (this.tabnum == 2) {
         this.robbing ()
+      } else if (this.tabnum == 3) {
+        this.conversation ()
+      } else if (this.tabnum == 4) {
+        this.cashflow ()
+      } else if (this.tabnum == 6) {
+        this.logonlog ()
       }
     },
     // 咨询订单
@@ -743,7 +755,7 @@ export default {
         pageNum: this.startRow,
         pageSize: this.endRow
       }
-      this.http.post(BASE_URL + '/loan/userInfo/queryUserLoginLog', llist)
+      this.http.post(BASE_URL + '/loan/officerInfo/queryOfficerLoginLog', llist)
         .then((resp) => {
           if (resp.code == 'success') {
             this.data6 = resp.data.dataList
