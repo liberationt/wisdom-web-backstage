@@ -64,20 +64,13 @@ export default {
       }
       let menuList = null
       for (let j = 0; j < arrlist.length; j++) {
+        console.log(arrlist[j].menuCode)
+        console.log(num)
         if (arrlist[j].menuCode == num) {
           that.leftlist(arrlist[j].children);
           utils.putlocal("leftlist", JSON.stringify(arrlist[j].children));
           menuList = arrlist[j].children;
-        } else {
-          this.$Message.warning("网站建设中...");
-          return false;
-        }
-      }
-
-      utils.putlocal("lefthidden", "0");
-
-      if (menuList && menuList.length > 0) {
-        const firstGroupMenu = menuList[0]
+          const firstGroupMenu = menuList[0]
         if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
           this.$router.push({ path: firstGroupMenu.path });
           utils.putlocal("sideleft", "0");
@@ -88,8 +81,32 @@ export default {
             utils.putlocal("sideleft", "1");
           }
         }
+        that.lefthidtrue();
+        // return false
+        }
+        //  else {
+        //   this.$Message.warning("网站建设中...");
+        //   return false;
+        // }
       }
-      that.lefthidtrue();
+
+      utils.putlocal("lefthidden", "0");
+
+      // if (menuList && menuList.length > 0) {
+      //   alert(1)
+      //   const firstGroupMenu = menuList[0]
+      //   if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
+      //     this.$router.push({ path: firstGroupMenu.path });
+      //     utils.putlocal("sideleft", "0");
+      //   } else {
+      //     const firstChildrenMenu = firstGroupMenu.children && firstGroupMenu.children[0]
+      //     if (firstChildrenMenu && firstChildrenMenu.path && firstChildrenMenu.path.length > 0) {
+      //       this.$router.push({ path: firstChildrenMenu.path });
+      //       utils.putlocal("sideleft", "1");
+      //     }
+      //   }
+      // }
+      
     },
     ...mapMutations(["leftlist", "lefthidtrue", "lefthidfalse"])
   },
