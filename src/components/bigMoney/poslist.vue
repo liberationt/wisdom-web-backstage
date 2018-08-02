@@ -13,7 +13,7 @@
             </li>
             <li>
               <span class="w60 displayib tr ">姓名:</span>
-              <Input v-model="username" class="" placeholder="请输入手机号" style="width: 200px"></Input>
+              <Input v-model="username" class="" placeholder="请输入姓名" style="width: 200px"></Input>
             </li>
             <li>
               <span class="w60 displayib ml20  tr">注册时间:</span>
@@ -40,7 +40,7 @@
             <Table border highlight-row :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
-            <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
             </div>
     </div>
 </template>
@@ -157,10 +157,10 @@ export default {
       this.http
         .post(BASE_URL + "/loan/dwqPos/getDwqPosList", list)
         .then(resp => {
-            console.log(resp)
+            console.log(resp.data.total)
           if (resp.code == "success") {
-            this.data1 = resp.data.dataList;
-            this.total = resp.data.total;
+            this.data1 = resp.data.dwqPosList;
+            this.total = parseInt(resp.data.total);
             this.startRow = Math.ceil(resp.data.startRow / this.endRow);
             this.loading3 = false;
             this.summarizing();
@@ -176,10 +176,10 @@ export default {
     exports() {
       this.loading2 = true;
       let formData = new FormData();
-      formData.append("cid", this.model1);
+      formData.append("realname", this.username);
       formData.append("beginTime", this.value1);
       formData.append("endTime", this.value2);
-      formData.append("sid", this.model2);
+      formData.append("mobile", this.phone);
       formData.append("methodType", 1);
       let httpUrl = BASE_URL + "/loan/dwqPos/export";
       utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
@@ -197,7 +197,6 @@ export default {
 
   },
   mounted() {
-    // 注册人数数据
     var date = new Date();
     var seperator1 = "-";
     var year = date.getFullYear();

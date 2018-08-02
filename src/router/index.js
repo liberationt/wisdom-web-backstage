@@ -72,7 +72,7 @@ import directWarning from '@/components/bigMoney/direct-warning'
 import manualPush from '@/components/bigMoney/manual-push'
 import supplierManagement from '@/components/bigMoney/supplier-management'
 import channelPromotion from '@/components/bigMoney/channel-promotion' // 渠道列表
-import poslist from '@/components/bigMoney/poslist' 
+import poslist from '@/components/bigMoney/poslist'
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
