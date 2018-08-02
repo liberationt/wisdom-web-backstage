@@ -31,7 +31,7 @@
                             </Input>
                         </FormItem>
                         <FormItem >
-                            <Button type="primary" @click="handleSubmit('formValidate', index)">提交保存</Button>
+                            <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
                             <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">返回</Button>
                         </FormItem>
                     </Form>
@@ -47,8 +47,9 @@ export default {
     return {
       tabs: [
         '抢单侠',
-        '华赞金服'
+        // '华赞金服'
       ],
+      tabnum: 0,
       formValidate: {
         poundage: '',
         minMoney: '',
@@ -57,8 +58,8 @@ export default {
       },
       ruleValidate: {
         poundage: [
-          { required: true, message: '请输入提现手续费', trigger: 'change' },
-          { type: 'string', pattern: /^(0|[1-9][0-9]*)$/, message: '请输入正确的提现手续费', trigger: 'change' }
+          { required: true, message: '请输入提现手续费', trigger: 'blur' },
+          { type: 'string', pattern: /^(0|[1-9][0-9]*)$/, message: '请输入正确的提现手续费', trigger: 'blur' }
         ],
         minMoney: [
           { required: true, message: '请输入单笔最小提现金额', trigger: 'blur' },
@@ -76,8 +77,8 @@ export default {
     }
   },
   methods: {
-    handleSubmit (name, index) {
-      this.$refs[name][index].validate((valid) => {
+    handleSubmit (name) {
+      this.$refs[name].validate((valid) => {
         if (valid) {
           let  withdraw = {
             appId: "9e97cb87578ef97c",
@@ -90,14 +91,14 @@ export default {
           .then((resp) => {
             console.log(resp)
             if (resp.code == 'success') {
-              let message = '<p>"+resp.message+"</p>'
               const title = '提现设置'
-              const content = '<p>"+resp.message+"</p>'
+              const content = '<p>设置提现配置成功</p>'
               this.$Modal.success({
                 title: title,
                 content: content
               })
             } else {
+              this.$Message.error(resp.message)
 
             }
           })
@@ -111,17 +112,18 @@ export default {
     },
     handleReset (name) {
       this.$refs[name].forEach((item, index) => {
+        this.tabnum = index
         this.$refs[name][index].resetFields()
       })
     }
   },
   mounted () {
+    this.$refs['formValidate'][this.tabnum].resetFields()
     let aa = {
       appId: '9e97cb87578ef97c'
     }
     this.http.post(BASE_URL + '/loan/withdraw/query/config',  aa)
       .then((resp) => {
-        console.log(resp)
         if (resp.code == 'success') {
           this.formValidate.poundage = resp.data.fee
           this.formValidate.minMoney = resp.data.singleMinAmount
