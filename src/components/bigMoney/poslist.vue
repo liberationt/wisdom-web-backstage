@@ -60,6 +60,16 @@ export default {
       endRow: 10,
       columns1: [
         {
+          title: "供应商",
+          align: "center",
+          key: "address"
+        },
+        {
+          title: "渠道",
+          align: "center",
+          key: "address"
+        },
+        {
           title: "姓名",
           align: "center",
         //   width: 100,
@@ -111,6 +121,7 @@ export default {
           width: 280,
           key: "address"
         },
+        
       ],
       data1: [],
     };
