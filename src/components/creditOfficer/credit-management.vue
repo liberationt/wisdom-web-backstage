@@ -31,7 +31,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
             </div>
         </TabPane>
         <!-- 资料待审核 -->
@@ -72,7 +72,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷员列表" name="tab4">
@@ -98,7 +98,7 @@
             <Table border :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange4" @on-page-size-change="PageSizeChange4" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷机构" name="tab5">
@@ -119,7 +119,7 @@
             <Table border :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
@@ -213,46 +213,69 @@ export default {
         {
           title: 'ID',
           key: 'dataId',
+          minwidth: 60,
           align: 'center'
         },
         {
           title: '手机号',
           key: 'phoneMember',
+          minwidth: 140,
           align: 'center'
         },
         {
           title: '姓名',
           key: 'realName',
+          minwidth: 80,
           align: 'center'
         },
         {
           title: '性别',
           key: 'gender',
+          minwidth: 70,
           align: 'center'
         },
         {
           title: '所属区域',
           key: 'loanLocationName',
+          minwidth: 150,
           align: 'center'
         },
         {
           title: '贷款额度',
           key: 'serviceAmount',
+          minwidth: 150,
           align: 'center'
         },
         {
           title: '贷款类型',
-          key: 'loanHaveType',
-          align: 'center'
+          minwidth: 150,
+          align: 'center',
+          render: (h, params) => {
+            return h('div', [
+            h('span', {
+              style: {
+              display: 'inline-block',
+              width: '100%',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap'
+              },
+              domProps: {
+              title: params.row.message
+              }
+            }, params.row.loanHaveType)
+            ])
+            }
         },
         {
           title: '证件',
           key: 'status',
+          minwidth: 70,
           align: 'center'
         },
         {
           title: '审核状态',
-          // key: 'loanStatus',
+          minwidth: 100,
           align: 'center',
           render: (h, params) => {
             let loanStatus = params.row.loanStatus;
@@ -278,6 +301,7 @@ export default {
         {
           title: '注册时间',
           key: 'registerTime',
+          width: 155,
           align: 'center'
         },
         {
@@ -466,14 +490,7 @@ export default {
           }
         }
       ],
-      data8: [
-        {
-          id: 'A11111',
-          phone: '135****7766',
-          type: '未填基本信息',
-          time: '2018-03-29 15:12:34'
-        }
-      ],
+      data8: [],
       columns10: [
         {
           title: 'ID',
@@ -544,7 +561,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: './detailsComplaint' })
+                      this.$router.push({ path: 'creditInformation?loanOfficerCode='+ params.row.loanOfficerCode })
                     }
                   }
                 },
@@ -671,23 +688,50 @@ export default {
     remove (index) {
       this.data6.splice(index, 1)
     },
-    pageChange (page) {
+     pageChange (page) {
+      console.log(page)
       this.startRow = page
-      this.labell1(3)
       this.params.page = page
+      this.labell1('tab1')
     },
     PageSizeChange (limit) {
       this.endRow = limit
-      console.log(limit)
       this.params.limit = limit
+      this.labell1('tab1')
+    },
+    //入驻待审核分页
+    pageChange1 (page) {
+      console.log(page)
+      this.startRow = page
+      this.params.page = page
+      this.labell1('tab1')
+    },
+    PageSizeChange1 (limit) {
+      console.log(limit)
+      this.endRow = limit
+      this.params.limit = limit
+      this.labell1('tab1')
+    },
+    // 信贷员列表分页
+    pageChange4 (page) {
+      // console.log(page)
+      this.startRow = page
+      this.labell1('tab4')
+      this.params.page = page
+    },
+    PageSizeChange4 (limit) {
+      this.startRow = 1
+      this.endRow = limit
+      this.params.limit = limit
+      this.labell1('tab4')
     },
     addManage () {
       this.$router.push({ path: './addMechanism' })
     },
     post(httpUrl,params,num) {
       this.http.post(httpUrl,params).then(data=>{
-        console.log(num)
-        console.log(data)
+        // console.log(num)
+        // console.log(data)
         if(data.code == 'success'){
           if(num == 0){
             this.data6 = data.data.dataList
@@ -719,14 +763,14 @@ export default {
     },
     //tab 栏
     labell1(name) {
-      console.log(name)
+      // console.log(name)
       let parameter = {
         pageSize : this.endRow,
         pageNum : this.startRow,
       }
       let data
       //入驻待审核
-      if(name == 'tab0'){
+      if(name == 'tab1'){
         data = Object.assign({
           searchOptions : this.name, //手机号or 姓名
           loanStatus : this.labelstate, //选择状态
@@ -736,22 +780,22 @@ export default {
         this.post(BASE_URL + '/loan/officer/queryOfficerAdmissionList',data,0)
       }
       //资料改带审核
-      if(name == 'tab1'){
-        alertl(33)
+      if(name == 'tab2'){
+        // alert(33)
         data = Object.assign({
           searchOptions : '' //姓名or手机号
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerDataWaitCheckList',data,1)
       }
       //注册无资料
-      if(name == 'tab2'){
+      if(name == 'tab3'){
         data = Object.assign({
 
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerNoneDataList',data,2)
       }
       //信贷员列表
-      if(name == 'tab3'){
+      if(name == 'tab4'){
         data = Object.assign({
           queryStr : '',
           searchOptions : '',
@@ -765,7 +809,7 @@ export default {
         return false
       }
       //信贷机构
-      if(name == 'tab4'){
+      if(name == 'tab5'){
         data = Object.assign({
 
         },parameter)
@@ -775,7 +819,7 @@ export default {
     },
     //省 
     citys(v){
-      console.log(v)
+      // console.log(v)
       let data = {
         "data": v
       }
@@ -832,6 +876,7 @@ export default {
   created() {
     if (this.$route.query.num == 1) {
       this.tabs = 'tab2'
+      this.labell1('tab2')
     }
     this.http.get('../../../static/city.json').then(data=>{
       this.cityType = data
@@ -839,12 +884,15 @@ export default {
       this.cityType2 = data
     })
     // 入住待审核
-    this.labell1(0)
+    this.labell1('tab1')
   }
 }
 </script>
 <style lang="less" scoped>
 .ivu-select-selection {
   margin-top: 10px;
+}
+.ivu-select-dropdown {
+  height: 400px;
 }
 </style>

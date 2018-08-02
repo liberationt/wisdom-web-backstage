@@ -78,7 +78,7 @@ export default {
   },
   methods: {
     handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
+      this.$refs[name][this.tabnum].validate((valid) => {
         if (valid) {
           let  withdraw = {
             appId: "9e97cb87578ef97c",
@@ -125,10 +125,10 @@ export default {
     this.http.post(BASE_URL + '/loan/withdraw/query/config',  aa)
       .then((resp) => {
         if (resp.code == 'success') {
-          this.formValidate.poundage = resp.data.fee
-          this.formValidate.minMoney = resp.data.singleMinAmount
-          this.formValidate.maxMoney = resp.data.singleMaxAmount
-          this.formValidate.uplimit = resp.data.monthMaxAmount
+          this.formValidate.poundage = resp.data.fee+''
+          this.formValidate.minMoney = resp.data.singleMinAmount+''
+          this.formValidate.maxMoney = resp.data.singleMaxAmount+''
+          this.formValidate.uplimit = resp.data.monthMaxAmount+''
         } else {
 
         }
