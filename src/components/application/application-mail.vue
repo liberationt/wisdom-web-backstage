@@ -5,28 +5,32 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理</span>
       </p>
     </div>
-    <div>
+    <div class="mt50">
         <div class="application_news">
           <router-link to="/applicationSendout">
             <Icon type="plus-round"></Icon>
             <span>发送站内信消息</span>
           </router-link>
         </div>
-        <div class="application_news">
+        <div class="application_news ml20">
           <router-link to="/applicationNewtype">
             <Icon type="ios-gear-outline"></Icon>
             <span>配置消息类型</span>
           </router-link>
         </div>
 
-      <Select v-model="model1" placeholder="全部状态" style="width:200px">
+      <Select v-model="model1" placeholder="全部状态" class="ml20" style="width:200px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
-      <Select v-model="model2" placeholder="全部类型" style="width:200px">
+      <Select v-model="model2" placeholder="全部类型" class="ml20" style="width:200px">
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
+      <Button type="info" class=" ml50 w100" :loading="loading3" @click="">
+        <span v-if="!loading3">查询</span>
+        <span v-else>查询</span>
+      </Button>
     </div>
-    <div id="application_table">
+    <div id="application_table" >
       <Table border :columns="columns7" :data="data6"></Table>
     </div>
 
@@ -36,6 +40,7 @@
 export default {
   data () {
     return {
+      loading3: false,
       cityList: [
         {
           value: '未推送',
@@ -95,7 +100,7 @@ export default {
           align: 'center'
         },
         {
-          title: '推荐人',
+          title: '创建人',
           key: 'Pushman',
           align: 'center'
         },
@@ -203,6 +208,6 @@ export default {
   vertical-align: middle
 }
 #application_table{
-  margin-top: 20px
+  margin-top: 30px
 }
 </style>
