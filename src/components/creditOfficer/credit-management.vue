@@ -31,7 +31,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
             </div>
         </TabPane>
         <!-- 资料待审核 -->
@@ -688,20 +688,33 @@ export default {
     remove (index) {
       this.data6.splice(index, 1)
     },
-    pageChange (page) {
+     pageChange (page) {
       console.log(page)
       this.startRow = page
-      this.labell1(3)
       this.params.page = page
+      this.labell1('tab1')
     },
     PageSizeChange (limit) {
       this.endRow = limit
-      // console.log(limit)
       this.params.limit = limit
+      this.labell1('tab1')
+    },
+    //入驻待审核分页
+    pageChange1 (page) {
+      console.log(page)
+      this.startRow = page
+      this.params.page = page
+      this.labell1('tab1')
+    },
+    PageSizeChange1 (limit) {
+      console.log(limit)
+      this.endRow = limit
+      this.params.limit = limit
+      this.labell1('tab1')
     },
     // 信贷员列表分页
     pageChange4 (page) {
-      console.log(page)
+      // console.log(page)
       this.startRow = page
       this.labell1('tab4')
       this.params.page = page
@@ -878,5 +891,8 @@ export default {
 <style lang="less" scoped>
 .ivu-select-selection {
   margin-top: 10px;
+}
+.ivu-select-dropdown {
+  height: 400px;
 }
 </style>

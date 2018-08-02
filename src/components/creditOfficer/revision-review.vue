@@ -5,41 +5,41 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;   信贷员管理</span>
       </p>
     </div>
-    <div id="feedback_details">
+    <div v-if="common" id="feedback_details">
         <h3>审核详情</h3>
         <p>
-            <span>信贷员:</span>
-            <span>{{detailed}}</span>
+          <span>信贷员:</span>
+          <span>{{detailed}}</span>
         </p>
         <p>
-            <span>提交时间:</span>
-            <span>{{auditUpdateTime}}</span>
+          <span>提交时间:</span>
+          <span>{{auditUpdateTime}}</span>
         </p>
         <div class="clearfix examine_con" >
-            <span class="left">提交内容:</span>
-            <div class="left examine_chi">
-                <div class="">
-                    <p><span>1.</span>贷款要求</p>
-                    <span>{{serviceLoanRequire}}</span>
-                </div>
-                <div class="">
-                    <p><span>2.</span>申请条件</p>
-                    <span>{{serviceApplyRequire}}</span>
-                </div>
-                <div class="">
-                    <p><span>3.</span>其他说明</p>
-                    <span>{{serviceOtherRequire}}</span>
-                </div>
+          <span class="left">提交内容:</span>
+          <div class="left examine_chi">
+            <div class="">
+              <p><span>1.</span>贷款要求</p>
+              <span>{{serviceLoanRequire}}</span>
+            </div>
+            <div class="">
+              <p><span>2.</span>申请条件</p>
+              <span>{{serviceApplyRequire}}</span>
+            </div>
+            <div class="">
+              <p><span>3.</span>其他说明</p>
+              <span>{{serviceOtherRequire}}</span>
+            </div>
             </div>
         </div>
 			<p v-if="auditMessl">
-            <span>拒绝原因:</span>
-            <span>{{auditMess}}</span>
-        </p>
-        <div class="mt50">
-            <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
+        <span>拒绝原因:</span>
+        <span>{{auditMess}}</span>
+      </p>
+        <div class="mt50 marginauto">
+          <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+          <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
         </div>
 				<!-- model 框 -->
 				<Modal
@@ -59,6 +59,18 @@
 					</Form>
     		</Modal>
     </div>
+		<div v-if="!common" class="conmmon_img">
+      <h3 class="h3">审核详情</h3>
+      <div class="img">
+        <span>头像图片：</span>
+        <img :src='this.imgurl' alt="">
+      </div>
+			<div class="mt50 marginauto">
+        <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+        <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
+      </div>
+		</div>
 </div>
 </template>
 <script>
@@ -88,7 +100,9 @@ export default {
       },
       loading: true,
       auditMessl: false,
-      auditMess: ""
+      auditMess: "",
+      common: true,
+      imgurl: ''
     };
   },
   mounted() {
@@ -109,13 +123,20 @@ export default {
         data
       )
       .then(data => {
-        console.log(data);
-        this.detailed = data.data.realName;
-        this.auditUpdateTime = data.data.auditUpdateTime;
-        this.serviceLoanRequire = data.data.serviceLoanRequire;
-        this.serviceApplyRequire = data.data.serviceApplyRequire;
-        this.serviceOtherRequire = data.data.serviceOtherRequire;
-        this.auditMess = data.data.auditMess;
+        // console.log(data);
+        if(data.data.auditType == 0){
+          this.common = true
+          this.detailed = data.data.realName;
+          this.auditUpdateTime = data.data.auditUpdateTime;
+          this.serviceLoanRequire = data.data.serviceLoanRequire;
+          this.serviceApplyRequire = data.data.serviceApplyRequire;
+          this.serviceOtherRequire = data.data.serviceOtherRequire;
+          this.auditMess = data.data.auditMess;
+        } else if(data.data.auditType == 1){
+          this.common = false
+          this.imgurl = data.data.loanPersonImg 
+        }
+        
       })
       .then(err => {
         console.log(err);
@@ -205,6 +226,11 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.h3 {
+  line-height: 50px;
+  border-bottom: 1px solid #e7ecf1;
+  margin-bottom: 20px;
+}
 #feedback_details {
   border: 1px solid #e7ecf1;
   padding: 30px 50px;
@@ -223,7 +249,7 @@ export default {
     }
   }
   div {
-    text-align: center;
+    // text-align: center;
     margin-top: 20px;
   }
 }
@@ -253,9 +279,16 @@ export default {
         padding-left: 0 !important;
         span {
           width: auto !important;
+          // text-align: left !important;
         }
       }
     }
   }
+}
+.marginauto {
+  text-align: center;
+}
+.img {
+  vertical-align:baseline
 }
 </style>
