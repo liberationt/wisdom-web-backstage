@@ -60,16 +60,6 @@ export default {
       endRow: 10,
       columns1: [
         {
-          title: "供应商",
-          align: "center",
-          key: "address"
-        },
-        {
-          title: "渠道",
-          align: "center",
-          key: "address"
-        },
-        {
           title: "姓名",
           align: "center",
         //   width: 100,
@@ -172,9 +162,8 @@ export default {
           if (resp.code == "success") {
             this.data1 = resp.data.dwqPosList;
             this.total = parseInt(resp.data.total);
-            this.startRow = Math.ceil(resp.data.startRow / this.endRow);
+            this.startRow = Math.ceil(resp.data.startRow / this.endRow) == 0 ? 1 : Math.ceil(resp.data.startRow / this.endRow);
             this.loading3 = false;
-            this.summarizing();
           } else {
             this.loading3 = false;
           }
