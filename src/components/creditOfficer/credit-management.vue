@@ -85,8 +85,8 @@
             <Select v-model="model" placeholder="所属区域" style="width:200px;margin-left:50px">
                 <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model3" placeholder="上架状态" style="width:200px;margin-left:50px">
-                <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model3" placeholder="上下架状态" style="width:200px;margin-left:50px">
+                <Option v-for="item in statuslowershelves" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Select v-model="model4" placeholder="服务介绍状态" style="width:200px;margin-left:50px">
                 <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -154,6 +154,20 @@ export default {
       cityTypel: [],
       cityType1: [],
       cityType2:[],
+      statuslowershelves:[
+        {
+          value: '2',
+          label: '服务时间外下架'
+        },
+        {
+          value: '1',
+          label: '上架'
+        },
+        {
+          value: '0',
+          label: '下架'
+        }
+      ],
       status: [
         {
           value: '已咨询',
@@ -213,42 +227,42 @@ export default {
         {
           title: 'ID',
           key: 'dataId',
-          minwidth: 60,
+          minWidth: 60,
           align: 'center'
         },
         {
           title: '手机号',
           key: 'phoneMember',
-          minwidth: 140,
+          minWidth: 140,
           align: 'center'
         },
         {
           title: '姓名',
           key: 'realName',
-          minwidth: 80,
+          minWidth: 80,
           align: 'center'
         },
         {
           title: '性别',
           key: 'gender',
-          minwidth: 70,
+          minWidth: 70,
           align: 'center'
         },
         {
           title: '所属区域',
           key: 'loanLocationName',
-          minwidth: 150,
+          minWidth: 150,
           align: 'center'
         },
         {
           title: '贷款额度',
           key: 'serviceAmount',
-          minwidth: 150,
+          minWidth: 150,
           align: 'center'
         },
         {
           title: '贷款类型',
-          minwidth: 150,
+          minWidth: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -270,12 +284,12 @@ export default {
         {
           title: '证件',
           key: 'status',
-          minwidth: 70,
+          minWidth: 70,
           align: 'center'
         },
         {
           title: '审核状态',
-          minwidth: 100,
+          minWidth: 100,
           align: 'center',
           render: (h, params) => {
             let loanStatus = params.row.loanStatus;
@@ -885,6 +899,8 @@ export default {
     })
     // 入住待审核
     this.labell1('tab1')
+    // 信贷员列表
+    this.http.post('')
   }
 }
 </script>
