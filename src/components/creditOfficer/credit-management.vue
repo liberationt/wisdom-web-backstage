@@ -13,7 +13,7 @@
             <Select v-model="model1" style="width:100px" @on-change="label_option">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px">
+            <Input v-model="name" placeholder="请输入关键字"  style="width: 150px">
             </Input>
             <Select v-model="model3" @on-change="label_state" placeholder="所属状态" style="width:200px;margin-left:20px">
                 <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -457,28 +457,27 @@ export default {
       columns9: [
         {
           title: 'ID',
-          key: 'id',
+          key: 'dataId',
           align: 'center'
         },
         {
           title: '手机号',
-          key: 'phone',
+          key: 'phoneMember',
           align: 'center'
         },
         {
           title: '状态',
-          key: 'type',
+          key: 'loanBaseStatus',
           align: 'center'
         },
         {
           title: '注册时间',
-          key: 'time',
+          key: 'registerTime',
           align: 'center'
         },
         {
           title: '操作',
           key: 'action',
-          width: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -786,7 +785,8 @@ export default {
       //入驻待审核
       if(name == 'tab1'){
         data = Object.assign({
-          searchOptions : this.name, //手机号or 姓名
+          searchValue : this.name, //手机号or姓名的参数
+          searchOptions : this.model1, //手机号or 姓名
           loanStatus : this.labelstate, //选择状态
           loanAdCodeFirst : this.labelcitys,//区域 省
           loanAdCodeSecond :'', //市
@@ -804,7 +804,7 @@ export default {
       //注册无资料
       if(name == 'tab3'){
         data = Object.assign({
-
+          
         },parameter)
         this.post(BASE_URL + '/loan/officer/queryOfficerNoneDataList',data,2)
       }
@@ -855,7 +855,11 @@ export default {
       if(this.model1 == '手机号'){
         if(this.name == "" || this.name.length < 3){
           this.phoneti(type)
+        } else {
+        this.labell1('tab1')
         }
+      } else {
+        this.labell1('tab1')
       }
     },
     // 入住 下拉框
