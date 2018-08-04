@@ -62,10 +62,10 @@
 		<div v-if="!common" class="conmmon_img">
       <h3 class="h3">审核详情</h3>
       <div class="img">
-        <span>头像图片：</span>
+        <span class="left">头像图片：</span>
         <img :src='this.imgurl' alt="">
       </div>
-			<div class="mt50 marginauto">
+			<div class="mt50 marginauto1">
         <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
         <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
@@ -289,6 +289,13 @@ export default {
   text-align: center;
 }
 .img {
-  vertical-align:baseline
+  vertical-align:baseline;
+}
+.img > img {
+  width: 500px;
+  height: 500px;
+}
+.marginauto1 {
+  margin-left: 73px;
 }
 </style>
