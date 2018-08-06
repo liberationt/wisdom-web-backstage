@@ -86,29 +86,40 @@ export default {
   created() {
     //默认图片地址
     // 获取分享配置
-    this.http.post(BASE_URL + '/loan/officerInfo/getOfficerInfoLinkShare',{}).then(data=>{
-      if(data.code == 'success'){
-        this.formValidate.name = data.data.title 
-        this.formValidate.desc = data.data.text
-        this.formValidate.mail = data.data.link 
-        this.checkbox = data.data.sharePlatformList
-        this.formValidate.productlogo = data.data.image
-        this.formValidate.logoUrl = data.data.image
-        this.shareCodel = data.data.shareCode
-        data.data.sharePlatformList.forEach(v=>{//v==value　为arr项，i==index　为arr索引
-            this.formValidate.interest.push(v.label)
-        })
-      }else{
-
-      }
-      
+    console.log(this.$route.query.isapp)
+    let httpUrl
+    if(this.$route.query.isapp == "huazan"){
+      httpUrl = '/loan/officerInfo/getOfficerInfoLinkShare'
+    } else if(this.$route.query.isapp == "xindai"){
+      httpUrl = '/loan/userInfo/getUserInfoLinkShare'
+    }
+    this.http.post(BASE_URL + httpUrl,{}).then(data=>{
+    if(data.code == 'success'){
+      this.formValidate.name = data.data.title 
+      this.formValidate.desc = data.data.text
+      this.formValidate.mail = data.data.link 
+      this.checkbox = data.data.sharePlatformList
+      this.formValidate.productlogo = data.data.image
+      this.formValidate.logoUrl = data.data.image
+      this.shareCodel = data.data.shareCode
+      data.data.sharePlatformList.forEach(v=>{//v==value　为arr项，i==index　为arr索引
+          this.formValidate.interest.push(v.label)
+      })
+    }
     }).catch(err=>{})
+    
   },
   methods: {
     handleSubmit (name) {
       this.$refs[name].validate((valid) => {
           if (valid) {
-            this.http.post(BASE_URL+"/loan/officerInfo/saveOfficerInfoLinkShare",{
+            let httpUrll
+            if(this.$route.query.isapp == "huazan"){
+              httpUrll = '/loan/officerInfo/saveOfficerInfoLinkShare' // 华赞
+            } else if(this.$route.query.isapp == "xindai"){
+              httpUrll = '/loan/userInfo/saveUserInfoLinkShare' //枪弹
+            }
+            this.http.post(BASE_URL + httpUrll,{
               image : this.formValidate.logoUrl,
               link : this.formValidate.mail,
               shareCode :  this.shareCodel,
