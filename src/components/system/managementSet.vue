@@ -85,6 +85,17 @@ export default {
     gread () {
       this.$router.push({path: './managementGrade'})
     }
+  },
+  mounted () {
+    this.http.post(BASE_URL + '/rule/RiskBusiness/getRiskBusinessList', {})
+      .then((resp) => {
+        if (resp.code == 'success') {
+          
+        } else {
+        }
+      })
+      .catch(() => {               
+      })
   }
 }
 </script>
