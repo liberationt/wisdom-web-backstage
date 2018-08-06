@@ -41,7 +41,7 @@ import operationLog from '@/components/creditOfficer/operation-log'
 import detailsRobbing from '@/components/creditOfficer/details-robbing'
 import detailsComplaint from '@/components/creditOfficer/details-complaint'
 // 信贷员管理
-import creditManagement from '@/components/creditOfficer/credit-management'
+import creditManagement from '@/components/creditOfficer/credit-management' // 信贷员管理
 import addMechanism from '@/components/creditOfficer/add-mechanism'
 import revisionReview from '@/components/creditOfficer/revision-review'
 import toExamine from '@/components/creditOfficer/to-examine'

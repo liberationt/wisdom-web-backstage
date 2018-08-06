@@ -389,6 +389,7 @@ export default {
           key: 'score',
           minWidth:150,
           render: (h, params) => {
+            console.log(params.row.score)
             let listimg = []
             for (let i = 0; i < params.row.score.length; i++) {
               listimg.push(

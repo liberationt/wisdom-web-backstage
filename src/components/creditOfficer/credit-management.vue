@@ -25,7 +25,11 @@
                 <Option v-for="item in cityTypel" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search" @click="label_query('warning')">查询</Button>
+            <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="label_query('warning')">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="label_query('warning')">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns7" :data="data6"></Table>
@@ -43,7 +47,11 @@
             </Select>
             <Input v-model="dataname1" placeholder="请输入关键字" style="width: 150px"></Input>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search" @click="label2_query('warning')">查询</Button>
+            <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="label2_query('warning')">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="label2_query('warning')">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns8" :data="data7"></Table>
@@ -64,7 +72,11 @@
                 <Option v-for="item in registerstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search" @click="registerinquery('warning')">查询</Button>
+            <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="registerinquery('warning')">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="registerinquery('warning')">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns9" :data="data8"></Table>
@@ -93,7 +105,11 @@
                 <Option v-for="item in creditstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search" @click="creditinquery('warning')">查询</Button>
+            <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="creditinquery('warning')">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="creditinquery('warning')">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns10" :data="data9"></Table>
@@ -114,6 +130,10 @@
             </Select>
             </div>
             <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
+            <!-- <Button type="info" class="right mr20 w100" :loading="loading3" @click="primaryinquery('warning')">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button> -->
             </div>
             <Button type="primary" class="mt15" shape="circle" icon="plus-round" @click="addManage">添加信贷机构</Button>
             <div id="application_table" class="mt15">
@@ -717,7 +737,8 @@ export default {
       labelstate: "",
       labelcitys: "",
       modelshi: "", // 市
-      models: "" //省
+      models: "", //省
+      loading3: false,
     };
   },
   methods: {
@@ -820,6 +841,7 @@ export default {
               this.creditname = ""
               this.registershi = ""
               this.registersheng = ""
+              this.loading3= false
               return false;
             }
             if (num == 1) {
@@ -842,6 +864,7 @@ export default {
               this.creditname = ""
               this.registershi = ""
               this.registersheng = ""
+              this.loading3= false
               return false;
             }
             if (num == 2) {
@@ -864,6 +887,7 @@ export default {
               this.creditname = ""
               this.registershi = ""
               this.registersheng = ""
+              this.loading3= false
               return false;
             }
             if (num == 3) {
@@ -882,15 +906,18 @@ export default {
               this.dataname1 = ""
               this.registername = ""
               this.registermodel3 = ""
+              this.loading3= false
               return false;
             }
 
           } else {
             this.total = 0;
+            this.loading3= false
           }
         })
         .catch(err => {
           console.log(err);
+          this.loading3= false
         });
     },
     //tab 栏
@@ -1011,9 +1038,11 @@ export default {
         if (this.name == "" || this.name.length < 3) {
           this.phoneti(type);
         } else {
+          this.loading3= true
           this.labell1("tab1");
         }
       } else {
+        this.loading3= true
         this.labell1("tab1");
       }
     },
@@ -1023,9 +1052,11 @@ export default {
         if (this.registername == "" || this.registername.length < 3) {
           this.phoneti(type);
         } else {
+          this.loading3= true
           this.labell1("tab3");
         }
       } else {
+        this.loading3= true
         this.labell1("tab3");
       }
     },
@@ -1035,9 +1066,11 @@ export default {
         if (this.creditname == "" || this.creditname.length < 3) {
           this.phoneti(type);
         } else {
+          this.loading3= true
           this.labell1("tab4");
         }
       } else {
+        this.loading3= true
         this.labell1("tab4");
       }
     },
@@ -1054,9 +1087,11 @@ export default {
         if (this.dataname1 == "" || this.dataname1.length < 3) {
           this.phoneti(type);
         } else {
+          this.loading3= true
           this.labell1("tab2")
         }
       } else {
+        this.loading3= true
         this.labell1("tab2")
       }
     },
