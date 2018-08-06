@@ -18,6 +18,7 @@ import memberDetail from '@/components/member-management/memberDetails'
 import versionManagement from '@/components/basic-configuration/version-management'
 import pageConfigguration from '@/components/basic-configuration/page-configuration'
 import broadcastBigimg from '@/components/basic-configuration/broadcast-bigimg'
+import sharehua from '@/components/basic-configuration/share-hua' // 分享配置
 import navigation from '@/components/basic-configuration/navigation'
 import cardCenter from '@/components/basic-configuration/card-center'
 import loansconfig from '@/components/basic-configuration/loans-configuration'
@@ -110,6 +111,7 @@ let routes = [
       {path: '/pageConfigguration', component: pageConfigguration, names: '版本页面配置', meta: { auth: true }},
       {path: '/navigation', component: navigation, names: '首页导航', hidden: true, meta: { auth: true }},
       {path: '/bigimg', component: broadcastBigimg, names: 'bigimg', hidden: true, meta: { auth: true }},
+      {path: '/share', component: sharehua, names: '分享配置', hidden: true, meta: { auth: true }},
       {path: '/loansconfig', component: loansconfig, names: '贷款产品配置1', meta: { auth: true }},
       {path: '/addedit', component: addedit, names: '添加编辑', meta: { auth: true }},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心', meta: { auth: true }},

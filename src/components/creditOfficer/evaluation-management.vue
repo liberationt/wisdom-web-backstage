@@ -363,6 +363,7 @@ export default {
         {
           title: '审核时间',
           key: 'name',
+          width: 200,
           align: 'center'
         },
         {
