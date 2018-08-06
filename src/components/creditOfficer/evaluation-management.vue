@@ -591,8 +591,8 @@ export default {
             isPass : 0,
             searchValue: this.name, //手机号or姓名的参数
             searchOptions: this.model1, //手机号or 姓名
-            loanAdCodeFirst: this.labelcitys, //区域 省
-            loanAdCodeSecond: this.modelshi //市
+            // loanAdCodeFirst: this.labelcitys, //区域 省
+            loanAdcode: this.modelshi //市
           },
           parameter
         );
@@ -610,8 +610,8 @@ export default {
             isPass : 1,
             searchValue: this.name1, //手机号or姓名的参数
             searchOptions1: this.model12, //手机号or 姓名
-            loanAdCodeFirst: this.labelcitys1, //区域 省
-            loanAdCodeSecond: this.modelshi1 //市
+            // loanAdCodeFirst: this.labelcitys1, //区域 省
+            loanAdcode: this.modelshi1 //市
           },
           parameter
         );
@@ -627,8 +627,8 @@ export default {
           isPass : 2,
           searchValue: this.name2, //手机号or姓名的参数
           searchOptions2: this.model13, //手机号or 姓名
-          loanAdCodeFirst: this.labelcitys2, //区域 省
-          loanAdCodeSecond: this.modelshi2 //市
+          // loanAdCodeFirst: this.labelcitys2, //区域 省
+          loanAdcode: this.modelshi2 //市
         }, parameter);
         this.post(BASE_URL + httpUrl1, data, 2);
       }
