@@ -33,6 +33,9 @@
     <div id="application_table" >
       <Table border :columns="columns7" :data="data6"></Table>
     </div>
+    <div class="tr mt15">
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+        </div>
 
   </div>
 </template>
@@ -41,6 +44,9 @@ export default {
   data () {
     return {
       loading3: false,
+      total: 0,
+			startRow: 1,
+			endRow: 10,
       cityList: [
         {
           value: '未推送',
@@ -67,64 +73,86 @@ export default {
         {
           title: '类型',
           key: 'name',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '标题',
           key: 'title',
+          minWidth: 150,
           align: 'center'
         },
         {
           title: '计划推送时间',
           key: 'plantime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '实际推送时间',
           key: 'actualtime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '推送平台',
           key: 'platform',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '推送对象',
           key: 'object',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '状态',
           key: 'pushtype',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '创建人',
           key: 'Pushman',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '操作',
           key: 'action',
-          width: 150,
+          minWidth: 180,
           align: 'center',
           render: (h, params) => {
             return h('div', [
-            // h('Button', {
-            //   props: {
-            //     type: 'primary',
-            //     size: 'small'
-            //   },
-            //   style: {
-            //     marginRight: '5px'
-            //   },
-            //   on: {
-            //     click: () => {
-            //       this.show(params.index)
-            //     }
-            //   }
-            // }, '删除'),
+              h('Button', {
+              props: {
+                type: 'info',
+                size: 'small'
+              },
+              style: {
+                marginRight: '5px'
+              },
+              on: {
+                click: () => {
+                  this.show(params.index)
+                }
+              }
+              }, '查看'),
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.show(params.index)
+                  }
+                }
+              }, '编辑'),           
               h('Button', {
                 props: {
                   type: 'error',
@@ -193,7 +221,29 @@ export default {
     },
     remove (index) {
       this.data6.splice(index, 1)
-    }
+    },
+    // 分页
+    pageChange(page) {
+				this.startRow = page
+				// this.inquire()
+		},
+    pagesizechange(page) {
+      this.startRow = 1
+      this.endRow = page
+      // this.inquire()
+    },
+  },
+  mounted () {
+     this.http.post(BASE_URL + '/loan/webMail/getWebMailListBaseData', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
   }
 }
 </script>
