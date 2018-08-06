@@ -113,7 +113,7 @@ export default {
         if (num == 0) {
             orderstatusdetail = 2
         } else {
-            orderstatusdetail = 6
+            orderstatusdetail = 5
         }
         let data = {
             orderCode : this.order.orderCode,

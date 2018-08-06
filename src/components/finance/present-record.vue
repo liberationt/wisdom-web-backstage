@@ -23,11 +23,14 @@
                                 <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
                                 </div>
                                 <div class="right">
-                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery">
+                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(1)">
                                     <span v-if="!loading3">查询</span>
                                     <span v-else>查询</span>
                                   </Button>
-                                <Button type="primary" class="ml10 w100" @click="auditedExport">导出</Button>
+                                  <Button type="primary" class="ml10 w100" :loading="loading2" @click="auditedExport(1)">
+                                    <span v-if="!loading2">导出</span>
+                                    <span v-else>请稍等...</span>
+                                  </Button>
                                 </div>
                             </div>
                             <p class="mt15">
@@ -40,7 +43,7 @@
                                 title="审核驳回"
                                 v-model="modal8"
                                 @on-ok="deterRefuse('formValidate')"
-                                @on-cancel="cancelqdx"
+                                @on-cancel="cancelqdx('formValidate')"
                                 class-name="vertical-center-modal"
                                 width="550"
                                 :loading="loading"
@@ -64,22 +67,28 @@
                                     <Select v-model="model2" style="width:120px">
                                     <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
                                 </Select>
-                                <Input v-model="value2" placeholder="请输入关键字"  style="width: 180px;margin-left:-5px"></Input>
+                                <Input v-model="value2" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
                                 <span class="lh32 ml50">申请时间:</span>
                                 <DatePicker type="date" confirm placeholder="" style="width: 200px"></DatePicker>
                                 &nbsp;&nbsp;-&nbsp;&nbsp;
                                 <DatePicker type="date" confirm placeholder="" style="width: 200px"></DatePicker>
                                 </div>
                                 <div class="right">
-                                  <Button type="info" class="w100">查询</Button>
-                                  <Button type="primary" class="ml10 w100">导出</Button>
+                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(2)">
+                                    <span v-if="!loading3">查询</span>
+                                    <span v-else>查询</span>
+                                  </Button>
+                                  <Button type="primary" class="ml10 w100" :loading="loading2" @click="auditedExport(2)">
+                                    <span v-if="!loading2">导出</span>
+                                    <span v-else>请稍等...</span>
+                                  </Button>
                                 </div>
                             </div>
                             <p class="mt15">
-                              共<strong class="red">2</strong>条记录，提现金额<strong class="red">1020.00</strong>元
+                              共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
                             </p>
                             <div class="mt15">
-                                <Table border :columns="columns9" :data="data8"></Table>
+                                <Table border :columns="columns9" :data="data6"></Table>
                             </div>
                             <div class="tr mt15">
                                 <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -93,12 +102,14 @@
 </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
       model1: '',
       model2: '',
       modal8: false,
+      loading2: false,
       loading3: false,
       value8: '',
       value: '',
@@ -140,28 +151,22 @@ export default {
           title: '申请用户',
           align: 'center',
           minWidth:120,
-          key: 'username'
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, params.row.mobile ),
+              h('br', {
+              } ),
+              h('span', {
+              }, params.row.username )
+            ])
+          }
         },
         {
           title: '账户状态',
           align: 'center',
           minWidth:120,
-          key: 'accountStatus',
-          render: (h, params) => {
-            let accountStatus
-            if (params.row.accountStatus == 1) {
-              accountStatus = '正常'
-            } else if (params.row.accountStatus == 0) {
-              accountStatus = '冻结'
-            } else  {
-              accountStatus = ''
-            }
-            return h('div', [
-              h('span', {
-              }, accountStatus )
-            ])
-          }
-
+          key: 'accountStatus'
         },
         {
           title: '提现金额',
@@ -206,24 +211,10 @@ export default {
           title: '状态',
           align: 'center',
           minWidth:100,
-          render: (h, params) => {
-            let withdrawStatus
-            if (params.row.withdrawStatus == 1) {
-              withdrawStatus = '待提现'
-            } else if (params.row.withdrawStatus == 2) {
-              withdrawStatus = '提现中'
-            } else if (params.row.withdrawStatus == 5) {
-              withdrawStatus = '待审核'
-            }
-            return h('div', [
-              h('span', {
-              }, withdrawStatus )
-            ])
-          }
-
+          key: 'withdrawStatus'
         },
         {
-          title: '备注说明',
+          title: '备注',
           align: 'center',
           minWidth:200,
           render: (h, params) => {
@@ -357,57 +348,95 @@ export default {
         {
           title: '提现编号',
           align: 'center',
-          key: 'identifier'
+          minWidth: 160,
+          key: 'customerOrderNo'
         },
         {
           title: '申请用户',
           align: 'center',
-          key: 'user'
+          minWidth: 120,
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, params.row.mobile ),
+              h('br', {
+              } ),
+              h('span', {
+              }, params.row.username )
+            ])
+          }
         },
         {
           title: '提现金额',
           align: 'center',
-          key: 'putmonery'
+          minWidth: 100,
+          key: 'amount'
         },
         {
           title: '到账金额',
           align: 'center',
-          key: 'transferMonery'
+          minWidth: 100,
+          key: 'realAmount'
         },
         {
           title: '当月提现总金额',
           align: 'center',
-          key: 'totalMonery'
+          minWidth: 100,
+          key: 'monthTotalAmount'
         },
         {
           title: '提现账户',
           align: 'center',
-          key: 'account'
-        },
-        {
-          title: '备注',
-          align: 'center',
-          key: 'remarks'
+          minWidth: 160,
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              }, params.row.bankName ),
+              h('br', {
+              } ),
+              h('span', {
+              }, params.row.bankcardNo )
+            ])
+          }
         },
         {
           title: '申请时间',
           align: 'center',
-          key: 'time'
+          minWidth: 160,
+          key: 'applyTime'
         },
         {
-          title: '跑批时间',
+          title: '审核时间',
           align: 'center',
-          key: 'batchTime'
+          minWidth: 160,
+          key: 'auditTime'
         },
         {
           title: '状态',
           align: 'center',
-          key: 'type'
+          minWidth: 100,
+          key: 'withdrawStatus'
         },
         {
-          title: '失败',
+          title: '备注',
           align: 'center',
-          key: 'explain'
+          minWidth: 160,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.description
+							}
+						}, params.row.description)
+						])
+						}
         }
       ],
       data8: [
@@ -441,47 +470,33 @@ export default {
     }
   },
   methods: {
-    handleSubmit (name) {
-      this.$refs[name].forEach((item, index) => {
-        this.$refs[name][index].validate((valid) => {
-          if (valid) {
-            this.$Message.success('Success!')
-          } else {
-            this.$Message.error('Fail!')
-          }
-        })
-      })
-    },
+    // handleSubmit (name) {
+    //   this.$refs[name].forEach((item, index) => {
+    //     this.$refs[name][index].validate((valid) => {
+    //       if (valid) {
+    //         this.$Message.success('Success!')
+    //       } else {
+    //         this.$Message.error('Fail!')
+    //       }
+    //     })
+    //   })
+    // },
     handleReset (name) {
       this.$refs[name].forEach((item, index) => {
         this.$refs[name][index].resetFields()
       })
     },
-    show (index) {
-      this.$Modal.confirm({
-        title: '',
-        content: '<p>确定要打款吗？</p>',
-        okText: '确定',
-        cancelText: '取消',
-        onOk: () => {
-          this.$Message.info('Clicked ok')
-        },
-        onCancel: () => {
-          this.$Message.info('Clicked cancel')
-        }
-      })
-    },
     pageChange (page) {
       this.startRow = page
-      this.auditedQuery()
+      this.auditedQuery(1)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.auditedQuery()
+      this.auditedQuery(1)
     },
     // 待审核查询
-    auditedQuery () {
+    auditedQuery (num) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.timeval1))/1000
       let date2 = Date.parse(new Date(this.timeval2))/1000
@@ -502,8 +517,14 @@ export default {
         name = this.value
         phone = ''
       }
+      let recordtype
+      if (num == 1) {
+        recordtype = 0
+      } else {
+        recordtype = 1
+      }
       let audited = {
-        recordType: 0,
+        recordType: recordtype,
         phone: phone,
         name: name,
         beginTime: this.timeval1,
@@ -545,7 +566,10 @@ export default {
                 let content = '<p>已通过</p>'
                 this.$Modal.success({
                   title: title,
-                  content: content
+                  content: content,
+                  onOk: () => {
+                    this.auditedQuery ()
+                  }
                 })
               } else {
                 
@@ -566,19 +590,21 @@ export default {
         this.loading = true
       })
     },
-    cancelqdx () {
-      this.formValidate.name = ''
+    cancelqdx (name) {
+      this.$refs[name].resetFields();
+      // this.formValidate.name = ''
     },
     // 驳回
     deterRefuse (name) {
-      this.$refs[name].validate((valid) => {
+      this.$refs[name][0].validate((valid) => {
         if (!valid) {
           return this.changeLoading()
-        }
-        this.changeLoading()
+        } else {
+          this.changeLoading()
         this.modal8 = false
         this.stayreject ()
-        this.formValidate.name = ''       
+        this.formValidate.name = ''
+        }             
       })
     },
     stayreject () {
@@ -589,7 +615,6 @@ export default {
       }
       this.http.post(BASE_URL + '/loan/withdraw/reject',  list)
       .then((resp) => {
-        console.log(resp)
         if (resp.code == 'success') {
           const title = '审核驳回'
           let content = '<p>驳回成功</p>'
@@ -597,7 +622,7 @@ export default {
             title: title,
             content: content
           })
-
+          this.auditedQuery ()
         } else {
 
         }
@@ -607,35 +632,52 @@ export default {
 
     },
     // 待审核导出
-    auditedExport () {
-      let audited = {
-        recordType: this.value3,
-        phone: "",
-        name: "",
-        beginTime: "",
-        endTime: "",
-        pageNum: 1,
-        pageSize: 10
+    auditedExport (num) {
+      this.loading2 = true
+      let phone
+      let name
+      if (this.model1 == 'mobile') {
+        phone = this.value
+        name = ''
+      } else if (this.model1 == 'name') {
+        name = this.value
+        phone = ''
+      } else {
+        name = ''
+        phone = ''
       }
-      // let link = "recordType=0&phone=''&name=''&beginTime=''&endTime=''&pageNum=1&pageSize=10"
-      this.http.get(BASE_URL + '/loan/withdraw/exportToExcel',  JSON.stringify(audited))
-      .then((resp) => {
-        console.log(resp)
-        if (resp.code == 'success') {
-          this.data6 = resp.data.dataList
-          this.loading3 = false
+      let recordtype
+      if (num == 1) {
+        recordtype = 0
+      } else {
+        recordtype = 1
+      }
+      console.log(this.model1)
+      console.log(phone)
+      let formData = new FormData()
+      formData.append("name",name)
+      formData.append("beginTime",this.timeval1)
+      formData.append("endTime",this.timeval2)
+      formData.append("phone",phone)
+      formData.append("recordType",recordtype)
+      let httpUrl = BASE_URL+'/loan/withdraw/exportToExcel'
+      utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
+        if(e == true){
+          this.loading2 = false
         } else {
-          this.loading3 = false
-
+            this.loading2 = false
+            this.$Modal.warning({
+						title: '导出文件',
+						content: '<p>导出失败</p>'
+          })
         }
-      })
-      .catch(() => {
       })
     },
     recordType (name) {
       if (name == 0) {
-        this.auditedQuery ()
+        this.auditedQuery (1)
       } else {
+        this.auditedQuery (2)
 
       }
       this.value3 = name
@@ -650,7 +692,7 @@ export default {
 
   },
   mounted () {
-    this.auditedQuery()
+    this.auditedQuery(1)
     this.http.post(BASE_URL + '/loan/withdraw/getQueryOption',  {})
       .then((resp) => {
         console.log(resp)
