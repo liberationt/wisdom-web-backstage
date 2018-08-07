@@ -80,7 +80,7 @@
 				</div>
         <div>
             <Button v-if="isPasssuccess" type="primary" @click="examine">确认审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-						<Button v-if="isPasssuccess" type="primary" @click="examineerror">审核失败</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+			<Button v-if="isPasssuccess" type="primary" @click="examineerror">审核失败</Button>&nbsp;&nbsp;&nbsp;&nbsp;
             <router-link to="./evaluationManagement"><Button type="ghost">返回</Button></router-link>
         </div>
     </div>
@@ -88,135 +88,151 @@
 </template>
 <script>
 export default {
-	data(){
-		return{
-			isPasssuccess:true,
-			datatime: '',
-			ordertime: '',
-			ordercode: '',
-			servicecharge: '',
-			region: '',
-			username: '',
-			userphone: '',
-			loancontent: '',
-			loanterm: '',
-			loanmoney: '',
-			rilename: '',
-			rilephone: '',
-			stars: '',
-			content: '',
-			shnuserName: '',
-			isPasss: '',
-			shendate: '',
-			pingjia: ''
-		}
-	},
-	methods: {
-		examine(){
-			this.http.post(BASE_URL + "/loan/comment/check",{commentCode : this.$route.query.commentCode,isPass:this.$route.query.isPass}).then(data=>{
-				if(data.code == "success"){
-						this.handleRender()
-				} else {
-					this.$Message.info(data.message)
-				}
-			}).catch(err=>{
-				console.log(err)
-			})
-		},
-		handleRender () {
+  data() {
+    return {
+      isPasssuccess: true,
+      datatime: "",
+      ordertime: "",
+      ordercode: "",
+      servicecharge: "",
+      region: "",
+      username: "",
+      userphone: "",
+      loancontent: "",
+      loanterm: "",
+      loanmoney: "",
+      rilename: "",
+      rilephone: "",
+      stars: "",
+      content: "",
+      shnuserName: "",
+      isPasss: "",
+      shendate: "",
+      pingjia: ""
+    };
+  },
+  methods: {
+    examine() {
+      this.http
+        .post(BASE_URL + "/loan/comment/check", {
+          commentCode: this.$route.query.commentCode,
+          isPass: 1
+        })
+        .then(data => {
+          if (data.code == "success") {
+            this.handleRender();
+          } else {
+            this.$Message.info(data.message);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    handleRender() {
       this.$Modal.success({
-          title: '温馨提示',
-          content: '<p>审核已通过</p>',
-          onOk: () => {
-						this.$router.push({ path: './evaluationManagement' })    
-          },
-          onCancel: () => {
-              
+        title: "温馨提示",
+        content: "<p>审核已通过</p>",
+        onOk: () => {
+          this.$router.push({ path: "./evaluationManagement" });
+        },
+        onCancel: () => {}
+      });
+    },
+    // 审核失败
+    examineerror() {
+      this.http
+        .post(BASE_URL + "/loan/comment/check", {
+          commentCode: this.$route.query.commentCode,
+          isPass: 0
+        })
+        .then(data => {
+          if (data.code == "success") {
+            this.$Modal.error({
+              title: "温馨提示",
+              content: "<p>审核已失败</p>",
+              onOk: () => {
+                this.$router.push({ path: "./evaluationManagement" });
+              },
+              onCancel: () => {}
+            });
+          } else {
+            this.$Message.info(data.message);
           }
         })
-		},
-		// 审核失败
-		examineerror(){
-			this.http.post(BASE_URL + "/loan/comment/check",{commentCode : this.$route.query.commentCode,isPass:this.$route.query.isPass}).then(data=>{
-				if(data.code == "success"){
-					this.$Modal.error({
-						title: '温馨提示',
-						content: '<p>审核已失败</p>',
-          onOk: () => {
-						this.$router.push({ path: './evaluationManagement' })    
-          },
-          onCancel: () => {
-              
-          }
-        })
-				} else {
-					this.$Message.info(data.message)
-				}
-			}).catch(err=>{
-				console.log(err)
-			})
-		},
-	},
-	created(){
-		// alert(22)
-		// console.log(this.$route.query.commentCode)
-		this.http.post(BASE_URL + "/loan/comment/getByCommentCode", this.$route.query.commentCode).then(data=>{
-			console.log(data)
-			if(data.code == "success"){
-				this.datatime = data.data.commentDetailBusRes.commentCreateTime 
-				this.ordertime = data.data.commentDetailBusRes.orderCreateTime 
-				this.ordercode = data.data.commentDetailBusRes.orderNum  
-				this.servicecharge = data.data.commentDetailBusRes.serviceCost  
-				this.region = data.data.commentDetailBusRes.orderArea
-				this.username = data.data.commentDetailBusRes.loanUserName 
-				this.userphone = data.data.commentDetailBusRes.loanUserPhone  
-				this.loancontent = data.data.commentDetailBusRes.customerLoanAmount  
-				this.loanterm = data.data.commentDetailBusRes.loanTimeLimit //期限
-				this.loanmoney = data.data.commentDetailBusRes.customerActualLoanAmount //金额
-				this.shnuserName = data.data.commentDetailBusRes.userName 
-				this.rilephone = data.data.commentDetailBusRes.officerPhone  
-				this.stars= data.data.commentDetailBusRes.stars 
-				this.content= data.data.commentDetailBusRes.content 
-				this.isPasss= data.data.commentDetailBusRes.isPass == 1? "审核成功": "审核失败"
-				this.shendate = data.data.commentDetailBusRes.checkTime // 审核时间
-				this.pingjia = data.data.tags
-			}
-		}).catch(err=>{
-			console.log(err)
-		})
-		// 判读
-		if(this.$route.query.isPass != "0"){
-			this.isPasssuccess = false
-		}
-	}
-}
+        .catch(err => {
+          console.log(err);
+        });
+    }
+  },
+  created() {
+    // alert(22)
+    // console.log(this.$route.query.commentCode)
+    this.http
+      .post(
+        BASE_URL + "/loan/comment/getByCommentCode",
+        this.$route.query.commentCode
+      )
+      .then(data => {
+        console.log(data);
+        if (data.code == "success") {
+          this.datatime = data.data.commentDetailBusRes.commentCreateTime;
+          this.ordertime = data.data.commentDetailBusRes.orderCreateTime;
+          this.ordercode = data.data.commentDetailBusRes.orderNum;
+          this.servicecharge = data.data.commentDetailBusRes.serviceCost;
+          this.region = data.data.commentDetailBusRes.orderArea;
+          this.username = data.data.commentDetailBusRes.loanUserName;
+          this.userphone = data.data.commentDetailBusRes.loanUserPhone;
+          this.loancontent = data.data.commentDetailBusRes.customerLoanAmount;
+          this.loanterm = data.data.commentDetailBusRes.loanTimeLimit; //期限
+          this.loanmoney =
+            data.data.commentDetailBusRes.customerActualLoanAmount; //金额
+          this.shnuserName = data.data.commentDetailBusRes.userName;
+          this.rilephone = data.data.commentDetailBusRes.officerPhone;
+          this.stars = data.data.commentDetailBusRes.stars;
+          this.content = data.data.commentDetailBusRes.content;
+          this.isPasss =
+            data.data.commentDetailBusRes.isPass == 1 ? "审核成功" : "审核失败";
+          this.shendate = data.data.commentDetailBusRes.checkTime; // 审核时间
+          this.pingjia = data.data.tags;
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      });
+    // 判读
+    if (this.$route.query.isPass != "0") {
+      this.isPasssuccess = false;
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
-#feedback_details{
-    border: 1px solid #E7ECF1;
-    padding: 30px 50px;
-    h3{
-        line-height: 50px;
-        border-bottom: 1px solid #E7ECF1;
-        margin-bottom: 20px;
-    }
-    p{
-        line-height: 40px;
-        padding-left: 50px
-    }
-    div{
-        text-align: center;
-        margin-top: 20px
-    }
+#feedback_details {
+  border: 1px solid #e7ecf1;
+  padding: 30px 50px;
+  h3 {
+    line-height: 50px;
+    border-bottom: 1px solid #e7ecf1;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 40px;
+    padding-left: 50px;
+  }
+  div {
+    text-align: center;
+    margin-top: 20px;
+  }
 }
-.evaluation_grade{
-    display: inline-block;
-    border: 1px solid #FF6600;
-    line-height: 30px;
-    padding: 0px 20px;
-    color: #FF6600
+.evaluation_grade {
+  display: inline-block;
+  border: 1px solid #ff6600;
+  line-height: 30px;
+  padding: 0px 20px;
+  color: #ff6600;
 }
 .text {
-	text-align: left !important;
+  text-align: left !important;
 }
 </style>

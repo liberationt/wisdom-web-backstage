@@ -16,48 +16,58 @@
                 <img :src="item.typeIcon" alt="">
                 <p>{{item.typeTitle}}</p>
                 <p>
-                    <Button shape="circle" icon="edit" @click="handleRender(1)"></Button>
+                    <Button class="circleb" shape="circle" icon="edit" @click="handleRender(1)"></Button>
                     &nbsp;&nbsp;
-                    <Button shape="circle" icon="trash-b"></Button>
+                    <!-- <Button shape="circle" icon="trash-b"></Button> -->
+                    <span class="edit_icon icondelect right">
+                        <Poptip
+                          confirm
+                          transfer
+                          title="确认删除吗?"
+                          @on-ok="deleteOk(item.typeCode)"
+                          @on-cancel="deleteCancel">
+                          <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+                        </Poptip>
+                    </span>
                 </p>
             </div>
         </div>
     </div>
-
     <Modal
       :title="titlemod"
       v-model="modal8"
-      @on-ok="preservationlist"
-      @on-cancel="cancellist"
+      @on-ok="preservationlist('formValidate')"
+      @on-cancel="cancellist('formValidate')"
       ok-text="保存"
       cancel-text="关闭"
       class-name="vertical-center-modal"
       width="600"
+      :loading="loading"
       :mask-closable="false">
       <div class="newtype_file">
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
           <FormItem label="">
             <Row>
               <Col span="4">
-                <FormItem prop="formValidate.productlogo">
+                <FormItem prop="productlogo">
                     <Upload
                     action=""
                     :before-upload="handleUploadicon"
                     :show-upload-list="false"
                     :format="['jpg','jpeg','png', 'gif']"
                     :on-format-error="handleFormatError1">
-                    <img src="../../image/moren.png" alt="">
+                    <img class="iconlabelUrl" :src="formValidate.labelUrl" alt="">
                     <Input v-model="formValidate.productlogo" disabled style="width: 120px;margin-top:24px" class="left ml5 hidden"></Input>
                     <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
                     </Upload>
                 </FormItem>
               </Col>
               <Col span="20">
-                <FormItem label="消息类型名称:" prop="formValidate.mail">
-                  <Input v-model="formValidate.mail" style="width: 150px;" placeholder="Enter something..."></Input>
+                <FormItem label="消息类型名称:" prop="mail">
+                  <Input v-model="formValidate.mail" style="width: 150px;" placeholder="请输入类型名称"></Input>
                 </FormItem>
-                <FormItem label="类型说明:" prop="formValidate.city" class="mt15">
-                  <Input v-model="formValidate.city" style="width: 150px;" placeholder="Enter something..."></Input>
+                <FormItem label="类型说明:" prop="city" class="mt15">
+                  <Input v-model="formValidate.city" style="width: 150px;" placeholder="请输入类型说明"></Input>
                 </FormItem>
               </Col>
             </Row>           
@@ -70,173 +80,240 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       modal8: false,
-      value: '',
+      value: "",
+      loading: true,
       typelist: [],
-      titlemod: '',
+      titlemod: "添加消息类型",
       formValidate: {
-        productlogo: '',
-        mail: '',
-        city: ''
+        productlogo: "",
+        mail: "",
+        city: "",
+        labelUrl: require("../../image/moren.png")
       },
       ruleValidate: {
         productlogo: [
-            { required: true, message: '请上传图标', trigger: 'blur' }
+          { required: true, message: "请上传图标", trigger: "blur" }
         ],
         mail: [
-            { required: true, message: '请输入消息类型名称', trigger: 'blur' },
-            // { type: 'email', message: 'Incorrect email format', trigger: 'blur' }
+          { required: true, message: "请输入消息类型名称", trigger: "blur" }
         ],
-        city: [
-            { required: true, message: '请输入类型说明', trigger: 'change' }
-        ]
+        city: [{ required: true, message: "请输入类型说明", trigger: "change" }]
       }
-    }
+    };
   },
-  components: {
-  },
-  mounted () {
-    this.http.post(BASE_URL + '/loan/webMail/queryWebMailTypeList', {})
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.typelist = resp.data.dataList
-      } else {
-
-      }
-    })
-    .catch(() => {
-    })
-
+  created() {
+    this.listxuan()
   },
   methods: {
-    handleRender (num) {
-        if (num == 1) {
-            this.titlemod = '编辑消息类型'
-
+    handleRender(num) {
+      if (num == 1) {
+        this.titlemod = "编辑消息类型";
+      } else {
+        this.titlemod = "添加消息类型";
+      }
+      this.modal8 = true;
+    },
+    preservationlist(name) {
+      this.$refs[name].validate((valid) => {
+        if (valid) {
+          if (this.titlemod == "添加消息类型") {
+            let list = {
+              typeTitle: this.formValidate.mail, //名称
+              typeDescription: this.formValidate.city, // 内容,
+              typeIcon: this.formValidate.labelUrl
+            };
+            this.httpUrl("/loan/webMail/saveWebMailType", list, e => {
+              if(e){
+                this.$Message.success("添加成功");
+                this.modal8 = false;
+                this.listxuan();
+                this.$refs[name].resetFields();
+                this.formValidate.labelUrl = require("../../image/moren.png");
+                this.formValidate.productlogo = "";
+              }
+            });
+          }
+        } else {
+          return this.changeLoading()
+          this.$Message.error("Fail!");
         }
-      this.modal8 = true
+      });
     },
-    preservationlist (name) {
-        this.$refs[name].validate((valid) => {
-            if (valid) {
-                this.$Message.success('Success!');
-            } else {
-                this.$Message.error('Fail!');
-            }
-        })
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
+      })
     },
-    cancellist (name) {
-        this.$refs[name].resetFields();
-    },
-    ok () {
-      this.$Message.info('You click ok')
-    },
-    cancel () {
-      this.$Message.info('You click cancel')
+    cancellist(name) {
+      this.$refs[name].resetFields();
+      this.formValidate.labelUrl = require("../../image/moren.png");
+      this.formValidate.productlogo = "";
     },
     // 图片上传
-    handleUploadicon (file) {
-      let splic = file.name.split('.')
-      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+    handleUploadicon(file) {
+      let splic = file.name.split(".");
+      if (
+        splic[splic.length - 1] == "png" ||
+        splic[splic.length - 1] == "jpg" ||
+        splic[splic.length - 1] == "gif" ||
+        splic[splic.length - 1] == "jpeg"
+      ) {
         let formData = new FormData();
-          formData.append('file', file)
+        formData.append("file", file);
         let config = {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            "Content-Type": "multipart/form-data"
           }
-        }
-      this.http.post(BASE_URL + '/fileUpload', formData, config)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        // this.formCustom.labelUrl = resp.data
-        // this.imgnum = 1
-      } else {
-      }
-    })
-    .catch(() => {
-    })
-      this.formCustom.producticon = file.name
-      return false
+        };
+        this.http
+          .post(BASE_URL + "/fileUpload", formData, config)
+          .then(resp => {
+            if (resp.code == "success") {
+              this.formValidate.labelUrl = resp.data;
+              this.formValidate.productlogo = resp.data;
+            } else {
+            }
+          })
+          .catch(() => {});
+        this.formCustom.producticon = file.name;
+        return false;
       }
     },
-    handleFormatError1 (file) {
+    handleFormatError1(file) {
       // this.formCustom.productlogo = ''
-      this.$Message.info("图片格式不正确,请上传正确的图片格式")
+      this.$Message.info("图片格式不正确,请上传正确的图片格式");
     },
+    listxuan(){
+      this.http
+      .post(BASE_URL + "/loan/webMail/queryWebMailTypeList", {})
+      .then(resp => {
+        console.log(resp);
+        if (resp.code == "success") {
+          this.typelist = resp.data.dataList;
+        } else {
+        }
+      })
+      .catch(() => {});
+    },
+    // 保存编辑产品
+    httpUrl(httpurl, list, callback) {
+      this.http
+        .post(BASE_URL + httpurl, list)
+        .then(data => {
+          if (data.code == "success") {
+            callback && callback(true);
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
+    },
+    // 删除
+    deleteOk(code){
+      // alert(code)
+      this.http.post(BASE_URL+"/loan/webMail/delWebMailType",{data:code}).then(data=>{
+        console.log(data)
+        if(data.code == "success"){}
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    deleteCancel(){
+      //取消
+    }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-.ivu-modal-confirm-body-icon-confirm, .ivu-icon-help-circled{
-    display: none
+.ivu-modal-confirm-body-icon-confirm,
+.ivu-icon-help-circled {
+  display: none;
 }
-#newtype_con{
-    border: 1px solid #E7ECF1;
-    padding: 20px;
-    .newtype_hed{
-        width: 100%;
-        border-bottom: 1px solid #E7ECF1;
-        padding: 10px 0;
-        overflow: hidden;
-        span{
-            font-size: 20px;
-            float: left;
-        }
-        button{
-            float: right;
-        }
-    }
-    .newtype_con{
-        padding: 20px 40px;
-        overflow: hidden;
-        .newtype_notice{
-            width: 140px;
-            height: 180px;
-            border: 1px solid #E7ECF1;
-            text-align: center;
-            float: left;
-            margin-right: 20px;
-            img{
-                width: 60px;
-                margin-top: 20px
-            }
-            p{
-                font-size: 18px;
-                margin: 10px 0;
-                a{
-                    display: inline-block;
-                    width: 30px;
-                    height: 30px;
-                    border: 1px solid #E7ECF1;
-                    border-radius: 50%;
-                }
-            }
-        }
-    }
+.circleb {
+  width: 30px;
+  height: 30px;
+  margin-bottom: 3px;
 }
-.newtype_file{
+#newtype_con {
+  border: 1px solid #e7ecf1;
+  padding: 20px;
+  .newtype_hed {
+    width: 100%;
+    border-bottom: 1px solid #e7ecf1;
+    padding: 10px 0;
     overflow: hidden;
-    .newtype_leftfi{
-        float: left;
-        img{
-            width: 80px;
-        }
-        button{
-            display: block
-        }
+    span {
+      font-size: 20px;
+      float: left;
     }
-    .newtype_rightfi{
-        float: right;
-        li{
-            margin-top: 15px;
-            span{
-                width: 80px;
-                display: inline-block
-
-            }
-        }
+    button {
+      float: right;
     }
+  }
+  .newtype_con {
+    padding: 20px 40px;
+    overflow: hidden;
+    .newtype_notice {
+      width: 140px;
+      height: 180px;
+      border: 1px solid #e7ecf1;
+      text-align: center;
+      float: left;
+      margin-right: 20px;
+      margin-bottom: 20px;
+      img {
+        width: 60px;
+        height: 60px;
+        margin-top: 20px;
+      }
+      p {
+        font-size: 16px;
+        margin: 6px 0;
+        overflow: hidden;
+        height: 32px;
+        line-height: 32px;
+        a {
+          display: inline-block;
+          width: 30px;
+          height: 30px;
+          border: 1px solid #e7ecf1;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+.iconlabelUrl {
+  width: 80px;
+  height: 80px;
+}
+.icondelect {
+  margin-right: 20px;
+}
+.newtype_file {
+  overflow: hidden;
+  .newtype_leftfi {
+    float: left;
+    img {
+      width: 80px;
+    }
+    button {
+      display: block;
+    }
+  }
+  .newtype_rightfi {
+    float: right;
+    li {
+      margin-top: 15px;
+      span {
+        width: 80px;
+        display: inline-block;
+      }
+    }
+  }
 }
 </style>

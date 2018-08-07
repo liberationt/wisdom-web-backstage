@@ -176,7 +176,7 @@ let routes = [
     names: '系统',
     iconCls: 'stats-bars',
     children: [
-      {path: '/managementSet', component: managementSet, names: '风控配置', meta: { auth: true }},
+      {path: '/managementSet', component: managementSet, names: '风控配置', meta: { auth: true }}, // 风控
       {path: '/managementGrade', component: managementGrade, names: '配置风控等级', hidden: true, meta: { auth: true }},
       {path: '/managementChannel', component: managementChannel, names: '渠道配置', meta: { auth: true }},
       {path: '/managementChannelAdd', component: managementChannelAdd, names: '添加编辑渠道', hidden: true, meta: { auth: true }},
