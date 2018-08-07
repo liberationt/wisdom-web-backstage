@@ -8,15 +8,18 @@
     <Col span="12" offset="4">
       <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100">
         <FormItem label="消息类型:" prop="city">
-        <Select v-model="formCustom.city" placeholder="请选择" style="width:200px">
-          <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-        </Select>
+          <Select v-model="formCustom.city" placeholder="请选择" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
         </FormItem>
-        <FormItem label="标题:" prop="passwd">
-          <Input type="password" v-model="formCustom.passwd" placeholder="请输入标题" style="width: 200px"></Input>
+        <FormItem label="标题:" prop="title">
+          <Input type="text" v-model="formCustom.title" autocomplete="off" placeholder="请输入标题" style="width: 200px"></Input>
         </FormItem>
-        <FormItem label="计划推送时间:" prop="passwdCheck">
-          <DatePicker type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+        <FormItem label="推送时间:" prop="datePicker">
+          <Select @on-change="datepicker" v-model="formCustom.datePicker" placeholder="请选择" style="width:200px">
+            <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+          <DatePicker v-if="ifdate" type="date" placeholder="Select date" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="推送平台:" prop="age">
           <Select v-model="formCustom.age" placeholder="请选择" style="width:200px">
@@ -48,7 +51,7 @@
           </Select>
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
-          <Input type="password" v-model="formCustom.passwd" placeholder="请输入跳转URL" style="width: 200px"></Input>
+          <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 200px"></Input>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="handleSubmit('formCustom')">提交保存</Button>
@@ -63,28 +66,34 @@ export default {
   data () {
     return {
       formCustom: {
-        passwd: '',
+        title: '',
         passwdCheck: '',
         age: '',
         city: '',
         object: '',
         value5: '',
         h5: '',
-        jumpurl: ''
+        jumpurl: '', 
+        datePicker: ''
       },
       push: false,
       homeh5: false,
       ruleCustom: {
-        city: { required: true, message: '请选择消息类型', trigger: 'blur' },
-        passwd: { required: true, message: '请输入标题', trigger: 'blur' },
+        city: { required: true, message: '请选择消息类型', trigger: 'change' },
+        datePicker: { required: true, message: '请选择推送时间', trigger: 'change' },
+        title: { required: true, message: '请输入标题', trigger: 'blur' },
         passwdCheck: { required: true, message: '请选择计划推送时间', trigger: 'blur' },
         age: { required: true, message: '请选择推送平台', trigger: 'blur' },
         object: { required: true, message: '请选择推送对象', trigger: 'blur' },
         phone: { required: true, message: '请输入推送手机号', trigger: 'blur' },
-        h5: { required: true, message: '请选择跳转类型', trigger: 'blur' },
+        h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
         jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' }
       },
       cityList: [
+        {
+          value: '请选择',
+          label: '请选择'
+        },
         {
           value: '平台公告',
           label: '平台公告'
@@ -97,16 +106,40 @@ export default {
           value: '新品速递',
           label: '新品速递'
         }
-      ]
+      ],
+      dateList:[
+        {
+          value: '立即推送',
+          label: '立即推送'
+        },
+        {
+          value: '指定时间推送',
+          label: '指定时间推送'
+        },
+      ],
+      ifdate: false,
     }
   },
   methods: {
     handleSubmit (name) {
       this.$refs[name].validate(valid => {
         if (valid) {
+          this.http.post(BASE_URL+"/loan/webMail/saveWebMail",{
+            typeCode: '', // 消息类型
+            mailTitle: '', // 标题
+            planPushTime: '', // 推送时间
+            pushPlatform: '', // 推送平台
+            pushTarget: '', //推送对象
+            jumpType: '', // 跳转类型
+            jumpUrl: '' , // 跳转url
+          }).then(data=>{
+            console.log(data)
+          }).catch(err=>{
+            console.log(err)
+          })
           this.$Message.success('Success!')
         } else {
-          this.$Message.error('Fail!')
+          // this.$Message.error('Fail!')
         }
       })
     },
@@ -126,7 +159,14 @@ export default {
       } else {
         this.homeh5 = false
       }
+    },
+    datepicker(v){
+      alert(v)
     }
+  },
+  created(){
+    // 消息类型
+    // /loan/webMail/getWebMailBaseData
   }
 }
 </script>

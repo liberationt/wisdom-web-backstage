@@ -72,49 +72,79 @@ export default {
       columns7: [
         {
           title: '类型',
-          key: 'name',
+          key: 'typeTitle',
           minWidth: 100,
           align: 'center'
         },
         {
           title: '标题',
-          key: 'title',
+          key: 'mailTitle',
           minWidth: 150,
           align: 'center'
         },
         {
           title: '计划推送时间',
-          key: 'plantime',
+          key: 'planPushTime',
           minWidth: 160,
           align: 'center'
         },
         {
           title: '实际推送时间',
-          key: 'actualtime',
+          key: 'realPushTime',
           minWidth: 160,
           align: 'center'
         },
         {
           title: '推送平台',
-          key: 'platform',
+          key: 'pushPlatform',
           minWidth: 100,
           align: 'center'
         },
         {
           title: '推送对象',
-          key: 'object',
+          key: 'pushTarget',
           minWidth: 100,
-          align: 'center'
+          align: 'center',
+           render: (h, params) => {
+            let pushTarget
+            if(params.row.pushTarget == '0'){
+              pushTarget = '全部'
+            } else {
+              pushTarget = '指定手机'
+            }
+            return h('div', [
+              h('span', {
+              style: {
+                marginRight: '5px'
+              },
+              }, pushTarget),
+            ])
+          }
         },
         {
           title: '状态',
-          key: 'pushtype',
+          // key: 'mailState',
           minWidth: 100,
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+            let mailState
+            if(params.row.mailState == '0'){
+              mailState = '未推送'
+            } else {
+              mailState = '已推送'
+            }
+            return h('div', [
+              h('span', {
+              style: {
+                marginRight: '5px'
+              },
+              }, mailState),
+            ])
+          }
         },
         {
           title: '创建人',
-          key: 'Pushman',
+          key: 'createUserName',
           minWidth: 100,
           align: 'center'
         },
@@ -168,48 +198,7 @@ export default {
           }
         }
       ],
-      data6: [
-        {
-          name: '平台公告',
-          title: '小额短期贷，最高5000元，拿钱嗖嗖嗖！',
-          plantime: '2018-03-29 15:12:34',
-          actualtime: '2018-03-29 15:12:34',
-          platform: '全部',
-          object: '全部',
-          pushtype: '未推送',
-          Pushman: 'admin'
-        },
-        {
-          name: '平台公告',
-          title: '小额短期贷，最高5000元，拿钱嗖嗖嗖！',
-          plantime: '2018-03-29 15:12:34',
-          actualtime: '2018-03-29 15:12:34',
-          platform: '全部',
-          object: '全部',
-          pushtype: '未推送',
-          Pushman: 'admin'
-        },
-        {
-          name: '平台公告',
-          title: '小额短期贷，最高5000元，拿钱嗖嗖嗖！',
-          plantime: '2018-03-29 15:12:34',
-          actualtime: '2018-03-29 15:12:34',
-          platform: '全部',
-          object: '全部',
-          pushtype: '未推送',
-          Pushman: 'admin'
-        },
-        {
-          name: '平台公告',
-          title: '小额短期贷，最高5000元，拿钱嗖嗖嗖！',
-          plantime: '2018-03-29 15:12:34',
-          actualtime: '2018-03-29 15:12:34',
-          platform: '全部',
-          object: '全部',
-          pushtype: '未推送',
-          Pushman: 'admin'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
@@ -233,11 +222,15 @@ export default {
       // this.inquire()
     },
   },
-  mounted () {
-     this.http.post(BASE_URL + '/loan/webMail/getWebMailListBaseData', {})
+  created() {
+    // 初始化
+    // /loan/webMail/getWebMailListBaseData
+    // 列表
+     this.http.post(BASE_URL + '/loan/webMail/queryWebMailList', {})
     .then((resp) => {
+        console.log(resp)
       if (resp.code == 'success') {
-        
+        this.data6 = resp.data.dataList
       } else {
 
       }

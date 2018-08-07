@@ -217,7 +217,10 @@ export default {
       // alert(code)
       this.http.post(BASE_URL+"/loan/webMail/delWebMailType",{data:code}).then(data=>{
         console.log(data)
-        if(data.code == "success"){}
+        if(data.code == "success"){
+          this.$Message.success("添加成功");
+          this.listxuan();
+        }
       }).catch(err=>{
         console.log(err)
       })
