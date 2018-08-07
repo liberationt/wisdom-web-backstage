@@ -12,50 +12,64 @@
                   <p data-v-38176e38="" @click="modal1 = true" class="homePage_button"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加银行</p>
                   <Modal
                     v-model="modal1"
-                    title="添加(编辑)银行"
+                    :title=banktitle
                     @on-ok="handleSubmit1('formValidate1')"
                     @on-cancel="handleReset1('formValidate1')"
                     :mask-closable="false"
                     :loading='loading'>
                     <div class="clearfix">
-                      <div class="upload_img left">
-                        <p><img src="../../image/bg.jpg" alt=""></p>
+                      <div class="upload_img left mt20" style="margin-left:80px">
+                        <p><img :src="banklogo" alt=""></p>
                         <p>
-                          <Upload action="//jsonplaceholder.typicode.com/posts/">
-                            <Button type="ghost">上传文件</Button>
+                          <Upload
+                          :format="['jpg','jpeg','png']"
+                          :on-format-error="handleFormatError1"
+                          :before-upload="handleUpload"
+                          :show-upload-list="false"                        
+                          action=''>
+                            <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:3px">浏览</Button>
                           </Upload>
                         </p>
                       </div>
-                      <div class="upload_information left">
+                      <div class="upload_information left ml10">
                         <Form ref="formValidate1" :model="formValidate1" :rules="ruleValidate1" :label-width="80">
                           <FormItem label="银行名称" prop="bankname">
                             <Input v-model="formValidate1.bankname" placeholder="请输入银行名称"></Input>
                           </FormItem>
                           <FormItem label="角标" prop="mark">
-                            <Select v-model="formValidate1.mark" placeholder="有">
-                              <Option value="has">有</Option>
-                              <Option value="nohas">无</Option>
+                            <Select v-model="formValidate1.mark" @on-change='cornermark' placeholder="有">
+                              <Option value="1">有</Option>
+                              <Option value="0">无</Option>
                             </Select>
                           </FormItem>
-                          <FormItem label="角标图片" prop="markimg">
-                            <span class="mark_Img left"><img src="../../image/bg.jpg" alt=""></span>
-                            <Upload v-model="formValidate1.markimg" action="//jsonplaceholder.typicode.com/posts/">
-                              <Button type="ghost">上传文件</Button>
+                          <FormItem label="角标图片" v-if="markurl">
+                            <span class="mark_Img left"><img :src="banklogomark" alt=""></span>
+                            <Upload
+                            :format="['jpg','jpeg','png']"
+                            :on-format-error="handleFormatError1"
+                            :before-upload="handleUploadmark"
+                            :show-upload-list="false"                        
+                            action=''>
+                              <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:3px">浏览</Button>
                             </Upload>
+                            <!-- <Upload v-model="formValidate1.markimg" action="//jsonplaceholder.typicode.com/posts/">
+                              <Button type="ghost">上传文件</Button>
+                            </Upload> -->
                           </FormItem>
-                          <FormItem label="银行名称" prop="desc">
-                            <Input v-model="formValidate1.desc" placeholder="请输入银行名称"></Input>
+                          <FormItem label="跳转URL" prop="desc">
+                            <Input v-model="formValidate1.desc" placeholder="请输入跳转URL"></Input>
                           </FormItem>
                         </Form>
                       </div>
                     </div>
                   </Modal>
+
                   <ul class="homePage_icon left">
-                    <li>
+                    <li v-for="item in bankdatalist">
                       <p class="icon">
-                        <img src="../../image/bg.jpg" alt="">
+                        <img :src="item.bankLogoUrl" alt="">
                       </p>
-                      <p class="homePage_text">贷款超市</p>
+                      <p class="homePage_text">{{item.bankName}}</p>
                       <p class="clearfix haomePage_edit">
                         <span @click="edit_icon_colorB" v-if="edit_icon_blue" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
                         <span @click="edit_icon_colorR" v-if="edit_icon_red" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
@@ -140,9 +154,16 @@ export default {
       edit_delete: false,
       modal1: false,
       modal2: false,
+      loading: true,
+      banktitle: '添加银行',
+      banklogo: require('../../image/moren.png'),
+      banksrc: '',
+      banklogomark: require('../../image/moren.png'),
+      cornersrc: '',
+      markurl: true,
       formValidate1: {
         bankname: '',
-        mark: '',
+        mark: '1',
         markimg: '',
         desc: ''
       },
@@ -150,7 +171,7 @@ export default {
         bankname: [
           { required: true, message: '请输入银行名称！', trigger: 'blur' }
         ],
-        mark: [{ required: true, message: '请输入角标！', trigger: 'change' }],
+        mark: [{ required: true, message: '请选择角标！', trigger: 'change' }],
         markimg: [
           { required: true, message: '请选择上传文件！', trigger: 'change' }
         ],
@@ -158,6 +179,7 @@ export default {
           { required: true, message: '请输入URL！', trigger: 'blur' }
         ]
       },
+      bankdatalist: [],
       formValidate2: {
         bank_name: '',
         characteristic1: '',
@@ -190,17 +212,47 @@ export default {
     cancel () {
       this.$Message.info('点击了取消')
     },
+    // 新增银行卡
     handleSubmit1 (name) {
       this.$refs[name].validate(valid => {
         if (!valid) {
-          this.$Message.success('失败！')
           return this.changeLoading()
-        }
-        setTimeout(() => {
+        } else {
+          alert(1)
           this.changeLoading()
+          this.Preservation ()
           this.modal1 = false
-          this.$Message.success('done')
-        }, 1000)
+
+        }
+      })
+    },
+    Preservation () {
+      let list = {
+        bankLogoUrl :this.banksrc,
+        bankName : this.formValidate1.bankname,
+        cornerMarkState : this.formValidate1.mark,
+        cornerMarkUrl : this.cornersrc,
+        jumpUrl : this.formValidate1.desc
+      }
+        this.http.post(BASE_URL + '/loan/pushBlack/updatePushBlackByCode', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.$Modal.warning({
+              title: '添加银行卡',
+              content: '<p>添加成功</p>'
+            }) 
+          } else {
+
+          }
+        })
+        .catch(() => {
+        })
+
+    },
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
       })
     },
     handleReset1 (name) {
@@ -237,7 +289,87 @@ export default {
     },
     edit_cancel () {
       this.$Message.info('Clicked cancel')
-    }
+    },
+    // 角标选择
+    cornermark (val) {
+      if (val == 0) {
+        this.markurl = false
+        this.cornersrc = ''
+        this.banklogomark = require('../../image/moren.png')
+      } else {
+        this.markurl = true
+      }
+
+    },
+    // 银行卡列表
+    banklist () {
+      this.http.post(BASE_URL + '/credit/bank/getBankList', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.bankdatalist = resp.data.dataList
+      } else {
+      }
+    })
+    .catch(() => {
+    })
+    },
+    // 上次银行卡
+    handleUpload (file) {
+      let splic = file.name.split('.')
+      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+        let formData = new FormData();
+          formData.append('file', file)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          timeout:1000*60*5
+        }
+      this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.banklogo = resp.data
+        this.banksrc = resp.data
+      } else {
+      }
+    })
+    .catch(() => {
+    })
+      return false
+      }
+    },
+    // 上次角标
+    handleUploadmark (file) {
+      let splic = file.name.split('.')
+      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+        let formData = new FormData();
+          formData.append('file', file)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          timeout:1000*60*5
+        }
+      this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.banklogomark = resp.data
+        this.cornersrc = resp.data
+      } else {
+      }
+    })
+    .catch(() => {
+    })
+      return false
+      }
+    },
+    handleFormatError1 (file) {
+      this.$Message.info("图片格式不正确,请上传正确的图片格式")
+    },
+  },
+  mounted () {
+    this.banklist ()
+
   }
 }
 </script>
@@ -299,6 +431,12 @@ export default {
 .homePage_icon {
   margin-left: 0px;
   margin-right: 50px;
+  overflow: hidden;
+  li{
+    float: left;
+    margin-right: 20px;
+    margin-bottom: 15px
+  }
 }
 //tab
 

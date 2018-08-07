@@ -47,7 +47,7 @@
       <Table border highlight-row :columns="columns7" :data="data6"></Table>
     </div>
     <div class="tr mt15">
-      <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+      <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
     </div>
   </div>
 </template>
@@ -57,86 +57,91 @@ export default {
     return {
       loading3: false,
       cityList: [],
-      cityType: [
-        {
-          value: '官方APP',
-          label: '官方APP'
-        },
-        {
-          value: 'H5官网',
-          label: 'H5官网'
-        },
-        {
-          value: '官方微信',
-          label: '官方微信'
-        },
-        {
-          value: '渠道1',
-          label: '渠道1'
-        },
-        {
-          value: '渠道2',
-          label: '渠道2'
-        }
-      ],
       reaName: [],
       account: [],
       registerTime: [],
       model1: '',
-      model2: '',
       model3: '',
       model4: '',
       model5: '',
       name: '',
-      params: {
-        page: 1,
-        limit: 10
-      },
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       columns7: [
         {
           title: '手机号',
-          key: 'name',
+          key: 'phoneNumber',
+          minWidth: 110,
           align: 'center'
         },
         {
           title: '昵称',
-          key: 'title',
+          key: 'memberName',
+          minWidth: 120,
           align: 'center'
         },
         {
           title: '是否实名',
-          key: 'plantime',
-          align: 'center'
+          align: 'center',
+          minWidth: 80,
+          render: (h, params) => {
+          let realStatus
+            if (params.row.realStatus == 0) {
+              realStatus = '未实名'
+            } else if (params.row.realStatus == 1) {
+              realStatus = '实名'
+            } 
+            return h('div', [
+              h('span', {}, realStatus)
+            ])
+          }
         },
         {
           title: '注册渠道',
-          key: 'platform',
+          key: 'loanUserChannel',
+          minWidth: 120,
           align: 'center'
         },
         {
           title: '账户状态',
           key: 'object',
-          align: 'center'
+          align: 'center',
+          minWidth: 80,
+          render: (h, params) => {
+          let accountStatus
+            if (params.row.accountStatus == 0) {
+              accountStatus = '冻结'
+            } else if (params.row.accountStatus == 1) {
+              accountStatus = '正常'
+            } 
+            return h('div', [
+              h('span', {}, accountStatus)
+            ])
+          }
         },
         {
           title: '已邀请人数',
-          key: 'object',
+          key: 'loanInviterCount',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '注册时间',
-          key: 'registertime',
+          key: 'registerTime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '最后登陆时间',
-          key: 'listtime',
+          key: 'lastLoginTime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '操作',
           key: 'action',
-          width: 150,
+          minWidth: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -157,157 +162,53 @@ export default {
                   }
                 },
                 '查看'
-              ),
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'error',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(params.index)
-                    }
-                  }
-                },
-                '删除'
               )
             ])
           }
         }
       ],
-      data6: [
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        },
-        {
-          name: '139****5599',
-          title: 'Ann',
-          plantime: '否',
-          actualtime: '0',
-          platform: '官方APP',
-          object: '正常',
-          registertime: '2018-03-29 15:12:34',
-          listtime: '2018-03-29 15:12:34'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
-    show (index) {
-      this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${
-          this.data6[index].age
-        }<br>Address：${this.data6[index].address}`
-      })
+    // 分页
+    pageChange(page) {
+        // console.log(page)
+				this.startRow = page
+				this.inquire()
+		},
+    pagesizechange(page) {
+      // console.log(page)
+      this.startRow = 1
+      this.endRow = page
+      this.inquire()
     },
-    remove (index) {
-      this.data6.splice(index, 1)
-    },
-    pageChange (page) {
-      this.params.page = page
-    },
-    PageSizeChange (limit) {
-      this.params.limit = limit
+    // 列表查询
+    inquire (num) {
+    this.loading3 = true            
+    let list = {
+      searchOptions : this.model1,
+      searchValue : this.name,
+      realStatus : this.model3,
+      accountStatus : this.model4,
+      userTimeStatus : this.model5, 
+      pageNum: this.startRow,
+      pageSize: this.endRow
+    }
+    this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberPageList', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.data6 = resp.data.dataList
+        this.total = resp.data.total
+        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        this.loading3 = false
+      } else {
+        this.loading3 = false
+      }
+    })
+    .catch(() => {
+      this.loading3 = false
+    })
     }
   },
   mounted () {
@@ -323,6 +224,7 @@ export default {
     })
     .catch(() => {
     })
+    this.inquire ()
   }
 }
 </script>
