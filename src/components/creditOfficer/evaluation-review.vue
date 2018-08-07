@@ -144,7 +144,7 @@ export default {
       this.http
         .post(BASE_URL + "/loan/comment/check", {
           commentCode: this.$route.query.commentCode,
-          isPass: 0
+          isPass: 2
         })
         .then(data => {
           if (data.code == "success") {
