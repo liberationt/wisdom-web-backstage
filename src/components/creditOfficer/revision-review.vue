@@ -44,7 +44,7 @@
 				<!-- model 框 -->
 				<Modal
 					title="资料审核拒绝"
-					v-model="modal10"
+					v-model="modall"
 					@on-ok="handleSubmit('formValidate')"
 					@on-cancel="handleReset('formValidate')"
 					ok-text="保存"
@@ -83,7 +83,7 @@ export default {
       serviceApplyRequire: "",
       serviceOtherRequire: "",
       examine: true,
-      modal10: false,
+      modall: false,
       formValidate: {
         desc: ""
       },
@@ -105,7 +105,7 @@ export default {
       imgurl: ''
     };
   },
-  mounted() {
+  created() {
     //判断是否审核通过
     if (this.$route.query.auditStatus == "0") {
       this.examine = true;
@@ -114,6 +114,7 @@ export default {
       this.examine = false;
       this.auditMessl = true;
     }
+    
     let data = {
       auditCode: this.$route.query.auditCode
     };
@@ -123,7 +124,7 @@ export default {
         data
       )
       .then(data => {
-        // console.log(data);
+        console.log(data);
         if(data.data.auditType == 0){
           this.common = true
           this.detailed = data.data.realName;
@@ -138,9 +139,10 @@ export default {
         }
         
       })
-      .then(err => {
+      .catch(err => {
         console.log(err);
       });
+      
   },
   methods: {
     //通过
@@ -156,7 +158,9 @@ export default {
     },
     //拒绝
     refuse() {
-      this.modal10 = true;
+      this.modall = true
+      // alert(222)
+      // console.log(22)
     },
     changeLoading() {
       this.loading = false;
@@ -169,7 +173,7 @@ export default {
       this.$refs[name].validate(valid => {
         if (valid) {
           this.spost(1);
-          that.modal10 = false;
+          that.modall = false;
         } else {
           return this.changeLoading();
         }
