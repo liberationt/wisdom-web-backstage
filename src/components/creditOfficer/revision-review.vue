@@ -137,7 +137,6 @@ export default {
           this.common = false
           this.imgurl = data.data.loanPersonImg 
         }
-        
       })
       .catch(err => {
         console.log(err);
