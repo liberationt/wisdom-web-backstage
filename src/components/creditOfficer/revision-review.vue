@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;   信贷员管理</span>
       </p>
     </div>
-    <div v-if="common" id="feedback_details">
+    <div v-show="common" id="feedback_details">
         <h3>审核详情</h3>
         <p>
           <span>信贷员:</span>
@@ -59,7 +59,7 @@
 					</Form>
     		</Modal>
     </div>
-		<div v-if="!common" class="conmmon_img">
+		<div v-show="!common" class="conmmon_img">
       <h3 class="h3">审核详情</h3>
       <div class="img">
         <span class="left">头像图片：</span>
