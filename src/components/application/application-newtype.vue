@@ -16,7 +16,7 @@
                 <img :src="item.typeIcon" alt="">
                 <p>{{item.typeTitle}}</p>
                 <p>
-                    <Button class="circleb" shape="circle" icon="edit" @click="handleRender(1)"></Button>
+                    <Button class="circleb" shape="circle" icon="edit" @click="handleRender(1,item.typeCode)"></Button>
                     &nbsp;&nbsp;
                     <!-- <Button shape="circle" icon="trash-b"></Button> -->
                     <span class="edit_icon icondelect right">
@@ -87,6 +87,7 @@ export default {
       loading: true,
       typelist: [],
       titlemod: "添加消息类型",
+      typecode: '',
       formValidate: {
         productlogo: "",
         mail: "",
@@ -108,34 +109,65 @@ export default {
     this.listxuan()
   },
   methods: {
-    handleRender(num) {
+    handleRender(num,code) {
+      this.typecode = code
       if (num == 1) {
         this.titlemod = "编辑消息类型";
+        this.http.post(BASE_URL+"/loan/webMail/getWebMailTypeByCode",{data:code}).then(data=>{
+          console.log(data)
+          if(data.code == "success"){
+            this.formValidate.mail = data.data.typeTitle 
+            this.formValidate.city = data.data.typeDescription 
+            this.formValidate.labelUrl = data.data.typeIcon 
+            this.formValidate.productlogo = data.data.typeIcon
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
       } else {
         this.titlemod = "添加消息类型";
+        this.formValidate.mail = ""
+        this.formValidate.city = ""
+        this.formValidate.labelUrl = require("../../image/moren.png")
+        this.formValidate.productlogo = ""
       }
       this.modal8 = true;
     },
     preservationlist(name) {
       this.$refs[name].validate((valid) => {
         if (valid) {
+          let postUrl
+          let list
           if (this.titlemod == "添加消息类型") {
-            let list = {
+            postUrl = "/loan/webMail/saveWebMailType"
+            list = {
               typeTitle: this.formValidate.mail, //名称
               typeDescription: this.formValidate.city, // 内容,
               typeIcon: this.formValidate.labelUrl
             };
-            this.httpUrl("/loan/webMail/saveWebMailType", list, e => {
-              if(e){
-                this.$Message.success("添加成功");
-                this.modal8 = false;
-                this.listxuan();
-                this.$refs[name].resetFields();
-                this.formValidate.labelUrl = require("../../image/moren.png");
-                this.formValidate.productlogo = "";
-              }
-            });
+          } else if(this.titlemod == "编辑消息类型"){
+            // console.log(this.typecode,111)
+            postUrl = "/loan/webMail/updateWebMailType"
+            list = {
+              typeTitle: this.formValidate.mail, //名称
+              typeDescription: this.formValidate.city, // 内容,
+              typeIcon: this.formValidate.labelUrl,
+              typeCode : this.typecode
+            };
           }
+          this.httpUrl(postUrl, list, e => {
+            if(e){
+              this.$Message.success("保存成功");
+              this.modal8 = false;
+              this.listxuan();
+              this.$refs[name].resetFields();
+              this.formValidate.labelUrl = require("../../image/moren.png");
+              this.formValidate.productlogo = "";
+            } else {
+              this.$Message.success("保存失败");
+              this.modal8 = false;
+            }
+          });
         } else {
           return this.changeLoading()
           this.$Message.error("Fail!");
@@ -179,7 +211,7 @@ export default {
             }
           })
           .catch(() => {});
-        this.formCustom.producticon = file.name;
+        // this.formValidate.productlogo = file.name;
         return false;
       }
     },

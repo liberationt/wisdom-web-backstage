@@ -192,11 +192,15 @@ export default {
               },
               on: {
                 click: () => {
-                  this.http.post(BASE_URL+"/loan/webMail/getWebMailByCode",{data: ''}).then(resp=>{
-                    cobsole.log(resp)
-                  }).catch(err=>{
-                    console.log(err)
-                  })
+                  // this.show(params.index)
+                   this.http.post(BASE_URL+"/loan/webMail/getWebMailByCode",{data: params.row.mailCode }).then(resp=>{
+                      // console.log(resp.data)
+                      if(resp.code == 'success'){
+                        this.show(resp.data)
+                      }
+                    }).catch(err=>{
+                      console.log(err)
+                    })
                 }
               }
               }, '查看'),
@@ -213,8 +217,8 @@ export default {
     show (index) {
       this.$Modal.info({
         title: '查看反馈详情',
-        content: `实际推送时间：${this.data6[index].realPushTime}<br>消息类型：${this.data6[index].typeTitle}<br>标题：${this.data6[index].mailTitle}<br>推送时间：${this.data6[index].planPushTime}
-        <br>推送平台：${this.data6[index].pushPlatform }<br>推送对象：${this.data6[index].pushTarget == 0? '全部' : '指定手机'}<br>跳转URL：${this.data6[index].address}`
+        content: `实际推送时间：${index.realPushTime}<br>消息类型：${index.typeTitle}<br>标题：${index.mailTitle}<br>推送时间：${index.planPushTime}
+        <br>推送平台：${index.pushPlatform == 0 ? '全部' : 1 ? '安卓': 'IOS'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : '指定手机'}<br>跳转URL：${index.address}`
       })
     },
     remove (index) {
@@ -245,6 +249,7 @@ export default {
         typeCode : this.model2, // 类型  
       })
       .then((resp) => {
+        // console.log(resp)
         if (resp.code == 'success') {
           this.loading3 = false
           this.total = parseInt(resp.data.total)
