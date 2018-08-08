@@ -40,11 +40,7 @@
             <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
           <Select v-model="formCustom.value5" placeholder="请选择" style="width:200px" v-if="homeh5">
-            <Option value="0">首页</Option>
-            <Option value="1">贷款列表</Option>
-            <Option value="2">产品详情</Option>
-            <Option value="3">实名认证</Option>
-            <Option value="4">精准推荐</Option>
+            <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
@@ -102,46 +98,71 @@ export default {
       pushduixing:[],
       jumpType: [],
       ifdate: false,
-      pushobject: ''
+      pushobject: '',
+      jumplist: [],
     }
   },
   methods: {
     handleSubmit (name) {
-      if(this.formCustom.object == '1'){
-        this.pushobject = this.formCustom.phone
-      } 
       this.$refs[name].validate(valid => {
           // console.log(this.pushobject)
         if (valid) {
           let list = {
+            // bunsinessKey: '0', //huazan 0 qiang 1
             typeCode: this.formCustom.city, // 消息类型
             mailTitle: this.formCustom.title, // 标题
             planPushTime: this.formCustom.datePicker, // 推送时间
             pushPlatform: this.formCustom.age, // 推送平台
-            pushTarget: this.pushobject, //推送对象
+            pushTarget: this.formCustom.object, //推送对象
             jumpType: this.formCustom.h5, // 跳转类型
             jumpUrl: this.formCustom.jumpurl , // 跳转url
+            targetPhone : this.pushobject
           }
           this.http.post(BASE_URL + "/loan/webMail/saveWebMail",list).then(data=>{
-            console.log(data)
+
+            if(data.code == 'success'){
+              // alert(222)
+              this.phoneti('success')
+            } else {
+              this.$Message.error('提交失败!')
+            }
           }).catch(err=>{
-            console.log(err)
+            this.$Message.error('提交失败!')
+            // console.log(err)
           })
-          this.$Message.success('Success!')
+          // this.$Message.success('Success!')
         } else {
-          // this.$Message.error('Fail!')
+          this.$Message.error('提交失败!')
         }
       })
     },
     handleReset (name) {
+      this.$router.push({path: './applicationMail'})
       this.$refs[name].resetFields()
+    },
+    // 提示
+    phoneti(type) {
+      // alert(type)
+      const title = "温馨提示";
+      const content = "<p>保存成功！</p>";
+      switch (type) {
+        case "success":
+          this.$Modal.success({
+            title: title,
+            content: content,
+            onOk: () => {
+              this.$router.push({path: './applicationMail'})
+            }
+          });
+        break;
+      }
     },
     pushphone (v) {
       if (v == '1') {
         this.push = true
       } else if(v == '0') {
         this.push = false
-        this.pushobject = v
+        // this.pushobject = v
       }
       this.formCustom.object = v
     },
@@ -155,7 +176,6 @@ export default {
     },
     datepicker(v){
       if(v == '2'){
-        
         this.ifdate = true
       } else if(v == '1') {
         this.ifdate = false
@@ -185,7 +205,8 @@ export default {
       // this.dateList = data.data.
       this.platform = data.data.pushPlat
       this.pushduixing = data.data.pushTarget
-      this.jumpType = data.data.jumpType  
+      this.jumpType = data.data.jumpType
+      this.jumplist = data.data.appJump  
     }).catch(err=>{
       console.log(err)
     })

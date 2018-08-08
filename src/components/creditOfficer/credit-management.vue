@@ -35,7 +35,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
             </div>
         </TabPane>
         <!-- 资料待审核 -->
@@ -57,7 +57,7 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="zipageChange" @on-page-size-change="zipageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow1" @on-change="zipageChange" @on-page-size-change="zipageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="注册无资料" name="tab3">
@@ -82,7 +82,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange3" @on-page-size-change="PageSizeChange3" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow2" @on-change="pageChange3" @on-page-size-change="PageSizeChange3" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷员列表" name="tab4">
@@ -115,7 +115,7 @@
             <Table border :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange4" @on-page-size-change="PageSizeChange4" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow3" @on-change="pageChange4" @on-page-size-change="PageSizeChange4" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷机构" name="tab5">
@@ -140,7 +140,7 @@
             <Table border :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow4" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
@@ -816,11 +816,15 @@ export default {
         .then(data => {
           if (data.code == "success") {
             if (num == 0) {
-              this.data6 = data.data.dataList;
               this.total = parseInt(data.data.total);
+              this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              this.data6 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
-              this.startRow = 1
+              this.startRow1 = 1
+              this.startRow2 = 1
+              this.startRow3 = 1
+              this.startRow4 = 1
               //查询条件初始化
               this.modelmoble = ""
               this.dataname1 = ""
@@ -836,11 +840,15 @@ export default {
               return false;
             }
             if (num == 1) {
-              this.data7 = data.data.dataList;
               this.total = parseInt(data.data.total);
+              this.startRow1 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              this.data7 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
               this.startRow = 1
+              this.startRow2 = 1
+              this.startRow3 = 1
+              this.startRow4 = 1
               //查询条件初始化
               this.model1 = ""
               this.name = ""
@@ -859,11 +867,15 @@ export default {
               return false;
             }
             if (num == 2) {
-              this.data8 = data.data.dataList;
               this.total = parseInt(data.data.total);
+              this.startRow2 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              this.data8 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
+              this.startRow1 = 1
               this.startRow = 1
+              this.startRow3 = 1
+              this.startRow4 = 1
               //查询条件初始化
               this.model1 = ""
               this.name = ""
@@ -882,11 +894,15 @@ export default {
               return false;
             }
             if (num == 3) {
-              this.data9 = data.data.dataList;
               this.total = parseInt(data.data.total);
+              this.startRow3 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              this.data9 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
+              this.startRow1 = 1
+              this.startRow2 = 1
               this.startRow = 1
+              this.startRow4 = 1
               //查询条件初始化
               this.model1 = ""
               this.name = ""

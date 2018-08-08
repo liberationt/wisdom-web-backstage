@@ -25,7 +25,7 @@
       <Select v-model="model2" @on-change="type" placeholder="全部类型" class="ml20" style="width:200px">
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.text }}</Option>
       </Select>
-      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquiry">
+      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquiry(2)">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
@@ -192,7 +192,11 @@ export default {
               },
               on: {
                 click: () => {
-                  this.show(params.index)
+                  this.http.post(BASE_URL+"/loan/webMail/getWebMailByCode",{data: ''}).then(resp=>{
+                    cobsole.log(resp)
+                  }).catch(err=>{
+                    console.log(err)
+                  })
                 }
               }
               }, '查看'),
@@ -208,8 +212,9 @@ export default {
   methods: {
     show (index) {
       this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${this.data6[index].age}<br>Address：${this.data6[index].address}`
+        title: '查看反馈详情',
+        content: `实际推送时间：${this.data6[index].realPushTime}<br>消息类型：${this.data6[index].typeTitle}<br>标题：${this.data6[index].mailTitle}<br>推送时间：${this.data6[index].planPushTime}
+        <br>推送平台：${this.data6[index].pushPlatform }<br>推送对象：${this.data6[index].pushTarget == 0? '全部' : '指定手机'}<br>跳转URL：${this.data6[index].address}`
       })
     },
     remove (index) {
@@ -227,7 +232,11 @@ export default {
       this.inquiry()
     },
     // 查询
-    inquiry(){
+    inquiry(num){
+      if(num == '2'){
+        this.startRow = 1
+        this.endRow = 10
+      }
       this.loading3 = true
       this.http.post(BASE_URL + '/loan/webMail/queryWebMailList', {
         pageSize: this.endRow,
@@ -236,7 +245,6 @@ export default {
         typeCode : this.model2, // 类型  
       })
       .then((resp) => {
-        // console.log(resp)
         if (resp.code == 'success') {
           this.loading3 = false
           this.total = parseInt(resp.data.total)

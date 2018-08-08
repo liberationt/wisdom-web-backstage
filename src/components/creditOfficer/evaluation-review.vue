@@ -108,7 +108,8 @@ export default {
       shnuserName: "",
       isPasss: "",
       shendate: "",
-      pingjia: ""
+      pingjia: "",
+      loanOfficerCode: ""
     };
   },
   methods: {
@@ -116,7 +117,9 @@ export default {
       this.http
         .post(BASE_URL + "/loan/comment/check", {
           commentCode: this.$route.query.commentCode,
-          isPass: 1
+          isPass: 1,
+          loanOfficerCode: this.loanOfficerCode,
+          stars: this.stars
         })
         .then(data => {
           if (data.code == "success") {
@@ -144,7 +147,9 @@ export default {
       this.http
         .post(BASE_URL + "/loan/comment/check", {
           commentCode: this.$route.query.commentCode,
-          isPass: 2
+          isPass: 2,
+          loanOfficerCode: this.loanOfficerCode,
+          stars: this.stars
         })
         .then(data => {
           if (data.code == "success") {
@@ -195,6 +200,7 @@ export default {
             data.data.commentDetailBusRes.isPass == 1 ? "审核成功" : "审核失败";
           this.shendate = data.data.commentDetailBusRes.checkTime; // 审核时间
           this.pingjia = data.data.tags;
+          this.loanOfficerCode = data.data.loanOfficerCode
         }
       })
       .catch(err => {
