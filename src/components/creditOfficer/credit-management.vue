@@ -720,16 +720,7 @@ export default {
           }
         }
       ],
-      data10: [
-        {
-          id: "A11111",
-          mechanism: "络慧科技",
-          type: "上架",
-          recommend: "是",
-          number: "11",
-          time: "2018-03-29 15:12:34"
-        }
-      ],
+      data10: [],
       startRow: 1,
       endRow: 10,
       total: 0,

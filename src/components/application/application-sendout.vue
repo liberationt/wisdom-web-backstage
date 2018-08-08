@@ -8,8 +8,8 @@
     <Col span="12" offset="4">
       <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100">
         <FormItem label="消息类型:" prop="city">
-          <Select v-model="formCustom.city" placeholder="请选择" style="width:200px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          <Select v-model="formCustom.city" placeholder="请选择" @on-change="messagetype" style="width:200px">
+            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
         <FormItem label="标题:" prop="title">
@@ -19,18 +19,16 @@
           <Select @on-change="datepicker" v-model="formCustom.datePicker" placeholder="请选择" style="width:200px">
             <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <DatePicker v-if="ifdate" type="date" placeholder="Select date" style="width: 200px"></DatePicker>
+          <DatePicker v-if="ifdate" @on-change = "datepickerl" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="推送平台:" prop="age">
-          <Select v-model="formCustom.age" placeholder="请选择" style="width:200px">
-            <Option value="anzuo">安卓</Option>
-            <Option value="ios">iOS</Option>
+          <Select v-model="formCustom.age" placeholder="请选择" @on-change="pushplatform" style="width:200px">
+             <Option v-for="item in platform" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
         <FormItem label="推送对象:" prop="object">
           <Select v-model="formCustom.object" placeholder="请选择" @on-change="pushphone" style="width:200px">
-            <Option value="quanbu">全部</Option>
-            <Option value="zd">指定手机</Option>
+            <Option v-for="item in pushduixing" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
         <FormItem label="推送手机号:" prop="phone" v-if="push">
@@ -38,9 +36,8 @@
           <p>指定手机号,以半角逗号分隔</p>
         </FormItem>
         <FormItem label="跳转类型:" prop="h5">
-          <Select v-model="formCustom.h5" placeholder="请选择" style="width:200px" @on-change="homesenh5">
-            <Option value="5">原生页面</Option>
-            <Option value="6">H5</Option>
+          <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
+            <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
           <Select v-model="formCustom.value5" placeholder="请选择" style="width:200px" v-if="homeh5">
             <Option value="0">首页</Option>
@@ -62,6 +59,7 @@
   </Row>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -71,7 +69,7 @@ export default {
         age: '',
         city: '',
         object: '',
-        value5: '',
+        // value5: '',
         h5: '',
         jumpurl: '', 
         datePicker: ''
@@ -82,57 +80,49 @@ export default {
         city: { required: true, message: '请选择消息类型', trigger: 'change' },
         datePicker: { required: true, message: '请选择推送时间', trigger: 'change' },
         title: { required: true, message: '请输入标题', trigger: 'blur' },
-        passwdCheck: { required: true, message: '请选择计划推送时间', trigger: 'blur' },
-        age: { required: true, message: '请选择推送平台', trigger: 'blur' },
-        object: { required: true, message: '请选择推送对象', trigger: 'blur' },
+        passwdCheck: { required: true, message: '请选择计划推送时间', trigger: 'change' },
+        age: { required: true, message: '请选择推送平台', trigger: 'change' },
+        object: { required: true, message: '请选择推送对象', trigger: 'change' },
         phone: { required: true, message: '请输入推送手机号', trigger: 'blur' },
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
         jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' }
       },
-      cityList: [
-        {
-          value: '请选择',
-          label: '请选择'
-        },
-        {
-          value: '平台公告',
-          label: '平台公告'
-        },
-        {
-          value: '精品推荐',
-          label: '精品推荐'
-        },
-        {
-          value: '新品速递',
-          label: '新品速递'
-        }
-      ],
+      cityList: [],
       dateList:[
         {
-          value: '立即推送',
+          value: '1',
           label: '立即推送'
         },
         {
-          value: '指定时间推送',
+          value: '2',
           label: '指定时间推送'
         },
       ],
+      platform: [],
+      pushduixing:[],
+      jumpType: [],
       ifdate: false,
+      pushobject: ''
     }
   },
   methods: {
     handleSubmit (name) {
+      if(this.formCustom.object == '1'){
+        this.pushobject = this.formCustom.phone
+      } 
       this.$refs[name].validate(valid => {
+          // console.log(this.pushobject)
         if (valid) {
-          this.http.post(BASE_URL+"/loan/webMail/saveWebMail",{
-            typeCode: '', // 消息类型
-            mailTitle: '', // 标题
-            planPushTime: '', // 推送时间
-            pushPlatform: '', // 推送平台
-            pushTarget: '', //推送对象
-            jumpType: '', // 跳转类型
-            jumpUrl: '' , // 跳转url
-          }).then(data=>{
+          let list = {
+            typeCode: this.formCustom.city, // 消息类型
+            mailTitle: this.formCustom.title, // 标题
+            planPushTime: this.formCustom.datePicker, // 推送时间
+            pushPlatform: this.formCustom.age, // 推送平台
+            pushTarget: this.pushobject, //推送对象
+            jumpType: this.formCustom.h5, // 跳转类型
+            jumpUrl: this.formCustom.jumpurl , // 跳转url
+          }
+          this.http.post(BASE_URL + "/loan/webMail/saveWebMail",list).then(data=>{
             console.log(data)
           }).catch(err=>{
             console.log(err)
@@ -146,27 +136,61 @@ export default {
     handleReset (name) {
       this.$refs[name].resetFields()
     },
-    pushphone () {
-      if (this.formCustom.object === 'zd') {
+    pushphone (v) {
+      if (v == '1') {
         this.push = true
-      } else {
+      } else if(v == '0') {
         this.push = false
+        this.pushobject = v
       }
+      this.formCustom.object = v
     },
-    homesenh5 () {
-      if (this.formCustom.h5 === 5) {
+    homesenh5 (v) {
+      // alert(v)
+      if (v == 1) {
         this.homeh5 = true
       } else {
         this.homeh5 = false
       }
     },
     datepicker(v){
-      alert(v)
+      if(v == '2'){
+        
+        this.ifdate = true
+      } else if(v == '1') {
+        this.ifdate = false
+        this.formCustom.datePicker = utils.getNowFormatDate()
+      }
+    },
+    //当前时间
+    datepickerl(v){
+      this.formCustom.datePicker = v
+      // console.log(v)
+    },
+    messagetype(v){ // 消息类型
+      // alert(v) 
+      this.formCustom.city = v
+    },
+    pushplatform(v){
+      // alert(v)
+      this.formCustom.age = v
     }
   },
   created(){
     // 消息类型
     // /loan/webMail/getWebMailBaseData
+    this.http.post(BASE_URL+"/loan/webMail/getWebMailBaseData",{}).then(data=>{
+      // console.log(data.data.pushTarget)
+      this.cityList = data.data.mailType
+      // this.dateList = data.data.
+      this.platform = data.data.pushPlat
+      this.pushduixing = data.data.pushTarget
+      this.jumpType = data.data.jumpType  
+    }).catch(err=>{
+      console.log(err)
+    })
+    
+  //  utils.getNowFormatDate()
   }
 }
 </script>

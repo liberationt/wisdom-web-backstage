@@ -19,13 +19,13 @@
           </router-link>
         </div>
 
-      <Select v-model="model1" placeholder="全部状态" class="ml20" style="width:200px">
-        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      <Select v-model="model1" @on-change="status" placeholder="全部状态" class="ml20" style="width:200px">
+        <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.text }}</Option>
       </Select>
-      <Select v-model="model2" placeholder="全部类型" class="ml20" style="width:200px">
-        <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+      <Select v-model="model2" @on-change="type" placeholder="全部类型" class="ml20" style="width:200px">
+        <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.text }}</Option>
       </Select>
-      <Button type="info" class=" ml50 w100" :loading="loading3" @click="">
+      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquiry">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
@@ -34,8 +34,8 @@
       <Table border :columns="columns7" :data="data6"></Table>
     </div>
     <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+      <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+    </div>
 
   </div>
 </template>
@@ -47,26 +47,8 @@ export default {
       total: 0,
 			startRow: 1,
 			endRow: 10,
-      cityList: [
-        {
-          value: '未推送',
-          label: '未推送'
-        },
-        {
-          value: '已推送',
-          label: '已推送'
-        }
-      ],
-      cityType: [
-        {
-          value: '平台公告',
-          label: '平台公告'
-        },
-        {
-          value: '精品推荐',
-          label: '精品推荐'
-        }
-      ],
+      cityList: [],
+      cityType: [],
       model1: '',
       model2: '',
       columns7: [
@@ -96,9 +78,25 @@ export default {
         },
         {
           title: '推送平台',
-          key: 'pushPlatform',
           minWidth: 100,
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+            let pushPlatform
+            if(params.row.pushPlatform == '0'){
+              pushPlatform = '全部'
+            } else if(params.row.pushPlatform == '1'){
+              pushPlatform = '安卓'
+            } else {
+              pushPlatform = 'IOS'
+            }
+            return h('div', [
+              h('span', {
+              style: {
+                marginRight: '5px'
+              },
+              }, pushPlatform),
+            ])
+          }
         },
         {
           title: '推送对象',
@@ -154,21 +152,8 @@ export default {
           minWidth: 180,
           align: 'center',
           render: (h, params) => {
-            return h('div', [
-              h('Button', {
-              props: {
-                type: 'info',
-                size: 'small'
-              },
-              style: {
-                marginRight: '5px'
-              },
-              on: {
-                click: () => {
-                  this.show(params.index)
-                }
-              }
-              }, '查看'),
+            if(params.row.mailState == '0'){
+              return h('div', [
               h('Button', {
                 props: {
                   type: 'primary',
@@ -195,6 +180,25 @@ export default {
                 }
               }, '删除')
             ])
+            }else{
+              return h('div', [
+              h('Button', {
+              props: {
+                type: 'info',
+                size: 'small'
+              },
+              style: {
+                marginRight: '5px'
+              },
+              on: {
+                click: () => {
+                  this.show(params.index)
+                }
+              }
+              }, '查看'),
+            ])
+            }
+            
           }
         }
       ],
@@ -214,29 +218,59 @@ export default {
     // 分页
     pageChange(page) {
 				this.startRow = page
-				// this.inquire()
+				this.inquiry()
 		},
     pagesizechange(page) {
+      console.log(page)
       this.startRow = 1
       this.endRow = page
-      // this.inquire()
+      this.inquiry()
     },
+    // 查询
+    inquiry(){
+      this.loading3 = true
+      this.http.post(BASE_URL + '/loan/webMail/queryWebMailList', {
+        pageSize: this.endRow,
+        pageNum: this.startRow,
+        mailState: this.model1, // 状态
+        typeCode : this.model2, // 类型  
+      })
+      .then((resp) => {
+        // console.log(resp)
+        if (resp.code == 'success') {
+          this.loading3 = false
+          this.total = parseInt(resp.data.total)
+          this.data6 = resp.data.dataList
+        } else {
+          this.total = 0;
+          this.loading3= false
+        }
+      })
+      .catch(() => {
+        this.loading3= false
+      })
+    },
+    // 状态
+    status(v){
+      // alert(v)
+      this.model1 = v
+    },
+    // 类型
+    type(v){
+      this.model2 = v
+    }
   },
   created() {
     // 初始化
-    // /loan/webMail/getWebMailListBaseData
+    this.http.post(BASE_URL+"/loan/webMail/getWebMailListBaseData",{}).then(data=>{
+      console.log(data)
+      this.cityList = data.data.pushState
+      this.cityType = data.data.mailType
+    }).catch(err=>{
+      console.log(err)
+    })
     // 列表
-     this.http.post(BASE_URL + '/loan/webMail/queryWebMailList', {})
-    .then((resp) => {
-        console.log(resp)
-      if (resp.code == 'success') {
-        this.data6 = resp.data.dataList
-      } else {
-
-      }
-    })
-    .catch(() => {
-    })
+     this.inquiry()
   }
 }
 </script>
