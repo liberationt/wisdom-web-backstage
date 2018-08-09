@@ -3,56 +3,46 @@
     <Col span="6">
     <div id="memberLeft">
         <div class="memberphoto">
-            <img src="../../image/application-hzjf.png" alt="">
-            <p>139****5599</p>
-            <span class="member_type green1">账户正常</span>
-            <!-- <Button type="info" shape="circle">账户正常</Button> -->
-            <!-- <Button type="error" shape="circle">账户冻结</Button> -->
+            <img :src="informationlist.headImg" alt="">
+            <p>{{informationlist.phoneNumber}}</p>
+            <!-- <span class="member_type green1">账户正常</span> -->
+            <Button v-if="informationlist.accountStatus==1" type="info" shape="circle">解冻账户</Button>
+            <Button v-if="informationlist.accountStatus==0" type="error" shape="circle">账户冻结</Button>
         </div>
         <ul class="member_left_ul">
             <li>
-                <span class="w50 tr displayib">余额:</span>
-                <strong>0</strong>
-                <span>元</span>
-            </li>
-            <li>
                 <span class="w50 tr displayib">昵称:</span>
-                <span>哈哈</span>
+                <span>{{informationlist.memberName}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">实名:</span>
-                <span>李嬷嬷</span>
-                <span>310********0098</span>
+                <span>{{informationlist.realName}}</span>
+                <span>{{informationlist.idCard}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">实名:</span>
-                <span class="member_type red1">未实名</span>
-
+                <span v-if="informationlist.realStatus==0" class="member_type red1">未实名</span>
+                <span v-if="informationlist.realStatus==1" class="member_type red1">实名</span>
             </li>
             <li>
                 <span class="w50 tr displayib">微信:</span>
-                <span>飞天侠</span>
+                <span>{{informationlist.wechatNickName}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">微信:</span>
                 <span class="member_type red1">未实名</span>
-            </li>
-            <li>
-                <span class="w50 tr displayib">银行卡:</span>
-                <span class="member_type red1">未实名</span>
-            </li>
-            <li>
-                <span class="w50 tr displayib">微信:</span>
-                <span class="">工商银行</span>
-                <span>6544 ****2210</span>
             </li>
             <li>
                 <span class="w50 tr displayib">渠道:</span>
-                <span class="">官网APP</span>
+                <span class="">{{informationlist.loanUserChannel}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">邀请人:</span>
-                <span class="">哈哈</span>
+                <span class="">{{informationlist.loanInviterPhone}}</span>
+            </li>
+            <li>
+                <span class="w50 tr displayib">已邀请:</span>
+                <span class="">{{informationlist.loanInviterCount}}</span>
             </li>
         </ul>
     </div>
@@ -60,7 +50,40 @@
     <Col span="18">
     <div id="memberRight">
         <Tabs :animated="false">
-            <TabPane label="个人信息">标签一的内容</TabPane>
+            <TabPane label="个人信息">
+                <div class="informationlist">
+                    <h3>
+                        <span>王某某</span>
+                        <span>45岁</span>
+                        <span>上海</span>
+                        <span>310***********0011</span>
+                    </h3>
+                    <p>
+                        <span>贷款意向</span>
+                        <span>1万-2万</span>
+                        <span>贷款期限</span>
+                        <span>24个月</span>
+                    </p>
+                    <h3>基本信息</h3>
+                    <ul class="essinformation">
+                        <li>
+                            <span>户籍类型</span>
+                            <span>本地户籍</span>
+                            <span>正确(10次)</span>
+                            <span>错误(1次)</span>
+                        </li>
+                    </ul>
+                    <h3>资产信息</h3>
+                    <ul class="essinformation">
+                        <li>
+                            <span>是否有信用卡</span>
+                            <span>有</span>
+                            <span>正确(10次)</span>
+                            <span>错误(1次)</span>
+                        </li>
+                    </ul>
+                </div>
+            </TabPane>
             <TabPane label="现金流水">
                 <Table stripe :columns="columns1" :data="data1"></Table>
                 <div class="tr mt15">
@@ -83,6 +106,7 @@
 export default {
   data () {
     return {
+      informationlist: [],
       columns1: [
         {
           title: '类型',
@@ -170,8 +194,31 @@ export default {
           sign: '账户冻结'
         }
       ]
-    }
+    }   
+  },
+  methods: {
+      personalinformation () {
+        this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberInfo?loanUserCode='+this.$route.query.loanUserCode)
+        .then((resp) => {
+        if (resp.code == 'success') {
+            this.informationlist = resp.data
+            // this.cityList = resp.data.searchOptions
+            // this.reaName = resp.data.realNameStatusOptions
+            // this.account = resp.data.accountStatusOptions
+            // this.registerTime = resp.data.userTimeOptions
+        } else {
+        }
+        })
+        .catch(() => {
+        })
+      }
+
+  },
+  mounted () {
+      this.personalinformation ()
+
   }
+
 }
 </script>
 <style lang="less" scoped>
@@ -215,5 +262,28 @@ export default {
     color: #fff;
     border-radius: 30px;
     text-align: center
+}
+.informationlist{
+    padding: 20px 50px;
+    h3{
+        font-weight: 700;
+        margin-bottom: 5px;
+        span{
+            margin-right: 10px
+        }
+    }
+    p{
+        margin: 10px 0;
+        span{
+            margin-right: 10px
+        }
+    }
+}
+.essinformation{
+    margin: 10px 0;
+    span{
+        margin-right: 20px
+    }
+
 }
 </style>

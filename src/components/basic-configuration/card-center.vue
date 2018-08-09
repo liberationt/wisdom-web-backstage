@@ -67,11 +67,12 @@
                     </div>
                   </Modal>
 
-                  <ul class="homePage_icon left">
+                  <ul class="homePage_icon left" style="width:1300px;padding:0 100px">
                     <li v-for="item in bankdatalist">
                       <p class="icon">
-                        <img :src="item.bankLogoUrl" alt="">
+                        <img :src="item.bankLogoUrl" alt="">                       
                       </p>
+                      <img :src="item.cornerMarkUrl" alt="" class="cornermarkurl">
                       <p class="homePage_text">{{item.bankName}}</p>
                       <p class="clearfix haomePage_edit">
                         <InputNumber class="banknumint" :min="0" v-model="item.bankNo"></InputNumber>
@@ -94,6 +95,9 @@
                     </p>
                   </li>
                 </ul>
+                <div class="tr mt15 left" style="width:1200px">
+                <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+                </div>              
               </TabPane>
 
               <TabPane label="信用卡管理">
@@ -134,7 +138,7 @@
                     </FormItem>
                   </Form>
                 </Modal>
-                <ul class="homePage_icon left">
+                <ul class="homePage_icon left" style="width:1400px;padding:0 50px">
                   <li class="home_bank" v-for="item in creditdatalist">
                     <p class="bank_icon">
                       <img :src="item.photoUrl" alt="">
@@ -157,6 +161,9 @@
                     </p>
                   </li>
                 </ul>
+                <div class="tr mt15 left" style="width:1200px">
+                <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+                </div>
               </TabPane>
             </Tabs>
         </Col>
@@ -171,6 +178,10 @@ export default {
       modal1: false,
       modal2: false,
       loading: true,
+      total: 0,
+      startRow: 1,
+      endRow: 10,
+      paging: 0,
       banktitle: '添加银行',
       credittitle: '添加信用卡',
       intnumval: 1,
@@ -229,11 +240,22 @@ export default {
     }
   },
   methods: {
-    ok () {
-      this.$Message.info('点击了确定')
+    pageChange (page) {
+      this.startRow = page
+      if (this.paging == 0) {
+        this.banklist ()
+      } else {
+        this.creditlist ()
+      }     
     },
-    cancel () {
-      this.$Message.info('点击了取消')
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      if (this.paging == 0) {
+        this.banklist ()
+      } else {
+        this.creditlist ()
+      }
     },
     bankshow (num, code) {
       this.modal1 = true
@@ -539,10 +561,16 @@ export default {
     },
     // 银行卡列表
     banklist () {
-      this.http.post(BASE_URL + '/credit/bank/getBankList', {})
+      let list = {
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/credit/bank/getBankList', list)
     .then((resp) => {
       if (resp.code == 'success') {
         this.bankdatalist = resp.data.dataList
+        this.total = Number(resp.data.total)
+        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
       } else {
       }
     })
@@ -688,6 +716,7 @@ export default {
       })
     },
     marketquery (name) {
+      this.paging = name    
       if (name == 0) {
         this.banklist ()
       } else {
@@ -756,10 +785,16 @@ export default {
     },
     // 信用卡列表
     creditlist () {
-      this.http.post(BASE_URL + '/credit/card/getCardList', {})
+      let list = {
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/credit/card/getCardList', list)
     .then((resp) => {
       if (resp.code == 'success') {
         this.creditdatalist = resp.data.dataList
+        this.total = Number(resp.data.total)
+        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
       } else {
       }
     })
@@ -906,5 +941,12 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+}
+.cornermarkurl{
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  width: 50px;
+  height: 30px;
 }
 </style>
