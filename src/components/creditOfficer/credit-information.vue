@@ -782,7 +782,8 @@ export default {
         text-align: center;
         margin-bottom: 20px;
         img{
-        width: 200px;
+        width: 150px;
+        height: 150px;
         margin-top: 20px;
         border-radius: 50%
         }
