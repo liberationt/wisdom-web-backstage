@@ -6,23 +6,37 @@
             <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;贷款产品配置</span>
           </p>
         </div>
-      <Row>
-      <Col span="4"><Button type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button></Col>
-        <Col span="4">
-          <Input v-model="value4" icon="search" placeholder="Enter something..." style="width: 200px"></Input>
-        </Col>
-        <Col span="6">
+      <ul class="querysty">
+        <li>
+          <span>产品名称:</span>
+          <Input v-model="value4" placeholder="请输入产品名称" style="width: 200px"></Input>
+        </li>
+        <li class="ml20">
+          <span>状态:</span>
           <Select v-model="model2" size="large" style="width:100px">
             <Option v-for="item in cityList"  :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
+        </li>
+        <li class="ml20">
+          <span>产品分类:</span>
           <Select v-model="model3" size="large" style="width:100px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
+        </li>
+        <li class="ml20">
+          <span>排序:</span>
           <Select v-model="model4" size="large" style="width:100px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-        </Col>
-      </Row>
+        </li>
+        <li class="ml50">
+          <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
+        </li>
+      </ul>   
+      <Button type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>     
       <div class="loans_stages">
         <ul>
           <li>
@@ -62,6 +76,7 @@ export default {
   data () {
     return {
       value4: '',
+      loading3: false,
       cityList: [
         {
           value: 'New York',

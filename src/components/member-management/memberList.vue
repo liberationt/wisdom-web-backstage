@@ -144,6 +144,7 @@ export default {
           minWidth: 150,
           align: 'center',
           render: (h, params) => {
+            console.log(params)
             return h('div', [
               h(
                 'Button',
@@ -157,7 +158,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: './memberDetail' })
+                      this.$router.push({ path: './memberDetail?loanUserCode='+params.row.loanUserCode })
                     }
                   }
                 },
