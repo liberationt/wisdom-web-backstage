@@ -68,7 +68,11 @@
                 <Option v-for="item in status3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button class="right mr100 w100" type="info" icon="ios-search">查询</Button>
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="bidorder">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
+            <!-- <Button class="right mr100 w100" type="info" icon="ios-search">查询</Button> -->
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns9" :data="data8"></Table>
@@ -82,7 +86,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data () {   
     return {
       label: h => {
         return h('div', [
@@ -108,6 +112,7 @@ export default {
       startRow: 1,
       endRow: 10,
       nameval: 0,
+      loading3: false,
       cityList: [],
       cityType1: [],
       cityType2: [],
@@ -459,6 +464,7 @@ export default {
     },
     // 申述订单
     bidorder () {
+      this.loading3 = true
       let list = {
         searchOptions :this.model7,
         searchValue :this.name3,
@@ -473,8 +479,10 @@ export default {
             this.data8 = resp.data.dataList
             this.total = Number(resp.data.total)
             this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+            this.loading3 = false
           } else {
             this.$Message.info(resp.message)
+            this.loading3 = false
           }
         })
         .catch(() => {

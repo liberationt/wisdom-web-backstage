@@ -7,9 +7,12 @@
       </div>
       <Row :gutter="32">
         <Col span="12" class="demo-tabs-style2">
-            <Tabs type="card">
+            <Tabs type="card"  @on-click="marketquery">
                 <TabPane label="银行管理">
-                  <p data-v-38176e38="" @click="modal1 = true" class="homePage_button"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加银行</p>
+                  <div class="clearfix">
+                    <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加银行</p>
+                    <Button type="info" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
+                  </div>    
                   <Modal
                     v-model="modal1"
                     :title=banktitle
@@ -71,28 +74,36 @@
                       </p>
                       <p class="homePage_text">{{item.bankName}}</p>
                       <p class="clearfix haomePage_edit">
-                        <span @click="edit_icon_colorB" v-if="edit_icon_blue" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
-                        <span @click="edit_icon_colorR" v-if="edit_icon_red" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
-                        <span class="edit_icon right" @click="modal1 = true"><Icon type="edit"></Icon></span>
-                        <span class="edit_icon right" v-if="edit_delete">
-                        <Poptip
-                          confirm
-                          transfer
-                          title="确认删除吗?"
-                          @delete-ok="deleteOk"
-                          @delete-cancel="deleteCancel">
-                          <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
-                        </Poptip>
+                        <InputNumber class="banknumint" :min="0" v-model="item.bankNo"></InputNumber>
+                        <Button v-if="item.bankState==1" class="onshelf" @click="edit_icon_colorB(item.bankCode, 0)" type="primary">上架</Button>
+                        <Button v-if="item.bankState==0" class="onshelf" @click="edit_icon_colorR(item.bankCode, 1)" type="error">下架</Button>
+                        <!-- <span v-if="item.bankState==1" @click="edit_icon_colorB(item.bankCode, 1)" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
+                        <span v-if="item.bankState==0" @click="edit_icon_colorR" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span> -->
+                        <span class="edit_icon right ml5" @click="bankshow(2, item.bankCode)"><Icon type="edit"></Icon></span>
+                        <span v-if="item.bankState==0" class="edit_icon right " >
+                          <Poptip
+                            confirm
+                            transfer
+                            title="确认删除吗?"
+                            @on-ok="deleteOk(item.bankCode)"
+                            @on-cancel="">
+                            <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+                          </Poptip>
+                          
                       </span>
                     </p>
                   </li>
                 </ul>
               </TabPane>
+
               <TabPane label="信用卡管理">
-                <p data-v-38176e38="" @click="modal2 = true" class="homePage_button"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加信用卡</p>
+                <div class="clearfix">
+                  <p data-v-38176e38="" @click="cardshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加信用卡</p>
+                  <Button type="info" class="left mt20 w60 ml20 toupdate" @click="cardupdate">更新</Button>
+                </div>              
                 <Modal
                   v-model="modal2"
-                  title="添加(编辑)信用卡"
+                  :title=credittitle
                   @on-ok="handleSubmit2('formValidate2')"
                   @on-cancel="handleReset2('formValidate2')"
                   :mask-closable="false"
@@ -102,9 +113,14 @@
                       <Input v-model="formValidate2.bank_name" placeholder="请输入信用卡名称"></Input>
                     </FormItem>
                     <FormItem label="信用卡图片：" prop="bank_img">
-                      <span  class="bank_name left"><img src="../../image/bg.jpg" alt=""></span>
-                      <Upload action="//jsonplaceholder.typicode.com/posts/">
-                        <Button type="ghost">上传文件</Button>
+                      <span  class="bank_name left"><img :src="creditlogomark" alt=""></span>
+                      <Upload
+                      :format="['jpg','jpeg','png']"
+                      :on-format-error="handleFormatError1"
+                      :before-upload="handleUploadcredit"
+                      :show-upload-list="false"                        
+                      action=''>
+                        <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:3px">浏览</Button>
                       </Upload>
                     </FormItem>
                     <FormItem label="特点1：" prop="characteristic1">
@@ -119,22 +135,22 @@
                   </Form>
                 </Modal>
                 <ul class="homePage_icon left">
-                  <li class="home_bank">
+                  <li class="home_bank" v-for="item in creditdatalist">
                     <p class="bank_icon">
-                      <img src="../../image/bg.jpg" alt="">
+                      <img :src="item.photoUrl" alt="">
                     </p>
-                    <p class="bank_text">交通银行标准信用卡金卡</p>
+                    <p class="bank_text">{{item.cardName}}</p>
                     <p class="clearfix haomePage_edit">
-                      <span @click="edit_icon_colorB" v-if="edit_icon_blue" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
-                      <span @click="edit_icon_colorR" v-if="edit_icon_red" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
-                      <span class="edit_icon right"  @click="modal2 = true"><Icon type="edit"></Icon></span>
-                      <span class="edit_icon right" v-if="edit_delete">
+                      <InputNumber class="banknumint" :min="0" v-model="item.cardOrder"></InputNumber>
+                      <span @click="edit_icon_coloro(item.cardCode, 0)" v-if="item.cardState==1" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
+                      <span @click="edit_icon_colord(item.cardCode, 1)" v-if="item.cardState==0" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
+                      <span class="edit_icon right ml5"  @click="cardshow(2, item.cardCode)"><Icon type="edit"></Icon></span>
+                      <span class="edit_icon right" v-if="item.cardState==0" >
                         <Poptip
                           confirm
                           transfer
                           title="确认删除吗?"
-                          @on-ok="deleteOk"
-                          @on-cancel="deleteCancel">
+                          @on-ok="deletecardOk(item.cardCode)">
                           <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
                         </Poptip>
                       </span>
@@ -156,10 +172,16 @@ export default {
       modal2: false,
       loading: true,
       banktitle: '添加银行',
+      credittitle: '添加信用卡',
+      intnumval: 1,
       banklogo: require('../../image/moren.png'),
       banksrc: '',
       banklogomark: require('../../image/moren.png'),
       cornersrc: '',
+      creditlogomark: require('../../image/moren.png'),
+      creditsrc: '',
+      backcode: '',
+      cardcode: '',
       markurl: true,
       formValidate1: {
         bankname: '',
@@ -171,15 +193,16 @@ export default {
         bankname: [
           { required: true, message: '请输入银行名称！', trigger: 'blur' }
         ],
-        mark: [{ required: true, message: '请选择角标！', trigger: 'change' }],
+        mark: [{ required: true, message: '请选择角标！', trigger: 'blur' }],
         markimg: [
-          { required: true, message: '请选择上传文件！', trigger: 'change' }
+          { required: true, message: '请选择上传文件！', trigger: 'blur' }
         ],
         desc: [
           { required: true, message: '请输入URL！', trigger: 'blur' }
         ]
       },
       bankdatalist: [],
+      creditdatalist: [],
       formValidate2: {
         bank_name: '',
         characteristic1: '',
@@ -212,35 +235,84 @@ export default {
     cancel () {
       this.$Message.info('点击了取消')
     },
+    bankshow (num, code) {
+      this.modal1 = true
+      if (num == 1) {
+        this.banktitle = '添加银行'
+      } else {
+        this.banktitle = '编辑银行'
+        this.bankecho (code)
+      }     
+    },
+    // 信用卡新增修改弹框
+    cardshow (num, code) {
+      this.modal2 = true
+      if (num == 1) {
+        this.credittitle = '添加信用卡'
+      } else {
+        this.credittitle = '编辑信用卡'
+        this.cardecho (code)
+      }     
+    },
     // 新增银行卡
     handleSubmit1 (name) {
       this.$refs[name].validate(valid => {
         if (!valid) {
           return this.changeLoading()
         } else {
-          alert(1)
           this.changeLoading()
           this.Preservation ()
-          this.modal1 = false
-
         }
       })
     },
-    Preservation () {
-      let list = {
+    Preservation () {    
+      if (this.banksrc == '') {
+        const title = '上传文件'
+        let content = '<p>请先上传银行卡</p>'
+        this.$Modal.warning({
+          title: title,
+          content: content
+        })
+        return false
+      }
+      let url
+      let title
+      let content
+      let list
+      if (this.banktitle == '添加银行') {
+        url = BASE_URL +'/credit/bank/saveBank'
+        title = '添加银行卡'
+        content = '<p>添加成功</p>'
+        list = {
         bankLogoUrl :this.banksrc,
         bankName : this.formValidate1.bankname,
         cornerMarkState : this.formValidate1.mark,
         cornerMarkUrl : this.cornersrc,
         jumpUrl : this.formValidate1.desc
       }
-        this.http.post(BASE_URL + '/loan/pushBlack/updatePushBlackByCode', list)
+      } else {
+        url = BASE_URL +'/credit/bank/modifyBankByCode'
+        title = '修改银行卡'
+        content = '<p>修改成功</p>'
+        list = {
+        bankLogoUrl :this.banksrc,
+        bankName : this.formValidate1.bankname,
+        cornerMarkState : this.formValidate1.mark,
+        cornerMarkUrl : this.cornersrc,
+        jumpUrl : this.formValidate1.desc,
+        bankCode: this.backcode
+      }
+      }
+        this.http.post(url, list)
         .then((resp) => {
           if (resp.code == 'success') {
-            this.$Modal.warning({
-              title: '添加银行卡',
-              content: '<p>添加成功</p>'
-            }) 
+            this.changeLoading()           
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal1 = false
+            this.banklist ()
           } else {
 
           }
@@ -248,6 +320,49 @@ export default {
         .catch(() => {
         })
 
+    },
+    // 修改银行卡回显
+    bankecho (code) {
+      let list = {
+        bankCode: code
+      }
+      this.http.post(BASE_URL + '/credit/bank/getBankByCode', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.banksrc = resp.data.bankLogoUrl
+            this.banklogo = resp.data.bankLogoUrl
+            this.formValidate1.bankname = resp.data.bankName
+            this.formValidate1.mark = resp.data.cornerMarkState
+            this.cornersrc = resp.data.cornerMarkUrl
+            this.banklogomark = resp.data.cornerMarkUrl
+            this.formValidate1.desc = resp.data.jumpUrl
+            this.backcode = resp.data.bankCode
+          } else {
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 修改信用卡回显
+    cardecho (code) {
+      let list = {
+        cardCode: code
+      }
+      this.http.post(BASE_URL + '/credit/card/getCardByCode', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.formValidate2.bank_name = resp.data.cardName
+            this.creditlogomark = resp.data.photoUrl
+            this.creditsrc = resp.data.photoUrl
+            this.formValidate2.characteristic1 = resp.data.character1
+            this.formValidate2.characteristic2 = resp.data.character2
+            this.formValidate2.Jump_URL = resp.data.jumpUrl
+            this.cardcode = resp.data.cardCode
+          } else {
+          }
+        })
+        .catch(() => {
+        })
     },
     changeLoading () {
       this.loading = false
@@ -261,28 +376,149 @@ export default {
     handleSubmit2 (name) {
       this.$refs[name].validate(valid => {
         if (!valid) {
-          this.$Message.success('失败！')
           return this.changeLoading()
-        }
-        setTimeout(() => {
+        } else {
           this.changeLoading()
-          this.modal2 = false
-          this.$Message.success('done')
-        }, 1000)
+          this.addCredit ()
+        }
       })
+    },
+    addCredit () {
+      if (this.creditsrc == '') {
+        const title = '上传文件'
+        let content = '<p>请先上传信用卡</p>'
+        this.$Modal.warning({
+          title: title,
+          content: content
+        })
+        return false
+      }
+      let url
+      let title
+      let content
+      let list
+      if (this.credittitle == '添加信用卡') {
+        url = BASE_URL +'/credit/card/saveCard'
+        title = '添加信用卡'
+        content = '<p>添加成功</p>'
+        list = {
+        cardName : this.formValidate2.bank_name,
+        photoUrl : this.creditsrc,
+        character1 : this.formValidate2.characteristic1,
+        character2 : this.formValidate2.characteristic2,
+        jumpUrl : this.formValidate2.Jump_URL
+      }
+      } else {
+        url = BASE_URL +'/credit/card/modifyCardByCode'
+        title = '修改信用卡'
+        content = '<p>修改成功</p>'
+        list = {
+        cardName : this.formValidate2.bank_name,
+        photoUrl : this.creditsrc,
+        character1 : this.formValidate2.characteristic1,
+        character2 : this.formValidate2.characteristic2,
+        jumpUrl : this.formValidate2.Jump_URL,
+        cardCode: this.cardcode
+      }
+      }
+        this.http.post(url, list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.changeLoading()
+            const title = '添加信用卡卡'
+            let content = '<p>添加成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal2 = false
+            this.creditlist ()
+          } else {
+          }
+        })
+        .catch(() => {
+        })
     },
     handleReset2 (name) {
       this.$refs[name].resetFields()
     },
-    edit_icon_colorB () {
-      this.edit_icon_blue = false
-      this.edit_icon_red = true
-      this.edit_delete = true
+    // 上架
+    edit_icon_colorB (code, num) {
+      this.$Modal.confirm({
+          title: '上架',
+          content: '<p>确认要上架吗?</p>',
+          onOk: () => {
+            this.bankshelf (code, num)
+          },
+          onCancel: () => {              
+          }
+        })
     },
-    edit_icon_colorR () {
-      this.edit_icon_blue = true
-      this.edit_icon_red = false
-      this.edit_delete = false
+    // 下架
+    edit_icon_colorR (code, num) {
+      this.$Modal.confirm({
+          title: '下架',
+          content: '<p>确认要下架吗?</p>',
+          onOk: () => {
+            this.bankshelf (code, num)
+          },
+          onCancel: () => {            
+          }
+        })
+    },
+    // 信用卡上架
+    edit_icon_coloro (code, num) {
+      this.$Modal.confirm({
+          title: '上架',
+          content: '<p>确认要上架吗?</p>',
+          onOk: () => {
+            this.creditshelf (code, num)
+          },
+          onCancel: () => {              
+          }
+        })
+    },
+    // 信用卡下架
+    edit_icon_colord (code, num) {
+      this.$Modal.confirm({
+          title: '下架',
+          content: '<p>确认要下架吗?</p>',
+          onOk: () => {
+            this.creditshelf (code, num)
+          },
+          onCancel: () => {            
+          }
+        })
+    },
+    // 银行卡删除
+    deleteOk (code) {
+      let list = {
+        bankCode: code
+      }
+      this.http.post(BASE_URL + '/credit/bank/deleteBankByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.banklist ()
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    },
+    // 信用卡删除
+    deletecardOk (code) {
+      let list = {
+        cardCode: code
+      }
+      this.http.post(BASE_URL + '/credit/card/deleteCardByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.creditlist ()
+        } else {
+        }
+      })
+      .catch(() => {
+      })
     },
     edit_ok () {
       this.$Message.info('Clicked ok')
@@ -313,7 +549,7 @@ export default {
     .catch(() => {
     })
     },
-    // 上次银行卡
+    // 上传银行卡
     handleUpload (file) {
       let splic = file.name.split('.')
       if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
@@ -338,7 +574,32 @@ export default {
       return false
       }
     },
-    // 上次角标
+    // 上传信用卡
+    handleUploadcredit (file) {
+      let splic = file.name.split('.')
+      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+        let formData = new FormData();
+          formData.append('file', file)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          timeout:1000*60*5
+        }
+      this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.creditlogomark = resp.data
+        this.creditsrc = resp.data
+      } else {
+      }
+    })
+    .catch(() => {
+    })
+      return false
+      }
+    },
+    // 上传角标
     handleUploadmark (file) {
       let splic = file.name.split('.')
       if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
@@ -366,6 +627,145 @@ export default {
     handleFormatError1 (file) {
       this.$Message.info("图片格式不正确,请上传正确的图片格式")
     },
+    // 银行卡上架
+    bankshelf (code, num) {
+      let list = {
+        bankCode: code,
+        bankState: num
+      }
+      this.http.post(BASE_URL + '/credit/bank/modifyBankStateByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          if (num == 0) {
+            this.$Modal.success({
+              title: '上架',
+              content: '<p>上架成功</p>'         
+            })
+            this.banklist ()
+          } else {
+              const title = '下架'
+              let content = '<p>下架成功</p>'
+              this.$Modal.success({
+                title: title,
+                content: content
+              })
+              this.banklist ()
+          }
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    },
+    // 信用卡上架
+    creditshelf (code, num) {
+      let list = {
+        cardCode: code,
+        cardState: num
+      }
+      this.http.post(BASE_URL + '/credit/card/modifyCardStateByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          if (num == 0) {
+            this.$Modal.success({
+              title: '上架',
+              content: '<p>上架成功</p>'         
+            })
+            this.creditlist ()
+          } else {
+              const title = '下架'
+              let content = '<p>下架成功</p>'
+              this.$Modal.success({
+                title: title,
+                content: content
+              })
+              this.creditlist ()
+          }
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    },
+    marketquery (name) {
+      if (name == 0) {
+        this.banklist ()
+      } else {
+        this.creditlist ()
+      }
+    },
+    // 银行卡更新排序
+    bankupdate () {
+      this.$Modal.confirm({
+          title: '更新排序',
+          content: '<p>确认要更新排序吗?</p>',
+          onOk: () => {
+            this.updatelist ()
+          },
+          onCancel: () => {           
+          }
+        })
+    },
+    // 信用卡更新排序
+    cardupdate () {
+      this.$Modal.confirm({
+          title: '更新排序',
+          content: '<p>确认要更新排序吗?</p>',
+          onOk: () => {
+            this.updatecarslist ()
+          },
+          onCancel: () => {           
+          }
+        })
+    },
+    updatelist () {
+      let list = []
+      for (let i = 0; i < this.bankdatalist.length; i++) {
+        let obj = new Object ()
+        obj.bankCode = this.bankdatalist[i].bankCode
+        obj.bankNo = this.bankdatalist[i].bankNo
+        list.push (obj)
+      }
+      this.http.post(BASE_URL + '/credit/bank/batchModifyBank', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.banklist ()
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    },
+    updatecarslist () {
+      let list = []
+      for (let i = 0; i < this.creditdatalist.length; i++) {
+        let obj = new Object ()
+        obj.cardCode = this.creditdatalist[i].cardCode
+        obj.cardOrder = this.creditdatalist[i].cardOrder
+        list.push (obj)
+      }
+      this.http.post(BASE_URL + '/credit/card/batchModifyCard', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.creditlist ()
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    },
+    // 信用卡列表
+    creditlist () {
+      this.http.post(BASE_URL + '/credit/card/getCardList', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.creditdatalist = resp.data.dataList
+      } else {
+      }
+    })
+    .catch(() => {
+    })
+    },
   },
   mounted () {
     this.banklist ()
@@ -374,6 +774,18 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.ivu-btn{
+  padding: 2px 6px;
+}
+.toupdate{
+  padding: 6px 15px;
+}
+.ivu-input-number-input {
+    overflow: hidden;
+    height: 30px;
+    line-height: 30px;
+    width: 20px;
+}
 .bank_name img {
   width: 140px;
   height: 80px;
@@ -403,6 +815,7 @@ export default {
 }
 .home_bank {
   width: 240px;
+  height: 260px;
 }
 .bank_icon > img {
   width: 100%;
@@ -421,6 +834,7 @@ export default {
 }
 .haomePage_edit {
   padding: 0 15px;
+  margin-top: 20px
 }
 .homePage_button[data-v-38176e38] {
   height: 35px;
@@ -435,7 +849,13 @@ export default {
   li{
     float: left;
     margin-right: 20px;
-    margin-bottom: 15px
+    margin-bottom: 15px;
+    position: relative;
+    .onshelf{
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
   }
 }
 //tab
