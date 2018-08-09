@@ -53,20 +53,20 @@
             <TabPane label="个人信息">
                 <div class="informationlist">
                     <h3>
-                        <span>王某某</span>
-                        <span>45岁</span>
-                        <span>上海</span>
-                        <span>310***********0011</span>
+                        <span>{{informationlist.realName}}</span>
+                        <span>{{informationlist.age}}</span>
+                        <span>{{informationlist.loanCityNameFirst}}</span>
+                        <span>{{informationlist.idCard}}</span>
                     </h3>
                     <p>
                         <span>贷款意向</span>
-                        <span>1万-2万</span>
+                        <span>{{informationlist.loanAmount}}</span>
                         <span>贷款期限</span>
-                        <span>24个月</span>
+                        <span>{{informationlist.loanTimeLimit}}</span>
                     </p>
                     <h3>基本信息</h3>
                     <ul class="essinformation">
-                        <li>
+                        <li >
                             <span>户籍类型</span>
                             <span>本地户籍</span>
                             <span>正确(10次)</span>
