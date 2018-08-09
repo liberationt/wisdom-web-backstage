@@ -177,7 +177,8 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.remove(params.index)
+                    this.confirm(params.row.mailCode)
+                    // this.remove(params.index)
                   }
                 }
               }, '删除')
@@ -223,9 +224,9 @@ export default {
         <br>推送平台：${index.pushPlatform == 0 ? '全部' : 1 ? '安卓': 'IOS'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : '指定手机'}<br>跳转URL：${index.address}`
       })
     },
-    remove (index) {
-      this.data6.splice(index, 1)
-    },
+    // remove (index) {
+    //   this.data6.splice(index, 1)
+    // },
     // 分页
     pageChange(page) {
 				this.startRow = page
@@ -264,6 +265,30 @@ export default {
       .catch(() => {
         this.loading3= false
       })
+    },
+    // 删除
+    confirm (code) {
+      this.$Modal.confirm({
+          title: '温馨提示',
+          content: '<p>确认删除？</p>',
+          onOk: () => {
+              this.http.post(BASE_URL+"/loan/webMail/delWebMail",{data:code}).then(data=>{
+                console.log(data)
+                if(data.code == 'success'){
+                  this.$Message.info('删除成功！');
+                  this.inquiry()
+                } else {
+                  this.$Message.info('删除失败！');
+                }
+              }).catch(err=>{
+                this.$Message.info('删除失败！');
+              })
+              
+          },
+          onCancel: () => {
+              this.$Message.info('删除失败！');
+          }
+      });
     },
     // 状态
     status(v){

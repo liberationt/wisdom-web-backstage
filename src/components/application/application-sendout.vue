@@ -101,6 +101,7 @@ export default {
       ifdate: false,
       pushobject: '',
       jumplist: [],
+      mailCode: ''
     }
   },
   methods: {
@@ -123,7 +124,8 @@ export default {
             pushTarget: this.formCustom.object, //推送对象
             jumpType: this.formCustom.h5, // 跳转类型
             jumpUrl: this.formCustom.jumpurl  == '' ? this.formCustom.value5 : this.formCustom.jumpurl, // 跳转url
-            targetPhone : this.formCustom.phone
+            targetPhone : this.formCustom.phone,
+            mailCode : this.mailCode
           } 
           console.log(list)
           this.http.post(BASE_URL + tiurl,list).then(data=>{
@@ -232,6 +234,7 @@ export default {
           this.formCustom.h5 = data.data.jumpType + ''
           this.formCustom.value5 = data.data.jumpUrl
           this.formCustom.phone = data.data.targetPhone
+          this.mailCode = data.data.mailCode
         }
       }).catch(err=>{
         console.log(err)
