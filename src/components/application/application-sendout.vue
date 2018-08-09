@@ -19,7 +19,7 @@
           <Select @on-change="datepicker" v-model="formCustom.datePicker" placeholder="请选择" style="width:200px">
             <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <DatePicker v-if="ifdate" @on-change = "datepickerl" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
+          <DatePicker v-model="datevalue" v-if="ifdate" @on-change = "datepickerl" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="推送平台:" prop="age">
           <Select v-model="formCustom.age" placeholder="请选择" @on-change="pushplatform" style="width:200px">
@@ -39,7 +39,7 @@
           <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
             <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
-          <Select v-model="formCustom.value5" placeholder="请选择" style="width:200px" v-if="homeh5">
+          <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" v-if="homeh5">
             <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
@@ -70,6 +70,7 @@ export default {
         jumpurl: '', 
         datePicker: ''
       },
+      datevalue:'',
       push: false,
       homeh5: false,
       ruleCustom: {
@@ -105,23 +106,28 @@ export default {
   methods: {
     handleSubmit (name) {
       this.$refs[name].validate(valid => {
-          // console.log(this.pushobject)
+          console.log(this.datevalue)
+          let tiurl 
+          if(this.$route.query.isedit == 'is') {
+            tiurl = '/loan/webMail/modifyMessageMailByCode'
+          } else {
+            tiurl = '/loan/webMail/saveWebMail'
+          }
         if (valid) {
           let list = {
             // bunsinessKey: '0', //huazan 0 qiang 1
             typeCode: this.formCustom.city, // 消息类型
             mailTitle: this.formCustom.title, // 标题
-            planPushTime: this.formCustom.datePicker, // 推送时间
+            planPushTime: this.formCustom.datePicker == 2 ? utils.formatDate(this.datevalue,'yyyy-MM-dd hh:mm:ss') : this.formCustom.datePicker, // 推送时间
             pushPlatform: this.formCustom.age, // 推送平台
             pushTarget: this.formCustom.object, //推送对象
             jumpType: this.formCustom.h5, // 跳转类型
-            jumpUrl: this.formCustom.jumpurl , // 跳转url
-            targetPhone : this.pushobject
-          }
-          this.http.post(BASE_URL + "/loan/webMail/saveWebMail",list).then(data=>{
-
+            jumpUrl: this.formCustom.jumpurl  == '' ? this.formCustom.value5 : this.formCustom.jumpurl, // 跳转url
+            targetPhone : this.formCustom.phone
+          } 
+          console.log(list)
+          this.http.post(BASE_URL + tiurl,list).then(data=>{
             if(data.code == 'success'){
-              // alert(222)
               this.phoneti('success')
             } else {
               this.$Message.error('提交失败!')
@@ -139,6 +145,9 @@ export default {
     handleReset (name) {
       this.$router.push({path: './applicationMail'})
       this.$refs[name].resetFields()
+    },
+    jumpurl(v){
+      this.formCustom.jumpurl = v
     },
     // 提示
     phoneti(type) {
@@ -184,6 +193,7 @@ export default {
     },
     //当前时间
     datepickerl(v){
+      this.datevalue = v
       this.formCustom.datePicker = v
       // console.log(v)
     },
@@ -210,7 +220,23 @@ export default {
     }).catch(err=>{
       console.log(err)
     })
-    
+    if(this.$route.query.isedit == 'is'){
+      this.http.post(BASE_URL+"/loan/webMail/getWebMailByCode",{data:utils.getCookie('code')}).then(data=>{
+        if(data.code == 'success'){
+          this.formCustom.city  = data.data.typeCode
+          this.formCustom.title = data.data.mailTitle 
+          this.formCustom.datePicker = '2'
+          this.datevalue = data.data.planPushTime
+          this.formCustom.age = data.data.pushPlatform + '' 
+          this.formCustom.object = data.data.pushTarget + ''
+          this.formCustom.h5 = data.data.jumpType + ''
+          this.formCustom.value5 = data.data.jumpUrl
+          this.formCustom.phone = data.data.targetPhone
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    }
   //  utils.getNowFormatDate()
   }
 }

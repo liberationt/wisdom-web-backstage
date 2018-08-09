@@ -40,6 +40,7 @@
   </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -164,7 +165,8 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.show(params.index)
+                    utils.setCookie('code',params.row.mailCode)
+                    this.$router.push({path: './applicationSendout?isedit='+'is'})
                   }
                 }
               }, '编辑'),           

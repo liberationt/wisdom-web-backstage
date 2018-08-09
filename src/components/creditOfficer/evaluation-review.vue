@@ -200,7 +200,7 @@ export default {
             data.data.commentDetailBusRes.isPass == 1 ? "审核成功" : "审核失败";
           this.shendate = data.data.commentDetailBusRes.checkTime; // 审核时间
           this.pingjia = data.data.tags;
-          this.loanOfficerCode = data.data.loanOfficerCode
+          this.loanOfficerCode = data.data.commentDetailBusRes.loanOfficerCode
         }
       })
       .catch(err => {
