@@ -150,6 +150,9 @@ export default {
             institutionsName : this.name,
             loanStartRate : this.formValidate.startinterest,
             loanEndRate : this.formValidate.endinterest,
+            institutionsLoanQuotasStart : this.formValidate.startmoney,
+            institutionsLoanQuotasEnd : this.endmoney,
+            // institutionsHaveType : ''
           }).then(data=>{
             console.log(data)
           }).then(er=>{
@@ -201,6 +204,13 @@ export default {
     lowerstatus(v){
       this.formValidate.lowerframe = v
     }
+  },
+  created(){
+    this.http.post(BASE_URL+"/officerLoanType/officerLoanType/getOfficerLoanTypeList").then(data=>{
+      console.log(data)
+    }).catch(err=>{
+      console.log(err)
+    })
   }
 };
 </script>
