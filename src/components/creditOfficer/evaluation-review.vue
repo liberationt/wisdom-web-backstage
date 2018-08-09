@@ -173,10 +173,9 @@ export default {
   created() {
     // alert(22)
     // console.log(this.$route.query.commentCode)
-    this.http
-      .post(
+    this.http.post(
         BASE_URL + "/loan/comment/getByCommentCode",
-        this.$route.query.commentCode
+        {commentCode : this.$route.query.commentCode}
       )
       .then(data => {
         console.log(data);

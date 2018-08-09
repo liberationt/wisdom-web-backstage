@@ -121,19 +121,19 @@
         <TabPane label="信贷机构" name="tab5">
             <div class="clearfix">
             <div class="left">
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model3" placeholder="上架状态" style="width:200px;margin-left:50px">
-                <Option v-for="item in status" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Input v-model="guanname" placeholder="请输入关键字" style="width: 150px"></Input>
+            <Select v-model="model3" placeholder="上架状态" @on-change='loanstatusl' style="width:200px;margin-left:50px">
+                <Option v-for="item in loanstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Select v-model="model4" placeholder="是否首页推荐" style="width:200px;margin-left:50px">
-                <Option v-for="item in recommend" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model4" @on-change='loanrecommendl' placeholder="是否首页推荐" style="width:200px;margin-left:50px">
+                <Option v-for="item in loanrecommend" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </div>
-            <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
-            <!-- <Button type="info" class="right mr20 w100" :loading="loading3" @click="primaryinquery('warning')">
+            <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="mechanisminqury('warning')">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
-            </Button> -->
+            </Button>
             </div>
             <Button type="primary" class="mt15" shape="circle" icon="plus-round" @click="addManage">添加信贷机构</Button>
             <div id="application_table" class="mt15">
@@ -174,21 +174,22 @@ export default {
       credit3: "",
       register: 'mobile',
       creditname: '',
+      guanname: '',
       // registerselect: [],
       statuslowershelves: [],
       creditstatus:[],
-      status: [
+      loanstatus: [
         {
-          value: "已咨询",
-          label: "已咨询"
+          value: "''",
+          label: "上下架状态"
         },
         {
-          value: "待付款",
-          label: "待付款"
+          value: "1",
+          label: "上架"
         },
         {
-          value: "待确认",
-          label: "待确认"
+          value: "0",
+          label: "下架"
         }
       ],
       sort: [
@@ -209,13 +210,17 @@ export default {
           label: "咨询量排序"
         }
       ],
-      recommend: [
+      loanrecommend: [
         {
-          value: "是",
+          value: "''",
+          label: "是否首页推荐"
+        },
+        {
+          value: "1",
           label: "是"
         },
         {
-          value: "否",
+          value: "0",
           label: "否"
         }
       ],
@@ -228,7 +233,7 @@ export default {
       dataname1: '',
       model2: "手机号",
       model3: "手机号",
-      model4: "手机号",
+      model4: "",
       name: "",
       name1: "",
       params: {
@@ -627,32 +632,62 @@ export default {
       columns11: [
         {
           title: "ID",
-          key: "id",
+          key: "dataId",
           align: "center"
         },
         {
           title: "机构名称",
-          key: "mechanism",
+          // key: "institutionsName",
           align: "center"
         },
         {
           title: "状态",
-          key: "type",
-          align: "center"
+          key: "institutionsUpStatus",
+          align: "center",
+          render: (h, params) => {
+            let institutionsUpStatus
+            if(params.row.institutionsUpStatus == '0'){
+              institutionsUpStatus = '下架'
+            } else if(params.row.institutionsUpStatus == '1'){
+              institutionsUpStatus = '上架'
+            }
+            return h('div', [
+              h('span', {
+              style: {
+                marginRight: '5px'
+              },
+              }, institutionsUpStatus),
+            ])
+          }
         },
         {
           title: "首页推荐",
-          key: "recommend",
-          align: "center"
+          // key: "institutionsRecommendStatus",
+          align: "center",
+          render: (h, params) => {
+            let institutionsRecommendStatus
+            if(params.row.institutionsRecommendStatus == '0'){
+              institutionsRecommendStatus = '否'
+            } else if(params.row.institutionsRecommendStatus == '1'){
+              institutionsRecommendStatus = '是'
+            }
+            return h('div', [
+              h('span', {
+              style: {
+                marginRight: '5px'
+              },
+              }, institutionsRecommendStatus),
+            ])
+          }
         },
         {
           title: "产品数量",
-          key: "number",
+          key: "productNum",
           align: "center"
         },
         {
           title: "注册时间",
-          key: "time",
+          key: "dataCreateTime",
           align: "center"
         },
         {
@@ -748,16 +783,23 @@ export default {
     remove(index) {
       this.data6.splice(index, 1);
     },
+    // 信贷机构
+    loanstatusl(v){
+      this.model3 = v
+    },
+    loanrecommendl(v){
+      this.model4 = v
+    },
     pageChange(page) {
       console.log(page);
       this.startRow = page;
       this.params.page = page;
-      this.labell1("tab1");
+      this.labell1("tab5");
     },
     PageSizeChange(limit) {
       this.endRow = limit;
       this.params.limit = limit;
-      this.labell1("tab1");
+      this.labell1("tab5");
     },
     //入驻待审核分页
     pageChange1(page) {
@@ -840,6 +882,9 @@ export default {
               this.creditname = ""
               this.registershi = ""
               this.registersheng = ""
+              this.guanname = ""
+              this.model3 = ""
+              this.model4 = ""
               this.loading3= false
               return false;
             }
@@ -867,6 +912,9 @@ export default {
               this.creditname = ""
               this.registershi = ""
               this.registersheng = ""
+              this.guanname = ""
+              this.model3 = ""
+              this.model4 = ""
               this.loading3= false
               return false;
             }
@@ -894,6 +942,9 @@ export default {
               this.creditname = ""
               this.registershi = ""
               this.registersheng = ""
+              this.guanname = ""
+              this.model3 = ""
+              this.model4 = ""
               this.loading3= false
               return false;
             }
@@ -917,10 +968,40 @@ export default {
               this.dataname1 = ""
               this.registername = ""
               this.registermodel3 = ""
+              this.guanname = ""
+              this.model3 = ""
+              this.model4 = ""
               this.loading3= false
               return false;
             }
-
+            if( num == 4 ){
+              this.total = parseInt(data.data.total);
+              this.startRow4 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              this.data10 = data.data.creditInstitutionsList
+              this.name = ""
+              this.model1 = ""
+              this.labelstate = ""
+              this.labelcitys = ""
+              this.modelshi = ""
+              this.modelmoble = ""
+              this.dataname1 = ""
+              this.registername = ""
+              this.registermodel3 = ""
+              this.credit1 = ""
+              this.credit2 = ""
+              this.credit3 = ""
+              this.creditname = ""
+              this.registershi = ""
+              this.registersheng = ""
+              // 分页初始化
+              this.endRow = 10
+              this.startRow1 = 1
+              this.startRow2 = 1
+              this.startRow = 1
+              this.startRow3 = 1
+              this.loading3= false
+              return false
+            }
           } else {
             this.total = 0;
             this.loading3= false
@@ -1002,7 +1083,11 @@ export default {
       }
       //信贷机构
       if (name == "tab5") {
-        data = Object.assign({}, parameter);
+        data = Object.assign({
+          institutionsName : this.guanname, //关键字
+          institutionsUpStatus : this.model3, // 上下架状态
+          institutionsRecommendStatus : this.model4 //是否首页推荐
+        }, parameter);
         this.post(
           BASE_URL + "/loan/creditInstitutions/queryCreditInstitutionsList",
           data,
@@ -1084,6 +1169,11 @@ export default {
         this.loading3= true
         this.labell1("tab4");
       }
+    },
+    // 信贷机构 查询
+    mechanisminqury(type){
+        this.loading3= true
+        this.labell1("tab5");
     },
     // 入住 下拉框
     label_option(v) {

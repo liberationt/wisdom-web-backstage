@@ -33,7 +33,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入分钟"
+                    placeholder: "请输入分钟"
                   },
                   style: {
                     width: "160px",
@@ -57,13 +57,13 @@ export default {
                   "分钟"
                 )
               ]);
-            } else if(params.index == 1){
+            } else if (params.index == 1) {
               return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -84,13 +84,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟内'
+                  "分钟内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -111,7 +111,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 2) {
@@ -119,7 +119,7 @@ export default {
                 "Select",
                 {
                   props: {
-                    value: '图中点选'
+                    value: "图中点选"
                   },
                   style: {
                     width: "160px"
@@ -135,28 +135,28 @@ export default {
                     "Option",
                     {
                       props: {
-                        value: '图中点选'
+                        value: "图中点选"
                       }
                     },
-                    '图中点选'
+                    "图中点选"
                   ),
                   h(
                     "Option",
                     {
                       props: {
-                        value: '滑动拼图'
+                        value: "滑动拼图"
                       }
                     },
-                     '滑动拼图'
+                    "滑动拼图"
                   ),
-                   h(
+                  h(
                     "Option",
                     {
                       props: {
-                        value: '智能无感知'
+                        value: "智能无感知"
                       }
                     },
-                     '智能无感知'
+                    "智能无感知"
                   )
                 ]
               );
@@ -165,7 +165,7 @@ export default {
                 "Select",
                 {
                   props: {
-                    value: '开启'
+                    value: "开启"
                   },
                   style: {
                     width: "160px"
@@ -181,28 +181,28 @@ export default {
                     "Option",
                     {
                       props: {
-                        value: '开启'
+                        value: "开启"
                       }
                     },
-                    '开启'
+                    "开启"
                   ),
                   h(
                     "Option",
                     {
                       props: {
-                        value: '关闭'
+                        value: "关闭"
                       }
                     },
-                    '关闭'
+                    "关闭"
                   )
                 ]
               );
-            }  else if (params.index == 4) {
+            } else if (params.index == 4) {
               return h("div", [
                 h("Checkbox", {
                   on: {
                     "on-change": val => {
-                      console.log(1111)
+                      console.log(1111);
                     }
                   }
                 }),
@@ -216,15 +216,15 @@ export default {
                     style: {
                       lineHeight: "24px",
                       display: "inline-block",
-                      padding: "0 10px",
+                      padding: "0 10px"
                     }
                   },
-                  '手机'
+                  "手机"
                 ),
                 h("Checkbox", {
                   on: {
                     "on-change": val => {
-                      console.log(1111)
+                      console.log(1111);
                     }
                   }
                 }),
@@ -238,10 +238,10 @@ export default {
                     style: {
                       lineHeight: "24px",
                       display: "inline-block",
-                      padding: "0 10px",
+                      padding: "0 10px"
                     }
                   },
-                  'IP'
+                  "IP"
                 )
               ]);
             } else if (params.index == 5) {
@@ -250,7 +250,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -271,13 +271,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '小时内'
+                  "小时内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -298,7 +298,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 6) {
@@ -307,7 +307,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -328,13 +328,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '小时内'
+                  "小时内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -355,7 +355,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 7) {
@@ -364,7 +364,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -385,13 +385,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟内'
+                  "分钟内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -412,16 +412,16 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
-            } else if(params.index == 8){
+            } else if (params.index == 8) {
               return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "160px",
@@ -442,7 +442,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟后'
+                  "分钟后"
                 )
               ]);
             }
@@ -459,7 +459,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入分钟"
+                    placeholder: "请输入分钟"
                   },
                   style: {
                     width: "160px",
@@ -483,13 +483,13 @@ export default {
                   "分钟"
                 )
               ]);
-            } else if(params.index == 1){
+            } else if (params.index == 1) {
               return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -510,13 +510,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟内'
+                  "分钟内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -537,7 +537,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 2) {
@@ -545,7 +545,7 @@ export default {
                 "Select",
                 {
                   props: {
-                    value: '图中点选'
+                    value: "图中点选"
                   },
                   style: {
                     width: "160px"
@@ -561,28 +561,28 @@ export default {
                     "Option",
                     {
                       props: {
-                        value: '图中点选'
+                        value: "图中点选"
                       }
                     },
-                    '图中点选'
+                    "图中点选"
                   ),
                   h(
                     "Option",
                     {
                       props: {
-                        value: '滑动拼图'
+                        value: "滑动拼图"
                       }
                     },
-                     '滑动拼图'
+                    "滑动拼图"
                   ),
-                   h(
+                  h(
                     "Option",
                     {
                       props: {
-                        value: '智能无感知'
+                        value: "智能无感知"
                       }
                     },
-                     '智能无感知'
+                    "智能无感知"
                   )
                 ]
               );
@@ -591,7 +591,7 @@ export default {
                 "Select",
                 {
                   props: {
-                    value: '开启'
+                    value: "开启"
                   },
                   style: {
                     width: "160px"
@@ -607,19 +607,19 @@ export default {
                     "Option",
                     {
                       props: {
-                        value: '开启'
+                        value: "开启"
                       }
                     },
-                    '开启'
+                    "开启"
                   ),
                   h(
                     "Option",
                     {
                       props: {
-                        value: '关闭'
+                        value: "关闭"
                       }
                     },
-                    '关闭'
+                    "关闭"
                   )
                 ]
               );
@@ -628,7 +628,7 @@ export default {
                 h("Checkbox", {
                   on: {
                     "on-change": val => {
-                      console.log(1111)
+                      console.log(1111);
                     }
                   }
                 }),
@@ -642,15 +642,15 @@ export default {
                     style: {
                       lineHeight: "24px",
                       display: "inline-block",
-                      padding: "0 10px",
+                      padding: "0 10px"
                     }
                   },
-                  '手机'
+                  "手机"
                 ),
                 h("Checkbox", {
                   on: {
                     "on-change": val => {
-                      console.log(1111)
+                      console.log(1111);
                     }
                   }
                 }),
@@ -664,10 +664,10 @@ export default {
                     style: {
                       lineHeight: "24px",
                       display: "inline-block",
-                      padding: "0 10px",
+                      padding: "0 10px"
                     }
                   },
-                  'IP'
+                  "IP"
                 )
               ]);
             } else if (params.index == 5) {
@@ -676,7 +676,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -697,13 +697,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '小时内'
+                  "小时内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -724,7 +724,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 6) {
@@ -733,7 +733,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -754,13 +754,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '小时内'
+                  "小时内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -781,7 +781,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 7) {
@@ -790,7 +790,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -811,13 +811,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟内'
+                  "分钟内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -838,16 +838,16 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
-            } else if(params.index == 8){
+            } else if (params.index == 8) {
               return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "160px",
@@ -868,7 +868,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟后'
+                  "分钟后"
                 )
               ]);
             }
@@ -885,7 +885,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入分钟"
+                    placeholder: "请输入分钟"
                   },
                   style: {
                     width: "160px",
@@ -909,13 +909,13 @@ export default {
                   "分钟"
                 )
               ]);
-            } else if(params.index == 1){
-               return h("div", [
+            } else if (params.index == 1) {
+              return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -936,13 +936,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟内'
+                  "分钟内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -963,7 +963,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 2) {
@@ -971,7 +971,7 @@ export default {
                 "Select",
                 {
                   props: {
-                    value: '图中点选'
+                    value: "图中点选"
                   },
                   style: {
                     width: "160px"
@@ -987,28 +987,28 @@ export default {
                     "Option",
                     {
                       props: {
-                        value: '图中点选'
+                        value: "图中点选"
                       }
                     },
-                    '图中点选'
+                    "图中点选"
                   ),
                   h(
                     "Option",
                     {
                       props: {
-                        value: '滑动拼图'
+                        value: "滑动拼图"
                       }
                     },
-                     '滑动拼图'
+                    "滑动拼图"
                   ),
-                   h(
+                  h(
                     "Option",
                     {
                       props: {
-                        value: '智能无感知'
+                        value: "智能无感知"
                       }
                     },
-                     '智能无感知'
+                    "智能无感知"
                   )
                 ]
               );
@@ -1017,7 +1017,7 @@ export default {
                 "Select",
                 {
                   props: {
-                    value: '开启'
+                    value: "开启"
                   },
                   style: {
                     width: "160px"
@@ -1033,28 +1033,28 @@ export default {
                     "Option",
                     {
                       props: {
-                        value: '开启'
+                        value: "开启"
                       }
                     },
-                    '开启'
+                    "开启"
                   ),
                   h(
                     "Option",
                     {
                       props: {
-                        value: '关闭'
+                        value: "关闭"
                       }
                     },
-                    '关闭'
+                    "关闭"
                   )
                 ]
               );
-            }  else if (params.index == 4) {
+            } else if (params.index == 4) {
               return h("div", [
                 h("Checkbox", {
                   on: {
                     "on-change": val => {
-                      console.log(1111)
+                      console.log(1111);
                     }
                   }
                 }),
@@ -1068,15 +1068,15 @@ export default {
                     style: {
                       lineHeight: "24px",
                       display: "inline-block",
-                      padding: "0 10px",
+                      padding: "0 10px"
                     }
                   },
-                  '手机'
+                  "手机"
                 ),
                 h("Checkbox", {
                   on: {
                     "on-change": val => {
-                      console.log(1111)
+                      console.log(1111);
                     }
                   }
                 }),
@@ -1090,10 +1090,10 @@ export default {
                     style: {
                       lineHeight: "24px",
                       display: "inline-block",
-                      padding: "0 10px",
+                      padding: "0 10px"
                     }
                   },
-                  'IP'
+                  "IP"
                 )
               ]);
             } else if (params.index == 5) {
@@ -1102,7 +1102,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -1123,13 +1123,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '小时内'
+                  "小时内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -1150,7 +1150,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 6) {
@@ -1159,7 +1159,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -1180,13 +1180,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '小时内'
+                  "小时内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -1207,7 +1207,7 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
             } else if (params.index == 7) {
@@ -1216,7 +1216,7 @@ export default {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "60px",
@@ -1237,13 +1237,13 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟内'
+                  "分钟内"
                 ),
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"获取验证码次数"
+                    placeholder: "获取验证码次数"
                   },
                   style: {
                     width: "90px",
@@ -1264,16 +1264,16 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '次'
+                  "次"
                 )
               ]);
-            } else if(params.index == 8){
+            } else if (params.index == 8) {
               return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder:"请输入时间"
+                    placeholder: "请输入时间"
                   },
                   style: {
                     width: "160px",
@@ -1294,10 +1294,10 @@ export default {
                       background: "#ccc"
                     }
                   },
-                  '分钟后'
+                  "分钟后"
                 )
               ]);
-            }             
+            }
           }
         }
       ],
@@ -1329,7 +1329,7 @@ export default {
         {
           name: "密码登录解冻条件："
         }
-      ],
+      ]
     };
   }
 };
