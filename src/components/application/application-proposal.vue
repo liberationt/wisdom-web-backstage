@@ -30,6 +30,7 @@
   </div>
 </template>
 <script>
+import untils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -47,11 +48,6 @@ export default {
         limit: 10
       },
       columns7: [
-        {
-          title: '序号',
-          key: 'name',
-          align: 'center'
-        },
         {
           title: '提交时间',
           key: 'dataCreateTime',
@@ -88,29 +84,59 @@ export default {
           width: 150,
           align: 'center',
           render: (h, params) => {
-            let titlename
             let httpurl
             if(params.row.status == '0'){//未查看
-                titlename = '查看'
-            }else if(params.row.status == '1'){//已查看
-                titlename = '删除'
-            }
-            return h('div', [
-              h('Button', {
-                props: {
-                  type: 'primary',
-                  size: 'small'
-                },
-                style: {
-                  marginRight: '5px'
-                },
-                on: {
-                  click: () => {
-                    this.$router.push({path: './applicationDetail'})
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      untils.setCookie('code',params.row.suggestionsFeedbackCode)
+                      this.$router.push({path: './applicationDetail?status='+ 0})
+                    }
                   }
-                }
-              }, titlename)
-            ])
+                }, '查看')
+              ])       
+            }else if(params.row.status == '1'){//已查看
+              return h('div', [
+                h('Button', {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      untils.setCookie('code',params.row.suggestionsFeedbackCode)
+                      this.$router.push({path: './applicationDetail?status='+1})
+                    }
+                  }
+                }, '查看'),
+                 h('Button', {
+                  props: {
+                    type: 'error',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px'
+                  },
+                  on: {
+                    click: () => {
+                      this.adopt()
+                    }
+                  }
+                }, '删除')
+              ])    
+            }
+            
           }
         }
       ],
@@ -179,7 +205,29 @@ export default {
           });
           break;
       }
-    }
+    },
+    //删除
+    adopt() {
+      this.$Modal.confirm({
+        title: "温馨提示",
+        content: "<p>确认删除吗?</p>",
+        onOk: () => {
+          this.http.post(BASE_URL+"/loan/suggestionsFeedback/deleteSuggestionsFeedbackByCode",{data:untils.getCookie('code')}).then(data=>{
+            console.log(data)
+            if(data.code == 'success'){
+              this.$Message.info('删除成功！');
+              this.inquery()
+            } else {
+              this.$Message.info('删除失败！');
+            }
+          }).catch(err=>{
+            this.$Message.info('删除失败！');
+            console.log(err)
+          })
+        },
+        onCancel: () => {}
+      });
+    },
   },
   created(){
     // 获取列表

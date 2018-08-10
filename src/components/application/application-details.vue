@@ -9,47 +9,96 @@
         <h3>查看反馈详情</h3>
         <p>
             <span>提交时间:</span>
-            <span>2018-05-10 19:10:13</span>
+            <span>{{sumtime}}</span>
         </p>
         <p>
             <span>用户手机号:</span>
-            <span>13525710490</span>
+            <span>{{userphone}}</span>
         </p>
         <p>
             <span>姓名:</span>
-            <span>哈哈</span>
+            <span>{{username}}</span>
         </p>
         <p>
             <span>反馈内容:</span>
-            <span>这里完整显示所有提交内容</span>
+            <span>{{content}}</span>
         </p>
         <div>
-            <Button type="primary">确认已查看</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Button type="ghost">返回</Button>
+            <Button v-if="confirm" type="primary" @click="confirmview">确认已查看</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <router-link to="./applicationProposal"><Button type="ghost">返回</Button></router-link> 
         </div>
     </div>
 </div>
 </template>
 <script>
+import untils from '../../utils/utils'
 export default {
-}
+  data() {
+    return {
+			confirm: false,
+			sumtime: '',
+			userphone: '',
+			username: '',
+			content: ''
+		};
+	},
+	created(){
+		if(this.$route.query.status == '0'){
+			this.confirm = true
+		} else {
+			this.confirm = false
+		}
+		this.http.post(BASE_URL+'/loan/suggestionsFeedback/getSuggestionsFeedbackByCode',{data : untils.getCookie('code')}).then(data=>{
+			if(data.code == 'success'){
+				this.sumtime = data.data.dataCreateTime 
+				this.userphone = data.data.userPhone 
+				this.username = data.data.userName 
+				this.content = data.data.contents 
+			}
+		}).catch(err=>{
+			console.log(err)
+		})
+	},
+	methods:{
+		confirmview(){
+			this.http.post(BASE_URL+'/loan/suggestionsFeedback/updateSuggestionsFeedbackStatusByCode',{data: untils.getCookie('code')}).then(data=>{
+				// console.log(data)
+				if(data.code == 'success'){
+					 	const title = "温馨提示";
+            this.$Modal.success({
+              title: title,
+              content: "<p>已查看成功</p>",
+              onOk: () => {
+                this.$router.push({ path: "./applicationProposal" });
+              }
+          });
+				} else {
+					this.$Message.info(data.message);
+				}
+			}).catch(err=>{
+				this.$Message.info('服务器累了，请稍等！');
+				console.log(err)
+			})
+		}
+	}
+};
 </script>
 <style lang="less" scoped>
-#feedback_details{
-    border: 1px solid #E7ECF1;
-    padding: 30px 50px;
-    h3{
-        line-height: 50px;
-        border-bottom: 1px solid #E7ECF1;
-        margin-bottom: 20px;
-    }
-    p{
-        line-height: 60px;
-        padding-left: 50px
-    }
-    div{
-        text-align: center;
-        margin-top: 20px
-    }
+#feedback_details {
+  border: 1px solid #e7ecf1;
+  padding: 30px 50px;
+  h3 {
+    line-height: 50px;
+    border-bottom: 1px solid #e7ecf1;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 60px;
+    padding-left: 50px;
+  }
+  div {
+    text-align: center;
+    margin-top: 20px;
+  }
 }
 </style>
