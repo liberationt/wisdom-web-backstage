@@ -25,7 +25,7 @@
         </p>
         <div>
             <Button v-if="confirm" type="primary" @click="confirmview">确认已查看</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <router-link to="./applicationProposal"><Button type="ghost">返回</Button></router-link> 
+            <router-link :to="{path:'./applicationProposal',query: {ispage: this.$route.query.ispage}}"><Button type="ghost">返回</Button></router-link> 
         </div>
     </div>
 </div>
@@ -69,7 +69,7 @@ export default {
               title: title,
               content: "<p>已查看成功</p>",
               onOk: () => {
-                this.$router.push({ path: "./applicationProposal" });
+                this.$router.push({ path: "./applicationProposal?ispage="+this.$route.query.ispage });
               }
           });
 				} else {

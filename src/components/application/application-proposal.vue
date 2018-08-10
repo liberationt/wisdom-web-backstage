@@ -98,7 +98,7 @@ export default {
                   on: {
                     click: () => {
                       untils.setCookie('code',params.row.suggestionsFeedbackCode)
-                      this.$router.push({path: './applicationDetail?status='+ 0})
+                      this.$router.push({path: './applicationDetail?status='+ 0+'&&ispage='+ this.$route.query.ispage})
                     }
                   }
                 }, '查看')
@@ -116,7 +116,7 @@ export default {
                   on: {
                     click: () => {
                       untils.setCookie('code',params.row.suggestionsFeedbackCode)
-                      this.$router.push({path: './applicationDetail?status='+1})
+                      this.$router.push({path: './applicationDetail?status='+1+'&&ispage='+ this.$route.query.ispage})
                     }
                   }
                 }, '查看'),
@@ -166,7 +166,12 @@ export default {
       this.inquery()
     },
     inquery(){
-      console.log(this.model1)
+      let htturll
+      if(this.$route.query.ispage == 'huazan'){
+        htturll = '/loan/suggestionsFeedback/queryHuazanSuggestionsFeedbackList'
+      } else if(this.$route.query.ispage = 'xindai'){
+        htturll = '/loan/suggestionsFeedback/queryQiangdanxiaSuggestionsFeedbackList'
+      }
       if(this.model1 == 'phone'){
         if( this.name.length < 3 && this.name != ''){
           this.phoneti('warning')
@@ -174,7 +179,7 @@ export default {
         } 
       }
       // this.loading3 = true
-      this.http.post(BASE_URL+"/loan/suggestionsFeedback/queryHuazanSuggestionsFeedbackList",{
+      this.http.post(BASE_URL+htturll,{
         pageNum : this.startRow,
         pageSize : this.endRow,
         searchOptions : this.model1,
