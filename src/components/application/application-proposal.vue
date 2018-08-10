@@ -7,7 +7,7 @@
     </div>
     <div class="clearfix">
       <div class="left">
-      <Select v-model="model1" placeholder="姓名" style="width:100px">
+      <Select v-model="model1" placeholder="姓名"  style="width:100px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
@@ -15,13 +15,17 @@
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       </div>
-      <Button class="right mr100" type="primary" icon="ios-search">查询</Button>
+      <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="inquery">查询</Button> -->
+      <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquery('warning')">
+        <span v-if="!loading3">查询</span>
+        <span v-else>查询</span>
+      </Button>
     </div>
     <div id="application_table">
       <Table border :columns="columns7" :data="data6"></Table>
     </div>
     <div class="tr mt15">
-      <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+      <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
     </div>
   </div>
 </template>
@@ -29,29 +33,15 @@
 export default {
   data () {
     return {
-      cityList: [
-        {
-          value: '姓名',
-          label: '姓名'
-        },
-        {
-          value: '手机号',
-          label: '手机号'
-        }
-      ],
-      cityType: [
-        {
-          value: '已查看',
-          label: '已查看'
-        },
-        {
-          value: '未查看',
-          label: '未查看'
-        }
-      ],
+      cityList: [],
+      cityType: [],
       model1: '',
       model2: '',
       name: '',
+      startRow: 1,
+      endRow: 10,
+      total: 0,
+      loading3: false,
       params: {
         page: 1,
         limit: 10
@@ -64,27 +54,32 @@ export default {
         },
         {
           title: '提交时间',
-          key: 'title',
+          key: 'dataCreateTime',
+          minWidth: 200,
           align: 'center'
         },
         {
           title: '内容',
-          key: 'plantime',
+          key: 'contents',
+          minWidth: 400,
           align: 'center'
         },
         {
           title: '用户手机号',
-          key: 'actualtime',
+          key: 'userPhone',
+          minWidth: 120,
           align: 'center'
         },
         {
           title: '姓名',
-          key: 'platform',
+          key: 'userName',
+          minWidth: 80,
           align: 'center'
         },
         {
           title: '状态',
-          key: 'object',
+          key: 'statusValue',
+          minWidth: 80,
           align: 'center'
         },
         {
@@ -93,6 +88,13 @@ export default {
           width: 150,
           align: 'center',
           render: (h, params) => {
+            let titlename
+            let httpurl
+            if(params.row.status == '0'){//未查看
+                titlename = '查看'
+            }else if(params.row.status == '1'){//已查看
+                titlename = '删除'
+            }
             return h('div', [
               h('Button', {
                 props: {
@@ -107,124 +109,12 @@ export default {
                     this.$router.push({path: './applicationDetail'})
                   }
                 }
-              }, '查看'),
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'error',
-                    size: 'small'
-                  },
-                  on: {
-                    click: () => {
-                      this.remove(params.index)
-                    }
-                  }
-                },
-                '删除'
-              )
+              }, titlename)
             ])
           }
         }
       ],
-      data6: [
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          object: '未查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          object: '未查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          object: '未查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        },
-        {
-          name: '01',
-          title: '2018-03-29 15:12:34',
-          plantime: '小额短期贷，最高5000元，拿钱嗖嗖嗖！....',
-          actualtime: '137****7766',
-          platform: '李*',
-          show: true,
-          object: '已查看'
-        }
-      ]
+      data6: []
     }
   },
   methods: {
@@ -241,10 +131,68 @@ export default {
     },
     pageChange (page) {
       this.params.page = page
+      this.startRow = page
+      this.inquery()
     },
     PageSizeChange (limit) {
       this.params.limit = limit
+      this.endRow = limit
+      this.inquery()
+    },
+    inquery(){
+      console.log(this.model1)
+      if(this.model1 == 'phone'){
+        if( this.name.length < 3 && this.name != ''){
+          this.phoneti('warning')
+          return false
+        } 
+      }
+      // this.loading3 = true
+      this.http.post(BASE_URL+"/loan/suggestionsFeedback/queryHuazanSuggestionsFeedbackList",{
+        pageNum : this.startRow,
+        pageSize : this.endRow,
+        searchOptions : this.model1,
+        searchValue : this.name,
+        statusOptions : this.model2 
+      }).then(data=>{
+        // console.log(data)
+        if(data.code == 'success'){
+          this.total = parseInt(data.data.total)
+          this.data6 = data.data.dataList
+        } else {
+          this.total = 0
+        }
+      }).catch(err=>{
+        this.total = 0
+        console.log(err)
+      })
+    },
+    // 手机号提示
+    phoneti(type) {
+      const title = "温馨提示";
+      const content = "<p>手机号不能小于3位数</p>";
+      switch (type) {
+        case "warning":
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          break;
+      }
     }
+  },
+  created(){
+    // 获取列表
+    this.http.post(BASE_URL+"/loan/suggestionsFeedback/getSuggestionsFeedbackListSearchConfig").then(data=>{
+      // console.log(data)
+      if(data.code == 'success'){
+        this.cityList = data.data.searchOptions
+        this.cityType = data.data.statusOptions
+      }
+    }).catch(err=>{
+      console.log(err)
+    })
+    this.inquery()
   }
 }
 </script>

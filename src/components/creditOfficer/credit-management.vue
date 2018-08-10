@@ -1145,7 +1145,7 @@ export default {
     // 注册无资料查询
     registerinquery(type) {
        if (this.register == "mobile") {
-        if (this.registername == "" || this.registername.length < 3) {
+        if (this.registername != "" || this.registername.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
