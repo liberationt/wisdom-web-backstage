@@ -573,7 +573,7 @@ export default {
         },
         {
           title: "服务介绍初始状态",
-          key: "serviceIntroductionStatus",
+          key: "serviceIntroductionStatusName",
            minWidth: 200,
           align: "center"
         },

@@ -22,7 +22,7 @@ export default {
       number3: 1,
       number61: 1,
       number62: 1,
-      number63: 1,
+      number63: 1,      
       columns1: [
         {
           title: "",
@@ -36,6 +36,7 @@ export default {
           minWidth: 300,
           key: "high",
           render: (h, params) => {
+            if (params.row.ruleLevel == 3) {
             if (params.index == 0) {
               return h("div", [
                 h("Input", {
@@ -677,7 +678,7 @@ export default {
                         placeholder: "请输入时间"
                       },
                       style: {
-                        width: "60px",
+                        width: "100px",
                         verticalAlign: "bottom",
                         marginBottom: "10px"
                       }
@@ -822,6 +823,7 @@ export default {
               ]);
             }
           }
+          }
         },
         {
           title: "中",
@@ -829,6 +831,7 @@ export default {
           minWidth: 300,
           key: "middle",
           render: (h, params) => {
+            if (params.row.ruleLevel == 2) {
             if (params.index == 0) {
               return h("div", [
                 h("Input", {
@@ -1615,6 +1618,7 @@ export default {
               ]);
             }
           }
+          }
         },
         {
           title: "低",
@@ -1622,13 +1626,16 @@ export default {
           minWidth: 300,
           key: "low",
           render: (h, params) => {
+            console.log(params.row)
+            if (params.row.ruleLevel == 1) {                         
             if (params.index == 0) {
               return h("div", [
                 h("Input", {
                   props: {
                     // type: "primary",
                     size: "small",
-                    placeholder: "请输入分钟"
+                    placeholder: "请输入分钟",
+                    value: '111'
                   },
                   style: {
                     width: "160px",
@@ -2409,39 +2416,21 @@ export default {
             }
           }
         }
-      ],
-      data1: [
-        {
-          name: "验证码有效时间："
-        },
-        {
-          name: "弹二次验证的条件："
-        },
-        {
-          name: "二次验证类型:"
-        },
-        {
-          name: "是否开启加入黑名单："
-        },
-        {
-          name: "风控维度："
-        },
-        {
-          name: "手机加入黑名单条件："
-        },
-        {
-          name: "IP加入黑名单条件："
-        },
-        {
-          name: "密码登录冻结条件："
-        },
-        {
-          name: "密码登录解冻条件："
         }
-      ]
+      ],
+      data1: []
     };
   },
-  created() {}
+  created() {
+    // 获取数据
+    this.http.post(BASE_URL+"/rule/RiskRule/getRiskRuleList ",{ pageNum: 1,pageSize: 10}).then(data=>{
+      console.log(data)
+      this.data1 = data.data.riskRuleList
+      console.log(this.data1)
+    }).catch(err=>{
+      console.log(err)
+    })
+  }
 };
 </script>
 <style lang="less" scoped>
