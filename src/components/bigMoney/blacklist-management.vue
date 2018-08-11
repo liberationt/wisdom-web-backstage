@@ -1,520 +1,403 @@
 <template>
-<div>
-    <div class="navigation">
-      <p>
-        <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置</span>
-      </p>
+    <div>
+        <div class="navigation">
+            <p>
+                <span>黑名单管理</span>
+            </p>
+        </div>
+        <!-- <Tabs type="card" :animated="false"> -->
+          <div class="mt50">
+            <span>手机号:</span>
+            <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 200px"></Input>
+            <span>创建时间:</span>
+            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <span>  -  </span>
+            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <div class="clearfix mr100 mt20">
+                <!-- <Button class="right" type="primary">导出</Button> -->
+                <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
+                <!-- <Button class="left mr20 w100 " type="info" @click="inquire">查询</Button> -->
+                <Button type="info" class="left mr20 w100" :loading="loading3" @click="inquire">
+                  <span v-if="!loading3">查询</span>
+                  <span v-else>查询</span>
+                </Button>
+            </div>
+        </div>
+        <div class="mt20">
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
+        </div>
+        <div class="tr mt15">
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+        </div>
+         <Modal
+          title="上传黑名单"
+          v-model="modal9"
+          @on-ok="handleSubmit('formCustom')"
+          @on-cancel="handleReset('formCustom')"
+          ok-text="上传"
+          cancel-text="取消"
+          class-name="vertical-center-modal"
+          width="500"
+          :loading="loading"
+          :mask-closable="false">
+          <Row>
+            <Col span="10" offset="6">
+              <div class="mt50">
+                <ul >
+                  <li class="clearfix updatel">
+                    <span class="left lh32">选择文件:</span>
+                    <Input v-model="namelist" disabled style="width: 200px" class="left ml5"></Input>
+                    <Upload
+                      :before-upload="handleUpload"
+                      :show-upload-list="false"
+                      :format="['xlsx', 'xls']"
+                      :on-format-error="handleFormatError2"
+                      action=''>
+                      <Button type="ghost" icon="ios-cloud-upload-outline">浏览</Button>
+                    </Upload>
+                  </li>
+                    <li class="mt15 clearfix" style="width:400px">
+                      <span class="left lh32">上传模板:</span>
+                      <a :href="value3" class="blue1 left lh32 ml5" >{{hrefxls}}</a>
+                    </li>
+                  <!-- <li class="mt50">
+                      <Button class="w100 ml50  " type="info" id="upload"  @click="upload">上传</Button>
+                      <Button class="w100 ml50" @click="cancel">取消</Button>
+                  </li> -->
+                  </ul>
+              </div>
+            </Col>
+          </Row>
+        </Modal>
+    <!-- </Tabs> -->
     </div>
-    <Tabs type="card" @on-click="labell1" :value="tabs" :animated="false">
-        <TabPane :label="label" name="tab1" >
-            <div class="clearfix">
-            <div class="left">
-            <Input v-model="name" placeholder="请输入手机号"  style="width: 150px">
-            </Input>
-            </div>
-            <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="left ml20 w100" :loading="loading3" @click="label_query('warning')">
-              <span v-if="!loading3">查询</span>
-              <span v-else>查询</span>
-            </Button>
-            </div>
-            <div id="application_table" class="mt15">
-            <Table border :columns="columns7" :data="data6"></Table>
-            </div>
-            <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
-            </div>
-        </TabPane>
-        <TabPane label="枪弹侠" name="tab2">
-            <div class="clearfix">
-            <div class="left">
-            <Select v-model="model12" style="width:100px" @on-change="label_option1">
-              <Option v-for="item in searchOptions1" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Input v-model="name1" placeholder="请输入关键字"  style="width: 150px">
-            </Input>
-            </div>
-            <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="label_query1('warning')">
-              <span v-if="!loading3">查询</span>
-              <span v-else>查询</span>
-            </Button>
-            </div>
-            <div id="application_table" class="mt15">
-            <Table border :columns="columns8" :data="data7"></Table>
-            </div>
-            <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
-            </div>
-        </TabPane>
-    </Tabs>
-</div>
 </template>
 <script>
 export default {
   data () {
     return {
-      label: h => {
-        return h('div', [
-          h('span', '华赞金服'),
-        ])
-      },
-      evaluatename: [
-        {
-          value: '姓名',
-          label: '姓名'
-        },
-        {
-          value: '手机号',
-          label: '手机号'
-        }
-      ],
-      model12: '',
-      tabs: "tab1",
+      loading3: false,
       model1: '',
-      searchOptions: [],
-      searchOptions1: [],
-      searchOptions2: [],
-      model2: '',
-      name: '',
-      name1: '',
-      name2: '',
-      params: {
-        page: 1,
-        limit: 10
-      },
+      value1: '',
+      value2: '',
+      value3: '',
+      hrefxls: '',
+      total: 0,
+      startRow: 1,
+      endRow: 10,
+      filename: '',
+      namelist: '',
+      loading: true,
       columns7: [
         {
-          title: '类型',
-          key: 'blackType',
-          minWidth: 200,
+          title: 'NO',
           align: 'center',
-           render: (h, params) => {
-             let blackType
-            if(params.row.blackType == '1'){
-              blackType = 'IP'
-            } else if(params.row.blackType == '2'){
-              blackType = '手机'
-            }
+          render: (h, params) => {          
             return h('div', [
-              h(
-                'span',
-                {
-                  props: {
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                },
-                blackType
-              )
+              h('span', {
+              }, params.index+1)
             ])
           }
         },
         {
-          title: '手机号/IP',
-          key: 'blackValue ',
-          minWidth: 200,
-          align: 'center'
+          title: '手机号',
+          align: 'center',
+          key: 'phone'
+        },
+        {
+          title: '姓名',
+          align: 'center',
+          key: 'name'
         },
         {
           title: '备注',
-          key: 'memo',
-          minWidth: 200,
-          align: 'center'
+          align: 'center',
+          key: 'memo'
         },
         {
-          title: '添加时间',
-          key: 'orderArea',
-          minWidth: 100,
-          align: 'center'
+          title: '创建时间',
+          align: 'center',
+          key: 'dataCreateTime'
         },
-  
         {
-          title: '操作',
-          key: 'action',
-          minWidth: 150,
+          title: '编辑',
+          key: 'address',
+          width: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({ path: './evaluationReview?commentCode='+params.row.commentCode+'&isPass='+0})
-                    }
-                  }
+              h('Button', {
+                props: {
+                  type: 'error',
+                  size: 'small'
                 },
-                '移除黑名单'
-              )
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.delete (params.row.blackCode)
+                    // this.remove(params.index)
+                  }
+                }
+              }, '删除')
             ])
           }
         }
       ],
       data6: [],
-      columns8: [
-        {
-          title: '审核时间',
-          key: 'checkTime',
-          width: 200,
-          align: 'center'
-        },
-        {
-          title: '审核人员',
-          width: 100,
-          key: 'userName',
-          align: 'center'
-        },
-        {
-          title: '评价时间',
-          key: 'commentCreateTime',
-          width: 200,
-          align: 'center'
-        },
-        {
-          title: '订单编号',
-          key: 'orderNum',
-          width: 200,
-          align: 'center'
-        },
-        {
-          title: '订单时间',
-          key: 'orderCreateTime',
-          width: 200,
-          align: 'center'
-        },
-        {
-          title: '区域',
-          key: 'orderArea',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '客户姓名',
-          key: 'loanUserName',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '手机',
-          key: 'loanUserPhone',
-          width: 200,
-          align: 'center'
-        },
-        {
-          title: '服务费用',
-          key: 'serviceCost',
-          width: 100,
-          align: 'center'
-        },
-        {
-          title: '评价分数',
-          width: 200,
-          align: 'center',
-          render: (h, params) => {
-            let listimg = []
-            for (let i = 0; i < params.row.stars; i++) {
-              listimg.push(
-                h('img', {
-                  attrs: {
-                    src: require('../../image/pointed-star.png')
-                  },
-                  style: {
-                    width: '20px',
-                    height: '20px',
-                    marginRight: '5px'
-                  }
-                })
-              )
-            }
-            return h('div', listimg)
-          }
-        },
-        {
-          title: '操作',
-          key: 'action',
-          width: 150,
-          align: 'center',
-          render: (h, params) => {
-            return h('div', [
-              h(
-                'Button',
-                {
-                  props: {
-                    type: 'primary',
-                    size: 'small'
-                  },
-                  style: {
-                    marginRight: '5px'
-                  },
-                  on: {
-                    click: () => {
-                      this.$router.push({ path: './evaluationReview?commentCode='+params.row.commentCode+'&isPass='+1})
-                    }
-                  }
-                },
-                '查看详情'
-              )
-            ])
-          }
-        }
-      ],
-      data7: [],
-      data8: [],
-      cityTypel: [],
-      cityTypel2: [],
-      startRow: 1,
-      endRow: 10,
-      total: 0,
-      models: "",
-      models1: "",
-      models2: "",
-      modelshi:"",
-      modelshi1:"",
-      modelshi2:"",
-      loading3: false
+      modal9: false,
+      uploadl: '',
+      fileerror: ''
     }
   },
   methods: {
-    show (index) {
-      this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${
-          this.data6[index].age
-        }<br>Address：${this.data6[index].address}`
+    // 上传弹框
+    handleReset (name) {
+      this.namelist = ''
+    },
+    // 分页
+    updatelist(){
+      this.modal9 = true
+    },
+    pageChange (page) {
+      this.startRow = page
+      this.inquire()
+    },
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      this.inquire()
+    },
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
       })
     },
-    remove (index) {
-      this.data6.splice(index, 1)
-    },
-    // 待审核
-    pageChange (page) {
-      this.startRow = page;
-      this.params.page = page;
-      this.labell1("tab1");
-    },
-    PageSizeChange (limit) {
-      this.startRow = 1;
-      this.endRow = limit;
-      this.labell1("tab1");
-      this.params.limit = limit
-    },
-    // 查询
-    label_query(type) {
-      if (this.model1 == "mobile") {
-        if (this.name == "" || this.name.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab1");
+    handleUpload(file) {
+       if(file.size > 22949339){
+        this.value9 = ""
+        this.$Message.info("请选择20兆以内的文件")
+        return false
+      }
+      let splic = file.name.split('.')
+			if (splic[splic.length-1] == 'xlsx' || splic[splic.length-1] == 'xls') {
+        this.filename = ''
+        this.fileerror = ''
+      let formData = new FormData()
+				formData.append('file', file)
+				formData.append('bucket', 'netmoney')
+				formData.append('dirs', 'blacklist')
+				let config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            timeout:1000*60*5
+				}
+				this.http.post(BASE_URL + '/fileUpload', formData, config)
+				.then((resp) => {
+				if (resp.code == 'success') {
+          this.filename = resp.data
+          this.uploadl = 'success'
+				} else {
+				}
+				})
+				.catch(err => {
+
+          this.fileerror = 'error'
+        })
+          this.namelist = file.name
+          return false
         }
+    },
+    // 上传格式校验
+    handleFormatError2(file) {
+      this.namelist = ''
+      this.$Message.info("文件格式不正确,请上传excel格式文件")
+    },
+    // 上传文件
+    // 上传
+    handleSubmit () {
+      if (this.namelist == '') {
+        this.changeLoading()
+        const title = '上传文件'
+        let content = '<p>请先上传文件</p>'
+        this.$Modal.warning({
+          title: title,
+          content: content
+        })
+        return false
+      }  else if(this.fileerror == 'error'){
+					this.changeLoading()
+					const title = '上传文件'
+					let content = '<p>上传失败，请稍后再试</p>'
+					this.$Modal.warning({
+					title: title,
+					content: content
+					})
+					return false
+				}else if(this.uploadl == ''){
+        this.changeLoading()
+        const title = '上传报表'
+        let content = '<p>文件上传中...请稍后点击上传按钮！</p>'
+        this.$Modal.warning({
+        title: title,
+        content: content
+        })
+        return false
+      } else if(this.filename == ''){
+        this.changeLoading()
+        const title = '上传报表'
+        let content = '<p>文件上传中...请稍后点击上传按钮！</p>'
+        this.$Modal.warning({
+        title: title,
+        content: content
+        })
+        return false
       } else {
-        this.loading3= true
-        this.labell1("tab1");
-      }
-    },
-    // 审核成功
-    pageChange1 (page) {
-      this.startRow = page;
-      this.params.page = page;
-      this.labell1("tab2");
-    },
-    PageSizeChange1 (limit) {
-      this.startRow = 1;
-      this.endRow = limit;
-      this.labell1("tab2");
-      this.params.limit = limit
-    },
-    // 查询
-    label_query1(type) {
-      if (this.model12 == "mobile") {
-        if (this.name1 == "" || this.name1.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab2");
-        }
-      } else {
-        this.loading3= true
-        this.labell1("tab2");
-      }
-    },
-    // 审核失败
-    pageChange2 (page) {
-      this.startRow = page;
-      this.params.page = page;
-      this.labell1("tab3");
-    },
-    PageSizeChange2 (limit) {
-      this.startRow = 1;
-      this.endRow = limit;
-      this.labell1("tab3");
-      this.params.limit = limit
-    },
-    // 查询
-    label_query2(type) {
-      if (this.model13 == "mobile") {
-        if (this.name2 == "" || this.name2.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab3");
-        }
-      } else {
-        this.loading3= true
-        this.labell1("tab3");
-      }
-    },
-    //tab 栏
-    labell1(name) {
-      // console.log(name)
-      let parameter = {
-        pageSize: this.endRow,
-        pageNum: this.startRow
-      };
-      let data;
-      //待审核评价
-      if (name == "tab1") {
-        data = Object.assign(
-          {
-            isPass : 0,
-            searchValue: this.name, //手机号or姓名的参数
-            searchOptions: this.model1, //手机号or 姓名
-          },
-          parameter
-        );
-        this.post(
-          BASE_URL + "/black/RiskBlackList/getRiskBlackListList",
-          data,
-          0
-        );
-      }
-      //评价成功
-      if (name == "tab2") {
-        // alert(33)
-        data = Object.assign(
-          {
-            isPass : 1,
-            searchValue: this.name1, //手机号or姓名的参数
-            searchOptions1: this.model12, //手机号or 姓名
-            // loanAdCodeFirst: this.labelcitys1, //区域 省
-            loanAdcode: this.modelshi1 //市
-          },
-          parameter
-        );
-        this.post(
-          BASE_URL + httpUrl1,
-          data,
-          1
-        );
-      }
-      //评价失败
-      if (name == "tab3") {
-        data = Object.assign({
-          isPass : 2,
-          searchValue: this.name2, //手机号or姓名的参数
-          searchOptions2: this.model13, //手机号or 姓名
-        }, parameter);
-        this.post(BASE_URL + httpUrl1, data, 2);
-      }
-    },
-    post(httpUrl, params, num) {
-      this.http
-        .post(httpUrl, params)
-        .then(data => {
-          if (data.code == "success") {
-            if (num == 0) {
-              this.data6 = data.data.dataList;
-              this.total = parseInt(data.data.total);
-              // 分页初始化
-              this.endRow = 10
-              this.startRow = 1
-              //数据初始化
-              this.model13 = ""
-              this.name2 = ""
-              this.models2 = ""
-              this.modelshi1 = ""
-              this.modelshi2 = ""
-              this.model12 = ""
-              this.name1 = ""
-              this.models1 = ""
-              this.loading3= false
-              return false;
-            }
-            if (num == 1) {
-              this.data7 = data.data.dataList;
-              this.total = parseInt(data.data.total);
-              // 分页初始化
-              this.endRow = 10
-              this.startRow = 1
-              // 数据初始化
-              this.model13 = ""
-              this.name2 = ""
-              this.models2 = ""
-              this.modelshi = ""
-              this.modelshi2 = ""
-              this.model1 = ""
-              this.name = ""
-              this.models = ""
-              this.loading3= false
-              return false;
-            }
-            if (num == 2) {
-              this.data8 = data.data.dataList;
-              this.total = parseInt(data.data.total);
-              // 分页初始化
-              this.endRow = 10
-              this.startRow = 1
-              // 数据初始化
-              this.modelshi = ""
-              this.modelshi1 = ""
-              this.model12 = ""
-              this.name1 = ""
-              this.models1 = ""
-              this.modelshi2 = ""
-              this.model1 = ""
-              this.models = ""
-              this.loading3= false
-              return false;
-            }
+        let	url = this.filename
+        this.http.get(BASE_URL + '/loan/pushBlack/uploadFileExcel?url='+url)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.changeLoading()
+            const title = '上传名单'
+            let content = '<p>上传成功</p>'
+            this.$Modal.success({
+              title: title,
+              content: content
+            })
+            this.modal9 = false
+            this.namelist = ''
+            this.inquire()
           } else {
-            this.loading3 = false;
-            this.total = 0;
+            this.$Message.info(resp.message)
+            this.changeLoading()
           }
         })
         .catch(err => {
-          this.loading3 = false;
-          console.log(err);
-        });
-    },
-    // 手机号提示
-    phoneti(type) {
-      const title = "温馨提示";
-      const content = "<p>手机号不能小于3位数</p>";
-      switch (type) {
-        case "warning":
-          this.$Modal.warning({
+          console.log(err)
+          this.modal9 = false
+          this.namelist = ''
+          this.changeLoading()
+          const title = '上传名单'
+          let content = '<p>上传失败</p>'
+          this.$Modal.success({
             title: title,
             content: content
-          });
-          break;
-      }
+          })
+          })  
+        }
     },
+     // 时间判断
+    time1 (value, data) {
+      this.value1 = value
+    },
+    time2 (value, data) {
+      this.value2 = value
+    },
+    // 查询
+    inquire () {
+      this.loading3 = true
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.loading3 = false
+        this.$Modal.warning({
+          title: '注册时间',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      }
+      let list = {
+        phone : this.model1,
+        beginTime : this.value1,
+        endTime  : this.value2,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/pushBlack/getPushBlackListBy', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.data6 = resp.data.pushBlackReqList
+          this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.loading3 = false
+        } else {
+          this.loading3 = false
+        }
+      })
+      .catch(() => {
+        this.loading3 = false
+      })
+    },
+    // 删除
+    delete (code) {
+      let list = {
+        blackCode : code,
+        dataFlag :0
+      }
+      this.http.post(BASE_URL + '/loan/pushBlack/updatePushBlackByCode', list)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.$Modal.confirm({
+          title: '删除',
+          content: '<p>确认要删除吗?</p>',
+          onOk: () => {
+            this.inquire ()
+          },
+          onCancel: () => {
+              
+          }
+        }) 
+      } else {
+
+      }
+    })
+    .catch(() => {
+    })
+    },
+
   },
-  created(){
-    //初始化
-    this.labell1("tab1");
+  mounted () {
+    var date = new Date();
+    var seperator1 = "-";
+    var year = date.getFullYear();
+    var month = date.getMonth() + 1;
+    var strDate = date.getDate();
+    if (month >= 1 && month <= 9) {
+    month = "0" + month;
+    }
+    if (strDate >= 0 && strDate <= 9) {
+    strDate = "0" + strDate;
+    }
+    var currentdate = year + seperator1 + month + seperator1 + strDate;
+    this.value1 =  currentdate;
+    this.value2 = currentdate;
+    this.inquire ()
+    this.hrefxls = 'black_list.xlsx'
+    this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/black_list.xlsx'
   }
 }
 </script>
 <style lang="less" scoped>
+.vertical-center-modal{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .ivu-modal{
+            top: 0;
+        }
+    }
+.updatel {
+  width: 400px;
+
+}
+.ivu-col-offset-6 {
+  margin-left: 10px !important;
+}
+.ivu-row{
+  padding-bottom: 25px !important;
+}
 </style>
