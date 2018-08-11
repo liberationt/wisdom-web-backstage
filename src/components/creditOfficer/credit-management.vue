@@ -797,6 +797,7 @@ export default {
       this.labell1("tab5");
     },
     PageSizeChange(limit) {
+      this.startRow = 1
       this.endRow = limit;
       this.params.limit = limit;
       this.labell1("tab5");
@@ -809,6 +810,7 @@ export default {
       // this.labell1("tab1");
     },
     PageSizeChange1(limit) {
+      this.startRow = 1
       console.log(limit);
       this.endRow = limit;
       this.params.limit = limit;
@@ -835,7 +837,8 @@ export default {
       this.params.page = page;
     },
     PageSizeChange3(limit){
-      console.log(limit);
+      // console.log(limit);
+      this.startRow = 1
       this.endRow = limit;
       this.labell1("tab3");
       this.params.limit = limit;

@@ -161,6 +161,7 @@ export default {
       this.inquery()
     },
     PageSizeChange (limit) {
+      this.startRow = 1
       this.params.limit = limit
       this.endRow = limit
       this.inquery()
