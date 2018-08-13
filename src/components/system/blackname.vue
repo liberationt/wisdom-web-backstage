@@ -144,13 +144,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path:
-                          "./evaluationReview?commentCode=" +
-                          params.row.commentCode +
-                          "&isPass=" +
-                          0
-                      });
+                      // alert(params.row.blackCode)
+                      this.adopt(params.row.blackCode)
                     }
                   }
                 },
@@ -163,86 +158,55 @@ export default {
       data6: [],
       columns8: [
         {
-          title: "审核时间",
-          key: "checkTime",
-          width: 200,
-          align: "center"
-        },
-        {
-          title: "审核人员",
-          width: 100,
-          key: "userName",
-          align: "center"
-        },
-        {
-          title: "评价时间",
-          key: "commentCreateTime",
-          width: 200,
-          align: "center"
-        },
-        {
-          title: "订单编号",
-          key: "orderNum",
-          width: 200,
-          align: "center"
-        },
-        {
-          title: "订单时间",
-          key: "orderCreateTime",
-          width: 200,
-          align: "center"
-        },
-        {
-          title: "区域",
-          key: "orderArea",
-          width: 100,
-          align: "center"
-        },
-        {
-          title: "客户姓名",
-          key: "loanUserName",
-          width: 100,
-          align: "center"
-        },
-        {
-          title: "手机",
-          key: "loanUserPhone",
-          width: 200,
-          align: "center"
-        },
-        {
-          title: "服务费用",
-          key: "serviceCost",
-          width: 100,
-          align: "center"
-        },
-        {
-          title: "评价分数",
-          width: 200,
+          title: "类型",
+          key: "blackType",
+          minWidth: 200,
           align: "center",
           render: (h, params) => {
-            let listimg = [];
-            for (let i = 0; i < params.row.stars; i++) {
-              listimg.push(
-                h("img", {
-                  attrs: {
-                    src: require("../../image/pointed-star.png")
+            let blackType;
+            if (params.row.blackType == "1") {
+              blackType = "IP";
+            } else if (params.row.blackType == "2") {
+              blackType = "手机";
+            }
+            return h("div", [
+              h(
+                "span",
+                {
+                  props: {
+                    size: "small"
                   },
                   style: {
-                    width: "20px",
-                    height: "20px",
                     marginRight: "5px"
                   }
-                })
-              );
-            }
-            return h("div", listimg);
+                },
+                blackType
+              )
+            ]);
           }
+        },
+        {
+          title: "手机号/IP",
+          key: "blackValue",
+          minWidth: 200,
+          align: "center"
+        },
+        {
+          title: "备注",
+          key: "memo",
+          minWidth: 200,
+          align: "center"
+        },
+        {
+          title: "添加时间",
+          key: "orderArea",
+          minWidth: 100,
+          align: "center"
         },
         {
           title: "操作",
           key: "action",
-          width: 150,
+          minWidth: 150,
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -263,12 +227,12 @@ export default {
                           "./evaluationReview?commentCode=" +
                           params.row.commentCode +
                           "&isPass=" +
-                          1
+                          0
                       });
                     }
                   }
                 },
-                "查看详情"
+                "移除黑名单"
               )
             ]);
           }
@@ -318,12 +282,12 @@ export default {
     },
     // 查询
     label_query(type) {
-        if (this.name != "" && this.name.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3 = true;
-          this.labell1("tab1");
-        }
+      if (this.name != "" && this.name.length < 3) {
+        this.phoneti(type);
+      } else {
+        this.loading3 = true;
+        this.labell1("tab1");
+      }
     },
     // 审核成功
     pageChange1(page) {
@@ -372,45 +336,30 @@ export default {
         pageSize: this.endRow,
         pageNum: this.startRow
       };
+      let httpurl = "/black/riskBlackList/getRiskBlackListList";
       let data;
       //待审核评价
       if (name == "tab1") {
         data = Object.assign(
           {
             blackValue: this.name ? this.name : null, //手机号or姓名的参数
-            businessAlias: "56DECD723B2151ECE39F98693F904E3E"
+            businessAlias: "56DECD723B2151ECE39F98693F904E3E" //华赞
           },
           parameter
         );
-        this.post(
-          BASE_URL + "/black/riskBlackList/getRiskBlackListList",
-          data,
-          0
-        );
+        this.post(BASE_URL + httpurl, data, 0);
       }
       //评价成功
       if (name == "tab2") {
         // alert(33)
         data = Object.assign(
           {
-            blackValue: this.name1, //手机号or姓名的参数
-            searchOptions1: this.model12, //手机号or 姓名
+            blackValue: this.name1 ? this.name1 : null, //手机号or姓名的参数
+            businessAlias: "56DECD723B2151ECE39F98693F904E3E" //枪弹侠
           },
           parameter
         );
-        this.post(BASE_URL + httpUrl1, data, 1);
-      }
-      //评价失败
-      if (name == "tab3") {
-        data = Object.assign(
-          {
-            isPass: 2,
-            searchValue: this.name2, //手机号or姓名的参数
-            searchOptions2: this.model13 //手机号or 姓名
-          },
-          parameter
-        );
-        this.post(BASE_URL + httpUrl1, data, 2);
+        this.post(BASE_URL + httpurl, data, 1);
       }
     },
     post(httpUrl, params, num) {
@@ -431,7 +380,7 @@ export default {
               return false;
             }
             if (num == 1) {
-              this.data7 = data.data.dataList;
+              this.data7 = data.data.riskBlackListList; //枪单侠
               this.total = parseInt(data.data.total);
               // 分页初始化
               this.endRow = 20;
@@ -463,6 +412,35 @@ export default {
           });
           break;
       }
+    },
+    //移除黑名单
+    adopt(code) {
+      this.$Modal.confirm({
+        title: "温馨提示",
+        content: "<p>确认移除黑名单吗?</p>",
+        onOk: () => {
+          this.http
+            .post(
+              BASE_URL +
+                "/black/riskBlackList/updateRiskBlackListByCode",
+              { blackCode : code,blackFlag : 1 }
+            )
+            .then(data => {
+              console.log(data);
+              if (data.code == "success") {
+                this.$Message.info("移除成功！");
+                this.labell1("tab1");
+              } else {
+                this.$Message.info("移除失败！");
+              }
+            })
+            .catch(err => {
+              this.$Message.info("移除失败！");
+              console.log(err);
+            });
+        },
+        onCancel: () => {}
+      });
     }
   },
   created() {
