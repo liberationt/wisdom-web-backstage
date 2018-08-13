@@ -804,34 +804,34 @@ export default {
     },
     //入驻待审核分页
     pageChange1(page) {
-      console.log(page);
+      // console.log(page);
       this.startRow = page;
       this.params.page = page;
       // this.labell1("tab1");
     },
     PageSizeChange1(limit) {
       this.startRow = 1
-      console.log(limit);
+      // console.log(limit);
       this.endRow = limit;
       this.params.limit = limit;
       // this.labell1("tab1");
     },
     // 资料待审核 分页
     zipageChange(page) {
-      console.log(page);
+      // console.log(page);
       this.startRow = page;
       this.params.page = page;
       this.labell1("tab2");
     },
     zipageSizeChange(limit) {
-      console.log(limit)
+      // console.log(limit)
       this.endRow = limit;
       this.params.limit = limit;
       this.labell1("tab2");
     },
     // 注册无资料分页
     pageChange3(page){
-      console.log(page);
+      // console.log(page);
       this.startRow = page;
       this.labell1("tab3");
       this.params.page = page;

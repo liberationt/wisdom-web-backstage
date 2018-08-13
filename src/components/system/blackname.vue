@@ -145,7 +145,7 @@ export default {
                   on: {
                     click: () => {
                       // alert(params.row.blackCode)
-                      this.adopt(params.row.blackCode)
+                      this.adopt(params.row.blackCode,params.row.blackValue,params.row.businessAlias)
                     }
                   }
                 },
@@ -414,7 +414,7 @@ export default {
       }
     },
     //移除黑名单
-    adopt(code) {
+    adopt(code,blackValue,businessAlias) {
       this.$Modal.confirm({
         title: "温馨提示",
         content: "<p>确认移除黑名单吗?</p>",
@@ -423,7 +423,7 @@ export default {
             .post(
               BASE_URL +
                 "/black/riskBlackList/updateRiskBlackListByCode",
-              { blackCode : code,blackFlag : 1 }
+              { blackCode : code,blackFlag : 1,blackValue: blackValue,businessAlias : businessAlias}
             )
             .then(data => {
               console.log(data);

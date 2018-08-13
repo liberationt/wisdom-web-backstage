@@ -56,6 +56,7 @@ import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
+import refundManager from '@/components/finance/refund-manager' // 退款
 
 // 大网钱
 import registrationList from '@/components/bigMoney/registration-list'
@@ -224,6 +225,7 @@ let routes = [
     children: [
       {path: '/presentSetting', component: presentSetting, names: '提现设置', meta: { auth: true }},
       {path: '/presentRecord', component: presentRecord, names: '提现记录', meta: { auth: true }},
+      {path: '/refundManager', component: refundManager, names: '退款管理', meta: { auth: true }},
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true, meta: { auth: true }},
       {path: '/applicationProposal', component: applicationProposal, names: '建议反馈', meta: { auth: true }},
       {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true, meta: { auth: true }}
