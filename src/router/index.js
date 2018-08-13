@@ -27,6 +27,8 @@ import addedit from '@/components/basic-configuration/add_edit'
 import managementSet from '@/components/system/managementSet'
 import managementGrade from '@/components/system/managementGrade'
 import managementChannel from '@/components/system/managementChannel'
+import paymentconfiguration from '@/components/system/paymentconfiguration'
+import blackname from '@/components/system/blackname'
 import managementChannelAdd from '@/components/system/managementChannel-add'
 import managementLabel from '@/components/system/managementLabel'
 import managementLabelAdd from '@/components/system/managementLabel-add'
@@ -178,6 +180,8 @@ let routes = [
     children: [
       {path: '/managementSet', component: managementSet, names: '风控配置', meta: { auth: true }}, // 风控
       {path: '/managementGrade', component: managementGrade, names: '配置风控等级', hidden: true, meta: { auth: true }},
+      {path: '/paymentconfiguration', component: paymentconfiguration, names: '支付配置', meta: { auth: true }},
+      {path: '/blackname', component: blackname, names: '黑名单管理', meta: { auth: true }},
       {path: '/managementChannel', component: managementChannel, names: '渠道配置', meta: { auth: true }},
       {path: '/managementChannelAdd', component: managementChannelAdd, names: '添加编辑渠道', hidden: true, meta: { auth: true }},
       {path: '/managementLabel', component: managementLabel, names: '渠道标签管理', hidden: true, meta: { auth: true }},
