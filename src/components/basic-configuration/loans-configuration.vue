@@ -1,6 +1,5 @@
 <template>
       <div>
-        <h1 class="h1">页面配置</h1>
         <div class="navigation">
             <p>
             <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;贷款产品配置</span>
@@ -14,19 +13,19 @@
         <li class="ml20">
           <span>状态:</span>
           <Select v-model="model2" size="large" style="width:100px">
-            <Option v-for="item in cityList"  :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Option v-for="item in cityList1"  :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml20">
           <span>产品分类:</span>
           <Select v-model="model3" size="large" style="width:100px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml20">
           <span>排序:</span>
           <Select v-model="model4" size="large" style="width:100px">
-            <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml50">
@@ -36,7 +35,7 @@
             </Button>
         </li>
       </ul>   
-      <Button type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>     
+      <Button @click="addproducts" type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>     
       <div class="loans_stages">
         <ul>
           <li>
@@ -77,32 +76,9 @@ export default {
     return {
       value4: '',
       loading3: false,
-      cityList: [
-        {
-          value: 'New York',
-          label: 'New York'
-        },
-        {
-          value: 'London',
-          label: 'London'
-        },
-        {
-          value: 'Sydney',
-          label: 'Sydney'
-        },
-        {
-          value: 'Ottawa',
-          label: 'Ottawa'
-        },
-        {
-          value: 'Paris',
-          label: 'Paris'
-        },
-        {
-          value: 'Canberra',
-          label: 'Canberra'
-        }
-      ],
+      cityList1: [],
+      cityList2: [],
+      cityList3: [],
       model2: '',
       model3: '',
       model4: '',
@@ -120,8 +96,27 @@ export default {
       this.edit_icon_blue = true
       this.edit_icon_red = false
       this.edit_delete = false
+    },
+    addproducts () {
+      this.$router.push({ path: './addloanproducts' })
     }
+  },
+  mounted () {
+    this.http.post(BASE_URL + '/loan/product/getProductListSearch', {})
+      .then((resp) => {
+        if (resp.code == 'success') {
+          // this.cityList1 = resp.data.
+          // this.data6 = resp.data.pushBlackReqList
+          // this.total = Number(resp.data.total)
+          // this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+        } else {         
+          this.$Message.info(resp.message)
+        }
+      })
+      .catch(() => {
+      })
   }
+
 }
 </script>
 <style lang="postcss" scoped>

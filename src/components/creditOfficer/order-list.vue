@@ -6,11 +6,11 @@
       </p>
     </div>
     <Tabs type="card" :animated="false" @on-click="tabswitch">
-        <TabPane :label="label" >
+        <TabPane label="咨询订单" >
             <div class="clearfix">
             <div class="left">
             <Select v-model="model1" placeholder="全部" style="width:100px">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in cityList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>           
             <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
@@ -20,13 +20,16 @@
                 <Option v-for="item in status1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button class="right mr100 w100" type="info" icon="ios-search" @click="consultingorders">查询</Button>
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="consultingorders">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
             </div>
         </TabPane>
 
@@ -34,7 +37,7 @@
             <div class="clearfix">
             <div class="left">
             <Select v-model="model4" placeholder="全部" style="width:100px">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name2" placeholder="请输入关键字" style="width: 150px"></Input>           
             <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
@@ -44,17 +47,20 @@
                 <Option v-for="item in status2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button class="right mr100 w100" type="info" icon="ios-search">查询</Button>
+            <Button type="info" class="right mr20 w100" :loading="loading3" @click="Orderrobbing">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
             </div>
         </TabPane>
 
-        <TabPane :label="label3" >
+        <TabPane label="未处理申诉订单" >
             <div class="clearfix">
             <div class="left">
             <Select v-model="model7" placeholder="全部" style="width:100px">
@@ -88,32 +94,14 @@
 export default {
   data () {   
     return {
-      label: h => {
-        return h('div', [
-          h('span', '咨询订单'),
-          h('Badge', {
-            props: {
-              count: 3
-            }
-          })
-        ])
-      },
-      label3: h => {
-        return h('div', [
-          h('span', '未处理申诉订单'),
-          h('Badge', {
-            props: {
-              count: 3
-            }
-          })
-        ])
-      },
       total: 0,
       startRow: 1,
       endRow: 10,
       nameval: 0,
       loading3: false,
       cityList: [],
+      cityList1: [],
+      cityList2: [],
       cityType1: [],
       cityType2: [],
       cityType3: [],
@@ -139,43 +127,55 @@ export default {
       columns7: [
         {
           title: '订单时间',
-          key: 'name',
+          key: 'orderCreateTime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '订单编号',
-          key: 'title',
+          key: 'orderNum',
+          minWidth: 150,
           align: 'center'
         },
         {
           title: '区域',
-          key: 'actualtime',
-          align: 'center'
+          align: 'center',
+          minWidth: 120,
+          render: (h, params) => {
+            let pushStatus = params.row.orderCityNameFirst+' '+params.row.orderCityNameSecond            
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+          }
         },
         {
           title: '客户姓名',
-          key: 'platform',
+          key: 'loanUserName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '手机',
-          key: 'object',
+          key: 'loanUserPhone',
+          minWidth: 110,
           align: 'center'
         },
         {
           title: '订单状态',
-          key: 'service',
+          key: 'orderStatusName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '服务费用',
-          key: 'score',
+          key: 'serviceCost',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '操作',
           key: 'action',
-          width: 150,
+          minWidth: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -191,7 +191,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: './detailsConsultation' })
+                      this.$router.push({ path: './detailsConsultation?orderCode='+params.row.orderCode })
                     }
                   }
                 },
@@ -205,48 +205,61 @@ export default {
       columns8: [
         {
           title: '抢单时间',
-          key: 'name',
+          key: 'orderCreateTime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '抢单编号',
-          key: 'title',
+          key: 'orderNum',
+          minWidth: 150,
           align: 'center'
         },
         {
           title: '区域',
-          key: 'plantime',
-          align: 'center'
+          align: 'center',
+          minWidth: 100,
+          render: (h, params) => {
+            let pushStatus = params.row.orderCityNameFirst+' '+params.row.orderCityNameSecond            
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+          }
         },
         {
           title: '客户姓名',
-          key: 'service',
+          key: 'loanUserName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '手机',
-          key: 'score',
+          key: 'loanUserPhone',
+          minWidth: 110,
           align: 'center'
         },
         {
           title: '信贷员姓名',
-          key: 'evaluatecon',
+          key: 'officerName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '信贷员手机号',
-          key: 'evnumber',
+          key: 'officerPhone',
+          minWidth: 110,
           align: 'center'
         },
         {
           title: '抢单费用',
-          key: 'object',
+          key: 'robbingAmount',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '操作',
           key: 'action',
-          width: 150,
+          minWidth: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -262,7 +275,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: './detailsRobbing' })
+                      this.$router.push({ path: './detailsRobbing?orderCode='+params.row.orderCode })
                     }
                   }
                 },
@@ -272,32 +285,24 @@ export default {
           }
         }
       ],
-      data7: [
-        {
-          name: '2018-03-29 15:12:34',
-          title: 'XD2018091099',
-          plantime: '2018-03-29 15:12:34',
-          object: '135****7766',
-          service: '200元',
-          score: '',
-          evaluatecon: '非常好非常专业的服务....',
-          evnumber: ''
-        }
-      ],
+      data7: [],
       columns9: [
         {
           title: '申述时间',
           key: 'orderComplainTime',
+          minWidth: 160,
           align: 'center'
         },
         {
           title: '订单编号',
           key: 'orderNum',
+          minWidth: 150,
           align: 'center'
         },
         {
           title: '区域',
           align: 'center',
+          minWidth: 100,
           render: (h, params) => {
             let pushStatus = params.row.orderCityNameFirst+' '+params.row.orderCityNameSecond            
             return h('div', [
@@ -308,37 +313,43 @@ export default {
         {
           title: '信贷员',
           key: 'officerName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '信贷员手机',
           key: 'officerPhone',
+          minWidth: 110,
           align: 'center'
         },
         {
           title: '客户姓名',
           key: 'loanUserName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '手机',
           key: 'loanUserPhone',
+          minWidth: 110,
           align: 'center'
         },
         {
           title: '订单状态',
           key: 'orderStatusDetailName',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '服务费用',
           key: 'serviceCost',
+          minWidth: 100,
           align: 'center'
         },
         {
           title: '操作',
           key: 'action',
-          width: 150,
+          minWidth: 150,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -368,17 +379,6 @@ export default {
     }
   },
   methods: {
-    show (index) {
-      this.$Modal.info({
-        title: 'User Info',
-        content: `Name：${this.data6[index].name}<br>Age：${
-          this.data6[index].age
-        }<br>Address：${this.data6[index].address}`
-      })
-    },
-    remove (index) {
-      this.data6.splice(index, 1)
-    },
     pageChange (page) {
       this.startRow = page
       if (this.nameval == 0) {
@@ -452,13 +452,42 @@ export default {
         .catch(() => {
         })
     },
+    // 抢单列表
+    Orderrobbing () {
+      let list = {
+        searchOptions :this.model4,
+        searchValue :this.name2,
+        orderAdCodeFirst :this.model5,
+        orderAdCodeSecond : this.model6,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderRobList', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data7 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+
+    },
     // 点击tab切换
     tabswitch (name) {
+      this.total = 0
+      this.startRow = 1
+      this.endRow = 10
       this.nameval = name
       if (name == 2) {
         this.bidorder ()    
       } else if (name == 0) {
         this.consultingorders ()
+      } else if (name == 1) {
+        this.Orderrobbing ()
       }
 
     },
@@ -492,16 +521,40 @@ export default {
   },
   mounted () {
     this.created ()
+    this.consultingorders ()
+    this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderComplainListFilter', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.cityList = resp.data.searchOptions
+      } else {
+        this.$Message.info(resp.message)
+      }
+    })    
+    .catch(() => {
+    })
+    // 咨询订单查询条件
+    this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderConsultListFilter', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.cityList1 = resp.data.searchOptions
+      } else {
+        this.$Message.info(resp.message)
+      }
+    })
+    .catch(() => {
+    })
+    // 抢单订单查询条件
     this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderRobListFilter', {})
-        .then((resp) => {
-          if (resp.code == 'success') {
-            this.cityList = resp.data.searchOptions
-          } else {
-            this.$Message.info(resp.message)
-          }
-        })
-        .catch(() => {
-        })
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.cityList2 = resp.data.searchOptions
+      } else {
+        this.$Message.info(resp.message)
+      }
+    })
+    .catch(() => {
+    })
+
   }
 }
 </script>

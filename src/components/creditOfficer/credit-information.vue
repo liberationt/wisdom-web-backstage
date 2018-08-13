@@ -336,25 +336,37 @@ export default {
           title: '账户类型',
           align: 'center',
           minWidth:100,
-          key: 'type'
+          key: 'accountBizCode'
         },
         {
           title: '操作',
           align: 'center',
           minWidth:120,
-          key: 'operation'
+          key: 'bizDesc'
         },
         {
           title: '金额 (元)',
           align: 'center',
           minWidth:120,
-          key: 'money'
+          render: (h, params) => {
+            let amountAsFormat
+            if (params.row.type  == 0) {
+              amountAsFormat = '+'+params.row.amountAsFormat
+            } else if(params.row.type  ==  1){
+              amountAsFormat = '-'+params.row.amountAsFormat
+            } else if (params.row.type  ==  2) {
+                amountAsFormat = params.row.amountAsFormat
+            }
+            return h('div', [
+              h('span', {}, amountAsFormat)
+            ])
+		      }
         },
         {
           title: '操作时间',
           align: 'center',
           minWidth:160,
-          key: 'operTime'
+          key: 'time'
         }
       ],
       data4: [],

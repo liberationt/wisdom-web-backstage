@@ -7,7 +7,7 @@
       </div>
       <Row :gutter="32">
         <Col span="12" class="demo-tabs-style2">
-            <Tabs type="card"  @on-click="marketquery">
+            <Tabs type="card" :animated="false"  @on-click="marketquery">
                 <TabPane label="银行管理">
                   <div class="clearfix">
                     <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加银行</p>
@@ -67,7 +67,7 @@
                     </div>
                   </Modal>
 
-                  <ul class="homePage_icon left" style="width:1300px;padding:0 100px">
+                  <ul class="homePage_icon left" style="padding:0 50px">
                     <li v-for="item in bankdatalist">
                       <p class="icon">
                         <img :src="item.bankLogoUrl" alt="">                       
@@ -95,7 +95,7 @@
                     </p>
                   </li>
                 </ul>
-                <div class="tr mt15 left" style="width:1200px">
+                <div class="mt15 w100b tr right" style="">
                 <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>              
               </TabPane>
@@ -138,7 +138,7 @@
                     </FormItem>
                   </Form>
                 </Modal>
-                <ul class="homePage_icon left" style="width:1400px;padding:0 50px">
+                <ul class="homePage_icon left" style="padding:0 50px">
                   <li class="home_bank" v-for="item in creditdatalist">
                     <p class="bank_icon">
                       <img :src="item.photoUrl" alt="">
@@ -161,7 +161,7 @@
                     </p>
                   </li>
                 </ul>
-                <div class="tr mt15 left" style="width:1200px">
+                <div class=" mt15 w100b tr right" style="">
                 <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
               </TabPane>
@@ -716,6 +716,9 @@ export default {
       })
     },
     marketquery (name) {
+      this.total = 0
+      this.startRow = 1
+      this.endRow = 10
       this.paging = name    
       if (name == 0) {
         this.banklist ()

@@ -6,8 +6,8 @@
             <img :src="informationlist.headImg" alt="">
             <p>{{informationlist.phoneNumber}}</p>
             <!-- <span class="member_type green1">账户正常</span> -->
-            <Button v-if="informationlist.accountStatus==1" type="info" shape="circle" @click="thaw(1)">解冻账户</Button>
-            <Button v-if="informationlist.accountStatus==0" type="error" shape="circle" @click="thaw(0)">账户冻结</Button>
+            <Button v-if="informationlist.accountStatus==0" type="info" shape="circle" @click="thaw(1)">解冻账户</Button>
+            <Button v-if="informationlist.accountStatus==1" type="error" shape="circle" @click="thaw(0)">账户冻结</Button>
         </div>
         <ul class="member_left_ul">
             <li>
@@ -112,7 +112,15 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
-      informationlist: {},
+      pagenum: '',
+      informationlist: {
+          assetInfo:{
+              data:[]
+          },
+          baseInfo:{
+              data:[]
+          }
+      },
       columns1: [
         {
           title: '类型',
@@ -122,7 +130,6 @@ export default {
         {
           title: '金额 (元)',
           align: 'center',
-          key: 'amountAsFormat',
           render: (h, params) => {
             let amountAsFormat
             if (params.row.type  == 0) {
@@ -140,12 +147,12 @@ export default {
         {
           title: '支付账户',
           align: 'center',
-          key: 'address'
+          key: 'payTypeDesc'
         },
         {
           title: '流水编号',
           align: 'center',
-          key: 'flowCode'
+          key: 'orderNo'
         },
         {
           title: '操作时间',
@@ -154,28 +161,7 @@ export default {
         }
 
       ],
-      data1: [
-        {
-          name: '提现成功',
-          age: -100,
-          address: '2016-10-03'
-        },
-        {
-          name: '提现成功',
-          age: -100,
-          address: '2016-10-03'
-        },
-        {
-          name: '提现成功',
-          age: -100,
-          address: '2016-10-03'
-        },
-        {
-          name: '提现成功',
-          age: -100,
-          address: '2016-10-03'
-        }
-      ],
+      data1: [],
       columns2: [
         {
           title: '订单时间',
@@ -380,13 +366,14 @@ export default {
     // 冻结账户
     acctype (num) {
       let list = {
-        loanOfficerCode: this.inform.loanOfficerCode,
-        accountStatus: num
+        loanUserCode: this.informationlist.loanUserCode,
+        accountStatus: num,
+        memberCode:this.informationlist.memberCode
       }
-      this.http.post(BASE_URL + '/loan/officerInfo/updateOfficerInfoAccountStatusByCode', list)
+      this.http.post(BASE_URL + '/loan/userInfo/modifyUserAccountStatus', list)
         .then((resp) => {
           if (resp.code == 'success') {
-            this.information()
+            this.personalinformation ()
           } else {
             this.$Message.info(resp.message)
           }
@@ -480,6 +467,7 @@ export default {
         this.total = 0
         this.startRow = 1
         this.endRow = 10
+        this.pagenum = name
         if (name == 0) {
             this.personalinformation ()              
         } else if (name == 1) {
@@ -491,7 +479,37 @@ export default {
         } else if (name == 4) {
             this.logonlist ()
         }
-    }
+    },
+    // 分页
+    pageChange (page) {
+      this.startRow = page
+      if (this.pagenum == 0) {
+          this.personalinformation ()
+      } else if (this.pagenum == 1) {
+          this.cashflow ()
+      } else if (this.pagenum == 2) {
+          this.consultinglist ()
+      } else if (this.pagenum == 3) {
+          this.orderlist ()
+      } else if (this.pagenum == 4) {
+          this.logonlist ()
+      }
+    },
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      if (this.pagenum == 0) {
+          this.personalinformation ()
+      } else if (this.pagenum == 1) {
+          this.cashflow ()
+      } else if (this.pagenum == 2) {
+          this.consultinglist ()
+      } else if (this.pagenum == 3) {
+          this.orderlist ()
+      } else if (this.pagenum == 4) {
+          this.logonlist ()
+      }
+    },
 
   },
   mounted () {
