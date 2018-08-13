@@ -5,2543 +5,567 @@
 <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置</span>
 </p>
 </div>
-<Table border :columns="columns1" :data="data1"></Table>
-<p class="mt15 tc">
+<div class="windgrade">
+  <Form  :label-width="125">  
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="验证码有效时间:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Input v-model="value11" style="width:200px">
+              <span slot="append">分钟</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Input v-model="value11" style="width:200px">
+              <span slot="append">分钟</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model="data1.lowRule.ruleCodeTime" style="width:200px">
+              <span slot="append">分钟</span>
+            </Input>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="弹二次验证的条件:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix">
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model="data1.lowRule.ipItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model="data1.lowRule.ipItemNum" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="二次验证类型:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix">
+            <Select v-model="model1" style="width:200px">
+              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Select v-model="model1" style="width:200px">
+              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Select v-model="data1.lowRule.itemRiskType" style="width:200px">
+              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="是否开启加入黑名单:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix">
+            <Select v-model="model2" style="width:200px">
+              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Select v-model="model2" style="width:200px">
+              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Select v-model="data1.lowRule.blackFlag" style="width:200px">
+              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="风控维度:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix">
+            <CheckboxGroup v-model="checkbox1" @on-change="checkAllGroupChange1">
+              <Checkbox label="手机"></Checkbox>
+              <Checkbox label="IP"></Checkbox>
+            </CheckboxGroup>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <CheckboxGroup v-model="checkbox2" @on-change="checkAllGroupChange2">
+              <Checkbox label="手机"></Checkbox>
+              <Checkbox label="IP"></Checkbox>
+            </CheckboxGroup>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <CheckboxGroup v-model="checkbox3" @on-change="checkAllGroupChange3">
+              <Checkbox label="手机"></Checkbox>
+              <Checkbox label="IP"></Checkbox>
+            </CheckboxGroup>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col span="3" >
+          <FormItem label="手机加入黑名单条件:"></FormItem>
+        </Col>
+        <Col span="7" >
+          <FormItem >
+            <div class="credit_recharge" >
+              <div
+                v-for="(item, index) in addnormals"
+                :key="index"
+                class="mb15 clearfix"
+                v-if="phonecondition1"
+                >
+                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                  <span slot="append" class="left">小时内</span>
+                </Input>
+                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                    <span slot="append" class="left">次</span>
+                </Input>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+              </div>
+              <div v-if="!phonecondition1" style="width:165px;height:30px"></div>
+            </div>
+          </FormItem>
+        </Col>
+        <Col span="7">
+          <FormItem >
+            <div class="credit_recharge" >
+              <div
+                v-for="(item, index) in addnormals"
+                :key="index"
+                class="mb15 clearfix"
+                v-if="phonecondition2"
+                >
+                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                  <span slot="append" class="left">小时内</span>
+                </Input>
+                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                    <span slot="append" class="left">次</span>
+                </Input>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+              </div>
+              <div v-if="!phonecondition2" style="width:165px;height:30px"></div>
+            </div>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <div class="credit_recharge"  >
+              <div
+                v-for="(item, index) in addnormals"
+                :key="index"
+                class="mb15 clearfix"
+                v-if="phonecondition3"
+                >
+                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                  <span slot="append" class="left">小时内</span>
+                </Input>
+                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                    <span slot="append" class="left">次</span>
+                </Input>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+              </div>
+              <div v-if="!phonecondition3" style="width:165px;height:30px"></div>
+            </div>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="3" :lg="3">
+          <FormItem label="IP加入黑名单条件:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem >
+            <div class="credit_recharge" >
+              <div
+                v-for="(item, index) in addnormals"
+                :key="index"
+                class="mb15 clearfix"
+                v-if="condition1"
+                >
+                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                  <span slot="append" class="left">小时内</span>
+                </Input>
+                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                    <span slot="append" class="left">次</span>
+                </Input>
+                <Button type="primary" class="left ml5" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml5" v-if="index!=0" @click="addnorma2(index)">-</Button>
+              </div>
+              <div v-if="!condition1" style="width:165px;height:30px"></div>
+            </div>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <div class="credit_recharge" >
+              <div
+                v-for="(item, index) in addnormals"
+                :key="index"
+                class="mb15 clearfix"
+                v-if="condition2"
+                >
+                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                  <span slot="append" class="left">小时内</span>
+                </Input>
+                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                    <span slot="append" class="left">次</span>
+                </Input>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+              </div>
+              <div v-if="!condition2" style="width:165px;height:30px"></div>
+            </div>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <div class="credit_recharge" >
+              <div
+                v-for="(item, index) in addnormals"
+                :key="index"
+                class="mb15 clearfix"
+                v-if="condition3"
+                >
+                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                  <span slot="append" class="left">小时内</span>
+                </Input>
+                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                    <span slot="append" class="left">次</span>
+                </Input>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+              </div>
+              <div v-if="!condition3" style="width:165px;height:30px"></div>
+            </div>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row :gutter="16">
+        <Col :md="4" :lg="3">
+          <FormItem label="密码登录冻结条件:"></FormItem>
+        </Col>
+        <Col :md="6" :lg="7" >
+          <FormItem class="clearfix">
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model="value11" class="left" style="width:75px">
+              <span slot="append">次</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model="value11" class="left" style="width:75px">
+              <span slot="append">次</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model="value11" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model="value11" class="left" style="width:75px">
+              <span slot="append">次</span>
+            </Input>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row :gutter="16">
+        <Col  :md="4" :lg="3">
+          <FormItem label="密码登录解冻条件:"></FormItem>
+        </Col>
+        <Col :md="6" :lg="7" >
+          <FormItem >
+            <Input v-model="value11" style="width:200px">
+              <span slot="append">分钟后</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model="value11" style="width:200px">
+              <span slot="append">分钟后</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model="value11" style="width:200px">
+              <span slot="append">分钟后</span>
+            </Input>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+    
+    
+    
+    
+    
+    <FormItem class="tc">
+        <Button type="primary">提交保存</Button>
+        <Button style="margin-left: 8px">返回</Button>
+    </FormItem>
+  </Form>
+
+</div>
+<!-- <p class="mt15 tc">
 <Button type="primary">提交保存</Button>&nbsp;&nbsp;&nbsp;&nbsp;
 <Button type="ghost">返回</Button>
-</p>
+</p> -->
 </div>
 </template>
 <script>
 export default {
   data() {
     return {
-      number: 1,
-      number1: 1,
-      number2: 1,
-      number3: 1,
-      number61: 1,
-      number62: 1,
-      number63: 1,
-      lowone: "",
-      columns1: [
+      value11: '',
+      condition1: false,
+      condition2: false,
+      condition3: false,
+      phonecondition1: true,
+      phonecondition2: true,
+      phonecondition3: true,
+      cityList: [
         {
-          title: "",
-          width: 200,
-          align: "center",
-          key: "name"
+          value: '1',
+          label: '智能无感知验证码'
         },
         {
-          title: "高",
-          align: "center",
-          minWidth: 300,
-          key: "high",
-          render: (h, params) => {
-              if (params.index == 1) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入分钟"
-                    },
-                    style: {
-                      width: "160px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟"
-                  )
-                ]);
-              } else if (params.index == 2) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 3) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 4) {
-                return h(
-                  "Select",
-                  {
-                    props: {
-                      value: "图中点选"
-                    },
-                    style: {
-                      width: "160px"
-                    },
-                    on: {
-                      "on-change": val => {
-                        // this.selects[0].name = val
-                      }
-                    }
-                  },
-                  [
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "图中点选"
-                        }
-                      },
-                      "图中点选"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "滑动拼图"
-                        }
-                      },
-                      "滑动拼图"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "智能无感知"
-                        }
-                      },
-                      "智能无感知"
-                    )
-                  ]
-                );
-              } else if (params.index == 5) {
-                return h(
-                  "Select",
-                  {
-                    props: {
-                      value: "开启"
-                    },
-                    style: {
-                      width: "160px"
-                    },
-                    on: {
-                      "on-change": val => {
-                        // this.selects[0].name = val
-                      }
-                    }
-                  },
-                  [
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "开启"
-                        }
-                      },
-                      "开启"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "关闭"
-                        }
-                      },
-                      "关闭"
-                    )
-                  ]
-                );
-              } else if (params.index == 0) {
-                return h("div", [
-                  h("Checkbox", {
-                    on: {
-                      "on-change": val => {
-
-                        console.log(1111);
-                      }
-                    }
-                  }, '手机'),
-                  h("Checkbox", {
-                    on: {
-                      "on-change": val => {
-                        console.log(val)
-                      }
-                    }
-                  },"IP"),
-                ]);
-              } else if (params.index == 6) {
-                let inputarr = [];
-                for (let i = 0; i < this.number1; i++) {
-                  if (i < this.number1 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number1 -= 1;
-                            }
-                          }
-                        },
-                        "-"
-                      ),
-                      h("br")
-                    );
-                  } else if (i == this.number1 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number1 += 1;
-                            }
-                          }
-                        },
-                        "+"
-                      ),
-                      h("br")
-                    );
-                  } else {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h("br")
-                    );
-                  }
-                }
-                return h("div", inputarr);
-              } else if (params.index == 7) {
-                let inputarr = [];
-                for (let i = 0; i < this.number61; i++) {
-                  if (i < this.number61 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number61 -= 1;
-                            }
-                          }
-                        },
-                        "-"
-                      ),
-                      h("br")
-                    );
-                  } else if (i == this.number61 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number61 += 1;
-                            }
-                          }
-                        },
-                        "+"
-                      ),
-                      h("br")
-                    );
-                  } else {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "100px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h("br")
-                    );
-                  }
-                }
-                return h("div", inputarr);
-              } else if (params.index == 8) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 9) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "160px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟后"
-                  )
-                ]);
-              }
-            }
+            value: '2',
+            label: '滑动拼图验证码'
         },
         {
-          title: "中",
-          align: "center",
-          minWidth: 300,
-          key: "middle",
-          render: (h, params) => {
-              if (params.index == 1) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入分钟"
-                    },
-                    style: {
-                      width: "160px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟"
-                  )
-                ]);
-              } else if (params.index == 2) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 3) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 4) {
-                return h(
-                  "Select",
-                  {
-                    props: {
-                      value: "图中点选"
-                    },
-                    style: {
-                      width: "160px"
-                    },
-                    on: {
-                      "on-change": val => {
-                        // this.selects[0].name = val
-                      }
-                    }
-                  },
-                  [
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "图中点选"
-                        }
-                      },
-                      "图中点选"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "滑动拼图"
-                        }
-                      },
-                      "滑动拼图"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "智能无感知"
-                        }
-                      },
-                      "智能无感知"
-                    )
-                  ]
-                );
-              } else if (params.index == 5) {
-                return h(
-                  "Select",
-                  {
-                    props: {
-                      value: "开启"
-                    },
-                    style: {
-                      width: "160px"
-                    },
-                    on: {
-                      "on-change": val => {
-                        // this.selects[0].name = val
-                      }
-                    }
-                  },
-                  [
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "开启"
-                        }
-                      },
-                      "开启"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "关闭"
-                        }
-                      },
-                      "关闭"
-                    )
-                  ]
-                );
-              } else if (params.index == 0) {
-                return h("div", [
-                  h("Checkbox", {
-                    on: {
-                      "on-change": val => {
-
-                        console.log(1111);
-                      }
-                    }
-                  }, '手机'),
-                  h("Checkbox", {
-                    on: {
-                      "on-change": val => {
-                        console.log(val)
-                      }
-                    }
-                  },"IP"),
-                ]);
-              } else if (params.index == 6) {
-                let inputarr = [];
-                for (let i = 0; i < this.number3; i++) {
-                  if (i < this.number3 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number3 -= 1;
-                            }
-                          }
-                        },
-                        "-"
-                      ),
-                      h("br")
-                    );
-                  } else if (i == this.number3 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number3 += 1;
-                            }
-                          }
-                        },
-                        "+"
-                      ),
-                      h("br")
-                    );
-                  } else {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h("br")
-                    );
-                  }
-                }
-                return h("div", inputarr);
-              } else if (params.index == 7) {
-                let inputarr = [];
-                for (let i = 0; i < this.number63; i++) {
-                  if (i < this.number63 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number63 -= 1;
-                            }
-                          }
-                        },
-                        "-"
-                      ),
-                      h("br")
-                    );
-                  } else if (i == this.number63 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number63 += 1;
-                            }
-                          }
-                        },
-                        "+"
-                      ),
-                      h("br")
-                    );
-                  } else {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h("br")
-                    );
-                  }
-                }
-                return h("div", inputarr);
-              } else if (params.index == 8) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 9) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "160px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟后"
-                  )
-                ]);
-              }
-            }
+            value: '3',
+            label: '图中选点验证码'
         },
         {
-          title: "低",
-          align: "center",
-          minWidth: 300,
-          key: "low",
-          render: (h, params) => {
-            // console.log(params);
-              if (params.index == 1) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入分钟",
-                      value: this.lowone
-                    },
-                    style: {
-                      width: "160px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟"
-                  )
-                ]);
-              } else if (params.index == 2) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 3) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 4) {
-                return h(
-                  "Select",
-                  {
-                    props: {
-                      value: "图中点选"
-                    },
-                    style: {
-                      width: "160px"
-                    },
-                    on: {
-                      "on-change": val => {
-                        // this.selects[0].name = val
-                      }
-                    }
-                  },
-                  [
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "图中点选"
-                        }
-                      },
-                      "图中点选"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "滑动拼图"
-                        }
-                      },
-                      "滑动拼图"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "智能无感知"
-                        }
-                      },
-                      "智能无感知"
-                    )
-                  ]
-                );
-              } else if (params.index == 5) {
-                return h(
-                  "Select",
-                  {
-                    props: {
-                      value: "开启"
-                    },
-                    style: {
-                      width: "160px"
-                    },
-                    on: {
-                      "on-change": val => {
-                        // this.selects[0].name = val
-                      }
-                    }
-                  },
-                  [
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "开启"
-                        }
-                      },
-                      "开启"
-                    ),
-                    h(
-                      "Option",
-                      {
-                        props: {
-                          value: "关闭"
-                        }
-                      },
-                      "关闭"
-                    )
-                  ]
-                );
-              } else if (params.index == 0) {
-                return h("div", [
-                  h("Checkbox", {
-                    props: {
-                      label: "手机",
-                    },
-                    on: {
-                      "on-change": val => {
-                        console.log(1111);
-                      }
-                    }
-                  }, '手机'),
-                  h("Checkbox", {
-                    on: {
-                      "on-change": val => {
-                        console.log(val)
-                      }
-                    }
-                  },"IP"),
-                ]);
-              } else if (params.index == 6) {
-                let inputarr = [];
-                for (let i = 0; i < this.number2; i++) {
-                  if (i < this.number2 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number2 -= 1;
-                            }
-                          }
-                        },
-                        "-"
-                      ),
-                      h("br")
-                    );
-                  } else if (i == this.number2 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number2 += 1;
-                            }
-                          }
-                        },
-                        "+"
-                      ),
-                      h("br")
-                    );
-                  } else {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h("br")
-                    );
-                  }
-                }
-                return h("div", inputarr);
-              } else if (params.index == 7) {
-                let inputarr = [];
-                for (let i = 0; i < this.number62; i++) {
-                  if (i < this.number62 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number62 -= 1;
-                            }
-                          }
-                        },
-                        "-"
-                      ),
-                      h("br")
-                    );
-                  } else if (i == this.number62 - 1) {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px",
-                            marginLeft: "10px",
-                            cursor: "pointer"
-                          },
-                          on: {
-                            click: () => {
-                              this.number62 += 1;
-                            }
-                          }
-                        },
-                        "+"
-                      ),
-                      h("br")
-                    );
-                  } else {
-                    inputarr.push(
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "请输入时间"
-                        },
-                        style: {
-                          width: "60px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "小时内"
-                      ),
-                      h("Input", {
-                        props: {
-                          // type: "primary",
-                          size: "small",
-                          placeholder: "获取验证码次数"
-                        },
-                        style: {
-                          width: "90px",
-                          verticalAlign: "bottom",
-                          marginBottom: "10px"
-                        }
-                      }),
-                      h(
-                        "span",
-                        {
-                          props: {
-                            type: "primary",
-                            size: "small"
-                          },
-                          style: {
-                            lineHeight: "24px",
-                            display: "inline-block",
-                            padding: "0 10px",
-                            background: "#ccc",
-                            marginBottom: "10px"
-                          }
-                        },
-                        "次"
-                      ),
-                      h("br")
-                    );
-                  }
-                }
-                return h("div", inputarr);
-              } else if (params.index == 8) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "60px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟内"
-                  ),
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "获取验证码次数"
-                    },
-                    style: {
-                      width: "90px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "次"
-                  )
-                ]);
-              } else if (params.index == 9) {
-                return h("div", [
-                  h("Input", {
-                    props: {
-                      // type: "primary",
-                      size: "small",
-                      placeholder: "请输入时间"
-                    },
-                    style: {
-                      width: "160px",
-                      verticalAlign: "bottom"
-                    }
-                  }),
-                  h(
-                    "span",
-                    {
-                      props: {
-                        type: "primary",
-                        size: "small"
-                      },
-                      style: {
-                        lineHeight: "24px",
-                        display: "inline-block",
-                        padding: "0 10px",
-                        background: "#ccc"
-                      }
-                    },
-                    "分钟后"
-                  )
-                ]);
-              }
-            }
-          }
-      ],
-      data1: [
-        {
-          name: "风控维度："
-        },
-        {
-          name: "验证码有效时间："
-        },
-        {
-          name: "手机弹二次验证的条件："
-        },
-        {
-          name: "IP弹二次验证的条件："
-        },
-        {
-          name: "二次验证类型:"
-        },
-        {
-          name: "是否开启加入黑名单："
-        },
-        {
-          name: "手机加入黑名单条件："
-        },
-        {
-          name: "IP加入黑名单条件："
-        },
-        {
-          name: "密码登录冻结条件："
-        },
-        {
-          name: "密码登录解冻条件："
+            value: '4',
+            label: '短信上行验证码'
         }
-      ]
+      ],
+      model1: '',
+      cityList2: [
+        {
+          value: '1',
+          label: '开启'
+        },
+        {
+            value: '0',
+            label: '关闭'
+        }
+      ],
+      model2: '',
+      checkbox1: ['手机'],
+      checkbox2: ['手机'],
+      checkbox3: ['手机'],
+      addnormals: [
+        {
+          blackTime: '',//加入黑名单时间
+          blackNum: '',//加入黑名单次数
+          riskDimensionType: ''//风控维度
+        }
+      ],
+      data1: {
+        highRule:{
+          ruleCodeTime: '',
+          ipItemTime: '',
+          ipItemNum: '',
+          itemRiskType: '',
+          blackFlag: '',
+          riskDimensionType: '',//风控维度
+          passwdFrozenTime: '',
+          passwdFrozenNum: '',
+          passwdThawTime: ''
+        },
+        middleRule:{
+          ruleCodeTime: '',
+          ipItemTime: '',
+          ipItemNum: '',
+          itemRiskType: '',
+          blackFlag: '',
+          riskDimensionType: '',//风控维度
+          passwdFrozenTime: '',
+          passwdFrozenNum: '',
+          passwdThawTime: ''
+        },
+        lowRule:{
+          ruleCodeTime: '',//验证码有效时间
+          ipItemTime: '',//弹两次验证时间
+          ipItemNum: '',//弹两次验证次数
+          itemRiskType: '',//二次验证类型
+          blackFlag: '', //是否加入黑名单
+          riskDimensionType: '',//风控维度
+          passwdFrozenTime: '',//密码登录冻结条件
+          passwdFrozenNum: '',//密码登录冻结次数
+          passwdThawTime: ''//密码解冻时间
+        }
+      }
+
     };
+  },
+  methods: {
+    // 加
+    addnormal () {
+      this.index2++
+      this.addnormals.push({
+        value1: '',
+        value2: ''
+      })
+    },
+    // 减
+    addnorma2 (index) {
+       this.addnormals.splice(index, 1)
+    },
+    checkAllGroupChange1 (data) {
+      console.log(data)
+      if (data.length == 1) {
+        if (data[0]  == '手机') {
+          this.condition1 = false
+          this.phonecondition1 = true
+        } else {
+          this.condition1 = true
+          this.phonecondition1 = false
+        }
+      } else if (data.length == 0) {
+        this.condition1 = false
+        this.phonecondition1 = false
+      } else {
+        this.condition1 = true
+        this.phonecondition1 = true
+      }
+    },
+    checkAllGroupChange2 (data) {
+      if (data.length == 1) {
+        if (data[0]  == '手机') {
+          this.condition2 = false
+          this.phonecondition2 = true
+        } else {
+          this.condition2 = true
+          this.phonecondition2 = false
+        }
+      } else if (data.length == 0) {
+        this.condition2 = false
+        this.phonecondition2 = false
+      } else {
+        this.condition2 = true
+        this.phonecondition2 = true
+      }
+    },
+    checkAllGroupChange3 (data) {
+      if (data.length == 1) {
+        if (data[0]  == '手机') {
+          this.condition3 = false
+          this.phonecondition3 = true
+        } else {
+          this.condition3 = true
+          this.phonecondition3 = false
+        }
+      } else if (data.length == 0) {
+        this.condition3 = false
+        this.phonecondition3 = false
+      } else {
+        this.condition3 = true
+        this.phonecondition3 = true
+      }
+    }
   },
   created() {
     // 获取数据
-    this.http
-      .post(BASE_URL + "/rule/RiskRule/getAllRiskRule", {
+    this.http.post(BASE_URL + "/rule/RiskRule/getAllRiskRule", {
         pageNum: 1,
         pageSize: 10
-      })
-      .then(data => {
-        console.log(data.data)
+      }).then(data => {
+        for (let i in data.data) {
+          if (i == 'highRule') {
+            if (i.phoneRiskRuleItemReqList.length>0) {
+              // this.checkbox1
+            }
+          }
+          
+        }
+        this.data1= data.data
       })
       .catch(err => {
         // console.log(err)
@@ -2550,4 +574,8 @@ export default {
 };
 </script>
 <style lang="less" scoped>
+.windgrade {
+  border:1px solid #ccc;
+  padding:50px 0
+}
 </style>
