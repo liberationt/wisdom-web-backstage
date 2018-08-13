@@ -222,13 +222,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({
-                        path:
-                          "./evaluationReview?commentCode=" +
-                          params.row.commentCode +
-                          "&isPass=" +
-                          0
-                      });
+                      this.adopt(params.row.blackCode,params.row.blackValue,params.row.businessAlias)
                     }
                   }
                 },
