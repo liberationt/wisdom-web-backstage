@@ -7,8 +7,11 @@ import forgetpass from '@/components/forget-password'
 // 站内信
 import applicationHomePage from '@/components/application/application-homePage'
 import applicationMail from '@/components/application/application-mail'
+import applicationMailxin from '@/components/application/application-mailxin'
 import applicationNewtype from '@/components/application/application-newtype'
+import applicationNewtypexin from '@/components/application/application-newtypexin'
 import applicationSendout from '@/components/application/application-sendout'
+import applicationSendoutxin from '@/components/application/application-sendoutxin'
 import applicationProposal from '@/components/application/application-proposal'
 import applicationDetail from '@/components/application/application-details'
 // 会员列表
@@ -170,8 +173,11 @@ let routes = [
     iconCls: 'stats-bars',
     children: [
       {path: '/applicationMail', component: applicationMail, names: '站内信', meta: { auth: true }},
+      {path: '/applicationMailxin', component: applicationMailxin, names: '站内信', meta: { auth: true }},
       {path: '/applicationNewtype', component: applicationNewtype, names: '站内信消息类型', hidden: true, meta: { auth: true }},
+      {path: '/applicationNewtypexin', component: applicationNewtypexin, names: '站内信消息类型', hidden: true, meta: { auth: true }},
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true, meta: { auth: true }},
+      {path: '/applicationSendoutxin', component: applicationSendoutxin, names: '发送站内信', hidden: true, meta: { auth: true }},
       {path: '/applicationProposal', component: applicationProposal, names: '建议反馈', meta: { auth: true }},
       {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true, meta: { auth: true }}
     ]
