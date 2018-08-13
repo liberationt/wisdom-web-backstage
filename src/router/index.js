@@ -23,6 +23,7 @@ import navigation from '@/components/basic-configuration/navigation'
 import cardCenter from '@/components/basic-configuration/card-center'
 import loansconfig from '@/components/basic-configuration/loans-configuration'
 import addedit from '@/components/basic-configuration/add_edit'
+import addloanproducts from '@/components/basic-configuration/add-loanproducts'
 // 系统
 import managementSet from '@/components/system/managementSet'
 import managementGrade from '@/components/system/managementGrade'
@@ -43,6 +44,7 @@ import detailsConsultation from '@/components/creditOfficer/details-consultation
 import operationLog from '@/components/creditOfficer/operation-log'
 import detailsRobbing from '@/components/creditOfficer/details-robbing'
 import detailsComplaint from '@/components/creditOfficer/details-complaint'
+import orderlog from '@/components/creditOfficer/order-log'
 // 信贷员管理
 import creditManagement from '@/components/creditOfficer/credit-management' // 信贷员管理
 import addMechanism from '@/components/creditOfficer/add-mechanism'
@@ -115,6 +117,7 @@ let routes = [
       {path: '/bigimg', component: broadcastBigimg, names: 'bigimg', hidden: true, meta: { auth: true }},
       {path: '/share', component: sharehua, names: '分享配置', hidden: true, meta: { auth: true }},
       {path: '/loansconfig', component: loansconfig, names: '贷款产品配置1', meta: { auth: true }},
+      {path: '/addloanproducts', component: addloanproducts, names: '添加贷款产品配置', meta: { auth: true }},
       {path: '/addedit', component: addedit, names: '添加编辑', meta: { auth: true }},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心', meta: { auth: true }},
       {path: '/mberTab2', component: mberTab, names: '贷款产品配置', meta: { auth: true }},
@@ -203,6 +206,7 @@ let routes = [
       {path: '/detailsRobbing', component: detailsRobbing, names: '抢单详情', hidden: true, meta: { auth: true }},
       {path: '/detailsComplaint', component: detailsComplaint, names: '申诉详情', hidden: true, meta: { auth: true }},
       {path: '/operationLog', component: operationLog, names: '操作日志', hidden: true, meta: { auth: true }},
+      {path: '/orderlog', component: orderlog, names: '订单操作日志', hidden: true, meta: { auth: true }},
       {path: '/creditManagement', component: creditManagement, names: '信贷员管理', meta: { auth: true }},
       {path: '/addMechanism', component: addMechanism, names: '添加信贷机构', hidden: true, meta: { auth: true }},
       {path: '/revisionReview', component: revisionReview, names: '资料修改待审核详情', hidden: true, meta: { auth: true }},

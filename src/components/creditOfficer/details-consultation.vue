@@ -11,79 +11,68 @@
         <div class="left details_left">
             <p>
                 <span>咨询时间</span>
-                <span>2018-03-20 10:20:33</span>
+                <span>{{order.orderCreateTime}}</span>
             </p>
             <p>
                 <span>支付时间</span>
-                <span>2018-03-20 10:20:33</span>
+                <span>{{order.orderPayTime}}</span>
             </p>
             <p>
                 <span>确认时间</span>
-                <span>2018-03-20 10:20:33</span>
-            </p>
-            <p>
-                <span>评价时间</span>
-                <span>2018-03-20 10:20:33</span>
+                <span>{{order.orderConfirmTime}}</span>
             </p>
         </div>
         <div class="left details_right">
         <p>
             <span>订单编号:</span>
-            <span>2018-05-10 19:10:13</span>
+            <span>{{order.orderNum}}</span>
         </p>
         <p>
             <span>订单状态:</span>
-            <span>A1111111</span>
+            <span v-if="order.orderStatus==0"></span>
+            <span v-if="order.orderStatus==1">已咨询</span>
+            <span v-if="order.orderStatus==2">待付款</span>
+            <span v-if="order.orderStatus==3">待确认</span>
+            <span v-if="order.orderStatus==4">交易成功</span>
+            <span v-if="order.orderStatus==5">交易失败</span>
         </p>
         <p>
             <span>所在区域:</span>
-            <span>上海市</span>
+            <span>{{order.orderCityNameSecond}}</span>
         </p>
         <p>
             <span>客户:</span>
-            <span>王某某</span>
+            <span>{{order.loanUserName}} {{order.loanUserPhone}}</span>
         </p>
         <p>
             <span>申请贷款金额:</span>
-            <span>13918280099</span>
+            <span>{{order.customerLoanAmount}}</span>
         </p>
         <p>
             <span>服务费:</span>
-            <span>这里完整显示所有提交内容</span>
+            <span>{{order.serviceCostAsFormat}}</span>
         </p>
         <p>
             <span>实际放款金额:</span>
-            <span>12个月</span>
+            <span>{{order.customerActualLoanAmount}}</span>
         </p>
         <p>
             <span>信贷员:</span>
-            <span>40万</span>
+            <span>{{order.officerName}} {{order.officerPhone}}</span>
         </p>
         <p>
             <span>订单关闭原因:</span>
-            <span>李某某</span>
+            <span>{{order.orderCloseMessage}}</span>
         </p>
         <p>
             <span>评价内容:</span>
-            <span>13918280099</span>
-        </p>
-        <p>
-            <span>申诉人:</span>
-            <span>刘哈哈</span>
-        </p>
-        <p>
-            <span>申诉时间:</span>
-            <span>刘哈哈</span>
-        </p>
-        <p>
-            <span>申诉内容:</span>
-            <span>信贷员压根没有提交办理我的贷款，我要退款客户明明贷款成功到账了，一直不肯确认订单</span>
-        </p>
+            <span>{{order.commentDetailsReq}}</span>
+        </p>      
         </div>
         </div>
         <div>
             <Button type="primary" @click="handleRender">查看操作日志</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-            <Button type="ghost">返回</Button>
+            <Button type="ghost" @click="backingout">返回</Button>
         </div>
     </div>
 </div>
@@ -92,12 +81,30 @@
 export default {
   data () {
     return {
+        order: {},
     }
   },
   methods: {
     handleRender () {
-      this.$router.push({ path: './operationLog' })
+      this.$router.push({ path: './orderlog?orderCode='+ this.order.orderCode })
+    },
+    // 返回
+    backingout () {
+      window.history.go(-1)
+    },
+  },
+  mounted () {
+    let list = {
+        orderCode :  this.$route.query.orderCode
     }
+    this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
+        if (data.code == 'success') {
+            this.order = data.data
+        }    
+    })
+    .catch((error) => {
+        console.log(error)
+    })
   }
 }
 </script>
