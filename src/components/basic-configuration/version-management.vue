@@ -42,7 +42,7 @@
                     confirm
                     transfer
                     title="确认删除吗?"
-                    @on-ok="ok"
+                    @on-ok="ok(item.versionCode)"
                     @on-cancel="cancel">
                     <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
                 </Poptip>
@@ -338,8 +338,19 @@ export default {
       this.formValidate.productlogo = "";
       this.$refs[name].resetFields();
     },
-    ok() {
-      this.$Message.info("删除成功！");
+    ok(versionCode) {
+      this.http.post(BASE_URL+"/system/appVersion/deleteAppVersionByCode",{versionCode:versionCode}).then(data=>{
+        console.log(data)
+        if(data.code == 'success'){
+          this.$Message.info("删除成功！");
+          this.query()
+        }else {
+          this.$Message.info("删除失败！");
+        }
+      }).catch(err=>{
+        this.$Message.info("删除失败！");
+        console.log(err)
+      })
     },
     cancel() {
       this.$Message.info("删除失败！");
