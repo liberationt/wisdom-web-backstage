@@ -20,57 +20,61 @@
             </li>
         </ul>
         <div class="mt50">
-            <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
-            <Button type="ghost">返回</Button>
+            <Button type="primary" @click="handleSubmit()">提交保存</Button>
+           	<router-link to="./toExamine"><Button type="ghost">返回</Button></router-link> 
         </div>
     </div>
 </div>
 </template>
 <script>
-import UE from '../../components/ue'
+import UE from "../../components/ue";
 export default {
-  data () {
+  data() {
     return {
-      value: '',
-      defaultMsg: '这里是UE测试',
+      value: "",
+      defaultMsg: "这里是UE测试",
       config: {
         initialFrameWidth: null,
         initialFrameHeight: 350
       }
-    }
+    };
   },
-  components: {UE}
-}
+  components: { UE },
+  methods: {
+    handleSubmit() {
+			console.log(this.defaultMsg)
+    }
+  }
+};
 </script>
 <style lang="less" scoped>
-#feedback_details{
-    border: 1px solid #E7ECF1;
-    padding: 30px 50px;
-    h3{
-        line-height: 50px;
-        border-bottom: 1px solid #E7ECF1;
-        margin-bottom: 20px;
+#feedback_details {
+  border: 1px solid #e7ecf1;
+  padding: 30px 50px;
+  h3 {
+    line-height: 50px;
+    border-bottom: 1px solid #e7ecf1;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 40px;
+    padding-left: 50px;
+    span:first-child {
+      width: 100px;
+      display: inline-block;
+      text-align: right;
     }
-    p{
-        line-height: 40px;
-        padding-left: 50px;
-        span:first-child{
-            width: 100px;
-            display: inline-block;
-            text-align: right
-        }
-
-    }
-    div{
-        text-align: center;
-        // margin-top: 20px
-    }
+  }
+  div {
+    text-align: center;
+    // margin-top: 20px
+  }
 }
-.evaluation_grade{
-    display: inline-block;
-    border: 1px solid #FF6600;
-    line-height: 30px;
-    padding: 0px 20px;
-    color: #FF6600
+.evaluation_grade {
+  display: inline-block;
+  border: 1px solid #ff6600;
+  line-height: 30px;
+  padding: 0px 20px;
+  color: #ff6600;
 }
 </style>

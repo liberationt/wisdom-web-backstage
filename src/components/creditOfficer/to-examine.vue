@@ -10,7 +10,7 @@
         <Button type="primary" shape="circle" icon="plus-round" class="mb15" @click="addproduct">添加产品</Button>
         <Table border :columns="columns1" :data="data1"></Table>
         <div class="tr mt15">
-            <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
         </div>
     </div>
 </div>
@@ -32,12 +32,13 @@ export default {
           title: '排序',
           align: 'center',
           key: 'age',
+          minWidth: 200,
           render: (h, params) => {
             return h('div', [
               h('Input', {
                 props: {
                   size: 'small',
-                  value: params.row.queryStr
+                  value: params.row.productSort
                 },
                 style: {
                   width: '150px'
@@ -54,12 +55,14 @@ export default {
         {
           title: '添加时间',
           align: 'center',
-          key: 'address'
+          key: 'dataCreateTime',
+          minWidth: 200
         },
         {
           title: '最后修改时间',
           align: 'center',
-          key: 'address'
+          key: 'dataModifiedTime',
+          minWidth: 200
         },
         {
           title: '操作',
@@ -101,7 +104,10 @@ export default {
       params: {
         page: 1,
         limit: 10
-      }
+      },
+      endRow: 10,
+      total: 0,
+      startRow: 1,
     }
   },
   methods: {
@@ -109,10 +115,15 @@ export default {
       this.$router.push({ path: './operationLog' })
     },
     pageChange (page) {
-      this.params.page = page
+      this.startRow = page;
+      this.params.page = page;
+      this.query()
     },
     PageSizeChange (limit) {
-      this.params.limit = limit
+      this.startRow = 1
+      this.endRow = limit;
+      this.params.limit = limit;
+      this.query()
     },
     remove (index) {
       this.data1.splice(index, 1)
@@ -121,9 +132,12 @@ export default {
       this.$router.push({ path: './addExamine' })
     },
     query(){
-      this.http.post(BASE_URL+'/loan/creditInstitutionsProduct/getCreditInstitutionsProductList',{creditInstitutionsProductCode: untils.getCookie('institutionsCode')}).then(data=>{
+      this.http.post(BASE_URL+'/loan/creditInstitutionsProduct/getCreditInstitutionsProductList',{creditInstitutionsProductCode: untils.getCookie('institutionsCode'), pageSize: this.endRow,
+        pageNum: this.startRow}).then(data=>{
         if(data.code == 'success'){
           this.data1 = data.data.creditInstitutionsProductList
+          this.total = parseInt(data.data.total);
+          this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
         }
       }).catch(err=>{
         console.log(err)
