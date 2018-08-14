@@ -8,7 +8,7 @@
     <div>
         <Table border :columns="columns1" :data="data1" class="mt15"></Table>
         <p class="tc mt50">
-            <Button type="primary">保存设置</Button>
+            <Button type="primary" @click="save">保存设置</Button>
         </p>
     </div>
 </div>
@@ -88,7 +88,8 @@ export default {
                 },
                 on: {
                   "on-change": val => {
-                    // this.selects[0].name = val
+                    // console.log("on-change", val, params)
+                    // params.row.[]  = val
                   }
                 }
               },
@@ -140,7 +141,7 @@ export default {
                 },
                 on: {
                   "on-change": val => {
-                    // this.selects[0].name = val
+                    this.selects[0].name = val
                   }
                 }
               },
@@ -306,6 +307,9 @@ export default {
   methods: {
     gread() {
       this.$router.push({ path: "./managementGrade" });
+    },
+    save() {
+      console.log(this.appPaymentList)
     }
   },
   mounted() {
@@ -315,26 +319,7 @@ export default {
         console.log(resp);
         if (resp.code == "success") {
           const { appPaymentList, paymentList, appList } = resp.data;
-          if (appList && appPaymentList) {
-            let apendAppList = [];
-            appList.map(o => {
-              const defaultValues = appPaymentList[o["appId"]];
-
-              let defaultValuesObject = {};
-              if (defaultValues && defaultValues.length > 0) {
-                defaultValues.map(item => {
-                  defaultValuesObject[item["paymentCode"]] =
-                    item["channelName"];
-                });
-
-                apendAppList.push(Object.assign(o, defaultValuesObject));
-              }
-            });
-            console.log(apendAppList);
-            this.data1 = apendAppList;
-          } else {
-            this.data1 = appList;
-          }
+          this.data1 = appList;
           if (paymentList && appPaymentList) {
             let columns = [];
             columns.push({
@@ -343,29 +328,52 @@ export default {
               align: "center"
             });
             console.log("asdfasdfasdf12");
-            paymentList.map(o => {
-              console.log("asdfasdfasdf11");
-
+            paymentList.map((o, index) => {
               columns.push({
                 title: o["paymentName"],
                 align: "center",
                 render: (h, params) => {
                   let options = [];
-                  const _options = appPaymentList[o["paymentCode"]];
+                  const appId = params["row"]["appId"];
+                  const appPayment = appPaymentList[appId];
+                  const _options =
+                    appPayment &&
+                    appPayment.length > index &&
+                    appPayment[index]["channelList"];
                   if (_options && _options.length > 0) {
                     _options.map(o => {
                       options.push(
                         h(
-                        "Option",
-                        {
-                          props: {
-                            value: o["paymentCode"]
-                          }
-                        },
-                        o["paymentName"]
-                      )
+                          "Option",
+                          {
+                            props: {
+                              value: o["channelCode"]
+                            }
+                          },
+                          o["channelDesc"]
+                        )
                       );
                     });
+
+                    return h(
+                      "Select",
+                      {
+                        props: {
+                          value: appPayment[index]["channelCode"]
+                        },
+                        style: {
+                          width: "160px"
+                        },
+                        on: {
+                          "on-change": val => {
+                            // this.selects[0].name = val
+                            appPayment[index]["s_channelCode"]  = val
+                            console.log(appPayment[index])
+                          }
+                        }
+                      },
+                      options
+                    );
                   } else {
                     options.push(
                       h(
@@ -379,28 +387,12 @@ export default {
                       )
                     );
                   }
-                  return h(
-                    "Select",
-                    {
-                      props: {
-                        value: o["paymentCode"]
-                      },
-                      style: {
-                        width: "160px"
-                      },
-                      on: {
-                        "on-change": val => {
-                          // this.selects[0].name = val
-                        }
-                      }
-                    },
-                    options
-                  );
                 }
               });
             });
 
             this.columns1 = columns;
+            this.appPaymentList = appPaymentList;
             console.log("asdfasdfasdf");
           }
         } else {

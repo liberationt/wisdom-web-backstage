@@ -16,6 +16,7 @@
 </div>
 </template>
 <script>
+import untils from '../../utils/utils'
 export default {
   data () {
     return {
@@ -24,7 +25,8 @@ export default {
         {
           title: '产品名称',
           align: 'center',
-          key: 'name'
+          key: 'productName',
+          minWidth: 100
         },
         {
           title: '排序',
@@ -34,8 +36,8 @@ export default {
             return h('div', [
               h('Input', {
                 props: {
-                  type: 'primary',
-                  size: 'small'
+                  size: 'small',
+                  value: params.row.queryStr
                 },
                 style: {
                   width: '150px'
@@ -45,9 +47,14 @@ export default {
                     this.show(params.index)
                   }
                 }
-              }, '')
+              })
             ])
           }
+        },
+        {
+          title: '添加时间',
+          align: 'center',
+          key: 'address'
         },
         {
           title: '最后修改时间',
@@ -90,24 +97,7 @@ export default {
           }
         }
       ],
-      data1: [
-        {
-          name: '汽车贷',
-          address: '2018-03-29 15:12:34'
-        },
-        {
-          name: '汽车贷',
-          address: '2018-03-29 15:12:34'
-        },
-        {
-          name: '汽车贷',
-          address: '2018-03-29 15:12:34'
-        },
-        {
-          name: '汽车贷',
-          address: '2018-03-29 15:12:34'
-        }
-      ],
+      data1: [],
       params: {
         page: 1,
         limit: 10
@@ -129,7 +119,19 @@ export default {
     },
     addproduct () {
       this.$router.push({ path: './addExamine' })
+    },
+    query(){
+      this.http.post(BASE_URL+'/loan/creditInstitutionsProduct/getCreditInstitutionsProductList',{creditInstitutionsProductCode: untils.getCookie('institutionsCode')}).then(data=>{
+        if(data.code == 'success'){
+          this.data1 = data.data.creditInstitutionsProductList
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
     }
+  },
+  created(){
+    this.query()
   }
 }
 </script>

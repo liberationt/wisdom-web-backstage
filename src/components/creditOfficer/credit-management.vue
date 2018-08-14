@@ -122,7 +122,7 @@
             <div class="clearfix">
             <div class="left">
             <Input v-model="guanname" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model3" placeholder="上架状态" @on-change='loanstatusl' style="width:200px;margin-left:50px">
+            <Select v-model="modell3" placeholder="上架状态" @on-change='loanstatusl' style="width:200px;margin-left:50px">
                 <Option v-for="item in loanstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Select v-model="model4" @on-change='loanrecommendl' placeholder="是否首页推荐" style="width:200px;margin-left:50px">
@@ -147,6 +147,7 @@
 </div>
 </template>
 <script>
+import untils from '../../utils/utils'
 export default {
   data() {
     return {
@@ -233,6 +234,7 @@ export default {
       dataname1: '',
       model2: "手机号",
       model3: "手机号",
+      modell3 : "",
       model4: "",
       name: "",
       name1: "",
@@ -727,7 +729,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: "./addMechanism" });
+                      untils.setCookie('institutionsCode',params.row.institutionsCode)
+                      this.$router.push({ path: "./addMechanism?isedit="+'is' });
                     }
                   }
                 },
@@ -745,6 +748,7 @@ export default {
                   },
                   on: {
                     click: () => {
+                      untils.setCookie('institutionsCode',params.row.institutionsCode)
                       this.$router.push({ path: "./toExamine" });
                     }
                   }
@@ -888,6 +892,7 @@ export default {
               this.guanname = ""
               this.model3 = ""
               this.model4 = ""
+              this.modell3 = ""
               this.loading3= false
               return false;
             }
@@ -918,6 +923,7 @@ export default {
               this.guanname = ""
               this.model3 = ""
               this.model4 = ""
+              this.modell3 = ""
               this.loading3= false
               return false;
             }
@@ -948,6 +954,7 @@ export default {
               this.guanname = ""
               this.model3 = ""
               this.model4 = ""
+              this.modell3 = ""
               this.loading3= false
               return false;
             }
@@ -974,6 +981,7 @@ export default {
               this.guanname = ""
               this.model3 = ""
               this.model4 = ""
+              this.modell3 = ""
               this.loading3= false
               return false;
             }
@@ -1088,7 +1096,7 @@ export default {
       if (name == "tab5") {
         data = Object.assign({
           institutionsName : this.guanname, //关键字
-          institutionsUpStatus : this.model3, // 上下架状态
+          institutionsUpStatus : this.modell3, // 上下架状态
           institutionsRecommendStatus : this.model4 //是否首页推荐
         }, parameter);
         this.post(
@@ -1239,6 +1247,10 @@ export default {
     if (this.$route.query.num == 1) {
       this.tabs = "tab2";
       this.labell1("tab2");
+    }
+    if (this.$route.query.num == 2) {
+      this.tabs = "tab5";
+      this.labell1("tab5");
     }
     this.http.get("../../../static/city.json").then(data => {
       this.cityType = data;

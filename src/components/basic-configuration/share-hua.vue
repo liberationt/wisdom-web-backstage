@@ -86,7 +86,7 @@ export default {
   created() {
     //默认图片地址
     // 获取分享配置
-    console.log(this.$route.query.isapp)
+    // console.log(this.$route.query.isapp)
     let httpUrl
     if(this.$route.query.isapp == "huazan"){
       httpUrl = '/loan/officerInfo/getOfficerInfoLinkShare'
