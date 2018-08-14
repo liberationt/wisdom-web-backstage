@@ -10,7 +10,7 @@
     <div class="application-clothes" v-for="(item, index) in applicationlist" :key="index">
       <img :src="item.logoUrl" alt="">
       <span><em>{{item.appName}}</em></br><em>版本数量:1</em></span>
-      <Button type="primary" class="mt15" long @click="gold_clothes(item.menuCode)">进入管理</Button>
+      <Button type="primary" class="mt15" long @click="gold_clothes(item.menuCode,item.appCode)">进入管理</Button>
     </div>
     <!-- <div id="application-app">
       <img src="../../image/application-hzjf.png" alt="">
@@ -53,7 +53,8 @@ export default {
       .catch(() => {});
   },
   methods: {
-    gold_clothes(num) {
+    gold_clothes(num,appCode) {
+      utils.setCookie('appCode',appCode) //存储版本code
       let that = this;
       let arrlist = [];
       let menucodes = document.getElementsByClassName("redWine")[0].getAttribute("menucode");

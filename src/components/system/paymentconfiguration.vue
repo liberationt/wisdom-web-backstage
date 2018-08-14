@@ -141,7 +141,7 @@ export default {
                 },
                 on: {
                   "on-change": val => {
-                    this.selects[0].name = val
+                    this.selects[0].name = val;
                   }
                 }
               },
@@ -285,22 +285,6 @@ export default {
       type: "radio",
       value: 0,
       data1: [
-        {
-          name: "John Brown",
-          value: 0
-        },
-        {
-          name: "Jim Green",
-          value: 0
-        },
-        {
-          name: "Joe Black",
-          value: 0
-        },
-        {
-          name: "Jon Snow",
-          value: 0
-        }
       ]
     };
   },
@@ -309,7 +293,143 @@ export default {
       this.$router.push({ path: "./managementGrade" });
     },
     save() {
-      console.log(this.appPaymentList)
+      console.log(this.appPaymentList);
+      const requestBody = [];
+      Object.keys(this.appPaymentList).map(key => {
+        let appPayment = {};
+        appPayment["appId"] = key;
+        let _appPaymentList = [];
+        const appPaymentList = this.appPaymentList[key];
+        appPaymentList &&
+          appPaymentList.map(o => {
+            const s_channelCode = o["s_channelCode"];
+            if (s_channelCode) {
+              if (s_channelCode.startsWith("enable_")) {
+                _appPaymentList.push({
+                  paymentCode: o["paymentCode"],
+                  enabled: s_channelCode.replace("enable_", "")
+                });
+              } else {
+                _appPaymentList.push({
+                  paymentCode: o["paymentCode"],
+                  channelCode: s_channelCode,
+                  enabled: 1
+                });
+              }
+            }
+          });
+        appPayment['appPaymentList'] = _appPaymentList;
+        requestBody.push(appPayment)
+      });
+      this.http.post(BASE_URL+"/loan/payment/setAppPayment",requestBody).then(data=>{
+        console.log(data)
+      }).catch(err=>{
+        console.log(err)
+      })
+      console.log("requestBody:", requestBody)
+    },
+    defaultSelectOption(h, params) {
+      return [
+        h(
+          "Option",
+          {
+            props: {
+              value: "0"
+            }
+          },
+          "关闭"
+        )
+      ];
+    },
+    enableSelectOption(h, params) {
+      return [
+        h(
+          "Option",
+          {
+            props: {
+              value: "enable_1"
+            }
+          },
+          "开启"
+        ),
+        h(
+          "Option",
+          {
+            props: {
+              value: "enable_0"
+            }
+          },
+          "关闭"
+        )
+      ];
+    },
+    renderColumns(index, h, params, appPaymentList, paymentList, appList) {
+      let options = [];
+      console.log("0");
+
+      const appId = params["row"]["appId"];
+      console.log("1");
+
+      const appPayment = appPaymentList[appId];
+      console.log("appPaymentItem222", appPayment[index - 1]);
+      const appPaymentItem =
+        appPayment && appPayment.length > index && appPayment[index];
+
+      console.log("appPaymentItem1", appPaymentItem);
+
+      //如果当前关闭的话
+      if (appPaymentItem && appPaymentItem["enabled"]) {
+        let _options = appPaymentItem["channelList"];
+        if (_options && _options.length > 0) {
+          options.push(
+            h(
+              "Option",
+              {
+                props: {
+                  value: "enable_0"
+                }
+              },
+              "关闭"
+            )
+          );
+          _options.map(o => {
+            options.push(
+              h(
+                "Option",
+                {
+                  props: {
+                    value: o["channelCode"]
+                  }
+                },
+                o["channelDesc"]
+              )
+            );
+          });
+          return h(
+            "Select",
+            {
+              props: {
+                value: appPayment[index]["channelCode"]
+              },
+              style: {
+                width: "160px"
+              },
+              on: {
+                "on-change": val => {
+                  // this.selects[0].name = val
+                  appPayment[index]["s_channelCode"] = val;
+                  console.log(appPayment[index]);
+                }
+              }
+            },
+            options
+          );
+        } else {
+          return this.enableSelectOption(h, params);
+        }
+      } else {
+        return this.defaultSelectOption(h, params);
+      }
     }
   },
   mounted() {
@@ -333,60 +453,14 @@ export default {
                 title: o["paymentName"],
                 align: "center",
                 render: (h, params) => {
-                  let options = [];
-                  const appId = params["row"]["appId"];
-                  const appPayment = appPaymentList[appId];
-                  const _options =
-                    appPayment &&
-                    appPayment.length > index &&
-                    appPayment[index]["channelList"];
-                  if (_options && _options.length > 0) {
-                    _options.map(o => {
-                      options.push(
-                        h(
-                          "Option",
-                          {
-                            props: {
-                              value: o["channelCode"]
-                            }
-                          },
-                          o["channelDesc"]
-                        )
-                      );
-                    });
-
-                    return h(
-                      "Select",
-                      {
-                        props: {
-                          value: appPayment[index]["channelCode"]
-                        },
-                        style: {
-                          width: "160px"
-                        },
-                        on: {
-                          "on-change": val => {
-                            // this.selects[0].name = val
-                            appPayment[index]["s_channelCode"]  = val
-                            console.log(appPayment[index])
-                          }
-                        }
-                      },
-                      options
-                    );
-                  } else {
-                    options.push(
-                      h(
-                        "Option",
-                        {
-                          props: {
-                            value: o["paymentCode"]
-                          }
-                        },
-                        "默认值"
-                      )
-                    );
-                  }
+                  return this.renderColumns(
+                    index,
+                    h,
+                    params,
+                    appPaymentList,
+                    paymentList,
+                    appList
+                  );
                 }
               });
             });

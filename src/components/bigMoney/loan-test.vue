@@ -987,19 +987,18 @@ export default {
           },
           timeout:1000*60*5
         }
-      this.http.post(BASE_URL + '/fileUpload', formData, config)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.formCustom.logoUrl = resp.data
-      } else {
-      }
-    })
-    .catch(() => {
-    })
+        this.http.post(BASE_URL + '/fileUpload', formData, config)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.formCustom.logoUrl = resp.data
+        } else {
+        }
+      })
+      .catch(() => {
+      })
       this.formCustom.productlogo = file.name
       return false
       }
-      
       // return false
     },
     handleUploadicon (file) {

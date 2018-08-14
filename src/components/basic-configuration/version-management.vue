@@ -12,20 +12,25 @@
             添加版本
         </a>
     </div>
-    <div class="version clearfix">
-        <router-link to='pageConfigguration'>
+    <ul>
+      <li class="version clearfix" v-for="item in versionnumber">
+        <!-- <router-link to='pageConfigguration'> -->
         <div class="version_img left">
-            <img src="../../image/bg.jpg" alt="">
+            <img :src=item.logoUrl alt="">
         </div>
-        </router-link>
+        <!-- </router-link> -->
         <div class="version_text">
-            <p class="android right">安卓</p>
-            <p class="version_text_version">V1.1.2</p>
-            <p class="version_text_lian">com.weimob.dkwjk-1.1.2</p>
-            <p class="version_text_xin">不更新</p>
+            <p class="android right" v-if="item.appType == 1">安卓</p>
+            <p class="android right" v-if="item.appType == 0">IOS</p>
+            <p class="version_text_version">{{item.appVersion}}</p>
+            <p class="version_text_lian">{{item.appIdentifier}}</p>
+            <p class="version_text_xin" v-if="item.updateType == 1">不更新</p>
+            <p class="version_text_xin" v-if="item.updateType == 2">强制更新</p>
+            <p class="version_text_xin" v-if="item.updateType == 3">提示更新</p>
+            <p class="version_text_xin" v-if="item.updateType == 4">半强制更新,WiFi下更新</p>
         </div>
         <div class="version_footer">
-            <span class="version_date">2018-05-10</span>
+            <span class="version_date">{{item.dataCreateTime}}</span>
             <span class="version_icon" @click="handleRender">
                 <Icon type="ios-copy-outline"></Icon>
             </span>
@@ -43,7 +48,8 @@
                 </Poptip>
             </span>
         </div>
-    </div>
+      </li>
+    </ul>
     <!-- 添加模板 -->
    <Modal
       title="添加(编辑)版本"
@@ -54,25 +60,40 @@
       cancel-text="关闭"
       class-name="vertical-center-modal"
       width="800"
+      :loading="loading"
       :mask-closable="false">
       <div class="newtype_file">
-          <div class="newtype_leftfi clearfix">
+          <!-- <div class="newtype_leftfi clearfix">
             <p class="left">
                 <span class="red">*</span>
                 <span class="text">图标: </span>
             </p>
-            <img src="../../image/application-hzjf.png" alt="" class="left">
+            <img :src="formValidate.logoUrl1" alt="" class="left">
+            <Input v-model="formValidate.productlogo" style="display:none" class="left ml5"></Input>
             <Upload
-            action="//jsonplaceholder.typicode.com/posts/"
+            action=""
             :format="['jpg','jpeg','png']"
             :max-size="2048"
             :show-upload-list="false"
+            :on-format-error="handleFormatError1"
+            :before-upload="handleUpload"
             >
                 <Button type="ghost" icon="ios-cloud-upload-outline">上传文件</Button>
             </Upload>
-          </div>
+          </div> -->
         <!-- 表单 -->
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+          <FormItem  label="图标:" prop="productlogo" class="newtype_leftfi clearfix">
+              <img :src="formValidate.logoUrl1" alt="" class="left">
+              <Input v-model="formValidate.productlogo" style="display:none" class="ml25"></Input><Upload
+              :format="['jpg','jpeg','png']"
+              :on-format-error="handleFormatError1"
+              :before-upload="handleUpload"
+              :show-upload-list="false"                        
+              action=''>
+                <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:24px">选择</Button>
+              </Upload>
+            </FormItem>
             <FormItem label="版本号: " prop="edition">
                 <Input v-model="formValidate.edition" placeholder="请输入版本号"></Input>
             </FormItem>
@@ -81,16 +102,16 @@
             </FormItem>
             <FormItem label="操作系统: " prop="gender">
                 <RadioGroup v-model="formValidate.gender">
-                    <Radio label="male">安卓</Radio>
-                    <Radio label="female">iOS</Radio>
+                    <Radio label="0">安卓</Radio>
+                    <Radio label="1">iOS</Radio>
                 </RadioGroup>
             </FormItem>
             <FormItem label="版本状态: " prop="version">
                 <RadioGroup v-model="formValidate.version">
-                    <Radio label="male">不更新</Radio>
-                    <Radio label="female">强制更新</Radio>
-                    <Radio label="prompt">提示更新</Radio>
-                    <Radio label="force">半强制更新,WiFi下更新</Radio>
+                    <Radio label="1">不更新</Radio>
+                    <Radio label="2">强制更新</Radio>
+                    <Radio label="3">提示更新</Radio>
+                    <Radio label="4">半强制更新,WiFi下更新</Radio>
                 </RadioGroup>
             </FormItem>
             <FormItem label="下载地址: " prop="address">
@@ -105,14 +126,25 @@
         </Form>
       </div>
     </Modal>
+      <div class="tr mt15">
+        <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+      </div>
   </div>
  </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data () {
     return {
+      loading: true,
+      versionnumber: [], // 版本号
       modal8: false,
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       formValidate: {
+        logoUrl1: require('../../image/moren.png'),
+        productlogo: '',
         edition: '',
         packageName: '',
         gender: '',
@@ -124,6 +156,9 @@ export default {
       ruleValidate: {
         edition: [
           { required: true, message: '请输入版本号', trigger: 'blur' }
+        ],
+        productlogo: [
+          { required: true, message: '请输选择图标', trigger: 'blur' }
         ],
         packageName: [
           { required: true, message: '请输入包名', trigger: 'blur' }
@@ -148,22 +183,104 @@ export default {
     }
   },
   components: {},
-  mounted: {},
+  created(){
+    this.query()
+  },
   methods: {
+    query(){
+      this.http.post(BASE_URL+"/system/appVersion/getAppVersionList",{appCode:utils.getCookie('appCode')}).then(data=>{
+        // console.log(data)
+        if(data.code == 'success'){
+          this.versionnumber = data.data.dataList
+          this.total = Number(data.data.total)
+          this.startRow = Math.ceil(data.data.startRow/this.endRow) ? Math.ceil(data.data.startRow/this.endRow) : 0
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    pageChange (page) {
+      this.startRow = page
+      this.inquire()
+    },
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      this.inquire()
+    },
     handleRender () {
       this.modal8 = true
     },
+    handleFormatError1 (file) {
+      // this.formCustom.productlogo = ''
+      this.$Message.info("图片格式不正确,请上传正确的图片格式")
+    },
+    handleUpload (file) {
+      let splic = file.name.split('.')
+      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+        let formData = new FormData();
+          formData.append('file', file)
+        let config = {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          },
+          timeout:1000*60*5
+        }
+        this.http.post(BASE_URL + '/fileUpload', formData, config)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.formValidate.logoUrl1 = resp.data
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+      this.formValidate.productlogo = file.name
+      return false
+      }
+      // return false
+    },
     handleSubmit (name) {
+      console.log(this.formValidate.version)
       this.$refs[name].validate((valid) => {
         if (valid) {
-          this.$Message.success('Success!')
-          this.$refs[name].resetFields()
+          this.http.post(BASE_URL+"/system/appVersion/saveAppVersion",{
+            logoUrl : this.formValidate.productlogo, // 图标路径
+            appVersion : this.formValidate.edition, // 版本号
+            appIdentifier : this.formValidate.packageName, // 包名
+            appType : this.formValidate.gender, // app类型
+            versionCode : this.formValidate.version,  // 版本类型
+            appUrl : this.formValidate.address, // 下载地址
+            updateTitle : this.formValidate.title, // 更新标题
+            updateDetails : this.formValidate.desc // 更新内容
+          }).then(data=>{
+            console.log(data)
+            if(data.code == 'success'){
+              this.$Message.success('提交成功!')
+              this.modal8 = false
+              this.formValidate.logoUrl1 = ""
+              this.formValidate.productlogo = ""
+              this.$refs[name].resetFields()
+            } else {
+              this.$Message.success(data.message)
+            }
+          }).catch(err=>{
+            this.$Message.success('提交失败!')
+          })
         } else {
-          this.$Message.error('Fail!')
+          return this.changeLoading()
         }
       })
     },
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
+      })
+    },
     handleReset (name) {
+      this.formValidate.logoUrl1 = ""
+      this.formValidate.productlogo = ""
       this.$refs[name].resetFields()
     },
     ok () {
@@ -241,8 +358,10 @@ export default {
   height: 100%;
 }
 .version {
-  width: 300px;
-  height: 160px;
+  width: 330px;
+  // height: 160px;
+  padding: 10px 10px;
+  padding-top: 0px;
   border: 1px solid #ccc;
   margin-top: 20px;
 }
