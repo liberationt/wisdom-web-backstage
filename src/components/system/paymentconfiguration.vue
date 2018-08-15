@@ -430,21 +430,8 @@ export default {
       const appPaymentItem =
         appPayment && appPayment.length > index && appPayment[index];
       // console.log("appPaymentItem1", appPaymentItem);
-      //如果当前关闭的话
-      if (appPaymentItem && appPaymentItem["enabled"]) {
-        let _options = appPaymentItem["channelList"];
+      let _options = appPaymentItem["channelList"];
         if (_options && _options.length > 0) {
-          options.push(
-            h(
-              "Option",
-              {
-                props: {
-                  value: "enable_0"
-                }
-              },
-              "关闭"
-            )
-          );
           _options.map(o => {
             options.push(
               h(
@@ -478,11 +465,8 @@ export default {
             options
           );
         } else {
-          return this.enableSelectOption(h, params);
+          return this.defaultSelectOption(h, params);
         }
-      } else {
-        return this.defaultSelectOption(h, params);
-      }
     }
   },
   mounted() {
