@@ -9,14 +9,15 @@
         <h3>查看订单详情</h3>
         <ul>
             <li>
-                <span class="lh32 "><em class="red">*</em>产品名称:</span>
+                <span class="lh32 "><em class="red">*</em>产品名称：</span>
                 <Input class="" v-model="value" placeholder="请输入产品名称" style="width: 300px"></Input>
             </li>
             <li class="clearfix mt15">
-                <span class="left"><em class="red">*</em>产品详情:</span>
-                <div class="editor-container left mt5">
+                <span class="left"><em class="red">*</em>产品详情：</span>
+                <!-- <div class="editor-container left mt5">
                     <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
-                </div>
+                </div> -->
+                <Input class="left" style="width: 600px" v-model="value6" type="textarea" :rows="4" placeholder="请输入产品详情" />
             </li>
         </ul>
         <div class="mt50">
@@ -27,22 +28,63 @@
 </div>
 </template>
 <script>
-import UE from "../../components/ue";
+// import UE from "../../components/ue";
+import utils from "../../utils/utils"
 export default {
   data() {
     return {
       value: "",
-      defaultMsg: "这里是UE测试",
-      config: {
-        initialFrameWidth: null,
-        initialFrameHeight: 350
-      }
+      value6: ''
+      // defaultMsg: "这里是UE测试",
+      // config: {
+      //   initialFrameWidth: null,
+      //   initialFrameHeight: 350
+      // }
     };
   },
-  components: { UE },
+  // components: { UE },
   methods: {
     handleSubmit() {
-			console.log(this.defaultMsg)
+      let httpurl
+      if(this.$route.query.isedit == 'is'){
+        httpurl = "/loan/creditInstitutionsProduct/updateCreditInstitutionsProductByCode" //编辑保存
+      } else {
+        httpurl = "/loan/creditInstitutionsProduct/saveCreditInstitutionsProduct" // 添加保存
+      }
+			this.http.post(BASE_URL+httpurl,{
+        institutionsCode : utils.getCookie('institutionsCode'),
+        productDetail : this.value6,
+        productName : this.value
+      }).then(data=>{
+        console.log(data)
+        if(data.code == 'success'){
+          const title = "温馨提示";
+          this.$Modal.success({
+            title: title,
+            content: "<p>保存成功</p>",
+            onOk: () => {
+              this.$router.push({ path: "././toExamine"});
+            }
+          });
+        } else {
+           this.$Message.info('保存失败！');
+        }
+      }).catch(err=>{
+         this.$Message.info('保存失败！');
+      })
+    },
+    created(){
+      if(this.$route.query.isedit == 'is'){
+        this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/getCreditInstitutionsProductByCode",{productCode:untils.getCookie('productCode')}).then(data=>{
+          console.log(data)
+          if(data.code == 'success'){
+            this.value6 = data.data.productDetail
+            this.value = data.data.productName 
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+      }
     }
   }
 };

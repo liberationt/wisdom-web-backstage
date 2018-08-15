@@ -81,7 +81,8 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.$router.push({ path: './addExamine' })
+                    untils.setCookie('productCode',params.row.productCode)
+                    this.$router.push({ path: './addExamine?isedit?'+is })
                   }
                 }
               }, '编辑'),
@@ -92,7 +93,7 @@ export default {
                 },
                 on: {
                   click: () => {
-                    this.remove(params.index)
+                    this.adopt(params.row.productCode)
                   }
                 }
               }, '删除')
@@ -111,9 +112,30 @@ export default {
     }
   },
   methods: {
-    handleRender () {
-      this.$router.push({ path: './operationLog' })
+    adopt(code) {
+      this.$Modal.confirm({
+        title: "温馨提示",
+        content: "<p>确认删除吗?</p>",
+        onOk: () => {
+          this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/updateCreditInstitutionsProductStateByCode",{productCode:code}).then(data=>{
+            // console.log(data)
+            if(data.code == 'success'){
+              this.$Message.info('删除成功！');
+              this.query()
+            } else {
+              this.$Message.info('删除失败！');
+            }
+          }).catch(err=>{
+            this.$Message.info('删除失败！');
+            console.log(err)
+          })
+        },
+        onCancel: () => {}
+      });
     },
+    // handleRender () {
+    //   this.$router.push({ path: './operationLog' }) //操作日志
+    // },
     pageChange (page) {
       this.startRow = page;
       this.params.page = page;
