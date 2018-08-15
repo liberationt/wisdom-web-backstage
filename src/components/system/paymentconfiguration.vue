@@ -284,8 +284,7 @@ export default {
       ],
       type: "radio",
       value: 0,
-      data1: [
-      ]
+      data1: []
     };
   },
   methods: {
@@ -318,15 +317,18 @@ export default {
               }
             }
           });
-        appPayment['appPaymentList'] = _appPaymentList;
-        requestBody.push(appPayment)
+        appPayment["appPaymentList"] = _appPaymentList;
+        requestBody.push(appPayment);
       });
-      this.http.post(BASE_URL+"/loan/payment/setAppPayment",requestBody).then(data=>{
-        console.log(data)
-      }).catch(err=>{
-        console.log(err)
-      })
-      console.log("requestBody:", requestBody)
+      this.http
+        .post(BASE_URL + "/loan/payment/setAppPayment", requestBody)
+        .then(data => {
+          console.log(data);
+        })
+        .catch(err => {
+          console.log(err);
+        });
+      console.log("requestBody:", requestBody);
     },
     defaultSelectOption(h, params) {
       return [
@@ -378,7 +380,7 @@ export default {
       console.log("appPaymentItem1", appPaymentItem);
 
       //如果当前关闭的话
-      if (appPaymentItem && appPaymentItem["enabled"]) {
+      if (appPaymentItem) {
         let _options = appPaymentItem["channelList"];
         if (_options && _options.length > 0) {
           options.push(
