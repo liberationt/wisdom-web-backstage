@@ -711,7 +711,8 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.remove(params.index);
+                      this.adopt(params.row.institutionsCode)
+                      // this.remove(params.index);
                     }
                   }
                 },
@@ -859,6 +860,28 @@ export default {
       this.endRow = limit;
       this.params.limit = limit;
       this.labell1("tab4");
+    },
+    // 信贷机构删除
+    adopt(code) {
+      this.$Modal.confirm({
+        title: "温馨提示",
+        content: "<p>确认删除吗?</p>",
+        onOk: () => {
+          this.http.post(BASE_URL+"/loan/creditInstitutions/updateCreditInstitutionsStateByCode",{institutionsCode:code}).then(data=>{
+            // console.log(data)
+            if(data.code == 'success'){
+              this.$Message.info('删除成功！');
+              this.labell1('tab5')
+            } else {
+              this.$Message.info('删除失败！');
+            }
+          }).catch(err=>{
+            this.$Message.info('删除失败！');
+            console.log(err)
+          })
+        },
+        onCancel: () => {}
+      });
     },
     addManage() {
       this.$router.push({ path: "./addMechanism" });

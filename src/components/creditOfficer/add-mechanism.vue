@@ -144,12 +144,15 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      // console.log(this.formValidate.interest)
-      // this.formValidate.interest.join(";");
-      console.log(b);
+      let postUrl
+      if(this.$route.query.isedit == 'is'){
+        postUrl = "/loan/creditInstitutions/updateCreditInstitutionsByCode" //编辑保存
+      } else {
+        postUrl = "/loan/creditInstitutions/saveCreditInstitutions" //添加保存
+      }
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.http.post(BASE_URL+"/loan/creditInstitutions/saveCreditInstitutions",{
+          this.http.post(BASE_URL+postUrl,{
             institutionsPicture : this.formValidate.productlogo, //图片
             institutionsName : this.name, //信贷机构名称
             loanStartRate : this.formValidate.startinterest, //上限利率
@@ -257,7 +260,7 @@ export default {
             this.formValidate.endinterest = data.loanStartRate  //起始利率
             this.formValidate.startmoney = data.institutionsLoanQuotasStart  // 贷款额度起始值
             this.endmoney = data.institutionsLoanQuotasEnd  // 贷款额度上限值 
-            this.formValidate.interest = data.institutionsHaveType  //贷款的类型
+            this.formValidate.interest = data.institutionsHaveType.split(';')  //贷款的类型
             this.formValidate.lowerframe = data.institutionsUpStatus //上架状态
             this.formValidate.mail = data.institutionsLoanOfficer  //显示多名信贷员
             this.formValidate.gender = data.institutionsPhone  //咨询呼叫号码
