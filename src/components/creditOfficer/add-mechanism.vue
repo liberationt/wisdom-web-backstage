@@ -144,6 +144,9 @@ export default {
   },
   methods: {
     handleSubmit(name) {
+      // console.log(this.formValidate.interest)
+      // this.formValidate.interest.join(";");
+      console.log(b);
       this.$refs[name].validate(valid => {
         if (valid) {
           this.http.post(BASE_URL+"/loan/creditInstitutions/saveCreditInstitutions",{
@@ -153,7 +156,7 @@ export default {
             loanEndRate : this.formValidate.endinterest, //起始利率
             institutionsLoanQuotasStart : this.formValidate.startmoney, // 贷款额度起始值
             institutionsLoanQuotasEnd : this.endmoney, // 贷款额度上限值 
-            institutionsHaveType : this.formValidate.interest, //贷款的类型
+            institutionsHaveType : this.formValidate.interest.join(";"), //贷款的类型
             institutionsUpStatus : this.formValidate.lowerframe,//上架状态
             institutionsLoanOfficer : this.formValidate.mail, //显示多名信贷员
             institutionsPhone : this.formValidate.gender, //咨询呼叫号码
