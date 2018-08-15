@@ -288,11 +288,53 @@ export default {
     };
   },
   methods: {
+    query(){
+      this.http
+      .post(BASE_URL + "/loan/payment/getAppPaymentList", {})
+      .then(resp => {
+        console.log(resp);
+        if (resp.code == "success") {
+          const { appPaymentList, paymentList, appList } = resp.data;
+          this.data1 = appList;
+          if (paymentList && appPaymentList) {
+            let columns = [];
+            columns.push({
+              title: "产品",
+              key: "appName",
+              align: "center"
+            });
+            console.log("asdfasdfasdf12");
+            paymentList.map((o, index) => {
+              columns.push({
+                title: o["paymentName"],
+                align: "center",
+                render: (h, params) => {
+                  return this.renderColumns(
+                    index,
+                    h,
+                    params,
+                    appPaymentList,
+                    paymentList,
+                    appList
+                  );
+                }
+              });
+            });
+
+            this.columns1 = columns;
+            this.appPaymentList = appPaymentList;
+            // console.log("asdfasdfasdf");
+          }
+        } else {
+        }
+      })
+      .catch(() => {});
+    },
     gread() {
       this.$router.push({ path: "./managementGrade" });
     },
     save() {
-      console.log(this.appPaymentList);
+      // console.log(this.appPaymentList);
       const requestBody = [];
       Object.keys(this.appPaymentList).map(key => {
         let appPayment = {};
@@ -323,6 +365,21 @@ export default {
       this.http
         .post(BASE_URL + "/loan/payment/setAppPayment", requestBody)
         .then(data => {
+          if(data.code == 'success'){
+            const title = "温馨提示";
+            const content = "<p>保存成功！</p>";
+            switch ('success') {
+              case "success":
+                this.$Modal.success({
+                  title: title,
+                  content: content,
+                  onOk: () => {
+                    this.query()
+                  }
+                });
+              break;
+            }
+          }
           console.log(data);
         })
         .catch(err => {
@@ -367,20 +424,14 @@ export default {
     },
     renderColumns(index, h, params, appPaymentList, paymentList, appList) {
       let options = [];
-      console.log("0");
-
       const appId = params["row"]["appId"];
-      console.log("1");
-
       const appPayment = appPaymentList[appId];
       console.log("appPaymentItem222", appPayment[index - 1]);
       const appPaymentItem =
         appPayment && appPayment.length > index && appPayment[index];
-
-      console.log("appPaymentItem1", appPaymentItem);
-
+      // console.log("appPaymentItem1", appPaymentItem);
       //如果当前关闭的话
-      if (appPaymentItem) {
+      if (appPaymentItem && appPaymentItem["enabled"]) {
         let _options = appPaymentItem["channelList"];
         if (_options && _options.length > 0) {
           options.push(
@@ -435,46 +486,7 @@ export default {
     }
   },
   mounted() {
-    this.http
-      .post(BASE_URL + "/loan/payment/getAppPaymentList", {})
-      .then(resp => {
-        console.log(resp);
-        if (resp.code == "success") {
-          const { appPaymentList, paymentList, appList } = resp.data;
-          this.data1 = appList;
-          if (paymentList && appPaymentList) {
-            let columns = [];
-            columns.push({
-              title: "产品",
-              key: "appName",
-              align: "center"
-            });
-            console.log("asdfasdfasdf12");
-            paymentList.map((o, index) => {
-              columns.push({
-                title: o["paymentName"],
-                align: "center",
-                render: (h, params) => {
-                  return this.renderColumns(
-                    index,
-                    h,
-                    params,
-                    appPaymentList,
-                    paymentList,
-                    appList
-                  );
-                }
-              });
-            });
-
-            this.columns1 = columns;
-            this.appPaymentList = appPaymentList;
-            console.log("asdfasdfasdf");
-          }
-        } else {
-        }
-      })
-      .catch(() => {});
+    this.query()
   }
 };
 </script>
