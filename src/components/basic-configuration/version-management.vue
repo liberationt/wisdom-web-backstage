@@ -219,6 +219,7 @@ export default {
       this.query();
     },
     handleRender(num, versionCode,number) {
+      this.powerful = ""
       if (num == 1) {
         if(number == 2){
           this.powerful = 'compiler'
@@ -284,14 +285,16 @@ export default {
       // return false
     },
     handleSubmit(name) {
+      // console.log(this.powerful)
       let httpurl
-      if(this.powerful = 'copy'){
+      if(this.powerful == 'copy'){
         httpurl = "/system/appVersion/copyAppVersionByCode"// 复制
-      } else if(this.powerful = 'compiler'){
+      } else if(this.powerful == 'compiler'){
         httpurl = "/system/appVersion/updateAppVersionByCode"// 编辑
       } else {
         httpurl = "/system/appVersion/saveAppVersion" // 保存
       }
+      // console.log(httpurl)
       this.$refs[name].validate(valid => {
         if (valid) {
           this.http
@@ -339,7 +342,7 @@ export default {
       this.$refs[name].resetFields();
     },
     ok(versionCode) {
-      this.http.post(BASE_URL+"/system/appVersion/deleteAppVersionByCode",{versionCode:versionCode}).then(data=>{
+      this.http.post(BASE_URL+"/loan/versioncopy/versionDelete",{versionCode:versionCode}).then(data=>{
         console.log(data)
         if(data.code == 'success'){
           this.$Message.info("删除成功！");
