@@ -124,6 +124,7 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      versionCode: "",
       formValidate: {
         logoUrl1: require("../../image/moren.png"),
         productlogo: "",
@@ -221,9 +222,12 @@ export default {
     handleRender(num, versionCode,number) {
       this.powerful = ""
       if (num == 1) {
+        this.versionCode = ""
         if(number == 2){
+          this.versionCode = versionCode
           this.powerful = 'compiler'
         } else {
+          this.versionCode = versionCode
           this.powerful = 'copy'
         }
         this.http
@@ -288,9 +292,9 @@ export default {
       // console.log(this.powerful)
       let httpurl
       if(this.powerful == 'copy'){
-        httpurl = "/system/appVersion/copyAppVersionByCode"// 复制
+        httpurl = "/loan/versioncopy/copyVersion"// 复制
       } else if(this.powerful == 'compiler'){
-        httpurl = "/system/appVersion/updateAppVersionByCode"// 编辑
+        httpurl = "/loan/versioncopy/versionModify"// 编辑
       } else {
         httpurl = "/system/appVersion/saveAppVersion" // 保存
       }
@@ -307,7 +311,8 @@ export default {
               appUrl: this.formValidate.address, // 下载地址
               updateTitle: this.formValidate.title, // 更新标题
               updateDetails: this.formValidate.desc, // 更新内容
-              appCode: utils.getCookie("appCode")
+              appCode: utils.getCookie("appCode"),
+              versionCode: this.versionCode
             })
             .then(data => {
               console.log(data);

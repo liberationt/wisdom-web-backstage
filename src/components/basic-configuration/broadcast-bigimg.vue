@@ -10,7 +10,7 @@
             轮播大图 - 首页
             <p class="homePage_button right" @click="homePageAdd"><Icon type="android-add"></Icon>添加</p>
         </h1>
-        <div class="homePage_bianli"  v-for="(item , index) in items" :key="index">
+        <div class="homePage_bianli"  v-for="item in items"   >
             <div class="homePage_img clearfix">
                 <span class="homePage_img_img left">
                     <img src="../../image/dkcslogo.jpg" alt="">
@@ -37,11 +37,11 @@
                           <Option v-for="item in cityList4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
                   </p>
-                  <!-- <p>
+                  <p>
                       <Select v-model="model5" style="width:120px">
                           <Option v-for="item in cityList5" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
-                  </p> -->
+                  </p>
                 </div>
                 <span class="homePage_delete right">
                     <span class="version_icon">
@@ -55,11 +55,12 @@
                       </Poptip>
                     </span>
                 </span>
+                <span class="homePage_delete right"><a href="javascript:;" class="version_icon">保存</a> </span>
             </div>
         </div>
         <hr>
         <div class="homePage_center">
-          <a href="javascript:;" class="homePage_submit">提交保存</a>
+          <!-- <a href="javascript:;" class="homePage_submit">提交保存</a> -->
           <a href="javascript:;" class="homePage_goback">返回</a>
         </div>
       </div>
@@ -129,10 +130,21 @@ export default {
           label: '上架'
         }
       ],
+      cityList5: [
+        {
+          value: '未实名显示',
+          label: '未实名显示'
+        },
+        {
+          value: '已实名隐藏',
+          label: '已实名隐藏'
+        }
+      ],
       model1: '不跳转',
       model2: '原生页面',
       model3: '首页',
       model4: '下架',
+      model5: '未实名显示',
       homePage_if_input: false,
       homePage_if: false,
       homePage_if1: false,
@@ -144,7 +156,6 @@ export default {
     }
   },
   components: {},
-  mounted: {},
   methods: {
     ok () {
       this.$Message.info('删除成功！')
@@ -234,7 +245,7 @@ hr {
     text-align: center;
     line-height: 30px;
     border-radius: 50px;
-    margin-right: 80px;
+    margin-right: 10px;
     margin-top: 40px;
     cursor: pointer;
 }
