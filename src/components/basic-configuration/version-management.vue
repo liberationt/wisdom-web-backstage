@@ -14,11 +14,9 @@
     </div>
     <ul class="version_list clearfix">
       <li class="version left mr20" v-for="item in versionnumber">
-        <!-- <router-link to='pageConfigguration'> -->
-        <div class="version_img left">
-            <img :src=item.logoUrl alt="">
-        </div>
-        <!-- </router-link> -->
+          <div class="version_img left" @click="pageConfigguration(item)">
+              <img :src=item.logoUrl alt="">
+          </div>
         <div class="version_text">
             <p class="android right" v-if="item.appType == 1">安卓</p>
             <p class="android right" v-if="item.appType == 0">IOS</p>
@@ -188,6 +186,11 @@ export default {
     this.query();
   },
   methods: {
+    pageConfigguration(versionnumber){
+      // console.log()
+      utils.putlocal('versionnumber',versionnumber)
+      this.$router.push({path:'pageConfigguration'})
+    },
     query() {
       this.http
         .post(BASE_URL + "/system/appVersion/getAppVersionList", {

@@ -74,7 +74,7 @@
         <hr>
         <div class="homePage_center">
           <!-- <a href="javascript:;" class="homePage_submit">提交保存</a> -->
-          <a href="javascript:;" class="homePage_goback">返回</a>
+          <router-link to="./pageConfigguration"><p class="homePage_goback">返回</p></router-link> 
         </div>
       </div>
   </div>
