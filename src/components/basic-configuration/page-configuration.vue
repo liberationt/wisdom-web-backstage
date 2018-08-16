@@ -16,23 +16,24 @@
                     <p class="homePage_text">轮播大图</p>
                 </li>
               </router-link>
-              <router-link to="bigimg">
-                <li>
-                    <Icon type="android-image"></Icon>
-                    <p class="homePage_text">开启广告</p>
-                </li>
-              </router-link>
               <router-link to="navigation">
                 <li>
                     <Icon type="android-apps"></Icon>
                     <p class="homePage_text">首页导航</p>
                 </li>
               </router-link>
+              <router-link to="bigimg">
+                <li>
+                    <Icon type="android-image"></Icon>
+                    <p class="homePage_text">开屏广告</p>
+                </li>
+              </router-link>
+              
           </ul>
       </div>
       <!-- 信用卡超市 -->
       <div class="homePage">
-          <h1 class="homePage_h1">信用卡超市</h1>
+          <h1 class="homePage_h1">贷超列表</h1>
           <ul class="homePage_icon clearfix">
               <router-link to="bigimg">
                 <li>

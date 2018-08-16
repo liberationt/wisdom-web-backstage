@@ -639,7 +639,7 @@ export default {
         },
         {
           title: "机构名称",
-          // key: "institutionsName",
+          key: "institutionsName",
           align: "center"
         },
         {

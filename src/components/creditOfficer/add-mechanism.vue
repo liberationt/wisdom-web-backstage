@@ -48,6 +48,9 @@
               <Checkbox v-for="item in checkbox" :label=item.typeCode>{{item.typeName}}</Checkbox>
           </CheckboxGroup>
         </FormItem>
+        <FormItem label="一句话简介" prop="introduction">
+            <Input v-model="formValidate.introduction" style="width: 300px" placeholder="请输入一句话简介"></Input>
+        </FormItem>
         <FormItem label="上架状态" prop="lowerframe">
           <Select @on-change = 'lowerstatus' v-model="formValidate.lowerframe" style="width: 300px" placeholder="上架状态">
               <Option value="1">上架</Option>
@@ -80,10 +83,11 @@
 </div>
 </template>
 <script>
-import untils from '../../utils/utils'
+import untils from "../../utils/utils";
 export default {
   data() {
     return {
+      code: '',
       formValidate: {
         name: "上海铭星投资金融有限公司",
         mail: "",
@@ -96,13 +100,17 @@ export default {
         startmoney: "",
         productlogo: "",
         labelUrl: require("../../image/moren.png"),
-        startinterest:'',
-        endinterest:''
+        startinterest: "",
+        endinterest: "",
+        introduction: ""
       },
       img: require("../../image/default.jpg"),
       ruleValidate: {
         name: [
-          { required: true, message: "请输入显示多少名信贷员", trigger: "blur" }
+          { required: true, message: "请输入信贷名称", trigger: "blur" }
+        ],
+        introduction: [
+          { required: true, message: "请输入一句话简介", trigger: "blur" }
         ],
         mail: [
           { required: true, message: "请输入显示多少名信贷员", trigger: "blur" }
@@ -116,6 +124,9 @@ export default {
         gender: [
           { required: true, message: "请输入呼叫号码", trigger: "change" }
         ],
+        startinterest: [
+          { required: true, message: "请输入起始利率", trigger: "blur" }
+        ],
         interest: [
           {
             required: true,
@@ -126,54 +137,59 @@ export default {
           }
         ],
         startmoney: [
-          { required: true, message: '请输入起始金额', trigger: 'blur' },
-          // { max: 5, message: '起始金额最多为4位数!', trigger: 'blur' },
-          {required: true, message: '小数点后最多1位', pattern: /^[\d{1,8}(\.\d{1,2})?]+$/, trigger: 'blur'}
+          { required: true, message: "请输入起始金额", trigger: "blur" },
         ],
         endmoney: [
-          { required: true, message: '请输入结束金额', trigger: 'blur' },
-          { max: 4, message: '结束金额最多为4位数!', trigger: 'blur' },
+          { required: true, message: "请输入结束金额", trigger: "blur" }
         ],
         desc: [{ required: true, message: "请输入机构简介", trigger: "blur" }],
-        productlogo: [{ required: true, message: "请选择图片", trigger: "blur" }],
-        startinterest : [{ required: true, message: "请输入起始利率", trigger: "blur" }],
-        endinterest : [{ required: true, message: "请输入结束利率", trigger: "blur" }],
+        productlogo: [
+          { required: true, message: "请选择图片", trigger: "blur" }
+        ],
+        endinterest: [
+          { required: true, message: "请输入结束利率", trigger: "blur" }
+        ]
       },
-      checkbox: [],
+      checkbox: []
     };
   },
   methods: {
     handleSubmit(name) {
-      let postUrl
-      if(this.$route.query.isedit == 'is'){
-        postUrl = "/loan/creditInstitutions/updateCreditInstitutionsByCode" //编辑保存
+      let postUrl;
+      if (this.$route.query.isedit == "is") {
+        postUrl = "/loan/creditInstitutions/updateCreditInstitutionsByCode"; //编辑保存
+        this.code = untils.getCookie('institutionsCode')
       } else {
-        postUrl = "/loan/creditInstitutions/saveCreditInstitutions" //添加保存
+        postUrl = "/loan/creditInstitutions/saveCreditInstitutions"; //添加保存
+        this.code = ''
       }
       this.$refs[name].validate(valid => {
         if (valid) {
-          this.http.post(BASE_URL+postUrl,{
-            institutionsPicture : this.formValidate.productlogo, //图片
-            institutionsName : this.name, //信贷机构名称
-            loanStartRate : this.formValidate.startinterest, //上限利率
-            loanEndRate : this.formValidate.endinterest, //起始利率
-            institutionsLoanQuotasStart : this.formValidate.startmoney, // 贷款额度起始值
-            institutionsLoanQuotasEnd : this.endmoney, // 贷款额度上限值 
-            institutionsHaveType : this.formValidate.interest.join(";"), //贷款的类型
-            institutionsUpStatus : this.formValidate.lowerframe,//上架状态
-            institutionsLoanOfficer : this.formValidate.mail, //显示多名信贷员
-            institutionsPhone : this.formValidate.gender, //咨询呼叫号码
-            institutionsRecommendStatus : this.formValidate.ishomepage, //首页推荐显示
-            institutionsMechanism : this.formValidate.desc
-          }).then(data=>{
-            if(data.code == 'success'){
-              this.phoneti('success')
-            }
-            
-          }).then(er=>{
-            console.log(err)
-          })
-          
+          this.http
+            .post(BASE_URL + postUrl, {
+              institutionsPicture: this.formValidate.productlogo, //图片
+              institutionsName: this.formValidate.name, //信贷机构名称
+              loanStartRate: this.formValidate.startinterest, //上限利率
+              loanEndRate: this.formValidate.endinterest, //起始利率
+              institutionsLoanQuotasStart: this.formValidate.startmoney, // 贷款额度起始值
+              institutionsLoanQuotasEnd: this.formValidate.endmoney, // 贷款额度上限值
+              institutionsHaveType: this.formValidate.interest.join(";"), //贷款的类型
+              institutionsUpStatus: this.formValidate.lowerframe, //上架状态
+              institutionsLoanOfficer: this.formValidate.mail, //显示多名信贷员
+              institutionsPhone: this.formValidate.gender, //咨询呼叫号码
+              institutionsRecommendStatus: this.formValidate.ishomepage, //首页推荐显示
+              institutionsShortMechanism:this.formValidate.introduction, // 一句话简介
+              institutionsMechanism: this.formValidate.desc,
+              institutionsCode: this.code
+            })
+            .then(data => {
+              if (data.code == "success") {
+                this.phoneti("success");
+              }
+            })
+            .then(err => {
+              console.log(err);
+            });
         } else {
           // this.$Message.error("提交失败!");
         }
@@ -190,15 +206,15 @@ export default {
             title: title,
             content: content,
             onOk: () => {
-              this.$router.push({path: './creditManagement?num='+2})
+              this.$router.push({ path: "./creditManagement?num=" + 2 });
             }
           });
-        break;
+          break;
       }
     },
     handleReset(name) {
       this.$refs[name].resetFields();
-      this.$router.push({path: './creditManagement?num='+2})
+      this.$router.push({ path: "./creditManagement?num=" + 2 });
     },
     // 图片上传
     handleUploadicon(file) {
@@ -234,42 +250,57 @@ export default {
       // this.formCustom.productlogo = ''
       this.$Message.info("图片格式不正确,请上传正确的图片格式");
     },
-    lowerstatus(v){
-      this.formValidate.lowerframe = v
+    lowerstatus(v) {
+      this.formValidate.lowerframe = v;
     }
   },
-  created(){
-    this.http.post(BASE_URL+"/loan/creditInstitutions/getLoanTypeList",{}).then(data=>{
-      console.log(data)
-      if(data.code == 'success'){
-        this.checkbox = data.data.officerLoanTypeList
-        // data.data.officerLoanTypeList.forEach(v=>{//v==value　为arr项，i==index　为arr索引
-        //   this.formValidate.typeName.push(v.label)
-        // })
-      }
-    }).catch(err=>{
-      console.log(err)
-    })
-    if(this.$route.query.isedit == 'is'){
-      this.http.post(BASE_URL+'/loan/creditInstitutions/getCreditInstitutionsByCode',{institutionsCode:untils.getCookie('institutionsCode')}).then(data=>{
-        if(data.code == 'success'){
-            this.formValidate.labelUrl = data.institutionsPicture 
-            this.formValidate.productlogo = data.institutionsPicture  //图片
-            this.name = data.institutionsName   //信贷机构名称
-            this.formValidate.startinterest = data.loanEndRate   //上限利率
-            this.formValidate.endinterest = data.loanStartRate  //起始利率
-            this.formValidate.startmoney = data.institutionsLoanQuotasStart  // 贷款额度起始值
-            this.endmoney = data.institutionsLoanQuotasEnd  // 贷款额度上限值 
-            this.formValidate.interest = data.institutionsHaveType.split(';')  //贷款的类型
-            this.formValidate.lowerframe = data.institutionsUpStatus //上架状态
-            this.formValidate.mail = data.institutionsLoanOfficer  //显示多名信贷员
-            this.formValidate.gender = data.institutionsPhone  //咨询呼叫号码
-            this.formValidate.ishomepage = data.institutionsRecommendStatus  //首页推荐显示
-            this.formValidate.desc = data.institutionsMechanism
+  created() {
+    this.http
+      .post(BASE_URL + "/loan/creditInstitutions/getLoanTypeList", {})
+      .then(data => {
+        // console.log(data)
+        if (data.code == "success") {
+          this.checkbox = data.data.officerLoanTypeList;
+          // data.data.officerLoanTypeList.forEach(v=>{//v==value　为arr项，i==index　为arr索引
+          //   this.formValidate.typeName.push(v.label)
+          // })
         }
-      }).catch(err=>{
-        console.log(err)
       })
+      .catch(err => {
+        console.log(err);
+      });
+    if (this.$route.query.isedit == "is") {
+      this.http
+        .post(
+          BASE_URL + "/loan/creditInstitutions/getCreditInstitutionsByCode",
+          { institutionsCode: untils.getCookie("institutionsCode") }
+        )
+        .then(data => {
+          // console.log(data.data.institutionsLoanQuotasEnd)
+          if (data.code == "success") {
+            this.formValidate.labelUrl = data.data.institutionsPicture;
+            this.formValidate.productlogo = data.data.institutionsPicture; //图片
+            this.name = data.data.institutionsName; //信贷机构名称
+            this.formValidate.startinterest = data.data.loanEndRate; //上限利率
+            this.formValidate.endinterest = data.data.loanStartRate; //起始利率
+            this.formValidate.startmoney =
+              data.data.institutionsLoanQuotasStart; // 贷款额度起始值
+            this.formValidate.endmoney = data.data.institutionsLoanQuotasEnd; // 贷款额度上限值
+            this.formValidate.interest = data.data.institutionsHaveType.split(
+              ";"
+            ); //贷款的类型
+            this.formValidate.lowerframe = data.data.institutionsUpStatus + ""; //上架状态
+            this.formValidate.mail = data.data.institutionsLoanOfficer; //显示多名信贷员
+            this.formValidate.gender = data.data.institutionsPhone; //咨询呼叫号码
+            this.formValidate.ishomepage =
+              data.data.institutionsRecommendStatus + ""; //首页推荐显示
+            this.formValidate.desc = data.data.institutionsMechanism;
+            this.formValidate.introduction = data.data.institutionsShortMechanism
+          }
+        })
+        .catch(err => {
+          console.log(err);
+        });
     }
   }
 };
