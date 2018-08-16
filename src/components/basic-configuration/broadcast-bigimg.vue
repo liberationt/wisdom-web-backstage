@@ -16,7 +16,6 @@
                     :format="['jpg','jpeg','png']"
                     :on-format-error="handleFormatError1"
                     :before-upload="handleUpload"
-                    :data="{'uptoken': uptoken}"
                     :show-upload-list="false"                        
                     action=''
                     class="homePage_img_img left">
