@@ -34,7 +34,7 @@
               <Input v-model='formValidate.endinterest'  placeholder="结束利率" style="width: 150px" ></Input>%
           </FormItem>
         </FormItem>
-        <FormItem label="贷款额度" prop="name"  class="clearfix">
+        <FormItem label="贷款额度"  class="clearfix">
           <FormItem prop="startmoney" class="left">
               <Input v-model="formValidate.startmoney"  placeholder="起始金额" style="width: 150px" ></Input>
           </FormItem>
@@ -57,8 +57,8 @@
               <Option value="0">下架</Option>
           </Select>
         </FormItem>
-        <FormItem label="显示多少名信贷员" prop="mail">
-          <Input v-model="formValidate.mail" style="width: 300px" placeholder="200">
+        <FormItem label="显示多少名信贷员" prop="introductionl">
+          <Input v-model="formValidate.introductionl" style="width: 300px" placeholder="200">
           <span slot="append">个</span>
           </Input>
         </FormItem>
@@ -90,7 +90,7 @@ export default {
       code: '',
       formValidate: {
         name: "上海铭星投资金融有限公司",
-        mail: "",
+        introductionl: "",
         ishomepage: "",
         lowerframe: "",
         gender: "400",
@@ -112,7 +112,7 @@ export default {
         introduction: [
           { required: true, message: "请输入一句话简介", trigger: "blur" }
         ],
-        mail: [
+        introductionl: [
           { required: true, message: "请输入显示多少名信贷员", trigger: "blur" }
         ],
         ishomepage: [
@@ -281,16 +281,16 @@ export default {
             this.formValidate.labelUrl = data.data.institutionsPicture;
             this.formValidate.productlogo = data.data.institutionsPicture; //图片
             this.name = data.data.institutionsName; //信贷机构名称
-            this.formValidate.startinterest = data.data.loanEndRate; //上限利率
-            this.formValidate.endinterest = data.data.loanStartRate; //起始利率
+            this.formValidate.startinterest = data.data.loanEndRate+''; //上限利率
+            this.formValidate.endinterest = data.data.loanStartRate+''; //起始利率
             this.formValidate.startmoney =
-              data.data.institutionsLoanQuotasStart; // 贷款额度起始值
-            this.formValidate.endmoney = data.data.institutionsLoanQuotasEnd; // 贷款额度上限值
+              data.data.institutionsLoanQuotasStart+''; // 贷款额度起始值
+            this.formValidate.endmoney = data.data.institutionsLoanQuotasEnd+''; // 贷款额度上限值
             this.formValidate.interest = data.data.institutionsHaveType.split(
               ";"
             ); //贷款的类型
             this.formValidate.lowerframe = data.data.institutionsUpStatus + ""; //上架状态
-            this.formValidate.mail = data.data.institutionsLoanOfficer; //显示多名信贷员
+            this.formValidate.introductionl = data.data.institutionsLoanOfficer+''; //显示多名信贷员
             this.formValidate.gender = data.data.institutionsPhone; //咨询呼叫号码
             this.formValidate.ishomepage =
               data.data.institutionsRecommendStatus + ""; //首页推荐显示
