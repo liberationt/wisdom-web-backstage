@@ -110,10 +110,13 @@ export default {
           { required: true, message: "请输入信贷名称", trigger: "blur" }
         ],
         introduction: [
-          { required: true, message: "请输入一句话简介", trigger: "blur" }
+          { required: true, message: "请输入一句话简介", trigger: "blur" },
+          { type: 'string', max: 20, message: '简介不得超过20个字', trigger: 'blur' },
         ],
         introductionl: [
-          { required: true, message: "请输入显示多少名信贷员", trigger: "blur" }
+          { required: true, message: "请输入显示多少名信贷员", trigger: "blur" },
+          { type: 'string', max: 6, message: '信贷员不能超过6位数', trigger: 'blur' },
+          { type: 'string',pattern:/^[0-9]*$/, message:'请输入数字', trigger:'blur'}
         ],
         ishomepage: [
           { required: true, message: "请选择上架状态", trigger: "change" }
@@ -122,10 +125,13 @@ export default {
           { required: true, message: "请选择上下架状态", trigger: "change" }
         ],
         gender: [
-          { required: true, message: "请输入呼叫号码", trigger: "change" }
+          { required: true, message: "请输入呼叫号码", trigger: "change" },
+          { type: 'string', max: 12, message: '呼叫号码不能超过12位数', trigger: 'blur' },
+          { type: 'string',pattern:/^[0-9]*$/, message:'请输入数字', trigger:'blur'}
         ],
         startinterest: [
-          { required: true, message: "请输入起始利率", trigger: "blur" }
+          { required: true, message: "请输入起始利率", trigger: "blur" },
+          { type: 'string',pattern:/^\d+(\.\d{1,1})?$|^100(\.[0]{1,1}){0,1}$/, message:'小数点最多1位', trigger:'blur'},
         ],
         interest: [
           {
@@ -138,16 +144,19 @@ export default {
         ],
         startmoney: [
           { required: true, message: "请输入起始金额", trigger: "blur" },
+          { type: 'string',pattern:/^\d+(\.\d{1,1})?$|^100(\.[0]{1,1}){0,1}$/, message:'小数点最多1位', trigger:'blur'},
         ],
         endmoney: [
-          { required: true, message: "请输入结束金额", trigger: "blur" }
+          { required: true, message: "请输入结束金额", trigger: "blur" },
+          { type: 'string',pattern:/^\d+(\.\d{1,1})?$|^100(\.[0]{1,1}){0,1}$/, message:'小数点最多1位', trigger:'blur'},
         ],
         desc: [{ required: true, message: "请输入机构简介", trigger: "blur" }],
         productlogo: [
           { required: true, message: "请选择图片", trigger: "blur" }
         ],
         endinterest: [
-          { required: true, message: "请输入结束利率", trigger: "blur" }
+          { required: true, message: "请输入结束利率", trigger: "blur" },
+          { type: 'string',pattern:/^\d+(\.\d{1,1})?$|^100(\.[0]{1,1}){0,1}$/, message:'小数点最多1位', trigger:'blur'},
         ]
       },
       checkbox: []
