@@ -41,7 +41,7 @@
           <Table border :columns="columns8" :data="data7"></Table>
         </div>
         <div class="tr mt15">
-          <Page :total="total" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
+          <Page :total="total" :page-size="endRow1" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
         </div>
         </TabPane>
       </Tabs>
@@ -54,22 +54,9 @@ export default {
       label: h => {
         return h("div", [h("span", "华赞金服")]);
       },
-      evaluatename: [
-        {
-          value: "姓名",
-          label: "姓名"
-        },
-        {
-          value: "手机号",
-          label: "手机号"
-        }
-      ],
       model12: "",
       tabs: "tab1",
       model1: "",
-      searchOptions: [],
-      searchOptions1: [],
-      searchOptions2: [],
       model2: "",
       name: "",
       name1: "",
@@ -121,7 +108,7 @@ export default {
         },
         {
           title: "添加时间",
-          key: "orderArea",
+          key: "dataCreateTime",
           minWidth: 100,
           align: "center"
         },
@@ -145,7 +132,11 @@ export default {
                   on: {
                     click: () => {
                       // alert(params.row.blackCode)
-                      this.adopt(params.row.blackCode,params.row.blackValue,params.row.businessAlias)
+                      this.adopt(
+                        params.row.blackCode,
+                        params.row.blackValue,
+                        params.row.businessAlias
+                      );
                     }
                   }
                 },
@@ -199,7 +190,7 @@ export default {
         },
         {
           title: "添加时间",
-          key: "orderArea",
+          key: "dataCreateTime",
           minWidth: 100,
           align: "center"
         },
@@ -222,7 +213,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.adopt(params.row.blackCode,params.row.blackValue,params.row.businessAlias)
+                      this.adopt(
+                        params.row.blackCode,
+                        params.row.blackValue,
+                        params.row.businessAlias
+                      );
                     }
                   }
                 },
@@ -285,13 +280,13 @@ export default {
     },
     // 审核成功
     pageChange1(page) {
-      this.startRow = page;
+      this.startRow1 = page;
       this.params.page = page;
       this.labell1("tab2");
     },
     PageSizeChange1(limit) {
-      this.startRow = 1;
-      this.endRow = limit;
+      this.startRow1 = 1;
+      this.endRow1 = limit;
       this.labell1("tab2");
       this.params.limit = limit;
     },
@@ -325,33 +320,29 @@ export default {
     },
     //tab 栏
     labell1(name) {
-      // console.log(name)
-      let parameter = {
-        pageSize: this.endRow,
-        pageNum: this.startRow
-      };
       let httpurl = "/black/riskBlackList/getRiskBlackListList";
       let data;
-      //待审核评价
+      //华赞
       if (name == "tab1") {
         data = Object.assign(
           {
+            pageSize: this.endRow,
+            pageNum: this.startRow,
             blackValue: this.name ? this.name : null, //手机号or姓名的参数
             businessAlias: "56DECD723B2151ECE39F98693F904E3E" //华赞
-          },
-          parameter
+          }
         );
         this.post(BASE_URL + httpurl, data, 0);
       }
-      //评价成功
+      //枪单侠
       if (name == "tab2") {
-        // alert(33)
         data = Object.assign(
           {
+            pageSize: this.endRow1,
+            pageNum: this.startRow1,
             blackValue: this.name1 ? this.name1 : null, //手机号or姓名的参数
-            businessAlias: "56DECD723B2151ECE39F98693F904E3E" //枪弹侠
-          },
-          parameter
+            businessAlias: "094E3BED9E0EB20B7C773AC046909406" //枪弹侠
+          }
         );
         this.post(BASE_URL + httpurl, data, 1);
       }
@@ -408,17 +399,18 @@ export default {
       }
     },
     //移除黑名单
-    adopt(code,blackValue,businessAlias) {
+    adopt(code, blackValue, businessAlias) {
       this.$Modal.confirm({
         title: "温馨提示",
         content: "<p>确认移除黑名单吗?</p>",
         onOk: () => {
           this.http
-            .post(
-              BASE_URL +
-                "/black/riskBlackList/updateRiskBlackListByCode",
-              { blackCode : code,blackFlag : 1,blackValue: blackValue,businessAlias : businessAlias}
-            )
+            .post(BASE_URL + "/black/riskBlackList/updateRiskBlackListByCode", {
+              blackCode: code,
+              blackFlag: 1,
+              blackValue: blackValue,
+              businessAlias: businessAlias
+            })
             .then(data => {
               console.log(data);
               if (data.code == "success") {
