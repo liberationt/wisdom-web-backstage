@@ -58,23 +58,6 @@
 						</FormItem>
 					</Form>
     		</Modal>
-        <!-- 审核框 -->
-        <!-- <Modal
-					title="资料审核"
-					v-model="modalli"
-					@on-ok="handleSubmit1('formValidate')"
-					@on-cancel="handleReset1('formValidate')"
-					ok-text="保存"
-          cancel-text="取消"
-					class-name="vertical-center-modal"
-					:loading="loading"
-					:mask-closable="false">
-					<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-						<FormItem label="拒绝原因" prop="desc">
-							<Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请填写审核拒绝原因"></Input>
-						</FormItem>
-					</Form>
-    		</Modal> -->
     </div>
 		<div v-show="!common" class="conmmon_img">
       <h3 class="h3">审核详情</h3>
@@ -101,7 +84,6 @@ export default {
       serviceOtherRequire: "",
       examine: true,
       modall: false,
-      // modalli: false,
       formValidate: {
         desc: ""
       },
@@ -212,33 +194,33 @@ export default {
         auditMess: this.formValidate.desc,
         auditStatus: auditStatus
       };
-      // this.http
-      //   .post(
-      //     BASE_URL +
-      //       "/loan/officerServiceAudit/updateOfficerServiceAuditCheckStatusByAuditCode",
-      //     list
-      //   )
-      //   .then(resp => {
-      //     if (resp.code == "success") {
-            this.tishi(num)
-        //   } else {
-        //     this.$Message.info(resp.message);
-        //     this.modall = false
-        //     this.$refs[name].resetFields();
-        //   }
-        // })
-        // .catch(error => {
-        //   console.log(error);
-        // });
+      this.http
+        .post(
+          BASE_URL +
+            "/loan/officerServiceAudit/updateOfficerServiceAuditCheckStatusByAuditCode",
+          list
+        )
+        .then(resp => {
+          if (resp.code == "success") {
+            if(num == 0){
+              this.$router.push({ path: "./creditManagement?num=1" });
+            } else {
+              this.tishi()
+            }
+          } else {
+            this.$Message.info(resp.message);
+            this.modall = false
+            this.$refs[name].resetFields();
+          }
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
-    tishi(num){
+    tishi(){
       const title = "审核";
       let content;
-      if (num == 0) {
-        content = "<p>审核成功</p>";
-      } else {
-        content = "<p>审核拒绝成功</p>";
-      }
+      content = "<p>审核拒绝成功</p>";
       this.$Modal.success({
         title: title,
         content: content,
