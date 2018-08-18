@@ -6,127 +6,25 @@
 </p>
 </div>
 <div class="windgrade">
-  <Form  :label-width="125">  
+  <Form  :label-width="135">
     <FormItem >
       <Row>
         <Col :md="4" :lg="3">
-          <FormItem label="验证码有效时间:"></FormItem>
-        </Col>
-        <Col :md="7" :lg="7">
-          <FormItem >
-            <Input v-model="value11" style="width:200px">
-              <span slot="append">分钟</span>
-            </Input>
-          </FormItem>
-        </Col>
-        <Col :md="7" :lg="7">
-          <FormItem >
-            <Input v-model="value11" style="width:200px">
-              <span slot="append">分钟</span>
-            </Input>
-          </FormItem>
-        </Col>
-        <Col :md="6" :lg="7">
-          <FormItem >
-            <Input v-model="data1.lowRule.ruleCodeTime" style="width:200px">
-              <span slot="append">分钟</span>
-            </Input>
-          </FormItem>
-        </Col>
-      </Row>
-    </FormItem>
-
-    <FormItem >
-      <Row>
-        <Col :md="4" :lg="3">
-          <FormItem label="弹二次验证的条件:"></FormItem>
+          <FormItem label="#"></FormItem>
         </Col>
         <Col :md="7" :lg="7" >
-          <FormItem class="clearfix">
-            <Input v-model="value11" class="left" style="width:100px">
-              <span slot="append">分钟内</span>
-            </Input>
-            <Input v-model="value11" class="left" style="width:100px">
-              <span slot="append">次</span>
-            </Input>
+          <FormItem >
+            <h3><strong>高</strong></h3>          
           </FormItem>
         </Col>
         <Col :md="7" :lg="7">
           <FormItem >
-            <Input v-model="value11" class="left" style="width:100px">
-              <span slot="append">分钟内</span>
-            </Input>
-            <Input v-model="value11" class="left" style="width:100px">
-              <span slot="append">次</span>
-            </Input>
+            <h3><strong>中</strong></h3>           
           </FormItem>
         </Col>
         <Col :md="6" :lg="7">
           <FormItem >
-            <Input v-model="data1.lowRule.ipItemTime" class="left" style="width:100px">
-              <span slot="append">分钟内</span>
-            </Input>
-            <Input v-model="data1.lowRule.ipItemNum" class="left" style="width:100px">
-              <span slot="append">次</span>
-            </Input>
-          </FormItem>
-        </Col>
-      </Row>
-    </FormItem>
-
-    <FormItem >
-      <Row>
-        <Col :md="4" :lg="3">
-          <FormItem label="二次验证类型:"></FormItem>
-        </Col>
-        <Col :md="7" :lg="7" >
-          <FormItem class="clearfix">
-            <Select v-model="model1" style="width:200px">
-              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </FormItem>
-        </Col>
-        <Col :md="7" :lg="7">
-          <FormItem >
-            <Select v-model="model1" style="width:200px">
-              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </FormItem>
-        </Col>
-        <Col :md="6" :lg="7">
-          <FormItem >
-            <Select v-model="data1.lowRule.itemRiskType" style="width:200px">
-              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </FormItem>
-        </Col>
-      </Row>
-    </FormItem>
-
-    <FormItem >
-      <Row>
-        <Col :md="4" :lg="3">
-          <FormItem label="是否开启加入黑名单:"></FormItem>
-        </Col>
-        <Col :md="7" :lg="7" >
-          <FormItem class="clearfix">
-            <Select v-model="model2" style="width:200px">
-              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </FormItem>
-        </Col>
-        <Col :md="7" :lg="7">
-          <FormItem >
-            <Select v-model="model2" style="width:200px">
-              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-          </FormItem>
-        </Col>
-        <Col :md="6" :lg="7">
-          <FormItem >
-            <Select v-model="data1.lowRule.blackFlag" style="width:200px">
-              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
+            <h3><strong>低</strong></h3>            
           </FormItem>
         </Col>
       </Row>
@@ -138,7 +36,7 @@
           <FormItem label="风控维度:"></FormItem>
         </Col>
         <Col :md="7" :lg="7" >
-          <FormItem class="clearfix">
+          <FormItem class="clearfix" >
             <CheckboxGroup v-model="checkbox1" @on-change="checkAllGroupChange1">
               <Checkbox label="手机"></Checkbox>
               <Checkbox label="IP"></Checkbox>
@@ -166,6 +64,190 @@
 
     <FormItem >
       <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="验证码有效时间:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Input v-model.number="data1.highRule.ruleCodeTime" style="width:200px">
+              <span slot="append">分钟</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Input v-model.number="data1.middleRule.ruleCodeTime" style="width:200px">
+              <span slot="append">分钟</span>
+            </Input>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Input v-model.number="data1.lowRule.ruleCodeTime" style="width:200px">
+              <span slot="append">分钟</span>
+            </Input>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="手机弹二次验证的条件:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix" >
+            <div v-if="phonecondition1">
+              <Input v-model.number="data1.highRule.phoneItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model.number="data1.highRule.phoneItemNum" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+            </div>            
+            <div v-if="!phonecondition1" style="width:200px;height:30px"></div>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <div v-if="phonecondition2">
+              <Input v-model.number="data1.middleRule.phoneItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+              </Input>
+              <Input v-model.number="data1.middleRule.phoneItemNum" class="left" style="width:100px">
+                <span slot="append">次</span>
+              </Input>
+            </div>
+            <div v-if="!phonecondition2" style="width:200px;height:30px"></div>
+            
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <div v-if="phonecondition3">
+              <Input v-model.number="data1.lowRule.phoneItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model.number="data1.lowRule.phoneItemNum" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+            </div>
+            <div v-if="!phonecondition3" style="width:200px;height:30px"></div>
+            
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="IP弹二次验证的条件:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix">
+            <div v-if="condition1">
+              <Input v-model.number="data1.highRule.ipItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model.number="data1.highRule.ipItemNum" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+            </div>
+            <div v-if="!condition1" style="width:200px;height:30px"></div>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <div v-if="condition2">
+              <Input v-model.number="data1.middleRule.ipItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model.number="data1.middleRule.ipItemNum" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+            </div>
+            <div v-if="!condition2" style="width:200px;height:30px"></div>
+            
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <div v-if="condition3">
+              <Input v-model.number="data1.lowRule.ipItemTime" class="left" style="width:100px">
+              <span slot="append">分钟内</span>
+            </Input>
+            <Input v-model.number="data1.lowRule.ipItemNum" class="left" style="width:100px">
+              <span slot="append">次</span>
+            </Input>
+            </div>           
+            <div v-if="!condition3" style="width:200px;height:30px"></div>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="二次验证类型:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix">
+            <Select v-model="data1.highRule.itemRiskTypeAsString" style="width:200px">
+              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Select v-model="data1.middleRule.itemRiskTypeAsString" style="width:200px">
+              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Select v-model="data1.lowRule.itemRiskTypeAsString" style="width:200px">
+              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
+        <Col :md="4" :lg="3">
+          <FormItem label="是否开启加入黑名单:"></FormItem>
+        </Col>
+        <Col :md="7" :lg="7" >
+          <FormItem class="clearfix" >
+            <Select v-model="data1.highRule.blackFlagAsString" style="width:200px">
+              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="7" :lg="7">
+          <FormItem >
+            <Select v-model="data1.middleRule.blackFlagAsString" style="width:200px">
+              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+        <Col :md="6" :lg="7">
+          <FormItem >
+            <Select v-model="data1.lowRule.blackFlagAsString" style="width:200px">
+              <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            </Select>
+          </FormItem>
+        </Col>
+      </Row>
+    </FormItem>
+
+    <FormItem >
+      <Row>
         <Col span="3" >
           <FormItem label="手机加入黑名单条件:"></FormItem>
         </Col>
@@ -173,19 +255,19 @@
           <FormItem >
             <div class="credit_recharge" >
               <div
-                v-for="(item, index) in addnormals"
+                v-for="(item, index) in addnormals1"
                 :key="index"
                 class="mb15 clearfix"
                 v-if="phonecondition1"
                 >
-                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                <Input type="text" v-model.number="item.blackTime" class="left ml10 inputnum"  style="width:95px">
                   <span slot="append" class="left">小时内</span>
                 </Input>
-                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                <Input type="text" v-model.number="item.blackNum" class="left inputnum"  style="width:70px">
                     <span slot="append" class="left">次</span>
                 </Input>
-                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
-                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal1">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma1(index)">-</Button>
               </div>
               <div v-if="!phonecondition1" style="width:165px;height:30px"></div>
             </div>
@@ -195,18 +277,18 @@
           <FormItem >
             <div class="credit_recharge" >
               <div
-                v-for="(item, index) in addnormals"
+                v-for="(item, index) in addnormals2"
                 :key="index"
                 class="mb15 clearfix"
                 v-if="phonecondition2"
                 >
-                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                <Input type="text" v-model.number="item.blackTime" class="left ml10 inputnum"  style="width:95px">
                   <span slot="append" class="left">小时内</span>
                 </Input>
-                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                <Input type="text" v-model.number="item.blackNum" class="left inputnum"  style="width:70px">
                     <span slot="append" class="left">次</span>
                 </Input>
-                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal2">+</Button>
                 <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
               </div>
               <div v-if="!phonecondition2" style="width:165px;height:30px"></div>
@@ -217,19 +299,19 @@
           <FormItem >
             <div class="credit_recharge"  >
               <div
-                v-for="(item, index) in addnormals"
+                v-for="(item, index) in addnormals3"
                 :key="index"
                 class="mb15 clearfix"
                 v-if="phonecondition3"
                 >
-                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                <Input type="text" v-model.number="item.blackTime" class="left ml10 inputnum"  style="width:95px">
                   <span slot="append" class="left">小时内</span>
                 </Input>
-                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                <Input type="text" v-model.number="item.blackNum" class="left inputnum"  style="width:70px">
                     <span slot="append" class="left">次</span>
                 </Input>
-                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
-                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal3">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma3(index)">-</Button>
               </div>
               <div v-if="!phonecondition3" style="width:165px;height:30px"></div>
             </div>
@@ -247,19 +329,19 @@
           <FormItem >
             <div class="credit_recharge" >
               <div
-                v-for="(item, index) in addnormals"
+                v-for="(item, index) in addnormals4"
                 :key="index"
                 class="mb15 clearfix"
                 v-if="condition1"
                 >
-                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                <Input type="text" v-model.number="item.blackTime" class="left ml10 inputnum"  style="width:95px">
                   <span slot="append" class="left">小时内</span>
                 </Input>
-                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                <Input type="text" v-model.number="item.blackNum" class="left inputnum"  style="width:70px">
                     <span slot="append" class="left">次</span>
                 </Input>
-                <Button type="primary" class="left ml5" v-if="index==0" @click="addnormal">+</Button>
-                <Button type="primary" class="left ml5" v-if="index!=0" @click="addnorma2(index)">-</Button>
+                <Button type="primary" class="left ml5" v-if="index==0" @click="addnormal4">+</Button>
+                <Button type="primary" class="left ml5" v-if="index!=0" @click="addnorma4(index)">-</Button>
               </div>
               <div v-if="!condition1" style="width:165px;height:30px"></div>
             </div>
@@ -269,19 +351,19 @@
           <FormItem >
             <div class="credit_recharge" >
               <div
-                v-for="(item, index) in addnormals"
+                v-for="(item, index) in addnormals5"
                 :key="index"
                 class="mb15 clearfix"
                 v-if="condition2"
                 >
-                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                <Input type="text" v-model.number="item.blackTime" class="left ml10 inputnum"  style="width:95px">
                   <span slot="append" class="left">小时内</span>
                 </Input>
-                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                <Input type="text" v-model.number="item.blackNum" class="left inputnum"  style="width:70px">
                     <span slot="append" class="left">次</span>
                 </Input>
-                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
-                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal5">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma5(index)">-</Button>
               </div>
               <div v-if="!condition2" style="width:165px;height:30px"></div>
             </div>
@@ -291,19 +373,19 @@
           <FormItem >
             <div class="credit_recharge" >
               <div
-                v-for="(item, index) in addnormals"
+                v-for="(item, index) in addnormals6"
                 :key="index"
                 class="mb15 clearfix"
                 v-if="condition3"
                 >
-                <Input type="text" v-model="item.blackTime" class="left ml10 inputnum"  style="width:95px">
+                <Input type="text" v-model.number="item.blackTime" class="left ml10 inputnum"  style="width:95px">
                   <span slot="append" class="left">小时内</span>
                 </Input>
-                <Input type="text" v-model="item.blackNum" class="left inputnum"  style="width:70px">
+                <Input type="text" v-model.number="item.blackNum" class="left inputnum"  style="width:70px">
                     <span slot="append" class="left">次</span>
                 </Input>
-                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
-                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
+                <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal6">+</Button>
+                <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma6(index)">-</Button>
               </div>
               <div v-if="!condition3" style="width:165px;height:30px"></div>
             </div>
@@ -319,30 +401,30 @@
         </Col>
         <Col :md="6" :lg="7" >
           <FormItem class="clearfix">
-            <Input v-model="value11" class="left" style="width:100px">
+            <Input v-model.number="data1.highRule.passwdFrozenTime" class="left" style="width:100px">
               <span slot="append">分钟内</span>
             </Input>
-            <Input v-model="value11" class="left" style="width:75px">
+            <Input v-model.number="data1.highRule.passwdFrozenNum" class="left" style="width:75px">
               <span slot="append">次</span>
             </Input>
           </FormItem>
         </Col>
         <Col :md="6" :lg="7">
           <FormItem >
-            <Input v-model="value11" class="left" style="width:100px">
+            <Input v-model.number="data1.middleRule.passwdFrozenTime" class="left" style="width:100px">
               <span slot="append">分钟内</span>
             </Input>
-            <Input v-model="value11" class="left" style="width:75px">
+            <Input v-model.number="data1.middleRule.passwdFrozenNum" class="left" style="width:75px">
               <span slot="append">次</span>
             </Input>
           </FormItem>
         </Col>
         <Col :md="6" :lg="7">
           <FormItem >
-            <Input v-model="value11" class="left" style="width:100px">
+            <Input v-model.number="data1.lowRule.passwdFrozenTime" class="left" style="width:100px">
               <span slot="append">分钟内</span>
             </Input>
-            <Input v-model="value11" class="left" style="width:75px">
+            <Input v-model.number="data1.lowRule.passwdFrozenNum" class="left" style="width:75px">
               <span slot="append">次</span>
             </Input>
           </FormItem>
@@ -357,21 +439,21 @@
         </Col>
         <Col :md="6" :lg="7" >
           <FormItem >
-            <Input v-model="value11" style="width:200px">
+            <Input v-model.number="data1.highRule.passwdThawTime" style="width:200px">
               <span slot="append">分钟后</span>
             </Input>
           </FormItem>
         </Col>
         <Col :md="6" :lg="7">
           <FormItem >
-            <Input v-model="value11" style="width:200px">
+            <Input v-model.number="data1.middleRule.passwdThawTime" style="width:200px">
               <span slot="append">分钟后</span>
             </Input>
           </FormItem>
         </Col>
         <Col :md="6" :lg="7">
           <FormItem >
-            <Input v-model="value11" style="width:200px">
+            <Input v-model.number="data1.lowRule.passwdThawTime" style="width:200px">
               <span slot="append">分钟后</span>
             </Input>
           </FormItem>
@@ -384,8 +466,8 @@
     
     
     <FormItem class="tc">
-        <Button type="primary">提交保存</Button>
-        <Button style="margin-left: 8px">返回</Button>
+        <Button type="primary" @click="preservation">提交保存</Button>
+        <Button style="margin-left: 8px" @click="backingout">返回</Button>
     </FormItem>
   </Form>
 
@@ -440,46 +522,104 @@ export default {
       checkbox1: ['手机'],
       checkbox2: ['手机'],
       checkbox3: ['手机'],
-      addnormals: [
+      addnormals1: [
         {
-          blackTime: '',//加入黑名单时间
-          blackNum: '',//加入黑名单次数
-          riskDimensionType: ''//风控维度
+          blackTime: null,//加入黑名单时间
+          blackNum: null,//加入黑名单次数
+          itemCode: null,
+          riskDimensionType: null//风控维度
+        }
+      ],
+      addnormals2: [
+        {
+          blackTime: null,//加入黑名单时间
+          blackNum: null,//加入黑名单次数
+          itemCode: null,
+          riskDimensionType: null//风控维度
+        }
+      ],
+      addnormals3: [
+        {
+          blackTime: null,//加入黑名单时间
+          blackNum: null,//加入黑名单次数
+          itemCode: null,
+          riskDimensionType: null//风控维度
+        }
+      ],
+      addnormals4: [
+        {
+          blackTime: null,//加入黑名单时间
+          blackNum: null,//加入黑名单次数
+          itemCode: null,
+          riskDimensionType: null//风控维度
+        }
+      ],
+      addnormals5: [
+        {
+          blackTime: null,//加入黑名单时间
+          blackNum: null,//加入黑名单次数
+          itemCode: null,
+          riskDimensionType: null//风控维度
+        }
+      ],
+      addnormals6: [
+        {
+          blackTime: null,//加入黑名单时间
+          blackNum: null,//加入黑名单次数
+          itemCode: null,
+          riskDimensionType: null//风控维度
         }
       ],
       data1: {
         highRule:{
-          ruleCodeTime: '',
-          ipItemTime: '',
-          ipItemNum: '',
-          itemRiskType: '',
-          blackFlag: '',
-          riskDimensionType: '',//风控维度
-          passwdFrozenTime: '',
-          passwdFrozenNum: '',
-          passwdThawTime: ''
+          ruleCodeTime: null,
+          ipItemTime: null,
+          ipItemNum: null,
+          itemRiskTypeAsString: '',
+          blackFlagAsString: '',
+          riskDimensionType: null,//风控维度
+          passwdFrozenTime: null,
+          passwdFrozenNum: null,
+          phoneItemTime: null,
+          phoneItemNum: null,
+          riskRuleItemReqList: [],
+          ipOrPhone: null,
+          ruleCode: '',
+          ruleLevel :3
+
         },
         middleRule:{
-          ruleCodeTime: '',
-          ipItemTime: '',
-          ipItemNum: '',
-          itemRiskType: '',
-          blackFlag: '',
-          riskDimensionType: '',//风控维度
-          passwdFrozenTime: '',
-          passwdFrozenNum: '',
-          passwdThawTime: ''
+          ruleCodeTime: null,
+          ipItemTime: null,
+          ipItemNum: null,
+          itemRiskTypeAsString: '',
+          blackFlagAsString: '',
+          riskDimensionType: null,//风控维度
+          passwdFrozenTime: null,
+          passwdFrozenNum: null,
+          phoneItemTime: null,
+          phoneItemNum: null,
+          riskRuleItemReqList: [],
+          ipOrPhone: null,
+          ruleCode: '',
+          ruleLevel :2
         },
         lowRule:{
-          ruleCodeTime: '',//验证码有效时间
-          ipItemTime: '',//弹两次验证时间
-          ipItemNum: '',//弹两次验证次数
-          itemRiskType: '',//二次验证类型
-          blackFlag: '', //是否加入黑名单
-          riskDimensionType: '',//风控维度
-          passwdFrozenTime: '',//密码登录冻结条件
-          passwdFrozenNum: '',//密码登录冻结次数
-          passwdThawTime: ''//密码解冻时间
+          ruleCodeTime: null,//验证码有效时间
+          ipItemTime: null,//弹两次验证时间
+          ipItemNum: null,//弹两次验证次数
+          itemRiskTypeAsString: '',//二次验证类型
+          blackFlagAsString: '', //是否加入黑名单
+          riskDimensionType: null,//风控维度
+          passwdFrozenTime: null,//密码登录冻结条件
+          passwdFrozenNum: null,//密码登录冻结次数
+          passwdThawTime: null,//密码解冻时间
+          phoneItemTime: null,
+          phoneItemNum: null,
+          riskRuleItemReqList: [],
+          ipOrPhone: null,
+          ruleCode: '',
+          ruleLevel :1
         }
       }
 
@@ -487,19 +627,85 @@ export default {
   },
   methods: {
     // 加
-    addnormal () {
-      this.index2++
-      this.addnormals.push({
-        value1: '',
-        value2: ''
+    addnormal1 () {
+      this.addnormals1.push({
+        blackTime: null,
+        blackNum: null,
+        itemCode: null,
+        riskDimensionType: null
+      })
+    },
+    // 减
+    addnorma1 (index) {
+       this.addnormals1.splice(index, 1)
+    },
+    // 加
+    addnormal2 () {
+      this.addnormals2.push({
+        blackTime: null,
+        blackNum: null,
+        itemCode: null,
+        riskDimensionType: null
       })
     },
     // 减
     addnorma2 (index) {
-       this.addnormals.splice(index, 1)
+       this.addnormals2.splice(index, 1)
+    },
+    // 加
+    addnormal3 () {
+      this.addnormals3.push({
+        blackTime: null,
+        blackNum: null,
+        itemCode: null,
+        riskDimensionType: null
+      })
+    },
+    // 减
+    addnorma3 (index) {
+       this.addnormals3.splice(index, 1)
+    },
+    // ip加减
+    // 加
+    addnormal4 () {
+      this.addnormals4.push({
+        blackTime: null,
+        blackNum: null,
+        itemCode: null,
+        riskDimensionType: null
+      })
+    },
+    // 减
+    addnorma4 (index) {
+       this.addnormals4.splice(index, 1)
+    },
+    // 加
+    addnormal5 () {
+      this.addnormals5.push({
+        blackTime: null,
+        blackNum: null,
+        itemCode: null,
+        riskDimensionType: null
+      })
+    },
+    // 减
+    addnorma5 (index) {
+       this.addnormals5.splice(index, 1)
+    },
+    // 加
+    addnormal6 () {
+      this.addnormals6.push({
+        blackTime: null,
+        blackNum: null,
+        itemCode: null,
+        riskDimensionType: null
+      })
+    },
+    // 减
+    addnorma6 (index) {
+       this.addnormals6.splice(index, 1)
     },
     checkAllGroupChange1 (data) {
-      console.log(data)
       if (data.length == 1) {
         if (data[0]  == '手机') {
           this.condition1 = false
@@ -549,6 +755,390 @@ export default {
         this.condition3 = true
         this.phonecondition3 = true
       }
+    },
+    backingout () {
+      window.history.go(-1)
+    },
+    preservation () {
+      let reg = /^\+?[1-9]\d*$/
+      if (this.checkbox1.length == 0) {
+        const title = '提示';
+        const content = '<p>请选择风控维度 (高)</p>';
+        this.$Modal.warning({
+          title: title,
+          content: content
+        });
+        return false
+      }
+      if (this.checkbox2.length == 0) {
+        const title = '提示';
+        const content = '<p>请选择风控维度 (中)</p>';
+        this.$Modal.warning({
+          title: title,
+          content: content
+        });
+        return false
+      }
+      if (this.checkbox3.length == 0) {
+        const title = '提示';
+        const content = '<p>请选择风控维度 (低)</p>';
+        this.$Modal.warning({
+          title: title,
+          content: content
+        });
+        return false
+      }
+
+      if (this.checkbox3.length  == 1) {
+        for (let i = 0; i < this.addnormals3.length; i++) {          
+          if (this.checkbox3[0] == '手机') {
+            if (!reg.test(this.data1.lowRule.phoneItemTime) || !reg.test(this.data1.lowRule.phoneItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机弹二次验证的条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals3[i].blackTime) || !reg.test(this.addnormals3[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机加入黑名单条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+            this.addnormals3[i].riskDimensionType =  2
+            this.data1.lowRule.ipOrPhone = 2
+          } else {
+            if (!reg.test(this.data1.lowRule.ipItemTime) || !reg.test(this.data1.lowRule.ipItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP弹二次验证的条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals6[i].blackTime) || !reg.test(this.addnormals6[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP加入黑名单条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+            this.addnormals3[i].riskDimensionType =  1
+            this.data1.lowRule.ipOrPhone = 1
+          }              
+        }
+      }
+      if (this.checkbox3.length  == 2) {
+        this.data1.lowRule.ipOrPhone = 3
+        for (let i = 0; i < this.addnormals3.length; i++) {
+          this.addnormals3[i].riskDimensionType =  2
+          if (!reg.test(this.data1.lowRule.phoneItemTime) || !reg.test(this.data1.lowRule.phoneItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机弹二次验证的条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals3[i].blackTime) || !reg.test(this.addnormals3[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机加入黑名单条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+        }
+        for (let i = 0; i < this.addnormals6.length; i++) {
+          this.addnormals6[i].riskDimensionType =  1
+          if (!reg.test(this.data1.lowRule.ipItemTime) || !reg.test(this.data1.lowRule.ipItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP弹二次验证的条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals6[i].blackTime) || !reg.test(this.addnormals6[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP加入黑名单条件 (低)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+        }
+      }
+      
+      if (this.checkbox2.length  == 1) {
+        for (let i = 0; i < this.addnormals2.length; i++) {
+          if (this.checkbox2[0] == '手机') {
+            if (!reg.test(this.data1.middleRule.phoneItemTime)  || !reg.test(this.data1.middleRule.phoneItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机弹二次验证的条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals2[i].blackTime) || !reg.test(this.addnormals2[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机加入黑名单条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+            this.addnormals2[i].riskDimensionType =  2
+            this.data1.middleRule.ipOrPhone = 2
+
+          } else {
+            if (!reg.test(this.data1.middleRule.ipItemTime) || !reg.test(this.data1.middleRule.ipItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP弹二次验证的条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals5[i].blackTime) || !reg.test(this.addnormals5[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP加入黑名单条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+            this.addnormals2[i].riskDimensionType =  1
+            this.data1.middleRule.ipOrPhone = 1
+          }              
+        }
+      }
+      if (this.checkbox2.length  == 2) {
+        this.data1.middleRule.ipOrPhone = 3
+        for (let i = 0; i < this.addnormals2.length; i++) {
+          this.addnormals2[i].riskDimensionType =  2
+          if (!reg.test(this.data1.middleRule.phoneItemTime)  || !reg.test(this.data1.middleRule.phoneItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机弹二次验证的条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals2[i].blackTime) || !reg.test(this.addnormals2[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的手机加入黑名单条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+        }
+        for (let i = 0; i < this.addnormals5.length; i++) {
+          this.addnormals5[i].riskDimensionType =  1
+          if (!reg.test(this.data1.middleRule.ipItemTime) || !reg.test(this.data1.middleRule.ipItemNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP弹二次验证的条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals5[i].blackTime) || !reg.test(this.addnormals5[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请补全正确的IP加入黑名单条件 (中)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+        }
+      }
+            
+      if (this.checkbox1.length  == 1) {
+        for (let i = 0; i < this.addnormals1.length; i++) {     
+          if (this.checkbox1[0] == '手机') {
+          if (!reg.test(this.data1.highRule.phoneItemTime) || !reg.test(this.data1.highRule.phoneItemNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的手机弹二次验证的条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals1[i].blackTime) || !reg.test(this.addnormals1[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的手机加入黑名单条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+            this.addnormals1[i].riskDimensionType =  2
+            this.data1.highRule.ipOrPhone = 2
+          } else {
+          if (!reg.test(this.data1.highRule.ipItemTime) || !reg.test(this.data1.highRule.ipItemNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的IP弹二次验证的条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals4[i].blackTime) || !reg.test(this.addnormals4[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的IP加入黑名单条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+            this.addnormals1[i].riskDimensionType =  1
+            this.data1.highRule.ipOrPhone = 1
+          }              
+        }
+      }
+      if (this.checkbox1.length  == 2) {
+        this.data1.highRule.ipOrPhone = 3
+        for (let i = 0; i < this.addnormals1.length; i++) {
+          if (!reg.test(this.data1.highRule.phoneItemTime) || !reg.test(this.data1.highRule.phoneItemNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的手机弹二次验证的条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals1[i].blackTime) || !reg.test(this.addnormals1[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的手机加入黑名单条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          this.addnormals1[i].riskDimensionType =  2
+        }
+        for (let i = 0; i < this.addnormals4.length; i++) {
+          if (!reg.test(this.data1.highRule.ipItemTime) || !reg.test(this.data1.highRule.ipItemNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的IP弹二次验证的条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          if (!reg.test(this.addnormals4[i].blackTime) || !reg.test(this.addnormals4[i].blackNum)) {
+            const title = '提示';
+            const content = '<p>请输入正确的IP加入黑名单条件 (高)</p>';
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false
+          }
+          this.addnormals4[i].riskDimensionType =  1
+        }
+      }
+      this.data1.highRule.riskRuleItemReqList = this.addnormals1.concat(this.addnormals4)
+      this.data1.middleRule.riskRuleItemReqList = this.addnormals2.concat(this.addnormals5)
+      this.data1.lowRule.riskRuleItemReqList = this.addnormals3.concat(this.addnormals6)
+      let list = []
+      for (const key in this.data1) {
+        if (!reg.test(this.data1[key].ruleCodeTime)) {
+          const title = '提示';
+          const content = '<p>请输入正确的验证码有效时间</p>';
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          return false
+        }
+        if (this.data1[key].itemRiskTypeAsString == '') {
+          const title = '提示';
+          const content = '<p>请选择二次验证类型</p>';
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          return false
+        }
+        if (this.data1[key].blackFlagAsString == '') {
+          const title = '提示';
+          const content = '<p>请选择是否开启加入黑名单</p>';
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          return false
+        }
+
+        if (!reg.test(this.data1[key].passwdFrozenTime)  || !reg.test(this.data1[key].passwdFrozenNum)) {
+          const title = '提示';
+          const content = '<p>请输入正确的密码登录冻结条件</p>';
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          return false
+        }
+
+        if (!reg.test(this.data1[key].passwdThawTime)) {
+          const title = '提示';
+          const content = '<p>请输入正确的密码登录解冻时间</p>';
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          return false
+        }
+        list.push(this.data1[key])
+      }
+      this.http.post(BASE_URL + '/rule/RiskRule/modifyBatchRiskRuleByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.$Modal.success({
+            title: '提示',
+            content: '<p>保存成功</p>',
+            onOk: () => {
+              // this.$router.push({ path: './managementSet' })              
+            }
+          })
+        } else {
+
+        }
+      })
+      .catch(() => {
+
+      })     
     }
   },
   created() {
@@ -556,16 +1146,59 @@ export default {
     this.http.post(BASE_URL + "/rule/RiskRule/getAllRiskRule", {
         pageNum: 1,
         pageSize: 10
-      }).then(data => {
-        for (let i in data.data) {
-          if (i == 'highRule') {
-            if (i.phoneRiskRuleItemReqList.length>0) {
-              // this.checkbox1
+      }).then(data => {                
+        for (var i in data.data) {
+          if (i == 'highRule' && data.data[i]!=null) {
+            this.checkbox1 = []
+            if (data.data[i].phoneRiskRuleItemReqList.length>0) {              
+              this.checkbox1.push ('手机')
+              this.phonecondition1 = true
+              this.addnormals1 = data.data[i].phoneRiskRuleItemReqList
+            }
+            if (data.data[i].ipRiskRuleItemReqList.length>0) {
+              this.checkbox1.push ('IP')
+              this.condition1 = true
+              this.addnormals4 = data.data[i].ipRiskRuleItemReqList
             }
           }
-          
+          if (i == 'middleRule' && data.data[i]!=null) {
+            this.checkbox2 = []
+            if (data.data[i].phoneRiskRuleItemReqList.length>0) {            
+              this.checkbox2.push ('手机')
+              this.phonecondition2 = true
+              this.addnormals2 = data.data[i].phoneRiskRuleItemReqList
+            }
+            if (data.data[i].ipRiskRuleItemReqList.length>0) {
+              this.checkbox2.push ('IP')
+              this.condition2 = true
+              this.addnormals5 = data.data[i].ipRiskRuleItemReqList
+            }
+          }
+          if (i == 'lowRule' && data.data[i]!=null) {
+            this.checkbox3 = []
+            if (data.data[i].phoneRiskRuleItemReqList.length>0) {              
+              this.checkbox3.push ('手机')
+              this.phonecondition3 = true
+              this.addnormals3 = data.data[i].phoneRiskRuleItemReqList
+            }
+            if (data.data[i].ipRiskRuleItemReqList.length>0) {
+              this.checkbox3.push ('IP')
+              this.condition3 = true
+              this.addnormals6 = data.data[i].ipRiskRuleItemReqList
+            }
+          }
+        }
+        if (data.data.highRule == null) {
+          data.data.highRule = this.data1.highRule
+        }         
+        if (data.data.middleRule == null) {
+          data.data.middleRule = this.data1.middleRule
+        }
+        if (data.data.lowRule == null) {
+          data.data.lowRule = this.data1.lowRule
         }
         this.data1= data.data
+        
       })
       .catch(err => {
         // console.log(err)
