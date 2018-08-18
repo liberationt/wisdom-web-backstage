@@ -647,10 +647,10 @@ export default {
           this.formValidate.limitValue = this.quotamoney
           this.formValidate.termValue = this.termmoney
           this.formValidate.applyCondition = this.addnormals
-          console.log(this.formValidate)
           let url
           if (this.$route.query.code) {
               url = '/loan/product/modifyProductByCode'
+              this.formValidate.productCode = this.$route.query.code
           } else {
               url = '/loan/product/saveProduct'
           }
@@ -880,19 +880,24 @@ export default {
                 this.operatingSystem.push(resp.data.operatingSystem[i].productParamCode)                
             }
             for (let i = 0; i < resp.data.typeLabel.length; i++) {
-                this.typeLabel.push(resp.data.typeLabel[i].productParamCode)                
+                this.typeLabel.push(resp.data.typeLabel[i].productParamCode)
+                
             }
             for (let i = 0; i < resp.data.amountLabel.length; i++) {
-                this.amountLabel.push(resp.data.amountLabel[i].productParamCode)                
+                this.amountLabel.push(resp.data.amountLabel[i].productParamCode)
             }
-            
-            this.addnormals = resp.data.applyCondition
-            this.quotamoney = resp.data.limitValue
-            this.termmoney = resp.data.termValue
-
+                         
+            if (resp.data.applyCondition!=null) {
+                this.addnormals =resp.data.applyCondition             
+            }           
+            if (resp.data.limitValue!=null) {
+                this.quotamoney = resp.data.limitValue
+            }
+            if (resp.data.termValue!=null) {
+                this.termmoney = resp.data.termValue
+            }       
             this.logoUrl = resp.data.productLogo
             this.labelUrl = resp.data.displayLabel
-            
             } else {         
             this.$Message.info(resp.message)
             }

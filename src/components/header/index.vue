@@ -7,7 +7,7 @@
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
-              <a href="javascript:;" :class="{redWine:index==isActive}" :menucode="item.menuCode"  @click="routerlink(index, item.path, item.menuName)">{{item.menuName}}</a>
+              <a href="javascript:;" :class="{redWine:index==isActive}" :menucode="item.menuCode"  @click="routerlink(index, item.path, item.menuName, item.menuCode)">{{item.menuName}}</a>
             </li>
             <!-- <li><router-link to="/homePage">公众号</router-link></li>
             <li><router-link to="/homePage">小程序</router-link></li>
@@ -103,13 +103,38 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["lefthidfalse"]),
-    routerlink: function(index, path, name) {
+    ...mapMutations(["lefthidfalse", 'leftlist', 'lefthidtrue']),
+    routerlink: function(index, path, name, code) {
+      let that = this
+      let arrlist = []
+      let menuList = null
       utils.putlocal("headace", index);
       this.isActive = index;
       this.$router.push({ path: path });
       if (name == "应用管理") {
-        this.lefthidfalse();
+        that.lefthidfalse();
+      } else if (name == '财务管理' || name == '系统管理') {
+        for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
+        if (that.menu.menuInfo.children[i].menuCode == code) {
+          console.log(that.menu.menuInfo.children[i].menuName)
+          arrlist = that.menu.menuInfo.children[i].children;
+          that.leftlist(arrlist);
+          utils.putlocal("leftlist", JSON.stringify(arrlist));
+          menuList = arrlist;
+          const firstGroupMenu = menuList[0]
+          if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
+            this.$router.push({ path: firstGroupMenu.path });
+            utils.putlocal("sideleft", "0");
+          } else {
+            const firstChildrenMenu = firstGroupMenu.children && firstGroupMenu.children[0]
+            if (firstChildrenMenu && firstChildrenMenu.path && firstChildrenMenu.path.length > 0) {
+              this.$router.push({ path: firstChildrenMenu.path });
+              utils.putlocal("sideleft", "1");
+            }
+          }
+          that.lefthidtrue();
+        }
+      }
       }
     },
     introduction() {
