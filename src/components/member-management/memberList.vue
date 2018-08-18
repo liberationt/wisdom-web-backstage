@@ -90,7 +90,7 @@ export default {
             if (params.row.realStatus == 0) {
               realStatus = '未实名'
             } else if (params.row.realStatus == 1) {
-              realStatus = '实名'
+              realStatus = params.row.realName
             } 
             return h('div', [
               h('span', {}, realStatus)

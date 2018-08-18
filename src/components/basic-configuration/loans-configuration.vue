@@ -12,24 +12,24 @@
         </li>
         <li class="ml20">
           <span>状态:</span>
-          <Select v-model="model2" size="large" style="width:100px">
+          <Select v-model="model2" size="large" style="width:200px">
             <Option v-for="item in cityList1"  :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml20">
           <span>产品分类:</span>
-          <Select v-model="model3" size="large" style="width:100px">
+          <Select v-model="model3" size="large" style="width:200px">
             <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml20">
           <span>排序:</span>
-          <Select v-model="model4" size="large" style="width:100px">
+          <Select v-model="model4" size="large" style="width:200px">
             <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml50">
-          <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+          <Button type="info" class=" mr20 w100" :loading="loading3" @click="loanlist">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -37,29 +37,32 @@
       </ul>   
       <Button @click="addproducts" type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>     
       <div class="loans_stages">
-        <ul>
-          <li>
+        <ul class="homePage_icon">
+          <li v-for="item in dataList">
             <div class="loans_top clearfix">
-              <p class="loans_img left"><img src="../../image/dkcslogo.jpg" alt=""></p>
+              <p class="loans_img left"><img :src="item.productLogo" alt=""></p>
                 <p class="left loans_stage">
-                  <span class="loas_happy">开心分期</span>
+                  <span class="loas_happy">{{item.productName}}</span>
                   <br>
-                  <span class="loans_lightning">30000元闪电到账</span>
+                  <span class="loans_lightning">{{item.productSubhead}}</span>
                 </p>
-                <p class="right loans_id">ID:231</p>
+                <p class="right loans_id">
+                  <img :src="item.displayLabel" alt="" >
+                  <span>ID:231</span>
+                </p>
               </div>
               <div class="loans_bottom">
                 <p class="clearfix haomePage_edit">
-                  <span @click="edit_icon_colorB" v-if="edit_icon_blue" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
-                  <span @click="edit_icon_colorR" v-if="edit_icon_red" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
-                  <span class="edit_icon right" @click="modal1 = true"><Icon type="edit"></Icon></span>
-                  <span class="edit_icon right" v-if="edit_delete">
+                  <!-- <InputNumber class="banknumint" :min="0" v-model="item.cardOrder"></InputNumber> -->
+                  <span @click="edit_icon_colorB(item.productCode, 0)" v-if="item.state==1" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
+                  <span @click="edit_icon_colorR(item.productCode, 1)" v-if="item.state==0" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
+                  <span class="edit_icon right ml5" @click="cardshow(item.productCode)"><Icon type="edit"></Icon></span>
+                  <span class="edit_icon right" v-if="item.state==0">
                   <Poptip
                   confirm
                   transfer
                   title="确认删除吗?"
-                  @delete-ok="deleteOk"
-                  @delete-cancel="deleteCancel">
+                  @on-ok="deleteOk(item.productCode)">
                     <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
                   </Poptip>
                 </span>
@@ -67,6 +70,9 @@
             </div>
           </li>
         </ul>
+        <div class="mt15 w100b tr right" style="">
+          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+        </div>
       </div>
     </div>
 </template>
@@ -76,9 +82,13 @@ export default {
     return {
       value4: '',
       loading3: false,
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       cityList1: [],
       cityList2: [],
       cityList3: [],
+      dataList: [],
       model2: '',
       model3: '',
       model4: '',
@@ -87,34 +97,127 @@ export default {
     }
   },
   methods: {
-    edit_icon_colorB () {
-      this.edit_icon_blue = false
-      this.edit_icon_red = true
-      this.edit_delete = true
+    pageChange (page) {
+      this.startRow = page
+      this.loanlist ()
     },
-    edit_icon_colorR () {
-      this.edit_icon_blue = true
-      this.edit_icon_red = false
-      this.edit_delete = false
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      this.loanlist ()
+    },
+    edit_icon_colorB (code, num) {
+      this.$Modal.confirm({
+          title: '上架',
+          content: '<p>确认要上架吗?</p>',
+          onOk: () => {
+            this.creditshelf (code, num)
+          },
+          onCancel: () => {              
+          }
+        })
+    },
+    edit_icon_colorR (code, num) {
+      this.$Modal.confirm({
+        title: '下架',
+        content: '<p>确认要下架吗?</p>',
+        onOk: () => {
+          this.creditshelf (code, num)
+        },
+        onCancel: () => {            
+        }
+      })
+    },
+    // 贷款产品上架
+    creditshelf (code, num) {
+      let list = {
+        productCode: code,
+        state: num
+      }
+      this.http.post(BASE_URL + '/loan/product/modifyProductStateByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          if (num == 0) {
+            this.$Modal.success({
+              title: '上架',
+              content: '<p>上架成功</p>'         
+            })
+            this.loanlist ()
+          } else {
+              const title = '下架'
+              let content = '<p>下架成功</p>'
+              this.$Modal.success({
+                title: title,
+                content: content
+              })
+              this.loanlist ()
+          }
+        } else {
+        }
+      })
+      .catch(() => {
+      })
     },
     addproducts () {
       this.$router.push({ path: './addloanproducts' })
-    }
-  },
-  mounted () {
-    this.http.post(BASE_URL + '/loan/product/getProductListSearch', {})
+    },
+    // 查询
+    loanlist () {
+      let list = {
+        productName : this.value4,
+        stateOptions: this.model2,
+        productOptions:this.model3,
+        orderOptions: this.model4,
+        pageNum: this.startRow,
+        pageSize: this.endRow
+      }
+      this.http.post(BASE_URL + '/loan/product/getProductList', list)
       .then((resp) => {
         if (resp.code == 'success') {
-          // this.cityList1 = resp.data.
-          // this.data6 = resp.data.pushBlackReqList
-          // this.total = Number(resp.data.total)
-          // this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.dataList= resp.data.dataList
+          this.total = Number(resp.data.total)
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
         } else {         
           this.$Message.info(resp.message)
         }
       })
       .catch(() => {
       })
+
+    },
+    // 贷款产品删除
+    deleteOk (code) {
+      let list = {
+        productCode: code
+      }
+      this.http.post(BASE_URL + '/loan/product/deleteProductByCode', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.loanlist ()
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    },
+    cardshow (code) {
+      this.$router.push({ path: './addloanproducts?code='+code })
+    }
+  },
+  mounted () {   
+    this.http.post(BASE_URL + '/loan/product/getProductListSearch', {})
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.cityList1 = resp.data.productState
+          this.cityList2 = resp.data.productType
+          this.cityList3 = resp.data.productOrder 
+        } else {         
+          this.$Message.info(resp.message)
+        }
+      })
+      .catch(() => {
+      })
+      this.loanlist ()
   }
 
 }
@@ -124,7 +227,9 @@ export default {
   width: 300px;
   height: 170px;
   border: 1px solid #ccc;
-  margin-top: 30px;
+  float: left;
+  margin-right: 20px;
+  margin-bottom: 15px;
 }
 .edit_icon_blue {
   background-color: #1bbc9b;
@@ -148,10 +253,6 @@ export default {
   width: 100px;
   margin-top: 20px;
 }
-.homePage_icon {
-  margin-left: 0px;
-  margin-right: 50px;
-}
 .loans_img>img {
   width: 80px;
   height: 80px;
@@ -169,9 +270,23 @@ export default {
 .loans_lightning {
   font-size: 12px;
 }
-.loans_id {
-  font-size: 12px;
+.loans_id{
   margin-top: 10px;
   margin-right: 8px;
+}
+.loans_id img{
+    width: 30px;
+    vertical-align:text-top
+  }
+  .loans_id span{
+    font-size: 12px;
+    
+  }  
+
+.homePage_icon {
+  margin-left: 0px;
+  margin-right: 50px;
+  overflow: hidden;
+  
 }
 </style>

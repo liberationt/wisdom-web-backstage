@@ -68,12 +68,12 @@ export default {
     gread () {
       this.$router.push({path: './managementGrade'})
     },
-    preservation () {
-      let appcode
-      let businessalias
-      let businesscode
-      let rulecode
-      for (let i = 0; i < this.data1.length; i++) {
+    // 查询
+    inquire () {
+      this.http.post(BASE_URL + '/rule/RiskBusiness/getRiskBusinessList', {})
+      .then((resp) => {
+        if (resp.code == 'success') {
+          for (let i = 0; i < resp.data.riskBusinessList.length; i++) {
             if (resp.data.riskBusinessList[i].ruleCode == resp.data.riskBusinessList[i].highRuleCode) {
               resp.data.riskBusinessList[i].value = 0
             } else if (resp.data.riskBusinessList[i].ruleCode == resp.data.riskBusinessList[i].middleRuleCode) {
@@ -84,17 +84,47 @@ export default {
               resp.data.riskBusinessList[i].value = 0              
             }
           }
-      let list = {
-        appCode: appcode,
-        businessAlias: businessalias,
-        businesscode: businesscode,
-        ruleCode: rulecode
+          this.data1 = resp.data.riskBusinessList
+        } else {
+
+        }
+      })
+      .catch(() => {               
+      })
+    },
+    // 保存
+    preservation () {
+      let list = []
+      for (let i = 0; i < this.data1.length; i++) {
+        if (this.data1[i].value == 0) {
+          this.data1[i].ruleCode = this.data1[i].highRuleCode
+        } else if (this.data1[i].value == 1) {
+          this.data1[i].ruleCode = this.data1[i].middleRuleCode
+        } else if (this.data1[i].value == 2) {
+          this.data1[i].ruleCode = this.data1[i].lowRuleCode
+        }
+        let obj = new Object ()
+        obj.appCode = this.data1[i].appCode
+        obj.businessAlias = this.data1[i].businessAlias
+        obj.businessCode = this.data1[i].businessCode
+        obj.businessName = this.data1[i].businessName
+        obj.highRuleCode = this.data1[i].highRuleCode
+        obj.middleRuleCode = this.data1[i].middleRuleCode
+        obj.lowRuleCode = this.data1[i].lowRuleCode
+        obj.ruleCode = this.data1[i].ruleCode
+        list.push(obj)
       }
       this.http.post(BASE_URL + '/rule/RiskBusiness/modifyBatchRiskBusinessByCode', list)
       .then((resp) => {
         if (resp.code == 'success') {
-          
-          this.data1 = resp.data.riskBusinessList
+              this.$Modal.success({
+            title: '提示',
+            content: '<p>保存成功</p>',
+            // onOk: () => {
+            //   this.$router.push({ path: './managementSet' })              
+            // }
+          })
+          this.inquire ()
         } else {
 
         }
@@ -105,27 +135,7 @@ export default {
     }
   },
   mounted () {
-    this.http.post(BASE_URL + '/rule/RiskBusiness/getRiskBusinessList', {})
-    .then((resp) => {
-      if (resp.code == 'success') {
-        for (let i = 0; i < resp.data.riskBusinessList.length; i++) {
-          if (resp.data.riskBusinessList[i].ruleCode == resp.data.riskBusinessList[i].highRuleCode) {
-            resp.data.riskBusinessList[i].value = 0
-          } else if (resp.data.riskBusinessList[i].ruleCode == resp.data.riskBusinessList[i].middleRuleCode) {
-            resp.data.riskBusinessList[i].value = 1
-          } else if (resp.data.riskBusinessList[i].ruleCode == resp.data.riskBusinessList[i].lowRuleCode) {
-            resp.data.riskBusinessList[i].value = 2
-          } else {
-            resp.data.riskBusinessList[i].value = 0              
-          }
-        }
-        this.data1 = resp.data.riskBusinessList
-      } else {
-
-      }
-    })
-    .catch(() => {               
-    })
+    this.inquire ()
   }
 }
 </script>
