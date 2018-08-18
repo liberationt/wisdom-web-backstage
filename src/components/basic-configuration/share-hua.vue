@@ -89,9 +89,9 @@ export default {
     // console.log(this.$route.query.isapp)
     let httpUrl
     if(this.$route.query.isapp == "huazan"){
-      httpUrl = '/loan/officerInfo/getOfficerInfoLinkShare'
+      httpUrl = '/loan/userInfo/getOfficerInfoLinkShare'
     } else if(this.$route.query.isapp == "xindai"){
-      httpUrl = '/loan/userInfo/getUserInfoLinkShare'
+      httpUrl = '/loan/officerInfo/getUserInfoLinkShare'
     }
     this.http.post(BASE_URL + httpUrl,{}).then(data=>{
     if(data.code == 'success'){
