@@ -211,7 +211,7 @@ export default {
   created(){
     // 消息类型
     // /loan/webMailQdx/getWebMailBaseData
-    this.http.post(BASE_URL+"/loan/webMail/getWebMailBaseData",{}).then(data=>{
+    this.http.post(BASE_URL+"/loan/webMailQdx/getWebMailBaseData",{}).then(data=>{
       // console.log(data.data.pushTarget)
       this.cityList = data.data.mailType
       // this.dateList = data.data.

@@ -302,7 +302,7 @@ export default {
   },
   created() {
     // 初始化
-    this.http.post(BASE_URL+"/loan/webMail/getWebMailListBaseData",{}).then(data=>{
+    this.http.post(BASE_URL+"/loan/webMailQdx/getWebMailListBaseData",{}).then(data=>{
       console.log(data)
       this.cityList = data.data.pushState
       this.cityType = data.data.mailType
