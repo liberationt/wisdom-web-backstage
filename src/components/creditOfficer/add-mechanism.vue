@@ -23,7 +23,8 @@
     </Upload>
         </FormItem>
         <FormItem label="机构名称" prop="name">
-            <Input v-model="formValidate.name" style="width: 300px" disabled></Input>
+            <Input v-model="formValidate.name" style="width: 300px" disabled v-if="!isdisabled"></Input>
+            <Input v-model="formValidate.name" style="width: 300px" v-if="isdisabled"></Input>
         </FormItem>
         <FormItem label="贷款利率" prop="name"  class="clearfix">
           <FormItem prop="startinterest" class="left">
@@ -87,9 +88,10 @@ import untils from "../../utils/utils";
 export default {
   data() {
     return {
+      isdisabled: true,
       code: '',
       formValidate: {
-        name: "上海铭星投资金融有限公司",
+        name: "",
         introductionl: "",
         ishomepage: "",
         lowerframe: "",
@@ -184,7 +186,7 @@ export default {
               institutionsLoanQuotasEnd: this.formValidate.endmoney, // 贷款额度上限值
               institutionsHaveType: this.formValidate.interest.join(";"), //贷款的类型
               institutionsUpStatus: this.formValidate.lowerframe, //上架状态
-              institutionsLoanOfficer: this.formValidate.mail, //显示多名信贷员
+              institutionsLoanOfficer: this.formValidate.introductionl, //显示多名信贷员
               institutionsPhone: this.formValidate.gender, //咨询呼叫号码
               institutionsRecommendStatus: this.formValidate.ishomepage, //首页推荐显示
               institutionsShortMechanism:this.formValidate.introduction, // 一句话简介
@@ -279,6 +281,7 @@ export default {
         console.log(err);
       });
     if (this.$route.query.isedit == "is") {
+      this.isdisabled = false
       this.http
         .post(
           BASE_URL + "/loan/creditInstitutions/getCreditInstitutionsByCode",
@@ -304,6 +307,7 @@ export default {
             this.formValidate.ishomepage =
               data.data.institutionsRecommendStatus + ""; //首页推荐显示
             this.formValidate.desc = data.data.institutionsMechanism;
+            this.formValidate.name = data.data.institutionsName //机构名称
             this.formValidate.introduction = data.data.institutionsShortMechanism
           }
         })
