@@ -63,9 +63,6 @@
         <TabPane label="注册无资料" name="tab3">
             <div class="clearfix">
             <div class="left">
-            <!-- <Select  style="width:100px" @on-change="registerselectl">
-                <Option v-for="item in registerselect" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select> -->
             <label v-model="register" for="">手机号：</label>
             <Input v-model="registername" placeholder="请输入关键字" style="width: 150px"></Input>
             <Select v-model="registermodel3" @on-change="registerstate" placeholder="所属状态" style="width:200px;margin-left:50px">
@@ -1182,7 +1179,7 @@ export default {
     // 入住待审核查询
     label_query(type) {
       if (this.model1 == "mobile") {
-        if (this.name == "" || this.name.length < 3) {
+        if (this.name != "" && this.name.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
@@ -1195,22 +1192,17 @@ export default {
     },
     // 注册无资料查询
     registerinquery(type) {
-       if (this.register == "mobile") {
-        if (this.registername != "" || this.registername.length < 3) {
+        if (this.registername != "" && this.registername.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
           this.labell1("tab3");
         }
-      } else {
-        this.loading3= true
-        this.labell1("tab3");
-      }
     },
     //信贷员列表 查询
     creditinquery(type){
       if (this.credit1 == "mobile") {
-        if (this.creditname == "" || this.creditname.length < 3) {
+        if (this.creditname != "" && this.creditname.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
@@ -1236,7 +1228,7 @@ export default {
     //资料待审核
     label2_query(type) {
       if (this.modelmoble == "mobile") {
-        if (this.dataname1 == "" || this.dataname1.length < 3) {
+        if (this.dataname1 != "" && this.dataname1.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
