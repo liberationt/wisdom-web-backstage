@@ -12,7 +12,7 @@
         <Form class="paddingRight" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
           <FormItem label="分享平台" prop="interest">
               <CheckboxGroup v-model="formValidate.interest">
-                  <Checkbox v-for="item in checkbox" :label=item.label></Checkbox>
+                  <Checkbox v-for="item in checkbox" :label=item.value>{{item.label}}</Checkbox>
               </CheckboxGroup>
           </FormItem>
           <FormItem label="分享标题" prop="name">
@@ -88,10 +88,10 @@ export default {
     // 获取分享配置
     // console.log(this.$route.query.isapp)
     let httpUrl
-    if(this.$route.query.isapp == "huazan"){
-      httpUrl = '/loan/userInfo/getOfficerInfoLinkShare'
-    } else if(this.$route.query.isapp == "xindai"){
-      httpUrl = '/loan/officerInfo/getUserInfoLinkShare'
+    if(this.$route.query.isapp == "xindai"){
+      httpUrl = '/loan/officerInfo/getOfficerInfoLinkShare'
+    } else if(this.$route.query.isapp == "huazan"){
+      httpUrl = '/loan/userInfo/getUserInfoLinkShare'
     }
     this.http.post(BASE_URL + httpUrl,{}).then(data=>{
     if(data.code == 'success'){
@@ -103,7 +103,7 @@ export default {
       this.formValidate.logoUrl = data.data.image
       this.shareCodel = data.data.shareCode
       data.data.sharePlatformList.forEach(v=>{//v==value　为arr项，i==index　为arr索引
-          this.formValidate.interest.push(v.label)
+          this.formValidate.interest.push(v.value)
       })
     }
     }).catch(err=>{})
@@ -114,9 +114,9 @@ export default {
       this.$refs[name].validate((valid) => {
           if (valid) {
             let httpUrll
-            if(this.$route.query.isapp == "huazan"){
+            if(this.$route.query.isapp == "xindai"){
               httpUrll = '/loan/officerInfo/saveOfficerInfoLinkShare' // 华赞
-            } else if(this.$route.query.isapp == "xindai"){
+            } else if(this.$route.query.isapp == "huazan"){
               httpUrll = '/loan/userInfo/saveUserInfoLinkShare' //枪弹
             }
             this.http.post(BASE_URL + httpUrll,{
@@ -127,6 +127,7 @@ export default {
               text : this.formValidate.desc,
               title : this.formValidate.name
             }).then(data=>{
+              console.log(data)
               if(data.code == "success"){
                 this.$Message.success('保存成功！');
               }
