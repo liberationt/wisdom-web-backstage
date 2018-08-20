@@ -8,7 +8,9 @@
     <div id="feedback_details">
         <h3>机构名称</h3>
         <Button type="primary" shape="circle" icon="plus-round" class="mb15" @click="addproduct">添加产品</Button>
-        <Table border :columns="columns1" :data="data1"></Table>
+        <Button type="success" shape="circle" class="mb15" @click="update">更新排序</Button>
+        <Table class="inputvalue" border :columns="columns1" :data="data1">
+        </Table>
         <div class="tr mt15">
             <Page :total="total" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
         </div>
@@ -21,6 +23,8 @@ export default {
   data () {
     return {
       modal8: false,
+      creditInstitutionsProductReqs:[],
+      productCode: [],
       columns1: [
         {
           title: '产品名称',
@@ -32,23 +36,32 @@ export default {
           title: '排序',
           align: 'center',
           key: 'age',
-          minWidth: 200,
+          width: 200,
           render: (h, params) => {
             return h('div', [
               h('Input', {
                 props: {
-                  size: 'small',
-                  value: params.row.productSort
+                  // type: 'number',
+                  value: params.row.productSort,
+                  code : params.row.productCode
                 },
                 style: {
                   width: '150px'
                 },
                 on: {
-                  click: () => {
-                    this.show(params.index)
-                  }
+//                   input:e => {
+//                     params.row.productSort = e
+//                     console.log(params.row.productCode)
+//                     this.updatec.productCode = params.row.productCode
+//                     this.updatec.productSort = params.row.productSort
+//                     console.log(this.updatec.productSort)
+// 　　　　　　　　　　},
+//                   'on-blur': val=>{
+//                     this.creditInstitutionsProductReqs.push(this.updatec)
+//                     console.log(this.creditInstitutionsProductReqs)
+//                   }
                 }
-              })
+              }),
             ])
           }
         },
@@ -82,7 +95,7 @@ export default {
                 on: {
                   click: () => {
                     untils.setCookie('productCode',params.row.productCode)
-                    this.$router.push({ path: './addExamine?isedit?'+is })
+                    this.$router.push({ path: './addExamine?isedit='+'is' })
                   }
                 }
               }, '编辑'),
@@ -136,6 +149,39 @@ export default {
     // handleRender () {
     //   this.$router.push({ path: './operationLog' }) //操作日志
     // },
+    update(){
+      let ivuvalue = document.getElementsByClassName('ivu-input')
+      console.log(ivuvalue,this.productCode)
+      // console.log(document.getElementsByClassName('ivu-input')[0].value)
+      for(let i = 0; i< this.productCode.length; i++){
+        this.creditInstitutionsProductReqs.push(
+          {
+            productCode: this.productCode[i],
+            productSort: ivuvalue[i].value
+          }
+        )
+      }
+      // 更新
+      let list = {
+        creditInstitutionsProductReqs: this.creditInstitutionsProductReqs
+      }
+      // console.log(list)
+      this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/updateProductSortByCode",list).then(data=>{
+        console.log(data)
+        if(data.code == 'success'){
+          this.$Modal.success({
+            title: '更新',
+            content: '<p>更新成功</p>',
+            onOk: () => {
+              this.query()
+              this.productCode = []
+            }
+          })
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     pageChange (page) {
       this.startRow = page;
       this.params.page = page;
@@ -154,12 +200,16 @@ export default {
       this.$router.push({ path: './addExamine' })
     },
     query(){
-      this.http.post(BASE_URL+'/loan/creditInstitutionsProduct/getCreditInstitutionsProductList',{creditInstitutionsProductCode: untils.getCookie('institutionsCode'), pageSize: this.endRow,
+      this.http.post(BASE_URL+'/loan/creditInstitutionsProduct/getCreditInstitutionsProductList',{institutionsCode: untils.getCookie('institutionsCode'), pageSize: this.endRow,
         pageNum: this.startRow}).then(data=>{
         if(data.code == 'success'){
           this.data1 = data.data.creditInstitutionsProductList
           this.total = parseInt(data.data.total);
           this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+          this.data1.map((o,i)=>{
+            this.productCode.push(o.productCode)
+            // console.log(o.productCode)
+          })
         }
       }).catch(err=>{
         console.log(err)
@@ -180,5 +230,8 @@ export default {
         border-bottom: 1px solid #E7ECF1;
         margin-bottom: 20px;
     }
+}
+.inputvalue{
+  color: red;
 }
 </style>

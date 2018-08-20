@@ -200,6 +200,7 @@ export default {
           this.shendate = data.data.commentDetailBusRes.checkTime; // 审核时间
           this.pingjia = data.data.tags;
           this.loanOfficerCode = data.data.commentDetailBusRes.loanOfficerCode
+          this.rilename = data.data.commentDetailBusRes.officerName
         }
       })
       .catch(err => {

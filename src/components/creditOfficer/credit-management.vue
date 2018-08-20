@@ -35,7 +35,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :current="startRow" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
             </div>
         </TabPane>
         <!-- 资料待审核 -->
@@ -57,15 +57,12 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :current="startRow1" @on-change="zipageChange" @on-page-size-change="zipageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow1" :current="startRow1" @on-change="zipageChange" @on-page-size-change="zipageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="注册无资料" name="tab3">
             <div class="clearfix">
             <div class="left">
-            <!-- <Select  style="width:100px" @on-change="registerselectl">
-                <Option v-for="item in registerselect" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select> -->
             <label v-model="register" for="">手机号：</label>
             <Input v-model="registername" placeholder="请输入关键字" style="width: 150px"></Input>
             <Select v-model="registermodel3" @on-change="registerstate" placeholder="所属状态" style="width:200px;margin-left:50px">
@@ -82,7 +79,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :current="startRow2" @on-change="pageChange3" @on-page-size-change="PageSizeChange3" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow2" :current="startRow2" @on-change="pageChange3" @on-page-size-change="PageSizeChange3" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷员列表" name="tab4">
@@ -115,7 +112,7 @@
             <Table border :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :current="startRow3" @on-change="pageChange4" @on-page-size-change="PageSizeChange4" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow3" :current="startRow3" @on-change="pageChange4" @on-page-size-change="PageSizeChange4" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷机构" name="tab5">
@@ -140,7 +137,7 @@
             <Table border :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :current="startRow4" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow4" :current="startRow4" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
@@ -226,14 +223,14 @@ export default {
         }
       ],
       model: "",
-      model1: "手机号",
+      model1: "",
       searchOptions: [],
       statusOptions: [],
       datamoble: [],
       modelmoble: '',
       dataname1: '',
-      model2: "手机号",
-      model3: "手机号",
+      model2: "",
+      model3: "",
       modell3 : "",
       model4: "",
       name: "",
@@ -299,7 +296,7 @@ export default {
                     title: params.row.message
                   }
                 },
-                params.row.loanHaveType
+                params.row.loanHaveType.join('，')
               )
             ]);
           }
@@ -376,6 +373,11 @@ export default {
                         });
                       } else if (status == 3) {
                         statusn = "详情";
+                        this.$router.push({
+                          path:
+                            "./creditInformation?loanOfficerCode=" +
+                            params.row.loanOfficerCode
+                        });
                       }
                     }
                   }
@@ -639,7 +641,7 @@ export default {
         },
         {
           title: "机构名称",
-          // key: "institutionsName",
+          key: "institutionsName",
           align: "center"
         },
         {
@@ -767,6 +769,10 @@ export default {
       startRow3: 1,
       startRow4: 1,
       endRow: 10,
+      endRow1: 10,
+      endRow2: 10,
+      endRow3: 10,
+      endRow4: 10,
       total: 0,
       modell: "",
       labelstate: "",
@@ -797,67 +803,63 @@ export default {
     },
     pageChange(page) {
       console.log(page);
-      this.startRow = page;
+      this.startRow4 = page;
       this.params.page = page;
       this.labell1("tab5");
     },
     PageSizeChange(limit) {
-      this.startRow = 1
-      this.endRow = limit;
+      this.startRow4 = 1
+      this.endRow4 = limit;
       this.params.limit = limit;
       this.labell1("tab5");
     },
     //入驻待审核分页
     pageChange1(page) {
-      // console.log(page);
       this.startRow = page;
       this.params.page = page;
-      // this.labell1("tab1");
+      this.labell1("tab1");
     },
     PageSizeChange1(limit) {
       this.startRow = 1
-      // console.log(limit);
       this.endRow = limit;
       this.params.limit = limit;
-      // this.labell1("tab1");
+      this.labell1("tab1");
     },
     // 资料待审核 分页
     zipageChange(page) {
-      // console.log(page);
-      this.startRow = page;
+      this.startRow1 = page;
       this.params.page = page;
       this.labell1("tab2");
     },
     zipageSizeChange(limit) {
-      // console.log(limit)
-      this.endRow = limit;
+      this.endRow1 = limit;
       this.params.limit = limit;
       this.labell1("tab2");
     },
     // 注册无资料分页
     pageChange3(page){
       // console.log(page);
-      this.startRow = page;
+      this.startRow2 = page;
       this.labell1("tab3");
       this.params.page = page;
     },
     PageSizeChange3(limit){
       // console.log(limit);
-      this.startRow = 1
-      this.endRow = limit;
+      this.startRow2 = 1
+      this.endRow2 = limit;
       this.labell1("tab3");
       this.params.limit = limit;
     },
     // 信贷员列表分页
     pageChange4(page) {
       // console.log(page)
-      this.startRow = page;
+      this.startRow3 = page;
       this.labell1("tab4");
       this.params.page = page;
     },
     PageSizeChange4(limit) {
-      this.startRow = 1;
-      this.endRow = limit;
+      this.startRow3 = 1;
+      this.endRow3 = limit;
       this.params.limit = limit;
       this.labell1("tab4");
     },
@@ -896,7 +898,10 @@ export default {
               this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
               this.data6 = data.data.dataList;
               // 分页初始化
-              this.endRow = 10
+              this.endRow1 = 10
+              this.endRow2 = 10
+              this.endRow3 = 10
+              this.endRow4 = 10
               this.startRow1 = 1
               this.startRow2 = 1
               this.startRow3 = 1
@@ -925,6 +930,9 @@ export default {
               this.data7 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
+              this.endRow2 = 10
+              this.endRow3 = 10
+              this.endRow4 = 10
               this.startRow = 1
               this.startRow2 = 1
               this.startRow3 = 1
@@ -956,6 +964,9 @@ export default {
               this.data8 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
+              this.endRow1 = 10
+              this.endRow3 = 10
+              this.endRow4 = 10
               this.startRow1 = 1
               this.startRow = 1
               this.startRow3 = 1
@@ -987,6 +998,9 @@ export default {
               this.data9 = data.data.dataList;
               // 分页初始化
               this.endRow = 10
+              this.endRow1 = 10
+              this.endRow2 = 10
+              this.endRow4 = 10
               this.startRow1 = 1
               this.startRow2 = 1
               this.startRow = 1
@@ -1029,6 +1043,9 @@ export default {
               this.registersheng = ""
               // 分页初始化
               this.endRow = 10
+              this.endRow1 = 10
+              this.endRow2 = 10
+              this.endRow3 = 10
               this.startRow1 = 1
               this.startRow2 = 1
               this.startRow = 1
@@ -1048,11 +1065,6 @@ export default {
     },
     //tab 栏
     labell1(name) {
-      // console.log(name)
-      let parameter = {
-        pageSize: this.endRow,
-        pageNum: this.startRow
-      };
       let data;
       //入驻待审核
       if (name == "tab1") {
@@ -1062,9 +1074,10 @@ export default {
             searchOptions: this.model1, //手机号or 姓名
             loanStatus: this.labelstate == -1 ? null : this.labelstate, //选择状态
             loanAdCodeFirst: this.labelcitys, //区域 省
-            loanAdCodeSecond: this.modelshi //市
-          },
-          parameter
+            loanAdCodeSecond: this.modelshi, //市
+            pageSize: this.endRow,
+            pageNum: this.startRow
+          }
         );
         this.post(
           BASE_URL + "/loan/officer/queryOfficerAdmissionList",
@@ -1078,9 +1091,10 @@ export default {
         data = Object.assign(
           {
             searchValue: this.dataname1,
-            searchOptions: this.modelmoble //姓名or手机号
-          },
-          parameter
+            searchOptions: this.modelmoble, //姓名or手机号
+            pageSize: this.endRow1,
+            pageNum: this.startRow1
+          }
         );
         this.post(
           BASE_URL + "/loan/officer/queryOfficerDataWaitCheckList",
@@ -1094,7 +1108,9 @@ export default {
           searchOptions : this.register,
           searchValue : this.registername,
           loanBaseStatus : this.registermodel3 == -1 ? null : this.registermodel3,
-        }, parameter);
+          pageSize: this.endRow2,
+          pageNum: this.startRow2
+        });
         this.post(BASE_URL + "/loan/officer/queryOfficerNoneDataList", data, 2);
       }
       //信贷员列表
@@ -1107,9 +1123,10 @@ export default {
             servicePutawayStatus: this.credit2,
             loanAdCodeFirst: this.registersheng, //省编码
             loanAdCodeSecond: this.registershi, //市编码
-            serviceIntroductionStatus: this.credit3 == -1 ? null : this.credit3 //服务介绍状态
-          },
-          parameter
+            serviceIntroductionStatus: this.credit3 == -1 ? null : this.credit3, //服务介绍状态
+            pageSize: this.endRow3,
+            pageNum: this.startRow3
+          }
         );
         console.log(data);
         this.post(BASE_URL + "/loan/officer/queryOfficerManagerList", data, 3);
@@ -1120,8 +1137,10 @@ export default {
         data = Object.assign({
           institutionsName : this.guanname, //关键字
           institutionsUpStatus : this.modell3, // 上下架状态
-          institutionsRecommendStatus : this.model4 //是否首页推荐
-        }, parameter);
+          institutionsRecommendStatus : this.model4, //是否首页推荐
+          pageSize: this.endRow4,
+          pageNum: this.startRow4
+        });
         this.post(
           BASE_URL + "/loan/creditInstitutions/queryCreditInstitutionsList",
           data,
@@ -1165,7 +1184,7 @@ export default {
     // 入住待审核查询
     label_query(type) {
       if (this.model1 == "mobile") {
-        if (this.name == "" || this.name.length < 3) {
+        if (this.name != "" && this.name.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
@@ -1178,22 +1197,17 @@ export default {
     },
     // 注册无资料查询
     registerinquery(type) {
-       if (this.register == "mobile") {
-        if (this.registername != "" || this.registername.length < 3) {
+        if (this.registername != "" && this.registername.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
           this.labell1("tab3");
         }
-      } else {
-        this.loading3= true
-        this.labell1("tab3");
-      }
     },
     //信贷员列表 查询
     creditinquery(type){
       if (this.credit1 == "mobile") {
-        if (this.creditname == "" || this.creditname.length < 3) {
+        if (this.creditname != "" && this.creditname.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
@@ -1219,7 +1233,7 @@ export default {
     //资料待审核
     label2_query(type) {
       if (this.modelmoble == "mobile") {
-        if (this.dataname1 == "" || this.dataname1.length < 3) {
+        if (this.dataname1 != "" && this.dataname1.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true

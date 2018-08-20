@@ -186,6 +186,11 @@ export default {
     this.query();
   },
   methods: {
+    pageConfigguration(versionnumber){
+      // console.log()
+      utils.putlocal('versionnumber',versionnumber)
+      this.$router.push({path:'pageConfigguration'})
+    },
     query() {
       this.http
         .post(BASE_URL + "/system/appVersion/getAppVersionList", {

@@ -152,14 +152,13 @@ export default {
         onOk: () => {
           this.spost(0);
         },
-        onCancel: () => {}
+        onCancel: () => {},
+        // slot = 'footer'
       });
     },
     //拒绝
     refuse() {
       this.modall = true
-      // alert(222)
-      // console.log(22)
     },
     changeLoading() {
       this.loading = false;
@@ -178,7 +177,7 @@ export default {
         }
       });
     },
-    //取消
+    // 取消
     handleReset(name) {
       this.$refs[name].resetFields();
     },
@@ -203,27 +202,32 @@ export default {
         )
         .then(resp => {
           if (resp.code == "success") {
-            const title = "审核";
-            let content;
-            if (num == 0) {
-              content = "<p>审核成功</p>";
+            if(num == 0){
+              this.$router.push({ path: "./creditManagement?num=1" });
             } else {
-              content = "<p>审核拒绝成功</p>";
+              this.tishi()
             }
-            this.$Modal.success({
-              title: title,
-              content: content,
-              onOk: () => {
-                this.$router.push({ path: "./creditManagement?num=1" });
-              }
-            });
           } else {
             this.$Message.info(resp.message);
+            this.modall = false
+            this.$refs[name].resetFields();
           }
         })
         .catch(error => {
           console.log(error);
         });
+    },
+    tishi(){
+      const title = "审核";
+      let content;
+      content = "<p>审核拒绝成功</p>";
+      this.$Modal.success({
+        title: title,
+        content: content,
+        onOk: () => {
+          this.$router.push({ path: "./creditManagement?num=1" });
+        }
+      });
     }
   }
 };

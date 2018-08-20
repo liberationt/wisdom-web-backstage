@@ -89,7 +89,7 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
       modal1: false,
       modal2: false,
@@ -525,9 +525,8 @@ export default {
       })
       .catch(() => {
       })
-
   }
-}
+};
 </script>
 <style lang="less" scoped>
 .ivu-btn{

@@ -34,7 +34,9 @@ export default {
   data() {
     return {
       value: "",
-      value6: ''
+      value6: '',
+      // institutionsCode: '',
+      productCode: ''
       // defaultMsg: "这里是UE测试",
       // config: {
       //   initialFrameWidth: null,
@@ -47,14 +49,17 @@ export default {
     handleSubmit() {
       let httpurl
       if(this.$route.query.isedit == 'is'){
+        this.productCode = utils.getCookie('productCode')
         httpurl = "/loan/creditInstitutionsProduct/updateCreditInstitutionsProductByCode" //编辑保存
       } else {
+        this.productCode = ""
         httpurl = "/loan/creditInstitutionsProduct/saveCreditInstitutionsProduct" // 添加保存
       }
 			this.http.post(BASE_URL+httpurl,{
         institutionsCode : utils.getCookie('institutionsCode'),
         productDetail : this.value6,
-        productName : this.value
+        productName : this.value,
+        productCode :  this.productCode
       }).then(data=>{
         console.log(data)
         if(data.code == 'success'){
@@ -73,9 +78,12 @@ export default {
          this.$Message.info('保存失败！');
       })
     },
-    created(){
+    
+  },
+  created(){
+      // console.log(this.$route.query.isedit,111)
       if(this.$route.query.isedit == 'is'){
-        this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/getCreditInstitutionsProductByCode",{productCode:untils.getCookie('productCode')}).then(data=>{
+        this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/getCreditInstitutionsProductByCode",{productCode:utils.getCookie('productCode')}).then(data=>{
           console.log(data)
           if(data.code == 'success'){
             this.value6 = data.data.productDetail
@@ -86,7 +94,6 @@ export default {
         })
       }
     }
-  }
 };
 </script>
 <style lang="less" scoped>
