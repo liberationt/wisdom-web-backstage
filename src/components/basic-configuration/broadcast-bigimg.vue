@@ -7,7 +7,7 @@
       </div>
       <div class="clearfix">
         <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
-        <Button type="info" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
+        <Button type="info" v-if="num != 2" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
       </div>    
       <Modal
         v-model="modal1"
@@ -64,11 +64,19 @@
             <img :src="item.photoUrl" alt="" v-if="num == 2">
           </p>
           <p class="clearfix haomePage_edit">
-            <InputNumber class="banknumint" :min="0" v-model="item.bannerNo"></InputNumber>
-            <Button v-if="item.status==1" class="onshelf" @click="edit_icon_colorB(item.bannerCode, 0)" type="primary">上架</Button>
-            <Button v-if="item.status==0" class="onshelf" @click="edit_icon_colorR(item.bannerCode, 1)" type="error">下架</Button>
-            <span class="edit_icon right ml5" @click="bankshow(2, item.bannerCode)"><Icon type="edit"></Icon></span>
-            <span v-if="item.status==0" class="edit_icon right " >
+            <InputNumber v-if="num != 2" class="banknumint" :min="0" v-model="item.bannerNo"></InputNumber>
+            <span class="onshelf" v-if="num == 1">
+              <Button v-if="item.status==1"  @click="edit_icon_colorB(item.bannerCode, 0)" type="primary">上架</Button>
+              <Button v-if="item.status==0"  @click="edit_icon_colorR(item.bannerCode, 1)" type="error">下架</Button>
+            </span>
+            <span class="onshelf" v-if="num == 2">
+              <Button v-if="item.advertisementState==1" @click="edit_icon_colorB(item.advertisementCode, 0)" type="primary">上架</Button>
+              <Button v-if="item.advertisementState==0" @click="edit_icon_colorR(item.advertisementCode, 1)" type="error">下架</Button>
+            </span>
+            
+            <span v-if="num == 1" class="edit_icon right ml5" @click="bankshow(2, item.bannerCode)"><Icon type="edit"></Icon></span>
+            <span v-if="num == 2" class="edit_icon right ml5" @click="bankshow(2, item.advertisementCode)"><Icon type="edit"></Icon></span>
+            <span v-if="item.status==0" class="edit_icon right " >      
               <Poptip
                 confirm
                 transfer
@@ -76,8 +84,17 @@
                 @on-ok="deleteOk(item.bannerCode)"
                 >
                 <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
-              </Poptip>
-              
+              </Poptip>           
+          </span>
+          <span v-if="item.advertisementState==0" class="edit_icon right " >      
+              <Poptip
+                confirm
+                transfer
+                title="确认删除吗?"
+                @on-ok="deleteOk(item.advertisementCode)"
+                >
+                <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+              </Poptip>           
           </span>
         </p>
       </li>
@@ -97,6 +114,7 @@ export default {
       nojump: false,
       homelist:false,
       moveh5: false,
+      locationtype:this.$route.query.banner,
       num:this.$route.query.img,
       total: 0,
       startRow: 1,
@@ -152,6 +170,11 @@ export default {
     },
     // 新增银行卡
     handleSubmit1 (name) {
+      if (this.$route.query.fiveh==0) {
+        this.nojump = false
+        this.homelist = false
+        this.moveh5 = true
+      }
       this.$refs[name].validate(valid => {
         if (!valid) {
           return this.changeLoading()
@@ -191,9 +214,7 @@ export default {
         }
         url = BASE_URL + urls
         title = '添加轮播图'
-        content = '<p>添加成功</p>'
-
-      
+        content = '<p>添加成功</p>'     
       if (this.$route.query.img == 1) {
         list = {
         bannerUrl :this.banksrc,
@@ -204,8 +225,17 @@ export default {
         bannerAppIdentifier : this.$route.query.appIdentifier,
         bannerAppVersion: this.$route.query.appVersion,
         bannerAppType: this.$route.query.appType,
-        locationType : 0
-      }      
+        locationType : this.locationtype
+      }
+      if (this.$route.query.fiveh==0) {
+        list = {
+          bannerUrl :this.banksrc,
+          jumpStatus : this.formValidate1.mark,
+          jumpUrl : this.formValidate1.desc,
+          locationType:9
+        }
+
+      }
       } else if (this.$route.query.img == 2) {
         list = {
           photoUrl :this.banksrc,
@@ -222,26 +252,35 @@ export default {
         let urls
         if (this.$route.query.img == 1) {
           urls = '/loan/banner/modifyBannerByCode'
+            list = {
+              bannerUrl :this.banksrc,
+              jumpStatus : this.formValidate1.mark,
+              jumpType : this.formValidate1.layout,
+              jumpUrl : jumpUrl,
+              versionCode: this.$route.query.versionCode,
+              appIdentifier : this.$route.query.appIdentifier,
+              appVersion: this.$route.query.appVersion,
+              appType: this.$route.query.appType,
+              bannerCode: this.bannerCode,
+              locationType:this.locationtype
+            }
         } else if (this.$route.query.img == 2) {
           urls = '/loan/appAdvertisement/updateAppAdvertisementByCode'
+            list = {
+              photoUrl :this.banksrc,
+              jumpStatus : this.formValidate1.mark,
+              jumpType : this.formValidate1.layout,
+              jumpUrl : jumpUrl,
+              versionCode: this.$route.query.versionCode,
+              appIdentifier : this.$route.query.appIdentifier,
+              appVersion: this.$route.query.appVersion,
+              appType: this.$route.query.appType,
+              advertisementCode: this.bannerCode
+            }
         }
         url = BASE_URL + urls
         title = '修改轮播图'
         content = '<p>修改成功</p>'
-        list = {
-        bannerUrl :this.banksrc,
-        jumpStatus : this.formValidate1.mark,
-        jumpType : this.formValidate1.layout,
-        jumpUrl : jumpUrl,
-        versionCode: this.$route.query.versionCode,
-        bannerAppIdentifier : this.$route.query.appIdentifier,
-        bannerAppVersion: this.$route.query.appVersion,
-        bannerAppType: this.$route.query.appType,
-        bannerCode: this.bannerCode
-      }
-      if (this.$route.query.img == 1) {
-          list.locationType = 0
-      }
       }
         this.http.post(url, list)
         .then((resp) => {
@@ -263,14 +302,18 @@ export default {
     },
     // 修改银行卡回显
     bankecho (code) {
-      let list = {
-        bannerCode: code
-      }
+      let list
       let url
       if (this.$route.query.img == 1) {
         url = '/loan/banner/getBannerByCode'
+        list = {
+          bannerCode: code
+        }
       } else if (this.$route.query.img == 2) {
         url = '/loan/appAdvertisement/getAppAdvertisementByCode'
+        list = {
+          advertisementCode: code
+        }
       }
       this.http.post(BASE_URL + url, list)
         .then((resp) => {
@@ -293,15 +336,18 @@ export default {
             } else {//h5
               this.formValidate1.desc = resp.data.jumpUrl
               this.moveh5 = true
-              this.homelist = false
+              this.homelist = true
               this.formValidate1.home = ''
             }
             } else {//不跳转
             this.formValidate1.home = ''
             this.formValidate1.desc = ''
-            }                        
-            this.bannerCode = resp.data.bannerCode
-
+            }
+            if (this.num == 1) {
+              this.bannerCode = resp.data.bannerCode
+            } else if (this.num == 2) {
+              this.bannerCode = resp.data.advertisementCode
+            }           
           } else {
           }
         })
@@ -324,9 +370,16 @@ export default {
         this.homelist = false
         this.moveh5 = false
       } else {//跳
+      if (this.$route.query.fiveh==0) {
+        this.nojump = false
+        this.moveh5 = true
+        this.homelist = false
+      }
+      if (!this.$route.query.fiveh) {
         this.nojump = true
         this.moveh5 = false
         this.homelist = true
+      }        
       }
     },
     primordial (val) {
@@ -364,14 +417,18 @@ export default {
     },
     // 银行卡删除
     deleteOk (code) {
-      let list = {
-        bannerCode: code
-      }
+      let list
       let url
       if (this.$route.query.img == 1) {
         url = '/loan/banner/deleteBannerByCode'
+        list = {
+          bannerCode: code
+        }
       } else if (this.$route.query.img == 2) {
         url = '/loan/appAdvertisement/deleteAppAdvertisementByCode'
+        list = {
+          advertisementCode: code
+        }
       }
       this.http.post(BASE_URL + url, list)
       .then((resp) => {
@@ -391,7 +448,12 @@ export default {
         versionCode: this.$route.query.versionCode
       }
       if (this.$route.query.img == 1) {
-          list.locationType = 0
+          list.locationType = this.locationtype
+      }
+      if (this.$route.query.fiveh==0) {
+        list = {
+          locationType:9
+        }
       }
       let url
       if (this.$route.query.img == 1) {
@@ -441,15 +503,20 @@ export default {
     },
     // 银行卡上架
     bankshelf (code, num) {
-      let list = {
-        bannerCode: code,
-        status: num
-      }
+      let list
       let url
       if (this.$route.query.img == 1) {
         url = '/loan/banner/modifyBannerByCode'
+        list = {
+          bannerCode: code,
+          status: num
+        }
       } else if (this.$route.query.img == 2) {
         url = '/loan/appAdvertisement/updateAppAdvertisementStateByCode'
+        list = {
+          advertisementCode: code,
+          advertisementState: num
+        }
       }
       this.http.post(BASE_URL + url, list)
       .then((resp) => {

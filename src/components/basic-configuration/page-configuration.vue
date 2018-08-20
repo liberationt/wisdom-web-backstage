@@ -10,7 +10,13 @@
       <div class="homePage">
           <h1 class="homePage_h1">首页</h1>
           <ul class="homePage_icon clearfix">
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1}}">
+              <router-link v-if="num==1" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:0}}">
+                <li>
+                    <Icon type="android-image"></Icon>
+                    <p class="homePage_text">轮播大图</p>
+                </li>
+              </router-link>
+              <router-link v-if="num==2" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:3}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
@@ -22,29 +28,52 @@
                     <p class="homePage_text">开屏广告</p>
                 </li>
               </router-link>
-              <router-link to="navigation">
+              <router-link to="navigation" v-if="num==1">
                 <li>
                     <Icon type="android-apps"></Icon>
                     <p class="homePage_text">首页导航</p>
                 </li>
               </router-link>
-              <router-link to="bigimg">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:4}}" v-if="num==2">
                 <li>
-                    <Icon type="android-image"></Icon>
-                    <p class="homePage_text">开屏广告</p>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">悬浮广告</p>
                 </li>
               </router-link>
-              
           </ul>
       </div>
       <!-- 信用卡超市 -->
-      <div class="homePage">
+      <div class="homePage" v-if="num==1">
           <h1 class="homePage_h1">贷超列表</h1>
           <ul class="homePage_icon clearfix">
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1}}">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:7}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
+                </li>
+              </router-link>
+          </ul>
+      </div>
+      <!-- 注册 -->
+      <div class="homePage" v-if="num==2">
+          <h1 class="homePage_h1">注册</h1>
+          <ul class="homePage_icon clearfix">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:6}}">
+                <li>
+                    <Icon type="android-image"></Icon>
+                    <p class="homePage_text">头图</p>
+                </li>
+              </router-link>
+          </ul>
+      </div>
+      <!-- 找客户-历史名单 -->
+      <div class="homePage" v-if="num==2">
+          <h1 class="homePage_h1">找客户-历史名单</h1>
+          <ul class="homePage_icon clearfix">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:8}}">
+                <li>
+                    <Icon type="android-image"></Icon>
+                    <p class="homePage_text">轮播图</p>
                 </li>
               </router-link>
           </ul>
@@ -53,7 +82,13 @@
       <div class="homePage">
           <h1 class="homePage_h1">邀请好友</h1>
           <ul class="homePage_icon clearfix">
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1}}">
+              <router-link v-if="num==1" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:9}}">
+                <li>
+                    <Icon type="android-image"></Icon>
+                    <p class="homePage_text">轮播大图</p>
+                </li>
+              </router-link>
+              <router-link v-if="num==2" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:10}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
@@ -70,7 +105,8 @@ export default {
             code: this.$route.query.versionCode,
             fier: this.$route.query.appIdentifier,
             version: this.$route.query.appVersion,
-            type: this.$route.query.appType
+            type: this.$route.query.appType,
+            num:this.$route.query.nums
         }
     }
 }

@@ -14,7 +14,7 @@
     </div>
     <ul class="version_list clearfix">
       <li class="version left mr20" v-for="item in versionnumber">
-        <div class="version_img left" @click="routerlink(item.versionCode, item.appIdentifier, item.appVersion, item.appType)">
+        <div class="version_img left" @click="routerlink(item.versionCode, item.appIdentifier, item.appVersion, item.appType, item)">
             <img :src=item.logoUrl alt="">
         </div>
         <div class="version_text">
@@ -366,8 +366,10 @@ export default {
     cancel() {
       this.$Message.info("删除失败！");
     },
-    routerlink (code, fier, version, type) {
-      this.$router.push({ path: './pageConfigguration?versionCode='+code +'&appIdentifier='+ fier +'&appVersion='+version +'&appType='+type })
+    routerlink (code, fier, version, type, item) {
+      let classification = this.$route.query.num
+      utils.putlocal('versionnumber',item)
+      this.$router.push({ path: './pageConfigguration?versionCode='+code +'&appIdentifier='+ fier +'&appVersion='+version +'&appType='+type+'&nums='+classification })
     }
   }
 };
