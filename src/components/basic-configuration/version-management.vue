@@ -14,11 +14,9 @@
     </div>
     <ul class="version_list clearfix">
       <li class="version left mr20" v-for="item in versionnumber">
-        <!-- <router-link to='pageConfigguration'> -->
-        <div class="version_img left">
+        <div class="version_img left" @click="routerlink(item.versionCode, item.appIdentifier, item.appVersion, item.appType)">
             <img :src=item.logoUrl alt="">
         </div>
-        <!-- </router-link> -->
         <div class="version_text">
             <p class="android right" v-if="item.appType == 1">安卓</p>
             <p class="android right" v-if="item.appType == 0">IOS</p>
@@ -362,6 +360,9 @@ export default {
     },
     cancel() {
       this.$Message.info("删除失败！");
+    },
+    routerlink (code, fier, version, type) {
+      this.$router.push({ path: './pageConfigguration?versionCode='+code +'&appIdentifier='+ fier +'&appVersion='+version +'&appType='+type })
     }
   }
 };
@@ -435,6 +436,7 @@ export default {
   border-radius: 5px;
   margin-top: 18px;
   margin-left: 8px;
+  cursor: pointer;
 }
 .version_img > img {
   width: 100%;

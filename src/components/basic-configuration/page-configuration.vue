@@ -10,16 +10,16 @@
       <div class="homePage">
           <h1 class="homePage_h1">首页</h1>
           <ul class="homePage_icon clearfix">
-              <router-link to="bigimg">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
                 </li>
               </router-link>
-              <router-link to="bigimg">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:2}}">
                 <li>
                     <Icon type="android-image"></Icon>
-                    <p class="homePage_text">开启广告</p>
+                    <p class="homePage_text">开屏广告</p>
                 </li>
               </router-link>
               <router-link to="navigation">
@@ -34,7 +34,7 @@
       <div class="homePage">
           <h1 class="homePage_h1">信用卡超市</h1>
           <ul class="homePage_icon clearfix">
-              <router-link to="bigimg">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
@@ -46,7 +46,7 @@
       <div class="homePage">
           <h1 class="homePage_h1">邀请好友</h1>
           <ul class="homePage_icon clearfix">
-              <router-link to="bigimg">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
@@ -58,6 +58,14 @@
 </template>
 <script>
 export default {
+    data () {
+        return {
+            code: this.$route.query.versionCode,
+            fier: this.$route.query.appIdentifier,
+            version: this.$route.query.appVersion,
+            type: this.$route.query.appType
+        }
+    }
 }
 </script>
 <style lang="less" scoped>
