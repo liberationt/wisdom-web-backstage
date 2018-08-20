@@ -103,7 +103,10 @@ export default {
       this.formValidate.logoUrl = data.data.image
       this.shareCodel = data.data.shareCode
       data.data.sharePlatformList.forEach(v=>{//v==value　为arr项，i==index　为arr索引
-          this.formValidate.interest.push(v.value)
+          if(v.default){
+            this.formValidate.interest.push(v.value)
+          }
+          
       })
     }
     }).catch(err=>{})
