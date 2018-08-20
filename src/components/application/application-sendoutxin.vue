@@ -19,7 +19,7 @@
           <Select @on-change="datepicker" v-model="formCustom.datePicker" placeholder="请选择" style="width:200px">
             <Option v-for="item in dateList" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
-          <DatePicker v-model="datevalue" v-if="ifdate" @on-change = "datepickerl" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
+          <DatePicker :options="options3" v-model="datevalue" v-if="ifdate" @on-change = "datepickerl" type="datetime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" style="width: 200px"></DatePicker>
         </FormItem>
         <FormItem label="推送平台:" prop="age">
           <Select v-model="formCustom.age" placeholder="请选择" @on-change="pushplatform" style="width:200px">
@@ -59,6 +59,11 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
+      options3: {
+        disabledDate (date) {
+          return date && date.valueOf() < Date.now() - 86400000;
+        }
+      },
       formCustom: {
         title: '',
         passwdCheck: '',
