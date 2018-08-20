@@ -18,15 +18,17 @@
             :before-upload="handleUploadicon"
             :on-format-error="handleFormatError1"
             >
-        <Input v-model="formValidate.productlogo" disabled style="width: 120px;margin-top:24px" class="left ml5 hidden"></Input>
+        <Input v-model="formValidate.productlogo" disabled style="width: 120px;margin-top:24px" v-show="hideen" class="left ml5 hidden"></Input>
         <Button type="ghost" icon="ios-cloud-upload-outline">上传图片</Button>
     </Upload>
         </FormItem>
-        <FormItem label="机构名称" prop="name">
-            <Input v-model="formValidate.name" style="width: 300px" disabled v-if="!isdisabled"></Input>
-            <Input v-model="formValidate.name" style="width: 300px" v-if="isdisabled"></Input>
+        <FormItem label="机构名称" prop="name" v-if="isdisabled">
+            <Input v-model="formValidate.name" style="width: 300px"></Input>
         </FormItem>
-        <FormItem label="贷款利率" prop="name"  class="clearfix">
+        <FormItem label="机构名称" prop="name" v-if="!isdisabled">
+            <Input v-model="formValidate.name" style="width: 300px" disabled></Input>
+        </FormItem>
+        <FormItem label="贷款利率"  class="clearfix">
           <FormItem prop="startinterest" class="left">
               <Input v-model="formValidate.startinterest"  placeholder="起始利率" style="width: 150px" ></Input>
           </FormItem>
@@ -35,7 +37,7 @@
               <Input v-model='formValidate.endinterest'  placeholder="结束利率" style="width: 150px" ></Input>%
           </FormItem>
         </FormItem>
-        <FormItem label="贷款额度"  class="clearfix">
+        <FormItem label="贷款额度" class="clearfix">
           <FormItem prop="startmoney" class="left">
               <Input v-model="formValidate.startmoney"  placeholder="起始金额" style="width: 150px" ></Input>
           </FormItem>
@@ -88,6 +90,7 @@ import untils from "../../utils/utils";
 export default {
   data() {
     return {
+      hideen:false,
       isdisabled: true,
       code: '',
       formValidate: {
@@ -166,6 +169,10 @@ export default {
   },
   methods: {
     handleSubmit(name) {
+      if(this.formValidate.endmoney > 99 || this.formValidate.startmoney > 99 || this.formValidate.endinterest > 99 || this.formValidate.startinterest> 99){
+        alert(222)
+        return false
+      }
       let postUrl;
       if (this.$route.query.isedit == "is") {
         postUrl = "/loan/creditInstitutions/updateCreditInstitutionsByCode"; //编辑保存
@@ -180,8 +187,8 @@ export default {
             .post(BASE_URL + postUrl, {
               institutionsPicture: this.formValidate.productlogo, //图片
               institutionsName: this.formValidate.name, //信贷机构名称
-              loanStartRate: this.formValidate.startinterest, //上限利率
-              loanEndRate: this.formValidate.endinterest, //起始利率
+              loanStartRate: this.formValidate.startinterest, //起始利率
+              loanEndRate: this.formValidate.endinterest, //上限利率
               institutionsLoanQuotasStart: this.formValidate.startmoney, // 贷款额度起始值
               institutionsLoanQuotasEnd: this.formValidate.endmoney, // 贷款额度上限值
               institutionsHaveType: this.formValidate.interest.join(";"), //贷款的类型
@@ -293,8 +300,8 @@ export default {
             this.formValidate.labelUrl = data.data.institutionsPicture;
             this.formValidate.productlogo = data.data.institutionsPicture; //图片
             this.name = data.data.institutionsName; //信贷机构名称
-            this.formValidate.startinterest = data.data.loanEndRate+''; //上限利率
-            this.formValidate.endinterest = data.data.loanStartRate+''; //起始利率
+            this.formValidate.startinterest = data.data.loanStartRate+''; //上限利率
+            this.formValidate.endinterest = data.data.loanEndRate+''; //起始利率
             this.formValidate.startmoney =
               data.data.institutionsLoanQuotasStart+''; // 贷款额度起始值
             this.formValidate.endmoney = data.data.institutionsLoanQuotasEnd+''; // 贷款额度上限值
