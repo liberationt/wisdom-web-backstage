@@ -580,6 +580,7 @@ export default {
           title: '认证审核',
           content: '<p>确认认证审核通过吗?</p>',
           onOk: () => {
+            this.$router.push('./creditManagement')
             this.reviewthrough (1)
           },
           onCancel: () => {

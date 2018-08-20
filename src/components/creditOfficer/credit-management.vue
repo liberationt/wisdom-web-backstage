@@ -296,7 +296,7 @@ export default {
                     title: params.row.message
                   }
                 },
-                params.row.loanHaveType
+                params.row.loanHaveType.join('，')
               )
             ]);
           }
@@ -373,6 +373,11 @@ export default {
                         });
                       } else if (status == 3) {
                         statusn = "详情";
+                        this.$router.push({
+                          path:
+                            "./creditInformation?loanOfficerCode=" +
+                            params.row.loanOfficerCode
+                        });
                       }
                     }
                   }
