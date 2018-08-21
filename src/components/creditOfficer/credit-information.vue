@@ -132,10 +132,13 @@
                         <span>{{inform.loanStatusMsg}}</span>
                     </p>
                     <!-- v-if="inform.loanStatus==1" -->
-                    <div class="mt50 tc" v-if="inform.loanStatus==1">
+                    <div class="mt50 tc left" v-if="inform.loanStatus==1">
                         <Button type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
                         <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="ghost" @click="journal">查看操作日志</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button type="ghost" @click="journal">查看操作日志</Button>
+                        <!-- <Button type="ghost" @click="ationreturn">返回</Button> -->
+                    </div>
+                     <div class="mt50 tc ml20 left">
                         <Button type="ghost" @click="ationreturn">返回</Button>
                     </div>
                     <Modal
