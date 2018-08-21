@@ -185,7 +185,7 @@
             <TabPane label="评价记录">
                 <Table border highlight-row :columns="columns5" :data="data5"></Table>
                 <div class="tr mt15">
-                    <Page :total="100" show-elevator show-sizer show-total></Page>
+                    <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
             <TabPane label="登录日志">
@@ -375,25 +375,25 @@ export default {
           title: '评价时间',
           align: 'center',
           minWidth:160,
-          key: 'evaltime'
+          key: 'commentCreateTime'
         },
         {
           title: '订单编号',
           align: 'center',
           minWidth:120,
-          key: 'number'
+          key: 'orderNum'
         },
         {
           title: '客户姓名',
           align: 'center',
           minWidth:100,
-          key: 'name'
+          key: 'loanUserName'
         },
         {
           title: '手机',
           align: 'center',
           minWidth:110,
-          key: 'phone'
+          key: 'loanUserPhone'
         },
         {
           title: '评分',
@@ -401,13 +401,12 @@ export default {
           key: 'score',
           minWidth:150,
           render: (h, params) => {
-            console.log(params.row.score)
             let listimg = []
-            for (let i = 0; i < params.row.score.length; i++) {
+            for (let i = 0; i < params.row.stars; i++) {
               listimg.push(
                 h('img', {
                   attrs: {
-                    src: params.row.score[i]
+                    src: require('../../image/pointed-star.png')
                   },
                   style: {
                     width: '20px',
@@ -424,40 +423,43 @@ export default {
           title: '内容',
           align: 'center',
           minWidth:150,
-          key: 'content'
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.content
+							}
+						}, params.row.content)
+						])
+						}
         },
         {
           title: '评价状态',
           align: 'center',
           minWidth:120,
-          key: 'evaltype'
+          render: (h, params) => {
+            let isPass
+            if (params.row.isPass  == 0) {
+              isPass = '待审核'
+            } else if(params.row.isPass  ==  1){
+              isPass = '通过审核'
+            } else if (params.row.isPass  ==  2) {
+                isPass = '审核失败'
+            }
+            return h('div', [
+              h('span', {}, isPass)
+            ])
+		      }
         }
       ],
-      data5: [
-        {
-          evaltime: '2018-03-29 15:12:34',
-          number: 'XD2018091099',
-          name: '唐哈哈',
-          phone: '135****7766',
-          score: [
-            require('../../image/pointed-star.png'),
-            require('../../image/pointed-star.png')
-          ],
-          content: '非常棒！感谢！',
-          evaltype: '未通过审核'
-        },
-        {
-          evaltime: '2018-03-29 15:12:34',
-          number: 'XD2018091099',
-          name: '唐哈哈',
-          phone: '135****7766',
-          score: [
-            require('../../image/pointed-star.png')
-          ],
-          content: '非常棒！感谢！',
-          evaltype: '未通过审核'
-        }
-      ],
+      data5: [],
       columns6: [
         {
           title: '登录时间',
@@ -648,6 +650,8 @@ export default {
         this.conversation ()
       } else if (name == 4) {
         this.cashflow ()
+      } else if (name == 5) {
+        this.evaluationrecord ()
       } else if (name == 6) {
         this.logonlog ()
       }
@@ -663,6 +667,8 @@ export default {
         this.conversation ()
       } else if (this.tabnum == 4) {
         this.cashflow ()
+      } else if (this.tabnum == 5) {
+        this.evaluationrecord ()
       } else if (this.tabnum == 6) {
         this.logonlog ()
       }
@@ -678,6 +684,8 @@ export default {
         this.conversation ()
       } else if (this.tabnum == 4) {
         this.cashflow ()
+      } else if (this.tabnum == 5) {
+        this.evaluationrecord ()
       } else if (this.tabnum == 6) {
         this.logonlog ()
       }
@@ -753,6 +761,31 @@ export default {
         .then((resp) => {
           if (resp.code == 'success') {
             this.data4 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          } else {
+            this.$Message.info(resp.message)
+          }
+        })
+        .catch(() => {
+        })
+    },
+    // 评价记录
+    evaluationrecord () {
+      let llist = {
+        loanOfficerCode :this.$route.query.loanOfficerCode,
+        // loanOfficerCode :'20180814134841070101576933983',
+        pageNum: this.startRow,
+        pageSize: this.endRow,
+        searchValue :'',
+        searchOptions : '',
+        isPass:1
+        
+      }
+      this.http.post(BASE_URL + '/loan/comment/getCommentDetailsList', llist)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.data5 = resp.data.dataList
             this.total = Number(resp.data.total)
             this.startRow = Math.ceil(resp.data.startRow/this.endRow)
           } else {

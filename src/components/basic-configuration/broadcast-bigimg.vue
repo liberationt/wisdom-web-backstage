@@ -73,6 +73,10 @@
               <Button v-if="item.advertisementState==1" @click="edit_icon_colorB(item.advertisementCode, 0)" type="primary">上架</Button>
               <Button v-if="item.advertisementState==0" @click="edit_icon_colorR(item.advertisementCode, 1)" type="error">下架</Button>
             </span>
+            <span class="onshelf" v-if="fiveh == 1">
+              <Button v-if="item.bannerState==1" @click="edit_icon_colorB(item.bannerCode, 0)" type="primary">上架</Button>
+              <Button v-if="item.bannerState==0" @click="edit_icon_colorR(item.bannerCode, 1)" type="error">下架</Button>
+            </span>
             
             <span v-if="num == 1" class="edit_icon right ml5" @click="bankshow(2, item.bannerCode)"><Icon type="edit"></Icon></span>
             <span v-if="num == 2" class="edit_icon right ml5" @click="bankshow(2, item.advertisementCode)"><Icon type="edit"></Icon></span>
@@ -92,6 +96,16 @@
                 transfer
                 title="确认删除吗?"
                 @on-ok="deleteOk(item.advertisementCode)"
+                >
+                <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+              </Poptip>           
+          </span>
+          <span v-if="item.bannerState==0" class="edit_icon right " >      
+              <Poptip
+                confirm
+                transfer
+                title="确认删除吗?"
+                @on-ok="deleteOk(item.bannerCode)"
                 >
                 <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
               </Poptip>           
@@ -116,6 +130,7 @@ export default {
       moveh5: false,
       locationtype:this.$route.query.banner,
       num:this.$route.query.img,
+      fiveh:this.$route.query.fiveh,
       total: 0,
       startRow: 1,
       endRow: 10,
@@ -212,6 +227,9 @@ export default {
         } else if (this.$route.query.img == 2) {
           urls = '/loan/appAdvertisement/saveAppAdvertisement'
         }
+        if (this.fiveh == 1) {
+          urls = '/credit/banner/saveBanner'
+        }
         url = BASE_URL + urls
         title = '添加轮播图'
         content = '<p>添加成功</p>'     
@@ -234,7 +252,12 @@ export default {
           jumpUrl : this.formValidate1.desc,
           locationType:9
         }
-
+      } else if (this.$route.query.fiveh==1) {
+        list = {
+          bannerUrl :this.banksrc,
+          jumpStatus : this.formValidate1.mark,
+          jumpUrl : this.formValidate1.desc
+        }
       }
       } else if (this.$route.query.img == 2) {
         list = {
@@ -278,6 +301,15 @@ export default {
               advertisementCode: this.bannerCode
             }
         }
+        if (this.fiveh == 1) {
+          list = {
+            bannerUrl :this.banksrc,
+            jumpState : this.formValidate1.mark,
+            jumpUrl : this.formValidate1.desc,
+            bannerCode: this.bannerCode,
+          }
+          urls = '/credit/banner/modifyBannerByCode'
+        }
         url = BASE_URL + urls
         title = '修改轮播图'
         content = '<p>修改成功</p>'
@@ -315,6 +347,13 @@ export default {
           advertisementCode: code
         }
       }
+      if (this.fiveh == 1) {
+        list = {
+          bannerCode : code
+        }
+        url = '/credit/banner/getBannerByCode'
+
+      }
       this.http.post(BASE_URL + url, list)
         .then((resp) => {
           if (resp.code == 'success') {           
@@ -326,7 +365,7 @@ export default {
               this.banklogo = resp.data.photoUrl
             }
             this.formValidate1.mark = resp.data.jumpStatus+''
-            this.formValidate1.layout = resp.data.jumpType+''            
+            this.formValidate1.layout = resp.data.jumpType+''                      
             if (resp.data.jumpStatus == 1) {//跳转
             if (resp.data.jumpType == 1) {//原生
               this.formValidate1.home = resp.data.jumpUrl
@@ -347,7 +386,15 @@ export default {
               this.bannerCode = resp.data.bannerCode
             } else if (this.num == 2) {
               this.bannerCode = resp.data.advertisementCode
-            }           
+            }
+            if (this.fiveh == 1) {
+              this.formValidate1.mark = resp.data.jumpState+''
+              if (resp.data.jumpState == 0) {
+                this.formValidate1.desc = ''
+              } else {
+                this.formValidate1.desc = resp.data.jumpUrl
+              }             
+            }
           } else {
           }
         })
@@ -370,7 +417,7 @@ export default {
         this.homelist = false
         this.moveh5 = false
       } else {//跳
-      if (this.$route.query.fiveh==0) {
+      if (this.$route.query.fiveh==0 || this.$route.query.fiveh==1) {
         this.nojump = false
         this.moveh5 = true
         this.homelist = false
@@ -430,6 +477,12 @@ export default {
           advertisementCode: code
         }
       }
+      if (this.fiveh == 1) {
+        list = {
+          bannerCode: code
+        }
+        url = '/credit/banner/deleteBannerByCode'
+      }
       this.http.post(BASE_URL + url, list)
       .then((resp) => {
         if (resp.code == 'success') {
@@ -460,6 +513,13 @@ export default {
         url = '/loan/banner/getBannerList'
       } else if (this.$route.query.img == 2) {
         url = '/loan/appAdvertisement/getAppAdvertisementList'
+      }      
+      if (this.$route.query.fiveh == 1) {
+        list = {
+          pageNum: this.startRow,
+          pageSize: this.endRow,
+        }
+        url = '/credit/banner/getBannerList'
       }
       this.http.post(BASE_URL + url, list)
     .then((resp) => {
@@ -518,6 +578,13 @@ export default {
           advertisementState: num
         }
       }
+      if (this.fiveh == 1) {
+        list = {
+          bannerCode: code,
+          bannerState: num
+        }
+        url = '/credit/banner/modifyBannerByCode'
+      }
       this.http.post(BASE_URL + url, list)
       .then((resp) => {
         if (resp.code == 'success') {
@@ -568,6 +635,9 @@ export default {
         url = '/loan/banner/batchModifyBanner'
       } else if (this.$route.query.img == 2) {
         url = '/loan/appAdvertisement/updateAppAdvertisementByCode'
+      }
+      if (this.fiveh == 1) {
+        url = '/credit/banner/batchModifyBanner'
       }
       this.http.post(BASE_URL + url, list)
       .then((resp) => {

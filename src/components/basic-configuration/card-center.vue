@@ -75,7 +75,7 @@
                       <img :src="item.cornerMarkUrl" alt="" class="cornermarkurl">
                       <p class="homePage_text">{{item.bankName}}</p>
                       <p class="clearfix haomePage_edit">
-                        <InputNumber class="banknumint" :min="0" v-model="item.bankNo"></InputNumber>
+                        <InputNumber class="banknumint" :min="0" v-model="item.bankOrder"></InputNumber>
                         <Button v-if="item.bankState==1" class="onshelf" @click="edit_icon_colorB(item.bankCode, 0)" type="primary">上架</Button>
                         <Button v-if="item.bankState==0" class="onshelf" @click="edit_icon_colorR(item.bankCode, 1)" type="error">下架</Button>
                         <!-- <span v-if="item.bankState==1" @click="edit_icon_colorB(item.bankCode, 1)" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
@@ -755,7 +755,7 @@ export default {
       for (let i = 0; i < this.bankdatalist.length; i++) {
         let obj = new Object ()
         obj.bankCode = this.bankdatalist[i].bankCode
-        obj.bankNo = this.bankdatalist[i].bankNo
+        obj.bankOrder = this.bankdatalist[i].bankOrder
         list.push (obj)
       }
       this.http.post(BASE_URL + '/credit/bank/batchModifyBank', list)

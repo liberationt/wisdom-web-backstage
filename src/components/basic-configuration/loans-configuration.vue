@@ -35,7 +35,8 @@
             </Button>
         </li>
       </ul>   
-      <Button @click="addproducts" type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>     
+      <Button @click="addproducts" type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>
+      <Button type="info" class="  w100 ml20 toupdate" @click="bankupdate">更新排序</Button>
       <div class="loans_stages">
         <ul class="homePage_icon">
           <li v-for="item in dataList">
@@ -53,7 +54,7 @@
               </div>
               <div class="loans_bottom">
                 <p class="clearfix haomePage_edit">
-                  <!-- <InputNumber class="banknumint" :min="0" v-model="item.cardOrder"></InputNumber> -->
+                  <InputNumber class="banknumint" :min="0" v-model="item.productOrder"></InputNumber>
                   <span @click="edit_icon_colorB(item.productCode, 0)" v-if="item.state==1" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
                   <span @click="edit_icon_colorR(item.productCode, 1)" v-if="item.state==0" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
                   <span class="edit_icon right ml5" @click="cardshow(item.productCode)"><Icon type="edit"></Icon></span>
@@ -202,6 +203,35 @@ export default {
     },
     cardshow (code) {
       this.$router.push({ path: './addloanproducts?code='+code })
+    },
+    bankupdate () {
+      this.$Modal.confirm({
+          title: '更新排序',
+          content: '<p>确认要更新排序吗?</p>',
+          onOk: () => {
+            this.updatelist ()
+          },
+          onCancel: () => {           
+          }
+        })     
+    },
+    updatelist () {
+      let list = []
+      for (let i = 0; i < this.dataList.length; i++) {
+        let obj = new Object ()
+        obj.productCode = this.dataList[i].productCode
+        obj.productOrder = this.dataList[i].productOrder
+        list.push (obj)
+      }
+      this.http.post(BASE_URL + '/loan/product/batchModifyBanner', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.loanlist ()
+        } else {
+        }
+      })
+      .catch(() => {
+      })
     }
   },
   mounted () {   
