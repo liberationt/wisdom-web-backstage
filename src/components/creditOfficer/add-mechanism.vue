@@ -178,7 +178,8 @@ export default {
         this.jiaoyan('结束利率小数点前最多2位且不能为0')
         return false
       }
-      if(this.formValidate.startinterest > this.formValidate.endinterest){ 
+      // console.log(this.formValidate.startinterest,this.formValidate.endinterest)
+      if(this.formValidate.startinterest >= this.formValidate.endinterest){ 
         this.jiaoyan('起始利率不能大于结束利率')
         return false
       }
@@ -226,7 +227,7 @@ export default {
                 this.phoneti("success");
               }
             })
-            .then(err => {
+            .catch(err => {
               console.log(err);
             });
         } else {
