@@ -557,18 +557,17 @@ export default {
           if (resp.code == 'success') {
             const title = '审核'
             let content
-            if (num == 1) {
-              content = '<p>审核成功</p>'              
-            } else {
+            if (num != 1) {
               content = '<p>审核拒绝成功</p>'
+              this.$Modal.success({
+                title: title,
+                content: content,
+                onOk: () => {
+                  this.$router.push({ path: './creditManagement' })            
+                },
+              })
             }          
-            this.$Modal.success({
-              title: title,
-              content: content,
-              onOk: () => {
-                this.$router.push({ path: './creditManagement' })            
-              },
-            })
+            
           } else {
             this.$Message.info(resp.message)
           }
