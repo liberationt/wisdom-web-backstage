@@ -169,20 +169,29 @@ export default {
   },
   methods: {
     handleSubmit(name) {
+      // console.log(this.formValidate.startinterest)
       if(this.formValidate.startinterest > 99 || this.formValidate.startinterest == 0){ 
-        this.phoneti('起始利率小数点前最多2位且不能为0')
+        this.jiaoyan('起始利率小数点前最多2位且不能为0')
         return false
       }
       if(this.formValidate.endinterest > 99 || this.formValidate.endinterest == 0){
-        this.phoneti('结束利率小数点前最多2位且不能为0')
+        this.jiaoyan('结束利率小数点前最多2位且不能为0')
+        return false
+      }
+      if(this.formValidate.startinterest > this.formValidate.endinterest){ 
+        this.jiaoyan('起始利率不能大于结束利率')
         return false
       }
       if(this.formValidate.startmoney > 9999 || this.formValidate.startmoney == 0){
-        this.phoneti('起始金额小数点前最多4位且不能为0')
+        this.jiaoyan('起始金额小数点前最多4位且不能为0')
         return false
       }
       if(this.formValidate.endmoney > 9999 || this.formValidate.endmoney == 0){
-        this.phoneti('结束金额小数点前最多4位且不能为0')
+        this.jiaoyan('结束金额小数点前最多4位且不能为0')
+        return false
+      }
+      if(this.formValidate.startmoney > this.formValidate.endmoney){
+        this.jiaoyan('起始金额不能小于结束金额')
         return false
       }
       let postUrl;
@@ -283,7 +292,7 @@ export default {
     lowerstatus(v) {
       this.formValidate.lowerframe = v;
     },
-    phoneti(t) {
+    jiaoyan(t) {
       const title = "温馨提示";
       const content = "<p>"+t+"</p>";
       switch ('warning') {
