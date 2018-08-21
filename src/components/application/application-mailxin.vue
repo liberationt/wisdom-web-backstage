@@ -207,6 +207,7 @@ export default {
                 }
               }
               }, '查看'),
+              
             ])
             }
             
@@ -273,7 +274,7 @@ export default {
           content: '<p>确认删除？</p>',
           onOk: () => {
               this.http.post(BASE_URL+"/loan/webMailQdx/delWebMail",{data:code}).then(data=>{
-                console.log(data)
+                // console.log(data)
                 if(data.code == 'success'){
                   this.$Message.info('删除成功！');
                   this.inquiry()
@@ -303,7 +304,7 @@ export default {
   created() {
     // 初始化
     this.http.post(BASE_URL+"/loan/webMailQdx/getWebMailListBaseData",{}).then(data=>{
-      console.log(data)
+      // console.log(data)
       this.cityList = data.data.pushState
       this.cityType = data.data.mailType
     }).catch(err=>{
