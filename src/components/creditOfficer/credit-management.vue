@@ -293,7 +293,7 @@ export default {
                     whiteSpace: "nowrap"
                   },
                   domProps: {
-                    title: params.row.message
+                    title: params.row.loanHaveType.join('，')
                   }
                 },
                 params.row.loanHaveType.join('，')
