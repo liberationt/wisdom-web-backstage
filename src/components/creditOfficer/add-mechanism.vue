@@ -28,7 +28,7 @@
         <FormItem label="机构名称" prop="name" v-if="!isdisabled">
             <Input v-model="formValidate.name" style="width: 300px" disabled></Input>
         </FormItem>
-        <FormItem label="贷款利率"  class="clearfix">
+        <FormItem label="贷款利率" prop="startinterest" class="clearfix">
           <FormItem prop="startinterest" class="left">
               <Input v-model="formValidate.startinterest"  placeholder="起始利率" style="width: 150px" ></Input>
           </FormItem>
@@ -37,7 +37,7 @@
               <Input v-model='formValidate.endinterest'  placeholder="结束利率" style="width: 150px" ></Input>%
           </FormItem>
         </FormItem>
-        <FormItem label="贷款额度" class="clearfix">
+        <FormItem label="贷款额度" prop="startmoney" class="clearfix">
           <FormItem prop="startmoney" class="left">
               <Input v-model="formValidate.startmoney"  placeholder="起始金额" style="width: 150px" ></Input>
           </FormItem>
@@ -169,8 +169,20 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      if(this.formValidate.endmoney > 99 || this.formValidate.startmoney > 99 || this.formValidate.endinterest > 99 || this.formValidate.startinterest> 99){
-        alert(222)
+      if(this.formValidate.startinterest > 99 || this.formValidate.startinterest == 0){ 
+        this.phoneti('起始利率小数点前最多2位且不能为0')
+        return false
+      }
+      if(this.formValidate.endinterest > 99 || this.formValidate.endinterest == 0){
+        this.phoneti('结束利率小数点前最多2位且不能为0')
+        return false
+      }
+      if(this.formValidate.startmoney > 9999 || this.formValidate.startmoney == 0){
+        this.phoneti('起始金额小数点前最多4位且不能为0')
+        return false
+      }
+      if(this.formValidate.endmoney > 9999 || this.formValidate.endmoney == 0){
+        this.phoneti('结束金额小数点前最多4位且不能为0')
         return false
       }
       let postUrl;
@@ -270,6 +282,18 @@ export default {
     },
     lowerstatus(v) {
       this.formValidate.lowerframe = v;
+    },
+    phoneti(t) {
+      const title = "温馨提示";
+      const content = "<p>"+t+"</p>";
+      switch ('warning') {
+        case "warning":
+          this.$Modal.warning({
+            title: title,
+            content: content
+          });
+          break;
+      }
     }
   },
   created() {
