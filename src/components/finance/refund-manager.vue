@@ -2,7 +2,7 @@
 <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理</span>
+        <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;退款管理</span>
       </p>
     </div>
     <div >
@@ -145,7 +145,7 @@ export default {
           title: "退款金额",
           align: "center",
           minWidth: 100,
-          key: "amount"
+          key: "amountAsFormat"
         },
         {
           title: "退款方式",
@@ -263,7 +263,7 @@ export default {
           title: "退款金额(元)",
           align: "center",
           minWidth: 160,
-          key: "amount"
+          key: "amountAsFormat"
         },
         {
           title: "退款方式",
@@ -339,8 +339,12 @@ export default {
       let recordtype;
       if (num == 1) {
         recordtype = 3; // 审核中
+        this.value2 = ""
+        this.model2 = ""
       } else {
         recordtype = 1; // 退款成功
+        this.model1 = this.model2
+        this.value = this.value2
       }
       console.log(this.timeval2)
       let audited = {
@@ -358,7 +362,7 @@ export default {
           console.log(resp);
           if (resp.code == "success") {
             this.data6 = resp.data.dataList;
-            this.totalAmount = resp.data.totalAmount;
+            this.totalAmount = resp.data.totalAmountAsFormat;
             this.total = Number(resp.data.total);
             this.startRow = Math.ceil(resp.data.startRow / this.endRow);
             this.loading3 = false;
@@ -443,12 +447,12 @@ export default {
       // console.log(this.model1);
       // console.log(phone);
       let formData = new FormData();
-      formData.append("name", name);
+      formData.append("refundStatus", 3);
       formData.append("beginTime", this.timeval1);
       formData.append("endTime", this.timeval2);
-      formData.append("phone", phone);
-      formData.append("recordType", recordtype);
-      let httpUrl = BASE_URL + "/loan/withdraw/exportToExcel";
+      formData.append("searchValue", this.value);
+      formData.append("searchKey", this.model1);
+      let httpUrl = BASE_URL + "/loan/refundOrder/export";
       utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
         if (e == true) {
           this.loading2 = false;
