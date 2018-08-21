@@ -191,7 +191,7 @@ export default {
         return false
       }
       if(this.formValidate.startmoney > this.formValidate.endmoney){
-        this.jiaoyan('起始金额不能小于结束金额')
+        this.jiaoyan('起始金额不能大于结束金额')
         return false
       }
       let postUrl;
