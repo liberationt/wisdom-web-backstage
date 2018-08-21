@@ -150,11 +150,32 @@ export default {
         {
           title: '操作',
           key: 'action',
-          minWidth: 180,
+          minWidth: 220,
           align: 'center',
           render: (h, params) => {
             if(params.row.mailState == '0'){
               return h('div', [
+              h('Button', {
+                props: {
+                  type: 'primary',
+                  size: 'small'
+                },
+                style: {
+                  marginRight: '5px'
+                },
+                on: {
+                  click: () => {
+                    this.http.post(BASE_URL+"/loan/webMail/sendWebMail",{data:params.row.mailCode}).then(data=>{
+                      // console.log(data)
+                      if(data.code == 'success'){
+                        this.inquiry()
+                      }
+                    }).catch(err=>{
+                      console.log(err)
+                    })
+                  }
+                }
+              }, '立即推送'),  
               h('Button', {
                 props: {
                   type: 'primary',

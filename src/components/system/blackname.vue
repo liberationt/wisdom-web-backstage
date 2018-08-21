@@ -25,7 +25,7 @@
             <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
           </div>
         </TabPane>
-        <TabPane label="枪弹侠" name="tab2">
+        <TabPane label="抢单侠" name="tab2">
         <div class="clearfix">
         <div class="left">
           <Input v-model="name1" placeholder="请输入手机号" style="width: 150px">

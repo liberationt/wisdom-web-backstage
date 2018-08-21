@@ -6,77 +6,76 @@
       </p>
     </div>
     <div >
-        <!-- <Tabs type="card" :animated="false" @on-click="handleReset('formValidate')"> -->
-            <!-- <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab" > -->
-                <div class="application_state">
-                    <Tabs value="0" :animated="false" @on-click="recordType">
-                        <TabPane label="待审核" name="0">
-                            <div class="mt50 clearfix">
-                                <div class="left">
-                                    <Select v-model="model1" style="width:120px">
-                                    <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
-                                </Select>
-                                <Input v-model="value" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
-                                <span class="lh32 ml50">申请时间:</span>
-                                <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
-                                   &nbsp;&nbsp;-&nbsp;&nbsp;
-                                <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
-                                </div>
-                                <div class="right">
-                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(1)">
-                                    <span v-if="!loading3">查询</span>
-                                    <span v-else>查询</span>
-                                  </Button>
-                                  <Button type="primary" class="ml10 w100" :loading="loading2" @click="auditedExport(1)">
-                                    <span v-if="!loading2">导出</span>
-                                    <span v-else>请稍等...</span>
-                                  </Button>
-                                </div>
-                            </div>
-                            <p class="mt15">
-                              共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
-                            </p>
-                            <div class="mt15">
-                                <Table border :columns="columns7" :data="data6"></Table>
-                            </div>
-                            <div class="tr mt15">
-                                <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-                            </div>
-                        </TabPane>
-
-                        <TabPane label="退款成功" name="1">
-                            <div class="mt50 clearfix">
-                                <div class="left">
-                                    <Select v-model="model2" style="width:120px">
-                                    <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
-                                </Select>
-                                <Input v-model="value2" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
-                                <span class="lh32 ml50">申请时间:</span>
-                                <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
-                                &nbsp;&nbsp;-&nbsp;&nbsp;
-                                <DatePicker type="date"  :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
-                                </div>
-                                <div class="right">
-                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(2)">
-                                    <span v-if="!loading3">查询</span>
-                                    <span v-else>查询</span>
-                                  </Button>
-                                </div>
-                            </div>
-                            <p class="mt15">
-                              共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
-                            </p>
-                            <div class="mt15">
-                                <Table border :columns="columns9" :data="data6"></Table>
-                            </div>
-                            <div class="tr mt15">
-                                <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-                            </div>
-                        </TabPane>
-                    </Tabs>
-                </div>
-            <!-- </TabPane> -->
-        <!-- </Tabs> -->
+      <!-- <Tabs type="card" :animated="false" @on-click="handleReset('formValidate')"> -->
+        <!-- <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab" > -->
+          <div class="application_state">
+            <Tabs value="0" :animated="false" @on-click="recordType">
+              <TabPane label="待审核" name="0">
+                  <div class="mt50 clearfix">
+                      <div class="left">
+                          <Select v-model="model1" style="width:120px">
+                          <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
+                      </Select>
+                      <Input v-model="value" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
+                      <span class="lh32 ml50">申请时间:</span>
+                      <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                          &nbsp;&nbsp;-&nbsp;&nbsp;
+                      <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+                      </div>
+                      <div class="right">
+                        <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(1)">
+                          <span v-if="!loading3">查询</span>
+                          <span v-else>查询</span>
+                        </Button>
+                        <Button type="primary" class="ml10 w100" :loading="loading2" @click="auditedExport(1)">
+                          <span v-if="!loading2">导出</span>
+                          <span v-else>请稍等...</span>
+                        </Button>
+                      </div>
+                  </div>
+                  <p class="mt15">
+                    共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
+                  </p>
+                  <div class="mt15">
+                      <Table border :columns="columns7" :data="data6"></Table>
+                  </div>
+                  <div class="tr mt15">
+                      <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+                  </div>
+              </TabPane>
+              <TabPane label="退款成功" name="1">
+                  <div class="mt50 clearfix">
+                      <div class="left">
+                          <Select v-model="model2" style="width:120px">
+                          <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
+                      </Select>
+                      <Input v-model="value2" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
+                      <span class="lh32 ml50">申请时间:</span>
+                      <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                      &nbsp;&nbsp;-&nbsp;&nbsp;
+                      <DatePicker type="date"  :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+                      </div>
+                      <div class="right">
+                        <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(2)">
+                          <span v-if="!loading3">查询</span>
+                          <span v-else>查询</span>
+                        </Button>
+                      </div>
+                  </div>
+                  <p class="mt15">
+                    共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
+                  </p>
+                  <div class="mt15">
+                      <Table border :columns="columns9" :data="data6"></Table>
+                  </div>
+                  <div class="tr mt15">
+                      <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+                  </div>
+              </TabPane>
+            </Tabs>
+          </div>
+        <!-- </TabPane> -->
+      <!-- </Tabs> -->
     </div>
 </div>
 </template>
@@ -106,8 +105,6 @@ export default {
       rejectorder: "",
       tabs: [
         "抢单侠"
-        // '华赞金服',
-        // '百姓钱袋'
       ],
       formValidate: {
         name: ""
@@ -333,18 +330,19 @@ export default {
         return false;
       }
       if (this.model1 == "mobile") {
-        if(this.value != '' && this.value.length <3){
-          this.phoneti('warning')
-          this.loading3 = false
-          return false
+        if (this.value != "" && this.value.length < 3) {
+          this.phoneti("warning");
+          this.loading3 = false;
+          return false;
         }
-      } 
+      }
       let recordtype;
       if (num == 1) {
         recordtype = 3; // 审核中
       } else {
         recordtype = 1; // 退款成功
       }
+      console.log(this.timeval2)
       let audited = {
         refundStatus: recordtype,
         searchKey: this.model1,
@@ -398,9 +396,9 @@ export default {
           this.http
             .post(BASE_URL + "/loan/refundOrder/update", list)
             .then(resp => {
-              console.log(resp);
+              // console.log(resp);
               if (resp.code == "success") {
-                this.$Message.info('退款成功');
+                this.$Message.info("退款成功");
                 this.auditedQuery(1);
               } else {
                 this.$Message.info(resp.message);
@@ -442,8 +440,8 @@ export default {
       } else {
         recordtype = 1;
       }
-      console.log(this.model1);
-      console.log(phone);
+      // console.log(this.model1);
+      // console.log(phone);
       let formData = new FormData();
       formData.append("name", name);
       formData.append("beginTime", this.timeval1);
@@ -492,7 +490,7 @@ export default {
     this.http
       .post(BASE_URL + "/loan/withdraw/getQueryOption", {})
       .then(resp => {
-        console.log(resp);
+        // console.log(resp);
         if (resp.code == "success") {
           this.cityList = resp.data.searchOptionList;
         } else {
