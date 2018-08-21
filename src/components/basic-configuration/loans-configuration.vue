@@ -49,7 +49,7 @@
                 </p>
                 <p class="right loans_id">
                   <img :src="item.displayLabel" alt="" >
-                  <span>ID:231</span>
+                  <!-- <span>ID:231</span> -->
                 </p>
               </div>
               <div class="loans_bottom">
