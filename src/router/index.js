@@ -27,6 +27,7 @@ import cardCenter from '@/components/basic-configuration/card-center'
 import loansconfig from '@/components/basic-configuration/loans-configuration'
 import addedit from '@/components/basic-configuration/add_edit'
 import addloanproducts from '@/components/basic-configuration/add-loanproducts'
+import editionh5 from '@/components/basic-configuration/addedition'
 // 系统
 import managementSet from '@/components/system/managementSet'
 import managementGrade from '@/components/system/managementGrade'
@@ -121,6 +122,7 @@ let routes = [
       {path: '/bigimg', component: broadcastBigimg, names: 'bigimg', hidden: true, meta: { auth: true }},
       {path: '/share', component: sharehua, names: '分享配置', hidden: true, meta: { auth: true }},
       {path: '/loansconfig', component: loansconfig, names: '贷款产品配置1', meta: { auth: true }},
+      {path: '/editionh5', component: editionh5, names: 'h5页面配置', meta: { auth: true }},
       {path: '/addloanproducts', component: addloanproducts, names: '添加贷款产品配置', meta: { auth: true }},
       {path: '/addedit', component: addedit, names: '添加编辑', meta: { auth: true }},
       {path: '/mberTab1', component: mberTab, names: '信用卡中心', meta: { auth: true }},
