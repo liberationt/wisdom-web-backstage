@@ -216,7 +216,8 @@ export default {
                       this.adopt(
                         params.row.blackCode,
                         params.row.blackValue,
-                        params.row.businessAlias
+                        params.row.businessAlias,
+                        1
                       );
                     }
                   }
@@ -399,7 +400,7 @@ export default {
       }
     },
     //移除黑名单
-    adopt(code, blackValue, businessAlias) {
+    adopt(code, blackValue, businessAlias,num) {
       this.$Modal.confirm({
         title: "温馨提示",
         content: "<p>确认移除黑名单吗?</p>",
@@ -415,7 +416,11 @@ export default {
               console.log(data);
               if (data.code == "success") {
                 this.$Message.info("移除成功！");
-                this.labell1("tab1");
+                if(num == 1){
+                  this.labell1("tab2");
+                }else{
+                  this.labell1("tab1");
+                }
               } else {
                 this.$Message.info("移除失败！");
               }
