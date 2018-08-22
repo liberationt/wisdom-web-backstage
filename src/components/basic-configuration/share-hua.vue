@@ -43,7 +43,7 @@
         <hr>
         <div class="homePage_center">
           <a href="javascript:;" class="homePage_submit"  @click="handleSubmit('formValidate')">提交保存</a>
-          <a href="javascript:;" class="homePage_goback" @click="handleReset('formValidate')">返回</a>
+          <!-- <a href="javascript:;" class="homePage_goback" @click="handleReset('formValidate')">返回</a> -->
         </div>
       </div>
   </div>
@@ -139,7 +139,7 @@ export default {
             
           } else {
             // console.log(this.formValidate.interest)
-              this.$Message.error('保存失败!');
+              // this.$Message.error('保存失败!');
           }
         })
       },
