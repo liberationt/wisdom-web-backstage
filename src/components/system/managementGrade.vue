@@ -62,7 +62,7 @@
       </Row>
     </FormItem>
 
-    <FormItem >
+    <!-- <FormItem >
       <Row>
         <Col :md="4" :lg="3">
           <FormItem label="验证码有效时间:"></FormItem>
@@ -89,7 +89,7 @@
           </FormItem>
         </Col>
       </Row>
-    </FormItem>
+    </FormItem> -->
 
     <FormItem >
       <Row>
@@ -224,21 +224,21 @@
         </Col>
         <Col :md="7" :lg="7" >
           <FormItem class="clearfix" >
-            <Select v-model="data1.highRule.blackFlagAsString" style="width:200px">
+            <Select v-model="data1.highRule.blackFlagAsString" @on-change="blackflagasstring1" style="width:200px">
               <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </FormItem>
         </Col>
         <Col :md="7" :lg="7">
           <FormItem >
-            <Select v-model="data1.middleRule.blackFlagAsString" style="width:200px">
+            <Select v-model="data1.middleRule.blackFlagAsString" @on-change="blackflagasstring2" style="width:200px">
               <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </FormItem>
         </Col>
         <Col :md="6" :lg="7">
           <FormItem >
-            <Select v-model="data1.lowRule.blackFlagAsString" style="width:200px">
+            <Select v-model="data1.lowRule.blackFlagAsString" @on-change="blackflagasstring3" style="width:200px">
               <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </FormItem>
@@ -394,7 +394,7 @@
       </Row>
     </FormItem>
 
-    <FormItem >
+    <!-- <FormItem >
       <Row :gutter="16">
         <Col :md="4" :lg="3">
           <FormItem label="密码登录冻结条件:"></FormItem>
@@ -430,9 +430,9 @@
           </FormItem>
         </Col>
       </Row>
-    </FormItem>
+    </FormItem> -->
 
-    <FormItem >
+    <!-- <FormItem >
       <Row :gutter="16">
         <Col  :md="4" :lg="3">
           <FormItem label="密码登录解冻条件:"></FormItem>
@@ -459,7 +459,7 @@
           </FormItem>
         </Col>
       </Row>
-    </FormItem>
+    </FormItem> -->
     
     
     
@@ -707,53 +707,93 @@ export default {
     },
     checkAllGroupChange1 (data) {
       if (data.length == 1) {
-        if (data[0]  == '手机') {
+        if (this.data1.highRule.blackFlagAsString != 0) {
+        if (data[0]  == '手机') {          
           this.condition1 = false
           this.phonecondition1 = true
         } else {
           this.condition1 = true
           this.phonecondition1 = false
         }
+        }       
       } else if (data.length == 0) {
         this.condition1 = false
         this.phonecondition1 = false
       } else {
-        this.condition1 = true
-        this.phonecondition1 = true
+        if (this.data1.highRule.blackFlagAsString != 0) {
+          this.condition1 = true
+          this.phonecondition1 = true
+        }
+        
       }
     },
     checkAllGroupChange2 (data) {
       if (data.length == 1) {
-        if (data[0]  == '手机') {
-          this.condition2 = false
-          this.phonecondition2 = true
-        } else {
-          this.condition2 = true
-          this.phonecondition2 = false
-        }
+        if (this.data1.middleRule.blackFlagAsString!=0) {
+          if (data[0]  == '手机') {
+            this.condition2 = false
+            this.phonecondition2 = true
+          } else {
+            this.condition2 = true
+            this.phonecondition2 = false
+          }
+        }       
       } else if (data.length == 0) {
         this.condition2 = false
         this.phonecondition2 = false
       } else {
-        this.condition2 = true
-        this.phonecondition2 = true
+        if (this.data1.middleRule.blackFlagAsString!=0) {
+          this.condition2 = true
+          this.phonecondition2 = true
+        }        
       }
     },
     checkAllGroupChange3 (data) {
       if (data.length == 1) {
-        if (data[0]  == '手机') {
-          this.condition3 = false
-          this.phonecondition3 = true
-        } else {
-          this.condition3 = true
-          this.phonecondition3 = false
-        }
+        if (this.data1.lowRule.blackFlagAsString!=0) {
+          if (data[0]  == '手机') {
+            this.condition3 = false
+            this.phonecondition3 = true
+          } else {
+            this.condition3 = true
+            this.phonecondition3 = false
+          }
+        }     
       } else if (data.length == 0) {
         this.condition3 = false
         this.phonecondition3 = false
       } else {
-        this.condition3 = true
+        if (this.data1.lowRule.blackFlagAsString!=0) {
+          this.condition3 = true
+          this.phonecondition3 = true
+        }        
+      }
+    },
+    blackflagasstring1 (val) {
+      if (val == 1) {
+        this.phonecondition1 = true
+        this.condition1 = true
+      } else {
+        this.phonecondition1 = false
+        this.condition1 = false
+      }
+    },
+    blackflagasstring2 (val) {
+      if (val == 1) {
+        this.phonecondition2 = true
+        this.condition2 = true
+      } else {
+        this.phonecondition2 = false
+        this.condition2 = false
+      }
+    },
+    blackflagasstring3 (val) {
+      if (val == 1) {
         this.phonecondition3 = true
+        this.condition3 = true
+      } else {
+        this.phonecondition3 = false
+        this.condition3 = false
       }
     },
     backingout () {
@@ -790,8 +830,7 @@ export default {
       }
 
       if (this.checkbox3.length  == 1) {
-        for (let i = 0; i < this.addnormals3.length; i++) {          
-          if (this.checkbox3[0] == '手机') {
+        for (let i = 0; i < this.addnormals3.length; i++) {
             if (!reg.test(this.data1.lowRule.phoneItemTime) || !reg.test(this.data1.lowRule.phoneItemNum)) {
             const title = '提示';
             const content = '<p>请补全正确的手机弹二次验证的条件 (低)</p>';
@@ -812,7 +851,6 @@ export default {
           }
             this.addnormals3[i].riskDimensionType =  2
             this.data1.lowRule.ipOrPhone = 2
-          } else {
             if (!reg.test(this.data1.lowRule.ipItemTime) || !reg.test(this.data1.lowRule.ipItemNum)) {
             const title = '提示';
             const content = '<p>请补全正确的IP弹二次验证的条件 (低)</p>';
@@ -832,8 +870,7 @@ export default {
             return false
           }
             this.addnormals3[i].riskDimensionType =  1
-            this.data1.lowRule.ipOrPhone = 1
-          }              
+            this.data1.lowRule.ipOrPhone = 1             
         }
       }
       if (this.checkbox3.length  == 2) {
@@ -884,7 +921,6 @@ export default {
       
       if (this.checkbox2.length  == 1) {
         for (let i = 0; i < this.addnormals2.length; i++) {
-          if (this.checkbox2[0] == '手机') {
             if (!reg.test(this.data1.middleRule.phoneItemTime)  || !reg.test(this.data1.middleRule.phoneItemNum)) {
             const title = '提示';
             const content = '<p>请补全正确的手机弹二次验证的条件 (中)</p>';
@@ -905,8 +941,6 @@ export default {
           }
             this.addnormals2[i].riskDimensionType =  2
             this.data1.middleRule.ipOrPhone = 2
-
-          } else {
             if (!reg.test(this.data1.middleRule.ipItemTime) || !reg.test(this.data1.middleRule.ipItemNum)) {
             const title = '提示';
             const content = '<p>请补全正确的IP弹二次验证的条件 (中)</p>';
@@ -926,8 +960,7 @@ export default {
             return false
           }
             this.addnormals2[i].riskDimensionType =  1
-            this.data1.middleRule.ipOrPhone = 1
-          }              
+            this.data1.middleRule.ipOrPhone = 1             
         }
       }
       if (this.checkbox2.length  == 2) {
@@ -978,7 +1011,6 @@ export default {
             
       if (this.checkbox1.length  == 1) {
         for (let i = 0; i < this.addnormals1.length; i++) {     
-          if (this.checkbox1[0] == '手机') {
           if (!reg.test(this.data1.highRule.phoneItemTime) || !reg.test(this.data1.highRule.phoneItemNum)) {
             const title = '提示';
             const content = '<p>请输入正确的手机弹二次验证的条件 (高)</p>';
@@ -999,7 +1031,6 @@ export default {
           }
             this.addnormals1[i].riskDimensionType =  2
             this.data1.highRule.ipOrPhone = 2
-          } else {
           if (!reg.test(this.data1.highRule.ipItemTime) || !reg.test(this.data1.highRule.ipItemNum)) {
             const title = '提示';
             const content = '<p>请输入正确的IP弹二次验证的条件 (高)</p>';
@@ -1019,8 +1050,7 @@ export default {
             return false
           }
             this.addnormals1[i].riskDimensionType =  1
-            this.data1.highRule.ipOrPhone = 1
-          }              
+            this.data1.highRule.ipOrPhone = 1             
         }
       }
       if (this.checkbox1.length  == 2) {
@@ -1163,14 +1193,16 @@ export default {
           }
           if (i == 'middleRule' && data.data[i]!=null) {
             this.checkbox2 = []
-            if (data.data[i].phoneRiskRuleItemReqList.length>0) {            
+            if (data.data[i].phoneRiskRuleItemReqList.length>0) {
               this.checkbox2.push ('手机')
               this.phonecondition2 = true
+              this.condition2 = false
               this.addnormals2 = data.data[i].phoneRiskRuleItemReqList
             }
             if (data.data[i].ipRiskRuleItemReqList.length>0) {
               this.checkbox2.push ('IP')
               this.condition2 = true
+              this.phonecondition2 = false
               this.addnormals5 = data.data[i].ipRiskRuleItemReqList
             }
           }
@@ -1179,11 +1211,13 @@ export default {
             if (data.data[i].phoneRiskRuleItemReqList.length>0) {              
               this.checkbox3.push ('手机')
               this.phonecondition3 = true
+              this.condition3 = false
               this.addnormals3 = data.data[i].phoneRiskRuleItemReqList
             }
             if (data.data[i].ipRiskRuleItemReqList.length>0) {
               this.checkbox3.push ('IP')
               this.condition3 = true
+              this.phonecondition3 = false
               this.addnormals6 = data.data[i].ipRiskRuleItemReqList
             }
           }

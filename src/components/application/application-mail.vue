@@ -242,7 +242,7 @@ export default {
       this.$Modal.info({
         title: '查看反馈详情',
         content: `实际推送时间：${index.realPushTime}<br>消息类型：${index.typeTitle}<br>标题：${index.mailTitle}<br>推送时间：${index.planPushTime}
-        <br>推送平台：${index.pushPlatform == 0 ? '全部' : 1 ? '安卓': 'IOS'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : '指定手机'}<br>跳转URL：${index.address}`
+        <br>推送平台：${index.pushPlatform == 0 ? '全部' : 1 ? '安卓': 'IOS'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : index.targetPhone}<br>跳转URL：${index.jumpUrl}`
       })
     },
     // remove (index) {
