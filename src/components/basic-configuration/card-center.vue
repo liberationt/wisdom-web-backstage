@@ -30,7 +30,7 @@
                           :before-upload="handleUpload"
                           :show-upload-list="false"                        
                           action=''>
-                            <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:3px">浏览</Button>
+                            <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:11px">浏览</Button>
                           </Upload>
                         </p>
                       </div>
@@ -87,7 +87,7 @@
                             transfer
                             title="确认删除吗?"
                             @on-ok="deleteOk(item.bankCode)"
-                            @on-cancel="">
+                            >
                             <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
                           </Poptip>
                           
@@ -284,10 +284,11 @@ export default {
         } else {
           this.changeLoading()
           this.Preservation ()
+          this.$refs[name].resetFields()
         }
       })
     },
-    Preservation () {    
+    Preservation () {
       if (this.banksrc == '') {
         const title = '上传文件'
         let content = '<p>请先上传银行卡</p>'
@@ -333,6 +334,8 @@ export default {
               title: title,
               content: content
             })
+            this.banklogo = require('../../image/moren.png')
+            this.banklogomark = require('../../image/moren.png')
             this.modal1 = false
             this.banklist ()
           } else {
@@ -402,6 +405,7 @@ export default {
         } else {
           this.changeLoading()
           this.addCredit ()
+          this.$refs[name].resetFields()
         }
       })
     },
@@ -453,6 +457,7 @@ export default {
               title: title,
               content: content
             })
+            this.creditlogomark = require('../../image/moren.png')
             this.modal2 = false
             this.creditlist ()
           } else {
@@ -468,7 +473,7 @@ export default {
     edit_icon_colorB (code, num) {
       this.$Modal.confirm({
           title: '上架',
-          content: '<p>确认要上架吗?</p>',
+          content: '<p>确认要下架吗?</p>',
           onOk: () => {
             this.bankshelf (code, num)
           },
@@ -480,7 +485,7 @@ export default {
     edit_icon_colorR (code, num) {
       this.$Modal.confirm({
           title: '下架',
-          content: '<p>确认要下架吗?</p>',
+          content: '<p>确认要上架吗?</p>',
           onOk: () => {
             this.bankshelf (code, num)
           },
@@ -492,7 +497,7 @@ export default {
     edit_icon_coloro (code, num) {
       this.$Modal.confirm({
           title: '上架',
-          content: '<p>确认要上架吗?</p>',
+          content: '<p>确认要下架吗?</p>',
           onOk: () => {
             this.creditshelf (code, num)
           },
@@ -504,7 +509,7 @@ export default {
     edit_icon_colord (code, num) {
       this.$Modal.confirm({
           title: '下架',
-          content: '<p>确认要下架吗?</p>',
+          content: '<p>确认要上架吗?</p>',
           onOk: () => {
             this.creditshelf (code, num)
           },
@@ -667,12 +672,12 @@ export default {
           if (num == 0) {
             this.$Modal.success({
               title: '上架',
-              content: '<p>上架成功</p>'         
+              content: '<p>下架成功</p>'         
             })
             this.banklist ()
           } else {
               const title = '下架'
-              let content = '<p>下架成功</p>'
+              let content = '<p>上架成功</p>'
               this.$Modal.success({
                 title: title,
                 content: content
@@ -697,12 +702,12 @@ export default {
           if (num == 0) {
             this.$Modal.success({
               title: '上架',
-              content: '<p>上架成功</p>'         
+              content: '<p>下架成功</p>'         
             })
             this.creditlist ()
           } else {
               const title = '下架'
-              let content = '<p>下架成功</p>'
+              let content = '<p>上架成功</p>'
               this.$Modal.success({
                 title: title,
                 content: content
@@ -798,6 +803,8 @@ export default {
         this.creditdatalist = resp.data.dataList
         this.total = Number(resp.data.total)
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        console.log(this.total)
+        console.log(this.startRow)
       } else {
       }
     })
