@@ -56,7 +56,7 @@
         ok-text="提交保存"
         cancel-text="关闭"
         class-name="vertical-center-modal"
-        width="800"
+        width="600"
         :loading="loading"
         :mask-closable="false">
         <div class="newtype_file">
@@ -84,7 +84,7 @@
                       <Radio label="iOS">iOS</Radio>
                   </RadioGroup>
               </FormItem>
-              <FormItem label="版本状态: " prop="version">
+              <!-- <FormItem label="版本状态: " prop="version">
                   <RadioGroup v-model="formValidate.version">
                       <Radio label="1">不更新</Radio>
                       <Radio label="2">强制更新</Radio>
@@ -100,7 +100,7 @@
               </FormItem>
               <FormItem label="升级内容: " prop="desc">
                   <Input v-model="formValidate.desc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入升级内容"></Input>
-              </FormItem>
+              </FormItem> -->
           </Form>
         </div>
     </Modal>
@@ -127,11 +127,7 @@ export default {
         productlogo: "",
         edition: "",
         packageName: "",
-        gender: "",
-        version: "",
-        address: "",
-        title: "",
-        desc: ""
+        gender: ""
       },
       ruleValidate: {
         edition: [{ required: true, message: "请输入版本号", trigger: "blur" }],
@@ -143,39 +139,6 @@ export default {
         ],
         gender: [
           { required: true, message: "请选择操作系统", trigger: "change" }
-        ],
-        version: [
-          {
-            required: true,
-            type: "string",
-            message: "请选择版本状态",
-            trigger: "change"
-          }
-        ],
-        address: [
-          {
-            required: true,
-            type: "string",
-            message: "请输入下载地址",
-            trigger: "change"
-          }
-        ],
-        title: [
-          {
-            required: true,
-            type: "string",
-            message: "请输入升级标题",
-            trigger: "change"
-          }
-        ],
-        desc: [
-          { required: true, message: "请输入升级内容", trigger: "blur" },
-          {
-            type: "string",
-            min: 20,
-            message: "升级内容不能少于20个字符",
-            trigger: "blur"
-          }
         ]
       }
     };
@@ -243,10 +206,6 @@ export default {
               this.formValidate.edition = data.data.appVersion; // 版本号
               this.formValidate.packageName = data.data.appIdentifier; // 包名
               this.formValidate.gender = data.data.appType; // app类型
-              this.formValidate.version = data.data.updateType + ""; // 版本类型
-              this.formValidate.address = data.data.appUrl; // 下载地址
-              this.formValidate.title = data.data.updateTitle; // 更新标题
-              this.formValidate.desc = data.data.updateDetails; // 更新内容
             }
           })
           .catch(err => {
@@ -309,10 +268,6 @@ export default {
               appVersion: this.formValidate.edition, // 版本号
               appIdentifier: this.formValidate.packageName, // 包名
               appType: this.formValidate.gender, // app类型
-              updateType: this.formValidate.version, // 版本类型
-              appUrl: this.formValidate.address, // 下载地址
-              updateTitle: this.formValidate.title, // 更新标题
-              updateDetails: this.formValidate.desc, // 更新内容
               appCode: utils.getCookie("appCode"),
               versionCode: this.versionCode
             })
@@ -468,4 +423,5 @@ export default {
   height: 32px;
   line-height: 32px;
 }
+
 </style>

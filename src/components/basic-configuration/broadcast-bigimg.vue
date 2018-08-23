@@ -441,7 +441,7 @@ export default {
     // 上架
     edit_icon_colorB (code, num) {
       this.$Modal.confirm({
-          title: '上架',
+          title: '下架',
           content: '<p>确认要下架吗?</p>',
           onOk: () => {
             this.bankshelf (code, num)
@@ -453,7 +453,7 @@ export default {
     // 下架
     edit_icon_colorR (code, num) {
       this.$Modal.confirm({
-          title: '下架',
+          title: '上架',
           content: '<p>确认要上架吗?</p>',
           onOk: () => {
             this.bankshelf (code, num)
@@ -590,12 +590,12 @@ export default {
         if (resp.code == 'success') {
           if (num == 0) {
             this.$Modal.success({
-              title: '上架',
+              title: '下架',
               content: '<p>下架成功</p>'         
             })
             this.banklist ()
           } else {
-              const title = '下架'
+              const title = '上架'
               let content = '<p>上架成功</p>'
               this.$Modal.success({
                 title: title,
