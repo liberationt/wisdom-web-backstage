@@ -7,7 +7,10 @@
       </div>
       <div class="homePage clearfix">
           <h1 class="homePage_h1">首页导航APP
-             <p data-v-38176e38="" @click="addapp" class="homePage_button right"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
+            
+            <Button type="warning"  class="right mr20 w60  toupdate" @click=" backingout">返回</Button>
+            <Button class="right mr10" type="info" @click="addapp">添加</Button>
+            <!-- <p data-v-38176e38="" @click="addapp" class="homePage_button right"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p> -->
           </h1>
           <!-- 贷款超市 -->
          <ul class="homePage_icon">
@@ -36,41 +39,67 @@
         <Modal
         v-model="modal1"
         title="添加（编辑首页）导航"
-        @on-ok="ok"
-        @on-cancel="cancel"
+        @on-ok="ok('formValidate2')"
+        @on-cancel="cancel('formValidate2')"
         :mask-closable="false"
         width="500"
         :loading="loading">
-        <Upload
+        <div class="clearfix">
+          <Upload
           :format="['jpg','jpeg','png']"
           :on-format-error="handleFormatError1"
           :before-upload="handleUpload"
           :show-upload-list="false"                        
           action=''
-          class="homePage_img_img left">
-          <div>
+          class="homePage_img_img ml20 left">
+          <div class="">
             <span class="homePage_img_img left">
                 <img :src="banklogo" alt="">
             </span>
           </div>
           <p style="color:red" v-show="isurl">请选择图片</p>
         </Upload>
-        <Input v-model="value2" placeholder="请输入导航标题" style="width: 300px" class="input minput"></Input>
+        <Form ref="formValidate2" :model="formValidate2" class="left" :rules="ruleValidate2" :label-width="80">
+          <FormItem label="" prop="value2">
+            <Input v-model="formValidate2.value2" placeholder="请输入导航标题" style="width: 200px"></Input>
+          </FormItem>
+          <FormItem label="" >
+            <Row>
+                <Col span="12">
+                    <FormItem prop="modell">
+                      <Select v-model="formValidate2.modell" style="width: 110px" filterable @on-change="model11">
+                        <Option v-for="item1 in pageList" :value="item1.value1" :key="item1.value1">{{ item1.label1 }}</Option>
+                      </Select>
+                    </FormItem>
+                </Col>
+                <Col span="1" style="text-align: center"></Col>
+                <Col span="11">
+                    <FormItem prop="value1" v-if="!link">
+                      <Select v-model="formValidate2.value1"  style="width: 110px" filterable>
+                        <Option v-for="item2 in cpageList" :value="item2.jumpUrl" :key="item2.jumpUrl">{{ item2 .jumpName }}</Option>
+                      </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+          </FormItem>
+          <FormItem label="特点1：" v-if="link" prop="value3">
+            <Input v-model="formValidate2.value3" placeholder="请输入地址" style="width: 200px"></Input>
+          </FormItem>         
+        </Form>
+        </div>
+        
+
+        <!-- <Input v-model="value2" placeholder="请输入导航标题" style="width: 200px" class="input minput"></Input>
         <p class="jiaoyan" v-show="iskong">导航标题不能为空</p>
-        <!-- select 菜单 -->
         <Row>
-        <Col span="12" class="left ml10" style="padding-right:10px;width:150px;">
-            <Select v-model="modell" filterable @on-change="model11">
-                <Option v-for="item1 in pageList" :value="item1.value1" :key="item1.value1">{{ item1.label1 }}</Option>
-            </Select>
+        <Col span="12" class="left mt15 ml10" style="padding-right:10px;width:150px;">
+            
         </Col>
-        <Col span="12" class="left ml4" v-if="col" style="width:150px;">
-            <Select v-model="value1" filterable>
-                <Option v-for="item2 in cpageList" :value="item2.jumpUrl" :key="item2.jumpUrl">{{ item2 .jumpName }}</Option>
-            </Select>
+        <Col span="12" class="left mt15 ml4" v-if="col" style="width:150px;">
+            
         </Col>
         </Row>
-        <Input v-model="value3" placeholder="请输入地址" style="width: 300px" class="input minput" v-if="link"></Input>
+        <Input v-model="value3" placeholder="请输入地址" style="width: 300px" class="input minput" v-if="link"></Input> -->
       </Modal>
   </div>
 </template>
@@ -95,10 +124,7 @@ export default {
       dataList:[2,2],
       imgName: '',
       visible: false,
-      uploadList: [],
-      value2: '',
-      value1: '',
-      value3:'',
+      uploadList: [],     
       loading: true,
       guideCode:'',
       pageList: [
@@ -110,15 +136,42 @@ export default {
           value1: '1',
           label1: 'H5页面'
         }
-      ],
-      modell: '0',
+      ],     
       cpageList: [],
       // model2: '贷款列表',
       link: false,
-      col: true
+      col: true,
+      formValidate2: {
+        value2: '',
+        modell: '0',
+        value1: '',
+        value3:'',
+      },
+      ruleValidate2: {
+        value2: [
+          { required: true, message: '请输入导航标题！', trigger: 'blur' }
+        ],
+        modell: [
+          { required: true, message: '请选择！', trigger: 'blur' }
+        ],
+        value1: [
+          { required: true, message: '请选择跳转页面！', trigger: 'blur' }
+        ],
+        value3: [
+          { required: true, message: '请输入特点！', trigger: 'blur' }
+        ]
+      },
     }
   },
   methods: {
+    backingout () {
+      window.history.go(-1);
+      // if (this.$route.query.fiveh&&this.$route.query.fiveh == 1) {
+      //   this.$router.push({path: '/editionh5'})
+      // } else {
+      //   this.$router.push({path: '/versionManagement?num='+this.$route.query.num})       
+      // }      
+    },
     query(){
       let versionnumber = utils.getlocal('versionnumber')
       this.http.post(BASE_URL+"/loan/guide/getGuideList",{
@@ -139,13 +192,12 @@ export default {
       this.edit = ''
       this.modal1 = true
     },
-    ok () {
-      if(this.value2 == ''){
-        this.changeLoading()
-        this.iskong = true
-        return false
-      }
-      if(this.imgurl == ''){
+    ok (name) {
+      this.$refs[name].validate(valid => {
+        if (!valid) {
+          return this.changeLoading()
+        } else {
+          if(this.imgurl == ''){
         this.changeLoading()
         this.isurl = true
         return false
@@ -162,9 +214,9 @@ export default {
           guideAppVersion : versionnumber.appVersion,
           guideAppIdentifier : versionnumber.appIdentifier,
           versionCode : versionnumber.versionCode,
-          guideName : this.value2,
-          jumpUrl : this.value1 ? this.value1:this.value3,
-          jumpType : this.modell,
+          guideName : this.formValidate2.value2,
+          jumpUrl : this.formValidate2.value1 ? this.formValidate2.value1:this.formValidate2.value3,
+          jumpType : this.formValidate2.modell,
           guideLogoUrl : this.imgurl,
           guideCode : this.guideCode
         }).then(data=>{
@@ -174,10 +226,10 @@ export default {
           this.iskong = false;
           this.isurl = false;
           this.$Message.info('添加成功！')
-          this.value2 = ''
-          this.value1 = ''
-          this.modell = '0'
-          this.value3 = ''
+          this.formValidate2.value2 = ''
+          this.formValidate2.value1 = ''
+          this.formValidate2.modell = '0'
+          this.formValidate2.value3 = ''
           this.imgurl = ''
           this.link = false
           this.col = true
@@ -192,12 +244,19 @@ export default {
         this.$Message.info('添加失败！')
         this.modal1 = false;
       })
+          
+          this.$refs[name].resetFields()
+        }
+      })
+
+      
     },
-    cancel () {
-      this.value2 = ''
-      this.value1 = ''
-      this.modell = '0'
-      this.value3 = ''
+    cancel (name) {
+      this.$refs[name].resetFields()
+      this.formValidate2.value2 = ''
+      this.formValidate2.value1 = ''
+      this.formValidate2.modell = '0'
+      this.formValidate2.value3 = ''
       this.imgurl = ''
       this.model11()
       this.banklogo = require('../../image/moren.png')
@@ -210,11 +269,11 @@ export default {
       this.http.post(BASE_URL+"/loan/guide/getGuideByCode",{ guideCode : guideCode}).then(data=>{
         console.log(data)
         if(data.code == 'success'){
-          this.value2 = data.data.guideName
-          this.modell = data.data.jumpType+''
+          this.formValidate2.value2 = data.data.guideName
+          this.formValidate2.modell = data.data.jumpType+''
           this.model11()
-          this.value1 = data.data.jumpUrl 
-          this.value3 = data.data.jumpUrl
+          this.formValidate2.value1 = data.data.jumpUrl 
+          this.formValidate2.value3 = data.data.jumpUrl
           this.banklogo = data.data.guideLogoUrl
           this.imgurl = data.data.guideLogoUrl
         }
@@ -250,10 +309,10 @@ export default {
     //   this.visible = true
     // },
     model11 () {
-      if (this.modell === '1') {
+      if (this.formValidate2.modell === '1') {
         this.link = true
         this.col = false
-        this.value1 = ''
+        this.formValidate2.value1 = ''
       } else {
         this.link = false
         this.col = true
@@ -362,7 +421,7 @@ export default {
 }
 .homePage_h1 {
   border-bottom: 1px solid #ccc;
-  padding: 10px 0 5px 0;
+  padding: 10px 0 ;
   margin-left: 20px;
 }
 .homePage_button[data-v-38176e38] {
@@ -419,6 +478,7 @@ export default {
 .homePage_img_img > img {
   width: 100%;
   height: 100%;
+  cursor: pointer;
 }
 .ivu-row {
   position: static !important;

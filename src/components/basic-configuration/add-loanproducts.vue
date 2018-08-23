@@ -641,7 +641,7 @@ export default {
             }
 
             if (this.formValidate.autoOff == 1) {
-                this.formValidate.autoOn = 1
+                this.formValidate.autoOn = null
             }
           this.formValidate.limitValue = this.quotamoney
           this.formValidate.termValue = this.termmoney

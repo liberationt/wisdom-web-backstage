@@ -45,7 +45,7 @@
                               <Option value="0">无</Option>
                             </Select>
                           </FormItem>
-                          <FormItem label="角标图片" v-if="markurl">
+                          <FormItem prop="cornermark" label="角标图片" v-if="markurl">
                             <span class="mark_Img left"><img :src="banklogomark" alt=""></span>
                             <Upload
                             :format="['jpg','jpeg','png']"
@@ -55,6 +55,7 @@
                             action=''>
                               <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:3px">浏览</Button>
                             </Upload>
+                            <Input v-model="formValidate1.cornermark" class="hidden"></Input>
                             <!-- <Upload v-model="formValidate1.markimg" action="//jsonplaceholder.typicode.com/posts/">
                               <Button type="ghost">上传文件</Button>
                             </Upload> -->
@@ -198,13 +199,15 @@ export default {
         bankname: '',
         mark: '1',
         markimg: '',
-        desc: ''
+        desc: '',
+        cornermark: ''
       },
       ruleValidate1: {
         bankname: [
           { required: true, message: '请输入银行名称！', trigger: 'blur' }
         ],
         mark: [{ required: true, message: '请选择角标！', trigger: 'blur' }],
+        cornermark: [{ required: true, message: '请上传角标！', trigger: 'blur' }],
         markimg: [
           { required: true, message: '请选择上传文件！', trigger: 'blur' }
         ],
@@ -360,6 +363,7 @@ export default {
             this.formValidate1.mark = resp.data.cornerMarkState+''
             this.cornersrc = resp.data.cornerMarkUrl
             this.banklogomark = resp.data.cornerMarkUrl
+            this.formValidate1.cornermark = resp.data.cornerMarkUrl
             this.formValidate1.desc = resp.data.jumpUrl
             this.backcode = resp.data.bankCode
           } else {
@@ -396,6 +400,8 @@ export default {
       })
     },
     handleReset1 (name) {
+      this.banklogo = require('../../image/moren.png')
+      this.banklogomark = require('../../image/moren.png')
       this.$refs[name].resetFields()
     },
     handleSubmit2 (name) {
@@ -467,6 +473,7 @@ export default {
         })
     },
     handleReset2 (name) {
+      this.creditlogomark = require('../../image/moren.png')
       this.$refs[name].resetFields()
     },
     // 上架
@@ -650,6 +657,7 @@ export default {
     .then((resp) => {
       if (resp.code == 'success') {
         this.banklogomark = resp.data
+        this.formValidate1.cornermark = resp.data
         this.cornersrc = resp.data
       } else {
       }
