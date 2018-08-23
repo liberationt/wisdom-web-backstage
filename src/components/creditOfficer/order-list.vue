@@ -257,6 +257,12 @@ export default {
           align: 'center'
         },
         {
+          title: '订单状态',
+          key: 'orderStatusName',
+          minWidth: 100,
+          align: 'center'
+        },
+        {
           title: '操作',
           key: 'action',
           minWidth: 150,

@@ -110,7 +110,7 @@ export default {
     edit_icon_colorB (code, num) {
       this.$Modal.confirm({
           title: '上架',
-          content: '<p>确认要上架吗?</p>',
+          content: '<p>确认要下架吗?</p>',
           onOk: () => {
             this.creditshelf (code, num)
           },
@@ -121,7 +121,7 @@ export default {
     edit_icon_colorR (code, num) {
       this.$Modal.confirm({
         title: '下架',
-        content: '<p>确认要下架吗?</p>',
+        content: '<p>确认要上架吗?</p>',
         onOk: () => {
           this.creditshelf (code, num)
         },
@@ -141,7 +141,7 @@ export default {
           if (num == 0) {
             this.$Modal.success({
               title: '上架',
-              content: '<p>上架成功</p>'         
+              content: '<p>下架成功</p>'         
             })
             this.loanlist ()
           } else {

@@ -38,7 +38,7 @@
         </p>
         <p>
             <span>所在区域:</span>
-            <span>{{order.orderCityNameSecond}}</span>
+            <span>{{order.orderCityNameFirst}}  {{order.orderCityNameSecond}}</span>
         </p>
         <p>
             <span>客户:</span>
@@ -46,15 +46,15 @@
         </p>
         <p>
             <span>申请贷款金额:</span>
-            <span>{{order.customerLoanAmount}}</span>
+            <span>{{order.customerLoanAmountAsFormat}}万元</span>
         </p>
         <p>
             <span>服务费:</span>
-            <span>{{order.serviceCostAsFormat}}</span>
+            <span>{{order.serviceCostAsFormat}}元</span>
         </p>
         <p>
             <span>实际放款金额:</span>
-            <span>{{order.customerActualLoanAmount}}</span>
+            <span>{{order.customerActualLoanAmount}}万元</span>
         </p>
         <p>
             <span>信贷员:</span>
@@ -66,7 +66,14 @@
         </p>
         <p>
             <span>评价内容:</span>
-            <span>{{order.commentDetailsReq}}</span>
+            <span v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</span>
+            <br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100">
+                <img v-for="item in img" v-bind:src='item' alt="">
+            </span>
+            <br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100">{{order.commentDetailsReq.commentCreateTime}}</span><br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100"><i v-for="item in order.commentDetailsReq.tagsCodeList">{{item}}&nbsp;&nbsp;</i></span>
         </p>      
         </div>
         </div>
@@ -82,6 +89,7 @@ export default {
   data () {
     return {
         order: {},
+        img:[]
     }
   },
   methods: {
@@ -100,6 +108,11 @@ export default {
     this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
         if (data.code == 'success') {
             this.order = data.data
+            if (data.data.commentDetailsReq!=null) {
+                for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
+                    this.img.push(require('../../image/pointed-star.png'))
+                }
+            }          
         }    
     })
     .catch((error) => {

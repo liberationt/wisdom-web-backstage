@@ -32,10 +32,7 @@
             </li>
             <li>
                 <span class="w50 tr displayib">性别:</span>
-                <span v-if="inform.gender=='0'">男</span>
-                <span v-else-if="inform.gender=='1'">女</span>
-                <span v-else-if="inform.gender=='2'">请选择</span>
-                <span v-else></span>
+                <span >{{inform.gender}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">邀请人:</span>
@@ -62,38 +59,51 @@
         <Tabs :animated="false" @on-click="tabswitch">
             <TabPane label="基本信息">
                 <div class="basic">
-                    <p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
                         <span>所属区域:</span>
                         <span>{{inform.loanLocationName}}</span>
                     </p>
-                    <p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
                         <span>贷款额度:</span>
                         <span>{{inform.serviceAmount}}</span>
                     </p>
-                    <p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
                         <span>贷款利率:</span>
                         <span>{{inform.serviceRate}}</span>
                     </p>
-                    <p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
                         <span>贷款类型:</span>
                         <span v-for="item in inform.loanHaveType">{{item}} </span>
                     </p>
-                    <p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
                         <span>服务时间:</span>
                         <span>{{inform.serviceTime}}</span>
                     </p>
-                    <p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
                         <span>扣费设置:</span>
                         <span>{{inform.loanDeductionSet}}</span>
                     </p>
-                    <p class="credit_prove">
+                    <p v-if="inform.loanStatus!=0" class="credit_prove">
                         <strong>身份证</strong>
                         <img :src='inform.loanIdcardFrontImg'  alt=''>
                         <img :src='inform.loanIdcardBackImg'  alt=''>
                     </p>
-                    <p class="credit_prove mt20 ">
+                    <p v-if="inform.loanStatus!=0" class="credit_prove mt20 ">
                         <strong >工作证明</strong>
                         <img v-bind:src="inform.loanJobImg" alt="">
+                    </p>
+
+                    <p>
+                        <span>认证状态:</span>
+                        <span v-if="inform.loanStatus==0&&inform.loanBaseStatus==0">未填基本信息</span>
+                        <span v-if="inform.loanStatus==0&&inform.loanBaseStatus==1">未填实名信息</span>
+                        <span v-else-if="inform.loanStatus==1">待审核</span>
+                        <span v-else-if="inform.loanStatus==2">已入驻</span>
+                        <span v-else-if="inform.loanStatus==3">审核失败</span>
+                    </p>
+                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                        <span>拒绝原因:</span>
+                        <span>{{inform.loanStatusMsg}}</span>
                     </p>
                     
                     <div class="mt20 service_introduction" v-if="inform.serviceIntroductionStatus==2">
@@ -120,25 +130,15 @@
                             {{inform.serviceOtherRequire}}
                         </p>
                     </div>
-                    <p>
-                        <span>认证状态:</span>
-                        <span v-if="inform.loanStatus==0">注册无资料</span>
-                        <span v-else-if="inform.loanStatus==1">信贷员待审核</span>
-                        <span v-else-if="inform.loanStatus==2">审核通过</span>
-                        <span v-else-if="inform.loanStatus==3">审核失败</span>
-                    </p>
-                    <p>
-                        <span>拒绝原因:</span>
-                        <span>{{inform.loanStatusMsg}}</span>
-                    </p>
+                    
                     <!-- v-if="inform.loanStatus==1" -->
                     <div class="mt50 tc left" v-if="inform.loanStatus==1">
                         <Button type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="ghost" @click="journal">查看操作日志</Button>
+                        <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;                        
                         <!-- <Button type="ghost" @click="ationreturn">返回</Button> -->
                     </div>
-                     <div class="mt50 tc ml20 left">
+                     <div class="mt50 tc ml20 left w100b">
+                       <Button type="primary" class="mr20" @click="journal">查看操作日志</Button>
                         <Button type="ghost" @click="ationreturn">返回</Button>
                     </div>
                     <Modal
@@ -842,6 +842,7 @@ export default {
         .stre_evaluate{
             img{
                 width: 20px;
+                height: 20px;
                 margin-top: 0
             }
         }

@@ -45,15 +45,15 @@
         </p>
         <p>
             <span>申请贷款金额:</span>
-            <span>{{order.customerLoanAmount}}</span>
+            <span>{{order.customerLoanAmount}}万元</span>
         </p>
         <p>
             <span>服务费:</span>
-            <span>{{order.serviceCostAsFormat}}</span>
+            <span>{{order.serviceCostAsFormat}}元</span>
         </p>
         <p>
             <span>实际放款金额:</span>
-            <span>{{order.customerActualLoanAmount}}</span>
+            <span>{{order.customerActualLoanAmount}}万元</span>
         </p>
         <p>
             <span>信贷员:</span>
