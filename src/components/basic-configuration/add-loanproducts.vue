@@ -640,10 +640,9 @@ export default {
                 }
             }
 
-            if (this.$route.query.code) {
-
+            if (this.formValidate.autoOff == 1) {
+                this.formValidate.autoOn = 1
             }
-
           this.formValidate.limitValue = this.quotamoney
           this.formValidate.termValue = this.termmoney
           this.formValidate.applyCondition = this.addnormals

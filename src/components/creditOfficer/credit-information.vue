@@ -3,7 +3,8 @@
     <Col span="5">
     <div id="memberLeft">
         <div class="memberphoto">
-            <img :src="inform.loanPersonImg" alt="">
+            <img v-if="inform.loanStatus!=0" :src="inform.loanPersonImg" alt="" >
+            <img v-if="inform.loanStatus==0" :src="require('../../image/moren.png')" alt="" >
             <p>{{inform.phoneMember}}</p>
             <p class="stre_evaluate">
                 <img v-for='(item, index) in img' v-bind:src='item' :key="index" alt=''>
@@ -59,27 +60,35 @@
         <Tabs :animated="false" @on-click="tabswitch">
             <TabPane label="基本信息">
                 <div class="basic">
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                    <p >
+                        <span>信贷员code:</span>
+                        <span>{{inform.loanOfficerCode}}</span>
+                    </p>
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
                         <span>所属区域:</span>
                         <span>{{inform.loanLocationName}}</span>
                     </p>
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
+                        <span>所属公司:</span>
+                        <span>{{inform.loanCompany}}</span>
+                    </p>
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
                         <span>贷款额度:</span>
                         <span>{{inform.serviceAmount}}</span>
                     </p>
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
                         <span>贷款利率:</span>
                         <span>{{inform.serviceRate}}</span>
                     </p>
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
-                        <span>贷款类型:</span>
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
+                        <span>擅长业务:</span>
                         <span v-for="item in inform.loanHaveType">{{item}} </span>
                     </p>
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
                         <span>服务时间:</span>
                         <span>{{inform.serviceTime}}</span>
                     </p>
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
                         <span>扣费设置:</span>
                         <span>{{inform.loanDeductionSet}}</span>
                     </p>
@@ -101,7 +110,7 @@
                         <span v-else-if="inform.loanStatus==2">已入驻</span>
                         <span v-else-if="inform.loanStatus==3">审核失败</span>
                     </p>
-                    <p v-if="inform.loanStatus==0&&inform.loanBaseStatus!=0">
+                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
                         <span>拒绝原因:</span>
                         <span>{{inform.loanStatusMsg}}</span>
                     </p>
@@ -297,7 +306,7 @@ export default {
           title: '抢单费用',
           align: 'center',
           minWidth:100,
-          key: 'serviceCost'
+          key: 'robbingAmount'
         }
       ],
       data2: [],

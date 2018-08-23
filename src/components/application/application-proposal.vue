@@ -56,9 +56,24 @@ export default {
         },
         {
           title: '内容',
-          key: 'contents',
-          minWidth: 400,
-          align: 'center'
+          minWidth: 300,
+          align: 'center',
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.contents
+							}
+						}, params.row.contents)
+						])
+						}
         },
         {
           title: '用户手机号',

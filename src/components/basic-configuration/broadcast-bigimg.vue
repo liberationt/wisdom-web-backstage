@@ -8,6 +8,7 @@
       <div class="clearfix">
         <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
         <Button type="info" v-if="num != 2" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
+        <Button type="warning"  class="left mt20 w60 ml20 toupdate" @click=" backingout">返回</Button>
       </div>    
       <Modal
         v-model="modal1"
@@ -33,7 +34,7 @@
           <div class="upload_information left ml10">
             <Form ref="formValidate1" :model="formValidate1" :rules="ruleValidate1" :label-width="80">
               <FormItem label="是否跳转" prop="mark">
-                <Select v-model="formValidate1.mark" @on-change='cornermark' placeholder="不跳转">
+                <Select v-model="formValidate1.mark" @on-change='cornermark' style="width:120px" placeholder="不跳转">
                   <Option value="1">跳转</Option>
                   <Option value="0">不跳转</Option>
                 </Select>
@@ -165,6 +166,16 @@ export default {
     }
   },
   methods: {
+    // 返回
+    backingout () {
+      if (this.$route.query.fiveh&&this.$route.query.fiveh == 1) {
+        this.$router.push({path: '/editionh5'})
+      } else {
+        this.$router.push({path: '/versionManagement?num='+this.$route.query.num})       
+      }
+      
+
+    },
     pageChange (page) {
       this.startRow = page
         this.banklist () 
@@ -195,8 +206,7 @@ export default {
           return this.changeLoading()
         } else {
           this.changeLoading()
-          this.Preservation ()
-          this.$refs[name].resetFields()
+          this.Preservation ()         
         }
       })
     },
@@ -323,6 +333,8 @@ export default {
               title: title,
               content: content
             })
+            this.$refs['formValidate1'].resetFields()
+            this.banklogo = require('../../image/moren.png')
             this.modal1 = false
             this.banklist ()
           } else {

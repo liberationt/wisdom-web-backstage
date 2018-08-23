@@ -85,7 +85,10 @@ export default {
         passwdCheck: { required: true, message: '请选择计划推送时间', trigger: 'change' },
         age: { required: true, message: '请选择推送平台', trigger: 'change' },
         object: { required: true, message: '请选择推送对象', trigger: 'change' },
-        phone: { required: true, message: '请输入推送手机号', trigger: 'blur' },
+        phone: [
+          { required: true, message: '请输入推送手机号', trigger: 'blur' },
+          {required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
+          ],
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
         jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' }
       },

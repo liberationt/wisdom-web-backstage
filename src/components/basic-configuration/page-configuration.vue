@@ -10,19 +10,19 @@
       <div class="homePage">
           <h1 class="homePage_h1">首页</h1>
           <ul class="homePage_icon clearfix">
-              <router-link v-if="num==1" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:0}}">
+              <router-link v-if="num==1" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:0,num:num}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
                 </li>
               </router-link>
-              <router-link v-if="num==2" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:3}}">
+              <router-link v-if="num==2" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:3,num:num}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
                 </li>
               </router-link>
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:2}}">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:2,num:num}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">开屏广告</p>
@@ -34,7 +34,7 @@
                     <p class="homePage_text">首页导航</p>
                 </li>
               </router-link>
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:4}}" v-if="num==2">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:4,num:num}}" v-if="num==2">
                 <li>
                     <Icon type="android-apps"></Icon>
                     <p class="homePage_text">悬浮广告</p>
@@ -46,7 +46,7 @@
       <div class="homePage" v-if="num==1">
           <h1 class="homePage_h1">贷超列表</h1>
           <ul class="homePage_icon clearfix">
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:7}}">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:7,num:num}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播大图</p>
@@ -70,7 +70,7 @@
       <div class="homePage" v-if="num==2">
           <h1 class="homePage_h1">找客户-历史名单</h1>
           <ul class="homePage_icon clearfix">
-              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:8}}">
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:8,num:num}}">
                 <li>
                     <Icon type="android-image"></Icon>
                     <p class="homePage_text">轮播图</p>

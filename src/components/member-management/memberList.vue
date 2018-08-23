@@ -60,7 +60,7 @@ export default {
       reaName: [],
       account: [],
       registerTime: [],
-      model1: '',
+      model1: 'name',
       model3: '',
       model4: '',
       model5: '',

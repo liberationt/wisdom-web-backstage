@@ -340,12 +340,12 @@ export default {
           minWidth: 110,
           align: 'center'
         },
-        {
-          title: '订单状态',
-          key: 'orderStatusDetailName',
-          minWidth: 100,
-          align: 'center'
-        },
+        // {
+        //   title: '订单状态',
+        //   key: 'orderStatusDetailName',
+        //   minWidth: 100,
+        //   align: 'center'
+        // },
         {
           title: '服务费用',
           key: 'serviceCost',

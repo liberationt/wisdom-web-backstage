@@ -918,7 +918,7 @@ export default {
               this.registershi = ""
               this.registersheng = ""
               this.guanname = ""
-              this.model3 = ""
+              // this.model3 = ""
               this.model4 = ""
               this.modell3 = ""
               this.loading3= false
