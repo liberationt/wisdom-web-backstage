@@ -21,10 +21,10 @@
             <p class="android right">{{item.appType}}</p>
             <p class="version_text_version">{{item.appVersion}}</p>
             <p class="version_text_lian">{{item.appIdentifier}}</p>
-            <p class="version_text_xin" v-if="item.updateType == 1">不更新</p>
+            <!-- <p class="version_text_xin" v-if="item.updateType == 1">不更新</p>
             <p class="version_text_xin" v-if="item.updateType == 2">强制更新</p>
             <p class="version_text_xin" v-if="item.updateType == 3">提示更新</p>
-            <p class="version_text_xin" v-if="item.updateType == 4">半强制更新,WiFi下更新</p>
+            <p class="version_text_xin" v-if="item.updateType == 4">半强制更新,WiFi下更新</p> -->
         </div>
         <div class="version_footer">
             <span class="version_date">{{item.dataCreateTime}}</span>

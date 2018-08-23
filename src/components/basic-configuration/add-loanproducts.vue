@@ -661,7 +661,10 @@ export default {
                 let content = '<p>保存成功</p>'
                 this.$Modal.success({
                     title: title,
-                    content: content                    
+                    content: content,
+                    onOk: () => {
+                       this.$router.push({ path: './loansconfig' })
+                    },
                 })
             
             } else {         

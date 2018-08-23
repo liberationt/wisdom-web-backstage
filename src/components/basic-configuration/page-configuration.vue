@@ -55,7 +55,7 @@
           </ul>
       </div>
       <!-- 注册 -->
-      <div class="homePage" v-if="num==2">
+      <!-- <div class="homePage" v-if="num==2">
           <h1 class="homePage_h1">注册</h1>
           <ul class="homePage_icon clearfix">
               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:6}}">
@@ -65,7 +65,7 @@
                 </li>
               </router-link>
           </ul>
-      </div>
+      </div> -->
       <!-- 找客户-历史名单 -->
       <div class="homePage" v-if="num==2">
           <h1 class="homePage_h1">找客户-历史名单</h1>
@@ -79,7 +79,7 @@
           </ul>
       </div>
       <!-- 邀请好友 -->
-      <div class="homePage">
+      <!-- <div class="homePage">
           <h1 class="homePage_h1">邀请好友</h1>
           <ul class="homePage_icon clearfix">
               <router-link v-if="num==1" :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:9}}">
@@ -95,7 +95,7 @@
                 </li>
               </router-link>
           </ul>
-      </div>
+      </div> -->
   </div>
 </template>
 <script>

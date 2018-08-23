@@ -215,12 +215,13 @@ export default {
       let content
       let list
       let jumpUrl
-        if (this.formValidate1.layout == 1) {
+        if (this.formValidate1.layout == 1 && this.formValidate1.mark == 1) {          
           jumpUrl = this.formValidate1.home
         } else {
           jumpUrl = this.formValidate1.desc
         }
       if (this.banktitle == '添加轮播图') {
+        console.log(jumpUrl)
         let urls
         if (this.$route.query.img == 1) {
           urls = '/loan/banner/saveBanner'

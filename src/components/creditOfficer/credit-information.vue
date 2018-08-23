@@ -306,7 +306,7 @@ export default {
           title: '通话时间',
           align: 'center',
           minWidth:160,
-          key: 'beginTime'
+          key: 'callEndTime'
         },
         {
           title: '手机',

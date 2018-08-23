@@ -6,7 +6,7 @@
       </p>
     </div>
     <div id="feedback_details">
-        <h3>查看评价详情</h3>
+        <h3>查看咨询订单详情</h3>
         <div class="clearfix">
         <div class="left details_left">
             <p>

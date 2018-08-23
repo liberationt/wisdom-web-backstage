@@ -525,6 +525,7 @@ export default {
       this.http.post(BASE_URL + '/credit/bank/deleteBankByCode', list)
       .then((resp) => {
         if (resp.code == 'success') {
+          this.startRow = 1
           this.banklist ()
         } else {
         }
@@ -540,6 +541,7 @@ export default {
       this.http.post(BASE_URL + '/credit/card/deleteCardByCode', list)
       .then((resp) => {
         if (resp.code == 'success') {
+          this.startRow = 1
           this.creditlist ()
         } else {
         }

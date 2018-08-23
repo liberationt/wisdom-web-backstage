@@ -7,7 +7,7 @@
         </p>
       </div>
       <!-- 首页 -->
-      <div class="homePage">
+      <!-- <div class="homePage">
           <h1 class="homePage_h1">邀请好友</h1>
           <ul class="homePage_icon clearfix">
               <router-link :to="{path:'bigimg/', query:{img:1,fiveh:0}}">
@@ -17,7 +17,7 @@
                 </li>
               </router-link>              
           </ul>
-      </div>
+      </div> -->
       <!-- 信用卡超市 -->
       <div class="homePage" >
           <h1 class="homePage_h1">信用卡超市</h1>

@@ -53,6 +53,21 @@
             <span>{{order.officerName}} {{order.officerPhone}}</span>
         </p>
         <p>
+            <span>订单关闭原因:</span>
+            <span>{{order.orderCloseMessage}}</span>
+        </p>
+        <p>
+            <span>评价内容:</span>
+            <span v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</span>
+            <br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100">
+                <img v-for="item in img" v-bind:src='item' alt="">
+            </span>
+            <br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100">{{order.commentDetailsReq.commentCreateTime}}</span><br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100"><i v-for="item in order.commentDetailsReq.tagsCodeList">{{item}}&nbsp;&nbsp;</i></span>
+        </p>
+        <p>
             <span>申诉人:</span>
             <span v-if="order.orderStatus==3&&order.orderStatusDetail==4">客户</span>
             <span v-else-if="order.orderStatus==3&&order.orderStatusDetail==5">信贷员</span>
@@ -66,10 +81,31 @@
             <span>{{order.complainMessage}}</span>
         </p>
         <div>
-            <Button type="primary" @click="orderclosure(0)">确认贷款成功</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+            <Button type="primary" @click="modal9=true">确认贷款成功</Button>&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="primary" @click="bidorder">关闭订单</Button>&nbsp;&nbsp;&nbsp;&nbsp;
             <Button type="ghost" @click=" backingout">返回</Button>
         </div>
+        <Modal
+          title="确认贷款成功"
+          v-model="modal9"
+          @on-ok="handleSubmit('formCustom')"
+          @on-cancel="handleReset('formCustom')"
+          ok-text="保存"
+          cancel-text="取消"
+          class-name="vertical-center-modal"
+          width="500"
+          :loading="loading"
+          :mask-closable="false">
+          <div  class="newtype_file mt15 mb15">
+            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:15px">
+              <FormItem label="实际贷款金额:" prop="productid" >
+                <Input v-model="formCustom.productid" placeholder="请输入实际贷款金额" style="width: 300px">
+                <span slot="append">万元</span>
+                </Input>
+              </FormItem>            
+          </Form>
+          </div>
+          </Modal>
     </div>
 </div>
 </template>
@@ -77,8 +113,18 @@
 export default {
   data(){
     return {
+        modal9:false,
+        loading: true,
         order: {},
-        ordercode: ''
+        formCustom: {
+        productid: ''
+      },
+      ruleCustom: {
+        productid: [
+            {required: true,message: '请输入实际贷款金额',trigger: 'blur'},
+            {required: true, message: '请输入正确的实际贷款金额', pattern: /^(0|[1-9][0-9]*)$/, trigger: 'blur'},
+        ]
+      }
     }
   },
   mounted (){
@@ -100,7 +146,7 @@ export default {
           title: '未处理申述订单',
           content: '<p>确认要关闭该订单吗?</p>',
           onOk: () => {
-            this.orderclosure (1)
+            this.orderclosure ()
           },
           onCancel: () => {
               
@@ -108,32 +154,59 @@ export default {
         })
 
     },
-    orderclosure (num) {
-        let orderstatusdetail
-        if (num == 0) {
-            orderstatusdetail = 2
+    changeLoading () {
+      this.loading = false
+      this.$nextTick(() => {
+        this.loading = true
+      })
+    },
+    handleSubmit (name) {
+      this.$refs[name].validate(valid => {
+        if (!valid) {
+          return this.changeLoading()
         } else {
-            orderstatusdetail = 5
+            let data = {
+                orderCode : this.order.orderCode,
+                orderStatus : 4,
+                orderStatusDetail :2,
+                customerActualLoanAmount:this.formCustom.productid
+            }
+            this.http.post(BASE_URL + '/loan/baseRobOrder/updateOrderStatusForWeb', data)
+            .then(data=>{
+                if (data.code == 'success') {
+                    const title = '未处理申述订单'
+                    const content = '<p>贷款成功</p>'
+                    this.$Modal.success({
+                        title: title,
+                        content: content,
+                        onOk: () => {
+                            this.$router.push({ path: './orderList?num=2' })
+                        }
+                    })
+                } else {
+                this.$Message.info(data.message)
+                }
+            })
+            .catch((error) => {
+                console.log(error)
+            })
         }
+          this.changeLoading()
+          this.modal9 = false
+      })
+    },
+    handleReset (name) {
+      this.$refs[name].resetFields()
+    },
+    orderclosure () {
         let data = {
             orderCode : this.order.orderCode,
             orderStatus : 4,
-            orderStatusDetail :orderstatusdetail
+            orderStatusDetail : 5
         }
         this.http.post(BASE_URL + '/loan/baseRobOrder/updateOrderStatusForWeb', data)
         .then(data=>{
             if (data.code == 'success') {
-                if (num == 0) {
-                    const title = '未处理申述订单'
-                    const content = '<p>贷款成功</p>'
-                    this.$Modal.success({
-                    title: title,
-                    content: content,
-                    onOk: () => {
-                        this.$router.push({ path: './orderList?num=2' })
-                    }
-                })
-                } else {
                 const title = '未处理申述订单'
                     const content = '<p>关闭成功</p>'
                     this.$Modal.success({
@@ -143,8 +216,6 @@ export default {
                         this.$router.push({ path: './orderList?num=2' })
                     }  
                 })
-            
-            }
             } else {
             this.$Message.info(data.message)
             }

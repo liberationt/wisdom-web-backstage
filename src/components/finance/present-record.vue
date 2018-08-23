@@ -69,9 +69,9 @@
                                 </Select>
                                 <Input v-model="value2" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
                                 <span class="lh32 ml50">申请时间:</span>
-                                <DatePicker type="date" confirm placeholder="" style="width: 200px"></DatePicker>
+                                <DatePicker type="date"  :value="timeval3" @on-change="time3" confirm placeholder="" style="width: 200px"></DatePicker>
                                 &nbsp;&nbsp;-&nbsp;&nbsp;
-                                <DatePicker type="date" confirm placeholder="" style="width: 200px"></DatePicker>
+                                <DatePicker type="date" :value="timeval4" @on-change="time4" confirm placeholder="" style="width: 200px"></DatePicker>
                                 </div>
                                 <div class="right">
                                   <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(2)">
@@ -118,6 +118,8 @@ export default {
       value3: 0,
       timeval1: '',
       timeval2: '',
+      timeval3: '',
+      timeval4: '',
       startRow: 1,
       endRow: 10,
       total: 0,
@@ -320,30 +322,6 @@ export default {
           key: 'explain'
         }
       ],
-      data7: [
-        {
-          identifier: 'TXQD201804010001',
-          user: '139****5599 周*明',
-          putmonery: '400:00',
-          transferMonery: '300:00',
-          totalMonery: '600:00',
-          account: '招商银行 6626****7899',
-          time: '2018-03-29 15:12:34',
-          type: '待审核',
-          explain: '当月累计提现总额超过500元'
-        },
-        {
-          identifier: 'TXQD201804010001',
-          user: '139****5599 周*明',
-          putmonery: '400:00',
-          transferMonery: '300:00',
-          totalMonery: '600:00',
-          account: '招商银行 6626****7899',
-          time: '2018-03-29 15:12:34',
-          type: '待审核',
-          explain: '当月累计提现总额超过500元'
-        }
-      ],
       columns9: [
         {
           title: '提现编号',
@@ -439,34 +417,6 @@ export default {
 						}
         }
       ],
-      data8: [
-        {
-          identifier: 'TXQD201804010001',
-          user: '139****5599 周*明',
-          putmonery: '400:00',
-          transferMonery: '300:00',
-          totalMonery: '600:00',
-          account: '招商银行 6626****7899',
-          remarks: '',
-          time: '2018-03-29 15:12:34',
-          batchTime: '2018-03-29 15:12:34',
-          type: '待审核',
-          explain: '银行账户信息不对'
-        },
-        {
-          identifier: 'TXQD201804010001',
-          user: '139****5599 周*明',
-          putmonery: '400:00',
-          transferMonery: '300:00',
-          totalMonery: '600:00',
-          account: '招商银行 6626****7899',
-          remarks: '',
-          time: '2018-03-29 15:12:34',
-          batchTime: '2018-03-29 15:12:34',
-          type: '待审核',
-          explain: '银行账户信息不对'
-        }
-      ]
     }
   },
   methods: {
@@ -498,25 +448,49 @@ export default {
     // 待审核查询
     auditedQuery (num) {
       this.loading3 = true
-      let date1 = Date.parse(new Date(this.timeval1))/1000
-      let date2 = Date.parse(new Date(this.timeval2))/1000
-      if (date1 > date2) {
-        this.loading3 = false
-        this.$Modal.warning({
-          title: '申请时间',
-          content: '<p>开始时间不得大于结束时间</p>'
-        })
-        return false
+      if (num == 1) {
+        let date1 = Date.parse(new Date(this.timeval1))/1000
+        let date2 = Date.parse(new Date(this.timeval2))/1000
+        if (date1 > date2) {
+          this.loading3 = false
+          this.$Modal.warning({
+            title: '申请时间',
+            content: '<p>开始时间不得大于结束时间</p>'
+          })
+          return false
+        }    
+      } else {
+        let date1 = Date.parse(new Date(this.timeval3))/1000
+        let date2 = Date.parse(new Date(this.timeval4))/1000
+        if (date1 > date2) {
+          this.loading3 = false
+          this.$Modal.warning({
+            title: '申请时间',
+            content: '<p>开始时间不得大于结束时间</p>'
+          })
+          return false
+        }
       }
+      
       let phone
       let name
-      if (this.model1 == 'mobile') {
-        phone = this.value
-        name = ''
-      } else if (this.model1 == 'name') {
-        name = this.value
-        phone = ''
-      }
+      if (num == 1) {
+        if (this.model1 == 'mobile') {
+          phone = this.value
+          name = ''
+        } else if (this.model1 == 'name') {
+          name = this.value
+          phone = ''
+        }       
+      } else {
+        if (this.model2 == 'mobile') {
+          phone = this.value2
+          name = ''
+        } else if (this.model2 == 'name') {
+          name = this.value2
+          phone = ''
+        }
+      }      
       let recordtype
       if (num == 1) {
         recordtype = 0
@@ -534,7 +508,6 @@ export default {
       }
       this.http.post(BASE_URL + '/loan/withdraw/query/list',  audited)
       .then((resp) => {
-        console.log(resp)
         if (resp.code == 'success') {
           this.data6 = resp.data.dataList
           this.totalAmount = resp.data.totalAmount
@@ -566,11 +539,9 @@ export default {
                 let content = '<p>已通过</p>'
                 this.$Modal.success({
                   title: title,
-                  content: content,
-                  onOk: () => {
-                    this.auditedQuery ()
-                  }
+                  content: content
                 })
+                this.auditedQuery ()
               } else {
                 
               }
@@ -636,28 +607,45 @@ export default {
       this.loading2 = true
       let phone
       let name
-      if (this.model1 == 'mobile') {
-        phone = this.value
-        name = ''
-      } else if (this.model1 == 'name') {
-        name = this.value
-        phone = ''
+      if (num == 1) {
+        if (this.model1 == 'mobile') {
+          phone = this.value
+          name = ''
+        } else if (this.model1 == 'name') {
+          name = this.value
+          phone = ''
+        } else {
+          name = ''
+          phone = ''
+        }
       } else {
-        name = ''
-        phone = ''
-      }
+        if (this.model2 == 'mobile') {
+          phone = this.value2
+          name = ''
+        } else if (this.model2 == 'name') {
+          name = this.value2
+          phone = ''
+        } else {
+          name = ''
+          phone = ''
+        }
+      }    
       let recordtype
       if (num == 1) {
         recordtype = 0
       } else {
         recordtype = 1
       }
-      console.log(this.model1)
-      console.log(phone)
       let formData = new FormData()
       formData.append("name",name)
-      formData.append("beginTime",this.timeval1)
-      formData.append("endTime",this.timeval2)
+      if (num == 1) {
+        formData.append("beginTime",this.timeval1)
+        formData.append("endTime",this.timeval2)
+      } else {
+        formData.append("beginTime",this.timeval3)
+        formData.append("endTime",this.timeval4)
+      }
+      
       formData.append("phone",phone)
       formData.append("recordType",recordtype)
       let httpUrl = BASE_URL+'/loan/withdraw/exportToExcel'
@@ -674,8 +662,11 @@ export default {
       })
     },
     recordType (name) {
+      this.startRow =  1
+      this.endRow = 10
+      this.total = 0
       if (name == 0) {
-        this.auditedQuery (1)
+        this.auditedQuery (1)       
       } else {
         this.auditedQuery (2)
 
@@ -688,6 +679,12 @@ export default {
     },
     time2 (value, data) {
       this.timeval2 = value
+    },
+    time3 (value, data) {
+      this.timeval3 = value
+    },
+    time4 (value, data) {
+      this.timeval4 = value
     },
 
   },

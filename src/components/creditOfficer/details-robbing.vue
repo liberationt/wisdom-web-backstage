@@ -6,7 +6,7 @@
       </p>
     </div>
     <div id="feedback_details">
-        <h3>查看订单详情</h3>
+        <h3>查看抢单订单详情</h3>
         <div class="clearfix">
             <div class="left details_left">
             <p>
@@ -30,6 +30,15 @@
         <p>
             <span>抢单编号:</span>
             <span>{{order.orderNum}}</span>
+        </p>
+        <p>
+            <span>订单状态:</span>
+            <span v-if="order.orderStatus==0"></span>
+            <span v-if="order.orderStatus==1">已咨询</span>
+            <span v-if="order.orderStatus==2">待付款</span>
+            <span v-if="order.orderStatus==3">待确认</span>
+            <span v-if="order.orderStatus==4">交易成功</span>
+            <span v-if="order.orderStatus==5">交易失败</span>
         </p>
         <p>
             <span>抢单费用:</span>
@@ -58,6 +67,21 @@
         <p>
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
+        </p>
+        <p>
+            <span>订单关闭原因:</span>
+            <span>{{order.orderCloseMessage}}</span>
+        </p>
+        <p>
+            <span>评价内容:</span>
+            <span v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</span>
+            <br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100">
+                <img v-for="item in img" v-bind:src='item' alt="">
+            </span>
+            <br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100">{{order.commentDetailsReq.commentCreateTime}}</span><br>
+            <span v-if="order.commentDetailsReq!=null" class="ml100"><i v-for="item in order.commentDetailsReq.tagsCodeList">{{item}}&nbsp;&nbsp;</i></span>
         </p>
         </div>
         </div>
