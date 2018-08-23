@@ -26,7 +26,7 @@
         </p>
         <p>
             <span>所在区域:</span>
-            <span>{{order.orderCityNameSecond}}</span>
+            <span>{{order.orderCityNameFirst}}  {{order.orderCityNameSecond}}</span>
         </p>
         <p>
             <span>客户姓名:</span>
@@ -38,15 +38,15 @@
         </p>
         <p>
             <span>申请贷款金额:</span>
-            <span>{{order.customerLoanAmountAsFormat}}</span>
+            <span>{{order.customerLoanAmountAsFormat}}万元</span>
         </p>
         <p>
             <span>服务费:</span>
-            <span>{{order.serviceCostAsFormat}}</span>
+            <span>{{order.serviceCostAsFormat}}元</span>
         </p>
         <p>
             <span>实际放款金额:</span>
-            <span>{{order.customerActualLoanAmountAsFormat}}</span>
+            <span>{{order.customerActualLoanAmountAsFormat}}万元</span>
         </p>
         <p>
             <span>信贷员:</span>

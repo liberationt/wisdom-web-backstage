@@ -357,7 +357,7 @@ export default {
             this.banksrc = resp.data.bankLogoUrl
             this.banklogo = resp.data.bankLogoUrl
             this.formValidate1.bankname = resp.data.bankName
-            this.formValidate1.mark = resp.data.cornerMarkState
+            this.formValidate1.mark = resp.data.cornerMarkState+''
             this.cornersrc = resp.data.cornerMarkUrl
             this.banklogomark = resp.data.cornerMarkUrl
             this.formValidate1.desc = resp.data.jumpUrl
