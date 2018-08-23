@@ -18,8 +18,7 @@
             <img :src=item.logoUrl alt="">
         </div>
         <div class="version_text">
-            <p class="android right" v-if="item.appType == 1">安卓</p>
-            <p class="android right" v-if="item.appType == 0">IOS</p>
+            <p class="android right">{{item.appType}}</p>
             <p class="version_text_version">{{item.appVersion}}</p>
             <p class="version_text_lian">{{item.appIdentifier}}</p>
             <p class="version_text_xin" v-if="item.updateType == 1">不更新</p>
@@ -426,7 +425,7 @@ export default {
   margin-left: 110px;
 }
 .android {
-  width: 45px;
+  width: 50px;
   height: 25px;
   text-align: center;
   line-height: 25px;
