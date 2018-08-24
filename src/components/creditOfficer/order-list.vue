@@ -390,7 +390,7 @@ export default {
       if (this.nameval == 0) {
         this.consultingorders ()
       } else if (this.nameval == 1) {
-        
+        this.Orderrobbing ()
       } else if (this.nameval == 2) {
         this.bidorder ()
       }
@@ -401,7 +401,7 @@ export default {
       if (this.nameval == 0) {
         this.consultingorders ()
       } else if (this.nameval == 1) {
-        
+        this.Orderrobbing ()
       } else if (this.nameval == 2) {
         this.bidorder ()
       }

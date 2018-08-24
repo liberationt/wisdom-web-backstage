@@ -110,7 +110,7 @@
                         <span v-else-if="inform.loanStatus==2">已入驻</span>
                         <span v-else-if="inform.loanStatus==3">审核失败</span>
                     </p>
-                    <p v-if="inform.loanStatus!=0">
+                    <p v-if="inform.loanStatus!=0 ||inform.loanStatusMsg!=''">
                         <span>拒绝原因:</span>
                         <span>{{inform.loanStatusMsg}}</span>
                     </p>
