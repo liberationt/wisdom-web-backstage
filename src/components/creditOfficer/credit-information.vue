@@ -110,7 +110,7 @@
                         <span v-else-if="inform.loanStatus==2">已入驻</span>
                         <span v-else-if="inform.loanStatus==3">审核失败</span>
                     </p>
-                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
+                    <p v-if="inform.loanStatus!=0">
                         <span>拒绝原因:</span>
                         <span>{{inform.loanStatusMsg}}</span>
                     </p>
@@ -141,14 +141,12 @@
                     </div>
                     
                     <!-- v-if="inform.loanStatus==1" -->
-                    <div class="mt50 tc left" v-if="inform.loanStatus==1">
-                        <Button type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-                        <Button type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;                        
+                    <div class="mt50 tc left" >
+                        <Button v-if="inform.loanStatus==1" type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button v-if="inform.loanStatus==1" type="primary" @click="refuse">认证审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
+                        <Button type="primary" class="mr20" @click="journal">查看操作日志</Button>
+                      <Button type="ghost" @click="ationreturn">返回</Button>
                         <!-- <Button type="ghost" @click="ationreturn">返回</Button> -->
-                    </div>
-                     <div class="mt50 tc ml20 left w100b">
-                       <Button type="primary" class="mr20" @click="journal">查看操作日志</Button>
-                        <Button type="ghost" @click="ationreturn">返回</Button>
                     </div>
                     <Modal
                     title="认证审核拒绝"

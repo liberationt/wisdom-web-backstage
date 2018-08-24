@@ -168,13 +168,12 @@ export default {
   methods: {
     // 返回
     backingout () {
-      if (this.$route.query.fiveh&&this.$route.query.fiveh == 1) {
-        this.$router.push({path: '/editionh5'})
-      } else {
-        this.$router.push({path: '/versionManagement?num='+this.$route.query.num})       
-      }
-      
-
+      window.history.go(-1);
+      // if (this.$route.query.fiveh&&this.$route.query.fiveh == 1) {
+      //   this.$router.push({path: '/editionh5'})
+      // } else {
+      //   this.$router.push({path: '/versionManagement?num='+this.$route.query.num})       
+      // }      
     },
     pageChange (page) {
       this.startRow = page
@@ -421,6 +420,7 @@ export default {
       })
     },
     handleReset1 (name) {
+      this.banklogo = require('../../image/moren.png')
       this.$refs[name].resetFields()
     },
     // 跳转不跳转显示
