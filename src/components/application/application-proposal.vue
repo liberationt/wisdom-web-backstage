@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;{{application}}&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;建议反馈</span>
       </p>
     </div>
     <div class="clearfix">
@@ -34,6 +34,7 @@ import untils from '../../utils/utils'
 export default {
   data () {
     return {
+      application:'',
       cityList: [],
       cityType: [],
       model1: '',
@@ -251,6 +252,11 @@ export default {
     },
   },
   created(){
+    if (this.$route.query.ispage == 'huazan') {
+      this.application = '华赞金服'
+    } else {
+      this.application = '抢单侠'
+    }
     // 获取列表
     this.http.post(BASE_URL+"/loan/suggestionsFeedback/getSuggestionsFeedbackListSearchConfig").then(data=>{
       // console.log(data)

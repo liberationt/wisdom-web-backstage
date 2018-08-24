@@ -2,7 +2,7 @@
       <div>
         <div class="navigation">
             <p>
-            <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;贷款产品配置</span>
+            <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置>&nbsp;贷款产品配置</span>
           </p>
         </div>
       <ul class="querysty">
@@ -41,6 +41,10 @@
         <ul class="homePage_icon">
           <li v-for="item in dataList">
             <div class="loans_top clearfix">
+              <p class="left  ml5" style="color:#999;margin-top:5px">
+                  <span>ID:</span>
+                  <span>{{item.productCode}}</span>
+                </p>
               <p class="loans_img left"><img :src="item.productLogo" alt=""></p>
                 <p class="left loans_stage">
                   <span class="loas_happy">{{item.productName}}</span>
@@ -255,7 +259,7 @@ export default {
 <style lang="postcss" scoped>
 .loans_stages ul li {
   width: 300px;
-  height: 170px;
+  height: 180px;
   border: 1px solid #ccc;
   float: left;
   margin-right: 20px;

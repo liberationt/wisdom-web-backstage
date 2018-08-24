@@ -2,7 +2,7 @@
 <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;{{application}}&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;建议反馈详情</span>
       </p>
     </div>
     <div id="feedback_details">
@@ -35,6 +35,7 @@ import untils from '../../utils/utils'
 export default {
   data() {
     return {
+      application:'',
 			confirm: false,
 			sumtime: '',
 			userphone: '',
@@ -80,7 +81,14 @@ export default {
 				console.log(err)
 			})
 		}
-	}
+  },
+  mounted () {
+    if (this.$route.query.ispage == 'huazan') {
+      this.application = '华赞金服'
+    } else {
+      this.application = '抢单侠'
+    }
+  }
 };
 </script>
 <style lang="less" scoped>

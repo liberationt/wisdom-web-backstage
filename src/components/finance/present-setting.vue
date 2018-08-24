@@ -2,7 +2,7 @@
 <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理</span>
+        <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理&nbsp;>&nbsp;提现设置</span>
       </p>
     </div>
     <div >

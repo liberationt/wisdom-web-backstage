@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;会员管理</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;华赞金服&nbsp;>&nbsp;会员管理&nbsp;>&nbsp;会员列表</span>
       </p>
     </div>
     <div class="clearfix">

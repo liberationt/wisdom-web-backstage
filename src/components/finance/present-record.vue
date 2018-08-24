@@ -2,7 +2,7 @@
 <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理</span>
+        <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理&nbsp;>&nbsp;提现记录</span>
       </p>
     </div>
     <div >
@@ -88,7 +88,7 @@
                               共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
                             </p>
                             <div class="mt15">
-                                <Table border :columns="columns9" :data="data6"></Table>
+                                <Table border :columns="columns9" :data="data7"></Table>
                             </div>
                             <div class="tr mt15">
                                 <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -124,6 +124,9 @@ export default {
       endRow: 10,
       total: 0,
       totalAmount: 0,
+      total: 2,
+      totalAmount: 2,
+      numinner:0,
       loading: true,
       rejectcode: '',
       rejectorder: '',
@@ -275,53 +278,7 @@ export default {
         }
       ],
       data6: [],
-      columns8: [
-        {
-          title: '提现编号',
-          align: 'center',
-          key: 'identifier'
-        },
-        {
-          title: '申请用户',
-          align: 'center',
-          key: 'user'
-        },
-        {
-          title: '提现金额',
-          align: 'center',
-          key: 'putmonery'
-        },
-        {
-          title: '到账金额',
-          align: 'center',
-          key: 'transferMonery'
-        },
-        {
-          title: '当月提现总金额',
-          align: 'center',
-          key: 'totalMonery'
-        },
-        {
-          title: '提现账户',
-          align: 'center',
-          key: 'account'
-        },
-        {
-          title: '申请时间',
-          align: 'center',
-          key: 'time'
-        },
-        {
-          title: '状态',
-          align: 'center',
-          key: 'type'
-        },
-        {
-          title: '异常说明',
-          align: 'center',
-          key: 'explain'
-        }
-      ],
+      data7: [],
       columns9: [
         {
           title: '提现编号',
@@ -438,12 +395,20 @@ export default {
     },
     pageChange (page) {
       this.startRow = page
-      this.auditedQuery(1)
+      if (this.numinner==0) {
+        this.auditedQuery(1)
+      } else {
+        this.auditedQuery(2)
+      }
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.auditedQuery(1)
+      if (this.numinner==0) {
+        this.auditedQuery(1)
+      } else {
+        this.auditedQuery(2)
+      }
     },
     // 待审核查询
     auditedQuery (num) {
@@ -481,6 +446,9 @@ export default {
         } else if (this.model1 == 'name') {
           name = this.value
           phone = ''
+        } else {
+          name = ''
+          phone = ''
         }       
       } else {
         if (this.model2 == 'mobile') {
@@ -489,14 +457,19 @@ export default {
         } else if (this.model2 == 'name') {
           name = this.value2
           phone = ''
+        } else {
+          name = ''
+          phone = ''
         }
-      }      
+      }
+      
       let recordtype
       if (num == 1) {
         recordtype = 0
       } else {
         recordtype = 1
       }
+
       let audited = {
         recordType: recordtype,
         phone: phone,
@@ -509,10 +482,15 @@ export default {
       this.http.post(BASE_URL + '/loan/withdraw/query/list',  audited)
       .then((resp) => {
         if (resp.code == 'success') {
-          this.data6 = resp.data.dataList
           this.totalAmount = resp.data.totalAmount
           this.total = Number(resp.data.total)
           this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          if (num == 1) {
+            this.data6 = resp.data.dataList                   
+          } else {
+            this.data7 = resp.data.dataList     
+          }
+          
           this.loading3 = false
         } else {
           this.loading3 = false 
@@ -541,7 +519,7 @@ export default {
                   title: title,
                   content: content
                 })
-                this.auditedQuery ()
+                this.auditedQuery (1)
               } else {
                 
               }
@@ -593,7 +571,7 @@ export default {
             title: title,
             content: content
           })
-          this.auditedQuery ()
+          this.auditedQuery (1)
         } else {
 
         }
@@ -665,6 +643,7 @@ export default {
       this.startRow =  1
       this.endRow = 10
       this.total = 0
+      this.numinner = name
       if (name == 0) {
         this.auditedQuery (1)       
       } else {
@@ -692,7 +671,6 @@ export default {
     this.auditedQuery(1)
     this.http.post(BASE_URL + '/loan/withdraw/getQueryOption',  {})
       .then((resp) => {
-        console.log(resp)
         if (resp.code == 'success') {
           this.cityList = resp.data.searchOptionList
 

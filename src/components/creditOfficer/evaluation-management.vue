@@ -2,7 +2,7 @@
 <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;信贷员管理</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷员管理&nbsp;>&nbsp;评价管理</span>
       </p>
     </div>
     <Tabs type="card" @on-click="labell1" :value="tabs" :animated="false">

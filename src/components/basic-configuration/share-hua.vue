@@ -2,7 +2,7 @@
   <div>
       <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}>&nbsp;基础配置>&nbsp;分享配置</span>
         </p>
       </div>
       <div class="homePage">
@@ -52,6 +52,7 @@
 export default {
   data() {
     return {
+      application:'',
       formValidate: {
           name: '',
           mail: '',
@@ -177,6 +178,13 @@ export default {
           return false
         }
       },  
+  },
+  mounted () {
+    if (this.$route.query.isapp == 'huazan') {
+      this.application = '华赞金服'
+    } else {
+      this.application = '抢单侠'
+    }
   }
 };
 </script>

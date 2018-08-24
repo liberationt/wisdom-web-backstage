@@ -2,7 +2,7 @@
   <div>
      <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;页面配置>&nbsp;首页导航H5</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;页面配置>&nbsp;首页导航H5</span>
         </p>
       </div>
       <div class="homePage clearfix">
@@ -82,7 +82,7 @@
                 </Col>
             </Row>
           </FormItem>
-          <FormItem label="特点1：" v-if="link" prop="value3">
+          <FormItem label="" v-if="link" prop="value3">
             <Input v-model="formValidate2.value3" placeholder="请输入地址" style="width: 200px"></Input>
           </FormItem>         
         </Form>

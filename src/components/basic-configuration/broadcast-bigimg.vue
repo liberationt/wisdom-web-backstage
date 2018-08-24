@@ -2,7 +2,7 @@
   <div>
       <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;信用卡中心</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}>&nbsp;版本页面配置列表</span>
         </p>
       </div>
       <div class="clearfix">
@@ -46,9 +46,15 @@
                 </Select>
               </FormItem>
               <FormItem label="" prop="home" v-if="homelist">
-                <Select v-model="formValidate1.home"  placeholder="请选择">
+                <Select v-model="formValidate1.home" @on-change='detailschoice' placeholder="请选择">
                   <Option v-for="rem in jumpAppParams" :value="rem.jumpUrl">{{rem.jumpName}}</Option>                  
                 </Select>
+              </FormItem>
+              <FormItem v-if="detailscode" label="产品ID" prop="code" >
+                <Input v-model="formValidate1.code" placeholder="请输入产品ID"></Input>
+              </FormItem>
+              <FormItem v-if="detailscode" label="信贷员手机" prop="phone" >
+                <Input v-model="formValidate1.phone" placeholder="请输入信贷员手机"></Input>
               </FormItem>
               <FormItem label="跳转URL" prop="desc" v-if="moveh5">
                 <Input v-model="formValidate1.desc" placeholder="请输入跳转URL"></Input>
@@ -123,12 +129,14 @@
 export default {
   data() {
     return {
+      application:'',
       modal1: false,
       modal2: false,
       loading: true,
       nojump: false,
       homelist:false,
       moveh5: false,
+      detailscode:false,
       locationtype:this.$route.query.banner,
       num:this.$route.query.img,
       fiveh:this.$route.query.fiveh,
@@ -145,6 +153,8 @@ export default {
         mark: '0',
         layout:'1',
         home: '',
+        code: '',
+        phone:'',
         desc: ''
       },
       jumpAppParams: [],
@@ -160,6 +170,12 @@ export default {
         // ],
         desc: [
           { required: true, message: '请输入跳转URL！', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入产品ID！', trigger: 'blur' }
+        ],
+        phone: [
+          { required: true, message: '请输入信贷员手机！', trigger: 'blur' }
         ]
       },
       bankdatalist: []
@@ -451,6 +467,12 @@ export default {
         this.homelist = true
       }
     },
+    detailschoice (val) {
+      if (val == 'hzjf://www.wisdom.com/customerDetail?loanOfficerCode=' || val == '') {
+        this.detailscode = true
+      }
+
+    },
     // 上架
     edit_icon_colorB (code, num) {
       this.$Modal.confirm({
@@ -664,6 +686,11 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.query.num == 1 || this.$route.query.fiveh == 1) {
+      this.application = '华赞金服'
+    } else {
+      this.application = '抢单侠'
+    }
     this.banklist ()
     this.http.post(BASE_URL + '/loan/banner/jumpParam', {})
       .then((resp) => {

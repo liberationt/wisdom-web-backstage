@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-      <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置</span>
+      <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;黑名单管理</span>
       </p>
     </div>
       <Tabs type="card" @on-click="labell1" :value="tabs" :animated="false">

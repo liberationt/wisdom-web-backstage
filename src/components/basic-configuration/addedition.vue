@@ -3,7 +3,7 @@
       <h1 class="h1">页面配置</h1>
       <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;版本号名称</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置>&nbsp;H5页面配置</span>
         </p>
       </div>
       <!-- 首页 -->

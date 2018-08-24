@@ -3,7 +3,7 @@
     <h1 class="h1">版本管理</h1>
     <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}&nbsp;>&nbsp;基础配置&nbsp;>&nbsp;版本管理</span>
         </p>
     </div>
     <div class="addButton">
@@ -114,6 +114,7 @@ import utils from "../../utils/utils";
 export default {
   data() {
     return {
+      application:'',
       loading: true,
       powerful: '',
       versionnumber: [], // 版本号
@@ -321,6 +322,13 @@ export default {
       let classification = this.$route.query.num
       utils.putlocal('versionnumber',item)
       this.$router.push({ path: './pageConfigguration?versionCode='+code +'&appIdentifier='+ fier +'&appVersion='+version +'&appType='+type+'&nums='+classification })
+    }
+  },
+  mounted () {
+    if (this.$route.query.num == 1) {
+      this.application = '华赞金服'
+    } else {
+      this.application = '抢单侠'
     }
   }
 };

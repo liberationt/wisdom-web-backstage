@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;站内信</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;站内信</span>
       </p>
     </div>
 
@@ -253,7 +253,7 @@ export default {
           this.$Message.success("删除成功");
           this.listxuan();
         } else {
-          this.$Message.success("删除失败");
+          this.$Message.error(data.message);
         }
       }).catch(err=>{
         console.log(err)

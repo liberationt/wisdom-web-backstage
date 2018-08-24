@@ -2,7 +2,7 @@
   <div>
       <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;信用卡中心</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置>&nbsp;信用卡中心</span>
         </p>
       </div>
       <Row :gutter="32">

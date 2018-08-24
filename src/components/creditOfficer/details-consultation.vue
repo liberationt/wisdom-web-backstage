@@ -2,24 +2,28 @@
 <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;   信贷员管理</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;   信贷员管理</span>
       </p>
     </div>
     <div id="feedback_details">
         <h3>查看咨询订单详情</h3>
         <div class="clearfix">
         <div class="left details_left">
-            <p>
+            <p v-if="order.orderCreateTime!=null">
                 <span>咨询时间</span>
                 <span>{{order.orderCreateTime}}</span>
             </p>
-            <p>
+            <p v-if="order.orderPayTime!=null">
                 <span>支付时间</span>
                 <span>{{order.orderPayTime}}</span>
             </p>
-            <p>
+            <p v-if="order.orderConfirmTime!=null">
                 <span>确认时间</span>
                 <span>{{order.orderConfirmTime}}</span>
+            </p>
+            <p v-if="order.commentDetailsReq!=null">
+                <span>评价时间</span>
+                <span>{{order.commentDetailsReq.commentCreateTime}}</span>
             </p>
         </div>
         <div class="left details_right">
@@ -60,11 +64,23 @@
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
         </p>
-        <p>
+        <p v-if="order.orderCloseMessage!=null">
             <span>订单关闭原因:</span>
             <span>{{order.orderCloseMessage}}</span>
         </p>
-        <p>
+        <p v-if="order.commentDetailsReq!=null">
+            <span>评价状态:</span>
+            <span>{{order.commentDetailsReq.isPass}}</span>
+        </p>
+        <p v-if="order.commentDetailsReq!=null">
+            <span>评价内容:</span>
+            <Icon  v-for="item in img" type="ios-star" class="yellow1 "></Icon>
+            <p v-if="order.commentDetailsReq!=null" class="ml100" >
+                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade ">{{item}}</span>
+            </p>
+            <p v-if="order.commentDetailsReq!=null" class="ml100" >{{order.commentDetailsReq.content}}</p>
+        </p>
+        <!-- <p>
             <span>评价内容:</span>
             <span v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</span>
             <br>
@@ -74,7 +90,7 @@
             <br>
             <span v-if="order.commentDetailsReq!=null" class="ml100">{{order.commentDetailsReq.commentCreateTime}}</span><br>
             <span v-if="order.commentDetailsReq!=null" class="ml100"><i v-for="item in order.commentDetailsReq.tagsCodeList">{{item}}&nbsp;&nbsp;</i></span>
-        </p>      
+        </p>       -->
         </div>
         </div>
         <div>
@@ -139,13 +155,6 @@ export default {
         margin-top: 20px
     }
 }
-.evaluation_grade{
-    display: inline-block;
-    border: 1px solid #FF6600;
-    line-height: 30px;
-    padding: 0px 20px;
-    color: #FF6600
-}
 .details_left{
     padding-top: 10px;
     p{
@@ -163,5 +172,13 @@ export default {
             text-align: right
         }
     }
+}
+.evaluation_grade{
+    display: inline-block;
+    border: 1px solid #FF6600;
+    line-height: 30px;
+    padding: 0px 20px;
+    color: #FF6600;
+     text-align: center!important
 }
 </style>

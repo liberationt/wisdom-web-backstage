@@ -3,7 +3,7 @@
       <h1 class="h1">页面配置</h1>
       <div class="navigation">
         <p>
-        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;百信钱袋>&nbsp;版本号名称</span>
+        <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}>&nbsp;版本页面配置</span>
         </p>
       </div>
       <!-- 首页 -->
@@ -102,11 +102,20 @@
 export default {
     data () {
         return {
+            application:'',
             code: this.$route.query.versionCode,
             fier: this.$route.query.appIdentifier,
             version: this.$route.query.appVersion,
             type: this.$route.query.appType,
             num:this.$route.query.nums
+        }
+    },
+    mounted () {
+        if (this.$route.query.nums == 1) {
+            this.application = '华赞金服'
+        } else {
+            this.application = '抢单侠'
+            
         }
     }
 }
