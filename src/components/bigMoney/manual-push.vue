@@ -275,6 +275,12 @@ import utils from '../../utils/utils'
 				} else if (value == 'partya-zhudaiwang') {
 					this.hrefxls = 'dk_zhudai.xlsx'
 					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_zhudai.xlsx'
+				} else if (value == 'partya-kunxuan-hengchang') {
+					this.hrefxls = 'dk_kunxuan.xlsx'
+					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_zhudai.xlsx'
+				} else if (value == 'partya-benxiang-hengchang') {
+					this.hrefxls = 'dk_benxiang.xlsx'
+					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_zhudai.xlsx'
 				}
 
 			},
