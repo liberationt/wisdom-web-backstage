@@ -28,7 +28,7 @@
                       transfer
                       title="确认删除吗?"
                       @on-ok="deleteOk(item.guideCode)"
-                      @on-cancel="deleteCancel">
+                      >
                       <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
                   </Poptip>
                </span>
@@ -293,15 +293,12 @@ export default {
           this.$Message.info('删除成功')
           this.query()
         } else {
-          this.$Message.info('删除失败')
+          this.$Message.info(data.message)
         }
       }).catch(err=>{
         this.$Message.info('删除失败')
       })
       
-    },
-    deleteCancel () {
-      this.$Message.info('删除失败！')
     },
     changeLoading () {
       this.loading = false

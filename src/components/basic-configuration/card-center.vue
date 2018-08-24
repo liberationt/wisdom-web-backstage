@@ -339,6 +339,7 @@ export default {
             })
             this.banklogo = require('../../image/moren.png')
             this.banklogomark = require('../../image/moren.png')
+            this.banksrc == ''
             this.modal1 = false
             this.banklist ()
           } else {
