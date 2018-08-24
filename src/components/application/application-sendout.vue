@@ -13,7 +13,7 @@
           </Select>
         </FormItem>
         <FormItem label="标题:" prop="title">
-          <Input type="text" v-model="formCustom.title" autocomplete="off" placeholder="请输入标题" style="width: 200px"></Input>
+          <Input type="text" v-model="formCustom.title" autocomplete="off" placeholder="请输入标题" style="width: 400px"></Input>
         </FormItem>
         <FormItem label="推送时间:" prop="datePicker">
           <Select @on-change="datepicker" v-model="formCustom.datePicker" placeholder="请选择" style="width:200px">
@@ -44,7 +44,7 @@
           </Select>
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
-          <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 200px"></Input>
+          <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="handleSubmit('formCustom')">提交保存</Button>

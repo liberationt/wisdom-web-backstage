@@ -13,7 +13,7 @@
           </Select>
         </FormItem>
         <FormItem label="标题:" prop="title">
-          <Input type="text" v-model="formCustom.title" autocomplete="off" placeholder="请输入标题" style="width: 200px"></Input>
+          <Input type="text" v-model="formCustom.title" autocomplete="off" placeholder="请输入标题" style="width: 400px"></Input>
         </FormItem>
         <FormItem label="推送时间:" prop="datePicker">
           <Select @on-change="datepicker" v-model="formCustom.datePicker" placeholder="请选择" style="width:200px">
@@ -32,19 +32,19 @@
           </Select>
         </FormItem>
         <FormItem label="推送手机号:" prop="phone" v-if="push">
-          <Input v-model="formCustom.phone" type="textarea" style="width:400px" placeholder="请输入推送手机号"></Input>
+          <Input v-model="formCustom.phone" type="textarea" style="width:200px" placeholder="请输入推送手机号"></Input>
           <p>指定手机号,以半角逗号分隔</p>
         </FormItem>
         <FormItem label="跳转类型:" prop="h5">
           <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
             <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
-          <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" v-if="homeh5">
+          <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:400px" v-if="homeh5">
             <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
           </Select>
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
-          <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 200px"></Input>
+          <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
         </FormItem>
         <FormItem>
           <Button type="primary" @click="handleSubmit('formCustom')">提交保存</Button>

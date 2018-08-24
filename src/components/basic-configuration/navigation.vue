@@ -6,20 +6,21 @@
         </p>
       </div>
       <div class="homePage clearfix">
-          <h1 class="homePage_h1">首页导航APP
-            
-            <Button type="warning"  class="right mr20 w60  toupdate" @click=" backingout">返回</Button>
-            <Button class="right mr10" type="info" @click="addapp">添加</Button>
-            <!-- <p data-v-38176e38="" @click="addapp" class="homePage_button right"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p> -->
-          </h1>
+          <div class="clearfix">
+            <p data-v-38176e38="" @click="addapp" class="left homePage_button mr20"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
+            <Button type="warning"  class="left mr20 w60  toupdate" @click=" backingout">返回</Button>
+            <!-- <Button type="info" class="left w60 ml20" @click="bankupdate">更新</Button> -->
+          </div>
+
           <!-- 贷款超市 -->
-         <ul class="homePage_icon">
+         <ul class="homePage_icon clearfix">
            <li class="left mr20 dataList" v-for="item in dataList">
              <p class="icon">
                <img :src=item.guideLogoUrl alt="">
              </p>
              <p class="homePage_text">{{item.guideName}}</p>
              <p>
+               <!-- <InputNumber class="banknumint left ml10" :min="0" v-model="item.bannerNo"></InputNumber> -->
                <span class="edit_icon" @click="edit_icon(item.guideCode)"><Icon type="android-create"></Icon></span>
                <span class="edit_icon">
                   <Poptip
@@ -35,6 +36,7 @@
            </li>
          </ul>
       </div>
+      <!-- <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" class="right" show-sizer show-total></Page> -->
       <!-- 提示框 -->
         <Modal
         v-model="modal1"
@@ -141,6 +143,9 @@ export default {
       // model2: '贷款列表',
       link: false,
       col: true,
+      total: 0,
+      startRow: 1,
+      endRow: 10,
       formValidate2: {
         value2: '',
         modell: '0',
@@ -176,8 +181,8 @@ export default {
       let versionnumber = utils.getlocal('versionnumber')
       this.http.post(BASE_URL+"/loan/guide/getGuideList",{
           versionCode : versionnumber.versionCode,
-          pageSize : 100,
-          pageNum : 1
+          pageSize : this.endRow,
+          pageNum : this.startRow
         }).then(data=>{
         console.log(data)
         if(data.code == 'success'){
@@ -416,7 +421,7 @@ export default {
 .homePage {
   margin-bottom: 25px;
   width: 100%;
-  border: 1px solid #ccc;
+  // border: 1px solid #ccc;
   padding-bottom: 40px;
 }
 .homePage_h1 {
@@ -426,6 +431,8 @@ export default {
 }
 .homePage_button[data-v-38176e38] {
   width: 80px;
+  height: 30px;
+  line-height: 30px;
   border-radius: 50px;
   border: 1px solid #ccc;
   background-color: #fff;
