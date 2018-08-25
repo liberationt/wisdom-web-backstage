@@ -35,7 +35,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page v-if="tableli == 'tab1'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <!-- 资料待审核 -->
@@ -57,7 +57,7 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page  v-if="tableli == 'tab2'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="注册无资料" name="tab3">
@@ -79,7 +79,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page v-if="tableli == 'tab3'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷员列表" name="tab4">
@@ -112,7 +112,7 @@
             <Table border :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page v-if="tableli == 'tab4'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷机构" name="tab5">
@@ -137,7 +137,7 @@
             <Table border :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page v-if="tableli == 'tab5'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
@@ -817,6 +817,8 @@ export default {
       }
     },
     PageSizeChange(page) {
+      console.log(page);
+
       this.startRow = 1;
       this.endRow = page;
       if (this.tableli == "tab1") {
