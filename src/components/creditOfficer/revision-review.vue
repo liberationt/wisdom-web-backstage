@@ -65,7 +65,7 @@
         <span class="left">头像图片：</span>
         <img :src='this.imgurl' alt="">
       </div>
-      <p v-if="auditMessl">
+      <p v-if="this.auditMess != ''">
         <span>拒绝原因:</span>
         <span>{{auditMess}}</span>
       </p>
