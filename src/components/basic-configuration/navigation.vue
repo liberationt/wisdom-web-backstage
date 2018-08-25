@@ -420,6 +420,7 @@ export default {
 }
 .dataList {
   margin-bottom: 20px;
+  padding: 0 20px;
 }
 .homePage_icon .icon {
   width: 80px;
@@ -439,7 +440,7 @@ export default {
 }
 .homePage_icon li {
   border: 1px solid #ccc;
-  width: 150px;
+  // width: 150px;
   text-align: center;
 }
 .homePage {

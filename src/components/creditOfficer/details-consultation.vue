@@ -139,7 +139,9 @@ export default {
   methods: {
     handleRender() {
       this.$router.push({
-        path: "./orderlog?orderCode=" + this.order.orderCode
+        path:
+          "./operationLog?operationType=orderLog&orderCode=" +
+          this.order.orderCode
       });
     },
     // 返回

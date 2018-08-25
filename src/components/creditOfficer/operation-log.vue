@@ -120,6 +120,12 @@
           Object.assign(requestParams, {
             loanOfficerCode: this.$route.query.loanOfficerCode,
           })
+        } else if ('orderLog' == operationType) {
+          this.title = '订单操作日志'
+          requestUrl = BASE_URL + "/loan/orderLog/getOrderLogApplyList";
+          Object.assign(requestParams, {
+            orderCode: this.$route.query.orderCode,
+          })
         } else {   //统一的日志接口 通过 operationType  区分
           requestUrl = BASE_URL + "/loan/operationLog/queryPage";
           Object.assign(requestParams, {
@@ -132,6 +138,9 @@
             case 'officer_edit':
               this.title = '信贷基本配置日志'
               break
+            case 'user_social_edit':
+              this.title = '用户身价设置修改日志'
+                  break
           }
         }
 
@@ -164,7 +173,20 @@
                 this.data1.push(item1)
               })
             }
-
+            break
+          case 'orderLog':
+            if (data.orderLogList && data.orderLogList.length > 0) {
+              this.data1 = []
+              data.orderLogList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.orderStatusTime,
+                  operationMan: item.operator,
+                  operationContent: item.content,
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
             break
           default :
             this.data1 = data.dataList

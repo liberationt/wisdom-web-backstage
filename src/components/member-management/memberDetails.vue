@@ -54,7 +54,7 @@
                         <span>贷款意向</span>
                         <span>{{informationlist.loanAmount}}</span>
                         <span>贷款期限</span>
-                        <span>{{informationlist.loanTimeLimit}}</span>
+                        <span>{{informationlist.loanTimeLimit}}个月</span>
                     </p>
                     <h3>基本信息</h3>
                     <ul class="essinformation">

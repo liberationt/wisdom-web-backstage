@@ -114,6 +114,7 @@
         </div>
         </div>
         <div>
+            <Button type="primary" @click="handleRender">查看操作日志</Button>&nbsp;&nbsp;
             <Button type="ghost" class="w100" @click="backingout">返回</Button>
         </div>
     </div>
@@ -128,7 +129,7 @@ export default {
   },
   methods: {
     handleRender () {
-      this.$router.push({ path: './orderlog?orderCode='+ this.order.orderCode })
+        this.$router.push({ path: './operationLog?operationType=orderLog&orderCode=' + this.order.orderCode })
     },
     // 返回
     backingout () {

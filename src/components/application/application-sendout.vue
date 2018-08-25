@@ -53,9 +53,6 @@
                     </FormItem>
                 </Col>
             </Row>
-
-          
-          
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
@@ -101,7 +98,7 @@ export default {
         object: { required: true, message: '请选择推送对象', trigger: 'change' },
         phone: [
           { required: true, message: '请输入推送手机号', trigger: 'blur' },
-          {required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
+          // { required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
           ],
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
         value5: { required: true, message: '请选择跳转页面', trigger: 'change' },
@@ -129,8 +126,31 @@ export default {
   },
   methods: {
     handleSubmit (name) {
+      let datetimel = Date.parse(new Date(this.datevalue))
+      let datetimell = Date.parse(new Date())
       this.$refs[name].validate(valid => {
-          console.log(this.datevalue)
+          if(this.datevalue == "" && this.ifdate == true){
+              this.$Modal.warning({
+                title: '指定时间',
+                content: '<p>请选择指定时间</p>',
+                onOk: () => {
+                },
+                onCancel: () => {           
+                }
+              })
+              return false
+          }
+          if(datetimel <= datetimell && this.ifdate == true){
+              this.$Modal.warning({
+                title: '指定时间',
+                content: '<p>指定时间不能小于当前时间</p>',
+                onOk: () => {
+                },
+                onCancel: () => {           
+                }
+              })
+              return false
+          }
           let tiurl 
           if(this.$route.query.isedit == 'is') {
             tiurl = '/loan/webMail/modifyMessageMailByCode'
@@ -163,7 +183,7 @@ export default {
           })
           // this.$Message.success('Success!')
         } else {
-          this.$Message.error('提交失败!')
+          // this.$Message.error('提交失败!')
         }
       })
     },
@@ -257,7 +277,8 @@ export default {
           this.formCustom.h5 = data.data.jumpType + ''
           this.formCustom.value5 = data.data.jumpUrl
           this.formCustom.phone = data.data.targetPhone
-          this.mailCode = data.data.mailCode
+          this.mailCode = data.data.mailCode,
+          this.formCustom.jumpurl = data.data.jumpUrl
         }
       }).catch(err=>{
         console.log(err)
