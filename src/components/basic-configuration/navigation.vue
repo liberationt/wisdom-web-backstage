@@ -8,8 +8,8 @@
       <div class="homePage clearfix">
           <div class="clearfix">
             <p data-v-38176e38="" @click="addapp" class="left homePage_button mr20"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
-            <Button type="warning"  class="left mr20 w60  toupdate" @click=" backingout">返回</Button>
-            <!-- <Button type="info" class="left w60 ml20" @click="bankupdate">更新</Button> -->
+            <Button type="info" class="left w60 ml20" @click="bankupdate">更新</Button>
+            <Button type="warning"  class="left ml20 w60  toupdate" @click=" backingout">返回</Button>
           </div>
 
           <!-- 贷款超市 -->
@@ -20,7 +20,7 @@
              </p>
              <p class="homePage_text">{{item.guideName}}</p>
              <p>
-               <!-- <InputNumber class="banknumint left ml10" :min="0" v-model="item.bannerNo"></InputNumber> -->
+               <InputNumber class="banknumint left ml10" :min="0" v-model="item.guideNo"></InputNumber>
                <span class="edit_icon" @click="edit_icon(item.guideCode)"><Icon type="android-create"></Icon></span>
                <span class="edit_icon">
                   <Poptip
@@ -36,7 +36,7 @@
            </li>
          </ul>
       </div>
-      <!-- <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" class="right" show-sizer show-total></Page> -->
+      <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" class="right" show-sizer show-total></Page>
       <!-- 提示框 -->
         <Modal
         v-model="modal1"
@@ -89,19 +89,6 @@
           </FormItem>         
         </Form>
         </div>
-        
-
-        <!-- <Input v-model="value2" placeholder="请输入导航标题" style="width: 200px" class="input minput"></Input>
-        <p class="jiaoyan" v-show="iskong">导航标题不能为空</p>
-        <Row>
-        <Col span="12" class="left mt15 ml10" style="padding-right:10px;width:150px;">
-            
-        </Col>
-        <Col span="12" class="left mt15 ml4" v-if="col" style="width:150px;">
-            
-        </Col>
-        </Row>
-        <Input v-model="value3" placeholder="请输入地址" style="width: 300px" class="input minput" v-if="link"></Input> -->
       </Modal>
   </div>
 </template>
@@ -123,7 +110,7 @@ export default {
       isedit:'',
       isurl: false,
       imgurl:'',
-      dataList:[2,2],
+      dataList:[],
       imgName: '',
       visible: false,
       uploadList: [],     
@@ -163,19 +150,51 @@ export default {
           { required: true, message: '请选择跳转页面！', trigger: 'blur' }
         ],
         value3: [
-          { required: true, message: '请输入特点！', trigger: 'blur' }
+          { required: true, message: '请输入地址！', trigger: 'blur' }
         ]
       },
     }
   },
   methods: {
+    //更新
+    bankupdate(){
+      this.$Modal.confirm({
+          title: '更新排序',
+          content: '<p>确认要更新排序吗?</p>',
+          onOk: () => {
+            this.updatelist ()
+          },
+          onCancel: () => {           
+          }
+      })
+    },
+    updatelist(){
+     let list = []
+      for (let i = 0; i < this.dataList.length; i++) {
+        let obj = new Object ()
+        obj.guideCode  = this.dataList[i].guideCode 
+        obj.guideNo  = this.dataList[i].guideNo 
+        list.push (obj)
+      }
+      this.http.post(BASE_URL+"/loan/guide/batchModifyGuide",list).then(data=>{
+        if(data.code == 'success'){
+          this.query()
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    pageChange (page) {
+      this.startRow = page
+      this.query()
+    },
+    pagesizechange (page) {
+      this.startRow = 1
+      this.endRow = page
+      this.query()
+    },
     backingout () {
-      window.history.go(-1);
-      // if (this.$route.query.fiveh&&this.$route.query.fiveh == 1) {
-      //   this.$router.push({path: '/editionh5'})
-      // } else {
-      //   this.$router.push({path: '/versionManagement?num='+this.$route.query.num})       
-      // }      
+      window.history.go(-1);  
     },
     query(){
       let versionnumber = utils.getlocal('versionnumber')
@@ -186,6 +205,8 @@ export default {
         }).then(data=>{
         console.log(data)
         if(data.code == 'success'){
+          this.total = Number(data.data.total)
+          this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0 ? 1 : Math.ceil(data.data.startRow / this.endRow);
           this.dataList = data.data.dataList
         }
       }).catch(err=>{

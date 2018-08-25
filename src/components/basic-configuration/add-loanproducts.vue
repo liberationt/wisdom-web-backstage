@@ -471,7 +471,7 @@ export default {
           { required: true, type: 'number', message: '请选择下架方式', trigger: 'blur' }
         ],
         dayApplyMax: [
-          { required: true, type: 'number', message: '请输入当天最多申请次数', trigger: 'blur' }
+            { required: true, type: 'number', message: '请输入正确的当天最多申请次数', trigger: 'blur' }
         ],
         autoOn: [
           { required: true, type: 'number', message: '请选择上架方式', trigger: 'blur' }
@@ -500,8 +500,8 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
             let reg = /^\+?[1-9]\d*$/
-            let cient = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/
-            let cart = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/
+            let cient = /^(?!0$)(?!0\.0)[1-9]?[0-9](\.[0-9]{1})?$/
+            let cart = /^(?!0$)(?!0\.0)[1-9]?[0-9](\.[0-9]{1,2})?$/
             if (!reg.test(this.formValidate.applyCounts)) {
                 const title = '提示'
                 let content = '<p>请输入正确的申请人基数</p>'
@@ -563,12 +563,21 @@ export default {
                 }
                 if (this.formValidate.limitMin>this.formValidate.limitMax) {
                     const title = '提示'
-                    let content = '<p>开始金额不得大于结束金额</p>'
+                    let content = '<p>开始金额不能大于结束金额</p>'
                     this.$Modal.warning({
                         title: title,
                         content: content                    
                     })
                     return false               
+                }
+                if (this.formValidate.limitDefault<this.formValidate.limitMin||this.formValidate.limitDefault>this.formValidate.limitMax) {
+                    const title = '提示'
+                    let content = '<p>默认额度必须要在额度范围内</p>'
+                    this.$Modal.warning({
+                        title: title,
+                        content: content                    
+                    })
+                    return false
                 }
             } else {
                 for (let i = 0; i < this.quotamoney.length; i++) {
@@ -590,6 +599,15 @@ export default {
                         })
                         return false                  
                     }
+                    if (this.formValidate.limitDefault!=this.quotamoney[i].detailValue) {
+                    const title = '提示'
+                    let content = '<p>固定默认额度必须是填写的固定值其中一个</p>'
+                    this.$Modal.warning({
+                        title: title,
+                        content: content                    
+                    })
+                    return false
+                }
                 }
             }
 
@@ -614,13 +632,22 @@ export default {
             }
             if (this.formValidate.termMin>this.formValidate.termMax) {
                 const title = '提示'
-                let content = '<p>开始金额不得大于结束金额</p>'
+                let content = '<p>开始金额不能大于结束金额</p>'
                 this.$Modal.warning({
                     title: title,
                     content: content                    
                 })
                 return false               
-            }              
+            }
+            if (this.formValidate.termDefault<this.formValidate.termMin||this.formValidate.termDefault>this.formValidate.termMax) {
+                    const title = '提示'
+                    let content = '<p>默认期限要在期限范围内</p>'
+                    this.$Modal.warning({
+                        title: title,
+                        content: content                    
+                    })
+                    return false
+                }
             } else {
                 for (let i = 0; i < this.termmoney.length; i++) {
                     if (this.termmoney[i].detailValue == '') {
@@ -641,10 +668,41 @@ export default {
                         })
                         return false                  
                     }
+                    if (this.formValidate.termDefault!=this.termmoney[i].detailValue) {
+                    const title = '提示'
+                    let content = '<p>固定默认期限必须是填写的固定值其中一个</p>'
+                    this.$Modal.warning({
+                        title: title,
+                        content: content                    
+                    })
+                    return false
+                }
                 }
             }
-            return false
 
+            for (let i = 0; i < this.addnormals.length; i++) {
+                    if (this.addnormals[i].detailValue == '') {
+                        const title = '提示'
+                        let content = '<p>请输入申请条件</p>'
+                        this.$Modal.warning({
+                            title: title,
+                            content: content                    
+                        })
+                        return false                  
+                    }
+                }
+                if (this.formValidate.autoOff == 0) {
+                    if (!reg.test(this.formValidate.dayApplyMax)) {
+                        const title = '提示'
+                        let content = '<p>请输入正确的当天最多申请次数</p>'
+                        this.$Modal.warning({
+                            title: title,
+                            content: content                    
+                        })
+                        return false               
+                    }
+                }         
+            return false
             if (this.formValidate.autoOff == 1) {
                 this.formValidate.autoOn = null
                 this.formValidate.dayApplyMax = null
