@@ -9,7 +9,7 @@
         <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
         <Button type="info" v-if="num != 2" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
         <Button type="warning"  class="left mt20 w60 ml20 toupdate" @click=" backingout">返回</Button>
-      </div>    
+      </div>
       <Modal
         v-model="modal1"
         :title=banktitle
@@ -25,7 +25,7 @@
               :format="['jpg','jpeg','png']"
               :on-format-error="handleFormatError1"
               :before-upload="handleUpload"
-              :show-upload-list="false"                        
+              :show-upload-list="false"
               action=''>
                 <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:5px;margin-left:12px">浏览</Button>
               </Upload>
@@ -53,7 +53,7 @@
               </FormItem>
               <FormItem label="" prop="home" v-if="homelist">
                 <Select v-model="formValidate1.home" @on-change='detailschoice' placeholder="请选择">
-                  <Option v-for="rem in jumpAppParams" :value="rem.jumpUrl">{{rem.jumpName}}</Option>                  
+                  <Option v-for="rem in jumpAppParams" :value="rem.jumpUrl">{{rem.jumpName}}</Option>
                 </Select>
               </FormItem>
               <FormItem v-if="detailscode" label="产品ID" prop="code" >
@@ -90,10 +90,10 @@
               <Button v-if="item.bannerState==1" @click="edit_icon_colorB(item.bannerCode, 0)" type="primary">上架</Button>
               <Button v-if="item.bannerState==0" @click="edit_icon_colorR(item.bannerCode, 1)" type="error">下架</Button>
             </span>
-            
+
             <span v-if="num == 1" class="edit_icon right ml5" @click="bankshow(2, item.bannerCode)"><Icon type="edit"></Icon></span>
             <span v-if="num == 2" class="edit_icon right ml5" @click="bankshow(2, item.advertisementCode)"><Icon type="edit"></Icon></span>
-            <span v-if="item.status==0" class="edit_icon right " >      
+            <span v-if="item.status==0" class="edit_icon right " >
               <Poptip
                 confirm
                 transfer
@@ -101,9 +101,9 @@
                 @on-ok="deleteOk(item.bannerCode)"
                 >
                 <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
-              </Poptip>           
+              </Poptip>
           </span>
-          <span v-if="item.advertisementState==0" class="edit_icon right " >      
+          <span v-if="item.advertisementState==0" class="edit_icon right " >
               <Poptip
                 confirm
                 transfer
@@ -111,9 +111,9 @@
                 @on-ok="deleteOk(item.advertisementCode)"
                 >
                 <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
-              </Poptip>           
+              </Poptip>
           </span>
-          <span v-if="item.bannerState==0" class="edit_icon right " >      
+          <span v-if="item.bannerState==0" class="edit_icon right " >
               <Poptip
                 confirm
                 transfer
@@ -121,7 +121,7 @@
                 @on-ok="deleteOk(item.bannerCode)"
                 >
                 <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
-              </Poptip>           
+              </Poptip>
           </span>
         </p>
       </li>
@@ -132,6 +132,9 @@
   </div>
 </template>
 <script>
+
+import utils from "../../utils/utils";
+
 export default {
   data() {
     return {
@@ -196,12 +199,12 @@ export default {
       // if (this.$route.query.fiveh&&this.$route.query.fiveh == 1) {
       //   this.$router.push({path: '/editionh5'})
       // } else {
-      //   this.$router.push({path: '/versionManagement?num='+this.$route.query.num})       
-      // }      
+      //   this.$router.push({path: '/versionManagement?num='+this.$route.query.num})
+      // }
     },
     pageChange (page) {
       this.startRow = page
-        this.banklist () 
+        this.banklist ()
     },
     pagesizechange (page) {
       this.startRow = 1
@@ -215,7 +218,7 @@ export default {
       } else {
         this.banktitle = '编辑轮播图'
         this.bankecho (code)
-      }     
+      }
     },
     // 新增银行卡
     handleSubmit1 (name) {
@@ -229,7 +232,7 @@ export default {
           return this.changeLoading()
         } else {
           this.changeLoading()
-          this.Preservation ()         
+          this.Preservation ()
         }
       })
     },
@@ -248,7 +251,7 @@ export default {
       let content
       let list
       let jumpUrl
-        if (this.formValidate1.layout == 1 && this.formValidate1.mark == 1) {          
+        if (this.formValidate1.layout == 1 && this.formValidate1.mark == 1) {
           jumpUrl = this.formValidate1.home
         } else {
           jumpUrl = this.formValidate1.desc
@@ -265,7 +268,7 @@ export default {
         }
         url = BASE_URL + urls
         title = '添加轮播图'
-        content = '<p>添加成功</p>'     
+        content = '<p>添加成功</p>'
       if (this.$route.query.img == 1) {
         list = {
         bannerUrl :this.banksrc,
@@ -356,7 +359,7 @@ export default {
         this.http.post(url, list)
         .then((resp) => {
           if (resp.code == 'success') {
-            this.changeLoading()           
+            this.changeLoading()
             this.$Modal.success({
               title: title,
               content: content
@@ -397,12 +400,12 @@ export default {
       }
       this.http.post(BASE_URL + url, list)
         .then((resp) => {
-          if (resp.code == 'success') {           
+          if (resp.code == 'success') {
             if (this.$route.query.img == 1) {
               this.banksrc = resp.data.bannerUrl
               this.banklogo = resp.data.bannerUrl
               if (this.$route.query.banner==7) {
-                this.realname = true               
+                this.realname = true
                 this.formValidate1.realname =resp.data.trueNameDisplay+''
               }
             } else if (this.$route.query.img == 2) {
@@ -410,7 +413,7 @@ export default {
               this.banklogo = resp.data.photoUrl
             }
             this.formValidate1.mark = resp.data.jumpStatus+''
-            this.formValidate1.layout = resp.data.jumpType+''                      
+            this.formValidate1.layout = resp.data.jumpType+''
             if (resp.data.jumpStatus == 1) {//跳转
             if (resp.data.jumpType == 1) {//原生
               this.formValidate1.home = resp.data.jumpUrl
@@ -438,7 +441,7 @@ export default {
                 this.formValidate1.desc = ''
               } else {
                 this.formValidate1.desc = resp.data.jumpUrl
-              }             
+              }
             }
           } else {
           }
@@ -472,13 +475,13 @@ export default {
         this.nojump = true
         this.moveh5 = false
         this.homelist = true
-      }        
+      }
       }
     },
     primordial (val) {
       if (val == 0) {//原生
         this.moveh5 = true
-        this.homelist = false       
+        this.homelist = false
       } else {//h5
         this.moveh5 = false
         this.homelist = true
@@ -498,7 +501,7 @@ export default {
           onOk: () => {
             this.bankshelf (code, num)
           },
-          onCancel: () => {              
+          onCancel: () => {
           }
         })
     },
@@ -510,7 +513,7 @@ export default {
           onOk: () => {
             this.bankshelf (code, num)
           },
-          onCancel: () => {            
+          onCancel: () => {
           }
         })
     },
@@ -565,7 +568,7 @@ export default {
         url = '/loan/banner/getBannerList'
       } else if (this.$route.query.img == 2) {
         url = '/loan/appAdvertisement/getAppAdvertisementList'
-      }      
+      }
       if (this.$route.query.fiveh == 1) {
         list = {
           pageNum: this.startRow,
@@ -643,7 +646,7 @@ export default {
           if (num == 0) {
             this.$Modal.success({
               title: '下架',
-              content: '<p>下架成功</p>'         
+              content: '<p>下架成功</p>'
             })
             this.banklist ()
           } else {
@@ -669,7 +672,7 @@ export default {
           onOk: () => {
             this.updatelist ()
           },
-          onCancel: () => {           
+          onCancel: () => {
           }
         })
     },
@@ -714,7 +717,8 @@ export default {
       this.realname = false
     }
     this.banklist ()
-    this.http.post(BASE_URL + '/loan/banner/jumpParam', {data:this.$route.query.appIdentifier})
+    let appCode = utils.getCookie('appCode')
+    this.http.post(BASE_URL + '/loan/banner/jumpParam', {data:appCode})
       .then((resp) => {
         if (resp.code == 'success') {
           this.jumpAppParams = resp.data
