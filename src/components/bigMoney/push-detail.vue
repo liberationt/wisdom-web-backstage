@@ -1579,24 +1579,6 @@ export default {
           minWidth:160,
           key: 'pushTime'
         },
-         {
-          title: '返回信息',
-          align: 'center',
-          minWidth:100,
-          render: (h, params) => {
-            let succ
-            if (params.row.resultCode == '0') {
-              succ = '成功'
-            } else if (params.row.resultCode == '') {
-              succ = ''
-            } else  {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
         {
           title: '城市',
           align: 'center',
@@ -1630,13 +1612,26 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '错误码',
+          title: '返回码',
           align: 'center',
           minWidth:100,
-          key: 'code'
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.pushStatus == '0') {
+              succ = ''
+            } else if (params.row.code == '0' ) {
+              succ = '成功'
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
         },
         {
-          title: '错误信息',
+          title: '返回信息',
           align: 'center',
           minWidth:150,
           render: (h, params) => {
@@ -1702,24 +1697,6 @@ export default {
           minWidth:160,
           key: 'pushTime'
         },
-         {
-          title: '返回信息',
-          align: 'center',
-          minWidth:100,
-          render: (h, params) => {
-            let succ
-            if (params.row.resultCode == '0') {
-              succ = '成功'
-            } else if (params.row.resultCode == '') {
-              succ = ''
-            } else  {
-              succ = '失败'
-            }
-            return h('div', [
-              h('span', {}, succ)
-            ])
-					}
-        },
         {
           title: '城市',
           align: 'center',
@@ -1753,13 +1730,26 @@ export default {
           key: 'dataCreateTime'
         },
         {
-          title: '错误码',
+          title: '返回码',
           align: 'center',
           minWidth:100,
-          key: 'code'
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.pushStatus == '0') {
+              succ = ''
+            } else if (params.row.code == '0' ) {
+              succ = '成功'
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
         },
         {
-          title: '错误信息',
+          title: '返回信息',
           align: 'center',
           minWidth:150,
           render: (h, params) => {
