@@ -17,7 +17,7 @@
         </p>
         <p>
             <span>订单编号:</span>
-            <span>{{ordercode}}</span>
+            <span>{{orderNum}}</span>
         </p>
         <p>
             <span>服务费用:</span>
@@ -93,7 +93,8 @@ export default {
       isPasssuccess: true,
       datatime: "",
       ordertime: "",
-      ordercode: "",
+      orderNum: "",
+      orderCode:"",
       servicecharge: "",
       region: "",
       username: "",
@@ -168,7 +169,7 @@ export default {
         .catch(err => {
           console.log(err);
         });
-    }
+    },
   },
   created() {
     // alert(22)
@@ -182,7 +183,8 @@ export default {
         if (data.code == "success") {
           this.datatime = data.data.commentDetailBusRes.commentCreateTime;
           this.ordertime = data.data.commentDetailBusRes.orderCreateTime;
-          this.ordercode = data.data.commentDetailBusRes.orderNum;
+          this.orderNum = data.data.commentDetailBusRes.orderNum;
+          this.orderCode = data.data.commentDetailBusRes.orderCode;
           this.servicecharge = data.data.commentDetailBusRes.serviceCost;
           this.region = data.data.commentDetailBusRes.orderArea;
           this.username = data.data.commentDetailBusRes.loanUserName;
