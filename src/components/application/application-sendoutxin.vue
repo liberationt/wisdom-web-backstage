@@ -97,7 +97,7 @@ export default {
         age: { required: true, message: '请选择推送平台', trigger: 'change' },
         object: { required: true, message: '请选择推送对象', trigger: 'change' },
         phone: [{ required: true, message: '请输入推送手机号', trigger: 'blur' },
-          {required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
+          // {required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
         jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' },
@@ -151,12 +151,14 @@ export default {
               })
               return false
           }
+          
           let tiurl 
           if(this.$route.query.isedit == 'is') {
             tiurl = '/loan/webMailQdx/modifyMessageMailByCode'
           } else {
             tiurl = '/loan/webMailQdx/saveWebMail'
           }
+          
         if (valid) {
           let list = {
             // bunsinessKey: '0', //huazan 0 qiang 1
@@ -170,7 +172,6 @@ export default {
             targetPhone : this.formCustom.phone,
             mailCode : this.mailCode
           } 
-          console.log(list)
           this.http.post(BASE_URL + tiurl,list).then(data=>{
             if(data.code == 'success'){
               this.phoneti('success')
@@ -279,6 +280,7 @@ export default {
           this.formCustom.value5 = data.data.jumpUrl
           this.formCustom.phone = data.data.targetPhone
           this.mailCode = data.data.mailCode
+          this.formCustom.jumpurl = data.data.jumpUrl
         }
       }).catch(err=>{
         console.log(err)
