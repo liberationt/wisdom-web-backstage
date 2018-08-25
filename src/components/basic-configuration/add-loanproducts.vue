@@ -423,11 +423,11 @@ export default {
         ],
         rateMouth: [
           { required: true, type: 'number', message: '请输入参考月利率', trigger: 'blur' },
-          { type: 'number', max: 100000, message: '最多输入6位字符', trigger: 'blur' }
+          { type: 'number', max: 999999, message: '最多输入6位字符', trigger: 'blur' }
         ],
         rateDay: [
           { required: true, type: 'number', message: '请输入参考日利率', trigger: 'blur' },
-          { type: 'number', max: 100000, max: 6, message: '最多输入6位字符', trigger: 'blur' }
+          { type: 'number', max: 999999, message: '最多输入6位字符', trigger: 'blur' }
         ],
         repaymentMode: [
           { required: true, type: 'number', message: '请选择还款方式', trigger: 'blur' }
