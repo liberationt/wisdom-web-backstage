@@ -277,8 +277,14 @@ export default {
           this.formValidate2.value2 = data.data.guideName
           this.formValidate2.modell = data.data.jumpType+''
           this.model11()
-          this.formValidate2.value1 = data.data.jumpUrl 
-          this.formValidate2.value3 = data.data.jumpUrl
+          
+          if (data.data.jumpType != 0) {
+            this.formValidate2.value3 = data.data.jumpUrl
+            this.formValidate2.value1 = ''
+          } else {
+            this.formValidate2.value3 = ''
+            this.formValidate2.value1 = data.data.jumpUrl
+          }        
           this.banklogo = data.data.guideLogoUrl
           this.imgurl = data.data.guideLogoUrl
         }

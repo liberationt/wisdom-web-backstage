@@ -43,7 +43,7 @@
     <div id="memberRight">
         <Tabs :animated="false" @on-click="marketquery">
             <TabPane label="个人信息">
-                <div class="informationlist">
+                <div class="informationlist" v-if="informationlist.loanPerfectInfo!=0">
                     <h3>
                         <span>{{informationlist.realName}}</span>
                         <span>{{informationlist.age}}</span>
@@ -75,6 +75,7 @@
                         </li>
                     </ul>
                 </div>
+                <p class="informationlist" v-if="informationlist.loanPerfectInfo==0">暂无数据</p>
             </TabPane>
             <TabPane label="现金流水">
                 <Table border highlight-row :columns="columns1" :data="data1"></Table>
