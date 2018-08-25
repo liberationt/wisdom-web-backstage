@@ -416,7 +416,12 @@ export default {
             if (resp.data.jumpStatus == 1) {//跳转
             if (resp.data.jumpType == 1) {//原生
             // alert(resp.data.jumpUrl.split("=")[0])
+            if (resp.data.jumpUrl.indexOf('=')>-1) {
               this.formValidate1.home = resp.data.jumpUrl.split("=")[0]+'='
+            } else {
+              this.formValidate1.home = resp.data.jumpUrl
+            }
+              
               for (let i=0;i<this.jumpAppParams.length;i++) {
                 if (this.formValidate1.home==this.jumpAppParams[i].jumpUrl) {
                   if (this.jumpAppParams[i].isParam==1) {
