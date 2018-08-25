@@ -23,7 +23,7 @@
                 </FormItem>
             </Form>
             </TabPane>
-            
+
             <TabPane label="用户身价设置">
                 <Form  :model="pricesetting" :label-width="200" class="mt50">
                 <FormItem label="底价:" >
@@ -41,8 +41,8 @@
                         <Input v-if="res.infoOptionName!='无'" type="text" v-model="res.infoOptionScore" style="width:150px">
                            <span slot="prepend">{{res.infoOptionName}}</span>
                         </Input>
-                    </div>                   
-                </FormItem>              
+                    </div>
+                </FormItem>
                 <FormItem class="tc mt50">
                     <Button type="primary" class="w100" :loading="loading3" @click="preservationvalue">
                         <span v-if="!loading3">保存配置</span>
@@ -65,7 +65,7 @@
                             <DatePicker type="datetime" class="left ml10" @on-change="time1" :value="marketConfigList[0].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                                 <span class="left utmost">至</span>
                             <DatePicker type="datetime" class="left " @on-change="time2" :value="marketConfigList[0].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
-                        </div>                       
+                        </div>
                         <Input type="text" v-model="marketConfigList[0].valueList[0].value1" v-if="registergive"class="left ml10 inputnum"  style="width:100px">
                             <span slot="append" class="left">个</span>
                         </Input>
@@ -91,10 +91,10 @@
                         <Input type="text" v-model="marketConfigList[1].valueList[0].value2" class="left inputnum"  style="width:100px">
                             <span slot="append" class="left">个</span>
                         </Input>
-                        </div>                            
+                        </div>
                     </FormItem>
                     <FormItem label="正常充值送:" >
-                        <div class="clearfix">                       
+                        <div class="clearfix">
                         <Select v-model="marketConfigList[2].marketTimeEnabled" style="width:100px;margin-left:110px" @on-change="normaltime" class="left ">
                             <Option v-for="item in ranges3" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
@@ -102,11 +102,11 @@
                             <DatePicker type="datetime" class="left ml10" @on-change="time5" :value="marketConfigList[2].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                                 <span class="left utmost">至</span>
                             <DatePicker type="datetime" class="left " @on-change="time6" :value="marketConfigList[2].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
-                        </div>                        
+                        </div>
                         <Select v-model="marketConfigList[2].status" style="width:60px" @on-change="normalgive" class="left ml10">
                             <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        </div>                    
+                        </div>
                         <div class="credit_recharge">
                             <div
                              v-for="(item, index) in addnormals"
@@ -140,7 +140,7 @@
                             <DatePicker type="datetime" class="left ml10" @on-change="time7" :value="marketConfigList[3].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                                 <span class="left utmost">至</span>
                             <DatePicker type="datetime" class="left " @on-change="time8" :value="marketConfigList[3].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
-                        </div>                        
+                        </div>
                         <Input type="text" v-model="marketConfigList[3].valueList[0].value1" class="left ml10 inputnum" v-if="invitasend"  style="width:127px">
                             <span slot="prepend">送</span>
                             <span slot="append" class="left">个/人</span>
@@ -208,9 +208,9 @@ export default {
             marketEndTime: '',
             valueList: [
                 {
-                    value1: '' 
-                }              
-            ]          
+                    value1: ''
+                }
+            ]
           },
           {
             code: '',
@@ -222,8 +222,8 @@ export default {
                 {
                     value1: '',
                     value2: ''
-                }              
-            ]          
+                }
+            ]
           },
           {
             code: '',
@@ -231,7 +231,7 @@ export default {
             marketTimeEnabled: '',
             marketBeginTime: '',
             marketEndTime: '',
-            valueList: []          
+            valueList: []
           },
           {
             code: '',
@@ -241,9 +241,9 @@ export default {
             marketEndTime: '',
             valueList: [
                 {
-                    value1: '' 
-                }              
-            ]          
+                    value1: ''
+                }
+            ]
           },
 
       ],
@@ -350,7 +350,7 @@ export default {
                 })
                 this.loading3 = false
                 return false
-            }            
+            }
         }
       this.http.post(BASE_URL + '/loan/officerConfig/updateOfficerConfigByBatchCode', this.formCustom)
       .then((resp) => {
@@ -364,11 +364,11 @@ export default {
             this.loading3 = false
         }
       })
-      .catch(() => {               
+      .catch(() => {
       })
     },
     handleRender () {
-      this.$router.push({ path: './operationLog' })
+      this.$router.push({ path: './operationLog?operationType=market_edit' })
     },
     handleReset (name) {
       this.$refs[name].resetFields()
@@ -386,29 +386,29 @@ export default {
     },
      // 时间判断
     time1 (value, data) {
-        this.marketConfigList[0].marketBeginTime = value   
+        this.marketConfigList[0].marketBeginTime = value
     },
     time2 (value, data) {
         this.marketConfigList[0].marketEndTime = value
     },
     time3 (value, data) {
-        this.marketConfigList[1].marketBeginTime = value   
+        this.marketConfigList[1].marketBeginTime = value
     },
     time4 (value, data) {
         this.marketConfigList[1].marketEndTime = value
     },
     time5 (value, data) {
-        this.marketConfigList[2].marketBeginTime = value   
+        this.marketConfigList[2].marketBeginTime = value
     },
     time6 (value, data) {
         this.marketConfigList[2].marketEndTime = value
     },
     time7 (value, data) {
-        this.marketConfigList[3].marketBeginTime = value   
+        this.marketConfigList[3].marketBeginTime = value
     },
     time8 (value, data) {
         this.marketConfigList[3].marketEndTime = value
-    },   
+    },
     // 营销设置回显
     marketquery (name) {
         if (name == 0) {
@@ -419,10 +419,10 @@ export default {
                 if (resp.code == 'success') {
                     this.pricesetting.userSocialResList = resp.data.userSocialResList
                     this.pricesetting.businessSocialResList = resp.data.businessSocialResList
-                } else {             
+                } else {
                 }
             })
-            .catch(() => {               
+            .catch(() => {
             })
         } else if (name == 2) {
         this.http.post(BASE_URL + '/loan/marketConfig/query', {})
@@ -460,7 +460,7 @@ export default {
                     this.marketConfigList[0].marketBeginTime = resp.data.marketConfigList[i].marketBeginTime
                     this.marketConfigList[0].marketEndTime = resp.data.marketConfigList[i].marketEndTime
                     this.marketConfigList[0].valueList[0].value1 = resp.data.marketConfigList[i].valueList[0].value1
-                  }                
+                  }
               }
             } else {
             }
@@ -473,9 +473,9 @@ export default {
         this.http.post(BASE_URL + '/loan/officerConfig/getOfficerConfigAll', {})
       .then((resp) => {
         if (resp.code == 'success') {
-            this.formCustom = resp.data      
+            this.formCustom = resp.data
         } else {
-            this.$Message.error(resp.message);     
+            this.$Message.error(resp.message);
         }
       })
       .catch(() => {
@@ -492,7 +492,7 @@ export default {
                 obj.infoOptionKey = this.pricesetting.businessSocialResList[i].options[j].infoOptionKey
                 obj.infoOptionScore = this.pricesetting.businessSocialResList[i].options[j].infoOptionScore
                 businessSocialResList.push(obj)
-            }          
+            }
         }
         let list = {
             userSocialResList: this.pricesetting.userSocialResList,
@@ -505,10 +505,10 @@ export default {
             title: '用户身价设置',
             content: '<p>配置成功</p>'
           })
-          this.loading3 = false 
+          this.loading3 = false
         } else {
-            this.loading3 = false 
-            this.$Message.error(resp.message);     
+            this.loading3 = false
+            this.$Message.error(resp.message);
         }
       })
       .catch(() => {
@@ -520,7 +520,7 @@ export default {
         this.loading3 = true
         let reg = /^(0|[1-9][0-9]*)$/
         let timestamp = new Date().getTime()
-        for (let i = 0; i < this.marketConfigList.length; i++) {           
+        for (let i = 0; i < this.marketConfigList.length; i++) {
             let date1 = Date.parse(new Date(this.marketConfigList[i].marketBeginTime))/1000
             let date2 = Date.parse(new Date(this.marketConfigList[i].marketEndTime))/1000
             if (date1 > date2) {
@@ -532,13 +532,13 @@ export default {
                 return false
             }
             for (let j = 0; j < this.marketConfigList[i].valueList.length; j++) {
-                for (let x in this.marketConfigList[i].valueList[j]) {                    
+                for (let x in this.marketConfigList[i].valueList[j]) {
                     // if (this.marketConfigList[i].valueList[j][x] == '') {
                     //   this.$Modal.warning({
                     //         title: '提示',
                     //         content: '<p>请输入赠送值</p>'
                     //     })
-                    //     return false  
+                    //     return false
                     // }
                     if (!reg.test(this.marketConfigList[i].valueList[j][x])) {
                         this.$Modal.warning({
@@ -548,8 +548,8 @@ export default {
                         this.loading3 = false
                         return false
                     }
-                }              
-            }          
+                }
+            }
         }
         let list = {
             marketConfigList: []
