@@ -482,9 +482,9 @@ export default {
     handleReset1 (name) {
       this.banklogo = require('../../image/moren.png')
       this.detailscode = false
-      this.formValidate1.code = ''
-      this.formValidate1.home = this.jumpAppParams[0].jumpUrl
+      this.formValidate1.code = ''      
       this.$refs[name].resetFields()
+      this.formValidate1.home = this.jumpAppParams[0].jumpUrl
     },
     // 跳转不跳转显示
     cornermark (val) {
