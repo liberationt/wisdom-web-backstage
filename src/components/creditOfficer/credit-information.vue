@@ -114,7 +114,7 @@
                         <span>拒绝原因:</span>
                         <span>{{inform.loanStatusMsg}}</span>
                     </p>
-                    
+
                     <div class="mt20 service_introduction" v-if="inform.serviceIntroductionStatus==2">
                         <h3><strong>服务介绍</strong></h3>
                         <p>
@@ -139,7 +139,7 @@
                             {{inform.serviceOtherRequire}}
                         </p>
                     </div>
-                    
+
                     <!-- v-if="inform.loanStatus==1" -->
                     <div class="mt50 tc left" >
                         <Button v-if="inform.loanStatus==1" type="primary" @click="handleRender">认证审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -169,7 +169,7 @@
                 </div>
             </TabPane>
             <TabPane label="咨询订单记录">
-                <Table border highlight-row :columns="columns1" :data="data1"></Table>               
+                <Table border highlight-row :columns="columns1" :data="data1"></Table>
                 <div class="tr mt15">
                   <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
@@ -212,7 +212,7 @@
 <script>
 export default {
   data () {
-    return {      
+    return {
       img: [],
       formValidate: {
         name: ''
@@ -506,7 +506,7 @@ export default {
               content: content
             })
           },
-          onCancel: () => {             
+          onCancel: () => {
           }
         })
       } else {
@@ -520,12 +520,12 @@ export default {
               this.$Modal.success({
               title: title,
               content: content
-            }) 
+            })
           },
-          onCancel: () => {            
+          onCancel: () => {
           }
         })
-      }     
+      }
     },
     // 冻结账户
     acctype (num) {
@@ -573,11 +573,11 @@ export default {
                 title: title,
                 content: content,
                 onOk: () => {
-                  this.$router.push({ path: './creditManagement' })            
+                  this.$router.push({ path: './creditManagement' })
                 },
               })
-            }          
-            
+            }
+
           } else {
             this.$Message.info(resp.message)
           }
@@ -595,7 +595,7 @@ export default {
             this.reviewthrough (1)
           },
           onCancel: () => {
-              
+
           }
         })
     },
@@ -621,12 +621,12 @@ export default {
         this.changeLoading()
         this.modal9 = false
         this.reviewthrough (0)
-        this.formValidate.name = ''       
+        this.formValidate.name = ''
       })
     },
     // 查看操作日志
     journal () {
-      this.$router.push({ path: './operationLog?loanOfficerCode='+ this.inform.loanOfficerCode })
+      this.$router.push({ path: './operationLog?operationType=loanOfficerLog&loanOfficerCode='+ this.inform.loanOfficerCode })
     },
     // 基本信息
     information () {
@@ -789,7 +789,7 @@ export default {
         searchValue :'',
         searchOptions : '',
         isPass:1
-        
+
       }
       this.http.post(BASE_URL + '/loan/comment/getCommentDetailsList', llist)
         .then((resp) => {
