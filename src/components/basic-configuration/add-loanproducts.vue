@@ -632,7 +632,7 @@ export default {
             }
             if (this.formValidate.termMin>this.formValidate.termMax) {
                 const title = '提示'
-                let content = '<p>开始金额不能大于结束金额</p>'
+                let content = '<p>开始时间不能大于结束时间</p>'
                 this.$Modal.warning({
                     title: title,
                     content: content                    
@@ -704,7 +704,7 @@ export default {
                 }
             if (this.formValidate.autoOff == 1) {
                 this.formValidate.autoOn = null
-                this.formValidate.dayApplyMax = null
+                this.formValidate.dayApplyMax = 999999
             }
           this.formValidate.limitValue = this.quotamoney
           this.formValidate.termValue = this.termmoney

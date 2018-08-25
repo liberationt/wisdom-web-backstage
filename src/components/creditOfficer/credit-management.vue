@@ -817,8 +817,6 @@ export default {
       }
     },
     PageSizeChange(page) {
-      console.log(page);
-
       this.startRow = 1;
       this.endRow = page;
       if (this.tableli == "tab1") {
@@ -1215,23 +1213,27 @@ export default {
     }
   },
   created() {
-    if (this.$route.query.num == 1) {
-      this.tabs = "tab2";
-      this.labell1("tab2");
-    }
-    if (this.$route.query.num == 2) {
-      this.tabs = "tab5";
-      this.labell1("tab5");
-    }
+    // if (this.$route.query.num == 1) {
+    //   this.tabs = "tab2";
+    //   this.tableli = "tab2"
+    //   this.labell1("tab2");
+    // } else if (this.$route.query.num == 2) {
+    //   this.tableli = "tab5"
+    //   this.tabs = "tab5";
+    //   this.labell1("tab5");
+    // } else {
+     
+    // }
+    this.tabs = "tab1";
+    this.tableli = 'tab1'
+    this.labell1("tab1");
     this.http.get("../../../static/city.json").then(data => {
       this.cityType = data;
       this.cityType1 = data;
       this.cityType2 = data;
       this.registercitys = data;
     });
-    this.tableli = 'tab1'
-    // 入住待审核
-    this.labell1("tab1");
+    
     // 信贷员列表 过滤条件
     this.http
       .post(BASE_URL + "/loan/officer/queryOfficerAdmissionListFilter", {})
