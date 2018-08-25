@@ -256,7 +256,8 @@ export default {
       columns9: [
         {
           title: '审核时间',
-          key: 'name',
+          key: 'checkTime',
+          width: 200,
           align: 'center'
         },
         {

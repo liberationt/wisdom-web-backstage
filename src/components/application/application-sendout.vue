@@ -53,9 +53,6 @@
                     </FormItem>
                 </Col>
             </Row>
-
-          
-          
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
@@ -129,8 +126,31 @@ export default {
   },
   methods: {
     handleSubmit (name) {
+      let datetimel = Date.parse(new Date(this.datevalue))
+      let datetimell = Date.parse(new Date())
       this.$refs[name].validate(valid => {
-          console.log(this.datevalue)
+          if(this.datevalue == "" && this.ifdate == true){
+              this.$Modal.warning({
+                title: '指定时间',
+                content: '<p>请选择指定时间</p>',
+                onOk: () => {
+                },
+                onCancel: () => {           
+                }
+              })
+              return false
+          }
+          if(datetimel <= datetimell && this.ifdate == true){
+              this.$Modal.warning({
+                title: '指定时间',
+                content: '<p>指定时间不能小于当前时间</p>',
+                onOk: () => {
+                },
+                onCancel: () => {           
+                }
+              })
+              return false
+          }
           let tiurl 
           if(this.$route.query.isedit == 'is') {
             tiurl = '/loan/webMail/modifyMessageMailByCode'
@@ -163,7 +183,7 @@ export default {
           })
           // this.$Message.success('Success!')
         } else {
-          this.$Message.error('提交失败!')
+          // this.$Message.error('提交失败!')
         }
       })
     },
