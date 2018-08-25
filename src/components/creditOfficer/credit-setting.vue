@@ -58,7 +58,7 @@
                         <Select v-model="marketConfigList[0].status" style="width:60px"  class="left" @on-change="admissionsucc">
                             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <Select v-model="marketConfigList[0].marketTimeEnabled" style="width:100px" @on-change="admissiontime" class="left ml10">
+                        <Select v-if="registergive" v-model="marketConfigList[0].marketTimeEnabled" style="width:100px" @on-change="admissiontime" class="left ml10">
                             <Option v-for="item in range" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <div v-if="registertime">
@@ -75,7 +75,7 @@
                         <Select v-model="marketConfigList[1].status" style="width:60px" @on-change="firstgive" class="left">
                             <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <Select v-model="marketConfigList[1].marketTimeEnabled" style="width:100px" @on-change="firsttime" class="left ml10">
+                        <Select v-if="firstdelivery" v-model="marketConfigList[1].marketTimeEnabled" style="width:100px" @on-change="firsttime" class="left ml10">
                             <Option v-for="item in ranges2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <div v-if="firstdata">
@@ -95,7 +95,7 @@
                     </FormItem>
                     <FormItem label="正常充值送:" >
                         <div class="clearfix">                       
-                        <Select v-model="marketConfigList[2].marketTimeEnabled" style="width:100px;margin-left:110px" @on-change="normaltime" class="left ">
+                        <Select v-if="normaldelivery" v-model="marketConfigList[2].marketTimeEnabled" style="width:100px;margin-left:110px" @on-change="normaltime" class="left ">
                             <Option v-for="item in ranges3" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <div v-if="normaldata">
@@ -133,7 +133,7 @@
                         <Select v-model="marketConfigList[3].status" style="width:60px" @on-change="invitationgive" class="left">
                             <Option v-for="item in cityList4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
-                        <Select v-model="marketConfigList[3].marketTimeEnabled" style="width:100px" @on-change="invitationtime" class="left ml10">
+                        <Select v-if="invitasend" v-model="marketConfigList[3].marketTimeEnabled" style="width:100px" @on-change="invitationtime" class="left ml10">
                             <Option v-for="item in ranges4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                         </Select>
                         <div v-if="invitadata">
@@ -588,29 +588,45 @@ export default {
     admissionsucc (val) {
         if (val == 1) {
             this.registergive = true
+            if (this.marketConfigList[0].marketTimeEnabled == 1) {
+                this.registertime = true
+            }
         } else {
-            this.registergive = false
+            this.registergive = false        
+            this.registertime = false
         }
     },
     firstgive (val) {
         if (val == 1) {
             this.firstdelivery = true
+            if (this.marketConfigList[1].marketTimeEnabled == 1) {
+                this.firstdata = true
+            }
         } else {
             this.firstdelivery = false
+            this.firstdata = false
         }
     },
     normalgive (val) {
         if (val == 1) {
             this.normaldelivery = true
+            if (this.marketConfigList[2].marketTimeEnabled == 1) {
+                this.normaldata = true
+            }
         } else {
             this.normaldelivery = false
+            this.normaldata = false
         }
     },
     invitationgive (val) {
         if (val == 1) {
             this.invitasend = true
+            if (this.marketConfigList[3].marketTimeEnabled == 1) {
+                this.invitadata = true
+            }
         } else {
             this.invitasend = false
+            this.invitadata = false
         }
     },
     // 入驻时间固定放开
