@@ -39,6 +39,12 @@
                   <Option value="0">不跳转</Option>
                 </Select>
               </FormItem>
+              <FormItem v-if="realname" label="是否实名" prop="realname">
+                <Select v-model="formValidate1.realname" style="width:120px" placeholder="请选择">
+                  <Option value="1">已实名隐藏</Option>
+                  <Option value="0">未实名显示</Option>
+                </Select>
+              </FormItem>
               <FormItem label="跳转页面" prop="layout" v-if="nojump">
                 <Select v-model="formValidate1.layout" @on-change='primordial' placeholder="原生页面">
                   <Option value="1">原生页面</Option>
@@ -137,6 +143,7 @@ export default {
       homelist:false,
       moveh5: false,
       detailscode:false,
+      realname: false,
       locationtype:this.$route.query.banner,
       num:this.$route.query.img,
       fiveh:this.$route.query.fiveh,
@@ -155,7 +162,8 @@ export default {
         home: '',
         code: '',
         phone:'',
-        desc: ''
+        desc: '',
+        realname:''
       },
       jumpAppParams: [],
       ruleValidate1: {
@@ -165,9 +173,9 @@ export default {
         // layout: [
         //   { required: true, message: '请选择跳转页面！', trigger: 'blur' }
         // ],
-        // home: [
-        //   { required: true, message: '请选择跳转页面！', trigger: 'blur' }
-        // ],
+        realname: [
+          { required: true, message: '请选择是否实名！', trigger: 'blur' }
+        ],
         desc: [
           { required: true, message: '请输入跳转URL！', trigger: 'blur' }
         ],
@@ -246,7 +254,6 @@ export default {
           jumpUrl = this.formValidate1.desc
         }
       if (this.banktitle == '添加轮播图') {
-        console.log(jumpUrl)
         let urls
         if (this.$route.query.img == 1) {
           urls = '/loan/banner/saveBanner'
@@ -270,6 +277,9 @@ export default {
         bannerAppVersion: this.$route.query.appVersion,
         bannerAppType: this.$route.query.appType,
         locationType : this.locationtype
+      }
+      if (this.$route.query.banner==7) {
+        list.trueNameDisplay = this.formValidate1.realname
       }
       if (this.$route.query.fiveh==0) {
         list = {
@@ -312,6 +322,9 @@ export default {
               appType: this.$route.query.appType,
               bannerCode: this.bannerCode,
               locationType:this.locationtype
+            }
+            if (this.$route.query.banner==7) {
+              list.trueNameDisplay = this.formValidate1.realname
             }
         } else if (this.$route.query.img == 2) {
           urls = '/loan/appAdvertisement/updateAppAdvertisementByCode'
@@ -388,6 +401,10 @@ export default {
             if (this.$route.query.img == 1) {
               this.banksrc = resp.data.bannerUrl
               this.banklogo = resp.data.bannerUrl
+              if (this.$route.query.banner==7) {
+                this.realname = true               
+                this.formValidate1.realname =resp.data.trueNameDisplay+''
+              }
             } else if (this.$route.query.img == 2) {
               this.banksrc = resp.data.photoUrl
               this.banklogo = resp.data.photoUrl
@@ -691,8 +708,13 @@ export default {
     } else {
       this.application = '抢单侠'
     }
+    if (this.$route.query.banner&&this.$route.query.banner==7) {
+      this.realname = true
+    } else {
+      this.realname = false
+    }
     this.banklist ()
-    this.http.post(BASE_URL + '/loan/banner/jumpParam', {})
+    this.http.post(BASE_URL + '/loan/banner/jumpParam', {data:this.$route.query.appIdentifier})
       .then((resp) => {
         if (resp.code == 'success') {
           this.jumpAppParams = resp.data

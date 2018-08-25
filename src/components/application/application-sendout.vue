@@ -35,13 +35,27 @@
           <Input v-model="formCustom.phone" type="textarea" style="width:400px" placeholder="请输入推送手机号"></Input>
           <p>指定手机号,以半角逗号分隔</p>
         </FormItem>
-        <FormItem label="跳转类型:" prop="h5">
-          <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
-            <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
-          </Select>
-          <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" v-if="homeh5">
-            <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
-          </Select>
+        <FormItem label="跳转类型:" >
+          <Row>
+                <Col span="10">
+                    <FormItem prop="h5">
+                      <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
+                        <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
+                      </Select>
+                    </FormItem>
+                </Col>
+                <Col span="1" style="text-align: center"></Col>
+                <Col span="10">
+                    <FormItem prop="value5" v-if="homeh5">
+                      <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" >
+                        <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
+                      </Select>
+                    </FormItem>
+                </Col>
+            </Row>
+
+          
+          
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
@@ -90,6 +104,7 @@ export default {
           {required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
           ],
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
+        value5: { required: true, message: '请选择跳转页面', trigger: 'change' },
         jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' }
       },
       cityList: [],

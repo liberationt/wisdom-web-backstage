@@ -241,7 +241,7 @@ export default {
     show (index) {
       this.$Modal.info({
         title: '查看反馈详情',
-        content: `实际推送时间：${index.realPushTime}<br>消息类型：${index.typeTitle}<br>标题：${index.mailTitle}<br>推送时间：${index.planPushTime}
+        content: `实际推送时间：${index.realPushTime}<br>标题：${index.mailTitle}<br>推送时间：${index.planPushTime}
         <br>推送平台：${index.pushPlatform == 0 ? '全部' : 1 ? '安卓': 'IOS'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : index.targetPhone}<br>跳转URL：${index.jumpUrl}`
       })
     },
@@ -299,15 +299,16 @@ export default {
                   this.$Message.info('删除成功！');
                   this.inquiry()
                 } else {
-                  this.$Message.info('删除失败！');
+                  this.$Message.info(data.message);
                 }
               }).catch(err=>{
-                this.$Message.info('删除失败！');
+                console.log(err)
+                // this.$Message.info('删除失败！');
               })
               
           },
           onCancel: () => {
-              this.$Message.info('删除失败！');
+              // this.$Message.info('删除失败！');
           }
       });
     },
