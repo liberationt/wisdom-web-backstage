@@ -91,7 +91,8 @@
         </div>
         </div>
         <div>
-            <Button type="ghost" class="w100" @click="backingout">返回</Button>
+          <Button type="primary" @click="handleRender">查看操作日志</Button>&nbsp;&nbsp;
+          <Button type="ghost" class="w100" @click="backingout">返回</Button>
         </div>
     </div>
 </div>
@@ -105,12 +106,12 @@ export default {
   },
   methods: {
     handleRender () {
-      this.$router.push({ path: './orderlog?orderCode='+ this.order.orderCode })
+      this.$router.push({ path: './operationLog?operationType=orderLog&orderCode=' + this.order.orderCode })
     },
     // 返回
     backingout () {
       window.history.go(-1)
-    },
+    }
   },
   mounted () {
     let list = {
@@ -119,7 +120,7 @@ export default {
     this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
         if (data.code == 'success') {
             this.order = data.data
-        }    
+        }
     })
     .catch((error) => {
         console.log(error)

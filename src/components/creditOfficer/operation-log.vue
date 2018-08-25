@@ -120,9 +120,9 @@
           Object.assign(requestParams, {
             loanOfficerCode: this.$route.query.loanOfficerCode,
           })
-        } if ('orderLog' == operationType) {
+        } else if ('orderLog' == operationType) {
           this.title = '订单操作日志'
-          requestUrl = BASE_URL + "/loan/orderLog/getOrderLogList";
+          requestUrl = BASE_URL + "/loan/orderLog/getOrderLogApplyList";
           Object.assign(requestParams, {
             orderCode: this.$route.query.orderCode,
           })
@@ -181,7 +181,8 @@
                 let item1 = {
                   dataCreateTime: item.orderStatusTime,
                   operationMan: item.operator,
-                  operationContent: item.content
+                  operationContent: item.content,
+                  memo: item.memo
                 }
                 this.data1.push(item1)
               })
