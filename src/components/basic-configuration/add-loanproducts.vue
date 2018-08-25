@@ -137,9 +137,9 @@
             <Row>
             <Col span="11">
                 <FormItem label="额度范围:" v-if="!quotashow">
-                    <Input v-model.number="formValidate.limitMin" style="width:90px" placeholder="请输入起始金额"></Input>
+                    <Input v-model.number="formValidate.limitMin" style="width:100px" placeholder="请输入起始金额"></Input>
                     <span>&nbsp;至&nbsp;</span>
-                    <Input v-model.number="formValidate.limitMax" style="width:90px" placeholder="请输入结束金额"></Input>
+                    <Input v-model.number="formValidate.limitMax" style="width:100px" placeholder="请输入结束金额"></Input>
                     <span>元</span>
                 </FormItem>
                 <FormItem label="额度1:" v-if="quotashow">
@@ -407,8 +407,7 @@ export default {
           { required: true, message: '请输入副标题', trigger: 'blur' }
         ],
         applyCounts: [
-          { required: true, type: 'number', message: '请输入正确的申请人基数', trigger: 'blur' },
-        //   { type: 'number', pattern:/^\+?[1-9]\d*$/, message:'请输入正确的申请人基数', trigger:'blur'},
+          { required: true, type: 'number', message: '请输入正确的申请人基数', trigger: 'blur' }
         ],
         applyCountsRatio: [
           { required: true, type: 'number', message: '请输入正确的申请人系数', trigger: 'blur' }
@@ -423,16 +422,20 @@ export default {
           { required: true, type: 'number', message: '请选择前端显示', trigger: 'blur' }
         ],
         rateMouth: [
-          { required: true, type: 'number', message: '请输入参考月利率', trigger: 'blur' }
+          { required: true, type: 'number', message: '请输入参考月利率', trigger: 'blur' },
+          { type: 'number', max: 100000, message: '最多输入6位字符', trigger: 'blur' }
         ],
         rateDay: [
-          { required: true, type: 'number', message: '请输入参考日利率', trigger: 'blur' }
+          { required: true, type: 'number', message: '请输入参考日利率', trigger: 'blur' },
+          { type: 'number', max: 100000, max: 6, message: '最多输入6位字符', trigger: 'blur' }
         ],
         repaymentMode: [
           { required: true, type: 'number', message: '请选择还款方式', trigger: 'blur' }
         ],
         loanTime: [
-          { required: true, message: '请输入放款时间', trigger: 'blur' }
+          { required: true, message: '请输入放款时间', trigger: 'blur' },
+          { type: 'string', max: 10, message: '最多输入10位字符', trigger: 'blur' }
+
         ],
         limitType: [
           { required: true, type: 'number', message: '请选择额度类型', trigger: 'blur' }
@@ -497,6 +500,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (valid) {
             let reg = /^\+?[1-9]\d*$/
+            let cient = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1})?$/
             let cart = /^(?!0+(?:\.0+)?$)(?:[1-9]\d*|0)(?:\.\d{1,2})?$/
             if (!reg.test(this.formValidate.applyCounts)) {
                 const title = '提示'
@@ -507,7 +511,7 @@ export default {
                 })
                 return false               
             }
-            if (!reg.test(this.formValidate.applyCountsRatio)) {
+            if (!cient.test(this.formValidate.applyCountsRatio)) {
                 const title = '提示'
                 let content = '<p>请输入正确的申请人系数</p>'
                 this.$Modal.warning({
@@ -639,6 +643,7 @@ export default {
                     }
                 }
             }
+            return false
 
             if (this.formValidate.autoOff == 1) {
                 this.formValidate.autoOn = null
