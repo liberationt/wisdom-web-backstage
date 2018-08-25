@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷员管理</span>
       </p>
     </div>
-    <Tabs type="card" :animated="false" @on-click="labell1" :value="tabs">
+    <Tabs type="card" :animated="false" @on-click="labellli" :value="tabs">
         <!-- 入驻待审核 -->
         <TabPane :label="label" name="tab1">
             <div class="clearfix" >
@@ -35,7 +35,7 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <!-- 资料待审核 -->
@@ -57,7 +57,7 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow1" :current="startRow1" @on-change="zipageChange" @on-page-size-change="zipageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="注册无资料" name="tab3">
@@ -79,7 +79,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow2" :current="startRow2" @on-change="pageChange3" @on-page-size-change="PageSizeChange3" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷员列表" name="tab4">
@@ -112,7 +112,7 @@
             <Table border :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow3" :current="startRow3" @on-change="pageChange4" @on-page-size-change="PageSizeChange4" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="信贷机构" name="tab5">
@@ -137,14 +137,14 @@
             <Table border :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" :page-size="endRow4" :current="startRow4" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
 </div>
 </template>
 <script>
-import untils from '../../utils/utils'
+import untils from "../../utils/utils";
 export default {
   data() {
     return {
@@ -161,21 +161,21 @@ export default {
       cityType1: [],
       cityType2: [],
       registerstatus: [],
-      registercitys: [], //zhuce shi 
+      registercitys: [], //zhuce shi
       registercityh: [],
-      registersheng: '',
-      registershi: '',
-      registermodel3: '',
-      registername: '',
+      registersheng: "",
+      registershi: "",
+      registermodel3: "",
+      registername: "",
       credit1: "",
       credit2: "",
       credit3: "",
-      register: 'mobile',
-      creditname: '',
-      guanname: '',
+      register: "mobile",
+      creditname: "",
+      guanname: "",
       // registerselect: [],
       statuslowershelves: [],
-      creditstatus:[],
+      creditstatus: [],
       loanstatus: [
         {
           value: "''",
@@ -227,11 +227,11 @@ export default {
       searchOptions: [],
       statusOptions: [],
       datamoble: [],
-      modelmoble: '',
-      dataname1: '',
+      modelmoble: "",
+      dataname1: "",
       model2: "",
       model3: "",
-      modell3 : "",
+      modell3: "",
       model4: "",
       name: "",
       name1: "",
@@ -293,10 +293,10 @@ export default {
                     whiteSpace: "nowrap"
                   },
                   domProps: {
-                    title: params.row.loanHaveType.join('，')
+                    title: params.row.loanHaveType.join("，")
                   }
                 },
-                params.row.loanHaveType.join('，')
+                params.row.loanHaveType.join("，")
               )
             ]);
           }
@@ -527,7 +527,11 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.$router.push({ path: "./creditInformation?loanOfficerCode="+params.row.loanOfficerCode });
+                      this.$router.push({
+                        path:
+                          "./creditInformation?loanOfficerCode=" +
+                          params.row.loanOfficerCode
+                      });
                     }
                   }
                 },
@@ -554,49 +558,49 @@ export default {
         {
           title: "姓名",
           key: "realName",
-           minWidth: 100,
+          minWidth: 100,
           align: "center"
         },
         {
           title: "性别",
           key: "gender",
-           minWidth: 100,
+          minWidth: 100,
           align: "center"
         },
         {
           title: "所属区域",
           key: "loanLocationName",
-           minWidth: 150,
+          minWidth: 150,
           align: "center"
         },
         {
           title: "状态",
           key: "servicePutawayStatus",
-           minWidth: 100,
+          minWidth: 100,
           align: "center"
         },
         {
           title: "服务介绍初始状态",
           key: "serviceIntroductionStatusName",
-           minWidth: 200,
+          minWidth: 200,
           align: "center"
         },
         {
           title: "已邀请人数",
           key: "loanInviterCodeCount",
-           minWidth: 100,
+          minWidth: 100,
           align: "center"
         },
         {
           title: "注册时间",
           key: "registerTime",
-           minWidth: 200,
+          minWidth: 200,
           align: "center"
         },
         {
           title: "最后一次登录时间",
           key: "lastLoginTime",
-           minWidth: 200,
+          minWidth: 200,
           align: "center"
         },
         {
@@ -649,39 +653,46 @@ export default {
           key: "institutionsUpStatus",
           align: "center",
           render: (h, params) => {
-            let institutionsUpStatus
-            if(params.row.institutionsUpStatus == '0'){
-              institutionsUpStatus = '下架'
-            } else if(params.row.institutionsUpStatus == '1'){
-              institutionsUpStatus = '上架'
+            let institutionsUpStatus;
+            if (params.row.institutionsUpStatus == "0") {
+              institutionsUpStatus = "下架";
+            } else if (params.row.institutionsUpStatus == "1") {
+              institutionsUpStatus = "上架";
             }
-            return h('div', [
-              h('span', {
-              style: {
-                marginRight: '5px'
-              },
-              }, institutionsUpStatus),
-            ])
+            return h("div", [
+              h(
+                "span",
+                {
+                  style: {
+                    marginRight: "5px"
+                  }
+                },
+                institutionsUpStatus
+              )
+            ]);
           }
         },
         {
           title: "首页推荐",
-          // key: "institutionsRecommendStatus",
           align: "center",
           render: (h, params) => {
-            let institutionsRecommendStatus
-            if(params.row.institutionsRecommendStatus == '0'){
-              institutionsRecommendStatus = '否'
-            } else if(params.row.institutionsRecommendStatus == '1'){
-              institutionsRecommendStatus = '是'
+            let institutionsRecommendStatus;
+            if (params.row.institutionsRecommendStatus == "0") {
+              institutionsRecommendStatus = "否";
+            } else if (params.row.institutionsRecommendStatus == "1") {
+              institutionsRecommendStatus = "是";
             }
-            return h('div', [
-              h('span', {
-              style: {
-                marginRight: '5px'
-              },
-              }, institutionsRecommendStatus),
-            ])
+            return h("div", [
+              h(
+                "span",
+                {
+                  style: {
+                    marginRight: "5px"
+                  }
+                },
+                institutionsRecommendStatus
+              )
+            ]);
           }
         },
         {
@@ -713,8 +724,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      this.adopt(params.row.institutionsCode)
-                      // this.remove(params.index);
+                      this.adopt(params.row.institutionsCode);
                     }
                   }
                 },
@@ -732,8 +742,13 @@ export default {
                   },
                   on: {
                     click: () => {
-                      untils.setCookie('institutionsCode',params.row.institutionsCode)
-                      this.$router.push({ path: "./addMechanism?isedit="+'is' });
+                      untils.setCookie(
+                        "institutionsCode",
+                        params.row.institutionsCode
+                      );
+                      this.$router.push({
+                        path: "./addMechanism?isedit=" + "is"
+                      });
                     }
                   }
                 },
@@ -751,7 +766,10 @@ export default {
                   },
                   on: {
                     click: () => {
-                      untils.setCookie('institutionsCode',params.row.institutionsCode)
+                      untils.setCookie(
+                        "institutionsCode",
+                        params.row.institutionsCode
+                      );
                       this.$router.push({ path: "./toExamine" });
                     }
                   }
@@ -764,15 +782,7 @@ export default {
       ],
       data10: [],
       startRow: 1,
-      startRow1: 1,
-      startRow2: 1,
-      startRow3: 1,
-      startRow4: 1,
       endRow: 10,
-      endRow1: 10,
-      endRow2: 10,
-      endRow3: 10,
-      endRow4: 10,
       total: 0,
       modell: "",
       labelstate: "",
@@ -780,88 +790,46 @@ export default {
       modelshi: "", // 市
       models: "", //省
       loading3: false,
+      tableli: ""
     };
   },
   methods: {
-    show(index) {
-      this.$Modal.info({
-        title: "User Info",
-        content: `Name：${this.data6[index].name}<br>Age：${
-          this.data6[index].age
-        }<br>Address：${this.data6[index].address}`
-      });
-    },
-    remove(index) {
-      this.data6.splice(index, 1);
-    },
     // 信贷机构
-    loanstatusl(v){
-      this.model3 = v
+    loanstatusl(v) {
+      this.model3 = v;
     },
-    loanrecommendl(v){
-      this.model4 = v
+    loanrecommendl(v) {
+      this.model4 = v;
     },
     pageChange(page) {
-      console.log(page);
-      this.startRow4 = page;
-      this.params.page = page;
-      this.labell1("tab5");
-    },
-    PageSizeChange(limit) {
-      this.startRow4 = 1
-      this.endRow4 = limit;
-      this.params.limit = limit;
-      this.labell1("tab5");
-    },
-    //入驻待审核分页
-    pageChange1(page) {
       this.startRow = page;
       this.params.page = page;
-      this.labell1("tab1");
+      if (this.tableli == "tab1") {
+        this.labell1("tab1");
+      } else if (this.tableli == "tab2") {
+        this.labell1("tab2");
+      } else if (this.tableli == "tab3") {
+        this.labell1("tab3");
+      } else if (this.tableli == "tab4") {
+        this.labell1("tab4");
+      } else if (this.tableli == "tab5") {
+        this.labell1("tab5");
+      }
     },
-    PageSizeChange1(limit) {
-      this.startRow = 1
-      this.endRow = limit;
-      this.params.limit = limit;
-      this.labell1("tab1");
-    },
-    // 资料待审核 分页
-    zipageChange(page) {
-      this.startRow1 = page;
-      this.params.page = page;
-      this.labell1("tab2");
-    },
-    zipageSizeChange(limit) {
-      this.endRow1 = limit;
-      this.params.limit = limit;
-      this.labell1("tab2");
-    },
-    // 注册无资料分页
-    pageChange3(page){
-      // console.log(page);
-      this.startRow2 = page;
-      this.labell1("tab3");
-      this.params.page = page;
-    },
-    PageSizeChange3(limit){
-      // console.log(limit);
-      this.startRow2 = 1
-      this.endRow2 = limit;
-      this.labell1("tab3");
-      this.params.limit = limit;
-    },
-    // 信贷员列表分页
-    pageChange4(page) {
-      // console.log(page)
-      this.startRow3 = page;
-      this.labell1("tab4");
-      this.params.page = page;
-    },
-    PageSizeChange4(limit) {
-      this.startRow3 = 1;
-      this.endRow3 = limit;
-      this.params.limit = limit;
-      this.labell1("tab4");
+    PageSizeChange(page) {
+      this.startRow = 1;
+      this.endRow = page;
+      if (this.tableli == "tab1") {
+        this.labell1("tab1");
+      } else if (this.tableli == "tab2") {
+        this.labell1("tab2");
+      } else if (this.tableli == "tab3") {
+        this.labell1("tab3");
+      } else if (this.tableli == "tab4") {
+        this.labell1("tab4");
+      } else if (this.tableli == "tab5") {
+        this.labell1("tab5");
+      }
     },
     // 信贷机构删除
     adopt(code) {
@@ -869,18 +837,25 @@ export default {
         title: "温馨提示",
         content: "<p>确认删除吗?</p>",
         onOk: () => {
-          this.http.post(BASE_URL+"/loan/creditInstitutions/updateCreditInstitutionsStateByCode",{institutionsCode:code}).then(data=>{
-            // console.log(data)
-            if(data.code == 'success'){
-              this.$Message.info('删除成功！');
-              this.labell1('tab5')
-            } else {
-              this.$Message.info('删除失败！');
-            }
-          }).catch(err=>{
-            this.$Message.info('删除失败！');
-            console.log(err)
-          })
+          this.http
+            .post(
+              BASE_URL +
+                "/loan/creditInstitutions/updateCreditInstitutionsStateByCode",
+              { institutionsCode: code }
+            )
+            .then(data => {
+              // console.log(data)
+              if (data.code == "success") {
+                this.$Message.info("删除成功！");
+                this.labell1("tab5");
+              } else {
+                this.$Message.info("删除失败！");
+              }
+            })
+            .catch(err => {
+              this.$Message.info("删除失败！");
+              console.log(err);
+            });
         },
         onCancel: () => {}
       });
@@ -888,197 +863,157 @@ export default {
     addManage() {
       this.$router.push({ path: "./addMechanism" });
     },
+    // 接口请求封装
     post(httpUrl, params, num) {
       this.http
         .post(httpUrl, params)
         .then(data => {
           if (data.code == "success") {
+            this.total = parseInt(data.data.total);
+            this.startRow =
+              Math.ceil(data.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(data.data.startRow / this.endRow);
             if (num == 0) {
-              this.total = parseInt(data.data.total);
-              this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
               this.data6 = data.data.dataList;
-              // 分页初始化
-              this.endRow1 = 10
-              this.endRow2 = 10
-              this.endRow3 = 10
-              this.endRow4 = 10
-              this.startRow1 = 1
-              this.startRow2 = 1
-              this.startRow3 = 1
-              this.startRow4 = 1
               //查询条件初始化
-              this.modelmoble = ""
-              this.dataname1 = ""
-              this.registername = ""
-              this.registermodel3 = ""
-              this.credit1 = ""
-              this.credit2 = ""
-              this.credit3 = ""
-              this.creditname = ""
-              this.registershi = ""
-              this.registersheng = ""
-              this.guanname = ""
+              this.modelmoble = "";
+              this.dataname1 = "";
+              this.registername = "";
+              this.registermodel3 = "";
+              this.credit1 = "";
+              this.credit2 = "";
+              this.credit3 = "";
+              this.creditname = "";
+              this.registershi = "";
+              this.registersheng = "";
+              this.guanname = "";
               // this.model3 = ""
-              this.model4 = ""
-              this.modell3 = ""
-              this.loading3= false
+              this.model4 = "";
+              this.modell3 = "";
+              this.loading3 = false;
               return false;
             }
             if (num == 1) {
-              this.total = parseInt(data.data.total);
-              this.startRow1 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
               this.data7 = data.data.dataList;
-              // 分页初始化
-              this.endRow = 10
-              this.endRow2 = 10
-              this.endRow3 = 10
-              this.endRow4 = 10
-              this.startRow = 1
-              this.startRow2 = 1
-              this.startRow3 = 1
-              this.startRow4 = 1
               //查询条件初始化
-              this.model1 = ""
-              this.name = ""
-              this.model3 = ""
-              this.models = ""
-              this.modelshi = ""
-              this.registername = ""
-              this.registermodel3 = ""
-              this.credit1 = ""
-              this.credit2 = ""
-              this.credit3 = ""
-              this.creditname = ""
-              this.registershi = ""
-              this.registersheng = ""
-              this.guanname = ""
-              this.model3 = ""
-              this.model4 = ""
-              this.modell3 = ""
-              this.loading3= false
+              this.model1 = "";
+              this.name = "";
+              this.model3 = "";
+              this.models = "";
+              this.modelshi = "";
+              this.registername = "";
+              this.registermodel3 = "";
+              this.credit1 = "";
+              this.credit2 = "";
+              this.credit3 = "";
+              this.creditname = "";
+              this.registershi = "";
+              this.registersheng = "";
+              this.guanname = "";
+              this.model3 = "";
+              this.model4 = "";
+              this.modell3 = "";
+              this.loading3 = false;
               return false;
             }
             if (num == 2) {
-              this.total = parseInt(data.data.total);
-              this.startRow2 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              // this.total = parseInt(data.data.total);
               this.data8 = data.data.dataList;
-              // 分页初始化
-              this.endRow = 10
-              this.endRow1 = 10
-              this.endRow3 = 10
-              this.endRow4 = 10
-              this.startRow1 = 1
-              this.startRow = 1
-              this.startRow3 = 1
-              this.startRow4 = 1
               //查询条件初始化
-              this.model1 = ""
-              this.name = ""
-              this.model3 = ""
-              this.models = ""
-              this.modelshi = ""
-              this.modelmoble = ""
-              this.dataname1 = ""
-              this.credit1 = ""
-              this.credit2 = ""
-              this.credit3 = ""
-              this.creditname = ""
-              this.registershi = ""
-              this.registersheng = ""
-              this.guanname = ""
-              this.model3 = ""
-              this.model4 = ""
-              this.modell3 = ""
-              this.loading3= false
+              this.model1 = "";
+              this.name = "";
+              this.model3 = "";
+              this.models = "";
+              this.modelshi = "";
+              this.modelmoble = "";
+              this.dataname1 = "";
+              this.credit1 = "";
+              this.credit2 = "";
+              this.credit3 = "";
+              this.creditname = "";
+              this.registershi = "";
+              this.registersheng = "";
+              this.guanname = "";
+              this.model3 = "";
+              this.model4 = "";
+              this.modell3 = "";
+              this.loading3 = false;
               return false;
             }
             if (num == 3) {
-              this.total = parseInt(data.data.total);
-              this.startRow3 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
+              // this.total = parseInt(data.data.total);
               this.data9 = data.data.dataList;
-              // 分页初始化
-              this.endRow = 10
-              this.endRow1 = 10
-              this.endRow2 = 10
-              this.endRow4 = 10
-              this.startRow1 = 1
-              this.startRow2 = 1
-              this.startRow = 1
-              this.startRow4 = 1
               //查询条件初始化
-              this.model1 = ""
-              this.name = ""
-              this.model3 = ""
-              this.models = ""
-              this.modelshi = ""
-              this.modelmoble = ""
-              this.dataname1 = ""
-              this.registername = ""
-              this.registermodel3 = ""
-              this.guanname = ""
-              this.model3 = ""
-              this.model4 = ""
-              this.modell3 = ""
-              this.loading3= false
+              this.model1 = "";
+              this.name = "";
+              this.model3 = "";
+              this.models = "";
+              this.modelshi = "";
+              this.modelmoble = "";
+              this.dataname1 = "";
+              this.registername = "";
+              this.registermodel3 = "";
+              this.guanname = "";
+              this.model3 = "";
+              this.model4 = "";
+              this.modell3 = "";
+              this.loading3 = false;
               return false;
             }
-            if( num == 4 ){
-              this.total = parseInt(data.data.total);
-              this.startRow4 = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
-              this.data10 = data.data.creditInstitutionsList
-              this.name = ""
-              this.model1 = ""
-              this.labelstate = ""
-              this.labelcitys = ""
-              this.modelshi = ""
-              this.modelmoble = ""
-              this.dataname1 = ""
-              this.registername = ""
-              this.registermodel3 = ""
-              this.credit1 = ""
-              this.credit2 = ""
-              this.credit3 = ""
-              this.creditname = ""
-              this.registershi = ""
-              this.registersheng = ""
-              // 分页初始化
-              this.endRow = 10
-              this.endRow1 = 10
-              this.endRow2 = 10
-              this.endRow3 = 10
-              this.startRow1 = 1
-              this.startRow2 = 1
-              this.startRow = 1
-              this.startRow3 = 1
-              this.loading3= false
-              return false
+            if (num == 4) {
+              // this.total = parseInt(data.data.total);
+              this.data10 = data.data.creditInstitutionsList;
+              this.name = "";
+              this.model1 = "";
+              this.labelstate = "";
+              this.labelcitys = "";
+              this.modelshi = "";
+              this.modelmoble = "";
+              this.dataname1 = "";
+              this.registername = "";
+              this.registermodel3 = "";
+              this.credit1 = "";
+              this.credit2 = "";
+              this.credit3 = "";
+              this.creditname = "";
+              this.registershi = "";
+              this.registersheng = "";
+              this.loading3 = false;
+              return false;
             }
           } else {
             this.total = 0;
-            this.loading3= false
+            this.loading3 = false;
           }
         })
         .catch(err => {
           console.log(err);
-          this.loading3= false
+          this.loading3 = false;
         });
     },
     //tab 栏
+    labellli(name) {
+      this.tableli = name;
+      this.total = 0;
+      this.startRow = 1;
+      this.endRow = 10;
+      this.labell1(name);
+    },
+    //查询
     labell1(name) {
       let data;
       //入驻待审核
       if (name == "tab1") {
-        data = Object.assign(
-          {
-            searchValue: this.name, //手机号or姓名的参数
-            searchOptions: this.model1, //手机号or 姓名
-            loanStatus: this.labelstate == -1 ? null : this.labelstate, //选择状态
-            loanAdCodeFirst: this.labelcitys, //区域 省
-            loanAdCodeSecond: this.modelshi, //市
-            pageSize: this.endRow,
-            pageNum: this.startRow
-          }
-        );
+        data = Object.assign({
+          searchValue: this.name, //手机号or姓名的参数
+          searchOptions: this.model1, //手机号or 姓名
+          loanStatus: this.labelstate == -1 ? null : this.labelstate, //选择状态
+          loanAdCodeFirst: this.labelcitys, //区域 省
+          loanAdCodeSecond: this.modelshi, //市
+          pageSize: this.endRow,
+          pageNum: this.startRow
+        });
         this.post(
           BASE_URL + "/loan/officer/queryOfficerAdmissionList",
           data,
@@ -1088,14 +1023,12 @@ export default {
       //资料带审核
       if (name == "tab2") {
         // alert(33)
-        data = Object.assign(
-          {
-            searchValue: this.dataname1,
-            searchOptions: this.modelmoble, //姓名or手机号
-            pageSize: this.endRow1,
-            pageNum: this.startRow1
-          }
-        );
+        data = Object.assign({
+          searchValue: this.dataname1,
+          searchOptions: this.modelmoble, //姓名or手机号
+          pageSize: this.endRow,
+          pageNum: this.startRow
+        });
         this.post(
           BASE_URL + "/loan/officer/queryOfficerDataWaitCheckList",
           data,
@@ -1105,29 +1038,28 @@ export default {
       //注册无资料
       if (name == "tab3") {
         data = Object.assign({
-          searchOptions : this.register,
-          searchValue : this.registername,
-          loanBaseStatus : this.registermodel3 == -1 ? null : this.registermodel3,
-          pageSize: this.endRow2,
-          pageNum: this.startRow2
+          searchOptions: this.register,
+          searchValue: this.registername,
+          loanBaseStatus:
+            this.registermodel3 == -1 ? null : this.registermodel3,
+          pageSize: this.endRow,
+          pageNum: this.startRow
         });
         this.post(BASE_URL + "/loan/officer/queryOfficerNoneDataList", data, 2);
       }
       //信贷员列表
       if (name == "tab4") {
-        data = Object.assign(
-          {
-            // searchOptions : "",
-            searchOptions: this.credit1,
-            searchValue : this.creditname,
-            servicePutawayStatus: this.credit2,
-            loanAdCodeFirst: this.registersheng, //省编码
-            loanAdCodeSecond: this.registershi, //市编码
-            serviceIntroductionStatus: this.credit3 == -1 ? null : this.credit3, //服务介绍状态
-            pageSize: this.endRow3,
-            pageNum: this.startRow3
-          }
-        );
+        data = Object.assign({
+          // searchOptions : "",
+          searchOptions: this.credit1,
+          searchValue: this.creditname,
+          servicePutawayStatus: this.credit2,
+          loanAdCodeFirst: this.registersheng, //省编码
+          loanAdCodeSecond: this.registershi, //市编码
+          serviceIntroductionStatus: this.credit3 == -1 ? null : this.credit3, //服务介绍状态
+          pageSize: this.endRow,
+          pageNum: this.startRow
+        });
         console.log(data);
         this.post(BASE_URL + "/loan/officer/queryOfficerManagerList", data, 3);
         return false;
@@ -1135,11 +1067,11 @@ export default {
       //信贷机构
       if (name == "tab5") {
         data = Object.assign({
-          institutionsName : this.guanname, //关键字
-          institutionsUpStatus : this.modell3, // 上下架状态
-          institutionsRecommendStatus : this.model4, //是否首页推荐
-          pageSize: this.endRow4,
-          pageNum: this.startRow4
+          institutionsName: this.guanname, //关键字
+          institutionsUpStatus: this.modell3, // 上下架状态
+          institutionsRecommendStatus: this.model4, //是否首页推荐
+          pageSize: this.endRow,
+          pageNum: this.startRow
         });
         this.post(
           BASE_URL + "/loan/creditInstitutions/queryCreditInstitutionsList",
@@ -1159,18 +1091,18 @@ export default {
     },
     //市
     cityh(v) {
-      this.modelshi = v
+      this.modelshi = v;
     },
     //zhuce sheng
-    registerh(v){
-      this.registershi = v
+    registerh(v) {
+      this.registershi = v;
     },
-    registers(v){
-       let data = {
+    registers(v) {
+      let data = {
         data: v
       };
       this.httpshi(data);
-      this.registersheng = v
+      this.registersheng = v;
     },
     // 市接口
     httpshi(data) {
@@ -1178,7 +1110,7 @@ export default {
         .post(BASE_URL + "/loan/hotcity/queryCityAddressList", data)
         .then(data => {
           this.cityTypel = data.data || "";
-          this.registercityh = data.data || ""
+          this.registercityh = data.data || "";
         });
     },
     // 入住待审核查询
@@ -1187,45 +1119,45 @@ export default {
         if (this.name != "" && this.name.length < 3) {
           this.phoneti(type);
         } else {
-          this.loading3= true
+          this.loading3 = true;
           this.labell1("tab1");
         }
       } else {
-        this.loading3= true
+        this.loading3 = true;
         this.labell1("tab1");
       }
     },
     // 注册无资料查询
     registerinquery(type) {
-        if (this.registername != "" && this.registername.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab3");
-        }
+      if (this.registername != "" && this.registername.length < 3) {
+        this.phoneti(type);
+      } else {
+        this.loading3 = true;
+        this.labell1("tab3");
+      }
     },
     //信贷员列表 查询
-    creditinquery(type){
+    creditinquery(type) {
       if (this.credit1 == "mobile") {
         if (this.creditname != "" && this.creditname.length < 3) {
           this.phoneti(type);
         } else {
-          this.loading3= true
+          this.loading3 = true;
           this.labell1("tab4");
         }
       } else {
-        this.loading3= true
+        this.loading3 = true;
         this.labell1("tab4");
       }
     },
     // 信贷机构 查询
-    mechanisminqury(type){
-        this.loading3= true
-        this.labell1("tab5");
+    mechanisminqury(type) {
+      this.loading3 = true;
+      this.labell1("tab5");
     },
     // 入住 下拉框
     label_option(v) {
-      this.model1 = v
+      this.model1 = v;
     },
     label_state(v) {
       this.labelstate = v;
@@ -1236,35 +1168,35 @@ export default {
         if (this.dataname1 != "" && this.dataname1.length < 3) {
           this.phoneti(type);
         } else {
-          this.loading3= true
-          this.labell1("tab2")
+          this.loading3 = true;
+          this.labell1("tab2");
         }
       } else {
-        this.loading3= true
-        this.labell1("tab2")
+        this.loading3 = true;
+        this.labell1("tab2");
       }
     },
-    data_option(v){
-      this.modelmoble = v
+    data_option(v) {
+      this.modelmoble = v;
     },
     //注册无资料
     // registerselectl(v){
     //   this.register = v
     // },
-    registerstate(v){
-      this.registermodel3 = v
+    registerstate(v) {
+      this.registermodel3 = v;
       // alert(v)
     },
     // 信贷员列表
-    creditchange(v){
-      this.credit1 = v
+    creditchange(v) {
+      this.credit1 = v;
       // alert(v)
     },
-    credit2change(v){
-      this.credit2 = v
+    credit2change(v) {
+      this.credit2 = v;
     },
-    credit3change(v){
-      this.credit3 = v
+    credit3change(v) {
+      this.credit3 = v;
     },
     // 手机号提示
     phoneti(type) {
@@ -1295,41 +1227,45 @@ export default {
       this.cityType2 = data;
       this.registercitys = data;
     });
+    this.tableli = 'tab1'
     // 入住待审核
     this.labell1("tab1");
     // 信贷员列表 过滤条件
     this.http
       .post(BASE_URL + "/loan/officer/queryOfficerAdmissionListFilter", {})
       .then(data => {
-        this.searchOptions = data.data.searchOptions
-        this.statusOptions = data.data.statusOptions
+        this.searchOptions = data.data.searchOptions;
+        this.statusOptions = data.data.statusOptions;
       })
       .catch(err => {
         console.log(err);
       });
-    // 资料待审核过滤条件 
-    this.http.post(BASE_URL + "/loan/officer/queryOfficerDataWaitCheckListFilter", {})
+    // 资料待审核过滤条件
+    this.http
+      .post(BASE_URL + "/loan/officer/queryOfficerDataWaitCheckListFilter", {})
       .then(data => {
-        this.datamoble = data.data.searchOptions
+        this.datamoble = data.data.searchOptions;
       })
       .catch(err => {
         console.log(err);
       });
     // 注册无资料过滤条件
-    this.http.post(BASE_URL + "/loan/officer/queryOfficerNoneDataListFilter", {})
+    this.http
+      .post(BASE_URL + "/loan/officer/queryOfficerNoneDataListFilter", {})
       .then(data => {
         // this.registerselect = data.data.searchOptions
-        this.registerstatus = data.data.statusOptions
+        this.registerstatus = data.data.statusOptions;
       })
       .catch(err => {
         console.log(err);
       });
     // 信贷员列表 过滤条件
-    this.http.post(BASE_URL + "/loan/officer/queryOfficerManagerListFilter", {})
+    this.http
+      .post(BASE_URL + "/loan/officer/queryOfficerManagerListFilter", {})
       .then(data => {
-        this.cityList = data.data.searchOptions
-        this.creditstatus = data.data.serviceStatusOptions 
-        this.statuslowershelves = data.data.servicePutawayStatusOptions 
+        this.cityList = data.data.searchOptions;
+        this.creditstatus = data.data.serviceStatusOptions;
+        this.statuslowershelves = data.data.servicePutawayStatusOptions;
       })
       .catch(err => {
         console.log(err);
