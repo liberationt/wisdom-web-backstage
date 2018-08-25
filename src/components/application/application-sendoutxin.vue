@@ -2,7 +2,7 @@
   <Row>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;站内信</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;站内信编辑</span>
       </p>
     </div>
     <Col span="12" offset="4">
@@ -35,13 +35,24 @@
           <Input v-model="formCustom.phone" type="textarea" style="width:200px" placeholder="请输入推送手机号"></Input>
           <p>指定手机号,以半角逗号分隔</p>
         </FormItem>
-        <FormItem label="跳转类型:" prop="h5">
-          <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
-            <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
-          </Select>
-          <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:400px" v-if="homeh5">
-            <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
-          </Select>
+       <FormItem label="跳转类型:" >
+          <Row>
+                <Col span="10">
+                    <FormItem prop="h5">
+                      <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
+                        <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
+                      </Select>
+                    </FormItem>
+                </Col>
+                <Col span="1" style="text-align: center"></Col>
+                <Col span="10">
+                    <FormItem prop="value5" v-if="homeh5">
+                      <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" >
+                        <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
+                      </Select>
+                    </FormItem>
+                </Col>
+            </Row>
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
@@ -85,9 +96,12 @@ export default {
         passwdCheck: { required: true, message: '请选择计划推送时间', trigger: 'change' },
         age: { required: true, message: '请选择推送平台', trigger: 'change' },
         object: { required: true, message: '请选择推送对象', trigger: 'change' },
-        phone: { required: true, message: '请输入推送手机号', trigger: 'blur' },
+        phone: [{ required: true, message: '请输入推送手机号', trigger: 'blur' },
+          {required: true, message: '请输入正确的推送手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
+        ],
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
-        jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' }
+        jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' },
+        value5: { required: true, message: '请选择跳转页面', trigger: 'change' },
       },
       cityList: [],
       dateList:[
@@ -111,8 +125,32 @@ export default {
   },
   methods: {
     handleSubmit (name) {
+      let datetimel = Date.parse(new Date(this.datevalue))
+      let datetimell = Date.parse(new Date())
+      console.log()
       this.$refs[name].validate(valid => {
-          console.log(this.datevalue)
+          if(this.datevalue == "" && this.ifdate == true){
+              this.$Modal.warning({
+                title: '指定时间',
+                content: '<p>请选择指定时间</p>',
+                onOk: () => {
+                },
+                onCancel: () => {           
+                }
+              })
+              return false
+          }
+          if(datetimel <= datetimell && this.ifdate == true){
+              this.$Modal.warning({
+                title: '指定时间',
+                content: '<p>指定时间不能小于当前时间</p>',
+                onOk: () => {
+                },
+                onCancel: () => {           
+                }
+              })
+              return false
+          }
           let tiurl 
           if(this.$route.query.isedit == 'is') {
             tiurl = '/loan/webMailQdx/modifyMessageMailByCode'
@@ -136,6 +174,8 @@ export default {
           this.http.post(BASE_URL + tiurl,list).then(data=>{
             if(data.code == 'success'){
               this.phoneti('success')
+            } else if(data.code == 100001){
+              this.$Message.error(data.message)
             } else {
               this.$Message.error('提交失败!')
             }
@@ -143,9 +183,8 @@ export default {
             this.$Message.error('提交失败!')
             // console.log(err)
           })
-          // this.$Message.success('Success!')
         } else {
-          this.$Message.error('提交失败!')
+          // this.$Message.error('提交失败!')
         }
       })
     },
