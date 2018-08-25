@@ -32,10 +32,10 @@
             </div>
             </div>
         </div>
-			<p v-if="auditMessl">
-        <span>拒绝原因:</span>
-        <span>{{auditMess}}</span>
-      </p>
+        <p v-if="this.auditMess != ''">
+          <span>拒绝原因:</span>
+          <span>{{auditMess}}</span>
+        </p>
         <div class="mt50 marginauto">
           <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
           <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -65,6 +65,10 @@
         <span class="left">头像图片：</span>
         <img :src='this.imgurl' alt="">
       </div>
+      <p v-if="auditMessl">
+        <span>拒绝原因:</span>
+        <span>{{auditMess}}</span>
+      </p>
 			<div class="mt50 marginauto1">
         <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
@@ -125,7 +129,7 @@ export default {
       )
       .then(data => {
         console.log(data);
-        if(data.data.auditType == 0){
+        if(data.data.auditType == 0){  //拒绝服务介绍
           this.common = true
           this.detailed = data.data.realName;
           this.auditUpdateTime = data.data.auditUpdateTime;
@@ -133,7 +137,8 @@ export default {
           this.serviceApplyRequire = data.data.serviceApplyRequire;
           this.serviceOtherRequire = data.data.serviceOtherRequire;
           this.auditMess = data.data.auditMess;
-        } else if(data.data.auditType == 1){
+        } else if(data.data.auditType == 1){ // 拒绝头像
+          this.auditMess = data.data.auditMess;
           this.common = false
           this.imgurl = data.data.loanPersonImg 
         }
