@@ -19,7 +19,8 @@
               <Button type="primary" class="w100" :loading="loading3" @click="handleSubmit">
                 <span v-if="!loading3">保存设置</span>
                 <span v-else>保存设置</span>
-              </Button>
+              </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button type="ghost" @click="handleRender1">查看操作日志</Button>
             </FormItem>
           </Form>
         </TabPane>
@@ -47,7 +48,8 @@
               <Button type="primary" class="w100" :loading="loading3" @click="preservationvalue">
                 <span v-if="!loading3">保存配置</span>
                 <span v-else>保存配置</span>
-              </Button>
+              </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button type="ghost" @click="handleRender2">查看操作日志</Button>
             </FormItem>
           </Form>
         </TabPane>
@@ -150,8 +152,7 @@
               <Button type="primary" class="w100" :loading="loading3" @click="marketingusbmit">
                 <span v-if="!loading3">保存配置</span>
               </Button>&nbsp;&nbsp;&nbsp;&nbsp;
-              <!-- <Button type="primary" @click="marketingusbmit">保存配置</Button>&nbsp;&nbsp;&nbsp;&nbsp; -->
-              <Button type="ghost" @click="handleRender">查看操作日志</Button>
+              <Button type="ghost" @click="handleRender3">查看操作日志</Button>
             </FormItem>
           </Form>
         </TabPane>
@@ -367,7 +368,13 @@
           .catch(() => {
           })
       },
-      handleRender () {
+      handleRender1 () {   //信贷基本配置查看日志
+        this.$router.push({ path: './operationLog?operationType=officer_edit' })
+      },
+      handleRender2 () {  //用户身价配置日志
+        this.$router.push({ path: './operationLog?operationType=user_social_edit' })
+      },
+      handleRender3 () {   //营销设置日志
         this.$router.push({ path: './operationLog?operationType=market_edit' })
       },
       handleReset (name) {

@@ -110,7 +110,7 @@ export default {
   },
   methods: {
     handleRender () {
-      this.$router.push({ path: './orderlog?orderCode='+ this.order.orderCode })
+      this.$router.push({ path: './operationLog?operationType=orderLog&orderCode=' + this.order.orderCode })
     },
     // 返回
     backingout () {
@@ -128,8 +128,8 @@ export default {
                 for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
                     this.img.push(require('../../image/pointed-star.png'))
                 }
-            }          
-        }    
+            }
+        }
     })
     .catch((error) => {
         console.log(error)

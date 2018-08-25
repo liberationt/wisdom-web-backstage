@@ -59,10 +59,10 @@
               <div class="loans_bottom">
                 <p class="clearfix haomePage_edit">
                   <InputNumber class="banknumint" :min="0" v-model="item.productOrder"></InputNumber>
-                  <span @click="edit_icon_colorB(item.productCode, 0)" v-if="item.state==1" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
-                  <span @click="edit_icon_colorR(item.productCode, 1)" v-if="item.state==0" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
+                  <span @click="edit_icon_colorB(item.productCode, 1)" v-if="item.state==0" class="edit_icon edit_icon_blue left"><Icon type="arrow-up-a"></Icon></Icon></span>
+                  <span @click="edit_icon_colorR(item.productCode, 0)" v-if="item.state==1" class="edit_icon edit_icon_red left"><Icon type="arrow-down-a"></Icon></Icon></Icon></span>
                   <span class="edit_icon right ml5" @click="cardshow(item.productCode)"><Icon type="edit"></Icon></span>
-                  <span class="edit_icon right" v-if="item.state==0">
+                  <span class="edit_icon right" v-if="item.state==1">
                   <Poptip
                   confirm
                   transfer
@@ -113,7 +113,7 @@ export default {
     },
     edit_icon_colorB (code, num) {
       this.$Modal.confirm({
-          title: '上架',
+          title: '下架',
           content: '<p>确认要下架吗?</p>',
           onOk: () => {
             this.creditshelf (code, num)
@@ -124,7 +124,7 @@ export default {
     },
     edit_icon_colorR (code, num) {
       this.$Modal.confirm({
-        title: '下架',
+        title: '上架',
         content: '<p>确认要上架吗?</p>',
         onOk: () => {
           this.creditshelf (code, num)
@@ -145,7 +145,7 @@ export default {
           if (num == 0) {
             this.$Modal.success({
               title: '上架',
-              content: '<p>下架成功</p>'         
+              content: '<p>上架成功</p>'         
             })
             this.loanlist ()
           } else {
