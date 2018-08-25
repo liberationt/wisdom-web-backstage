@@ -244,10 +244,13 @@ export default {
       let content
       let list
       let jumpUrl
+      let jumpappParams
         if (this.formValidate1.layout == 1 && this.formValidate1.mark == 1) {
           jumpUrl = this.formValidate1.home
+          jumpappParams = ''
           if (this.detailscode) {
             jumpUrl = this.formValidate1.home+this.formValidate1.code
+            jumpappParams = this.formValidate1.code
           }
         } else {
           jumpUrl = this.formValidate1.desc
@@ -275,7 +278,8 @@ export default {
         bannerAppIdentifier : this.$route.query.appIdentifier,
         bannerAppVersion: this.$route.query.appVersion,
         bannerAppType: this.$route.query.appType,
-        locationType : this.locationtype
+        locationType : this.locationtype,
+        jumpAppParams:jumpappParams
       }
       
       if (this.$route.query.banner==7) {
@@ -304,7 +308,8 @@ export default {
           versionCode: this.$route.query.versionCode,
           appIdentifier : this.$route.query.appIdentifier,
           appVersion: this.$route.query.appVersion,
-          appType: this.$route.query.appType
+          appType: this.$route.query.appType,
+          jumpAppParams:jumpappParams
         }
       }
       } else {
@@ -321,7 +326,8 @@ export default {
               appVersion: this.$route.query.appVersion,
               appType: this.$route.query.appType,
               bannerCode: this.bannerCode,
-              locationType:this.locationtype
+              locationType:this.locationtype,
+              jumpAppParams:jumpappParams
             }
             if (this.$route.query.banner==7) {
               list.trueNameDisplay = this.formValidate1.realname
@@ -337,7 +343,8 @@ export default {
               appIdentifier : this.$route.query.appIdentifier,
               appVersion: this.$route.query.appVersion,
               appType: this.$route.query.appType,
-              advertisementCode: this.bannerCode
+              advertisementCode: this.bannerCode,
+              jumpAppParams:jumpappParams
             }
         }
         if (this.fiveh == 1) {
@@ -364,6 +371,7 @@ export default {
             this.$refs['formValidate1'].resetFields()
             this.detailscode = false
             this.formValidate1.code = ''
+            this.formValidate1.home = this.jumpAppParams[0].jumpUrl
             this.banklogo = require('../../image/moren.png')
             this.modal1 = false
             this.banklist ()
@@ -416,17 +424,19 @@ export default {
             if (resp.data.jumpStatus == 1) {//跳转
             if (resp.data.jumpType == 1) {//原生
             // alert(resp.data.jumpUrl.split("=")[0])
-            if (resp.data.jumpUrl.indexOf('=')>-1) {
-              this.formValidate1.home = resp.data.jumpUrl.split("=")[0]+'='
-            } else {
+            // if (resp.data.jumpUrl.indexOf('=')>-1) {
+            //   this.formValidate1.home = resp.data.jumpUrl.split("=")[0]+'='
+            // } else {
+            //   this.formValidate1.home = resp.data.jumpUrl
+            // }
               this.formValidate1.home = resp.data.jumpUrl
-            }
-              
+              this.formValidate1.code = resp.data.jumpAppParams
+
               for (let i=0;i<this.jumpAppParams.length;i++) {
                 if (this.formValidate1.home==this.jumpAppParams[i].jumpUrl) {
                   if (this.jumpAppParams[i].isParam==1) {
                     this.detailscode = true
-                    this.formValidate1.code = resp.data.jumpUrl.split("=")[1]
+                    // this.formValidate1.code = resp.data.jumpUrl.split("=")[1]
                   }
                 }
               }
