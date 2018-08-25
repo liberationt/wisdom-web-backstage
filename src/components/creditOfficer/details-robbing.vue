@@ -27,13 +27,13 @@
             </p>
         </div>
         <div class="left details_right">
-            <p>
-            <span>抢单时间:</span>
-            <span>{{order.orderCreateTime}}</span>
-        </p>
         <p>
             <span>抢单编号:</span>
             <span>{{order.orderNum}}</span>
+        </p>
+        <p>
+            <span>抢单费用:</span>
+            <span>{{order.robbingAmount}}赞豆</span>
         </p>
         <p>
             <span>订单状态:</span>
@@ -45,10 +45,6 @@
             <span v-if="order.orderStatus==5">交易失败</span>
         </p>
         <p>
-            <span>抢单费用:</span>
-            <span>{{order.robbingAmount}}</span>
-        </p>
-        <p>
             <span>所在区域:</span>
             <span>{{order.orderCityNameFirst}} {{order.orderCityNameSecond}}</span>
         </p>
@@ -56,15 +52,15 @@
             <span>客户:</span>
             <span>{{order.loanUserName}} {{order.loanUserPhone}}</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>申请贷款金额:</span>
             <span>{{order.customerLoanAmount}}万元</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>服务费:</span>
             <span>{{order.serviceCostAsFormat}}元</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>实际放款金额:</span>
             <span>{{order.customerActualLoanAmount}}万元</span>
         </p>
@@ -72,21 +68,48 @@
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
         </p>
-        <p v-if="order.orderCloseMessage!=null">
-            <span>订单关闭原因:</span>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉人:</span>
+            <span v-if="order.orderStatus == 3 && order.orderStatusDetail == 4">
+                客户
+            </span>
+            <span v-else-if="order.orderStatus == 3 && order.orderStatusDetail == 5">
+                信贷员
+            </span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉时间:</span>
+            <span>{{order.complainTime}}</span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉内容:</span>
+            <span>{{order.complainMessage}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭时间:</span>
+            <span>{{order.orderCloseTime}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭原因:</span>
             <span>{{order.orderCloseMessage}}</span>
         </p>
         <p v-if="order.commentDetailsReq!=null">
             <span>评价状态:</span>
             <span>{{order.commentDetailsReq.isPass}}</span>
         </p>
-        <p v-if="order.commentDetailsReq!=null">
-            <span>评价内容:</span>
-            <Icon v-if="order.commentDetailsReq!=null" v-for="item in img" type="ios-star" class="yellow1"></Icon>
-            <p class="ml100" v-if="order.commentDetailsReq!=null">
-                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade">{{item}}</span>
+        <p v-if="order.commentDetailsReq != null">
+            <span>评价内容:</span> 
+            <Icon  v-for="item in img" type="ios-star" class="yellow1 " :key="item.length"></Icon>
+            <p v-if="order.commentDetailsReq!=null" class="ml100" >
+                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade " :key="item.length">{{item}}</span>
             </p>
-            <p class="ml100" v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</p>
+            <p v-if="order.commentDetailsReq != null" class="ml100">{{order.commentDetailsReq.content}}
+        </p>
+        <p v-if="order.leaveMessageResList" 
+            v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
+            <span>留言:</span>
+            <span >【{{item.leaveMessageTime}}】</span>
+            <span >{{item.leaveMessage}}</span>
         </p>
         </div>
         </div>

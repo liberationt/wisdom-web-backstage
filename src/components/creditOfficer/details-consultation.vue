@@ -9,7 +9,7 @@
         <h3>查看咨询订单详情</h3>
         <div class="clearfix">
         <div class="left details_left">
-            <p v-if="order.orderCreateTime!=null">
+            <p v-if="order.orderCreateTime != null">
                 <span>咨询时间</span>
                 <span>{{order.orderCreateTime}}</span>
             </p>
@@ -48,15 +48,15 @@
             <span>客户:</span>
             <span>{{order.loanUserName}} {{order.loanUserPhone}}</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>申请贷款金额:</span>
             <span>{{order.customerLoanAmountAsFormat}}万元</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>服务费:</span>
             <span>{{order.serviceCostAsFormat}}元</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>实际放款金额:</span>
             <span>{{order.customerActualLoanAmount}}万元</span>
         </p>
@@ -64,22 +64,50 @@
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
         </p>
-        <p v-if="order.orderCloseMessage!=null">
-            <span>订单关闭原因:</span>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉人:</span>
+            <span v-if="order.orderStatus == 3 && order.orderStatusDetail == 4">
+                客户
+            </span>
+            <span v-else-if="order.orderStatus == 3 && order.orderStatusDetail == 5">
+                信贷员
+            </span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉时间:</span>
+            <span>{{order.complainTime}}</span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉内容:</span>
+            <span>{{order.complainMessage}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭时间:</span>
+            <span>{{order.orderCloseTime}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭原因:</span>
             <span>{{order.orderCloseMessage}}</span>
         </p>
         <p v-if="order.commentDetailsReq!=null">
             <span>评价状态:</span>
             <span>{{order.commentDetailsReq.isPass}}</span>
         </p>
-        <p v-if="order.commentDetailsReq!=null">
-            <span>评价内容:</span>
-            <Icon  v-for="item in img" type="ios-star" class="yellow1 "></Icon>
+        <p v-if="order.commentDetailsReq != null">
+            <span>评价内容:</span> 
+            <Icon  v-for="item in img" type="ios-star" class="yellow1 " :key="item.length"></Icon>
             <p v-if="order.commentDetailsReq!=null" class="ml100" >
-                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade ">{{item}}</span>
+                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade " :key="item.length">{{item}}</span>
             </p>
-            <p v-if="order.commentDetailsReq!=null" class="ml100" >{{order.commentDetailsReq.content}}</p>
+            <p v-if="order.commentDetailsReq != null" class="ml100">{{order.commentDetailsReq.content}}
         </p>
+        <p v-if="order.leaveMessageResList" 
+            v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
+            <span>留言:</span>
+            <span >【{{item.leaveMessageTime}}】</span>
+            <span >{{item.leaveMessage}}</span>
+        </p>
+        
         <!-- <p>
             <span>评价内容:</span>
             <span v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</span>
@@ -102,83 +130,87 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
-        order: {},
-        img:[]
-    }
+      order: {},
+      img: []
+    };
   },
   methods: {
-    handleRender () {
-      this.$router.push({ path: './orderlog?orderCode='+ this.order.orderCode })
+    handleRender() {
+      this.$router.push({
+        path: "./orderlog?orderCode=" + this.order.orderCode
+      });
     },
     // 返回
-    backingout () {
-      window.history.go(-1)
-    },
-  },
-  mounted () {
-    let list = {
-        orderCode :  this.$route.query.orderCode
+    backingout() {
+      window.history.go(-1);
     }
-    this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
-        if (data.code == 'success') {
-            this.order = data.data
-            if (data.data.commentDetailsReq!=null) {
-                for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
-                    this.img.push(require('../../image/pointed-star.png'))
-                }
-            }          
-        }    
-    })
-    .catch((error) => {
-        console.log(error)
-    })
+  },
+  mounted() {
+    let list = {
+      orderCode: this.$route.query.orderCode
+    };
+    this.http
+      .post(BASE_URL + "/loan/baseRobOrder/getBaseRobOrderByCode", list)
+      .then(data => {
+        if (data.code == "success") {
+          this.order = data.data;
+          if (data.data.commentDetailsReq != null) {
+            for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
+              this.img.push(require("../../image/pointed-star.png"));
+            }
+          }
+        }
+      })
+      .catch(error => {
+        console.log(error);
+      });
   }
-}
+};
 </script>
 <style lang="less" scoped>
-#feedback_details{
-    border: 1px solid #E7ECF1;
-    padding: 30px 50px;
-    h3{
-        line-height: 50px;
-        border-bottom: 1px solid #E7ECF1;
-        margin-bottom: 20px;
-    }
-    p{
-        line-height: 40px;
-        padding-left: 50px
-    }
-    div{
-        text-align: center;
-        margin-top: 20px
-    }
+#feedback_details {
+  border: 1px solid #e7ecf1;
+  padding: 30px 50px;
+  h3 {
+    line-height: 50px;
+    border-bottom: 1px solid #e7ecf1;
+    margin-bottom: 20px;
+  }
+  p {
+    line-height: 40px;
+    padding-left: 50px;
+  }
+  div {
+    text-align: center;
+    margin-top: 20px;
+  }
 }
-.details_left{
-    padding-top: 10px;
-    p{
-        color: #999;
-        font-size: 12px;
-        line-height: 20px!important
-    }
+.details_left {
+  padding-top: 10px;
+  p {
+    color: #999;
+    font-size: 12px;
+    line-height: 20px !important;
+  }
 }
-.details_right{
-    p{
-        text-align: left;
-        span:first-child{
-            width: 100px;
-            display: inline-block;
-            text-align: right
-        }
+.details_right {
+  p {
+    text-align: left;
+    span:first-child {
+      width: 100px;
+      display: inline-block;
+      text-align: right;
     }
+  }
 }
-.evaluation_grade{
-    display: inline-block;
-    border: 1px solid #FF6600;
-    line-height: 30px;
-    padding: 0px 20px;
-    color: #FF6600;
-     text-align: center!important
+.evaluation_grade {
+  display: inline-block;
+  border: 1px solid #ff6600;
+  line-height: 30px;
+  padding: 0px 20px;
+  color: #ff6600;
+  text-align: center !important;
 }
 </style>
