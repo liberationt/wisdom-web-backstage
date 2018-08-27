@@ -38,11 +38,8 @@
             <Input v-model="formValidate.real" placeholder="请输入真实姓名"></Input>
         </FormItem>
         <FormItem label="角色" prop="interest">
-            <CheckboxGroup v-model="formValidate.interest">
-                <Checkbox label="Eat"></Checkbox>
-                <Checkbox label="Sleep"></Checkbox>
-                <Checkbox label="Run"></Checkbox>
-                <Checkbox label="Movie"></Checkbox>
+            <CheckboxGroup v-model="interest" @on-change="limitChange">
+                <Checkbox class="mr" v-for="item in userrole" :label="item.roleCode">{{item.roleName}}</Checkbox>
             </CheckboxGroup>
         </FormItem>
         <FormItem label="手机号" prop="phone">
@@ -50,14 +47,13 @@
         </FormItem>
         <FormItem label="账户状态" prop="city">
             <Select v-model="formValidate.city" placeholder="请选择">
-                <Option value="beijing">正常</Option>
-                <Option value="shanghai">冻结</Option>
+                <Option value="1">启用</Option>
+                <Option value="0">停用</Option>
             </Select>
         </FormItem>
-        <!-- <FormItem>
-            <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
-            <Button @click="handleReset('formValidate')" style="margin-left: 8px">返回</Button>
-        </FormItem> -->
+        <FormItem label="重置密码" v-if="cide">
+            <Button type="primary" @click="resetpasserd">自动重置密码</Button>
+        </FormItem>
     </Form>
     </Modal>
   </div>
@@ -66,7 +62,6 @@
 export default {
   data () {
     return {
-      loading3: false,
       loading: true,
       modal2:false,
       cide:false,
@@ -82,6 +77,8 @@ export default {
         phone: '',
         city: ''
       },
+      userrole:[],
+      interest:[],
       ruleValidate: {
         user: [
         { required: true, message: '请输入用户名', trigger: 'blur' }
@@ -93,7 +90,7 @@ export default {
         { required: true, type: 'array', min: 1, message: '最少选择一种角色', trigger: 'change' }
         ],
         phone: [
-        { required: true, type: 'date', message: '请输入手机号', trigger: 'blur' }
+        { required: true,  message: '请输入手机号', trigger: 'blur' }
         ],
         city: [
             { required: true, message: '请选择用户状态', trigger: 'blur' }
@@ -102,55 +99,61 @@ export default {
       columns7: [
         {
           title: '用户ID',
-          key: 'phoneNumber',
+          key: 'userCode',
           minWidth: 110,
           align: 'center'
         },
         {
           title: '用户名',
-          key: 'memberName',
+          key: 'userName',
           minWidth: 120,
           align: 'center'
         },
-        // {
-        //   title: '是否实名',
-        //   align: 'center',
-        //   minWidth: 80,
-        //   render: (h, params) => {
-        //   let realStatus
-        //     if (params.row.realStatus == 0) {
-        //       realStatus = '未实名'
-        //     } else if (params.row.realStatus == 1) {
-        //       realStatus = params.row.realName
-        //     } 
-        //     return h('div', [
-        //       h('span', {}, realStatus)
-        //     ])
-        //   }
-        // },
         {
           title: '真实姓名',
-          key: 'loanUserChannel',
+          key: 'realName',
           minWidth: 120,
           align: 'center'
         },
         {
           title: '所属部门',
-          key: 'loanInviterCount',
+          key: 'departmentName',
           minWidth: 100,
           align: 'center'
         },
         {
           title: '角色',
-          key: 'registerTime',
           minWidth: 160,
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+            let listimg = []
+            for (let i = 0; i < params.row.listRoleName.length; i++) {
+              listimg.push(
+                h('span', {                 
+                  style: {               
+                    marginRight: '5px'
+                  }
+                }, params.row.listRoleName[i])
+              )
+            }
+            return h('div', listimg)
+          }
         },
         {
           title: '账户状态',
-          key: 'lastLoginTime',
           minWidth: 160,
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+          let userState
+            if (params.row.userState == 0) {
+              userState = '停用'
+            } else if (params.row.userState == 1) {
+              userState = '启用'
+            } 
+            return h('div', [
+              h('span', {}, userState)
+            ])
+          }
         },
         {
           title: '操作',
@@ -158,7 +161,6 @@ export default {
           minWidth: 150,
           align: 'center',
           render: (h, params) => {
-            console.log(params)
             return h('div', [
               h(
                 'Button',
@@ -173,6 +175,7 @@ export default {
                   on: {
                     click: () => {
                       this.adddepartment (2)
+                      this.editecho (params.row.userCode)
                     }
                   }
                 },
@@ -190,6 +193,7 @@ export default {
                   },
                   on: {
                     click: () => {
+
                       this.$router.push({ path: './memberDetail?loanUserCode='+params.row.loanUserCode })
                     }
                   }
@@ -227,7 +231,7 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
-          
+          this.addpersonnel()
           this.$refs[name].resetFields()
         }
       })
@@ -245,31 +249,92 @@ export default {
         }
         this.modal2 = true
     },
+    // 角色选中
+    limitChange (data) {
+        let list = []
+        for (let i = 0; i < data.length; i++) {          
+            list.push(data[i])
+        }
+        this.formValidate.interest = list
+    },
+    // 重置密码
+    resetpasserd () {
+
+    },
+    // 新增/编辑
+    addpersonnel () {
+        let list = {
+            userName: this.formValidate.user,
+            realName: this.formValidate.real,
+            listRoleCode:this.formValidate.interest,
+            userPhone:this.formValidate.phone,
+            userState:this.formValidate.city,
+        }
+        this.http.post(BASE_URL + '/user/saveUserByDepartment', list)
+        .then((resp) => {
+        if (resp.code == 'success') {
+            const title = '提示';
+            const content = '<p>添加成功</p>';
+            this.$Modal.success({
+                title: title,
+                content: content
+            })
+        } else {
+            this.$Message.error(resp.message);
+        }
+        })
+        .catch(() => {
+        
+        })
+    },
+    // 编辑回显
+    editecho (code) {
+        this.http.post(BASE_URL + '/user/queryUserInfo?userCode='+code)
+        .then((resp) => {
+        if (resp.code == 'success') {
+            
+        } else {
+            this.$Message.error(resp.message);
+        }
+        })
+        .catch(() => {
+        
+        })
+    },
     // 列表查询
-    inquire (num) {
-    this.loading3 = true            
+    inquire (num) {           
     let list = {
       pageNum: this.startRow,
       pageSize: this.endRow
     }
-    this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberPageList', list)
+    this.http.post(BASE_URL + '/user/queryUserPageList', list)
     .then((resp) => {
       if (resp.code == 'success') {
         this.data6 = resp.data.dataList
         this.total = resp.data.total
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
-        this.loading3 = false
       } else {
-        this.loading3 = false
+        this.$Message.error(resp.message);
       }
     })
     .catch(() => {
-      this.loading3 = false
+      
     })
     }
   },
   mounted () {
     this.inquire ()
+    this.http.post(BASE_URL + '/role/queryRoleListBydpCode', {})
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.userrole = resp.data
+      } else {
+        
+      }
+    })
+    .catch(() => {
+      
+    })
   }
 }
 </script>
