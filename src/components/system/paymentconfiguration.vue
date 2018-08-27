@@ -373,9 +373,9 @@ export default {
       if (!isChange) {
         const title = "温馨提示";
         const content = "<p>请修改后再保存！</p>";
-        switch ("error") {
-          case "error":
-            this.$Modal.error({
+        switch ("warning") {
+          case "warning":
+            this.$Modal.warning({
               title: title,
               content: content,
               onOk: () => {
