@@ -39,7 +39,7 @@
             <Row>
                 <Col span="80" class="cleafix">
                     <FormItem prop="h5">
-                      <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
+                      <Select v-model="formCustom.h5" placeholder="请选择" style="width:200px" @on-change="homesenh5">
                         <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
                       </Select>
                     </FormItem>
