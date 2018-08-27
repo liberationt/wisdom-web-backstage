@@ -145,7 +145,11 @@ export default {
     },
     // 审核失败
     examineerror() {
-      this.http
+      this.$Modal.confirm({
+        title: "温馨提示",
+        content: "<p>确认审核失败吗？</p>",
+        onOk: () => {
+           this.http
         .post(BASE_URL + "/loan/comment/check", {
           commentCode: this.$route.query.commentCode,
           isPass: 2,
@@ -154,14 +158,7 @@ export default {
         })
         .then(data => {
           if (data.code == "success") {
-            this.$Modal.error({
-              title: "温馨提示",
-              content: "<p>审核已失败</p>",
-              onOk: () => {
-                this.$router.push({ path: "./evaluationManagement" });
-              },
-              onCancel: () => {}
-            });
+            this.$router.push({ path: "./evaluationManagement" });
           } else {
             this.$Message.info(data.message);
           }
@@ -169,6 +166,9 @@ export default {
         .catch(err => {
           console.log(err);
         });
+        },
+        onCancel: () => {}
+      });
     },
   },
   created() {

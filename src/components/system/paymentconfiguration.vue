@@ -288,47 +288,47 @@ export default {
     };
   },
   methods: {
-    query(){
+    query() {
       this.http
-      .post(BASE_URL + "/loan/payment/getAppPaymentList", {})
-      .then(resp => {
-        console.log(resp);
-        if (resp.code == "success") {
-          const { appPaymentList, paymentList, appList } = resp.data;
-          this.data1 = appList;
-          if (paymentList && appPaymentList) {
-            let columns = [];
-            columns.push({
-              title: "产品",
-              key: "appName",
-              align: "center"
-            });
-            console.log("asdfasdfasdf12");
-            paymentList.map((o, index) => {
+        .post(BASE_URL + "/loan/payment/getAppPaymentList", {})
+        .then(resp => {
+          //console.log(resp);
+          if (resp.code == "success") {
+            const { appPaymentList, paymentList, appList } = resp.data;
+            this.data1 = appList;
+            if (paymentList && appPaymentList) {
+              let columns = [];
               columns.push({
-                title: o["paymentName"],
-                align: "center",
-                render: (h, params) => {
-                  return this.renderColumns(
-                    index,
-                    h,
-                    params,
-                    appPaymentList,
-                    paymentList,
-                    appList
-                  );
-                }
+                title: "产品",
+                key: "appName",
+                align: "center"
               });
-            });
+              //console.log("asdfasdfasdf12");
+              paymentList.map((o, index) => {
+                columns.push({
+                  title: o["paymentName"],
+                  align: "center",
+                  render: (h, params) => {
+                    return this.renderColumns(
+                      index,
+                      h,
+                      params,
+                      appPaymentList,
+                      paymentList,
+                      appList
+                    );
+                  }
+                });
+              });
 
-            this.columns1 = columns;
-            this.appPaymentList = appPaymentList;
-            // console.log("asdfasdfasdf");
+              this.columns1 = columns;
+              this.appPaymentList = appPaymentList;
+              // console.log("asdfasdfasdf");
+            }
+          } else {
           }
-        } else {
-        }
-      })
-      .catch(() => {});
+        })
+        .catch(() => {});
     },
     gread() {
       this.$router.push({ path: "./managementGrade" });
@@ -362,30 +362,56 @@ export default {
         appPayment["appPaymentList"] = _appPaymentList;
         requestBody.push(appPayment);
       });
+
+      let isChange = false;
+      requestBody.map(e => {
+        // console.log(e.appPaymentList);
+        if (e.appPaymentList.length > 0) {
+          isChange = true;
+        }
+      });
+      if (!isChange) {
+        const title = "温馨提示";
+        const content = "<p>请修改后再保存！</p>";
+        switch ("error") {
+          case "error":
+            this.$Modal.error({
+              title: title,
+              content: content,
+              onOk: () => {
+                // this.query()
+              }
+            });
+            break;
+        }
+        return;
+      }
       this.http
         .post(BASE_URL + "/loan/payment/setAppPayment", requestBody)
         .then(data => {
-          if(data.code == 'success'){
+          if (data.code == "success") {
             const title = "温馨提示";
             const content = "<p>保存成功！</p>";
-            switch ('success') {
+            switch ("success") {
               case "success":
                 this.$Modal.success({
                   title: title,
                   content: content,
                   onOk: () => {
-                    this.query()
+                    this.query();
                   }
                 });
-              break;
+                break;
             }
+          } else {
+            this.$Message.info(data.message);
           }
           console.log(data);
         })
         .catch(err => {
           console.log(err);
         });
-      console.log("requestBody:", requestBody);
+      // console.log("requestBody:", requestBody);
     },
     defaultSelectOption(h, params) {
       return [
@@ -426,51 +452,51 @@ export default {
       let options = [];
       const appId = params["row"]["appId"];
       const appPayment = appPaymentList[appId];
-      console.log("appPaymentItem222", appPayment[index - 1]);
+      //console.log("appPaymentItem222", appPayment[index - 1]);
       const appPaymentItem =
         appPayment && appPayment.length > index && appPayment[index];
       // console.log("appPaymentItem1", appPaymentItem);
       let _options = appPaymentItem["channelList"];
-        if (_options && _options.length > 0) {
-          _options.map(o => {
-            options.push(
-              h(
-                "Option",
-                {
-                  props: {
-                    value: o["channelCode"]
-                  }
-                },
-                o["channelDesc"]
-              )
-            );
-          });
-          return h(
-            "Select",
-            {
-              props: {
-                value: appPayment[index]["channelCode"]
-              },
-              style: {
-                width: "160px"
-              },
-              on: {
-                "on-change": val => {
-                  // this.selects[0].name = val
-                  appPayment[index]["s_channelCode"] = val;
-                  console.log(appPayment[index]);
+      if (_options && _options.length > 0) {
+        _options.map(o => {
+          options.push(
+            h(
+              "Option",
+              {
+                props: {
+                  value: o["channelCode"]
                 }
-              }
-            },
-            options
+              },
+              o["channelDesc"]
+            )
           );
-        } else {
-          return this.defaultSelectOption(h, params);
-        }
+        });
+        return h(
+          "Select",
+          {
+            props: {
+              value: appPayment[index]["channelCode"]
+            },
+            style: {
+              width: "160px"
+            },
+            on: {
+              "on-change": val => {
+                // this.selects[0].name = val
+                appPayment[index]["s_channelCode"] = val;
+                //console.log(appPayment[index]);
+              }
+            }
+          },
+          options
+        );
+      } else {
+        return this.defaultSelectOption(h, params);
+      }
     }
   },
   mounted() {
-    this.query()
+    this.query();
   }
 };
 </script>
