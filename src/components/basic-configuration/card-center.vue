@@ -565,10 +565,11 @@ export default {
     },
     // 角标选择
     cornermark (val) {
-      if (val == 0) {
+      if (val == 0) {//无
         this.markurl = false
         this.cornersrc = ''
         this.banklogomark = require('../../image/moren.png')
+        this.formValidate1.cornermark = ''
       } else {
         this.markurl = true
       }
