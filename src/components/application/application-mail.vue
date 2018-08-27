@@ -242,8 +242,8 @@ export default {
       const platform = index.pushPlatform
       this.$Modal.info({
         title: '查看反馈详情',
-        content: `实际推送时间：${index.realPushTime}<br>标题：${index.mailTitle}<br>推送时间：${index.planPushTime}
-        <br>推送平台：${ platform == 2 ? 'IOS' : platform == 1 ? '安卓' : '全部'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : index.targetPhone}<br>跳转URL：${index.jumpUrl}`
+        content: `实际推送时间：${index.realPushTime}<br>标题：${index.mailTitle}<br>消息类型：${index.typeTitle}<br>推送时间：${index.planPushTime}
+        <br>推送平台：${ platform == 2 ? 'IOS' : platform == 1 ? '安卓' : '全部'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : index.targetPhone}<br>跳转URL：${index.jumpType == 1 ? index.jumpName : index.jumpUrl}`
       })
     },
     // remove (index) {
