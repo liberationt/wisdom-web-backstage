@@ -34,7 +34,7 @@
                       </div>
                   </div>
                   <p class="mt15">
-                    共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
+                    共<strong class="red">{{total}}</strong>条记录，退款金额<strong class="red">{{totalAmount}}</strong>元
                   </p>
                   <div class="mt15">
                       <Table border :columns="columns7" :data="data6"></Table>
@@ -63,7 +63,7 @@
                       </div>
                   </div>
                   <p class="mt15">
-                    共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
+                    共<strong class="red">{{total}}</strong>条记录，退款金额<strong class="red">{{totalAmount}}</strong>元
                   </p>
                   <div class="mt15">
                       <Table border :columns="columns9" :data="data6"></Table>
