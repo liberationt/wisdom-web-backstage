@@ -514,7 +514,7 @@ export default {
     // 查询
     label_query(type) {
       if (this.model1 == "mobile") {
-        if (this.name == "" || this.name.length < 3) {
+        if (this.name != "" && this.name.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
@@ -540,7 +540,7 @@ export default {
     // 查询
     label_query1(type) {
       if (this.model12 == "mobile") {
-        if (this.name1 == "" || this.name1.length < 3) {
+        if (this.name1 != "" && this.name1.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true
@@ -566,7 +566,7 @@ export default {
     // 查询
     label_query2(type) {
       if (this.model13 == "mobile") {
-        if (this.name2 == "" || this.name2.length < 3) {
+        if (this.name2 != "" && this.name2.length < 3) {
           this.phoneti(type);
         } else {
           this.loading3= true

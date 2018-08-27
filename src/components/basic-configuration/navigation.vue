@@ -77,7 +77,7 @@
                 <Col span="1" style="text-align: center"></Col>
                 <Col span="11">
                     <FormItem prop="value1" v-if="!link">
-                      <Select v-model="formValidate2.value1"  style="width: 110px" filterable>
+                      <Select v-model="formValidate2.value1" @on-change='detailschoice' style="width: 110px" filterable>
                         <Option v-for="item2 in cpageList" :value="item2.jumpUrl" :key="item2.jumpUrl">{{ item2 .jumpName }}</Option>
                       </Select>
                     </FormItem>
@@ -156,6 +156,20 @@ export default {
     }
   },
   methods: {
+    //跳转拼参数
+    detailschoice (val) {     
+      for (let i=0;i<this.cpageList.length;i++) {       
+        if (val==this.cpageList[i].jumpUrl) {         
+          if (this.cpageList[i].isParam==1) {
+            this.detailscode = true
+            this.formValidate1.code = ''
+            return false
+          }
+        } else {
+          this.detailscode = false
+        }
+      }
+    },
     //更新
     bankupdate(){
       this.$Modal.confirm({
@@ -244,7 +258,7 @@ export default {
           jumpUrl : this.formValidate2.value1 ? this.formValidate2.value1:this.formValidate2.value3,
           jumpType : this.formValidate2.modell,
           guideLogoUrl : this.imgurl,
-          guideCode : this.guideCode
+          guideCode : this.guideCode,
         }).then(data=>{
         console.log(data)
         if(data.code == 'success'){
@@ -387,8 +401,10 @@ export default {
     },
   },
   mounted () {
-    this.http.post(BASE_URL+"/loan/guide/jumpParam",{}).then(data=>{
-      console.log(data)
+    this.http.post(BASE_URL+"/loan/guide/jumpParam",{
+      appCode : utils.getCookie('appCode'),
+    }).then(data=>{
+      // console.log(data)
       // if(data.code == 'success'){
         this.cpageList = data.data
       // }

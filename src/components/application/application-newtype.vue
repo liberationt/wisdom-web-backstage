@@ -253,7 +253,7 @@ export default {
           this.$Message.success("删除成功");
           this.listxuan();
         } else {
-          this.$Message.success("删除失败");
+          this.$Message.error(data.message);  
         }
       }).catch(err=>{
         console.log(err)
