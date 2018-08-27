@@ -126,12 +126,25 @@
           Object.assign(requestParams, {
             loanUserCode: this.$route.query.loanUserCode,
           })
-        } else if ('orderLog' == operationType) {    //毕有为
+        } else if ('orderLog' == operationType) {    //毕有为   订单申诉的
           this.title = '订单操作日志'
           requestUrl = BASE_URL + "/loan/orderLog/getOrderLogApplyList";
           Object.assign(requestParams, {
             orderCode: this.$route.query.orderCode,
           })
+        } else if ('risk_edit' == operationType || 'risk_product_edit' == operationType){  //毕有为   风控相关日志
+          requestUrl = BASE_URL + "/risk/riskOperationLog/getRiskOperationLogList ";
+          Object.assign(requestParams, {
+            operationType: operationType,
+          })
+          switch (operationType) {
+            case 'risk_edit':     //毕有为
+              this.title = '修改风控等级设置'
+              break
+            case 'risk_product_edit':     //毕有为
+              this.title = '修改产品的风控等级'
+              break
+          }
         } else {   //统一的日志接口 通过 operationType  区分
           requestUrl = BASE_URL + "/loan/operationLog/queryPage";
           Object.assign(requestParams, {
@@ -146,12 +159,6 @@
               break
             case 'officer_edit':     //毕有为
               this.title = '信贷基本配置日志'
-              break
-            case 'risk_edit':     //毕有为
-              this.title = '修改风控等级设置'
-              break
-            case 'risk_product_edit':     //毕有为
-              this.title = '修改产品的风控等级'
               break
           }
         }
