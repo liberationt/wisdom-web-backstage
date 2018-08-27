@@ -60,12 +60,7 @@
         </p>
         <p v-if="order.complainMessage && order.complainTime">
             <span>申诉人:</span>
-            <span v-if="order.orderStatus == 3 && order.orderStatusDetail == 4">
-                客户
-            </span>
-            <span v-else-if="order.orderStatus == 3 && order.orderStatusDetail == 5">
-                信贷员
-            </span>
+            <span>{{order.complainMan}}</span>
         </p>
         <p v-if="order.complainMessage && order.complainTime">
             <span>申诉时间:</span>
@@ -74,6 +69,10 @@
         <p v-if="order.complainMessage && order.complainTime">
             <span>申诉内容:</span>
             <span>{{order.complainMessage}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭人:</span>
+            <span>{{order.orderCloseMan}}</span>
         </p>
         <p v-if="order.orderCloseMessage && order.orderCloseTime">
             <span>申请关闭时间:</span>
