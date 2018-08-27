@@ -5,8 +5,8 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理&nbsp;>&nbsp;订单管理</span>
       </p>
     </div>
-    <Tabs type="card" :animated="false" @on-click="tabswitch">
-        <TabPane label="咨询订单" >
+    <Tabs type="card" :animated="false" :value="value1" @on-click="tabswitch">
+        <TabPane label="咨询订单" name="0">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model1" placeholder="全部" style="width:100px">
@@ -33,7 +33,7 @@
             </div>
         </TabPane>
 
-        <TabPane label="抢单订单">
+        <TabPane label="抢单订单" name="1">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model4" placeholder="全部" style="width:100px">
@@ -60,7 +60,7 @@
             </div>
         </TabPane>
 
-        <TabPane label="未处理申诉订单" >
+        <TabPane label="未处理申诉订单" name="2">
             <div class="clearfix">
             <div class="left">
             <Select v-model="model7" placeholder="全部" style="width:100px">
@@ -98,6 +98,7 @@ export default {
       startRow: 1,
       endRow: 10,
       nameval: 0,
+      value1:0,
       loading3: false,
       cityList: [],
       cityList1: [],
@@ -526,8 +527,14 @@ export default {
     }
   },
   mounted () {
+    if (this.$route.query.num) {
+      this.value1 = this.$route.query.num
+    }  
+    if (this.value1 == 2) {
+      this.bidorder()
+    }
     this.created ()
-    this.consultingorders ()
+    this.consultingorders ()  
     this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderComplainListFilter', {})
     .then((resp) => {
       if (resp.code == 'success') {

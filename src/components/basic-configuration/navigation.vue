@@ -84,6 +84,9 @@
                 </Col>
             </Row>
           </FormItem>
+          <FormItem v-if="detailscode" label="" prop="code" >
+            <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="formValidate2.code" placeholder="请输入参数"></Input>
+          </FormItem>
           <FormItem label="" v-if="link" prop="value3">
             <Input v-model="formValidate2.value3" placeholder="请输入地址" style="width: 200px"></Input>
           </FormItem>         
@@ -97,6 +100,7 @@ import utils from '../../utils/utils'
 export default {
   data () {
     return {
+      detailscode:false,
       iskong: false,
       banklogo: require('../../image/moren.png'),
       modal1: false,
@@ -138,6 +142,7 @@ export default {
         modell: '0',
         value1: '',
         value3:'',
+        code: ''
       },
       ruleValidate2: {
         value2: [
@@ -151,6 +156,9 @@ export default {
         ],
         value3: [
           { required: true, message: '请输入地址！', trigger: 'blur' }
+        ],
+        code: [
+          { required: true, message: '请输入参数！', trigger: 'blur' }
         ]
       },
     }
@@ -259,8 +267,9 @@ export default {
           jumpType : this.formValidate2.modell,
           guideLogoUrl : this.imgurl,
           guideCode : this.guideCode,
+          jumpAppParams : this.formValidate2.code
         }).then(data=>{
-        console.log(data)
+        // console.log(data)
         if(data.code == 'success'){
           this.modal1 = false;
           this.iskong = false;
@@ -312,7 +321,6 @@ export default {
           this.formValidate2.value2 = data.data.guideName
           this.formValidate2.modell = data.data.jumpType+''
           this.model11()
-          
           if (data.data.jumpType != 0) {
             this.formValidate2.value3 = data.data.jumpUrl
             this.formValidate2.value1 = ''
@@ -322,6 +330,7 @@ export default {
           }        
           this.banklogo = data.data.guideLogoUrl
           this.imgurl = data.data.guideLogoUrl
+          this.formValidate2.code = data.data.jumpAppParams
         }
       }).catch(err=>{
         console.log(err)
@@ -355,6 +364,8 @@ export default {
       if (this.formValidate2.modell === '1') {
         this.link = true
         this.col = false
+        this.detailscode = false
+        this.formValidate2.code = ''
         this.formValidate2.value1 = ''
       } else {
         this.link = false
@@ -402,7 +413,7 @@ export default {
   },
   mounted () {
     this.http.post(BASE_URL+"/loan/guide/jumpParam",{
-      appCode : utils.getCookie('appCode'),
+      data : utils.getCookie('appCode'),
     }).then(data=>{
       // console.log(data)
       // if(data.code == 'success'){

@@ -36,8 +36,8 @@
           <p>指定手机号,以半角逗号分隔</p>
         </FormItem>
        <FormItem label="跳转类型:" >
-          <Row>
-                <Col span="10">
+            <Row>
+                <Col span="80" class="cleafix">
                     <FormItem prop="h5">
                       <Select v-model="formCustom.h5" placeholder="H5页面" style="width:200px" @on-change="homesenh5">
                         <Option v-for="item in jumpType" :value="item.value" :key="item.value">{{ item.text }}</Option>
@@ -45,7 +45,7 @@
                     </FormItem>
                 </Col>
                 <Col span="1" style="text-align: center"></Col>
-                <Col span="10">
+                <Col span="80" class="cleafix">
                     <FormItem prop="value5" v-if="homeh5">
                       <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" >
                         <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>

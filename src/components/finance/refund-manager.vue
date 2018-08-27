@@ -119,7 +119,7 @@ export default {
       columns7: [
         {
           title: "订单编号",
-          key: "refundOrderCode",
+          key: "customerOrderNo",
           minWidth: 150,
           align: "center"
         },
@@ -239,7 +239,7 @@ export default {
           title: "订单编号",
           align: "center",
           minWidth: 100,
-          key: "amount"
+          key: "customerOrderNo"
         },
         {
           title: "支付流水号",
