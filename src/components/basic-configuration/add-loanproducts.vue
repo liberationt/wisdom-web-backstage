@@ -375,6 +375,8 @@ export default {
         typeLabel: [],
         amountLabel: [],
         applyCondition:[],
+        indexof1:[],
+        indexof2:[],
         state :1
       },
       addnormals: [
@@ -580,7 +582,9 @@ export default {
                     return false
                 }
             } else {
+                this.indexof1 = []
                 for (let i = 0; i < this.quotamoney.length; i++) {
+                    this.indexof1 = this.quotamoney[i].detailValue
                     if (this.quotamoney[i].detailValue == '') {
                         const title = '提示'
                         let content = '<p>请输入贷款额度</p>'
@@ -599,7 +603,8 @@ export default {
                         })
                         return false                  
                     }
-                    if (this.formValidate.limitDefault!=this.quotamoney[i].detailValue) {
+                }
+                if (this.indexof1.indexOf(String(this.formValidate.limitDefault))==-1) {
                     const title = '提示'
                     let content = '<p>固定默认额度必须是填写的固定值其中一个</p>'
                     this.$Modal.warning({
@@ -607,7 +612,6 @@ export default {
                         content: content                    
                     })
                     return false
-                }
                 }
             }
 
@@ -632,7 +636,7 @@ export default {
             }
             if (this.formValidate.termMin>this.formValidate.termMax) {
                 const title = '提示'
-                let content = '<p>开始金额不能大于结束金额</p>'
+                let content = '<p>开始时间不能大于结束时间</p>'
                 this.$Modal.warning({
                     title: title,
                     content: content                    
@@ -649,7 +653,9 @@ export default {
                     return false
                 }
             } else {
+                this.indexof2  = []
                 for (let i = 0; i < this.termmoney.length; i++) {
+                    this.indexof2 = this.termmoney[i].detailValue
                     if (this.termmoney[i].detailValue == '') {
                         const title = '提示'
                         let content = '<p>请输入贷款期限</p>'
@@ -668,7 +674,8 @@ export default {
                         })
                         return false                  
                     }
-                    if (this.formValidate.termDefault!=this.termmoney[i].detailValue) {
+                }
+                if (this.indexof2.indexOf(String(this.formValidate.termDefault))==-1) {
                     const title = '提示'
                     let content = '<p>固定默认期限必须是填写的固定值其中一个</p>'
                     this.$Modal.warning({
@@ -676,7 +683,6 @@ export default {
                         content: content                    
                     })
                     return false
-                }
                 }
             }
 
@@ -704,7 +710,7 @@ export default {
                 }
             if (this.formValidate.autoOff == 1) {
                 this.formValidate.autoOn = null
-                this.formValidate.dayApplyMax = null
+                this.formValidate.dayApplyMax = 999999
             }
           this.formValidate.limitValue = this.quotamoney
           this.formValidate.termValue = this.termmoney

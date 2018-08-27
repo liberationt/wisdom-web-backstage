@@ -21,7 +21,7 @@
             <span v-else-if="order.orderStatus==1">已咨询</span>
             <span v-else-if="order.orderStatus==2">待付款</span>
             <span v-else-if="order.orderStatus==3">待确认</span>
-            <span v-else-if="order.orderStatus==4">交易成功</span>
+            <span v-else-if="order.orderStatus==4">交易完成</span>
             <span v-else-if="order.orderStatus==5">交易失败</span>
         </p>
         <p>
@@ -36,15 +36,15 @@
             <span>手机号:</span>
             <span>{{order.loanUserPhone}}</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>申请贷款金额:</span>
             <span>{{order.customerLoanAmountAsFormat}}万元</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>服务费:</span>
             <span>{{order.serviceCostAsFormat}}元</span>
         </p>
-        <p>
+        <p v-if="order.orderStatus != 1">
             <span>实际放款金额:</span>
             <span>{{order.customerActualLoanAmountAsFormat}}万元</span>
         </p>
@@ -52,34 +52,50 @@
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
         </p>
-        <p v-if="order.orderCloseMessage!=null">
-            <span>订单关闭原因:</span>
+         <p v-if="order.leaveMessageResList" 
+            v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
+            <span>留言:</span>
+            <span >【{{item.leaveMessageTime}}】</span>
+            <span >{{item.leaveMessage}}</span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉人:</span>
+            <span v-if="order.orderStatus == 3 && order.orderStatusDetail == 4">
+                客户
+            </span>
+            <span v-else-if="order.orderStatus == 3 && order.orderStatusDetail == 5">
+                信贷员
+            </span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉时间:</span>
+            <span>{{order.complainTime}}</span>
+        </p>
+        <p v-if="order.complainMessage && order.complainTime">
+            <span>申诉内容:</span>
+            <span>{{order.complainMessage}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭时间:</span>
+            <span>{{order.orderCloseTime}}</span>
+        </p>
+        <p v-if="order.orderCloseMessage && order.orderCloseTime">
+            <span>申请关闭原因:</span>
             <span>{{order.orderCloseMessage}}</span>
         </p>
         <p v-if="order.commentDetailsReq!=null">
             <span>评价状态:</span>
-            <span>{{order.commentDetailsReq.isPass}}</span>
+            <span v-if="order.commentDetailsReq.isPass == 0">待审核</span>
+            <span v-else-if="order.commentDetailsReq.isPass == 1">审核通过</span>
+            <span v-else-if="order.commentDetailsReq.isPass == 2">审核未通过</span>
         </p>
-        <p v-if="order.commentDetailsReq!=null">
-            <span>评价内容:</span>
-            <Icon v-if="order.commentDetailsReq!=null" v-for="item in img" type="ios-star" class="yellow1"></Icon>
-            <p class="ml100" v-if="order.commentDetailsReq!=null">
-                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade">{{item}}</span>
+        <p v-if="order.commentDetailsReq != null">
+            <span>评价内容:</span> 
+            <Icon  v-for="item in img" type="ios-star" class="yellow1 " :key="item.length"></Icon>
+            <p v-if="order.commentDetailsReq!=null" class="ml100" >
+                <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade " :key="item.length">{{item}}</span>
             </p>
-            <p class="ml100" v-if="order.commentDetailsReq!=null">{{order.commentDetailsReq.content}}</p>
-        </p>
-        <p>
-            <span>申诉人:</span>
-            <span v-if="order.orderStatus==3&&order.orderStatusDetail==4">客户</span>
-            <span v-else-if="order.orderStatus==3&&order.orderStatusDetail==5">信贷员</span>
-        </p>
-        <p>
-            <span>申诉时间:</span>
-            <span>{{order.complainTime}}</span>
-        </p>
-        <p>
-            <span>申诉内容:</span>
-            <span>{{order.complainMessage}}</span>
+            <p v-if="order.commentDetailsReq != null" class="ml100">{{order.commentDetailsReq.content}}
         </p>
         <div>
             <Button type="primary" @click="modal9=true">确认贷款成功</Button>&nbsp;&nbsp;&nbsp;&nbsp;

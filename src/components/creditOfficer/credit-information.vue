@@ -305,6 +305,12 @@ export default {
           align: 'center',
           minWidth:100,
           key: 'robbingAmount'
+        },
+        {
+          title: '订单状态',
+          align: 'center',
+          minWidth:100,
+          key: 'orderStatusName'
         }
       ],
       data2: [],

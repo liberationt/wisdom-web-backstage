@@ -56,11 +56,8 @@
                   <Option v-for="rem in jumpAppParams" :value="rem.jumpUrl">{{rem.jumpName}}</Option>
                 </Select>
               </FormItem>
-              <FormItem v-if="detailscode" label="产品ID" prop="code" >
-                <Input v-model="formValidate1.code" placeholder="请输入产品ID"></Input>
-              </FormItem>
-              <FormItem v-if="detailscode" label="信贷员手机" prop="phone" >
-                <Input v-model="formValidate1.phone" placeholder="请输入信贷员手机"></Input>
+              <FormItem v-if="detailscode" label="" prop="code" >
+                <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="formValidate1.code" placeholder="请输入参数"></Input>
               </FormItem>
               <FormItem label="跳转URL" prop="desc" v-if="moveh5">
                 <Input v-model="formValidate1.desc" placeholder="请输入跳转URL"></Input>
@@ -164,7 +161,6 @@ export default {
         layout:'1',
         home: '',
         code: '',
-        phone:'',
         desc: '',
         realname:''
       },
@@ -183,10 +179,7 @@ export default {
           { required: true, message: '请输入跳转URL！', trigger: 'blur' }
         ],
         code: [
-          { required: true, message: '请输入产品ID！', trigger: 'blur' }
-        ],
-        phone: [
-          { required: true, message: '请输入信贷员手机！', trigger: 'blur' }
+          { required: true, message: '请输入参数！', trigger: 'blur' }
         ]
       },
       bankdatalist: []
@@ -251,8 +244,14 @@ export default {
       let content
       let list
       let jumpUrl
+      let jumpappParams
         if (this.formValidate1.layout == 1 && this.formValidate1.mark == 1) {
           jumpUrl = this.formValidate1.home
+          jumpappParams = ''
+          if (this.detailscode) {
+            jumpUrl = this.formValidate1.home+this.formValidate1.code
+            jumpappParams = this.formValidate1.code
+          }
         } else {
           jumpUrl = this.formValidate1.desc
         }
@@ -279,8 +278,10 @@ export default {
         bannerAppIdentifier : this.$route.query.appIdentifier,
         bannerAppVersion: this.$route.query.appVersion,
         bannerAppType: this.$route.query.appType,
-        locationType : this.locationtype
+        locationType : this.locationtype,
+        jumpAppParams:jumpappParams
       }
+      
       if (this.$route.query.banner==7) {
         list.trueNameDisplay = this.formValidate1.realname
       }
@@ -307,7 +308,8 @@ export default {
           versionCode: this.$route.query.versionCode,
           appIdentifier : this.$route.query.appIdentifier,
           appVersion: this.$route.query.appVersion,
-          appType: this.$route.query.appType
+          appType: this.$route.query.appType,
+          jumpAppParams:jumpappParams
         }
       }
       } else {
@@ -324,7 +326,8 @@ export default {
               appVersion: this.$route.query.appVersion,
               appType: this.$route.query.appType,
               bannerCode: this.bannerCode,
-              locationType:this.locationtype
+              locationType:this.locationtype,
+              jumpAppParams:jumpappParams
             }
             if (this.$route.query.banner==7) {
               list.trueNameDisplay = this.formValidate1.realname
@@ -340,7 +343,8 @@ export default {
               appIdentifier : this.$route.query.appIdentifier,
               appVersion: this.$route.query.appVersion,
               appType: this.$route.query.appType,
-              advertisementCode: this.bannerCode
+              advertisementCode: this.bannerCode,
+              jumpAppParams:jumpappParams
             }
         }
         if (this.fiveh == 1) {
@@ -365,6 +369,9 @@ export default {
               content: content
             })
             this.$refs['formValidate1'].resetFields()
+            this.detailscode = false
+            this.formValidate1.code = ''
+            this.formValidate1.home = this.jumpAppParams[0].jumpUrl
             this.banklogo = require('../../image/moren.png')
             this.modal1 = false
             this.banklist ()
@@ -416,7 +423,23 @@ export default {
             this.formValidate1.layout = resp.data.jumpType+''
             if (resp.data.jumpStatus == 1) {//跳转
             if (resp.data.jumpType == 1) {//原生
+            // alert(resp.data.jumpUrl.split("=")[0])
+            // if (resp.data.jumpUrl.indexOf('=')>-1) {
+            //   this.formValidate1.home = resp.data.jumpUrl.split("=")[0]+'='
+            // } else {
+            //   this.formValidate1.home = resp.data.jumpUrl
+            // }
               this.formValidate1.home = resp.data.jumpUrl
+              this.formValidate1.code = resp.data.jumpAppParams
+
+              for (let i=0;i<this.jumpAppParams.length;i++) {
+                if (this.formValidate1.home==this.jumpAppParams[i].jumpUrl) {
+                  if (this.jumpAppParams[i].isParam==1) {
+                    this.detailscode = true
+                    // this.formValidate1.code = resp.data.jumpUrl.split("=")[1]
+                  }
+                }
+              }
               this.moveh5 = false
               this.homelist = true
               this.formValidate1.desc = ''
@@ -429,6 +452,7 @@ export default {
             } else {//不跳转
             this.formValidate1.home = ''
             this.formValidate1.desc = ''
+            this.detailscode = false
             }
             if (this.num == 1) {
               this.bannerCode = resp.data.bannerCode
@@ -457,7 +481,10 @@ export default {
     },
     handleReset1 (name) {
       this.banklogo = require('../../image/moren.png')
+      this.detailscode = false
+      this.formValidate1.code = ''      
       this.$refs[name].resetFields()
+      this.formValidate1.home = this.jumpAppParams[0].jumpUrl
     },
     // 跳转不跳转显示
     cornermark (val) {
@@ -487,9 +514,17 @@ export default {
         this.homelist = true
       }
     },
-    detailschoice (val) {
-      if (val == 'hzjf://www.wisdom.com/customerDetail?loanOfficerCode=' || val == '') {
-        this.detailscode = true
+    detailschoice (val) {     
+      for (let i=0;i<this.jumpAppParams.length;i++) {       
+        if (val==this.jumpAppParams[i].jumpUrl) {         
+          if (this.jumpAppParams[i].isParam==1) {
+            this.detailscode = true
+            this.formValidate1.code = ''
+            return false
+          }
+        } else {
+          this.detailscode = false
+        }
       }
 
     },
