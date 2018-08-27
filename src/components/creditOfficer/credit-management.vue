@@ -1068,8 +1068,8 @@ export default {
       if (name == "tab5") {
         data = Object.assign({
           institutionsName: this.guanname, //关键字
-          institutionsUpStatus: this.modell3, // 上下架状态
-          institutionsRecommendStatus: this.model4, //是否首页推荐
+          institutionsUpStatus: this.modell3  == "''" ? "" : this.modell3, // 上下架状态
+          institutionsRecommendStatus: this.model4 == "''" ? "" : this.model4, //是否首页推荐
           pageSize: this.endRow,
           pageNum: this.startRow
         });
