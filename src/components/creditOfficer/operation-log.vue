@@ -120,7 +120,7 @@
           Object.assign(requestParams, {
             loanOfficerCode: this.$route.query.loanOfficerCode,
           })
-        } else if ('loanUserLog' == operationType){   // 用户操作日志   黄帅
+        } else if ('loanUserLog' == operationType) {   // 用户操作日志   黄帅
           this.title = '用户操作日志'
           requestUrl = BASE_URL + "/loan/loanUserLog/getLoanUserLogList";
           Object.assign(requestParams, {
@@ -141,12 +141,18 @@
             case 'market_edit' :     //王锐锐
               this.title = '营销设置操作日志'
               break
+            case 'user_social_edit':    //薛梦齐
+              this.title = '用户身价设置修改日志'
+              break
             case 'officer_edit':     //毕有为
               this.title = '信贷基本配置日志'
               break
-            case 'user_social_edit':    //薛梦齐
-              this.title = '用户身价设置修改日志'
-                  break
+            case 'risk_edit':     //毕有为
+              this.title = '修改风控等级设置'
+              break
+            case 'risk_product_edit':     //毕有为
+              this.title = '修改产品的风控等级'
+              break
           }
         }
 
@@ -161,7 +167,7 @@
         })
       },
 
-      dealwithResponse(operationType, data) {
+      dealwithResponse (operationType, data) {
 
         this.total = Number(data.total)
         this.startRow = Math.ceil(data.startRow / this.endRow)
@@ -190,21 +196,6 @@
                   dataCreateTime: item.orderStatusTime,
                   operationMan: item.operator,
                   operationContent: item.content,
-                  memo: item.memo
-                }
-                this.data1.push(item1)
-              })
-            }
-            break
-
-          case 'officer_edit':
-            if (data.dataList && data.dataList.length > 0) {
-              this.data1 = []
-              data.dataList.forEach((item) => {
-                let item1 = {
-                  dataCreateTime: item.dataCreateTime,
-                  operationMan: item.operationMan,
-                  operationContent: "修改基本设置",   //产品要求写死
                   memo: item.memo
                 }
                 this.data1.push(item1)
