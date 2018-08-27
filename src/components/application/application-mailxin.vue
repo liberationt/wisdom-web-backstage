@@ -220,7 +220,7 @@ export default {
                    this.http.post(BASE_URL+"/loan/webMailQdx/getWebMailByCode",{data: params.row.mailCode }).then(resp=>{
                       // console.log(resp.data)
                       if(resp.code == 'success'){
-                        // alert(params.row.pushPlatform)
+                        // console.log(resp.data)
                         this.show(resp.data)
                       }
                     }).catch(err=>{
@@ -244,8 +244,8 @@ export default {
       const platform = index.pushPlatform
       this.$Modal.info({
         title: '查看详情',
-        content: `实际推送时间：${index.realPushTime}<br>标题：${index.mailTitle}<br>推送时间：${index.planPushTime}
-        <br>推送平台：${platform == 2 ? 'IOS' : platform == 1 ? '安卓' : '全部'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : index.targetPhone}<br>跳转URL：${index.jumpUrl}`
+        content: `实际推送时间：${index.realPushTime}<br>标题：${index.mailTitle}<br>消息类型：${index.typeTitle}<br>推送时间：${index.planPushTime}
+        <br>推送平台：${platform == 2 ? 'IOS' : platform == 1 ? '安卓' : '全部'  }<br>推送对象：${index.pushTarget == 0 ? '全部' : index.targetPhone}<br>跳转URL：${index.jumpType == 1 ? index.jumpName : index.jumpUrl}`
       })
     },
     // remove (index) {

@@ -37,7 +37,7 @@
             <span v-if="order.orderStatus==1">已咨询</span>
             <span v-if="order.orderStatus==2">待付款</span>
             <span v-if="order.orderStatus==3">待确认</span>
-            <span v-if="order.orderStatus==4">交易成功</span>
+            <span v-if="order.orderStatus==4">交易完成</span>
             <span v-if="order.orderStatus==5">交易失败</span>
         </p>
         <p>
@@ -63,6 +63,12 @@
         <p>
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
+        </p>
+        <p v-if="order.leaveMessageResList" 
+            v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
+            <span>留言:</span>
+            <span >【{{item.leaveMessageTime}}】</span>
+            <span >{{item.leaveMessage}}</span>
         </p>
         <p v-if="order.complainMessage && order.complainTime">
             <span>申诉人:</span>
@@ -91,7 +97,9 @@
         </p>
         <p v-if="order.commentDetailsReq!=null">
             <span>评价状态:</span>
-            <span>{{order.commentDetailsReq.isPass}}</span>
+            <span v-if="order.commentDetailsReq.isPass == 0">待审核</span>
+            <span v-else-if="order.commentDetailsReq.isPass == 1">审核通过</span>
+            <span v-else-if="order.commentDetailsReq.isPass == 2">审核未通过</span>
         </p>
         <p v-if="order.commentDetailsReq != null">
             <span>评价内容:</span> 
@@ -100,12 +108,6 @@
                 <span v-for="item in order.commentDetailsReq.tagsCodeList" class="evaluation_grade " :key="item.length">{{item}}</span>
             </p>
             <p v-if="order.commentDetailsReq != null" class="ml100">{{order.commentDetailsReq.content}}
-        </p>
-        <p v-if="order.leaveMessageResList" 
-            v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
-            <span>留言:</span>
-            <span >【{{item.leaveMessageTime}}】</span>
-            <span >{{item.leaveMessage}}</span>
         </p>
         
         <!-- <p>

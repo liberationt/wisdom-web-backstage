@@ -146,6 +146,8 @@ export default {
                   },
                   on: {
                     click: () => {
+                      untils.setCookie('code',params.row.suggestionsFeedbackCode)
+                      // alert(untils.getCookie('code'))
                       this.adopt()
                     }
                   }
@@ -240,7 +242,7 @@ export default {
               this.$Message.info('删除成功！');
               this.inquery()
             } else {
-              this.$Message.info('删除失败！');
+              this.$Message.info(data.message);
             }
           }).catch(err=>{
             this.$Message.info('删除失败！');
