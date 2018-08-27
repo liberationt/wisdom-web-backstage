@@ -105,22 +105,28 @@
         // }
 
 
-        let requestUrl = null;
+        let requestUrl = null
         let requestParams = {
           // beginTime : this.value1,
           // endTime  : this.value2,
           pageNum: this.startRow,
-          pageSize: this.endRow,
+          pageSize: this.endRow
         }
         let operationType = this.$route.query.operationType;
 
-        if ('loanOfficerLog' == operationType) {   //黄帅单独的日志接口
+        if ('loanOfficerLog' == operationType) {   //  信贷员操作日志   黄帅
           this.title = '信贷员操作日志'
           requestUrl = BASE_URL + "/loan/loanOfficerLog/getLoanOfficerLogList";
           Object.assign(requestParams, {
             loanOfficerCode: this.$route.query.loanOfficerCode,
           })
-        } else if ('orderLog' == operationType) {
+        } else if ('loanUserLog' == operationType){   // 用户操作日志   黄帅
+          this.title = '用户操作日志'
+          requestUrl = BASE_URL + "/loan/loanUserLog/getLoanUserLogList";
+          Object.assign(requestParams, {
+            loanUserCode: this.$route.query.loanUserCode,
+          })
+        } else if ('orderLog' == operationType) {    //毕有为
           this.title = '订单操作日志'
           requestUrl = BASE_URL + "/loan/orderLog/getOrderLogApplyList";
           Object.assign(requestParams, {
@@ -132,13 +138,13 @@
             operationType: operationType,
           })
           switch (operationType) {
-            case 'market_edit' :
+            case 'market_edit' :     //王锐锐
               this.title = '营销设置操作日志'
               break
-            case 'officer_edit':
+            case 'officer_edit':     //毕有为
               this.title = '信贷基本配置日志'
               break
-            case 'user_social_edit':
+            case 'user_social_edit':    //薛梦齐
               this.title = '用户身价设置修改日志'
                   break
           }
@@ -159,8 +165,10 @@
 
         this.total = Number(data.total)
         this.startRow = Math.ceil(data.startRow / this.endRow)
+
         switch (operationType) {
           case 'loanOfficerLog':
+          case 'loanUserLog' :
             if (data.dataList && data.dataList.length > 0) {
               this.data1 = []
               data.dataList.forEach((item) => {
@@ -188,6 +196,22 @@
               })
             }
             break
+
+          case 'officer_edit':
+            if (data.dataList && data.dataList.length > 0) {
+              this.data1 = []
+              data.dataList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.dataCreateTime,
+                  operationMan: item.operationMan,
+                  operationContent: "修改基本设置",   //产品要求写死
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
+            break
+
           default :
             this.data1 = data.dataList
             break

@@ -76,6 +76,10 @@
                     </ul>
                 </div>
                 <p class="informationlist" v-if="informationlist.loanPerfectInfo==0">暂无数据</p>
+
+                <div class="informationlist" >&nbsp;
+                  <Button type="primary" class="mr20" @click="goTolog">查看操作日志</Button>
+                </div>
             </TabPane>
             <TabPane label="现金流水">
                 <Table border highlight-row :columns="columns1" :data="data1"></Table>
@@ -225,7 +229,7 @@ export default {
         //           },
         //           on: {
         //             click: () => {
-        //               this.$router.push({ path: './insuranceReport?id='+params.row.batchCode+'&&pushname='+this.pushname1 }) 
+        //               this.$router.push({ path: './insuranceReport?id='+params.row.batchCode+'&&pushname='+this.pushname1 })
         //             }
         //           }
         //         },
@@ -313,7 +317,7 @@ export default {
         }
       ],
       data4: []
-    }   
+    }
   },
   methods: {
     //   基本信息
@@ -343,7 +347,7 @@ export default {
               content: content
             })
           },
-          onCancel: () => {             
+          onCancel: () => {
           }
         })
       } else {
@@ -357,12 +361,12 @@ export default {
               this.$Modal.success({
               title: title,
               content: content
-            }) 
+            })
           },
-          onCancel: () => {            
+          onCancel: () => {
           }
         })
-      }     
+      }
     },
     // 冻结账户
     acctype (num) {
@@ -470,7 +474,7 @@ export default {
         this.endRow = 10
         this.pagenum = name
         if (name == 0) {
-            this.personalinformation ()              
+            this.personalinformation ()
         } else if (name == 1) {
             this.cashflow ()
         } else if (name == 2) {
@@ -511,6 +515,9 @@ export default {
           this.logonlist ()
       }
     },
+    goTolog(){
+      this.$router.push({ path: './operationLog?operationType=loanUserLog&loanUserCode=' + this.$route.query.loanUserCode})
+    }
 
   },
   mounted () {
