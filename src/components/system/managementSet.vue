@@ -9,6 +9,7 @@
         <Button type="primary" shape="circle" icon="ios-gear-outline" @click="gread">配置风控等级</Button>
         <Table :columns="columns1" :data="data1" class="mt15"></Table>
         <p class="tc mt50">
+            <Button type="primary" class="mr20" @click="goToLog">查看操作日志</Button>
             <Button type="primary" @click="preservation">保存设置</Button>
         </p>
     </div>
@@ -34,7 +35,7 @@ export default {
                 value: this.data1[params.index].value
               },
               on: {
-                'on-change': (val) => {                  
+                'on-change': (val) => {
                   this.data1[params.index].value = val
                 }
               }
@@ -81,7 +82,7 @@ export default {
             } else if (resp.data.riskBusinessList[i].ruleCode == resp.data.riskBusinessList[i].lowRuleCode) {
               resp.data.riskBusinessList[i].value = 2
             } else {
-              resp.data.riskBusinessList[i].value = 0              
+              resp.data.riskBusinessList[i].value = 0
             }
           }
           this.data1 = resp.data.riskBusinessList
@@ -89,7 +90,7 @@ export default {
 
         }
       })
-      .catch(() => {               
+      .catch(() => {
       })
     },
     // 保存
@@ -121,7 +122,7 @@ export default {
             title: '提示',
             content: '<p>保存成功</p>',
             // onOk: () => {
-            //   this.$router.push({ path: './managementSet' })              
+            //   this.$router.push({ path: './managementSet' })
             // }
           })
           this.inquire ()
@@ -129,9 +130,12 @@ export default {
 
         }
       })
-      .catch(() => {               
+      .catch(() => {
       })
 
+    },
+    goToLog() {
+      this.$router.push({path: './operationLog?operationType=risk_product_edit'})
     }
   },
   mounted () {
