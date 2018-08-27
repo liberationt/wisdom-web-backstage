@@ -584,7 +584,7 @@ export default {
             } else {
                 this.indexof1 = []
                 for (let i = 0; i < this.quotamoney.length; i++) {
-                    this.indexof1 = this.quotamoney[i].detailValue
+                    this.indexof1.push(this.quotamoney[i].detailValue)
                     if (this.quotamoney[i].detailValue == '') {
                         const title = '提示'
                         let content = '<p>请输入贷款额度</p>'
@@ -655,7 +655,7 @@ export default {
             } else {
                 this.indexof2  = []
                 for (let i = 0; i < this.termmoney.length; i++) {
-                    this.indexof2 = this.termmoney[i].detailValue
+                    this.indexof2.push(this.termmoney[i].detailValue)
                     if (this.termmoney[i].detailValue == '') {
                         const title = '提示'
                         let content = '<p>请输入贷款期限</p>'

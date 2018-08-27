@@ -61,6 +61,8 @@ import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
 import refundManager from '@/components/finance/refund-manager' // 退款
+// 系统
+import personnelManagement from '@/components/department/personnel-management'
 
 // 大网钱
 import registrationList from '@/components/bigMoney/registration-list'
@@ -197,7 +199,8 @@ let routes = [
       {path: '/managementChannel', component: managementChannel, names: '渠道配置', meta: { auth: true }},
       {path: '/managementChannelAdd', component: managementChannelAdd, names: '添加编辑渠道', hidden: true, meta: { auth: true }},
       {path: '/managementLabel', component: managementLabel, names: '渠道标签管理', hidden: true, meta: { auth: true }},
-      {path: '/managementLabelAdd', component: managementLabelAdd, names: '添加编辑标签', hidden: true, meta: { auth: true }}
+      {path: '/managementLabelAdd', component: managementLabelAdd, names: '添加编辑标签', hidden: true, meta: { auth: true }},
+      {path: '/personnelManagement', component: personnelManagement, names: '部门人员管理', hidden: true, meta: { auth: true }}
     ]
   },
   {

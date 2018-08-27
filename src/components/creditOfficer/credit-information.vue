@@ -793,8 +793,7 @@ export default {
         pageNum: this.startRow,
         pageSize: this.endRow,
         searchValue :'',
-        searchOptions : '',
-        isPass:1
+        searchOptions : ''
 
       }
       this.http.post(BASE_URL + '/loan/comment/getCommentDetailsList', llist)
