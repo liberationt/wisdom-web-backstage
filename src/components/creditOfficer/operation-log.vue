@@ -165,6 +165,7 @@
 
         this.total = Number(data.total)
         this.startRow = Math.ceil(data.startRow / this.endRow)
+
         switch (operationType) {
           case 'loanOfficerLog':
           case 'loanUserLog' :
@@ -195,6 +196,22 @@
               })
             }
             break
+
+          case 'officer_edit':
+            if (data.dataList && data.dataList.length > 0) {
+              this.data1 = []
+              data.dataList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.dataCreateTime,
+                  operationMan: item.operationMan,
+                  operationContent: "修改基本设置",   //产品要求写死
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
+            break
+
           default :
             this.data1 = data.dataList
             break
