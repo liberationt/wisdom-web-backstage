@@ -142,7 +142,7 @@
                     <Input v-model.number="formValidate.limitMax" style="width:100px" placeholder="请输入结束金额"></Input>
                     <span>元</span>
                 </FormItem>
-                <FormItem label="额度1:" v-if="quotashow">
+                <FormItem label="额度:" v-if="quotashow">
                     <!-- <Input v-model="formValidate.subtitle" style="width:300px" placeholder="持中国居民身份证的中国公民 20-35周岁"></Input> -->
                     <div class="credit_recharge">
                             <div
@@ -168,7 +168,7 @@
                     <Input v-model.number="formValidate.termMax" style="width:100px" placeholder="请输入结束期限值"></Input>
                     <span>月</span>
                 </FormItem>
-                <FormItem label="期限1:" v-if="termshow">
+                <FormItem label="期限:" v-if="termshow">
                     <!-- <Input v-model="formValidate.subtitle" style="width:300px" placeholder="持中国居民身份证的中国公民 20-35周岁"></Input> -->
                     <div class="credit_recharge">
                             <div
@@ -227,7 +227,7 @@
         </FormItem>
         <FormItem  >
             <Col span="15">
-                <FormItem label="申请条件1:" >
+                <FormItem label="申请条件:" >
                     <!-- <Input v-model="formValidate.subtitle" style="width:300px" placeholder="持中国居民身份证的中国公民 20-35周岁"></Input> -->
                     <div class="credit_recharge">
                             <div
@@ -852,7 +852,7 @@ export default {
     lowertypeset (val) {
         if (val == 0) {
             this.lowershow = false
-        } else {
+        } else {           
             this.lowershow = true
         }
     },
@@ -940,6 +940,9 @@ export default {
             resp.data.autoOff +=''
             resp.data.isHot+=''
             resp.data.autoOn+=''
+            if (resp.data.autoOff == '1') {
+                resp.data.autoOn = ''
+            }
             this.formValidate = resp.data
             for (let i = 0; i < resp.data.applyFlow.length; i++) {
                 this.applyFlowlc.push(resp.data.applyFlow[i].productParamCode)                
