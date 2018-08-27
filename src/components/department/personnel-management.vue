@@ -69,6 +69,7 @@ export default {
       total: 0,
       startRow: 1,
       endRow: 10,
+      code:'',
       formValidate: {
         name: '',
         user: '',
@@ -259,25 +260,77 @@ export default {
     },
     // 重置密码
     resetpasserd () {
+        // this.formValidate.name
+        this.$Modal.confirm({
+            title: '提示',
+            content: '<p>确定要重置密码吗?</p>',
+            loading: true,
+            onOk: () => {
+                let list = {
+                    userCode:this.formValidate.name
+                }
+                this.http.post(BASE_URL + '/user/resetPassword',list)
+                .then((resp) => {
+                if (resp.code == 'success') {
+                    const title = '提示';
+                    const content = '<p>重置成功</p>';
+                    this.$Modal.success({
+                        title: title,
+                        content: content
+                    })
+                } else {
+                    this.$Message.error(resp.message);
+                }
+                })
+                .catch(() => {
+                
+                })               
+            }
+        });
 
     },
     // 新增/编辑
-    addpersonnel () {
-        let list = {
-            userName: this.formValidate.user,
-            realName: this.formValidate.real,
-            listRoleCode:this.formValidate.interest,
-            userPhone:this.formValidate.phone,
-            userState:this.formValidate.city,
+    addpersonnel () {      
+        let list
+        let url
+        if (this.credittitle == '添加部门人员') {
+            list = {
+                userName: this.formValidate.user,
+                realName: this.formValidate.real,
+                listRoleCode:this.formValidate.interest,
+                userPhone:this.formValidate.phone,
+                userState:this.formValidate.city,
+            }
+            url = '/user/saveUserByDepartment'
+        } else {
+            list = {
+                userName: this.formValidate.user,
+                realName: this.formValidate.real,
+                listRoleCode:this.formValidate.interest,
+                userPhone:this.formValidate.phone,
+                userState:this.formValidate.city,
+                userCode:this.formValidate.name,
+
+            }
+            url = '/user/updateUserByDepartment'
         }
-        this.http.post(BASE_URL + '/user/saveUserByDepartment', list)
+        
+        this.http.post(BASE_URL + url, list)
         .then((resp) => {
         if (resp.code == 'success') {
             const title = '提示';
-            const content = '<p>添加成功</p>';
+            let content
+            if (this.credittitle == '添加部门人员') {
+                content = '<p>添加成功</p>'
+            } else {
+                content = '<p>修改成功</p>'
+            }
             this.$Modal.success({
                 title: title,
-                content: content
+                content: content,
+                onOk: () => {
+                    this.inquire ()
+                }
             })
         } else {
             this.$Message.error(resp.message);
@@ -292,7 +345,13 @@ export default {
         this.http.post(BASE_URL + '/user/queryUserInfo?userCode='+code)
         .then((resp) => {
         if (resp.code == 'success') {
-            
+            this.formValidate.name = resp.data.userCode
+            this.formValidate.user = resp.data.userName
+            this.formValidate.real = resp.data.realName
+            this.interest = resp.data.listRoleCode
+            this.formValidate.interest = resp.data.listRoleCode
+            this.formValidate.phone = resp.data.userPhone
+            this.formValidate.city = resp.data.userState+''
         } else {
             this.$Message.error(resp.message);
         }
@@ -302,7 +361,7 @@ export default {
         })
     },
     // 列表查询
-    inquire (num) {           
+    inquire () {           
     let list = {
       pageNum: this.startRow,
       pageSize: this.endRow
