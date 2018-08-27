@@ -439,6 +439,8 @@ export default {
       
       let phone
       let name
+      let begintime
+      let endtime
       if (num == 1) {
         if (this.model1 == 'mobile') {
           phone = this.value
@@ -466,16 +468,20 @@ export default {
       let recordtype
       if (num == 1) {
         recordtype = 0
+        begintime = this.timeval1
+        endtime = this.timeval2
       } else {
         recordtype = 1
+        begintime = this.timeval3
+        endtime = this.timeval4
       }
 
       let audited = {
         recordType: recordtype,
         phone: phone,
         name: name,
-        beginTime: this.timeval1,
-        endTime: this.timeval2,
+        beginTime: begintime,
+        endTime: endtime,
         pageNum: this.startRow,
         pageSize: this.endRow
       }

@@ -42,7 +42,7 @@
               <FormItem v-if="realname" label="是否实名" prop="realname">
                 <Select v-model="formValidate1.realname" style="width:120px" placeholder="请选择">
                   <Option value="1">已实名隐藏</Option>
-                  <Option value="0">未实名显示</Option>
+                  <Option value="0">不限制</Option>
                 </Select>
               </FormItem>
               <FormItem label="跳转页面" prop="layout" v-if="nojump">

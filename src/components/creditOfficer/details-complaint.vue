@@ -223,14 +223,15 @@ export default {
         .then(data=>{
             if (data.code == 'success') {
                 const title = '未处理申述订单'
-                    const content = '<p>关闭成功</p>'
-                    this.$Modal.success({
+                const content = '<p>关闭成功</p>'
+                this.$Modal.success({
                     title: title,
                     content: content,
                     onOk: () => {
-                        this.$router.push({ path: './orderList?num=2' })
+                        
                     }  
                 })
+                this.$router.push({ path: './orderList?num=2' })
             } else {
             this.$Message.info(data.message)
             }
