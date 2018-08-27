@@ -373,6 +373,7 @@ export default {
             this.formValidate1.code = ''
             this.formValidate1.home = this.jumpAppParams[0].jumpUrl
             this.banklogo = require('../../image/moren.png')
+            this.banksrc = ''
             this.modal1 = false
             this.banklist ()
           } else {
@@ -480,6 +481,7 @@ export default {
       })
     },
     handleReset1 (name) {
+      this.banksrc = ''
       this.banklogo = require('../../image/moren.png')
       this.detailscode = false
       this.formValidate1.code = ''      
