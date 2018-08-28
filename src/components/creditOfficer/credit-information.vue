@@ -636,6 +636,7 @@ export default {
     },
     // 基本信息
     information () {
+      this.img = []
       let list = {
         loanOfficerCode: this.$route.query.loanOfficerCode
       }
