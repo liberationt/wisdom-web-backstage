@@ -174,6 +174,8 @@ export default {
           this.http.post(BASE_URL + tiurl,list).then(data=>{
             if(data.code == 'success'){
               this.phoneti('success')
+            } else if(data.code == 100001){
+              this.$Message.error(data.message)
             } else {
               this.$Message.error('提交失败!')
             }
