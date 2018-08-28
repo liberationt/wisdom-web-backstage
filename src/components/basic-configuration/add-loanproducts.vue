@@ -18,7 +18,7 @@
                 </Col>
                 <Col span="2" style="text-align: center"></Col>
                 <Col span="11">
-                    <FormItem label="显示标签:" prop="displayLabel">
+                    <FormItem label="显示标签:" >
                         <img :src="labelUrl" alt="" style="width:80px;height:80px" class="left">                     
                         <Upload
                         :format="['jpg','jpeg','png']"
@@ -399,9 +399,9 @@ export default {
         productLogo: [
           { required: true, message: '请上传产品LOGO', trigger: 'blur' }
         ],
-        displayLabel: [
-          { required: true, message: '请上传显示标签', trigger: 'blur' }
-        ],
+        // displayLabel: [
+        //   { required: true, message: '请上传显示标签', trigger: 'blur' }
+        // ],
         productName: [
           { required: true, message: '请输入产品名称', trigger: 'blur' }
         ],
