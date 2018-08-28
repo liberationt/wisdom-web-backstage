@@ -47,12 +47,15 @@
                 <Col span="1" style="text-align: center"></Col>
                 <Col span="80" class="cleafix">
                     <FormItem prop="value5" v-if="homeh5">
-                      <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" >
+                      <Select v-model="formCustom.value5" @on-change='jumpurll' placeholder="请选择" style="width:200px" >
                         <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
                       </Select>
                     </FormItem>
                 </Col>
             </Row>
+        </FormItem>
+        <FormItem v-if="detailscode" label="" prop="code" >
+            <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="formCustom.code" placeholder="请输入参数" style="width:200px"></Input>
         </FormItem>
         <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
@@ -85,7 +88,9 @@ export default {
         h5: '',
         jumpurl: '', 
         datePicker: '',
+        code: ''
       },
+      detailscode:false,
       datevalue:'',
       push: false,
       homeh5: false,
@@ -102,7 +107,10 @@ export default {
           ],
         h5: { required: true, message: '请选择跳转类型', trigger: 'change' },
         value5: { required: true, message: '请选择跳转页面', trigger: 'change' },
-        jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' }
+        jumpurl: { required: true, message: '请输入跳转URL', trigger: 'blur' },
+        code: [
+          { required: true, message: '请输入参数！', trigger: 'blur' }
+        ]
       },
       cityList: [],
       dateList:[
@@ -166,7 +174,7 @@ export default {
             pushPlatform: this.formCustom.age, // 推送平台
             pushTarget: this.formCustom.object, //推送对象
             jumpType: this.formCustom.h5, // 跳转类型
-            jumpUrl: this.formCustom.jumpurl  == '' ? this.formCustom.value5 : this.formCustom.jumpurl, // 跳转url
+            jumpUrl: this.formCustom.jumpurl  == '' ? this.formCustom.value5 : this.formCustom.jumpurl + this.formCustom.code, // 跳转url
             targetPhone : this.formCustom.phone,
             mailCode : this.mailCode
           } 
@@ -193,8 +201,19 @@ export default {
       this.$router.push({path: './applicationMail'})
       this.$refs[name].resetFields()
     },
-    jumpurl(v){
+    jumpurll(v){
       this.formCustom.jumpurl = v
+      for (let i=0;i<this.jumplist.length;i++) {  
+        if (v == this.jumplist[i].value) {         
+          if (this.jumplist[i].isParam==1) {
+            this.detailscode = true
+            this.formValidate1.code = ''
+            return false
+          }
+        } else {
+          this.detailscode = false
+        }
+      }
     },
     // 提示
     phoneti(type) {

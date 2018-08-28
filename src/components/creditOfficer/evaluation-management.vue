@@ -688,7 +688,6 @@ export default {
               this.model12 = ""
               this.name1 = ""
               this.models1 = ""
-              this.modelshi2 = ""
               this.model1 = ""
               this.models = ""
               this.loading3= false
