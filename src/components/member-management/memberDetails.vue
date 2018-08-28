@@ -48,7 +48,7 @@
                     <h3>
                         <span>{{informationlist.realName}}</span>
                         <span>{{informationlist.age}}</span>
-                        <span>{{informationlist.loanCityNameFirst}}</span>
+                        <!-- <span>{{informationlist.loanCityNameFirst}}</span> -->
                         <span>{{informationlist.loanCityNameSecond}}</span>
                         <span>{{informationlist.idCard}}</span>
                     </h3>
@@ -188,9 +188,11 @@ export default {
           minWidth: 100,
           key: 'officerName',
           render: (h, params) => {
-            let loginStatus = params.row.officerName +''+params.row.officerPhone
+            // let loginStatus = params.row.officerName +''+params.row.officerPhone
             return h('div', [
-              h('span', {}, loginStatus)
+              h('span', {}, params.row.officerName),
+              h('br', {}),
+              h('span', {}, params.row.officerPhone)
             ])
 		  }
         },
