@@ -6,13 +6,7 @@
       </p>
     </div>
     <div class="clearfix">
-      <div class="left">    
-      <!-- <Select v-model="model2" placeholder="所有渠道" style="width:150px;margin-left:20px">
-        <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select> --> 
-      </div>
       <Button type="primary" shape="circle" icon="ios-add" @click="adddepartment(1)">添加人员</Button>
-      <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
     </div>
     <div id="application_table">
       <Table border highlight-row :columns="columns7" :data="data6"></Table>
@@ -27,8 +21,9 @@
         @on-cancel="handleReset2('formValidate')"
         :mask-closable="false"
         :loading="loading">
-        <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
-        <FormItem label="用户ID" v-if="cide">
+    <div>
+      <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <FormItem label="用户ID" prop="name" v-if="cide">
             <Input v-model="formValidate.name" disabled></Input>
         </FormItem>
         <FormItem label="用户名" prop="user">
@@ -39,7 +34,7 @@
         </FormItem>
         <FormItem label="角色" prop="interest">
             <CheckboxGroup v-model="interest" @on-change="limitChange">
-                <Checkbox class="mr" v-for="item in userrole" :label="item.roleCode">{{item.roleName}}</Checkbox>
+                <Checkbox  v-for="item in userrole" :label="item.roleCode">{{item.roleName}}</Checkbox>
             </CheckboxGroup>
         </FormItem>
         <FormItem label="手机号" prop="phone">
@@ -55,6 +50,7 @@
             <Button type="primary" @click="resetpasserd">自动重置密码</Button>
         </FormItem>
     </Form>
+    </div>       
     </Modal>
   </div>
 </template>
@@ -82,16 +78,19 @@ export default {
       interest:[],
       ruleValidate: {
         user: [
-        { required: true, message: '请输入用户名', trigger: 'blur' }
+        { required: true, message: '请输入用户名', trigger: 'blur' },
+        { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' }
         ],
         real: [
-        { required: true, message: '请输入真实姓名', trigger: 'blur' }
+        { required: true, message: '请输入真实姓名', trigger: 'blur' },
+        { type: 'string', max: 4, message: '最多输入4个字符', trigger: 'blur' }
         ],
         interest: [
         { required: true, type: 'array', min: 1, message: '最少选择一种角色', trigger: 'change' }
         ],
         phone: [
-        { required: true,  message: '请输入手机号', trigger: 'blur' }
+        { required: true,  message: '请输入手机号', trigger: 'blur' },
+        {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
         city: [
             { required: true, message: '请选择用户状态', trigger: 'blur' }
@@ -194,8 +193,7 @@ export default {
                   },
                   on: {
                     click: () => {
-
-                      this.$router.push({ path: './memberDetail?loanUserCode='+params.row.loanUserCode })
+                      this.deleteout (params.row.userCode)                     
                     }
                   }
                 },
@@ -232,23 +230,25 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
-          this.addpersonnel()
-          this.$refs[name].resetFields()
+          this.changeLoading()
+          this.addpersonnel()          
         }
       })
     },
     handleReset2 (name) {
       this.$refs[name].resetFields()
+      this.interest = []
+      this.formValidate.interest = []
     },
-    adddepartment (num) {
+    adddepartment (num) {     
+      this.modal2 = true
         if (num == 1) {
             this.credittitle = '添加部门人员'
             this.cide = false
         } else {
             this.credittitle = '编辑部门人员'
             this.cide = true
-        }
-        this.modal2 = true
+        }      
     },
     // 角色选中
     limitChange (data) {
@@ -264,7 +264,6 @@ export default {
         this.$Modal.confirm({
             title: '提示',
             content: '<p>确定要重置密码吗?</p>',
-            loading: true,
             onOk: () => {
                 let list = {
                     userCode:this.formValidate.name
@@ -310,11 +309,9 @@ export default {
                 userPhone:this.formValidate.phone,
                 userState:this.formValidate.city,
                 userCode:this.formValidate.name,
-
             }
             url = '/user/updateUserByDepartment'
-        }
-        
+        }       
         this.http.post(BASE_URL + url, list)
         .then((resp) => {
         if (resp.code == 'success') {
@@ -329,9 +326,13 @@ export default {
                 title: title,
                 content: content,
                 onOk: () => {
-                    this.inquire ()
+                  this.modal2 = false
+                  this.inquire ()
+                  this.interest = []
+                  this.formValidate.interest = []
                 }
             })
+          this.$refs['formValidate'].resetFields()  
         } else {
             this.$Message.error(resp.message);
         }
@@ -342,7 +343,10 @@ export default {
     },
     // 编辑回显
     editecho (code) {
-        this.http.post(BASE_URL + '/user/queryUserInfo?userCode='+code)
+        let list = {
+            userCode:code
+        }
+        this.http.post(BASE_URL + '/user/queryUserInfo',list)
         .then((resp) => {
         if (resp.code == 'success') {
             this.formValidate.name = resp.data.userCode
@@ -359,6 +363,26 @@ export default {
         .catch(() => {
         
         })
+    },
+    // 删除
+    deleteout (code) {
+      this.$Modal.confirm({
+        title: '提示',
+        content: '<p>确定要删除吗?</p>',
+        onOk: () => {
+          this.http.post(BASE_URL + '/user/deleteUserByCode?userCode='+code)
+          .then((resp) => {
+            if (resp.code == 'success') {
+              this.inquire ()
+            } else {
+              this.$Message.error(resp.message);
+            }
+          })
+          .catch(() => {
+            
+          })                 
+        }
+    })      
     },
     // 列表查询
     inquire () {           

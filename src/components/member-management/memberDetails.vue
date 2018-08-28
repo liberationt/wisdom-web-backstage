@@ -3,7 +3,8 @@
     <Col span="4">
     <div id="memberLeft">
         <div class="memberphoto">
-            <img :src="informationlist.headImg" alt="">
+            <img v-if="informationlist.headImg!=''" :src="informationlist.headImg" alt="">
+            <img v-if="informationlist.headImg==''" :src="require('../../image/moren.png')" alt="" >
             <p>{{informationlist.phoneNumber}}</p>
             <!-- <span class="member_type green1">账户正常</span> -->
             <Button v-if="informationlist.accountStatus==0" type="info" shape="circle" @click="thaw(1)">解冻账户</Button>
@@ -48,6 +49,7 @@
                         <span>{{informationlist.realName}}</span>
                         <span>{{informationlist.age}}</span>
                         <span>{{informationlist.loanCityNameFirst}}</span>
+                        <span>{{informationlist.loanCityNameSecond}}</span>
                         <span>{{informationlist.idCard}}</span>
                     </h3>
                     <p>
@@ -184,7 +186,13 @@ export default {
           title: '信贷员',
           align: 'center',
           minWidth: 100,
-          key: 'officerName'
+          key: 'officerName',
+          render: (h, params) => {
+            let loginStatus = params.row.officerName +''+params.row.officerPhone
+            return h('div', [
+              h('span', {}, loginStatus)
+            ])
+		  }
         },
         {
           title: '申请金额',

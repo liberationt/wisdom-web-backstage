@@ -287,7 +287,7 @@ export default {
         } else {
           this.changeLoading()
           this.Preservation ()
-          this.$refs[name].resetFields()
+          
         }
       })
     },
@@ -339,8 +339,10 @@ export default {
             })
             this.banklogo = require('../../image/moren.png')
             this.banklogomark = require('../../image/moren.png')
-            this.banksrc == ''
+            this.banksrc = ''
+            this.cornersrc = ''
             this.modal1 = false
+            this.$refs['formValidate1'].resetFields()
             this.banklist ()
           } else {
 
@@ -402,7 +404,9 @@ export default {
     },
     handleReset1 (name) {
       this.banklogo = require('../../image/moren.png')
+      this.banksrc = ''     
       this.banklogomark = require('../../image/moren.png')
+      this.cornersrc = ''
       this.$refs[name].resetFields()
     },
     handleSubmit2 (name) {
@@ -465,6 +469,7 @@ export default {
               content: content
             })
             this.creditlogomark = require('../../image/moren.png')
+            this.creditsrc = ''
             this.modal2 = false
             this.creditlist ()
           } else {
@@ -475,6 +480,7 @@ export default {
     },
     handleReset2 (name) {
       this.creditlogomark = require('../../image/moren.png')
+      this.creditsrc = ''
       this.$refs[name].resetFields()
     },
     // 上架
