@@ -207,11 +207,12 @@ export default {
         if (v == this.jumplist[i].value) {         
           if (this.jumplist[i].isParam==1) {
             this.detailscode = true
-            this.formValidate1.code = ''
+            this.formCustom.code = ''
             return false
           }
         } else {
           this.detailscode = false
+          this.formCustom.code = ''
         }
       }
     },
@@ -246,7 +247,10 @@ export default {
       if (v == 1) {
         this.homeh5 = true
       } else {
+        this.detailscode = false
+        this.formCustom.code = ''
         this.homeh5 = false
+        this.formCustom.jumpurl = ''
       }
     },
     datepicker(v){
@@ -299,7 +303,8 @@ export default {
           this.formCustom.value5 = data.data.jumpUrl
           this.formCustom.phone = data.data.targetPhone
           this.mailCode = data.data.mailCode,
-          this.formCustom.jumpurl = data.data.jumpUrl
+          this.formCustom.jumpurl = data.data.jumpType == 1 ? data.data.revertUrl : data.data.jumpurl
+          
         }
       }).catch(err=>{
         console.log(err)
