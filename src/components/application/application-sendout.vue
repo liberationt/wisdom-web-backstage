@@ -250,7 +250,6 @@ export default {
         this.detailscode = false
         this.formCustom.code = ''
         this.homeh5 = false
-        this.formCustom.jumpurl = ''
       }
     },
     datepicker(v){
@@ -293,6 +292,7 @@ export default {
     if(this.$route.query.isedit == 'is'){
       this.http.post(BASE_URL+"/loan/webMail/getWebMailByCode",{data:utils.getCookie('code')}).then(data=>{
         if(data.code == 'success'){
+          this.homesenh5()
           this.formCustom.city  = data.data.typeCode
           this.formCustom.title = data.data.mailTitle 
           this.formCustom.datePicker = '2'
@@ -300,11 +300,15 @@ export default {
           this.formCustom.age = data.data.pushPlatform + '' 
           this.formCustom.object = data.data.pushTarget + ''
           this.formCustom.h5 = data.data.jumpType + ''
-          this.formCustom.value5 = data.data.jumpUrl
+          this.formCustom.value5 = data.data.jumpType == 1 ? data.data.revertUrl : data.data.jumpUrl
           this.formCustom.phone = data.data.targetPhone
           this.mailCode = data.data.mailCode,
-          this.formCustom.jumpurl = data.data.jumpType == 1 ? data.data.revertUrl : data.data.jumpurl
-          
+          this.formCustom.jumpurl = data.data.jumpUrl
+          console.log(this.formCustom.jumpurl , 111)
+          if(data.data.urlParam !== ""){
+            this.detailscode = true
+            this.formCustom.code = data.data.urlParam
+          }
         }
       }).catch(err=>{
         console.log(err)
