@@ -28,7 +28,7 @@
         <FormItem label="机构名称" prop="name" v-if="!isdisabled">
             <Input v-model="formValidate.name" style="width: 300px" disabled></Input>
         </FormItem>
-        <FormItem label="贷款利率" prop="startinterest" class="clearfix">
+        <FormItem label="贷款利率"  class="clearfix">
           <FormItem prop="startinterest" class="left">
               <Input v-model="formValidate.startinterest"  placeholder="起始利率" style="width: 150px" ></Input>
           </FormItem>
@@ -37,7 +37,7 @@
               <Input v-model='formValidate.endinterest'  placeholder="结束利率" style="width: 150px" ></Input>%
           </FormItem>
         </FormItem>
-        <FormItem label="贷款额度" prop="startmoney" class="clearfix">
+        <FormItem label="贷款额度" class="clearfix">
           <FormItem prop="startmoney" class="left">
               <Input v-model="formValidate.startmoney"  placeholder="起始金额" style="width: 150px" ></Input>
           </FormItem>
@@ -179,7 +179,7 @@ export default {
         return false
       }
       // console.log(this.formValidate.startinterest,this.formValidate.endinterest)
-      if(this.formValidate.startinterest >= this.formValidate.endinterest){ 
+      if(Number(this.formValidate.startinterest) >= Number(this.formValidate.endinterest)){ 
         this.jiaoyan('起始利率不能大于结束利率')
         return false
       }
@@ -191,7 +191,7 @@ export default {
         this.jiaoyan('结束金额小数点前最多4位且不能为0')
         return false
       }
-      if(this.formValidate.startmoney > this.formValidate.endmoney){
+      if(Number(this.formValidate.startmoney) > Number(this.formValidate.endmoney)){
         this.jiaoyan('起始金额不能大于结束金额')
         return false
       }
