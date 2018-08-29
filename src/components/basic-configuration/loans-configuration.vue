@@ -158,6 +158,7 @@ export default {
               this.loanlist ()
           }
         } else {
+           this.$Message.error(resp.message);
         }
       })
       .catch(() => {
