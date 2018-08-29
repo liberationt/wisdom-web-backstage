@@ -83,7 +83,8 @@ export default {
         ],
         real: [
         { required: true, message: '请输入真实姓名', trigger: 'blur' },
-        { type: 'string', max: 4, message: '最多输入4个字符', trigger: 'blur' }
+        {required: true, message: '真实姓名请输入中文', pattern: /^[\u4e00-\u9fa5]*$/, trigger: 'blur'},
+        { type: 'string', max: 4, message: '真实姓名最多输入4个字符', trigger: 'blur' }
         ],
         interest: [
         { required: true, type: 'array', min: 1, message: '最少选择一种角色', trigger: 'change' }
@@ -373,6 +374,7 @@ export default {
           this.http.post(BASE_URL + '/user/deleteUserByCode?userCode='+code)
           .then((resp) => {
             if (resp.code == 'success') {
+              this.startRow = 1
               this.inquire ()
             } else {
               this.$Message.error(resp.message);
