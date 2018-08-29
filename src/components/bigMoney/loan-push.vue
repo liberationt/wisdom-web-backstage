@@ -1691,6 +1691,242 @@ export default {
 						}
         },
       ],
+       //本祥恒昌
+      columns12: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          minWidth:110,
+          key: 'telNo'
+        },
+        {
+          title: '身份证',
+          align: 'center',
+          minWidth:110,
+          key: 'idNumber'
+        },
+         {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          minWidth:160,
+          key: 'pushTime'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          minWidth:100,
+          key: 'city'
+        },
+        // {
+        //   title: '页面类型',
+        //   align: 'center',
+        //   minWidth:100,
+        //   render: (h, params) => {
+        //     let succ
+        //     if (params.row.pageType == '1') {
+        //       succ = '小消'
+        //     } else if (params.row.pageType == '2') {
+        //       succ = '新一贷'
+        //     } else if (params.row.pageType == '3') {
+        //       succ = '统一获客'
+        //     } else {
+        //       succ = ''
+        //     }
+        //     return h('div', [
+        //       h('span', {}, succ)
+        //     ])
+				// 	}
+        // },
+        {
+          title: '创建时间',
+          align: 'center',
+          minWidth:160,
+          key: 'dataCreateTime'
+        },
+        {
+          title: '返回码',
+          align: 'center',
+          minWidth:100,
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.pushStatus == '0') {
+              succ = ''
+            } else if (params.row.code == '0' ) {
+              succ = '成功'
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
+        },
+        {
+          title: '返回信息',
+          align: 'center',
+          minWidth:150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.message
+							}
+						}, params.row.message)
+						])
+						}
+        },
+       
+      ],
+      //坤玄恒昌
+      columns13: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'name'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          minWidth:110,
+          key: 'telNo'
+        },
+        {
+          title: '身份证',
+          align: 'center',
+          minWidth:110,
+          key: 'idNumber'
+        },
+         {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+         {
+          title: '推送时间',
+          align: 'center',
+          minWidth:160,
+          key: 'pushTime'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          minWidth:100,
+          key: 'city'
+        },
+        // {
+        //   title: '页面类型',
+        //   align: 'center',
+        //   minWidth:100,
+        //   render: (h, params) => {
+        //     let succ
+        //     if (params.row.pageType == '1') {
+        //       succ = '小消'
+        //     } else if (params.row.pageType == '2') {
+        //       succ = '新一贷'
+        //     } else if (params.row.pageType == '3') {
+        //       succ = '统一获客'
+        //     } else {
+        //       succ = ''
+        //     }
+        //     return h('div', [
+        //       h('span', {}, succ)
+        //     ])
+				// 	}
+        // },
+        {
+          title: '创建时间',
+          align: 'center',
+          minWidth:160,
+          key: 'dataCreateTime'
+        },
+        {
+          title: '返回码',
+          align: 'center',
+          minWidth:100,
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.pushStatus == '0') {
+              succ = ''
+            } else if (params.row.code == '0' ) {
+              succ = '成功'
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
+        },
+        {
+          title: '返回信息',
+          align: 'center',
+          minWidth:150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.message
+							}
+						}, params.row.message)
+						])
+						}
+        },
+       
+      ],
       data1: []
     }
   },
@@ -1774,6 +2010,12 @@ export default {
               } else if (this.model1 == 'partya-xinyidai') {//新一贷
                 this.party1 = this.columns11
                 this.data1 = resp.data.dkXinyidaiList
+              }  else if(this.model1 == 'partya-benxiang-hengchang'){
+                this.party1 = this.columns12
+                this.data1 = resp.data.dkBxhengchangList
+              } else if(this.model1 == 'partya-kunxuan-hengchang'){
+                this.party1 = this.columns13
+                this.data1 = resp.data.dkKxhengchangList
               } else {
                 this.party1 = ''
                 this.data1 = ''
