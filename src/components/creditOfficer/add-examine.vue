@@ -8,20 +8,17 @@
     <div id="feedback_details">
         <h3>查看订单详情</h3>
         <ul>
-            <li>
-                <span class="lh32 "><em class="red">*</em>产品名称：</span>
-                <Input class="" v-model="value" placeholder="请输入产品名称" style="width: 300px"></Input>
-            </li>
-            <li class="clearfix mt15">
-                <span class="left"><em class="red">*</em>产品详情：</span>
-                <!-- <div class="editor-container left mt5">
-                    <UE :defaultMsg=defaultMsg :config=config ref="ue"></UE>
-                </div> -->
-                <Input class="left" style="width: 600px" v-model="value6" type="textarea" :rows="4" placeholder="请输入产品详情" />
-            </li>
+             <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="150">
+                <FormItem label="产品名称：" prop="value">
+                  <Input v-model="formValidate.value" placeholder="请输入产品名称" style="width: 300px"></Input>
+                </FormItem>
+                <FormItem label="产品详情：" prop="value6">
+                  <Input v-model="formValidate.value6" style="width: 600px" type="textarea" placeholder="请输入产品详情"></Input>
+                </FormItem>
+            </Form>
         </ul>
-        <div class="mt50">
-            <Button type="primary" @click="handleSubmit()">提交保存</Button>
+        <div class="mt50 buttom_center">
+            <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
            	<router-link to="./toExamine"><Button type="ghost">返回</Button></router-link> 
         </div>
     </div>
@@ -33,50 +30,61 @@ import utils from "../../utils/utils"
 export default {
   data() {
     return {
-      value: "",
-      value6: '',
-      // institutionsCode: '',
-      productCode: ''
-      // defaultMsg: "这里是UE测试",
-      // config: {
-      //   initialFrameWidth: null,
-      //   initialFrameHeight: 350
-      // }
+      formValidate :{
+        value: "",
+        value6: '',
+      },
+      productCode: '',
+      ruleValidate: {
+        value: [
+          { required: true, message: "请输入产品名称", trigger: "blur" }
+        ],
+        value6: [
+          { required: true, message: '请输入产品详情', trigger: 'blur' },
+        ],
+      },
     };
   },
   // components: { UE },
   methods: {
-    handleSubmit() {
-      let httpurl
-      if(this.$route.query.isedit == 'is'){
-        this.productCode = utils.getCookie('productCode')
-        httpurl = "/loan/creditInstitutionsProduct/updateCreditInstitutionsProductByCode" //编辑保存
-      } else {
-        this.productCode = ""
-        httpurl = "/loan/creditInstitutionsProduct/saveCreditInstitutionsProduct" // 添加保存
-      }
-			this.http.post(BASE_URL+httpurl,{
-        institutionsCode : utils.getCookie('institutionsCode'),
-        productDetail : this.value6,
-        productName : this.value,
-        productCode :  this.productCode
-      }).then(data=>{
-        console.log(data)
-        if(data.code == 'success'){
-          const title = "温馨提示";
-          this.$Modal.success({
-            title: title,
-            content: "<p>保存成功</p>",
-            onOk: () => {
-              this.$router.push({ path: "././toExamine"});
+    handleSubmit(name) {
+       this.$refs[name].validate((valid) => {
+          if (valid) {
+            let httpurl
+            if(this.$route.query.isedit == 'is'){
+              this.productCode = utils.getCookie('productCode')
+              httpurl = "/loan/creditInstitutionsProduct/updateCreditInstitutionsProductByCode" //编辑保存
+            } else {
+              this.productCode = ""
+              httpurl = "/loan/creditInstitutionsProduct/saveCreditInstitutionsProduct" // 添加保存
             }
-          });
-        } else {
-           this.$Message.info('保存失败！');
-        }
-      }).catch(err=>{
-         this.$Message.info('保存失败！');
-      })
+            this.http.post(BASE_URL+httpurl,{
+              institutionsCode : utils.getCookie('institutionsCode'),
+              productDetail : this.formValidate.value6,
+              productName : this.formValidate.value,
+              productCode :  this.productCode
+            }).then(data=>{
+              console.log(data)
+              if(data.code == 'success'){
+                const title = "温馨提示";
+                this.$Modal.success({
+                  title: title,
+                  content: "<p>保存成功</p>",
+                  onOk: () => {
+                    this.$router.push({ path: "././toExamine"});
+                  }
+                });
+              } else {
+                this.$Message.info('保存失败！');
+              }
+            }).catch(err=>{
+              this.$Message.info('保存失败！');
+            })     
+          } else {
+              // this.$Message.error('Fail!');
+          }
+        })
+      
     },
     
   },
@@ -86,8 +94,8 @@ export default {
         this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/getCreditInstitutionsProductByCode",{productCode:utils.getCookie('productCode')}).then(data=>{
           console.log(data)
           if(data.code == 'success'){
-            this.value6 = data.data.productDetail
-            this.value = data.data.productName 
+            this.formValidate.value6 = data.data.productDetail
+            this.formValidate.value = data.data.productName 
           }
         }).catch(err=>{
           console.log(err)
@@ -114,7 +122,7 @@ export default {
       text-align: right;
     }
   }
-  div {
+  .buttom_center {
     text-align: center;
     // margin-top: 20px
   }
