@@ -5,39 +5,42 @@
             <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置>&nbsp;贷款产品配置</span>
           </p>
         </div>
+        <div class="conditioncss">       
       <ul class="querysty">
         <li>
           <span>产品名称:</span>
-          <Input v-model="value4" placeholder="请输入产品名称" style="width: 200px"></Input>
+          <Input v-model="value4" placeholder="请输入产品名称" style="width: 150px"></Input>
         </li>
         <li class="ml20">
           <span>状态:</span>
-          <Select v-model="model2" size="large" style="width:200px">
+          <Select v-model="model2" size="large" style="width:150px">
             <Option v-for="item in cityList1"  :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml20">
           <span>产品分类:</span>
-          <Select v-model="model3" size="large" style="width:200px">
+          <Select v-model="model3" size="large" style="width:150px">
             <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml20">
           <span>排序:</span>
-          <Select v-model="model4" size="large" style="width:200px">
+          <Select v-model="model4" size="large" style="width:150px">
             <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
         <li class="ml50">
-          <Button type="info" class=" mr20 w100" :loading="loading3" @click="loanlist">
+          <Button type="info" class=" mr20 w90" :loading="loading3" @click="loanlist">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
         </li>
-      </ul>   
-      <Button @click="addproducts" type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>
-      <Button type="info" class="  w100 ml20 toupdate" @click="bankupdate">更新排序</Button>
-      <div class="loans_stages">
+      </ul>
+      
+      </div>     
+      <div class="loans_stages mt10 clearfix contentcss">
+        <Button @click="addproducts" type="ghost" shape="circle"><Icon type="plus"></Icon>添加贷款产品</Button>
+      <Button type="info" class="  w90 ml20 toupdate" @click="bankupdate">更新排序</Button>
         <ul class="homePage_icon">
           <li v-for="item in dataList">
             <div class="loans_top clearfix">
@@ -265,6 +268,7 @@ export default {
   float: left;
   margin-right: 20px;
   margin-bottom: 15px;
+  background: #f6fafd;
 }
 .edit_icon_blue {
   background-color: #1bbc9b;

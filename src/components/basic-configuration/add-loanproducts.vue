@@ -1,5 +1,5 @@
 <template>
-<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="125" class="addloan">
+<Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="125" class="addloan contentcss">
         <FormItem class="logoerr" >
             <Row>
                 <Col span="11">

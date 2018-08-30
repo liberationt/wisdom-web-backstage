@@ -1,11 +1,12 @@
 <template>
   <div>
-      <h1 class="h1">页面配置</h1>
+      <!-- <h1 class="h1">页面配置</h1> -->
       <div class="navigation">
         <p>
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}>&nbsp;版本页面配置</span>
         </p>
       </div>
+      <div class="home_configure">      
       <!-- 首页 -->
       <div class="homePage">
           <h1 class="homePage_h1">首页</h1>
@@ -96,6 +97,7 @@
               </router-link>
           </ul>
       </div> -->
+      </div>
   </div>
 </template>
 <script>
@@ -121,11 +123,16 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.home_configure{
+    background: #fff;
+    border-radius: 5px;
+    padding: 20px 0
+}
 .homePage {
     margin-bottom: 25px;
     width: 100%;
-    border: 1px solid #ccc;
-    padding-bottom: 40px;
+    // border: 1px solid #ccc;
+    padding-bottom: 40px;  
 }
 .homePage_h1 {
     border-bottom: 1px solid #ccc;

@@ -1,4 +1,5 @@
 <template>
+<div class="contentcss">
 <Row>
     <Col span="5">
     <div id="memberLeft">
@@ -208,6 +209,7 @@
     </div>
     </Col>
 </Row>
+</div>
 </template>
 <script>
 export default {

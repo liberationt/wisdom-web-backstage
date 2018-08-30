@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理&nbsp;>&nbsp;评价详情</span>
       </p>
     </div>
-    <div id="feedback_details">
+    <div id="feedback_details" class="contentcss">
         <h3>查看评价详情</h3>
         <p>
             <span>评价时间:</span>

@@ -5,25 +5,26 @@
       <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;黑名单管理</span>
       </p>
     </div>
-      <div class="clearfix">
+      <div class="clearfix conditioncss">
         <div class="left">
           <span>应用：</span>
-          <Select v-model="application" style="width:200px">
+          <Select v-model="application" style="width:150px">
             <Option v-for="item in cityList" :value="item.businessAlias" :key="item.businessAlias">{{ item.businessName }}</Option>
           </Select>
           <Input v-model="number" class="ml5" placeholder="请输入手机号" style="width: 150px"></Input>
         </div>
-        <Button type="info" class="left ml20 w100" :loading="loading3" @click="label_query('warning')">
+        <Button type="info" class="left ml20 w90" :loading="loading3" @click="label_query('warning')">
           <span v-if="!loading3">查询</span>
           <span v-else>查询</span>
         </Button>
         </div>
-        <div id="application_table" class="mt15">
+        <div id="application_table" class="mt15 contentcss">
           <Table border :columns="columns7" :data="data6"></Table>
+          <div class="tr mt15">
+            <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+          </div>
         </div>
-        <div class="tr mt15">
-        <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
-      </div>
+        
   </div>
 </template>
 <script>

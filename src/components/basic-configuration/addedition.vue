@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1 class="h1">页面配置</h1>
+      <!-- <h1 class="h1">页面配置</h1> -->
       <div class="navigation">
         <p>
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置>&nbsp;H5页面配置</span>
@@ -19,7 +19,7 @@
           </ul>
       </div> -->
       <!-- 信用卡超市 -->
-      <div class="homePage" >
+      <div class="homePage contentcss" >
           <h1 class="homePage_h1">信用卡超市</h1>
           <ul class="homePage_icon clearfix">
               <router-link :to="{path:'bigimg/', query:{img:1,fiveh:1}}">
@@ -47,6 +47,7 @@ export default {
     width: 100%;
     border: 1px solid #ccc;
     padding-bottom: 40px;
+    background: #fff
 }
 .homePage_h1 {
     border-bottom: 1px solid #ccc;

@@ -5,9 +5,9 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;  {{title}}</span>
       </p>
     </div>
-    <div id="feedback_details">
-      <h3>{{title}}</h3>
-      <div class="mt50">
+    <div id="feedback_details" class="contentcss">
+      <!-- <h3>{{title}}</h3> -->
+      <div class="">
         <!-- <span>操作时间:</span>
         <DatePicker type="datetime" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
         <span>  -  </span>

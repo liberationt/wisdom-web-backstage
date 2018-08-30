@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理&nbsp;>&nbsp;提现记录</span>
       </p>
     </div>
-    <div >
+    <div class="contentcss">
         <Tabs type="card" :animated="false" @on-click="handleReset('formValidate')">
             <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab" >
                 <div class="application_state">
@@ -13,21 +13,21 @@
                         <TabPane label="待审核" name="0">
                             <div class="mt50 clearfix">
                                 <div class="left">
-                                    <Select v-model="model1" style="width:120px">
+                                    <Select v-model="model1" style="width:90px">
                                     <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
                                 </Select>
-                                <Input v-model="value" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
+                                <Input v-model="value" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input>
                                 <span class="lh32 ml50">申请时间:</span>
-                                <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                                <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
                                   <span>  -  </span>
-                                <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+                                <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
                                 </div>
                                 <div class="right">
-                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(1)">
+                                  <Button type="info" class="left mr20 w90" :loading="loading3" @click="auditedQuery(1)">
                                     <span v-if="!loading3">查询</span>
                                     <span v-else>查询</span>
                                   </Button>
-                                  <Button type="primary" class="ml10 w100" :loading="loading2" @click="auditedExport(1)">
+                                  <Button type="primary" class="ml10 w90" :loading="loading2" @click="auditedExport(1)">
                                     <span v-if="!loading2">导出</span>
                                     <span v-else>请稍等...</span>
                                   </Button>
@@ -64,21 +64,21 @@
                         <TabPane label="已审核" name="1">
                             <div class="mt50 clearfix">
                                 <div class="left">
-                                    <Select v-model="model2" style="width:120px">
+                                    <Select v-model="model2" style="width:90px">
                                     <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
                                 </Select>
-                                <Input v-model="value2" placeholder="请输入关键字"  style="width: 180px;margin-left:-3px"></Input>
+                                <Input v-model="value2" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input>
                                 <span class="lh32 ml50">申请时间:</span>
-                                <DatePicker type="date"  :value="timeval3" @on-change="time3" confirm placeholder="" style="width: 200px"></DatePicker>
+                                <DatePicker type="date"  :value="timeval3" @on-change="time3" confirm placeholder="" style="width: 150px"></DatePicker>
                                 &nbsp;&nbsp;-&nbsp;&nbsp;
-                                <DatePicker type="date" :value="timeval4" @on-change="time4" confirm placeholder="" style="width: 200px"></DatePicker>
+                                <DatePicker type="date" :value="timeval4" @on-change="time4" confirm placeholder="" style="width: 150px"></DatePicker>
                                 </div>
                                 <div class="right">
-                                  <Button type="info" class="left mr20 w100" :loading="loading3" @click="auditedQuery(2)">
+                                  <Button type="info" class="left mr20 w90" :loading="loading3" @click="auditedQuery(2)">
                                     <span v-if="!loading3">查询</span>
                                     <span v-else>查询</span>
                                   </Button>
-                                  <Button type="primary" class="ml10 w100" :loading="loading2" @click="auditedExport(2)">
+                                  <Button type="primary" class="ml10 w90" :loading="loading2" @click="auditedExport(2)">
                                     <span v-if="!loading2">导出</span>
                                     <span v-else>请稍等...</span>
                                   </Button>

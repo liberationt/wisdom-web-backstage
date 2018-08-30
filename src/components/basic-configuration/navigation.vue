@@ -5,8 +5,8 @@
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;页面配置>&nbsp;首页导航H5</span>
         </p>
       </div>
-      <div class="homePage clearfix">
-          <div class="clearfix">
+      <div class="homePage clearfix contentcss">
+          <div class="clearfix ">
             <p data-v-38176e38="" @click="addapp" class="left homePage_button mr20"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
             <Button type="info" class="left w60 ml20" @click="bankupdate">更新</Button>
             <Button type="warning"  class="left ml20 w60  toupdate" @click=" backingout">返回</Button>
@@ -35,8 +35,9 @@
              </p>
            </li>
          </ul>
+         <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" class="right mt15" show-sizer show-total></Page>
       </div>
-      <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" class="right" show-sizer show-total></Page>
+      
       <!-- 提示框 -->
         <Modal
         v-model="modal1"

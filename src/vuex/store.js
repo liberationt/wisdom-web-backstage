@@ -8,12 +8,16 @@ const state = {// 设置初始状态
   num: 0,
   hidden: false,
   menu: {},
-  leftlist: []
+  leftlist: [],
+  leftheadname:'应用首页'
 }
 
 const mutations = {// 改变初始状态
   add (state, n) {
     state.count += n
+  },
+  showname (state, name) {
+    state.leftheadname = name
   },
   redute (state) {
     state.count--

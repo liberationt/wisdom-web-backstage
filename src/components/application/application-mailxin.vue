@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;站内信管理</span>
       </p>
     </div>
-    <div class="mt50">
+    <div class="conditioncss">
         <div class="application_news">
           <router-link to="/applicationSendoutxin">
             <Icon type="plus-round"></Icon>
@@ -19,24 +19,23 @@
           </router-link>
         </div>
 
-      <Select v-model="model1" @on-change="status" placeholder="全部状态" class="ml20" style="width:200px">
+      <Select v-model="model1" @on-change="status" placeholder="全部状态" class="ml20" style="width:150px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.text }}</Option>
       </Select>
-      <Select v-model="model2" @on-change="type" placeholder="全部类型" class="ml20" style="width:200px">
+      <Select v-model="model2" @on-change="type" placeholder="全部类型" class="ml20" style="width:150px">
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.text }}</Option>
       </Select>
-      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquiry(2)">
+      <Button type="info" class=" ml50 w90" :loading="loading3" @click="inquiry(2)">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
     </div>
-    <div id="application_table" >
+    <div id="application_table" class="contentcss">
       <Table border :columns="columns7" :data="data6"></Table>
+      <div class="tr mt15">
+        <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+      </div>
     </div>
-    <div class="tr mt15">
-      <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-    </div>
-
   </div>
 </template>
 <script>

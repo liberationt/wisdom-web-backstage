@@ -5,7 +5,8 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;站内信编辑</span>
       </p>
     </div>
-    <Col span="12" offset="4">
+    <div class="cleafix contentcss" style="overflow: hidden">
+    <Col span="12" offset="4" >
       <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100">
         <FormItem label="消息类型:" prop="city">
           <Select v-model="formCustom.city" placeholder="请选择" @on-change="messagetype" style="width:200px">
@@ -35,7 +36,7 @@
           <Input v-model="formCustom.phone" type="textarea" style="width:200px" placeholder="请输入推送手机号"></Input>
           <p>指定手机号,以半角逗号分隔</p>
         </FormItem>
-       <FormItem label="跳转类型:" >
+       <FormItem label="跳转类型:" class="cleafix">
             <Row>
                 <Col span="80" class="cleafix">
                     <FormItem prop="h5">
@@ -63,6 +64,7 @@
         </FormItem>
       </Form>
     </Col>
+    </div>
   </Row>
 </template>
 <script>

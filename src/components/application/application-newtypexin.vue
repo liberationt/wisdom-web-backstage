@@ -7,11 +7,11 @@
     </div>
 
     <div id="newtype_con">
-        <div class="newtype_hed">
+        <div class="newtype_hed conditioncss">
             <span>站内信消息类型</span>
             <Button type="ghost" shape="circle" @click="handleRender" icon="plus-round">添加</Button>
         </div>
-        <div class="newtype_con">
+        <div class="newtype_con contentcss mt10">
             <div class="newtype_notice" v-for="item in typelist">
                 <img :src="item.typeIcon" alt="">
                 <p>{{item.typeTitle}}</p>
@@ -277,11 +277,11 @@ export default {
 }
 #newtype_con {
   border: 1px solid #e7ecf1;
-  padding: 20px;
+  // padding: 20px;
   .newtype_hed {
     width: 100%;
     border-bottom: 1px solid #e7ecf1;
-    padding: 10px 0;
+    // padding: 10px 0;
     overflow: hidden;
     span {
       font-size: 20px;
@@ -302,6 +302,7 @@ export default {
       float: left;
       margin-right: 20px;
       margin-bottom: 20px;
+      background:#f6fafd;
       img {
         width: 60px;
         height: 60px;

@@ -5,6 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理&nbsp;>&nbsp;订单管理</span>
       </p>
     </div>
+    <div class="contentcss">
     <Tabs type="card" :animated="false" :value="value1" @on-click="tabswitch">
         <TabPane label="咨询订单" name="0">
             <div class="clearfix">
@@ -13,14 +14,14 @@
                 <Option v-for="item in cityList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>           
-            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
+            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:50px">
                 <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model3" placeholder="请选择市" style="width:200px;margin-left:10px">
+            <Select v-model="model3" placeholder="请选择市" style="width:150px;margin-left:10px">
                 <Option v-for="item in status1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="consultingorders">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="consultingorders">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -40,14 +41,14 @@
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name2" placeholder="请输入关键字" style="width: 150px"></Input>           
-            <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
+            <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:50px">
                 <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model6" placeholder="请选择市" style="width:200px;margin-left:10px">
+            <Select v-model="model6" placeholder="请选择市" style="width:150px;margin-left:10px">
                 <Option v-for="item in status2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="Orderrobbing">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="Orderrobbing">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -67,14 +68,14 @@
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name3" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model8" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:50px">
+            <Select v-model="model8" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:50px">
                 <Option v-for="item in cityType3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model9" placeholder="请选择市" style="width:200px;margin-left:10px">
+            <Select v-model="model9" placeholder="请选择市" style="width:150px;margin-left:10px">
                 <Option v-for="item in status3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="bidorder">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="bidorder">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -88,6 +89,7 @@
             </div>
         </TabPane>
     </Tabs>
+    </div>
 </div>
 </template>
 <script>

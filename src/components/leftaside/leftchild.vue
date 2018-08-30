@@ -82,7 +82,7 @@ export default {
   padding-left: 20px
 }
 .child_routh{
- border-bottom:1px solid #6C7B8B 
+ border-bottom:1px solid #ddd 
 }
 .child_routh:last-child{
   border-bottom: 0
@@ -99,16 +99,16 @@ export default {
     vertical-align: middle;
     position: absolute;
     right: 20px;
-    top: 12px;
+    top: 23px;
     text-align: center
   }
   .tree-menu li {
-    line-height: 40px;
+    line-height: 60px;
     cursor: pointer;
     // border-top: 1px solid #999;
     // border-bottom: 1px solid #31B1BB;
     span{
-        color: #fff;
+        color: #666;
         display: inline-block;
         width: 100%;
         position: relative;
@@ -117,7 +117,7 @@ export default {
     }
   }
   .tree-menu li span:hover{
-      background: #4FC1E9
+      background: #dbdfe4
   }
   .child_routh span{
     padding-left: 40px!important
