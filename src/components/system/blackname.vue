@@ -150,7 +150,7 @@ export default {
       let list =    {
             pageSize: this.endRow,
             pageNum: this.startRow,
-            blackValue: this.name ? this.name : null, //手机号or姓名的参数
+            blackValue: this.number ? this.number : null, //手机号or姓名的参数
             businessAlias: this.application //华赞
           }
       this.http.post(BASE_URL+"/black/riskBlackList/getRiskBlackListList", list).then(data => {
