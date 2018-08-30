@@ -9,6 +9,7 @@
         <h3>机构名称</h3>
         <Button type="primary" shape="circle" icon="plus-round" class="mb15" @click="addproduct">添加产品</Button>
         <Button type="success" shape="circle" class="mb15" @click="update">更新排序</Button>
+        <Button type="warning" shape="circle" class="mb15" @click="$router.go(-1)">返回</Button>
         <Table class="inputvalue" border :columns="columns1" :data="data1">
         </Table>
         <div class="tr mt15">

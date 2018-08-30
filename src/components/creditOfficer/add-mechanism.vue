@@ -66,7 +66,7 @@
           </Input>
         </FormItem>
         <FormItem label="咨询呼叫号码" prop="gender">
-          <Input v-model="formValidate.gender" style="width: 300px"></Input>
+          <Input v-model="formValidate.gender" placeholder="请输入呼叫号码" style="width: 300px"></Input>
         </FormItem>
         <FormItem label="首页推荐显示" prop="ishomepage">
           <Select v-model="formValidate.ishomepage" style="width: 300px" placeholder="首页推荐显示">
@@ -98,7 +98,7 @@ export default {
         introductionl: "",
         ishomepage: "",
         lowerframe: "",
-        gender: "400",
+        gender: "",
         interest: [],
         date: "",
         endmoney: "",
@@ -169,42 +169,41 @@ export default {
   },
   methods: {
     handleSubmit(name) {
-      // console.log(this.formValidate.startinterest)
-      if(this.formValidate.startinterest > 99 || this.formValidate.startinterest == 0){ 
-        this.jiaoyan('起始利率小数点前最多2位且不能为0')
-        return false
-      }
-      if(this.formValidate.endinterest > 99 || this.formValidate.endinterest == 0){
-        this.jiaoyan('结束利率小数点前最多2位且不能为0')
-        return false
-      }
-      // console.log(this.formValidate.startinterest,this.formValidate.endinterest)
-      if(Number(this.formValidate.startinterest) >= Number(this.formValidate.endinterest)){ 
-        this.jiaoyan('起始利率不能大于结束利率')
-        return false
-      }
-      if(this.formValidate.startmoney > 9999 || this.formValidate.startmoney == 0){
-        this.jiaoyan('起始金额小数点前最多4位且不能为0')
-        return false
-      }
-      if(this.formValidate.endmoney > 9999 || this.formValidate.endmoney == 0){
-        this.jiaoyan('结束金额小数点前最多4位且不能为0')
-        return false
-      }
-      if(Number(this.formValidate.startmoney) > Number(this.formValidate.endmoney)){
-        this.jiaoyan('起始金额不能大于结束金额')
-        return false
-      }
-      let postUrl;
-      if (this.$route.query.isedit == "is") {
-        postUrl = "/loan/creditInstitutions/updateCreditInstitutionsByCode"; //编辑保存
-        this.code = untils.getCookie('institutionsCode')
-      } else {
-        postUrl = "/loan/creditInstitutions/saveCreditInstitutions"; //添加保存
-        this.code = ''
-      }
-      this.$refs[name].validate(valid => {
-        if (valid) {
+          let postUrl;
+          if (this.$route.query.isedit == "is") {
+            postUrl = "/loan/creditInstitutions/updateCreditInstitutionsByCode"; //编辑保存
+            this.code = untils.getCookie('institutionsCode')
+          } else {
+            postUrl = "/loan/creditInstitutions/saveCreditInstitutions"; //添加保存
+            this.code = ''
+          }
+          this.$refs[name].validate(valid => {
+            if (valid) {
+              if(this.formValidate.startinterest >=100 || this.formValidate.startinterest == 0){ 
+            this.jiaoyan('起始利率小数点前最多2位且不能为0')
+            return false
+          }
+          if(this.formValidate.endinterest >=100|| this.formValidate.endinterest == 0){
+            this.jiaoyan('结束利率小数点前最多2位且不能为0')
+            return false
+          }
+          // console.log(this.formValidate.startinterest,this.formValidate.endinterest)
+          if(Number(this.formValidate.startinterest) > Number(this.formValidate.endinterest)){ 
+            this.jiaoyan('起始利率不能大于结束利率')
+            return false
+          }
+          if(this.formValidate.startmoney >=10000 || this.formValidate.startmoney == 0){
+            this.jiaoyan('起始金额小数点前最多4位且不能为0')
+            return false
+          }
+          if(this.formValidate.endmoney >=10000 || this.formValidate.endmoney == 0){
+            this.jiaoyan('结束金额小数点前最多4位且不能为0')
+            return false
+          }
+          if(Number(this.formValidate.startmoney) > Number(this.formValidate.endmoney)){
+            this.jiaoyan('起始金额不能大于结束金额')
+            return false
+          } 
           this.http
             .post(BASE_URL + postUrl, {
               institutionsPicture: this.formValidate.productlogo, //图片

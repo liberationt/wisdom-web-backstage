@@ -230,7 +230,6 @@ export default {
         this.homeh5 = true
       } else {
         this.homeh5 = false
-        this.formCustom.jumpurl = ''
       }
     },
     datepicker(v){
