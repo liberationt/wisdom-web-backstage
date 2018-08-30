@@ -170,11 +170,11 @@ export default {
   methods: {
     handleSubmit(name) {
       // console.log(this.formValidate.startinterest)
-      if(this.formValidate.startinterest >= 99 || this.formValidate.startinterest == 0){ 
+      if(this.formValidate.startinterest >=100 || this.formValidate.startinterest == 0){ 
         this.jiaoyan('起始利率小数点前最多2位且不能为0')
         return false
       }
-      if(this.formValidate.endinterest >= 99 || this.formValidate.endinterest == 0){
+      if(this.formValidate.endinterest >=100|| this.formValidate.endinterest == 0){
         this.jiaoyan('结束利率小数点前最多2位且不能为0')
         return false
       }
@@ -183,11 +183,11 @@ export default {
         this.jiaoyan('起始利率不能大于结束利率')
         return false
       }
-      if(this.formValidate.startmoney >= 9999 || this.formValidate.startmoney == 0){
+      if(this.formValidate.startmoney >=10000 || this.formValidate.startmoney == 0){
         this.jiaoyan('起始金额小数点前最多4位且不能为0')
         return false
       }
-      if(this.formValidate.endmoney >= 9999 || this.formValidate.endmoney == 0){
+      if(this.formValidate.endmoney >=10000 || this.formValidate.endmoney == 0){
         this.jiaoyan('结束金额小数点前最多4位且不能为0')
         return false
       }
