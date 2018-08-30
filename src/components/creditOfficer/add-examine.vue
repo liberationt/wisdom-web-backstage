@@ -6,7 +6,7 @@
       </p>
     </div>
     <div id="feedback_details" class="contentcss">
-        <h3>查看订单详情</h3>
+        <h3>产品详情</h3>
         <ul>
              <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="150">
                 <FormItem label="产品名称：" prop="value">
