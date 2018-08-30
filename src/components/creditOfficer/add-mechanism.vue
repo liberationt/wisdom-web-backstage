@@ -66,7 +66,7 @@
           </Input>
         </FormItem>
         <FormItem label="咨询呼叫号码" prop="gender">
-          <Input v-model="formValidate.gender" style="width: 300px"></Input>
+          <Input v-model="formValidate.gender" placeholder="请输入呼叫号码" style="width: 300px"></Input>
         </FormItem>
         <FormItem label="首页推荐显示" prop="ishomepage">
           <Select v-model="formValidate.ishomepage" style="width: 300px" placeholder="首页推荐显示">
@@ -98,7 +98,7 @@ export default {
         introductionl: "",
         ishomepage: "",
         lowerframe: "",
-        gender: "400",
+        gender: "",
         interest: [],
         date: "",
         endmoney: "",
