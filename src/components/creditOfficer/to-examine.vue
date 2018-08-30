@@ -152,9 +152,11 @@ export default {
     // },
     update(){
       let ivuvalue = document.getElementsByClassName('ivu-input')
-      console.log(ivuvalue,this.productCode)
+      console.log(ivuvalue)
+      console.log(this.productCode)
       // console.log(document.getElementsByClassName('ivu-input')[0].value)
       for(let i = 0; i< this.productCode.length; i++){
+        console.log( ivuvalue[i].value)
         this.creditInstitutionsProductReqs.push(
           {
             productCode: this.productCode[i],
@@ -201,6 +203,7 @@ export default {
       this.$router.push({ path: './addExamine' })
     },
     query(){
+      this.productCode=[]
       this.http.post(BASE_URL+'/loan/creditInstitutionsProduct/getCreditInstitutionsProductList',{institutionsCode: untils.getCookie('institutionsCode'), pageSize: this.endRow,
         pageNum: this.startRow}).then(data=>{
         if(data.code == 'success'){
@@ -209,7 +212,6 @@ export default {
           this.startRow = Math.ceil(data.data.startRow/this.endRow) == 0? 1 : Math.ceil(data.data.startRow/this.endRow)
           this.data1.map((o,i)=>{
             this.productCode.push(o.productCode)
-            // console.log(o.productCode)
           })
         }
       }).catch(err=>{
