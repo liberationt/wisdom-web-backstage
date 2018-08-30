@@ -6,6 +6,7 @@
       </p>
     </div>
     <div>
+      <div class="contentcss">
       <Tabs type="card" :animated="false" @on-click="marketquery">
         <TabPane label="基本设置">
           <Form :label-width="210" class="mt50">
@@ -157,6 +158,7 @@
           </Form>
         </TabPane>
       </Tabs>
+      </div>
     </div>
   </div>
 </template>

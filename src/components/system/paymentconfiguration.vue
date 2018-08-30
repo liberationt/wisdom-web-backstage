@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;支付配置</span>
       </p>
     </div>
-    <div>
+    <div class="contentcss">
         <Table border :columns="columns1" :data="data1" class="mt15"></Table>
         <p class="tc mt50">
             <Button type="primary" @click="save">保存设置</Button>

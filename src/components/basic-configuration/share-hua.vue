@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}>&nbsp;基础配置>&nbsp;分享配置</span>
         </p>
       </div>
-      <div class="homePage">
+      <div class="homePage contentcss">
         <h1 class="homePage_h1">
           分享配置
         </h1>
@@ -208,7 +208,7 @@ export default {
   margin-left: 20px;
 }
 .homePage_submit {
-  background-color: #3598dc;
+  background-color: #3d81f2;
   width: 80px;
   color: #fff;
 }
@@ -229,9 +229,11 @@ hr {
 .homePage {
   margin-bottom: 25px;
   width: 100%;
-  border: 1px solid #ccc;
+  border-radius: 5px;
+  // border: 1px solid #ccc;
   padding-bottom: 30px;
   padding-left: 20px;
+  background: #fff
 }
 .homePage_h1 {
   border-bottom: 1px solid #ccc;

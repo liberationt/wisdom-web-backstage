@@ -5,28 +5,28 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;{{application}}&nbsp;>&nbsp;消息管理&nbsp;>&nbsp;建议反馈</span>
       </p>
     </div>
-    <div class="clearfix">
+    <div class="clearfix conditioncss">
       <div class="left">
       <Select v-model="model1" placeholder="姓名"  style="width:100px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-      <Select v-model="model2" placeholder="全部状态" style="width:200px;margin-left:50px">
+      <Select v-model="model2" placeholder="全部状态" style="width:150px;margin-left:50px">
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       </div>
       <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="inquery">查询</Button> -->
-      <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquery('warning')">
+      <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquery('warning')">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
     </div>
-    <div id="application_table">
+    <div id="application_table" class="contentcss">
       <Table border :columns="columns7" :data="data6"></Table>
-    </div>
-    <div class="tr mt15">
-      <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
-    </div>
+      <div class="tr mt15">
+        <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+      </div>
+    </div>   
   </div>
 </template>
 <script>

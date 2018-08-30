@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;风控配置</span>
       </p>
     </div>
-    <div>
+    <div class="contentcss">
         <Button type="primary" shape="circle" icon="ios-gear-outline" @click="gread">配置风控等级</Button>
         <Table :columns="columns1" :data="data1" class="mt15"></Table>
         <p class="tc mt50">

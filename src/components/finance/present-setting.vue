@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;财务&nbsp;>&nbsp;提现管理&nbsp;>&nbsp;提现设置</span>
       </p>
     </div>
-    <div >
+    <div class="contentcss">
         <Tabs type="card" :animated="false" @on-click="handleReset('formValidate')">
             <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab" >
                 <div class="mt50">
@@ -32,7 +32,7 @@
                         </FormItem>
                         <FormItem >
                             <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
-                            <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">返回</Button>
+                            <!-- <Button type="ghost" @click="handleReset('formValidate')" style="margin-left: 8px">返回</Button> -->
                         </FormItem>
                     </Form>
                 </div>

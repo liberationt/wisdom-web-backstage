@@ -5,14 +5,16 @@
         <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;账号管理</span>
       </p>
     </div>
-    <div class="clearfix">
+    <div class="contentcss">
+    <div class="clearfix ">
       <Button type="primary" shape="circle" icon="ios-add" @click="adddepartment(1)">添加人员</Button>
     </div>
     <div id="application_table">
       <Table border highlight-row :columns="columns7" :data="data6"></Table>
-    </div>
-    <div class="tr mt15">
-      <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+      <div class="tr mt15">
+        <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+      </div>
+    </div> 
     </div>
     <Modal
         v-model="modal2"

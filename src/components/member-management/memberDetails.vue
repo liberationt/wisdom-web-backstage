@@ -1,4 +1,5 @@
 <template>
+<div class="contentcss">
 <Row>
     <Col span="4">
     <div id="memberLeft">
@@ -79,7 +80,7 @@
                 </div>
                 <p class="informationlist" v-if="informationlist.loanPerfectInfo==0">暂无数据</p>
 
-                <div class="informationlist" >&nbsp;
+                <div class="informationlist" >
                   <Button type="primary" class="mr20" @click="goTolog">查看操作日志</Button>
                 </div>
             </TabPane>
@@ -111,6 +112,7 @@
     </div>
     </Col>
 </Row>
+</div>
 </template>
 <script>
 export default {

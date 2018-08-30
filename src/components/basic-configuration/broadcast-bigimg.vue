@@ -5,10 +5,10 @@
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}>&nbsp;版本页面配置列表</span>
         </p>
       </div>
-      <div class="clearfix">
+      <div class="clearfix conditioncss">
         <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加</p>
-        <Button type="info" v-if="num != 2" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
-        <Button type="warning"  class="left mt20 w60 ml20 toupdate" @click=" backingout">返回</Button>
+        <Button type="info" v-if="num != 2" class="left  w90 ml20 toupdate" @click="bankupdate">更新</Button>
+        <Button type="warning"  class="left  w90 ml20 toupdate" @click=" backingout">返回</Button>
       </div>
       <Modal
         v-model="modal1"
@@ -66,7 +66,7 @@
           </div>
         </div>
       </Modal>
-
+      <div class="contentcss clearfix mt10">     
       <ul class="homePage_icon left" style="padding:0 50px">
         <li v-for="item in bankdatalist">
           <p class="icon">
@@ -125,6 +125,7 @@
     </ul>
     <div class="mt15 w100b tr right" style="">
     <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+    </div>
     </div>
   </div>
 </template>
@@ -451,7 +452,7 @@ export default {
               this.formValidate1.home = ''
             }
             } else {//不跳转
-            this.formValidate1.home = ''
+            this.formValidate1.home = this.jumpAppParams[0].jumpUrl
             this.formValidate1.desc = ''
             this.detailscode = false
             }
@@ -835,7 +836,7 @@ export default {
   height: 35px;
   line-height: 35px;
   width: 100px;
-  margin-top: 20px;
+  // margin-top: 20px;
 }
 .homePage_icon {
   margin-left: 0px;
@@ -846,6 +847,7 @@ export default {
     margin-right: 20px;
     margin-bottom: 15px;
     position: relative;
+    background: #f6fafd;
     .onshelf{
       position: absolute;
       top: 10px;

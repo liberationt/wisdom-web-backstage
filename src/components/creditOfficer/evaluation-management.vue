@@ -5,6 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理&nbsp;>&nbsp;评价管理</span>
       </p>
     </div>
+    <div class="contentcss">
     <Tabs type="card" @on-click="labell1" :value="tabs" :animated="false">
         <TabPane :label="label" name="tab1" >
             <div class="clearfix">
@@ -14,15 +15,15 @@
             </Select>
             <Input v-model="name" placeholder="请输入关键字"  style="width: 150px">
             </Input>
-            <Select v-model="models" @on-change="citys" placeholder="请选择省" style="width:200px;margin-left:20px">
+            <Select v-model="models" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:20px">
                 <Option v-for="item in cityType" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="modelshi" @on-change="cityh" placeholder="请选择市" style="width:200px;">
+            <Select v-model="modelshi" @on-change="cityh" placeholder="请选择市" style="width:150px;">
                 <Option v-for="item in cityTypel" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="label_query('warning')">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query('warning')">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -42,15 +43,15 @@
             </Select>
             <Input v-model="name1" placeholder="请输入关键字"  style="width: 150px">
             </Input>
-             <Select v-model="models1" @on-change="citys1" placeholder="请选择省" style="width:200px;margin-left:20px">
+             <Select v-model="models1" @on-change="citys1" placeholder="请选择省" style="width:150px;margin-left:20px">
                 <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="modelshi1" @on-change="cityh1" placeholder="请选择市" style="width:200px;">
+            <Select v-model="modelshi1" @on-change="cityh1" placeholder="请选择市" style="width:150px;">
                 <Option v-for="item in cityTypel1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="label_query1('warning')">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query1('warning')">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -70,15 +71,15 @@
             </Select>
             <Input v-model="name2" placeholder="请输入关键字"  style="width: 150px">
             </Input>
-            <Select v-model="models2" @on-change="citys2" placeholder="请选择省" style="width:200px;margin-left:20px">
+            <Select v-model="models2" @on-change="citys2" placeholder="请选择省" style="width:150px;margin-left:20px">
                 <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="modelshi2" @on-change="cityh2" placeholder="请选择市" style="width:200px;">
+            <Select v-model="modelshi2" @on-change="cityh2" placeholder="请选择市" style="width:150px;">
                 <Option v-for="item in cityTypel2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="label_query2('warning')">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query2('warning')">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -91,6 +92,7 @@
             </div>
         </TabPane>
     </Tabs>
+    </div>
 </div>
 </template>
 <script>

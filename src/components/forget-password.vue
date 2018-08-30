@@ -6,6 +6,7 @@
       <span>修改密码</span>
     </p>
   </div>
+  <div class="contentcss">
    <Row class="mt50">
         <Col span="8" offset="8">
         <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" style="width:400px" :label-width="80">
@@ -25,6 +26,7 @@
         </Form>
         </Col>
     </Row>
+    </div>
 
 </div>
 </template>

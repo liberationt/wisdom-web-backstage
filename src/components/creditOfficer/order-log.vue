@@ -5,17 +5,17 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;订单管理&nbsp;>&nbsp;操作日志</span>
       </p>
     </div>
-    <div id="feedback_details">
-        <div class="mt50">
+    <div id="feedback_details" class="contentcss">
+        <div class="">
             <span>操作时间:</span>
-            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
-                <Button type="info" class=" ml20 w100" :loading="loading3" @click="inquire">
+            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
+                <Button type="info" class=" ml20 w90" :loading="loading3" @click="inquire">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
-                <Button class="w100 ml20" @click=" backingout" type="primary">返回</Button>
+                <Button class="w90 ml20" @click=" backingout" type="primary">返回</Button>
         </div>
         <Table border highlight-row class="mt20" :columns="columns1" :data="data1"></Table>
         <div class="tr mt15">

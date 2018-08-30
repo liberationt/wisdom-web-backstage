@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h1 class="h1">版本管理</h1>
     <div class="navigation">
         <p>
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;{{application}}&nbsp;>&nbsp;基础配置&nbsp;>&nbsp;版本管理</span>
@@ -12,41 +11,48 @@
             添加版本
         </a>
     </div>
-    <ul class="version_list clearfix">
-      <li class="version left mr20" v-for="item in versionnumber">
-        <div class="version_img left" @click="routerlink(item.versionCode, item.appIdentifier, item.appVersion, item.appType, item)">
-            <img :src=item.logoUrl alt="">
-        </div>
-        <div class="version_text">
-            <p class="android right">{{item.appType}}</p>
-            <p class="version_text_version">{{item.appVersion}}</p>
-            <p class="version_text_lian">{{item.appIdentifier}}</p>
-            <p class="version_text_xin" >&nbsp;</p>
-            <!-- <p class="version_text_xin" v-if="item.updateType == 2">强制更新</p>
-            <p class="version_text_xin" v-if="item.updateType == 3">提示更新</p>
-            <p class="version_text_xin" v-if="item.updateType == 4">半强制更新,WiFi下更新</p> -->
-        </div>
-        <div class="version_footer">
-            <span class="version_date">{{item.dataCreateTime}}</span>
-            <span class="version_icon" @click="handleRender(1,item.versionCode)">
-                <Icon type="ios-copy-outline"></Icon>
-            </span>
-            <span class="version_icon" @click="handleRender(1,item.versionCode,2)">
-                <Icon type="edit"></Icon>
-            </span>
-            <span class="version_icon">
-                <Poptip
-                    confirm
-                    transfer
-                    title="确认删除吗?"
-                    @on-ok="ok(item.versionCode)"
-                    >
-                    <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
-                </Poptip>
-            </span>
-        </div>
-      </li>
-    </ul>
+    <div class="versionconsit">
+      <ul class="version_list clearfix">
+        <li class="version left mr20" v-for="item in versionnumber">
+          <div class="version_img left" @click="routerlink(item.versionCode, item.appIdentifier, item.appVersion, item.appType, item)">
+              <img :src=item.logoUrl alt="">
+          </div>
+          <div class="version_text">
+              <p class="android right">{{item.appType}}</p>
+              <p class="version_text_version">{{item.appVersion}}</p>
+              <p class="version_text_lian">{{item.appIdentifier}}</p>
+              <p class="version_text_xin" >&nbsp;</p>
+              <!-- <p class="version_text_xin" v-if="item.updateType == 2">强制更新</p>
+              <p class="version_text_xin" v-if="item.updateType == 3">提示更新</p>
+              <p class="version_text_xin" v-if="item.updateType == 4">半强制更新,WiFi下更新</p> -->
+          </div>
+          <div class="version_footer">
+              <span class="version_date">{{item.dataCreateTime}}</span>
+              <span class="version_icon" @click="handleRender(1,item.versionCode)">
+                  <Icon type="ios-copy-outline"></Icon>
+              </span>
+              <span class="version_icon" @click="handleRender(1,item.versionCode,2)">
+                  <Icon type="edit"></Icon>
+              </span>
+              <span class="version_icon">
+                  <Poptip
+                      confirm
+                      transfer
+                      title="确认删除吗?"
+                      @on-ok="ok(item.versionCode)"
+                      >
+                      <a href="javascript:;" ><Icon type="trash-b"></Icon></a>
+                  </Poptip>
+              </span>
+          </div>
+          
+        </li>
+      </ul>
+      <div class="tr mt15">
+        <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+      </div>
+    </div>
+    
     <!-- 添加模板 -->
     <Modal
         title="添加(编辑)版本"
@@ -104,9 +110,7 @@
           </Form>
         </div>
     </Modal>
-    <div class="tr mt15">
-      <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-    </div>
+    
   </div>
  </template>
 <script>
@@ -408,8 +412,14 @@ export default {
   width: 100%;
   height: 100%;
 }
+.versionconsit{
+  background: #fff;
+  margin-top: 10px;
+  padding: 30px;
+  border-radius: 5px
+}
 .version_list {
-  width: 100%;
+  width: 100%;  
 }
 .version {
   width: 330px;
@@ -418,6 +428,12 @@ export default {
   padding-top: 0px;
   border: 1px solid #ccc;
   margin-top: 20px;
+  background:#f6fafd
+}
+.addButton{
+  background: #fff;
+  padding: 20px;
+  border-radius: 5px;
 }
 .addButton > a {
   display: block;

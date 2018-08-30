@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;配置风控等级</span>
       </p>
     </div>
-    <div class="windgrade">
+    <div class="windgrade contentcss">
       <Form :label-width="135">
         <FormItem>
           <Row>
@@ -1345,7 +1345,7 @@
 </script>
 <style lang="less" scoped>
   .windgrade {
-    border: 1px solid #ccc;
+    // border: 1px solid #ccc;
     padding: 50px 0
   }
 </style>

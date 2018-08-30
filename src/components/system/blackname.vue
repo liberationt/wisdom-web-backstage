@@ -5,6 +5,7 @@
       <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;黑名单管理</span>
       </p>
     </div>
+    <div class="contentcss">
       <Tabs type="card" @on-click="labell1" :value="tabs" :animated="false">
         <TabPane :label="label" name="tab1" >
           <div class="clearfix">
@@ -45,6 +46,7 @@
         </div>
         </TabPane>
       </Tabs>
+      </div>
   </div>
 </template>
 <script>

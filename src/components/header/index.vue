@@ -103,12 +103,16 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["lefthidfalse", 'leftlist', 'lefthidtrue']),
+    ...mapMutations(["lefthidfalse", 'leftlist', 'lefthidtrue','showname']),
     routerlink: function(index, path, name, code) {
       let that = this
       let arrlist = []
       let menuList = null
       utils.putlocal("headace", index);
+      if (name == '应用管理') {
+        name = '应用首页'
+      }
+      that.showname(name);
       this.isActive = index;
       this.$router.push({ path: path });
       if (name == "应用管理") {
@@ -183,9 +187,9 @@ export default {
 
 <style lang="less" scoped>
 .layout {
-  height: 50px;
+  height: 80px;
   width: 100%;
-  background: #3e81f2;
+  background: #3d81f2;
   position: fixed;
   top: 0;
   z-index: 100;
@@ -195,7 +199,7 @@ export default {
   img {
     // width: 120px;
     height: 40px;
-    margin: 5px auto;
+    margin: 20px auto;
     display: block;
   }
 }
@@ -205,14 +209,17 @@ export default {
     float: left;
     li {
       float: left;
-      width: 100px;
-      line-height: 50px;
+      // width: 100px;
+      line-height: 60px;
       text-align: center;
+      margin-top: 10px;
+      margin-left: 60px;
       a {
         width: 100%;
         height: 100%;
         display: inline-block;
         color: #fff;
+        font-size: 16px
       }
     }
   }
@@ -225,7 +232,7 @@ export default {
     overflow: hidden;
     li {
       float: left;
-      line-height: 50px;
+      line-height: 80px;
       width: 50px;
     }
     .adminhead {
@@ -238,12 +245,16 @@ export default {
         height: 30px;
         border-radius: 50%;
         float: left;
-        margin-top: 10px;
+        margin-top: 25px;
         margin-right: 5px;
+      }
+      span{
+        font-size: 16px
       }
       a {
         color: #fff;
         margin-left: 5px;
+        font-size: 16px
       }
       .ivu-select-selection {
         float: left;

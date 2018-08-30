@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;华赞金服&nbsp;>&nbsp;会员管理&nbsp;>&nbsp;会员列表</span>
       </p>
     </div>
-    <div class="clearfix">
+    <div class="clearfix contentcss">
       <div class="left">
         <ul class="querysty">
           <li>
@@ -43,12 +43,13 @@
       </Button>
       <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
     </div>
-    <div id="application_table">
+    <div id="application_table " class="contentcss mt10">
       <Table border highlight-row :columns="columns7" :data="data6"></Table>
-    </div>
-    <div class="tr mt15">
+      <div class="tr mt15">
       <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
     </div>
+    </div>
+    
   </div>
 </template>
 <script>
@@ -99,7 +100,7 @@ export default {
         },
         {
           title: '注册渠道',
-          key: 'loanUserChannel',
+          key: 'channelCode',
           minWidth: 120,
           align: 'center'
         },

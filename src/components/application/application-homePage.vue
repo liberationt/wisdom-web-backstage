@@ -9,7 +9,7 @@
   <div id="application-con">
     <div class="application-clothes" v-for="(item, index) in applicationlist" :key="index">
       <img :src="item.logoUrl" alt="">
-      <span><em>{{item.appName}}</em></br><em>版本数量:1</em></span>
+      <span><em>{{item.appName}}</em></br><em>版本数量:{{item.versionCount}}</em></span>
       <Button type="primary" class="mt15" long @click="gold_clothes(item.menuCode,item.appCode)">进入管理</Button>
     </div>
     <!-- <div id="application-app">
@@ -119,18 +119,22 @@ export default {
 <style lang="less" scoped>
 #application-con {
   overflow: hidden;
+  background: #fff;
+  padding: 30px;
+  border-radius: 5px;
   .application-clothes {
-    width: 300px;
+    width: 340px;
     height: 180px;
     border: 1px solid #e7ecf1;
     float: left;
-    margin-right: 15px;
+    margin-right: 36px;
+    margin-bottom: 30px;
     border-radius: 5px;
     text-align: center;
     overflow: hidden;
     padding: 10px;
     color: #666666;
-    background: #fff;
+    background: #f6fafd;
     img {
       width: 90px;
       height: 90px;

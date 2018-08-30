@@ -2,14 +2,14 @@
 .layoutcon {
     background: #eaedf2;
     position: absolute;
-    top: 50px;
+    top: 80px;
     // overflow: hidden;
     height: 100%;
     width: 100%;
     // min-width: 800px;
 }
 .contrig{
-    background: #fff;
+    background: #eaedf2;
     // min-width: 750px!important;
     position: absolute;
     right: 0;
@@ -21,7 +21,7 @@
     min-height: 200px;
     margin: 15px;
     // overflow: auto;
-    background: #fff;
+    background: #eaedf2;
     // background:rgba(255,255,255,0.1) url(../../image/conbeijing.png);
     // background: url(../image/bg.jpg);
         background-size:100% 100%;
@@ -40,7 +40,7 @@
     color: #9ea7b4;
 }
 .layout-menu-left {
-    background: #454E59;
+    background: #eaedf1;
     overflow-y: scroll;
     padding-bottom: 50px;
     min-width: 150px;
@@ -49,6 +49,7 @@
     z-index: 100;
     overflow-x: scroll;
     min-width: 200px;
+    height: 100%;
 }
 .layout-header {
     height: 60px;
@@ -68,7 +69,7 @@
 .layout-ceiling-main a {
     color: #9ba7b5;
 }
-.ivu-col {
+.layout-menu-left .ivu-col {
     transition: width .2s ease-in-out;
     height: 100%;
 }
@@ -110,7 +111,8 @@
         <Row type="flex">
             <i-col :span="spanLeft" v-if="hidden" class="layout-menu-left">
                 <div class="layout-logo-left tl">
-                    <a href="javascript:;" class="layout-text" @click="titleurl">应用首页</a>
+                    <a href="javascript:;" class="layout-text" v-if="leftheadname=='应用首页'" @click="titleurl">{{leftheadname}}</a>
+                    <a href="javascript:;" class="layout-text" v-if="leftheadname!='应用首页'" >{{leftheadname}}</a>
                     
                 </div>
                 <div class="tree-menu">
@@ -183,7 +185,7 @@ export default {
     iconSize () {
       return this.spanLeft === 4 ? 14 : 24
     },
-    ...mapState(['hidden', 'leftlist'])
+    ...mapState(['hidden', 'leftlist','leftheadname'])
   },
   methods: {
       ...mapMutations(['lefthidfalse']),
@@ -215,12 +217,14 @@ export default {
     }
   },
   mounted () {
+         
   }
+
 }
 </script>
 <style lang="less" scoped>
 .layout-text{
-    color:#fff;
+    color:#3d81f2;
     width: 100%;
     padding-left:40px;
     display: inline-block;
@@ -231,7 +235,7 @@ ul{
 }
 .aceul{
     margin:2px 0;
-    background:#495060
+    background:#eaedf1
 }
 .ivu-select-dropdown .ivu-dropdown {
      margin: 0px 12px 0px 0px;

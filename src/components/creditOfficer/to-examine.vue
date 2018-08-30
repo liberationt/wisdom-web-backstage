@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;   信贷管理</span>
       </p>
     </div>
-    <div id="feedback_details">
+    <div id="feedback_details" class="contentcss">
         <h3>机构名称</h3>
         <Button type="primary" shape="circle" icon="plus-round" class="mb15" @click="addproduct">添加产品</Button>
         <Button type="success" shape="circle" class="mb15" @click="update">更新排序</Button>
@@ -224,7 +224,7 @@ export default {
 <style lang="less" scoped>
 #feedback_details{
     border: 1px solid #E7ECF1;
-    padding: 30px 50px;
+    // padding: 30px 50px;
     h3{
         line-height: 50px;
         border-bottom: 1px solid #E7ECF1;

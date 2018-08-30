@@ -5,7 +5,7 @@
         <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;   信贷员管理</span>
       </p>
     </div>
-    <div id="feedback_details">
+    <div id="feedback_details" class="contentcss">
         <h3><span>添加</span>信贷机构资料</h3>
         <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="150">
           <FormItem prop="productlogo" label="封面图片" >

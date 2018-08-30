@@ -5,13 +5,14 @@
         <span>管理首页&nbsp;>&nbsp;应用>&nbsp;华赞金服>&nbsp;基础配置>&nbsp;信用卡中心</span>
         </p>
       </div>
+      <div class="contentcss">     
       <Row :gutter="32">
         <Col span="12" class="demo-tabs-style2">
             <Tabs type="card" :animated="false"  @on-click="marketquery">
                 <TabPane label="银行管理">
                   <div class="clearfix">
                     <p data-v-38176e38="" @click="bankshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加银行</p>
-                    <Button type="info" class="left mt20 w60 ml20 toupdate" @click="bankupdate">更新</Button>
+                    <Button type="info" class="left mt20 w90 ml20 toupdate" @click="bankupdate">更新</Button>
                   </div>    
                   <Modal
                     v-model="modal1"
@@ -104,7 +105,7 @@
               <TabPane label="信用卡管理">
                 <div class="clearfix">
                   <p data-v-38176e38="" @click="cardshow(1)" class="homePage_button left"><i data-v-38176e38="" class="ivu-icon ivu-icon-android-add"></i>添加信用卡</p>
-                  <Button type="info" class="left mt20 w60 ml20 toupdate" @click="cardupdate">更新</Button>
+                  <Button type="info" class="left mt20 w90 ml20 toupdate" @click="cardupdate">更新</Button>
                 </div>              
                 <Modal
                   v-model="modal2"
@@ -169,6 +170,7 @@
             </Tabs>
         </Col>
     </Row>
+    </div>
   </div>
 </template>
 <script>
@@ -914,6 +916,7 @@ export default {
     margin-right: 20px;
     margin-bottom: 15px;
     position: relative;
+    background: #f6fafd;
     .onshelf{
       position: absolute;
       top: 10px;
