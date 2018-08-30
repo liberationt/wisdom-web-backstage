@@ -29,19 +29,23 @@
                 </Row>
             </li>
             <li>
-                <span class="w50 tr displayib">姓名:</span>
+                <span class="w60 tr displayib">姓名:</span>
                 <span>{{inform.realName}}</span>
             </li>
             <li>
-                <span class="w50 tr displayib">性别:</span>
+                <span class="w60 tr displayib">性别:</span>
                 <span >{{inform.gender}}</span>
             </li>
             <li>
-                <span class="w50 tr displayib">邀请人:</span>
+                <span class="w60 tr displayib">注册渠道:</span>
+                <span >{{inform.channelCode}}</span>
+            </li>
+            <li>
+                <span class="w60 tr displayib">邀请人:</span>
                 <span class="">{{inform.loanInviterCode}}</span>
             </li>
             <li>
-                <span class="w50 tr displayib">已邀请:</span>
+                <span class="w60 tr displayib">已邀请:</span>
                 <span class="">{{inform.loanInviterCount}}</span>
             </li>
             <li>
@@ -49,7 +53,7 @@
                 <span>{{inform.registerTime}}</span>
             </li>
             <li>
-                <span class="w50 tr displayib">银行卡:</span>
+                <span class="w60 tr displayib">银行卡:</span>
                 <span class="">{{inform.bank}}</span>
                 <!-- <span>6544 ****2210</span> -->
             </li>
