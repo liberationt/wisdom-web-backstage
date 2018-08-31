@@ -28,7 +28,7 @@
             </li>
             <li>
                 <span class="w50 tr displayib">渠道:</span>
-                <span class="">{{informationlist.loanUserChannel}}</span>
+                <span class="">{{informationlist.channelCode}}</span>
             </li>
             <li>
                 <span class="w50 tr displayib">邀请人:</span>
