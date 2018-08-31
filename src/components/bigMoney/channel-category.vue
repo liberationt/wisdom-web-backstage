@@ -5,24 +5,26 @@
                 <span>渠道链接设置</span>
             </p>
         </div>
-        <div class="mt50 clearfix">
+        <div class="conditioncss clearfix">
             <div class="left ml20">
                 <span>链接名称:</span>
-                <Input v-model="value" placeholder="请输入类别名称" style="width: 200px"></Input>
+                <Input v-model="value" placeholder="请输入类别名称" style="width: 150px"></Input>
             </div>
             <!-- <Button class=" ml50 w100 " type="info" @click="inquire">查询</Button> -->
             <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
+            <Button type="primary" shape="circle" icon="plus-round" class="right mr20 " @click="refuse">添加渠道链接</Button>
         </div>
-        <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加渠道链接</Button>
-        <div class="mt20">
+        
+        <div class="mt10 contentcss">
             <Table border highlight-row :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
         <Modal
           title="添加渠道链接"
           v-model="modal9"

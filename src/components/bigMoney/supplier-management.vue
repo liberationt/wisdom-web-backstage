@@ -5,36 +5,38 @@
                 <span>渠道供应商管理</span>
             </p>
         </div>
-        <div class="mt50 clearfix">
+        <div class="conditioncss clearfix">
             <div class="left ml20">
               <ul class="querysty">
                 <li>
                   <span>供应商名称:</span>
-                  <Input v-model="value" placeholder="请输入标签名称" style="width: 200px"></Input>
+                  <Input v-model="value" placeholder="请输入标签名称" style="width: 150px"></Input>
                 </li>
                 <li>
                   <span class="ml20">创建时间:</span>
-                  <DatePicker type="date" :value='value1' @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" :value='value1' @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
                   <span>  -  </span>
-                  <DatePicker type="date" :value='value2' @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+                  <DatePicker type="date" :value='value2' @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
                 </li>
                 <li class="ml10">
-                  <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+                  <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
                     <span v-if="!loading3">查询</span>
                     <span v-else>查询</span>
                   </Button>
                 </li>
               </ul>       
             </div>
+            <Button type="primary" shape="circle" icon="plus-round" class="right mr20" @click="refuse">添加供应商</Button>
             <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->       
         </div>
-        <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加供应商</Button>
-        <div class="mt20">
+        
+        <div class="mt10 contentcss">
             <Table highlight-row border :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
         <Modal
           title="添加供应商"
           v-model="modal9"

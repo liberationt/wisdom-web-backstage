@@ -5,6 +5,7 @@
                 <span>甲方管理</span>
             </p>
         </div>
+        <div class="contentcss">
         <Row>
         <Col span="16" offset="4">
         <div class="mt50">
@@ -74,6 +75,7 @@
         </div>
         </Col>
     </Row>
+    </div>
     <Modal
           title="居住城市"
           v-model="modal9"

@@ -108,7 +108,7 @@ export default {
       let that = this
       let arrlist = []
       let menuList = null
-      utils.putlocal("headace", index);
+      utils.putlocal("headace", String(index));
       if (name == '应用管理') {
         name = '应用首页'
       }

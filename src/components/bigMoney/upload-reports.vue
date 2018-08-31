@@ -5,19 +5,19 @@
             <span>上传报表</span>
         </p>
     </div>
-    <div class="mt50">
+    <div class="mt10 contentcss">
     <Row>
         <Col span="6" offset="5">
         <ul>
             <li>
                 <span>媒体名称:</span>
-            <Select v-model="model1" style="width:300px" class="mr20">
+            <Select v-model="model1" style="width:200px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
             <li class="mt20 clearfix">
                 <span class="left lh32">上传文件:</span>
-            <Input v-model="value9" disabled style="width: 225px" class="left ml5"></Input>
+            <Input v-model="value9" disabled style="width: 150px" class="left ml5"></Input>
             <Upload
             :before-upload="handleUpload"
             :show-upload-list="false"

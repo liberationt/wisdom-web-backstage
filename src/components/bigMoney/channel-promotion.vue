@@ -5,7 +5,7 @@
                 <span>渠道列表</span>
             </p>
         </div>
-        <div class="mt50 clearfix">
+        <div class="conditioncss clearfix">
             <div class="left ml20">
                 <span>渠道名称:</span>
                 <Input v-model="value" placeholder="请输入渠道名称" style="width: 200px"></Input>
@@ -15,14 +15,19 @@
             <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             </div>
             <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
+            <div class="left w100b mt20">
+              <Button type="primary" shape="circle" icon="plus-round" class="ml20  " @click="refuse">添加渠道</Button>
+            </div>
+            
         </div>
-        <Button type="primary" shape="circle" icon="plus-round" class="ml20 mt20" @click="refuse">添加渠道</Button>
-        <div class="mt20">
+        
+        <div class="mt10 contentcss">
             <Table border :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
         <Modal
           title="添加渠道"
           v-model="modal9"

@@ -5,40 +5,40 @@
 				<span>手动推送批次列表</span>
 			</p>
 		</div>
-		<div class="mt50">
+		<div class="conditioncss">
 			<ul class="querysty">
 				<li>
 					<span>甲方名称:</span>
-					<Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
+					<Select v-model="model1" placeholder="全部" style="width:150px" class="mr20">
 						<Option v-for="item in cityList" :value="item.partyaKey " :key="item.partyaKey ">{{ item.partyaName }}</Option>
 					</Select>
 				</li>
 				<li>
 					<span>文件名称:</span>
-					<Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
+					<Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 150px"></Input>
 				</li>
 				<li>
 					<span>上传时间:</span>
-					<DatePicker type="date" :value = 'value1' @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+					<DatePicker type="date" :value = 'value1' @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
 					<span>  -  </span>
-					<DatePicker type="date" :value = 'value2' @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+					<DatePicker type="date" :value = 'value2' @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
 				</li>
 			</ul>
 			<div class="clearfix mr100 mt20">
-				<Button class="right w100" type="primary" @click="refuse">上传文件</Button>
+				<Button class="right w90" type="primary" @click="refuse">上传文件</Button>
 				<!-- <Button class="right mr20 w100" type="info" @click="inquire">查询</Button> -->
-				<Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+				<Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
 			</div>
 		</div>
-		<div class="mt20">
+		<div class="contentcss mt10">
 			<Table border highlight-row :columns="columns7" :data="data6"></Table>
-		</div>
-		<div class="tr mt15">
-			<Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-		</div>
+			<div class="tr mt15">
+				<Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+			</div>
+		</div>		
 		<Modal title="上传文件" v-model="modal9" @on-ok="upload" @on-cancel="cancel" ok-text="上传" cancel-text="取消" class-name="vertical-center-modal" width="500" :loading="loading" :mask-closable="false">
 			<div class="newtype_file mt15 mb15 pl10">
 				<Form ref="formCustom" :label-width="80">

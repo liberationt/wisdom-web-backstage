@@ -5,22 +5,24 @@
                 <span>贷款产品设置</span>
             </p>
         </div>
-        <div>
+        <div class="conditioncss clearfix">
             <span>产品名称:</span>
-            <Input v-model="value" placeholder="请输入产品名称" style="width: 200px"></Input>
+            <Input v-model="value" placeholder="请输入产品名称" style="width: 150px"></Input>
             <!-- <Button type="info" class="ml100 w100" @click="inquire">查询</Button> -->
             <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
+            <Button type="primary" shape="circle" class="right" icon="plus-round" @click="refuse(2)">添加贷款产品</Button>
         </div>
-        <Button type="primary" shape="circle" class="mt20" icon="plus-round" @click="refuse(2)">添加贷款产品</Button>
-        <div class="mt20">
+        
+        <div class="mt10 contentcss">
             <Table border highlight-row :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
         <Modal
           title="贷款产品设置"
           v-model="modal9"

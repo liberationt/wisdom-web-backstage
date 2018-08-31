@@ -5,28 +5,29 @@
                 <span>甲方管理</span>
             </p>
         </div>
-        <div class="mt50 clearfix">
+        <div class="conditioncss clearfix">
             <div class="left ml20">
                 <span>甲方名称:</span>
-                <Input v-model="model1" class="mr20" placeholder="请输入甲方名称" style="width: 200px"></Input>
+                <Input v-model="model1" class="mr20" placeholder="请输入甲方名称" style="width: 150px"></Input>
                 <span class="ml20">状态:</span>
-                <Select v-model="model2" placeholder="全部" style="width:200px">
+                <Select v-model="model2" placeholder="全部" style="width:150px">
                   <Option  value="" >全部</Option>
                     <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
             <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->
-            <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
         </div>
-        <div class="mt20">
+        <div class="mt10 contentcss">
             <Table border highlight-row :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-show="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-show="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
-        </div>
+        
     </div>
 </template>
 <script>

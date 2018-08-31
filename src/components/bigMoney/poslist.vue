@@ -5,43 +5,44 @@
 				<span>POS推广管理</span>
 			</p>
 		</div>
-        <div class="mt50">
+        <div class="conditioncss">
           <ul class="querysty">
             <li>
               <span class="w60 displayib tr ">手机号:</span>
-              <Input v-model="phone" class="" placeholder="请输入手机号" style="width: 200px"></Input>
+              <Input v-model="phone" class="" placeholder="请输入手机号" style="width: 150px"></Input>
             </li>
             <li>
               <span class="w60 displayib tr ">姓名:</span>
-              <Input v-model="username" class="" placeholder="请输入姓名" style="width: 200px"></Input>
+              <Input v-model="username" class="" placeholder="请输入姓名" style="width: 150px"></Input>
             </li>
             <li>
               <span class="w60 displayib ml20  tr">注册时间:</span>
-            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>
           </ul>                                                 
             <div class="clearfix mr20 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
-                <Button type="primary" class="right w100" :loading="loading2" @click="exports">
+                <Button type="primary" class="right w90" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
             </div>
         </div>
 
-        <div class="mt20">
+        <div class="mt10 contentcss">
             <Table border highlight-row :columns="columns1" :data="data1"></Table>
-        </div>
-        <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
+            <div class="tr mt15">
+              <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
             </div>
+        </div>
+        
     </div>
 </template>
 <script>

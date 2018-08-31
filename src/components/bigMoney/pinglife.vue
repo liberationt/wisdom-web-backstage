@@ -1,21 +1,21 @@
 <template>
     <div>
-         <div class="navigation">
+         <div class="navigation conheadtab">
             <p>
               <span class="navigation_batch" @click="batch">推送批次报表</span>
               <span class="navigation_detailed" @click="detailed">推送明细报表</span>
             </p>
         </div>
-        <div class="mt50">
+        <div class="conditioncss">
             <span>推送主体:</span>
-            <Input v-model="model1" disabled class="mr20" style="width: 200px"></Input>
+            <Input v-model="model1" disabled class="mr20" style="width: 150px"></Input>
             <!-- <Select v-model="model1" placeholder="全部" style="width:150px" class="mr20">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select> -->
             <!-- <span class="w100 tr displayib">批次号:</span>
             <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 150px"></Input> -->
             <span class=" tr displayib">推送状态:</span>
-            <Select v-model="model3" style="width:200px" class="mr20">
+            <Select v-model="model3" style="width:150px" class="mr20">
                 <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <div style='margin-top:10px'>
@@ -25,22 +25,23 @@
               <DatePicker type="date" :value="value2" @on-change='time2' placeholder="结束时间" style="width: 150px"></DatePicker>
             </div>
             <div class="clearfix mr100 mt20">
-                <Button type="primary" class="right w100" :loading="loading2" @click="exports">
+                <Button type="primary" class="right w90" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
-                <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
             </div>
         </div>
-        <div class="mt20">
+        <div class="mt10 contentcss">
             <Table :columns="columns1" :data="data1"></Table>
+            <div class="tr mt15">
+                <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
+            </div>
         </div>
-       <div class="tr mt15">
-            <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
-        </div>
+       
         <!-- 详细弹框 -->
         <Modal
         title="详细信息"

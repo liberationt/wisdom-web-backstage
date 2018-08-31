@@ -6,29 +6,30 @@
             </p>
         </div>
         <!-- <Tabs type="card" :animated="false"> -->
-          <div class="mt50">
+          <div class="conditioncss">
             <span>手机号:</span>
-            <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 200px"></Input>
+            <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 150px"></Input>
             <span>创建时间:</span>
-            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
                 <!-- <Button class="left mr20 w100 " type="info" @click="inquire">查询</Button> -->
-                <Button type="info" class="left mr20 w100" :loading="loading3" @click="inquire">
+                <Button type="info" class="left mr20 w90" :loading="loading3" @click="inquire">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
             </div>
         </div>
-        <div class="mt20">
+        <div class="mt10 contentcss">
             <Table border highlight-row :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
          <Modal
           title="上传黑名单"
           v-model="modal9"

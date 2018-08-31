@@ -1,46 +1,47 @@
 <template>
     <div>
-        <div class="navigation">
+        <div class="navigation conheadtab">
             <p>
               <span class="navigation_batch" @click="batch">推送批次报表</span>
               <span class="navigation_detailed" @click="detailed">推送明细报表</span>
             </p>
         </div>
-        <div class="mt50">
+        <div class="conditioncss">
           <ul class="querysty">
             <li>
               <span>推送主体:</span>
-              <Input v-model="model1" class="mr20" disabled style="width: 200px"></Input>
+              <Input v-model="model1" class="mr20" disabled style="width: 150px"></Input>
               <!-- <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
                   <Option v-for="item in cityList" :value="item.value" :key="item.value">平安普惠</Option>
               </Select> -->
             </li>
             <li>
               <span>文件名称:</span>
-              <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 200px"></Input>
+              <Input v-model="model2" class="mr20" placeholder="请输入文件名称" style="width: 150px"></Input>
             </li>
             <li>
               <span>上传时间:</span>
-              <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 150px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 200px"></DatePicker>
+              <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>
           </ul>
             <div class="clearfix mr100 mt20">
-                <Button class="right w100" type="primary" @click="refuse">上传文件</Button>
+                <Button class="right w90" type="primary" @click="refuse">上传文件</Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                 <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                 <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
             </div>
         </div>
-        <div class="mt20">
+        <div class="mt10 contentcss">
             <Table border highlight-row :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
         <Modal
           title="上传文件"
           v-model="modal9"

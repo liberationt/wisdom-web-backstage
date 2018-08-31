@@ -5,19 +5,19 @@
                 <span>贷款推送明细</span>
             </p>
         </div>
-        <div class="mt50">
+        <div class="conditioncss">
           <ul class="querysty">
             <li>
               <span class="w60 displayib">甲方名称:</span>
-            <Select v-model="model1" style="width:200px" class="mr20">
+            <Select v-model="model1" style="width:150px" class="mr20">
                 <Option v-for="item in cityList" :value="item.partyaKey" :key="item.partyaKey">{{ item.partyaName }}</Option>
             </Select>
             </li>
             <li>
               <span class="w60 displayib">推送时间:</span>
-              <DatePicker type="date" :value='value1' @on-change="time1" placeholder="开始时间" class="" style="width: 190px"></DatePicker>
+              <DatePicker type="date" :value='value1' @on-change="time1" placeholder="开始时间" class="" style="width: 150px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" :value='value2' class="mr20" @on-change="time2" placeholder="结束时间" style="width: 190px"></DatePicker>
+              <DatePicker type="date" :value='value2' class="mr20" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>
             <!-- <li>
               <span class="w60 displayib">批次号:</span>
@@ -25,37 +25,37 @@
             </li> -->
             <li>
               <span class="w60 displayib">推送状态:</span>
-            <Select v-model="model2" style="width:200px" class="mr20">
+            <Select v-model="model2" style="width:150px" class="mr20">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
             <li >
               <span class="w60 displayib">推送方式:</span>
-            <Select v-model="model3" style="width:200px" class="mr20">
+            <Select v-model="model3" style="width:150px" class="mr20">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
           </ul> 
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
-                <Button type="primary" class="right w100" :loading="loading2" @click="exports">
+                <Button type="primary" class="right w90" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="inquire">查询</Button> -->
-                <Button type="info" class="right mr20 w100" :loading="loading3" @click="inquire">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
             </div>
         </div>
 
-        <div class="mt20">
+        <div class="contentcss mt10">
             <Table border highlight-row :columns="party1" :data="data1" ></Table>
-        </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
+        </div>     
     </div>
 </template>
 <script>

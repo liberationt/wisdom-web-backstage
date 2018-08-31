@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="contentcss">
         <!-- <div class="navigation">
             <p>
                 <span>注册列表</span>
@@ -22,44 +22,44 @@
           <ul class="querysty">
             <li>
               <span class="w60 displayib tr ">手机号:</span>
-              <Input v-model="phone" class="" placeholder="请输入手机号" style="width: 200px"></Input>
+              <Input v-model="phone" class="" placeholder="请输入手机号" style="width: 150px"></Input>
             </li>
             <li>
               <span class="w60 displayib tr ">渠道:</span>
-            <Select v-model="model1" placeholder="全部" style="width:200px" class="">
+            <Select v-model="model1" placeholder="全部" style="width:150px" class="">
                 <Option value="" >全部</Option>
                 <Option v-for="item in cityList" :value="item.channelNum" >{{ item.manageName }}</Option>
             </Select>
             </li>
             <li>
               <span class="w60 displayib ml20  tr">注册时间:</span>
-            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value1' class="" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
 
             </li>
             <li>
               <span class="w60 displayib tr">供应商:</span>
-            <Select v-model="model2" placeholder="全部" class="" style="width:200px">
+            <Select v-model="model2" placeholder="全部" class="" style="width:150px">
                 <Option value="" >全部</Option>
                 <Option v-for="item in cityList2" :value="item.supplierKey" :key="item.supplierKey">{{ item.supplierName }}</Option>
             </Select> 
             </li>
             <li>
               <span class="w60 displayib tr ">步骤:</span>
-            <Select v-model="model3" placeholder="全部" style="width:200px" class="mr20 ">
+            <Select v-model="model3" placeholder="全部" style="width:150px" class="mr20 ">
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
           </ul>                                                 
             <div class="clearfix mr20 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
-                <Button type="primary" class="right w100" :loading="loading2" @click="exports">
+                <Button type="primary" class="right w90" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                <Button type="info" class="right mr20 w100" :loading="loading3" @click="registered">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -79,12 +79,12 @@
             <ul class="querysty">
             <li>
               <span class="w60 displayib ml20  tr">注册时间:</span>
-            <DatePicker type="date" :value = 'value3' class="" @on-change="time3" placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value3' class="" @on-change="time3" placeholder="开始时间" style="width: 150px"></DatePicker>
             <span class="mb15">  -  </span>
-            <DatePicker type="date" :value = 'value4' class="mr20 " @on-change="time4" placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value = 'value4' class="mr20 " @on-change="time4" placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>
             <li class=" clearfix ml20">
-              <Button type="info" class="right mr20 w100" :loading="loading3" @click="statistics">
+              <Button type="info" class="right mr20 w90" :loading="loading3" @click="statistics">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>

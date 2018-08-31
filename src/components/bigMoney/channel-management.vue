@@ -5,22 +5,22 @@
                 <span>渠道推广链接管理</span>
             </p>
         </div>
-        <div class="mt50 p20">
+        <div class="conditioncss">
           <ul class="querysty">
             <li>
-              <Select v-model="model1" @on-change='queryl' style="width:100px">
+              <Select v-model="model1" @on-change='queryl' style="width:90px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="value" placeholder="" style="width: 100px" class="mr20"></Input>
+            <Input v-model="value" placeholder="" style="width: 150px" class="mr20"></Input>
             </li>
             <li>
               <span>更新时间:</span>
-            <DatePicker type="date" :value="value1" @on-change="time1"  placeholder="开始时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value1" @on-change="time1"  placeholder="开始时间" style="width: 150px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" :value="value2" @on-change="time2"  placeholder="结束时间" style="width: 200px"></DatePicker>
+            <DatePicker type="date" :value="value2" @on-change="time2"  placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>
             <li class="ml10">
-              <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+              <Button type="info" class=" mr20 w90" :loading="loading3" @click="inquire">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -31,12 +31,13 @@
                 <Button type="primary" shape="circle" icon="plus-round" @click="refuse">添加渠道</Button>
             </div>
         </div>
-        <div class="">
+        <div class="contentcss mt10">
             <Table border highlight-row :columns="columns7" :data="data6"></Table>
+            <div class="tr mt15">
+              <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+            </div>
         </div>
-        <div class="tr mt15">
-          <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-        </div>
+        
         <Modal
           title="渠道设置"
           v-model="modal9"
