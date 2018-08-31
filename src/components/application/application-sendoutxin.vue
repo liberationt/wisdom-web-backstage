@@ -7,7 +7,7 @@
     </div>
     <div class="cleafix contentcss" style="overflow: hidden">
     <Col span="12" offset="4" >
-      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100">
+      <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="margin-bottom:150px;padding-top:20px">
         <FormItem label="消息类型:" prop="city">
           <Select v-model="formCustom.city" placeholder="请选择" @on-change="messagetype" style="width:200px">
             <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.text }}</Option>
