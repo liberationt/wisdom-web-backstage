@@ -1981,7 +1981,9 @@ export default {
             let code
             if (params.row.code == '1000') {
               code = '成功'
-            } else {
+            } else if (params.row.code == '') {
+              code = ''
+            }  else {
               code = '失败'
             }
             return h('div', [
@@ -2020,9 +2022,9 @@ export default {
           render: (h, params) => {
             let sex
             if (params.row.sex == 'M') {
-              sex = '女'
-            } else if(params.row.sex ==  'F'){
               sex = '男'
+            } else if(params.row.sex ==  'F'){
+              sex = '女'
             }
             return h('div', [
               h('span', {}, sex)
