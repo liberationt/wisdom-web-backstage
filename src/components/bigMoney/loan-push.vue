@@ -1691,7 +1691,7 @@ export default {
 						}
         },
       ],
-       //本祥恒昌
+      //本祥恒昌
       columns12: [
         {
           title: '姓名',
@@ -1927,6 +1927,279 @@ export default {
         },
        
       ],
+      //普惠
+      columns14: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'username'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          minWidth:110,
+          key: 'mobile'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.pushStatus == '0') {
+              succ = '未推送'
+            } else if (params.row.pushStatus == '1' ) {
+              succ = '推送成功'
+            } else if (params.row.pushStatus == '2' ) {
+              succ = '推送失败'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:100,
+          key: 'pushTime',
+        },
+        {
+          title: '返回值',
+          align: 'center',
+          minWidth:100,
+          // key: 'code',
+          render: (h, params) => {
+            let code
+            if (params.row.code == '1000') {
+              code = '成功'
+            } else {
+              code = '失败'
+            }
+            return h('div', [
+              h('span',{}, code)
+            ])
+					}
+        },
+        {
+          title: '生日',
+          align: 'center',
+          minWidth:110,
+          key: 'birthday'
+        },
+        {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          key: 'origin',
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == '0') {
+              origin = '手动导入'
+            } else if(params.row.origin ==  '1'){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+					}
+        },
+        {
+          title: '性别',
+          align: 'center',
+          minWidth:110,
+          key: 'sex',
+          render: (h, params) => {
+            let sex
+            if (params.row.sex == 'M') {
+              sex = '女'
+            } else if(params.row.sex ==  'F'){
+              sex = '男'
+            }
+            return h('div', [
+              h('span', {}, sex)
+            ])
+					}
+        },
+        {
+          title: '车',
+          align: 'center',
+          minWidth:80,
+          key: 'car',
+          render: (h, params) => {
+            let car
+            if (params.row.car == 'Y') {
+              car = '有'
+            } else if(params.row.car ==  'N'){
+              car = '无'
+            }
+            return h('div', [
+              h('span', {}, car)
+            ])
+					}
+        },
+        {
+          title: '信用卡',
+          align: 'center',
+          minWidth:80,
+          key: 'creditCard',
+          render: (h, params) => {
+            let creditCard
+            if (params.row.creditCard == 'Y') {
+              creditCard = '有'
+            } else if(params.row.creditCard ==  'N'){
+              creditCard = '无'
+            }
+            return h('div', [
+              h('span', {}, creditCard)
+            ])
+					}
+        },
+        {
+          title: '公积金',
+          align: 'center',
+          minWidth:80,
+          key: 'fund',
+          render: (h, params) => {
+            let fund
+            if (params.row.fund == 'Y') {
+              fund = '有'
+            } else if(params.row.fund ==  'N'){
+              fund = '无'
+            }
+            return h('div', [
+              h('span', {}, fund)
+            ])
+					}
+        },
+        {
+          title: '车贷',
+          align: 'center',
+          minWidth:80,
+          key: 'hasCarLoan',
+          render: (h, params) => {
+            let hasCarLoan
+            if (params.row.hasCarLoan == 'Y') {
+              hasCarLoan = '有'
+            } else if(params.row.hasCarLoan ==  'N'){
+              hasCarLoan = '无'
+            }
+            return h('div', [
+              h('span', {}, hasCarLoan)
+            ])
+					}
+        },
+        {
+          title: '房贷',
+          align: 'center',
+          minWidth:80,
+          key: 'hasHouseLoan',
+          render: (h, params) => {
+            let hasHouseLoan
+            if (params.row.hasHouseLoan == 'Y') {
+              hasHouseLoan = '有'
+            } else if(params.row.hasHouseLoan ==  'N'){
+              hasHouseLoan = '无'
+            }
+            return h('div', [
+              h('span', {}, hasHouseLoan)
+            ])
+					}
+        },
+        {
+          title: '房',
+          align: 'center',
+          minWidth:80,
+          key: 'house',
+          render: (h, params) => {
+            let house
+            if (params.row.house == 'Y') {
+              house = '有'
+            } else if(params.row.house ==  'N'){
+              house = '无'
+            }
+            return h('div', [
+              h('span', {}, house)
+            ])
+					}
+        },
+         {
+          title: '贷款金额',
+          align: 'center',
+          minWidth:100,
+          key: 'loanMoney'
+        },
+        {
+          title: '寿险保单',
+          align: 'center',
+          minWidth:80,
+          key: 'policy',
+          render: (h, params) => {
+            let policy
+            if (params.row.policy == 'Y') {
+              policy = '有'
+            } else if(params.row.policy ==  'N'){
+              policy = '无'
+            }
+            return h('div', [
+              h('span', {}, policy)
+            ])
+					}
+        },
+        {
+          title: '社保',
+          align: 'center',
+          minWidth:80,
+          key: 'security',
+          render: (h, params) => {
+            let security
+            if (params.row.security == 'Y') {
+              security = '有'
+            } else if(params.row.security ==  'N'){
+              security = '无'
+            }
+            return h('div', [
+              h('span', {}, security)
+            ])
+					}
+        },
+        {
+          title: '甲方返回的status',
+          align: 'center',
+          minWidth:150,
+          key:'status'
+        },
+        {
+          title: '返回信息',
+          align: 'center',
+          minWidth:150,
+          render: (h, params) => {
+						return h('div', [
+						h('span', {
+							style: {
+							display: 'inline-block',
+							width: '100%',
+							overflow: 'hidden',
+							textOverflow: 'ellipsis',
+							whiteSpace: 'nowrap'
+							},
+							domProps: {
+							title: params.row.msg
+							}
+						}, params.row.msg)
+						])
+						}
+        },
+       
+      ],
       data1: []
     }
   },
@@ -2016,6 +2289,9 @@ export default {
               } else if(this.model1 == 'partya-kunxuan-hengchang'){
                 this.party1 = this.columns13
                 this.data1 = resp.data.dkKxhengchangList
+              } else if(this.model1 == 'partya-xdwzengxian'){
+                this.party1 = this.columns14
+                this.data1 = resp.data.dkXdwZengxianList
               } else {
                 this.party1 = ''
                 this.data1 = ''
