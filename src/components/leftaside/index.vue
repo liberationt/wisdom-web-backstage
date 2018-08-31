@@ -40,7 +40,7 @@
     color: #9ea7b4;
 }
 .layout-menu-left {
-    background: #eaedf1;
+    background: #1b294c;
     overflow-y: scroll;
     padding-bottom: 50px;
     min-width: 150px;
@@ -235,7 +235,8 @@ ul{
 }
 .aceul{
     margin:2px 0;
-    background:#eaedf1
+    background:#1b294c;
+    color:#becee7
 }
 .ivu-select-dropdown .ivu-dropdown {
      margin: 0px 12px 0px 0px;

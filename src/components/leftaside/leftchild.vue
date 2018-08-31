@@ -82,7 +82,7 @@ export default {
   padding-left: 20px
 }
 .child_routh{
- border-bottom:1px solid #ddd 
+//  border-bottom:1px solid #ddd 
 }
 .child_routh:last-child{
   border-bottom: 0
@@ -108,7 +108,7 @@ export default {
     // border-top: 1px solid #999;
     // border-bottom: 1px solid #31B1BB;
     span{
-        color: #666;
+        color: #becee7;
         display: inline-block;
         width: 100%;
         position: relative;
@@ -117,7 +117,7 @@ export default {
     }
   }
   .tree-menu li span:hover{
-      background: #dbdfe4
+      background: #3e81f2
   }
   .child_routh span{
     padding-left: 40px!important
