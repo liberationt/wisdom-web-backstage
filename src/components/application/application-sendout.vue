@@ -138,6 +138,9 @@ export default {
     handleSubmit (name) {
       let datetimel = Date.parse(new Date(this.datevalue))
       let datetimell = Date.parse(new Date())
+      if(this.ifdate == false){
+        this.formCustom.datePicker = utils.getNowFormatDate()
+      }
       this.$refs[name].validate(valid => {
           if(this.datevalue == "" && this.ifdate == true){
               this.$Modal.warning({
@@ -259,7 +262,7 @@ export default {
         this.ifdate = true
       } else if(v == '1') {
         this.ifdate = false
-        this.formCustom.datePicker = utils.getNowFormatDate()
+        // this.formCustom.datePicker = utils.getNowFormatDate()
       }
     },
     //当前时间
