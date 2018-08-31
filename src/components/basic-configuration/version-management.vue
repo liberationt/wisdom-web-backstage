@@ -286,6 +286,7 @@ export default {
                 this.formValidate.productlogo = "";
                 this.$refs[name].resetFields();
               } else {
+                this.loading = false;
                 this.$Message.success(data.message);
               }
             })
