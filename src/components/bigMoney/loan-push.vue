@@ -2022,9 +2022,9 @@ export default {
           render: (h, params) => {
             let sex
             if (params.row.sex == 'M') {
-              sex = '女'
-            } else if(params.row.sex ==  'F'){
               sex = '男'
+            } else if(params.row.sex ==  'F'){
+              sex = '女'
             }
             return h('div', [
               h('span', {}, sex)
