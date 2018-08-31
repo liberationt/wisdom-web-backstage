@@ -1981,7 +1981,9 @@ export default {
             let code
             if (params.row.code == '1000') {
               code = '成功'
-            } else {
+            } else if (params.row.code == '') {
+              code = ''
+            }  else {
               code = '失败'
             }
             return h('div', [
