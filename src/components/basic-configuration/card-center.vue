@@ -227,7 +227,7 @@ export default {
       },
       ruleValidate2: {
         bank_name: [
-          { required: true, message: '请输入银行名称！', trigger: 'blur' }
+          { required: true, message: '请输入信用卡名称！', trigger: 'blur' }
         ],
         characteristic1: [
           { required: true, message: '请输入特点1！', trigger: 'blur' }
