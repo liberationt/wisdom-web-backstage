@@ -66,7 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['menuTree','leftlist','lefthidtrue']),
+    ...mapMutations(['menuTree','leftlist','lefthidtrue','showname']),
     handleSubmit (name) {
       let that = this
       that.$refs[name].validate((valid) => {        
@@ -105,6 +105,11 @@ export default {
                   utils.putlocal("leftlist", JSON.stringify(arrlist));
                   that.lefthidtrue();                  
                 }
+                let menuname = resp.data.userInfo.menuInfo.children[0].menuName
+                if (menuname == '应用管理') {
+                  menuname = '应用首页'
+                }
+                that.showname(menuname);
                 
                 utils.putlocal('lefthidden', '0')
                 // location.reload()
