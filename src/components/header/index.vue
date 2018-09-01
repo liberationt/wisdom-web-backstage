@@ -3,7 +3,7 @@
     <Row>
       <Col span="4" class="headleft"><div ><img src="../../image/logo.png" alt="" ></div></Col>
       <Col span="20">
-        <Col span="19" class="headrigui">
+        <Col span="18" class="headrigui">
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
@@ -17,7 +17,7 @@
             <li><router-link to="/homePage">系统</router-link></li> -->
           </ul>
         </Col>
-        <Col span="5" class="headright">
+        <Col span="6" class="headright">
           <ul>
             <!-- <li>
               <Badge count="100">
@@ -113,6 +113,7 @@ export default {
         name = '应用首页'
       }
       that.showname(name);
+      utils.putlocal("showname", name);
       this.isActive = index;
       this.$router.push({ path: path });
       if (name == "应用管理") {
@@ -236,7 +237,7 @@ export default {
     }
     .adminhead {
       overflow: hidden;
-      width: 250px;
+      width: 280px;
       margin-left: 10px;
       color: #fff;
       img {

@@ -110,6 +110,7 @@ export default {
                   menuname = '应用首页'
                 }
                 that.showname(menuname);
+                utils.putlocal("showname", menuname);
                 
                 utils.putlocal('lefthidden', '0')
                 // location.reload()

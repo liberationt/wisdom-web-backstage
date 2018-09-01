@@ -25,7 +25,9 @@ global.BASE_URL = process.env.API_HOST
 if (!store.state.menu || Object.keys(store.state.menu).length == 0) {
   // 从sessionStorage中读取状态
   store.state.menu = JSON.parse(utils.getlocal('userInfo'))
+  store.state.leftheadname = utils.getlocal('showname')
 }
+
 if (store.state.leftlist.length == 0) {
   store.state.leftlist = JSON.parse(utils.getlocal('leftlist'))
 }
