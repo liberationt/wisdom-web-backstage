@@ -120,7 +120,6 @@ export default {
       } else if (name == '财务管理' || name == '系统管理') {
         for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
         if (that.menu.menuInfo.children[i].menuCode == code) {
-          console.log(that.menu.menuInfo.children[i].menuName)
           arrlist = that.menu.menuInfo.children[i].children;
           that.leftlist(arrlist);
           utils.putlocal("leftlist", JSON.stringify(arrlist));

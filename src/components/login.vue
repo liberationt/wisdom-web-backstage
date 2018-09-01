@@ -66,7 +66,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['menuTree']),
+    ...mapMutations(['menuTree','leftlist','lefthidtrue']),
     handleSubmit (name) {
       let that = this
       that.$refs[name].validate((valid) => {        
@@ -92,7 +92,20 @@ export default {
                 utils.putlocal('token', resp.data.token)
                 // Vue.http.headers.common['Authentication'] = resp.data
                 this.$Message.success('登录成功!')
-                this.$router.push({ path: '/applicationHomePage' })
+                // for (var i = 0; i < resp.data.userInfo.menuInfo.children[0].path.length; i++) {
+                //   var element = array[i];
+                  
+                // }
+                if (resp.data.userInfo.menuInfo.children[0].path != '') {
+                  this.$router.push({ path: resp.data.userInfo.menuInfo.children[0].path })
+                } else {
+                  this.$router.push({ path: resp.data.userInfo.menuInfo.children[0].children[0].children[0].path })
+                  let arrlist = resp.data.userInfo.menuInfo.children[0].children[0].children
+                  that.leftlist(arrlist);
+                  utils.putlocal("leftlist", JSON.stringify(arrlist));
+                  that.lefthidtrue();                  
+                }
+                
                 utils.putlocal('lefthidden', '0')
                 // location.reload()
               } else {

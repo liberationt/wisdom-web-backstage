@@ -65,8 +65,6 @@ export default {
       }
       let menuList = null
       for (let j = 0; j < arrlist.length; j++) {
-        console.log(arrlist[j].menuCode)
-        console.log(num)
         if (arrlist[j].menuCode == num) {
           that.leftlist(arrlist[j].children);
           utils.putlocal("leftlist", JSON.stringify(arrlist[j].children));
