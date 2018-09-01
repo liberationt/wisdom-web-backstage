@@ -130,6 +130,7 @@ export default {
           utils.putlocal("leftlist", JSON.stringify(arrlist));
           menuList = arrlist;
           const firstGroupMenu = menuList[0]
+          that.lefthidtrue();
           if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
             this.$router.push({ path: firstGroupMenu.path });
             utils.putlocal("sideleft", "0");
@@ -142,7 +143,7 @@ export default {
                leftspan[1].classList.add('blue')
             }
           }
-          that.lefthidtrue();
+          
         }
       }
       }
