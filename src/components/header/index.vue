@@ -108,6 +108,10 @@ export default {
       let that = this
       let arrlist = []
       let menuList = null
+      let leftspan = document.querySelectorAll('.tree-menu span')
+      for (var i = 0; i < leftspan.length; i++) {
+        leftspan[i].classList.remove('blue')       
+      }
       utils.putlocal("headace", String(index));
       if (name == '应用管理') {
         name = '应用首页'
@@ -129,11 +133,13 @@ export default {
           if (firstGroupMenu.path && firstGroupMenu.path.length > 0) {
             this.$router.push({ path: firstGroupMenu.path });
             utils.putlocal("sideleft", "0");
+             leftspan[0].classList.add('blue')
           } else {
             const firstChildrenMenu = firstGroupMenu.children && firstGroupMenu.children[0]
             if (firstChildrenMenu && firstChildrenMenu.path && firstChildrenMenu.path.length > 0) {
               this.$router.push({ path: firstChildrenMenu.path });
               utils.putlocal("sideleft", "1");
+               leftspan[1].classList.add('blue')
             }
           }
           that.lefthidtrue();
