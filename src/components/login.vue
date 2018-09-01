@@ -98,9 +98,11 @@ export default {
                 // }
                 if (resp.data.userInfo.menuInfo.children[0].path != '') {
                   this.$router.push({ path: resp.data.userInfo.menuInfo.children[0].path })
+                  utils.putlocal("sideleft", "0");
                 } else {
-                  this.$router.push({ path: resp.data.userInfo.menuInfo.children[0].children[0].children[0].path })
-                  let arrlist = resp.data.userInfo.menuInfo.children[0].children[0].children
+                  utils.putlocal("sideleft", "1");
+                  this.$router.push({ path: resp.data.userInfo.menuInfo.children[0].children[0].children[0].path })          
+                  let arrlist = resp.data.userInfo.menuInfo.children[0].children
                   that.leftlist(arrlist);
                   utils.putlocal("leftlist", JSON.stringify(arrlist));
                   that.lefthidtrue();                  
