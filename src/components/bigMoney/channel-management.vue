@@ -13,12 +13,12 @@
             </Select>
             <Input v-model="value" placeholder="" style="width: 150px" class="mr20"></Input>
             </li>
-            <li>
+            <!-- <li>
               <span>更新时间:</span>
             <DatePicker type="date" :value="value1" @on-change="time1"  placeholder="开始时间" style="width: 150px"></DatePicker>
             <span>  -  </span>
             <DatePicker type="date" :value="value2" @on-change="time2"  placeholder="结束时间" style="width: 150px"></DatePicker>
-            </li>
+            </li> -->
             <li class="ml10">
               <Button type="info" class=" mr20 w90" :loading="loading3" @click="inquire">
               <span v-if="!loading3">查询</span>
@@ -439,9 +439,7 @@ export default {
       }
       let list = {
         channelNum : '',
-        urlName : '',
-        beginTime : this.value1,
-        endTime : this.value2,
+        urlName : '',       
         pageNum: this.startRow,
         pageSize: this.endRow,
         manageName: '',
