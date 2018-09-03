@@ -132,6 +132,7 @@ export default {
         modal9:false,
         loading: true,
         order: {},
+        img:[],
         formCustom: {
         productid: ''
       },
@@ -150,6 +151,11 @@ export default {
     this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
         if (data.code == 'success') {
             this.order = data.data
+            if (data.data.commentDetailsReq != null) {
+                for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
+                this.img.push(require("../../image/pointed-star.png"));
+                }
+            }
         }    
     })
     .catch((error) => {

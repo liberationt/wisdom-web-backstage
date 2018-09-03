@@ -126,6 +126,7 @@ export default {
   data () {
     return {
         order: {},
+        img: []
     }
   },
   methods: {
@@ -144,6 +145,11 @@ export default {
     this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
         if (data.code == 'success') {
             this.order = data.data
+            if (data.data.commentDetailsReq != null) {
+                for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
+                this.img.push(require("../../image/pointed-star.png"));
+                }
+            }
         }    
     })
     .catch((error) => {
