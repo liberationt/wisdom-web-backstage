@@ -99,12 +99,12 @@
                     </p>
                     <p v-if="inform.loanStatus!=0" class="credit_prove">
                         <strong>身份证</strong>
-                        <img :src='inform.loanIdcardFrontImg'  alt=''>
-                        <img :src='inform.loanIdcardBackImg'  alt=''>
+                        <img :src='inform.loanIdcardFrontImg'  alt='' @click="bigimg(inform.loanIdcardFrontImg)">
+                        <img :src='inform.loanIdcardBackImg'  alt='' @click="bigimg(inform.loanIdcardBackImg)"> 
                     </p>
                     <p v-if="inform.loanStatus!=0" class="credit_prove mt20 ">
                         <strong >工作证明</strong>
-                        <img v-bind:src="inform.loanJobImg" alt="">
+                        <img v-bind:src="inform.loanJobImg" alt=""  @click="bigimg(inform.loanJobImg)">
                     </p>
 
                     <p>
@@ -171,6 +171,11 @@
                         </Form>
                     </div>
                     </Modal>
+
+                    <!-- 查看大图弹框 -->
+                    <Modal v-model="modal11" footer-hide fullscreen title="图片详情" width="1000" >
+                        <img :src=this.imglink alt="" style="width:970px;height:890px;">
+                    </Modal>
                 </div>
             </TabPane>
             <TabPane label="咨询订单记录">
@@ -219,6 +224,8 @@
 export default {
   data () {
     return {
+      imglink: '',
+      modal11: false,
       img: [],
       formValidate: {
         name: ''
@@ -835,6 +842,11 @@ export default {
         })
         .catch(() => {
         })
+    },
+    bigimg(link){
+      this.imglink = link
+      this.modal11 = true
+      // window.location.href = link
     }
   },
   mounted () {
