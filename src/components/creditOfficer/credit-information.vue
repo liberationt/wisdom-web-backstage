@@ -4,7 +4,7 @@
     <Col span="5">
     <div id="memberLeft">
         <div class="memberphoto">
-            <img v-if="inform.loanStatus!=0" :src="inform.loanPersonImg" alt="" >
+            <img v-if="inform.loanStatus!=0" :src="inform.loanPersonImg" alt="" @click="bigimg(inform.loanPersonImg)">
             <img v-if="inform.loanStatus==0" :src="require('../../image/moren.png')" alt="" >
             <p>{{inform.phoneMember}}</p>
             <p class="stre_evaluate">
