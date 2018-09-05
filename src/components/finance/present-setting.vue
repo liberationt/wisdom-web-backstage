@@ -113,7 +113,7 @@ export default {
     handleReset (name) {
       this.$refs[name].forEach((item, index) => {
         this.tabnum = index
-        this.$refs[name][index].resetFields()
+        // this.$refs[name][index].resetFields()
       })
     }
   },
