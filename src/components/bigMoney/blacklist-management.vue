@@ -9,10 +9,6 @@
           <div class="conditioncss">
             <span>手机号:</span>
             <Input v-model="model1" placeholder="请输入手机号" class="mr20" style="width: 150px"></Input>
-            <span>创建时间:</span>
-            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
-            <span>  -  </span>
-            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
@@ -312,8 +308,6 @@ export default {
       }
       let list = {
         phone : this.model1,
-        beginTime : this.value1,
-        endTime  : this.value2,
         pageNum: this.startRow,
         pageSize: this.endRow
       }
@@ -361,20 +355,20 @@ export default {
 
   },
   mounted () {
-    var date = new Date();
-    var seperator1 = "-";
-    var year = date.getFullYear();
-    var month = date.getMonth() + 1;
-    var strDate = date.getDate();
-    if (month >= 1 && month <= 9) {
-    month = "0" + month;
-    }
-    if (strDate >= 0 && strDate <= 9) {
-    strDate = "0" + strDate;
-    }
-    var currentdate = year + seperator1 + month + seperator1 + strDate;
-    this.value1 =  currentdate;
-    this.value2 = currentdate;
+    // var date = new Date();
+    // var seperator1 = "-";
+    // var year = date.getFullYear();
+    // var month = date.getMonth() + 1;
+    // var strDate = date.getDate();
+    // if (month >= 1 && month <= 9) {
+    // month = "0" + month;
+    // }
+    // if (strDate >= 0 && strDate <= 9) {
+    // strDate = "0" + strDate;
+    // }
+    // var currentdate = year + seperator1 + month + seperator1 + strDate;
+    // this.value1 =  currentdate;
+    // this.value2 = currentdate;
     this.inquire ()
     this.hrefxls = 'black_list.xlsx'
     this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/black_list.xlsx'
