@@ -40,7 +40,7 @@
             </FormItem>
             <FormItem v-for="item in pricesetting.businessSocialResList" :label="item.infoTitleName"  class="clearfix">
               <div v-if="item.options.length>0" class="left mr10 mb5" v-for="res in item.options">
-                <Input v-if="res.infoOptionName!='无'" type="text" v-model="res.infoOptionScore" style="width:150px">
+                <Input v-if="res.infoOptionName!='无' && res.infoOptionName!='非本地户籍'" type="text" v-model="res.infoOptionScore" style="width:150px">
                 <span slot="prepend">{{res.infoOptionName}}</span>
                 </Input>
               </div>
