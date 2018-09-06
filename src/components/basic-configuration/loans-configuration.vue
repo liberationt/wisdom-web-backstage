@@ -304,10 +304,20 @@ export default {
   margin-left: 25px;
 }
 .loas_happy {
+  display: inline-block;
   font-size: 20px;
+  width: 140px;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  white-space:nowrap; 
 }
 .loans_lightning {
   font-size: 12px;
+  display: inline-block;
+  width: 140px;
+  overflow:hidden; 
+  text-overflow:ellipsis; 
+  white-space:nowrap; 
 }
 .loans_id{
   margin-top: 10px;
