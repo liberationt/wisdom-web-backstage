@@ -403,10 +403,12 @@ export default {
         //   { required: true, message: '请上传显示标签', trigger: 'blur' }
         // ],
         productName: [
-          { required: true, message: '请输入产品名称', trigger: 'blur' }
+          { required: true, message: '请输入产品名称', trigger: 'blur' },
+          { type: 'string', max: 10, message: '最多输入10位字', trigger: 'blur' }
         ],
         productSubhead: [
-          { required: true, message: '请输入副标题', trigger: 'blur' }
+          { required: true, message: '请输入副标题', trigger: 'blur' },
+          { type: 'string', max: 10, message: '最多输入10位字', trigger: 'blur' }
         ],
         applyCounts: [
           { required: true, type: 'number', message: '请输入正确的申请人基数', trigger: 'blur' }
@@ -415,10 +417,12 @@ export default {
           { required: true, type: 'number', message: '请输入正确的申请人系数', trigger: 'blur' }
         ],
         productSearchFeature: [
-          { required: true, message: '请输入产品搜索页特点', trigger: 'blur' }
+          { required: true, message: '请输入产品搜索页特点', trigger: 'blur' },
+          { type: 'string', max: 20, message: '最多输入10位字', trigger: 'blur' }
         ],
         productDetailFeature: [
-          { required: true, message: '请输入产品详情页特点', trigger: 'blur' }
+          { required: true, message: '请输入产品详情页特点', trigger: 'blur' },
+          { type: 'string', max: 20, message: '最多输入10位字', trigger: 'blur' }
         ],
         rateType: [
           { required: true, type: 'number', message: '请选择前端显示', trigger: 'blur' }
