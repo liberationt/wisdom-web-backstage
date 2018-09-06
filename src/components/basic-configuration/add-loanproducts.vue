@@ -507,7 +507,7 @@ export default {
         if (valid) {
             let reg = /^\+?[1-9]\d*$/
             let cient = /^(?!0$)(?!0\.0)[1-9]?[0-9]*(\.[0-9]{1})?$/
-            let cart = /^(?!0$)(?!0\.0)[1-9]?[0-9]*(\.[0-9]{1,2})?$/
+            let cart = /^(?!0$)(?!0\.00)[1-9]?[0-9]*(\.[0-9]{1,2})?$/
             if (!reg.test(this.formValidate.applyCounts)) {
                 const title = '提示'
                 let content = '<p>请输入正确的申请人基数</p>'
