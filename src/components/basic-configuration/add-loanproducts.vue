@@ -418,11 +418,11 @@ export default {
         ],
         productSearchFeature: [
           { required: true, message: '请输入产品搜索页特点', trigger: 'blur' },
-          { type: 'string', max: 20, message: '最多输入10位字', trigger: 'blur' }
+          { type: 'string', max: 20, message: '最多输入20位字', trigger: 'blur' }
         ],
         productDetailFeature: [
           { required: true, message: '请输入产品详情页特点', trigger: 'blur' },
-          { type: 'string', max: 20, message: '最多输入10位字', trigger: 'blur' }
+          { type: 'string', max: 20, message: '最多输入20位字', trigger: 'blur' }
         ],
         rateType: [
           { required: true, type: 'number', message: '请选择前端显示', trigger: 'blur' }
