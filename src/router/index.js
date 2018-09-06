@@ -63,6 +63,14 @@ import presentRecord from '@/components/finance/present-record'
 import refundManager from '@/components/finance/refund-manager' // 退款
 // 系统
 import personnelManagement from '@/components/department/personnel-management'
+// 统一渠道 
+import supplierList from '@/components/unifiedChannel/supplier-list'
+import channelManagementunid from '@/components/unifiedChannel/channel-management'
+import channelReport from '@/components/unifiedChannel/channel-report'
+import dailyList from '@/components/unifiedChannel/daily-list'
+import rangeConfiguration from '@/components/unifiedChannel/range-configuration'
+import monthlyReport from '@/components/unifiedChannel/monthly-report'
+import statementRemittance from '@/components/unifiedChannel/statement-remittance'
 
 // 大网钱
 import registrationList from '@/components/bigMoney/registration-list'
@@ -201,6 +209,22 @@ let routes = [
       {path: '/managementLabel', component: managementLabel, names: '渠道标签管理', hidden: true, meta: { auth: true }},
       {path: '/managementLabelAdd', component: managementLabelAdd, names: '添加编辑标签', hidden: true, meta: { auth: true }},
       {path: '/personnelManagement', component: personnelManagement, names: '部门人员管理', hidden: true, meta: { auth: true }}
+    ]
+  },
+  {
+    path: '/homePage',
+    component: HomePage,
+    names: '渠道',
+    iconCls: 'stats-bars',
+    children: [
+      {path: '/supplierList', component: supplierList, names: '供应商列表', hidden: true, meta: { auth: true }}, // 
+      {path: '/channelManagementunid', component: channelManagementunid, names: '渠道管理', hidden: true, meta: { auth: true }}, // 
+      {path: '/channelReport', component: channelReport, names: '渠道报表', hidden: true, meta: { auth: true }}, // 
+      {path: '/dailyList', component: dailyList, names: '渠道日报表', hidden: true, meta: { auth: true }}, // 
+      {path: '/rangeConfiguration', component: rangeConfiguration, names: '范围值配置', hidden: true, meta: { auth: true }}, // 
+      {path: '/monthlyReport', component: monthlyReport, names: '渠道月报表', hidden: true, meta: { auth: true }}, // 
+      {path: '/statementRemittance', component: statementRemittance, names: '渠道报表汇总', hidden: true, meta: { auth: true }}, // 
+      
     ]
   },
   {
