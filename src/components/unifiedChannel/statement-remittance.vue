@@ -44,7 +44,7 @@
       <Button class=" ml10" type="primary" >导出</Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-        <Table class="tabgrouping"  :columns="columns7"></Table>
+        <Table class="monthlytotal"  :columns="columns7"></Table>
         <Table :row-class-name="rowClassName" border highlight-row :columns="columns8" :data="data7" size="small" ref="table" class="dailylist"></Table>   
       <div class="tr mt15">
       <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -76,7 +76,7 @@ export default {
         {
             "title": "业务月度总计",
             align: 'center',
-            "minWidth": 100
+            "minWidth": 120
         },
         {
             "title": "--",
@@ -96,7 +96,7 @@ export default {
         {
             "title": "88991(79802)",
             align: 'center',
-            "minWidth": 100
+            "minWidth": 120
         },
         {
             "title": "62%",
@@ -129,7 +129,7 @@ export default {
             "title": "渠道",
             "key": "channel",
             align: 'center',
-            "minWidth": 100
+            "minWidth": 120
         },
         {
             "title": "折扣系数",
@@ -153,7 +153,7 @@ export default {
             "title": "注册",
             "key": "register",
             align: 'center',
-            "minWidth": 100
+            "minWidth": 120
         },
         {
             "title": "注册转化率",
@@ -242,8 +242,6 @@ export default {
     rowClassName (row, index) {
         if (index == 0) {
             return 'demo-table-info-row';
-        } else if (index == 2) {
-            return 'demo-table-info-cell-name';
         }
         return '';
     },
