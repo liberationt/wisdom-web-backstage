@@ -84,12 +84,13 @@ export default {
           minWidth: 120,
           align: 'center',
           render: (h, params) => {
+            let num = '40px'
             return h('div',{style: {padding:0},}, [
                 h('span', {
                     style: {
                         display: 'block',
                         width: '100%',
-                        height:'40px',
+                        height:num,
                         lineHeight: '40px',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis',
@@ -204,7 +205,7 @@ export default {
     }
   },
   mounted () {
-    this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberListFilter', {})
+    this.http.post(BASE_URL + '/promotion/business/queryListByUserCode', {})
     .then((resp) => {
       if (resp.code == 'success') {
         this.cityList = resp.data.searchOptions

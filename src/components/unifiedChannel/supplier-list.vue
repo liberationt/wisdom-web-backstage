@@ -18,7 +18,8 @@
         
         </div>
         <div id="application_table" class="mt15 contentcss">
-            <ul>
+          <Table :columns="columns10" :data="data9" highlight-row :show-header="false"></Table>
+            <!-- <ul>
                 <li>
                     <div class="titletab clearfix" >
                     <div class="left">
@@ -53,9 +54,9 @@
                 </div>
                 <Table class="hidden tabhid" border :columns="columns7" :data="data6"></Table>
                 </li>
-            </ul>          
+            </ul>           -->
           <div class="tr mt15">
-            <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
           </div>
         </div>
         <!-- 添加编辑供应商弹框 -->
@@ -173,7 +174,9 @@
   </div>
 </template>
 <script>
+import expandRow from './table-expand.vue';
 export default {
+  components: { expandRow },
   data() {
     return {
       city: "",
@@ -241,112 +244,158 @@ export default {
           { required: true, message: '请输入备注', trigger: 'blur' },
           { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
         ]
-      },
-      columns7: [
-        {
-          title: "推广业务",
-          key: "blackType",
-          minWidth: 200,
-          align: "center"
-        },
-        {
-          title: "商务负责人",
-          key: "blackValue",
-          minWidth: 200,
-          align: "center"
-        },
-        {
-          title: "操作",
-          key: "action",
-          minWidth: 150,
-          align: "center",
-          render: (h, params) => {
-            return h("div", [
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
-                  },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      this.addbusiness ()
+      },     
+      number: "",    
+      columns10: [
+          {
+              type: 'expand',
+              width: 50,
+              render: (h, params) => {
+                console.log(params)
+                  return h(expandRow, {
+                      props: {
+                          row: params.row
+                      },
+                      on: {
+                      click: () => {
+                        alert(1)
+                      }
                     }
-                  }
-                },
-                "编辑业务"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
+                  })
+              }
+          },
+          {
+              key: 'name',             
+              render: (h, params) => {
+              return h("div", [
+                h(
+                  "strong",
+                  {
+                    style: {
+                      marginRight: "5px"
+                    },
                   },
-                  style: {
-                    marginRight: "5px"
+                  "供应商名称"
+                ),
+                h(
+                  "span",
+                  {
+                    style: {
+                      marginRight: "5px",
+                      display: 'inline-block',
+                      width:'40px',
+                      height: '25px',
+                      lineHeight: '25px',
+                      textAlign: 'center',
+                      background: '#ccc',
+                      color: '#fff',
+                      borderRadius: '5px'
+                    },
                   },
-                  on: {
-                    click: () => {
-                      
+                  "企业"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "primary",
+                      size: "small"
+                    },
+                    // style: {
+                    //   marginRight: "5px",
+                    //   display: 'inline-block',
+                    //   width:'80px',
+                    //   height: '25px',
+                    //   lineHeight: '25px',
+                    //   textAlign: 'center',
+                    //   background: '#1BBC9B',
+                    //   color: '#fff',
+                    //   borderRadius: '5px'
+                    // },
+                    on: {
+                      click: () => {
+                        
+                      }
                     }
-                  }
-                },
-                "渠道报表"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "primary",
-                    size: "small"
                   },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      
+                  "账号正常"
+                )
+              ]);
+            }
+          },
+          {
+              key: 'address',
+              align:'right',
+              render: (h, params) => {
+              return h("div", [
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.addbusiness ()
+                      }
                     }
-                  }
-                },
-                "渠道管理"
-              ),
-              h(
-                "Button",
-                {
-                  props: {
-                    type: "error",
-                    size: "small"
                   },
-                  style: {
-                    marginRight: "5px"
-                  },
-                  on: {
-                    click: () => {
-                      
+                  "添加"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.addsupplier ()
+                      }
                     }
-                  }
-                },
-                "删除业务"
-              )
+                  },
+                  "编辑"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "error",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.suppremove ()
+                      }
+                    }
+                  },
+                  "删除"
+                )
 
-            ]);
+              ]);
+            }
           }
-        }
       ],
-      number: "",
-      data6: [
-        {
-          blackType:'华赞金服',
-          blackValue:'haha'
-        }
-        
-
+      data9: [
+          {
+              name: 'John Brown',
+              age: 18
+          },
+          {
+              name: 'Jim Green',
+              age: 25
+          }
       ],
       cityTypel: [],
       startRow: 1,
@@ -360,12 +409,12 @@ export default {
     // // 待审核
     pageChange (page) {
       this.startRow = page
-      this.label_query()
+      // this.label_query()
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.label_query()
+      // this.label_query()
     },
     changeLoading () {
       this.loading = false
@@ -416,7 +465,6 @@ export default {
     },
     addbusiness ()  {
       this.modal10 = true
-
     },
     // 查询
     label_query(type) {
