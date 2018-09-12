@@ -92,16 +92,16 @@
            <ul>
             <li >
             <CheckboxGroup v-model="social"  @on-change="checkProvinceChange">
-              <Checkbox v-for="tion in city" style="display:block" class="mb5"  :label="tion.rowId">
+              <Checkbox v-for="tion in city" style="display:block" class="mb5" :label="tion.rowId">
                 <span>{{tion.province}}</span>
-                <Input v-if="tion.isChecked || tion.ifSelect" :value="tion.limitNum == undefined ? 0 : tion.limitNum" class="limitnum"  style="width: 60px"></Input>
-                <Input v-if="!tion.isChecked && !tion.ifSelect" class="limitnum"  style="width: 60px;display:none"></Input>
+                <Input v-if="tion.isChecked" :value="tion.limitNum == undefined ? 0 : tion.limitNum" class="limitnum"  style="width: 60px"></Input>
+                <Input v-if="!tion.isChecked" class="limitnum"  style="width: 60px;display:none"></Input>
                 </br>
                 <!-- <CheckboxGroup v-model="social.cityList"> -->
                   <Checkbox v-for="city in tion.cityList" style="display:inline_block" class="mb5 ml10"  :label="city.rowId">
                     <span>{{city.city}}</span>
-                    <Input v-if="city.isChecked || city.dataId != null" :value="city.limitNum == undefined ? 0 : city.limitNum" class="limitnum"  style="width: 60px"></Input>
-                    <Input v-if="!city.isChecked && city.dataId == null" :value="city.limitNum" class="limitnum"  style="width: 60px;display:none"></Input>
+                    <Input v-if="city.isChecked" :value="city.limitNum == undefined ? 0 : city.limitNum" class="limitnum"  style="width: 60px"></Input>
+                    <Input v-if="!city.isChecked" :value="city.limitNum" class="limitnum"  style="width: 60px;display:none"></Input>
                   </Checkbox>
                 <!-- </CheckboxGroup> -->
               </Checkbox>
@@ -354,6 +354,7 @@ export default {
             this.locationList = {};
             resp.data.map((p, index) => {
               p.rowId = "province" + index;
+              p.isChecked = p.ifSelect;
               this.locationList[p.rowId] = p;
               if (p.ifSelect) {
                 this.social.push(p.rowId);
@@ -363,6 +364,7 @@ export default {
                 if (c.dataId) {
                   this.social.push(c.rowId);
                 }
+                c.isChecked = c.dataId;
                 this.locationList[c.rowId] = c;
               });
             });
@@ -395,8 +397,8 @@ export default {
     },
     // 点击勾选输入框判断
     checkProvinceChange(social) {
-      // console.log("checkProvinceChange", social);
-
+      console.log("checkProvinceChange", social);
+      
       //找出已经取消选择的
       let cancelSelecteds = [];
       this.lastSocial.map(key => {
