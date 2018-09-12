@@ -8,7 +8,7 @@
     <div class=" conditioncss">
         <Table :columns="columns1" :data="data1" border highlight-row></Table>
         <div class="tc mt50">
-            <Button type="primary">保存设置</Button>
+            <Button type="primary" @click="savesettings">保存设置</Button>
         </div>
     </div>
 </div>   
@@ -22,7 +22,7 @@ export default {
                     title: '业务',
                     align: 'center',
                     minWidth: 150,
-                    key: 'name'
+                    key: 'businessName'
                 },
                 {
                     title: '',
@@ -38,17 +38,23 @@ export default {
                                 height:'32px',
                                 lineHeight: '32px',
                                 background:'#ccc',
+                                color:'#fff',
                                 verticalAlign: 'middle'
                             }
                         }, '当日激活转化率小于'),
                         h('InputNumber', {
                             props: {
                                 min:0,
-                                value:params.row.numlots,
+                                value:Number(params.row.activeFact),
                             },
                             on:{
+                                
                                 input:val=>{
-                                    params.row.numlots=val;
+                                    this.data1.forEach(element => {
+                                        if (element.businessCode == params.row.businessCode) {
+                                            element.activeFact=String(val);
+                                        }
+                                    })                                    
                                 }
                             }
                         }),
@@ -60,6 +66,7 @@ export default {
                                 height:'32px',
                                 lineHeight: '32px',
                                 background:'#ccc',
+                                color:'#fff',
                                 verticalAlign: 'middle'
                             }
                         }, '或'),
@@ -71,17 +78,22 @@ export default {
                                 height:'32px',
                                 lineHeight: '32px',
                                 background:'#ccc',
+                                color:'#fff',
                                 verticalAlign: 'middle'
                             }
                         }, '当日申请转化率小于'),
                         h('InputNumber', {
                             props: {
                                 min:0,
-                                value:params.row.numlots,
+                                value:Number(params.row.applyFact),
                             },
                             on:{
                                 input:val=>{
-                                    params.row.numlots=val;
+                                    this.data1.forEach(element => {
+                                        if (element.businessCode == params.row.businessCode) {
+                                            element.applyFact=String(val);
+                                        }
+                                    })
                                 }
                             }
                         })
@@ -90,13 +102,51 @@ export default {
 
                 }
             ],
-            data1: [
-                {
-                    name: '华赞'
-                }
-            ]
+            data1: []
         }
-    } 
+    },
+    mounted () {
+       this.http.post(BASE_URL + '/promotion/businessConfig/queryListBatch', {})
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.data1 = resp.data
+        } else {      
+        }
+      })
+      .catch(() => {     
+      }) 
+    },
+    methods: {
+        savesettings () {
+            let list = []
+            this.data1.forEach(element => {
+                let obj1 = new Object ()
+                obj1.businessConfigCode = element.activeFactCode
+                obj1.configValue = element.activeFact
+                let obj2 = new Object ()
+                obj2.businessConfigCode = element.applyFactCode
+                obj2.configValue = element.applyFact
+                list.push(obj1,obj2)
+            });
+            this.http.post(BASE_URL + '/promotion/businessConfig/updateBatchByCodeList', list)
+            .then((resp) => {
+                if (resp.code == 'success') {
+                const title = '配置预警值'
+                let content = '<p>保存成功</p>'
+                this.$Modal.success({
+                    title: title,
+                    content: content,
+                    onOk: () => {
+                        this.$router.push({ path: '/dailyList' })                        
+                    }
+                })
+                } else {      
+                }
+            })
+            .catch(() => {     
+            })
+        }
+    }
 }
 </script>
 <style lang="less" scoped>

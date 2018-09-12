@@ -10,58 +10,22 @@
           <span>供应商名称:</span>
           <Input v-model="number" class="ml5" placeholder="请输入供应商名称" style="width: 150px"></Input>
         </div>
-        <Button type="info" class="left ml20 w90" :loading="loading3" @click="label_query('warning')">
+        <Button type="info" class="left ml20 w90" :loading="loading3" @click="label_query()">
           <span v-if="!loading3">查询</span>
           <span v-else>查询</span>
         </Button>
-          <Button shape="circle" class="left ml20" @click="addsupplier">添加供应商</Button>
+          <Button v-if="nums==1" shape="circle" class="left ml20" @click="addsupplier(1)">添加供应商</Button>
         
         </div>
-        <div id="application_table" class="mt15 contentcss">
+        <div id="application_table" class="mt10 contentcss">
           <Table :columns="columns10" :data="data9" highlight-row :show-header="false"></Table>
-            <!-- <ul>
-                <li>
-                    <div class="titletab clearfix" >
-                    <div class="left">
-                        <strong>S0003</strong>
-                        <strong class="ml10">供应商名称</strong>
-                        <span class="enterprise ml10">企业</span>
-                        <span class="ml10 accountnum">账号正常</span>
-                    </div>
-                    <div class="right">
-                        <Button type="primary" @click="tabshow(0)">查看供应商</Button>
-                        <Button type="info"  @click="addbusiness">添加</Button>
-                        <Button type="success" @click="addsupplier">编辑</Button>
-                        <Button type="error" @click="suppremove">删除</Button>
-                    </div>                
-                </div>
-                <Table class="hidden tabhid" border :columns="columns7" :data="data6"></Table>
-                </li>
-                <li>
-                    <div class="titletab clearfix" >
-                    <div class="left">
-                        <strong>S0003</strong>
-                        <strong class="ml10">供应商名称</strong>
-                        <span class="enterprise ml10">企业</span>
-                        <span class="ml10 accountnum">账号正常</span>
-                    </div>
-                    <div class="right">
-                        <Button type="primary" @click="tabshow(1)">查看供应商</Button>
-                        <Button type="info">添加</Button>
-                        <Button type="success">编辑</Button>
-                        <Button type="error">删除</Button>
-                    </div>                
-                </div>
-                <Table class="hidden tabhid" border :columns="columns7" :data="data6"></Table>
-                </li>
-            </ul>           -->
           <div class="tr mt15">
             <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
           </div>
         </div>
         <!-- 添加编辑供应商弹框 -->
         <Modal
-          title="添加供应商"
+          :title='supptit'
           v-model="modal9"
            @on-ok="handleSubmit('formCustom')"
            @on-cancel="handleReset1('formCustom')"
@@ -110,11 +74,12 @@
             <FormItem label="账户状态:" prop="accounttype" >
               <Select v-model="formCustom.accounttype" placeholder="请选择" style="width:300px" >
                 <Option value="1">正常</Option>
-                <Option value="2">暂停</Option>
+                <Option value="0">停用</Option>
               </Select>
             </FormItem> 
-            <FormItem label="登录密码:"  >
-              <Button type="primary">自动重置密码</Button>
+            <FormItem label="登录密码:" v-if="suption==2" >
+              <Button v-if="passshow"  type="primary" @click="resetpass">自动重置密码</Button>
+              <Button v-else disabled>已生成密码</Button>
             </FormItem>     
           </Form>
           </div>
@@ -124,8 +89,8 @@
         <Modal
           title="添加业务-供应商名称"
           v-model="modal10"
-           @on-ok="businessSubmit('formCustom')"
-           @on-cancel="businessReset('formCustom')"
+           @on-ok="businessSubmit('formCustombusi')"
+           @on-cancel="businessReset('formCustombusi')"
           ok-text="保存"
           cancel-text="取消"
           class-name="vertical-center-modal"
@@ -133,31 +98,30 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
-            <Form ref="formCustom" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
+            <Form ref="formCustombusi" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
               <FormItem label="推广业务:" prop="accounttype" >
-              <Select v-model="formCustom.accounttype" placeholder="请选择业务" style="width:300px" >
-                <Option value="1">华赞金服</Option>
-                <Option value="2">抢单侠</Option>
+              <Select v-model="formCustombusi.accounttype" placeholder="请选择业务" style="width:300px" >
+                <Option v-for="item in prombusiness" :value="item.value">{{item.label}}</Option>
+                <!-- <Option value="2">抢单侠</Option> -->
               </Select>
             </FormItem>
             <FormItem label="商务负责人:" prop="person" >
-              <Select v-model="formCustom.person" placeholder="请选择商务对接" style="width:300px" >
-                <Option value="1">哈哈</Option>
-                <Option value="2">呵呵</Option>
+              <Select v-model="formCustombusi.person" placeholder="请选择商务对接" style="width:300px" >
+                <Option v-for="item in managerSelect" :value="item.value">{{item.label}}</Option>
               </Select>
             </FormItem>
             <FormItem label="对方联系人:" class="clearfix contacts" >
               <Row>
                 <Col span="8">
                     <FormItem prop="name" class="nametop">
-                        <Input class="left" v-model="formCustom.name" placeholder="请输入姓名" style="width: 150px">
+                        <Input class="left" v-model="formCustombusi.name" placeholder="请输入姓名" style="width: 150px">
                         <span slot="prepend">姓名</span>
                         </Input>
                     </FormItem>
                 </Col>
                 <Col span="7">
                     <FormItem prop="phone" class="nametop">                     
-                      <Input v-model="formCustom.phone" class="left " placeholder="请输入手机号" style="width: 150px;margin-top:1px">
+                      <Input v-model="formCustombusi.phone" class="left " placeholder="请输入手机号" style="width: 150px;margin-top:1px">
                       <span slot="prepend">手机号</span>
                       </Input>
                     </FormItem>
@@ -165,7 +129,7 @@
             </Row> 
             </FormItem>
             <FormItem label="备注:" prop="remarks" >
-              <Input  v-model="formCustom.remarks" placeholder="请输入备注" style="width: 300px"></Input>
+              <Input  v-model="formCustombusi.remarks" placeholder="请输入备注" style="width: 300px"></Input>
             </FormItem>  
           </Form>
           </div>
@@ -179,9 +143,15 @@ export default {
   components: { expandRow },
   data() {
     return {
-      city: "",
       modal9:false,
       modal10:false,
+      passshow:true,
+      supptit:'添加供应商',
+      prombusiness:[],
+      managerSelect:[],
+      suption:'',
+      suppliersCode:'',
+      nums:this.$route.query.accnum,
       formCustom: {
         channelnum: '',
         channeltype: '1',
@@ -195,8 +165,8 @@ export default {
       ruleCustom: {
         channelnum: [
           { required: true, message: '请输入供应商编号', trigger: 'blur' },
-          { type: 'string', max: 10, message: '最多输入10个字符', trigger: 'blur' },
-          {required: true, message: '请输入正确的供应商编号', pattern: /^[a-zA-Z0-9]+$/, trigger: 'blur'}
+          {required: true, message: '请输入正确的供应商编号', pattern: /^[a-zA-Z]{1,3}[0-9]{1,9}$/, trigger: 'blur'},
+          { type: 'string', max: 10, message: '最多输入10个字符', trigger: 'blur' }       
         ],
         channelid: [
           { required: true, message: '请输入证件号码', trigger: 'blur' },
@@ -254,11 +224,10 @@ export default {
                 console.log(params)
                   return h(expandRow, {
                       props: {
-                          row: params.row
+                          row: params.row.suppliersCode
                       },
                       on: {
                       click: () => {
-                        alert(1)
                       }
                     }
                   })
@@ -267,6 +236,18 @@ export default {
           {
               key: 'name',             
               render: (h, params) => {
+              let cardType
+              if (params.row.cardType == 1) {
+                cardType = '企业'
+              } else if (params.row.cardType == 2) {
+                cardType = '个人'
+              }
+              let suppliersStatus 
+              if (params.row.suppliersStatus  == 0) {
+                suppliersStatus  = '停用'
+              } else if (params.row.suppliersStatus  == 1) {
+                suppliersStatus  = '正常'
+              }
               return h("div", [
                 h(
                   "strong",
@@ -275,7 +256,7 @@ export default {
                       marginRight: "5px"
                     },
                   },
-                  "供应商名称"
+                  params.row.suppliersName
                 ),
                 h(
                   "span",
@@ -292,7 +273,7 @@ export default {
                       borderRadius: '5px'
                     },
                   },
-                  "企业"
+                  cardType
                 ),
                 h(
                   "Button",
@@ -301,24 +282,13 @@ export default {
                       type: "primary",
                       size: "small"
                     },
-                    // style: {
-                    //   marginRight: "5px",
-                    //   display: 'inline-block',
-                    //   width:'80px',
-                    //   height: '25px',
-                    //   lineHeight: '25px',
-                    //   textAlign: 'center',
-                    //   background: '#1BBC9B',
-                    //   color: '#fff',
-                    //   borderRadius: '5px'
-                    // },
                     on: {
                       click: () => {
                         
                       }
                     }
                   },
-                  "账号正常"
+                  suppliersStatus
                 )
               ]);
             }
@@ -327,7 +297,8 @@ export default {
               key: 'address',
               align:'right',
               render: (h, params) => {
-              return h("div", [
+                if (this.nums == 1) {               
+                  return h("div", [
                 h(
                   "Button",
                   {
@@ -340,7 +311,7 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.addbusiness ()
+                        this.addbusiness (params.row.suppliersCode)
                       }
                     }
                   },
@@ -357,8 +328,9 @@ export default {
                       marginRight: "5px"
                     },
                     on: {
-                      click: () => {
-                        this.addsupplier ()
+                      click: () => {                        
+                        this.suppliersCode = params.row.suppliersCode
+                        this.addsupplier (2)
                       }
                     }
                   },
@@ -376,28 +348,18 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.suppremove ()
+                        this.suppremove (params.row.suppliersCode)
                       }
                     }
                   },
                   "删除"
                 )
-
-              ]);
+              ]);              
+                }              
             }
           }
       ],
-      data9: [
-          {
-              name: 'John Brown',
-              age: 18
-          },
-          {
-              name: 'Jim Green',
-              age: 25
-          }
-      ],
-      cityTypel: [],
+      data9: [],
       startRow: 1,
       endRow: 10,
       total: 0,
@@ -427,25 +389,139 @@ export default {
       this.$refs[name].validate((valid) => {
         if (!valid) {
           return this.changeLoading()
-        } else {     
-          this.$Message.error('Success!')
+        } else {
+          let list
+          if (this.suption == 1) {
+          list = {
+            suppliersNo:this.formCustom.channelnum.toUpperCase(),
+            cardType:this.formCustom.channeltype,
+            cardNo :this.formCustom.channelid,
+            suppliersName:this.formCustom.suppname,
+            contactName :this.formCustom.name,
+            contactPhone :this.formCustom.phone,
+            memo:this.formCustom.remarks,
+            suppliersStatus :this.formCustom.accounttype
+          }
+          } else {
+            list = {
+            suppliersNo:this.formCustom.channelnum.toUpperCase(),
+            cardType:this.formCustom.channeltype,
+            cardNo :this.formCustom.channelid,
+            suppliersName:this.formCustom.suppname,
+            contactName :this.formCustom.name,
+            contactPhone :this.formCustom.phone,
+            memo:this.formCustom.remarks,
+            suppliersStatus :this.formCustom.accounttype,
+            suppliersCode:this.suppliersCode
+          }
+            
+          }
+          
+          this.addsupplierpre (list,this.suption)
         }
       })
     },
     handleReset1 (name) {
       this.$refs[name].resetFields()
     },
-    addsupplier () {
+    addsupplier (num) {
       this.modal9 = true
+      if (num == 1) {
+        this.suption = num
+        this.supptit = '添加供应商'
+      } else {
+        this.suption = num
+        this.supptit = '编辑供应商'
+        this.http.post(BASE_URL+"/promotion/suppliers/getByCode?suppliersCode="+this.suppliersCode).then(data => {
+            if(data.code == 'success'){
+              this.formCustom.channelnum = data.data.suppliersNo
+              this.formCustom.channeltype = String(data.data.cardType)
+              this.formCustom.channelid = data.data.cardNo
+              this.formCustom.suppname = data.data.suppliersName
+              this.formCustom.name = data.data.contactName
+              this.formCustom.phone = data.data.contactPhone
+              // this.formCustom.remarks = data.data.
+              this.formCustom.accounttype = String(data.data.suppliersStatus)
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+
+      }
+    },
+    // 重置密码
+    resetpass () {
+      this.$Modal.confirm({
+          title: '提示',
+          content: '<p>确定要重置密码吗?</p>',
+          onOk: () => {
+            this.http.post(BASE_URL+"/promotion/suppliers/resetPassword?suppliersCode="+this.suppliersCode).then(data => {
+            if(data.code == 'success'){
+              const title = '重置密码'
+              let content = '<p>重置成功</p>'
+              this.$Modal.success({
+                  title: title,
+                  content: content
+              })
+              this.passshow = false
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
+          }
+      });
 
     },
+    // 新增供应商保存
+    addsupplierpre (list,url) {
+      let urls
+      let title
+      let content
+      if (url == 1) {
+        urls = "/promotion/suppliers/save"
+        title = '添加供应商'
+        content = '<p>新增成功</p>'
+      } else {
+        urls = "/promotion/suppliers/updateByCode"
+        title = '编辑供应商'
+        content = '<p>保存成功</p>'
+      }
+      this.http.post(BASE_URL+urls, list).then(data => {
+        if(data.code == 'success'){
+          this.$Modal.success({
+              title: title,
+              content: content,
+              onOk: () => {
+                  this.modal9 = false
+                  this. label_query ()                   
+              }
+          })
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
     // 删除供应商
-    suppremove () {
+    suppremove (code) {
       this.$Modal.confirm({
           title: '提示',
           content: '<p>确定要删除吗?</p>',
           onOk: () => {
-              this.$Message.info('Clicked ok');
+            this.http.post(BASE_URL+'/promotion/suppliers/deleteByCode?suppliersCode='+code).then(data => {
+            if(data.code == 'success'){
+              const title = '提示'
+              let content = '<p>删除成功</p>'
+              this.$Modal.success({
+                  title: title,
+                  content: content,
+                  onOk: () => {                 
+                      this.label_query ()                   
+                  }
+              })
+            }
+          }).catch(err=>{
+            console.log(err)
+          })
           }
       });
     },
@@ -463,21 +539,53 @@ export default {
     businessReset (name) {
       this.$refs[name].resetFields()
     },
-    addbusiness ()  {
+    addbusiness (code)  {
       this.modal10 = true
+      this.sellist (code)
+    },
+    // 添加供应商业务
+    addsuppbusiness () {
+      let list = {
+
+      }
+      this.http.post(BASE_URL+'/promotion/suppliersBusiness/save', list).then(data => {
+        if(data.code == 'success'){
+          this.$Modal.success({
+              title: title,
+              content: content,
+              onOk: () => {
+                  this.modal9 = false
+                  this. label_query ()                   
+              }
+          })
+        }
+      }).catch(err=>{
+        console.log(err)
+      })
+    },
+    sellist (code) {
+      this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:code}).then(data => {
+        if(data.code == 'success'){
+          this.prombusiness = data.data.businessSelect
+          this.managerSelect = data.data.managerSelect
+        }
+      }).catch(err=>{
+
+        console.log(err)
+      })
+
     },
     // 查询
-    label_query(type) {
+    label_query() {
       this.loading3 = true;
       let list =    {
             pageSize: this.endRow,
             pageNum: this.startRow,
-            blackValue: this.number ? this.number : null, //手机号or姓名的参数
+            suppliersName :this.number
           }
-      this.http.post(BASE_URL+"/black/riskBlackList/getRiskBlackListList", list).then(data => {
-        console.log(data)
+      this.http.post(BASE_URL+"/promotion/suppliers/queryListManager", list).then(data => {
         if(data.code == 'success'){
-          // this.data6 = data.data.riskBlackListList;
+          this.data9 = data.data.dataList;
           this.total = parseInt(data.data.total);
           this.loading3 = false;
         }
@@ -494,7 +602,7 @@ export default {
     }
   },
   created() {
-    this.label_query()
+    this.label_query()    
   }
 };
 </script>

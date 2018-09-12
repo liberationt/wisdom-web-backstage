@@ -40,7 +40,7 @@
         <span v-else>查询</span>
       </Button>
       <Button class=" ml10" type="primary" >导出</Button>
-      <Button class=" ml10" shape="circle" icon="ios-cog-outline">配置预警值</Button>
+      <Button class=" ml10" shape="circle" icon="ios-cog-outline" @click="earlywarning">配置预警值</Button>
     </div>
     <div id="application_table " class="contentcss mt10">
         <Table :row-class-name="rowClassName" border highlight-row :columns="columns8" :data="data7" size="small" ref="table" class="dailylist"></Table>
@@ -255,6 +255,10 @@ export default {
     .catch(() => {
       this.loading3 = false
     })
+    },
+    // 配置预警值
+    earlywarning () {
+      this.$router.push({ path: '/rangeConfiguration' })
     }
   },
   mounted () {

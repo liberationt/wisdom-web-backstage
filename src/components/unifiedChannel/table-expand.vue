@@ -105,13 +105,13 @@
             columns7: [
                 {
                 title: "推广业务",
-                key: "name",
+                key: "businessName",
                 minWidth: 200,
                 align: "center"
                 },
                 {
                 title: "商务负责人",
-                key: "age",
+                key: "managerUser",
                 minWidth: 200,
                 align: "center"
                 },
@@ -202,7 +202,17 @@
          }   
         },
         created () {
-            this.data6.push(this.row)
+            let list = {
+                suppliersCode:this.row
+            }
+        this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListAll", list).then(data => {
+            if(data.code == 'success'){
+                this.data6 = data.data       
+            }
+        }).catch(err=>{
+            
+        })
+            // this.data6.push(this.row)
         },
         methods: {
             addbusiness ()  {
