@@ -94,11 +94,11 @@
             <CheckboxGroup v-model="social"  @on-change="checkProvinceChange">
               <Checkbox v-for="tion in city" style="display:block" class="mb5"  :label="tion.rowId">
                 <span>{{tion.province}}</span>
-                <Input v-if="tion.isChecked || tion.dataId != null" :value="tion.limitNum == undefined ? 0 : tion.limitNum" class="limitnum"  style="width: 60px"></Input>
-                <Input v-if="!tion.isChecked && tion.dataId == null" class="limitnum"  style="width: 60px;display:none"></Input>
+                <Input v-if="tion.isChecked || tion.ifSelect" :value="tion.limitNum == undefined ? 0 : tion.limitNum" class="limitnum"  style="width: 60px"></Input>
+                <Input v-if="!tion.isChecked && !tion.ifSelect" class="limitnum"  style="width: 60px;display:none"></Input>
                 </br>
                 <!-- <CheckboxGroup v-model="social.cityList"> -->
-                  <Checkbox v-for="city in tion.cityList" style="display:inline_block" class="mb5"  :label="city.rowId">
+                  <Checkbox v-for="city in tion.cityList" style="display:inline_block" class="mb5 ml10"  :label="city.rowId">
                     <span>{{city.city}}</span>
                     <Input v-if="city.isChecked || city.dataId != null" :value="city.limitNum == undefined ? 0 : city.limitNum" class="limitnum"  style="width: 60px"></Input>
                     <Input v-if="!city.isChecked && city.dataId == null" :value="city.limitNum" class="limitnum"  style="width: 60px;display:none"></Input>
@@ -355,13 +355,20 @@ export default {
             resp.data.map((p, index) => {
               p.rowId = "province" + index;
               this.locationList[p.rowId] = p;
+              if (p.ifSelect) {
+                this.social.push(p.rowId);
+              }
               p.cityList.map((c, index) => {
                 c.rowId = "city" + index + p.rowId;
+                if (c.dataId) {
+                  this.social.push(c.rowId);
+                }
                 this.locationList[c.rowId] = c;
               });
             });
             this.city = this.city.concat(resp.data);
-            console.log(this.city);
+            this.lastSocial = this.social
+            // console.log(this.city);
 
             // for (let i = 0; i < resp.data.length; i++) {
             //   let obj = new Object();
@@ -403,8 +410,8 @@ export default {
         if (this.lastSocial.indexOf(key) == -1) {
           selecteds.push(key);
         }
-      });
-
+      }); 
+      // console.log(selecteds);
       let fullSocial = [];
       Object.keys(this.locationList).map(key => {
         selecteds.map(selected => {
@@ -426,7 +433,8 @@ export default {
         this.locationList[rowId].isChecked = false;
       });
 
-      console.log(fullSocial, this.locationList);
+      // console.log(fullSocial);
+      //this.locationList
       this.lastSocial = social;
       // if (event.target.parentNode.className.indexOf("ivu-checkbox-checked") > -1) {
       //   event.target.parentNode.parentNode.getElementsByClassName("limitnum")[0].style.display ="none";
@@ -436,6 +444,8 @@ export default {
     },
     cancel() {
       this.city = [];
+      this.social = [];
+      this.lastSocial = [];
     },
     // 城市保存
     upload() {
@@ -502,20 +512,19 @@ export default {
           });
         }
       }
-
-      //遍历存在值的
-      Object.keys(this.locationList).map(key => {
-        if (
-          (this.social.indexOf(key) == -1 && this, this.locationList[key].limitNum)
-        ) {
-          if (key.startsWith("city")) {
-            obj.list.push(this.locationList[key]);
-          } else {
-            obj.provinceList.push(this.locationList[key]);
-          }
-        }
-      });
-
+      // //遍历存在值的
+      // Object.keys(this.locationList).map(key => {
+      //   if (
+      //     (this.social.indexOf(key) == -1 && this,
+      //     this.locationList[key].limitNum)
+      //   ) {
+      //     if (key.startsWith("city")) {
+      //       obj.list.push(this.locationList[key]);
+      //     } else {
+      //       obj.provinceList.push(this.locationList[key]);
+      //     }
+      //   }
+      // });
       this.http
         .post(BASE_URL + "/loan/pushCity/addPartyaCitys", obj)
         .then(resp => {
