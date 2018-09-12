@@ -11,7 +11,7 @@ module.exports = {
   extends: [
     // https://github.com/vuejs/eslint-plugin-vue#priority-a-essential-error-prevention
     // consider switching to `plugin:vue/strongly-recommended` or `plugin:vue/recommended` for stricter rules.
-    'plugin:vue/essential', 
+    'plugin:vue/essential',
     // https://github.com/standard/standard/blob/master/docs/RULES-en.md
     'standard'
   ],
@@ -25,6 +25,30 @@ module.exports = {
     'generator-star-spacing': 'off',
     // allow debugger during development
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
-    "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }]
+    "vue/no-parsing-error": [2, { "x-invalid-end-tag": false }],
+
+    "quotes": [1, "double"],
+    //空行最多不能超过100行
+    "no-multiple-empty-lines": [0, {"max": 100}],
+
+    // 关闭语句强制分号结尾
+    "semi": "off",
+    "no-tabs":"off",
+    // //关闭禁止混用tab和空格
+    "no-mixed-spaces-and-tabs": [0],
+    "indent": ["off", "tab"],
+    "no-unused-vars":"off",
+    "key-spacing":"off",
+    "no-trailing-spaces":"off",
+    "one-var":"off",
+    "space-before-blocks":'off',
+    "comma-dangle":"off",
+    "keyword-spacing":"off",
+    "eqeqeq":"off",
+    "space-before-function-paren" : 'off',
+    "spaced-comment":"off",
+    "no-unused-expressions":"off",
+    "space-infix-ops":"off",
+    "arrow-spacing":"off"
   }
 }
