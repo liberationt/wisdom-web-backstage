@@ -53,10 +53,6 @@
     </div>
     <div id="application_table " class="contentcss mt10">
       <Table class="tabgrouping" border highlight-row :columns="reportListColumns" :data="reportList"></Table>
-      <div class="tr mt15">
-        <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange"
-              @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-      </div>
     </div>
 
   </div>
@@ -78,10 +74,6 @@
         curBusinessKey: '',
         beginTime: '',
         endTime: '',
-        account: [],
-        total: 0,
-        startRow: 1,
-        endRow: 10,
 
         reportList: [],
         reportListColumns: [
@@ -186,7 +178,6 @@
             minWidth: 120,
             align: 'center',
             render: (h, params) => {
-              console.log('=====>'+this.curBusinessKey)
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
                 let text = this.curBusinessKey == 'HZ' ? report.allApplyCount : report.allAuthCount
                 return text
@@ -208,24 +199,6 @@
       }
     },
     methods: {
-      // 分页
-      pageChange(page) {
-        this.startRow = page
-        this.queryReportList()
-      },
-      pagesizechange(page) {
-        this.startRow = 1
-        this.endRow = page
-        this.queryReportList()
-      },
-      rowClassName(row, index) {
-        if (index == 0) {
-          return 'demo-table-info-row';
-        } else if (index == 2) {
-          return 'demo-table-info-cell-name';
-        }
-        return ''
-      },
       parseNum(num) {
         if (num == 0) {
           return '（--）'
