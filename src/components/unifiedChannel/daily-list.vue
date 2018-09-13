@@ -196,6 +196,15 @@
         this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersDayReport', params).then((resp) => {
           this.loading3 = false
           if (resp.code == 'success') {
+            if (this.cityList && this.cityList.length > 0) {
+              this.cityList.forEach((business) => {
+                if (business.businessCode == this.model1) {
+                  this.curBusinessKey = business.businessKey
+                }
+              })
+            }
+
+
             //组装数据
             this.data7 = []
             if (resp.data && resp.data.length > 0) {
@@ -263,13 +272,6 @@
         this.$router.push({path: '/rangeConfiguration'})
       },
       applicationAlias(e) {
-        if (this.cityList && this.cityList.length > 0) {
-          this.cityList.forEach((business) => {
-            if (business.businessCode == e) {
-              this.curBusinessKey = business.businessKey
-            }
-          })
-        }
         //供应商
         this.reaName=[]
         this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCode', {businessCode: e}, e => {

@@ -291,13 +291,6 @@
       // 选择业务后查询供应商
       businessChange(businessCode) {
         this.curBusinessCode = businessCode
-        if (this.businessList && this.businessList.length > 0){
-          this.businessList.forEach((business)=>{
-            if (business.businessCode == businessCode){
-              this.curBusinessKey = business.businessKey
-            }
-          })
-        }
         this.suppliersList = []
         this.channelList = []
         this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCode', {
@@ -349,6 +342,14 @@
         this.loading3 = true
         this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersMonthReport', params).then((resp) => {
           this.loading3 = false
+
+          if (this.businessList && this.businessList.length > 0){
+            this.businessList.forEach((business)=>{
+              if (business.businessCode == this.curBusinessCode){
+                this.curBusinessKey = business.businessKey
+              }
+            })
+          }
           this.reportList = resp.data
         }).catch(() => {
           this.loading3 = false
