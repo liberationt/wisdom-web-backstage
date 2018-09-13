@@ -46,7 +46,10 @@
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
-      <Button class=" ml10" type="primary">导出</Button>
+      <Button type="primary" class="ml20 " :loading="loading2" @click="exports">
+        <span v-if="!loading2">导出</span>
+        <span v-else>请稍等...</span>
+      </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
       <Table class="tabgrouping" border highlight-row :columns="reportListColumns" :data="reportList"></Table>
@@ -59,6 +62,8 @@
   </div>
 </template>
 <script>
+  import utils from '../../utils/utils'
+
   export default {
     data() {
       return {
@@ -94,7 +99,6 @@
                 return suppliers.suppliersName
               })
             }
-
           },
           {
             title: '渠道',
@@ -108,7 +112,7 @@
           },
           {
             title: '折扣系数',
-            minWidth: 70,
+            minWidth: 100,
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
@@ -142,13 +146,13 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.registerCount + '(' + report.discountRegisterCount + ')'
+                return report.registerCount + '（' + report.discountRegisterCount + '）'
               });
             }
           },
           {
             title: '注册转化率',
-            minWidth: 70,
+            minWidth: 100,
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
@@ -157,18 +161,18 @@
             }
           },
           {
-            title: '激活',
+            title: '累计激活',
             minWidth: 120,
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.activeCount + '(' + report.discountActiveCount + ')'
+                return report.activeCount + '（' + report.discountActiveCount + '）'
               });
             }
           },
           {
-            title: '激活转化率',
-            minWidth: 70,
+            title: '累计激活转化率',
+            minWidth: 100,
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
@@ -177,7 +181,7 @@
             }
           },
           {
-            title: '申请',
+            title: '累计申请',
             minWidth: 120,
             align: 'center',
             render: (h, params) => {
@@ -187,8 +191,8 @@
             }
           },
           {
-            title: '申请转化率',
-            minWidth: 70,
+            title: '累计申请转化率',
+            minWidth: 100,
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
@@ -364,11 +368,11 @@
         this.loading2 = true;
         let httpUrl = BASE_URL + '/promotion/suppliersBusinessReport/exportSuppliersMonthReport'
         let formData = new FormData()
-        formData.append("beginTime", this.value1)
-        formData.append("endTime", this.value2)
-        formData.append("businessCode", this.model1)
-        formData.append("suppliersCode", this.model3)
-        formData.append("suppliersBusinessChannelCode", this.model4)
+        formData.append("startDate", this.beginTime)
+        formData.append("endDate", this.endTime)
+        formData.append("businessCode", this.curBusinessCode)
+        formData.append("suppliersCode", this.curSuppliersCode)
+        formData.append("suppliersBusinessChannelCode", this.curChannelCode)
         utils.exporttable(httpUrl, utils.getlocal('token'), formData, e => {
           if (e == true) {
             this.loading2 = false;
