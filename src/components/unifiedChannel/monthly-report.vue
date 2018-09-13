@@ -390,8 +390,8 @@
         formData.append("startDate", this.beginTime)
         formData.append("endDate", this.endTime)
         formData.append("businessCode", this.curBusinessCode)
-        formData.append("suppliersCode", this.curSuppliersCode)
-        formData.append("suppliersBusinessChannelCode", this.curChannelCode)
+        this.curSuppliersCode && formData.append("suppliersCode", this.curSuppliersCode)
+        this.curChannelCode && formData.append("suppliersBusinessChannelCode", this.curChannelCode)
         utils.exporttable(httpUrl, utils.getlocal('token'), formData, e => {
           if (e == true) {
             this.loading2 = false;
