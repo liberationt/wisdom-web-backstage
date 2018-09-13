@@ -10,14 +10,14 @@
         <ul class="querysty">
           <li>
             <span class="ml20">应用名称:</span>
-            <Select v-model="model1" placeholder="请选择" style="width:150px">
-              <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="model1" @on-change="applicationAlias" placeholder="请选择" style="width:150px">
+              <Option v-for="item in cityList" :value="item.businessCode" :key="item.businessCode">{{ item.businessName }}</Option>
             </Select>
           </li>
           <li>
             <span class="ml20">供应商:</span>
             <Select v-model="model3" placeholder="实名状态" style="width:150px;">
-              <Option v-for="item in reaName" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              <Option v-for="item in reaName" :value="item.suppliersCode" :key="item.suppliersCode">{{ item.suppliersName }}</Option>
             </Select>
           </li>
           <li>
@@ -31,9 +31,6 @@
             <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
           </li>
         </ul>     
-      <!-- <Select v-model="model2" placeholder="所有渠道" style="width:150px;margin-left:20px">
-        <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select> --> 
       </div>
       <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
         <span v-if="!loading3">查询</span>
@@ -60,9 +57,12 @@ export default {
       loading3: false,
       cityList: [],
       reaName: [],
-      account: [],
+      account: [
+        {value:0,label:'未预警'},
+        {value:1,label:'预警'}
+      ],
       registerTime: [],
-      model1: 'name',
+      model1: '',
       model3: '',
       model4: '',
       model5: '',
@@ -214,7 +214,7 @@ export default {
         // console.log(page)
         this.startRow = page
         this.inquire()
-	},
+	  },
     pagesizechange(page) {
       // console.log(page)
       this.startRow = 1
@@ -229,50 +229,62 @@ export default {
         }
         return '';
     },
+    // 时间
+    time1(){
+
+    },
     // 列表查询
     inquire (num) {
-    this.loading3 = true            
-    let list = {
-      searchOptions : this.model1,
-      searchValue : this.name,
-      realStatus : this.model3,
-      accountStatus : this.model4,
-      userTimeStatus : this.model5, 
-      pageNum: this.startRow,
-      pageSize: this.endRow
-    }
-    this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberPageList', list)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.data6 = resp.data.dataList
-        this.total = resp.data.total
-        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
-        this.loading3 = false
-      } else {
-        this.loading3 = false
+      this.loading3 = true            
+      let list = {
+        businessCode : this.model1,
+        channelReportTime : this.value1,
+        suppliersCode : this.model3,
+        warningStatus : this.model4,
       }
-    })
-    .catch(() => {
-      this.loading3 = false
-    })
+      this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersDayReport', list)
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.data6 = resp.data.dataList
+          this.total = resp.data.total
+          this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+          this.loading3 = false
+        } else {
+          this.loading3 = false
+        }
+      })
+      .catch(() => {
+        this.loading3 = false
+      })
     },
     // 配置预警值
     earlywarning () {
       this.$router.push({ path: '/rangeConfiguration' })
-    }
+    },
+    applicationAlias(e){
+      //供应商
+      this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCode',{businessCode:e},e=>{
+        if (e.code == 'success') {
+          console.log(e)
+          this.reaName = e.data
+        }
+      })
+    },
+    //接口
+    businessPost(httpUrl,data,callback){
+      this.http.post(BASE_URL+httpUrl,data).then(data=>{
+        callback && callback(data)
+      }).catch(err=>{
+        callback && callback(err)
+      })
+    },
   },
   mounted () {
-    this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberListFilter', {})
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.cityList = resp.data.searchOptions
-        this.reaName = resp.data.realNameStatusOptions
-        this.account = resp.data.accountStatusOptions
-        this.registerTime = resp.data.userTimeOptions
-      } else {
+    //应用名称
+    this.businessPost('/promotion/business/queryListByManager',{},e=>{
+      if (e.code == 'success') {
+         this.cityList = e.data
       }
-    })
-    .catch(() => {
     })
     this.inquire ()
   }
