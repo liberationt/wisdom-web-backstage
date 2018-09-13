@@ -1771,6 +1771,98 @@ export default {
         },
        
       ],
+      //瓜子二手车
+      columns14: [
+        {
+          title: '用户名',
+          align: 'center',
+          minWidth:100,
+          key: 'person'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          minWidth:110,
+          key: 'phone'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '城市名',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        {
+          title: '车系',
+          align: 'center',
+          minWidth:110,
+          key: 'tagName'
+        },
+        {
+          title: '品牌',
+          align: 'center',
+          minWidth:110,
+          key: 'minorCategoryName'
+        },
+         {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == '0') {
+              origin = '手动导入'
+            } else if(params.row.origin ==  '1'){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+						}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:160,
+          key: 'pushTime'
+        },
+        {
+          title: '返回状态',
+          align: 'center',
+          minWidth:100,
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.status == '') {
+              succ = ''
+            } else if (params.row.status == 'success' ) {
+              succ = '成功'
+            } else {
+              succ = '失败'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
+        },
+      ],
       data1: []
     }
   },
@@ -1859,7 +1951,10 @@ export default {
               } else if(this.model1 == 'partya-kunxuan-hengchang'){
                 this.party1 = this.columns13
                 this.data1 = resp.data.dkKxhengchangList
-              }else {
+              } else if(this.model1 == 'partya-guazi-usedcar'){
+                this.party1 = this.columns14
+                this.data1 = resp.data.dkGuaziUsedcarList
+              } else {
                 this.party1 = ''
                 this.data1 = ''
               }
