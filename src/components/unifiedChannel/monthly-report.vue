@@ -68,6 +68,7 @@
     data() {
       return {
         loading3: false,
+        loading2 : false,
         businessList: [],
         suppliersList: [],
         channelList: [],
@@ -146,7 +147,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.registerCount + '（' + report.discountRegisterCount + '）'
+                return report.registerCount + this.parseNum(report.discountRegisterCount)
               });
             }
           },
@@ -166,7 +167,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.activeCount + '（' + report.discountActiveCount + '）'
+                return report.allActiveCount
               });
             }
           },
@@ -176,27 +177,30 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.activeRate + "%"
+                return report.allActiveRate + "%"
               });
             }
           },
           {
-            title: '累计申请',
+            title: this.curBusinessKey == 'HZ' ? '累计申请' : '累计认证',
             minWidth: 120,
             align: 'center',
             render: (h, params) => {
+              console.log('=====>'+this.curBusinessKey)
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.applyCount
+                let text = this.curBusinessKey == 'HZ' ? report.allApplyCount : report.allAuthCount
+                return text
               });
             }
           },
           {
-            title: '累计申请转化率',
+            title: this.curBusinessKey == 'HZ' ? '累计申请转化率' :'累计认证转化率',
             minWidth: 100,
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.applyRate + "%"
+                let rate = this.curBusinessKey == 'HZ' ? report.allApplyRate : report.allAuthRate
+                return rate + '%'
               });
             }
           },
@@ -221,6 +225,13 @@
           return 'demo-table-info-cell-name';
         }
         return ''
+      },
+      parseNum(num) {
+        if (num == 0) {
+          return '（--）'
+        } else {
+          return '（' + num + '）'
+        }
       },
 
       reportColumns1Render(h, params, showTextCallback) {
@@ -297,6 +308,7 @@
             this.businessList = resp.data
             if (this.businessList && this.businessList.length > 0) {
               this.curBusinessCode = resp.data[0].businessCode
+              this.curBusinessKey =resp.data[0].businessKey
               callback && callback()
             }
           }
@@ -306,6 +318,13 @@
       // 选择业务后查询供应商
       businessChange(businessCode) {
         this.curBusinessCode = businessCode
+        if (this.businessList && this.businessList.length > 0){
+          this.businessList.forEach((business)=>{
+            if (business.businessCode == businessCode){
+              this.curBusinessKey = business.businessKey
+            }
+          })
+        }
         this.suppliersList = []
         this.channelList = []
         this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCode', {

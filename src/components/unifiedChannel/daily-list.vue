@@ -68,6 +68,7 @@
         model3: '',
         model4: '',
         model5: '',
+        curBusinessKey: '',
         name: '',
         columns8: [
           {
@@ -212,13 +213,13 @@
                   "registerCount": item.allRegisterCount + this.parseNum(item.allDisCountRegisterCount),
                   "registerRate": item.allRegisterFact + '%',
                   "activeCount": item.allActiveCount + this.parseNum(item.allDiscountActiveCount),
-                  "allActiveCount": item.allTotalActiveCount + this.parseNum('待定'),
+                  "allActiveCount": item.allTotalActiveCount,
                   "activeRate": item.allActiveFact + '%',
-                  "allActiveRate": '待定%',
-                  "applyCount": item.allApplyCount + this.parseNum(item.allDiscountApplyCount),
-                  "allApplyCount": item.allTotalApplyCount + this.parseNum('待定'),
-                  "applyRate": item.allApplyFact + '%',
-                  "allApplyRate": '待定%'
+                  "allActiveRate": item.allActiveFact + '%',
+                  "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount + this.parseNum(item.allDiscountApplyCount) : item.allAuthCount + this.parseNum(item.allDiscountAuthCount),
+                  "allApplyCount": this.curBusinessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
+                  "applyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
+                  "allApplyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
                 })
 
                 if (item.channelReportList && item.channelReportList.length > 0) {
@@ -235,10 +236,10 @@
                       "allActiveCount": channelReport.allActiveCount + this.parseNum(channelReport.allDiscountActiveCount),
                       "activeRate": channelReport.activeRate + '%',
                       "allActiveRate": channelReport.allActiveRate + '%',
-                      "applyCount": channelReport.applyCount + this.parseNum(channelReport.discountApplyCount),
-                      "allApplyCount": channelReport.allApplyCount + this.parseNum(channelReport.allDiscountApplyCount),
-                      "applyRate": channelReport.applyRate + '%',
-                      "allApplyRate": channelReport.allApplyRate + '%',
+                      "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount + this.parseNum(channelReport.discountApplyCount) : channelReport.authCount + this.parseNum(channelReport.disAuthCount),
+                      "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount + this.parseNum(channelReport.allDiscountApplyCount) : channelReport.allAuthCount + this.parseNum(channelReport.allDiscountAuthCount),
+                      "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
+                      "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
                     })
                   })
                 }
@@ -262,6 +263,13 @@
         this.$router.push({path: '/rangeConfiguration'})
       },
       applicationAlias(e) {
+        if (this.cityList && this.cityList.length > 0) {
+          this.cityList.forEach((business) => {
+            if (business.businessCode == e) {
+              this.curBusinessKey = business.businessKey
+            }
+          })
+        }
         //供应商
         this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCode', {businessCode: e}, e => {
           if (e.code == 'success') {
