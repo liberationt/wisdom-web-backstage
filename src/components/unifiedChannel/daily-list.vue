@@ -271,6 +271,7 @@
           })
         }
         //供应商
+        this.reaName=[]
         this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCode', {businessCode: e}, e => {
           if (e.code == 'success') {
             console.log(e)
