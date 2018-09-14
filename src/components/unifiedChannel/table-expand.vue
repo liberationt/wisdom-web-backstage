@@ -137,7 +137,7 @@
                         },
                         on: {
                             click: () => {
-                                this.$router.push({ path: '/channelReport' })                            
+                                this.$router.push({ path: '/channelReport?role=admin' })                            
                             }
                         }
                         },
@@ -197,7 +197,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({ path: '/channelReport' })                                    
+                                        this.$router.push({ path: '/channelReport?role=ordinary' })                                    
                                     }
                                 }
                                 },
