@@ -166,7 +166,7 @@ export default {
       ruleCustom: {
         channelnum: [
           { required: true, message: '请输入供应商编号', trigger: 'blur' },
-          {required: true, message: '请输入正确的供应商编号', pattern: /^[a-zA-Z]{1,3}[0-9]{1,9}$/, trigger: 'blur'},
+          {required: true, message: '必须要以字母开头 ，最多输入1-3个字母、1-9个数字', pattern: /^[a-zA-Z]{1,3}[0-9]{1,9}$/, trigger: 'blur'},
           { type: 'string', max: 10, message: '最多输入10个字符', trigger: 'blur' }       
         ],
         channelid: [

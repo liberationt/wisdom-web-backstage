@@ -344,31 +344,41 @@ export default {
         }
       })
     },
+    applylist () {
+      let urls
+      if (this.$route.query.role == 'ordinary') {      
+        urls = '/promotion/business/queryListByUserCode'
+      } else if (this.$route.query.role == 'admin') {
+        urls = '/promotion/business/queryListByManager'
+      }
+      this.http.post(BASE_URL + urls, {})
+      .then((resp) => {
+        if (resp.code == 'success') {
+          this.cityList = resp.data
+          this.model1 = resp.data[0].businessCode
+        } else {
+        }
+      })
+      .catch(() => {
+      })
+    }
 
   },
   mounted () {
-    let urls
-    if (this.$route.query.role == 'ordinary') {      
-      urls = '/promotion/business/queryListByUserCode'
-    } else if (this.$route.query.role == 'admin') {
-      urls = '/promotion/business/queryListByManager'
-    }
-    this.http.post(BASE_URL + urls, {})
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.cityList = resp.data
-        this.model1 = resp.data[0].businessCode
-      } else {
-      }
-    })
-    .catch(() => {
-    })
+    this.applylist ()
     // 获取当前时间
     var date=new Date();
     this.value2 = this.timeFormat(date,1)
     date.setDate(1);
     this.value1 = this.timeFormat(date,0)
     this.inquire ()
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route' (to, from) {    
+      this.applylist ()
+      this.inquire()      //再次调起我要执行的函数
+     } 
   }
 }
 </script>

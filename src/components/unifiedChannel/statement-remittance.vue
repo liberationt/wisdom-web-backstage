@@ -442,9 +442,9 @@ export default {
                   "uv": channelReport.uv + this.parseNum(channelReport.discountUv),
                   "registerCount": channelReport.registerCount + this.parseNum(channelReport.discountRegisterCount),
                   "registerRate": channelReport.registerRate + '%',
-                  "activeCount": channelReport.activeCount,
+                  "activeCount": channelReport.allActiveCount,
                   "activeRate": channelReport.allActiveRate +'%',
-                  "applyCount": channelReport.applyCount,
+                  "applyCount": channelReport.allApplyCount,
                   "allApplyCount": channelReport.allApplyRate+'%'
                 })
               })
