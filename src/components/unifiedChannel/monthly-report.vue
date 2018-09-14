@@ -42,17 +42,17 @@
           </li>
         </ul>
       </div>
-      <Button type="info" class=" ml50 w100" :loading="loading3" @click="queryReportList">
+      <Button type="info" class=" ml20 w100" :loading="loading3" @click="queryReportList">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
-      <Button type="primary" class="ml20 " :loading="loading2" @click="exports">
+      <Button type="primary" class="ml10 " :loading="loading2" @click="exports">
         <span v-if="!loading2">导出</span>
         <span v-else>请稍等...</span>
       </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <Table class="tabgrouping" border highlight-row :columns="reportListColumns" :data="reportList"></Table>
+      <Table class="tabgrouping" border highlight-row :columns="columnstotal" :data="reportList"></Table>
     </div>
 
   </div>
@@ -65,6 +65,7 @@
       return {
         loading3: false,
         loading2 : false,
+        columnstotal:[],
         businessList: [],
         suppliersList: [],
         channelList: [],
@@ -74,7 +75,7 @@
         curBusinessKey: '',
         beginTime: '',
         endTime: '',
-
+        businessKey:'',
         reportList: [],
         reportListColumns: [
           {
@@ -174,7 +175,7 @@
             }
           },
           {
-            title: this.curBusinessKey == 'HZ' ? '累计申请' : '累计认证',
+            title: '累计申请',
             minWidth: 120,
             align: 'center',
             render: (h, params) => {
@@ -185,7 +186,127 @@
             }
           },
           {
-            title: this.curBusinessKey == 'HZ' ? '累计申请转化率' :'累计认证转化率',
+            title: '累计申请转化率',
+            minWidth: 100,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                let rate = this.curBusinessKey == 'HZ' ? report.allApplyRate : report.allAuthRate
+                return rate + '%'
+              });
+            }
+          },
+        ],
+        reportListColumns2: [
+          {
+            title: '日期',
+            key: 'reportDate',
+            minWidth: 110,
+            align: 'center'
+          },
+          {
+            title: '供应商',
+            minWidth: 150,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
+                return suppliers.suppliersName
+              })
+            }
+          },
+          {
+            title: '渠道',
+            minWidth: 200,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.channelName
+              });
+            }
+          },
+          {
+            title: '折扣系数',
+            minWidth: 100,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.discountFact + '%'
+              });
+            }
+          },
+          {
+            title: 'PV',
+            minWidth: 100,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.pv
+              });
+            }
+          },
+          {
+            title: 'UV',
+            minWidth: 100,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.uv
+              });
+            }
+          },
+          {
+            title: '注册',
+            minWidth: 120,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.registerCount + this.parseNum(report.discountRegisterCount)
+              });
+            }
+          },
+          {
+            title: '注册转化率',
+            minWidth: 100,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.registerRate + "%"
+              });
+            }
+          },
+          {
+            title: '累计激活',
+            minWidth: 120,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allActiveCount
+              });
+            }
+          },
+          {
+            title: '累计激活转化率',
+            minWidth: 100,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allActiveRate + "%"
+              });
+            }
+          },
+          {
+            title: '累计认证',
+            minWidth: 120,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                let text = this.curBusinessKey == 'HZ' ? report.allApplyCount : report.allAuthCount
+                return text
+              });
+            }
+          },
+          {
+            title: '累计认证转化率',
             minWidth: 100,
             align: 'center',
             render: (h, params) => {
@@ -281,6 +402,7 @@
             this.businessList = resp.data
             if (this.businessList && this.businessList.length > 0) {
               this.curBusinessCode = resp.data[0].businessCode
+              this.businessKey = resp.data[0].businessKey
               this.curBusinessKey =resp.data[0].businessKey
               callback && callback()
             }
@@ -293,7 +415,12 @@
         this.curBusinessCode = businessCode
         this.suppliersList = []
         this.channelList = []
-        this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCode', {
+        this.businessList.forEach(element => {
+          if (element.businessCode == businessCode) {
+            this.businessKey = element.businessKey
+          }      
+        });
+        this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCodeManager', {
           businessCode: businessCode
         }).then((resp) => {
           if (resp.code == 'success') {
@@ -330,6 +457,11 @@
             content: '<p>开始时间不得大于结束时间</p>'
           })
           return false
+        }
+        if (this.businessKey == 'QDX') {
+          this.columnstotal = this.reportListColumns2
+        } else if (this.businessKey == 'HZ') {
+          this.columnstotal = this.reportListColumns
         }
 
         let params = {

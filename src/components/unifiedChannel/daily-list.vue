@@ -37,26 +37,33 @@
           </li>
         </ul>
       </div>
-      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
+      <Button type="info" class=" ml20 w100" :loading="loading3" @click="inquire">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
-      <Button class=" ml10" type="primary">导出</Button>
+      <Button type="primary" class="ml10 " :loading="loading2" @click="exports">
+        <span v-if="!loading2">导出</span>
+        <span v-else>请稍等...</span>
+      </Button>
       <Button class=" ml10" shape="circle" icon="ios-cog-outline" @click="earlywarning">配置预警值</Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <Table :row-class-name="rowClassName" border highlight-row :columns="columns8" :data="data7" size="small"
+      <Table :row-class-name="rowClassName" border highlight-row :columns="columnstotal" :data="data7" size="small"
              ref="table" class="dailylist"></Table>
     </div>
 
   </div>
 </template>
 <script>
+import utils from '../../utils/utils'
   export default {
     data() {
       return {
         value1: '',
+        loading2: false,
         loading3: false,
+        businessKey:'',
+        columnstotal:[],
         cityList: [],
         reaName: [],
         account: [
@@ -156,6 +163,92 @@
             "minWidth": 100
           }
         ],
+        columns9: [
+          {
+            "title": "渠道",
+            "key": "channelName",
+            align: 'center',
+            "minWidth": 300
+          },
+          {
+            "title": "折扣系数",
+            "key": "discountFact",
+            align: 'center',
+            "minWidth": 100
+          },
+          {
+            "title": "PV",
+            "key": "pv",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "UV",
+            "key": "uv",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "注册",
+            "key": "registerCount",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "注册转化率",
+            "key": "registerRate",
+            align: 'center',
+            "minWidth": 100
+          },
+          {
+            "title": "当日激活",
+            "key": "activeCount",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "累计激活",
+            "key": "allActiveCount",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "当日激活转化率",
+            "key": "activeRate",
+            align: 'center',
+            "minWidth": 100
+          },
+          {
+            "title": "累计激活转化率",
+            "key": "allActiveRate",
+            align: 'center',
+            "minWidth": 100
+          },
+          {
+            "title": "当日申请",
+            "key": "applyCount",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "累计认证",
+            "key": "allApplyCount",
+            align: 'center',
+            "minWidth": 150
+          },
+          {
+            "title": "当日认证转化率",
+            "key": "applyRate",
+            align: 'center',
+            "minWidth": 100
+          },
+          {
+            "title": "累计认证转化率",
+            "key": "allApplyRate",
+            align: 'center',
+            "minWidth": 100
+          }
+        ],
         data7: []
       }
     },
@@ -186,6 +279,11 @@
       },
       // 列表查询
       inquire(num) {
+        if (this.businessKey == 'HZ') {
+          this.columnstotal = this.columns8
+        } else if (this.businessKey == 'QDX') {
+          this.columnstotal = this.columns9
+        }
         let params = {
           businessCode: this.model1,
           channelReportTime: this.value1,
@@ -259,6 +357,21 @@
           this.loading3 = false
         })
       },
+      // 导出
+    exports () {
+      this.loading2 = true;
+      let httpUrl = BASE_URL+'/promotion/suppliersBusinessReport/exportSuppliersDayReport'
+      let formData = new FormData()
+      formData.append("businessCode",this.model1)
+      formData.append("suppliersCode",this.model3)
+      formData.append("channelReportTime",this.value1)
+      formData.append("warningStatus",this.model4)
+      utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
+        if(e == true ){
+          this.loading2 = false;
+        }
+      })
+    },
       parseNum(num) {
         if (num == 0) {
           return '（--）'
@@ -272,11 +385,15 @@
         this.$router.push({path: '/rangeConfiguration'})
       },
       applicationAlias(e) {
+        this.cityList.forEach(element => {
+          if (element.businessCode == e) {
+            this.businessKey = element.businessKey
+          }      
+        });
         //供应商
         this.reaName=[]
-        this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCode', {businessCode: e}, e => {
+        this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCodeManager', {businessCode: e}, e => {
           if (e.code == 'success') {
-            console.log(e)
             this.reaName = e.data
           }
         })
@@ -291,10 +408,25 @@
       },
     },
     mounted() {
+      var date = new Date();
+      var seperator1 = "-";
+      var year = date.getFullYear();
+      var month = date.getMonth() + 1;
+      var strDate = date.getDate();
+      if (month >= 1 && month <= 9) {
+      month = "0" + month;
+      }
+      if (strDate >= 0 && strDate <= 9) {
+      strDate = "0" + strDate;
+      }
+      var currentdate = year + seperator1 + month + seperator1 + strDate;
+      this.value1 =  currentdate;
       //应用名称
       this.businessPost('/promotion/business/queryListByManager', {}, e => {
         if (e.code == 'success') {
           this.cityList = e.data
+          this.model1 = e.data[0].businessCode
+          this.businessKey = e.data[0].businessKey
         }
       })
       this.inquire()
