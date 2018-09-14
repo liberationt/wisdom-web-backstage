@@ -14,7 +14,7 @@
           <span v-if="!loading3">查询</span>
           <span v-else>查询</span>
         </Button>
-          <Button v-if="nums==1&&user=='admin'" shape="circle" class="left ml20" @click="addsupplier(1)">添加供应商</Button>
+          <Button v-if="nums==1" shape="circle" class="left ml20" @click="addsupplier(1)">添加供应商</Button>
         
         </div>
         <div id="application_table" class="mt10 contentcss">
@@ -297,7 +297,7 @@ export default {
               key: 'address',
               align:'right',
               render: (h, params) => {
-                if (this.nums == 1&&this.user == 'admin') {               
+                if (this.nums == 1) {               
                   return h("div", [
                 h(
                   "Button",
