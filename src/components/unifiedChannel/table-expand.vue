@@ -18,17 +18,13 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
-            <Form ref="formCustom" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
+            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:100px">
               <FormItem label="推广业务:" prop="accounttype" >
-              <Select v-model="formCustom.accounttype" placeholder="请选择业务" style="width:300px" >
-                <Option value="1">华赞金服</Option>
-                <Option value="2">抢单侠</Option>
-              </Select>
+                <Input  v-model="formCustom.accounttype" disabled style="width: 300px"></Input>
             </FormItem>
             <FormItem label="商务负责人:" prop="person" >
               <Select v-model="formCustom.person" placeholder="请选择商务对接" style="width:300px" >
-                <Option value="1">哈哈</Option>
-                <Option value="2">呵呵</Option>
+                <Option v-for="item in managerSelect" :value="item.value">{{item.label}}</Option>       
               </Select>
             </FormItem>
             <FormItem label="对方联系人:" class="clearfix contacts" >
@@ -66,29 +62,17 @@
          return {
             modal10:false,
             loading: true,
+            prombusiness:[],
+            managerSelect:[],
+            suppliersBusinessCode:'',
             formCustom: {
-                channelnum: '',
-                channeltype: '1',
-                channelid: '',
-                suppname:'',
                 name: '',
                 phone: '',
                 remarks: '',
-                accounttype: ''
+                accounttype: '',
+                person:''
             },
             ruleCustom: {
-                channelnum: [
-                { required: true, message: '请输入供应商编号', trigger: 'blur' },
-                { type: 'string', max: 10, message: '最多输入10个字符', trigger: 'blur' },
-                {required: true, message: '请输入正确的供应商编号', pattern: /^[a-zA-Z0-9]+$/, trigger: 'blur'}
-                ],
-                channelid: [
-                { required: true, message: '请输入证件号码', trigger: 'blur' },
-                ],
-                suppname: [
-                { required: true, message: '请输入供应商名称', trigger: 'blur' },
-                { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
-                ],
                 name: [
                 { required: true, message: '请输入姓名', trigger: 'blur' }
                 ],
@@ -100,7 +84,7 @@
                 { required: true, message: '请输入备注', trigger: 'blur' },
                 { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
                 ],
-                accounttype: { required: true, message: '请选择账户状态', trigger: 'blur' }
+                person: { required: true, message: '请选择商务负责人', trigger: 'blur' }
             },
             columns7: [
                 {
@@ -120,8 +104,10 @@
                 minWidth: 150,
                 align: "center",
                 render: (h, params) => {
-                    return h("div", [
-                    h(
+                    let list = []
+                    if (this.$route.query.accnum == 1) {
+                        list.push(
+                            h(
                         "Button",
                         {
                         props: {
@@ -133,7 +119,7 @@
                         },
                         on: {
                             click: () => {
-                            this.addbusiness ()
+                            this.addbusiness (params.row.suppliersBusinessCode)
                             }
                         }
                         },
@@ -151,29 +137,11 @@
                         },
                         on: {
                             click: () => {
-                            
+                                this.$router.push({ path: '/channelReport' })                            
                             }
                         }
                         },
                         "渠道报表"
-                    ),
-                    h(
-                        "Button",
-                        {
-                        props: {
-                            type: "primary",
-                            size: "small"
-                        },
-                        style: {
-                            marginRight: "5px"
-                        },
-                        on: {
-                            click: () => {
-                            
-                            }
-                        }
-                        },
-                        "渠道管理"
                     ),
                     h(
                         "Button",
@@ -187,14 +155,57 @@
                         },
                         on: {
                             click: () => {
-                            
+                                this.busdeleting (params.row.suppliersBusinessCode)                           
                             }
                         }
                         },
                         "删除业务"
                     )
-
-                    ]);
+                        )
+                    } else if (this.$route.query.accnum == 2) {
+                        list.push(
+                            h(
+                        "Button",
+                        {
+                        props: {
+                            type: "primary",
+                            size: "small"
+                        },
+                        style: {
+                            marginRight: "5px"
+                        },
+                        on: {
+                            click: () => {
+                                this.$router.push({ path: '/channelManagementunid?suppliersCode='+ params.row.suppliersCode})                            
+                            }
+                        }
+                        },
+                        "渠道管理"
+                    )
+                        )
+                    } else if (this.$route.query.accnum == 3) {
+                        list.push(
+                            h(
+                                "Button",
+                                {
+                                props: {
+                                    type: "primary",
+                                    size: "small"
+                                },
+                                style: {
+                                    marginRight: "5px"
+                                },
+                                on: {
+                                    click: () => {
+                                        this.$router.push({ path: '/channelReport' })                                    
+                                    }
+                                }
+                                },
+                                "渠道报表"
+                            )
+                        )
+                    }
+                    return h("div", list);
                 }
                 }
             ],
@@ -202,30 +213,110 @@
          }   
         },
         created () {
-            let list = {
-                suppliersCode:this.row
-            }
-        this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListAll", list).then(data => {
-            if(data.code == 'success'){
-                this.data6 = data.data       
-            }
-        }).catch(err=>{
-            
-        })
+            this.childlist ()
+            this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:this.row}).then(data => {
+                if(data.code == 'success'){
+                this.prombusiness = data.data.businessSelect
+                this.managerSelect = data.data.managerSelect
+                }
+            }).catch(err=>{
+                console.log(err)
+            })
             // this.data6.push(this.row)
         },
         methods: {
-            addbusiness ()  {
+            addbusiness (code)  {
                 this.modal10 = true
+                this.businessReturn (code)
+
             },
             businessSubmit (name) {
             this.$refs[name].validate((valid) => {
                 if (!valid) {
                 return this.changeLoading()
-                } else {     
-                this.$Message.error('Success!')
+                } else {
+                    this.busition ()     
+                
                 }
             })
+            },
+            // 子表格数据
+            childlist () {
+                    let list = {
+                        suppliersCode:this.row
+                        }
+                    this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListAll", list).then(data => {
+                        if(data.code == 'success'){
+                            this.data6 = data.data       
+                        }
+                    }).catch(err=>{
+                        
+                    })
+
+            },
+            // 编辑回显
+            businessReturn (code) {
+                this.suppliersBusinessCode = code
+                this.http.post(BASE_URL+'/promotion/suppliersBusiness/getByCode?suppliersBusinessCode='+code).then(data => {
+                if(data.code == 'success'){
+                    this.formCustom.accounttype = data.data.businessName
+                    this.formCustom.person = data.data.managerUserCode
+                    this.formCustom.name = data.data.contactUser
+                    this.formCustom.phone = data.data.contactPhone
+                    this.formCustom.remarks = data.data.memo
+                }
+            }).catch(err=>{
+                console.log(err)
+            })
+            },
+            // 编辑保存
+            busition () {
+                let list = {
+                    managerUserCode:this.formCustom.person,
+                    contactUser:this.formCustom.name,
+                    contactPhone:this.formCustom.phone,
+                    suppliersBusinessCode:this.suppliersBusinessCode,
+                    memo:this.formCustom.remarks
+                }
+                this.http.post(BASE_URL+'/promotion/suppliersBusiness/updateByCode',list).then(data => {
+                if(data.code == 'success'){
+                    const title = '提示'
+                    let content = '<p>保存成功</p>'
+                    this.$Modal.success({
+                        title: title,
+                        content: content,
+                        onOk: () => {
+                            this.modal10 = false                 
+                        }
+                    })
+
+                }
+                }).catch(err=>{
+                    console.log(err)
+                })
+            },
+            // 删除业务
+            busdeleting (code) {
+                this.$Modal.confirm({
+                title: '提示',
+                content: '<p>确定要删除吗?</p>',
+                onOk: () => {
+                    this.http.post(BASE_URL+'/promotion/suppliersBusiness/deleteByCode?suppliersBusinessCode='+code).then(data => {
+                    if(data.code == 'success'){
+                    const title = '提示'
+                    let content = '<p>删除成功</p>'
+                    this.$Modal.success({
+                        title: title,
+                        content: content                        
+                    })
+                    this.childlist ()
+                    }
+                }).catch(err=>{
+                    console.log(err)
+                })
+                }
+            })
+
             },
             businessReset (name) {
             this.$refs[name].resetFields()

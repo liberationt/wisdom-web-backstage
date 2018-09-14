@@ -239,13 +239,21 @@ export default {
     applicationsel (val) {
       this.businessCode = val
       this.supplierlist (val)
+      this.model3 = ''
+      this.model4 = ''
     },
     // 供应商列表
     supplierlist (code) {
       let list = {
         businessCode:code
       }
-      this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCode', list)
+      let urls
+      if (this.$route.query.role == 'ordinary') {      
+        urls = '/promotion/suppliersBusiness/queryListByBusinessCode'
+      } else if (this.$route.query.role == 'admin') {
+        urls = '/promotion/suppliersBusiness/queryListByBusinessCodeManager'
+      }
+      this.http.post(BASE_URL + urls, list)
       .then((resp) => {
         if (resp.code == 'success') {
           this.reaName = resp.data
@@ -258,6 +266,7 @@ export default {
     },
     suppliersel (val) {
       this.channel (val)
+      this.model4 = ''
     },
     channel (code) {
       let list = {
@@ -295,7 +304,13 @@ export default {
       suppliersCode:this.model3,
       suppliersBusinessChannelCode:this.model4
     }
-    this.http.post(BASE_URL + '/promotion/report/queryChannelReportGroupList', list)
+    let urls
+    if (this.$route.query.role == 'ordinary') {      
+      urls = '/promotion/report/queryChannelReportGroupList'
+    } else if (this.$route.query.role == 'admin') {
+      urls = '/promotion/report/queryChannelReportGroupListByManager'
+    }
+    this.http.post(BASE_URL + urls, list)
     .then((resp) => {
       if (resp.code == 'success') {
         this.data6 = resp.data
@@ -311,7 +326,12 @@ export default {
     // 导出
     exports () {
       this.loading2 = true;
-      let httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReport'
+      let httpUrl
+      if (this.$route.query.role == 'ordinary') {      
+        httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReport'
+      } else if (this.$route.query.role == 'admin') {
+        httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReportByManager'
+      }
       let formData = new FormData()
       formData.append("beginTime",this.value1)
       formData.append("endTime",this.value2)
@@ -327,7 +347,13 @@ export default {
 
   },
   mounted () {
-    this.http.post(BASE_URL + '/promotion/business/queryListByUserCode', {})
+    let urls
+    if (this.$route.query.role == 'ordinary') {      
+      urls = '/promotion/business/queryListByUserCode'
+    } else if (this.$route.query.role == 'admin') {
+      urls = '/promotion/business/queryListByManager'
+    }
+    this.http.post(BASE_URL + urls, {})
     .then((resp) => {
       if (resp.code == 'success') {
         this.cityList = resp.data

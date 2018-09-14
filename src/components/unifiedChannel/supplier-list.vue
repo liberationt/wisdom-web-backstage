@@ -151,6 +151,7 @@ export default {
       managerSelect:[],
       suption:'',
       suppliersCode:'',
+      code:'',
       nums:this.$route.query.accnum,
       formCustom: {
         channelnum: '',
@@ -221,7 +222,6 @@ export default {
               type: 'expand',
               width: 50,
               render: (h, params) => {
-                console.log(params)
                   return h(expandRow, {
                       props: {
                           row: params.row.suppliersCode
@@ -371,12 +371,12 @@ export default {
     // // 待审核
     pageChange (page) {
       this.startRow = page
-      // this.label_query()
+      this.label_query()
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      // this.label_query()
+      this.label_query()
     },
     changeLoading () {
       this.loading = false
@@ -440,7 +440,7 @@ export default {
               this.formCustom.suppname = data.data.suppliersName
               this.formCustom.name = data.data.contactName
               this.formCustom.phone = data.data.contactPhone
-              // this.formCustom.remarks = data.data.
+              this.formCustom.remarks = data.data.memo
               this.formCustom.accounttype = String(data.data.suppliersStatus)
             }
           }).catch(err=>{
@@ -532,7 +532,7 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {     
-          this.$Message.error('Success!')
+          this.addsuppbusiness ()
         }
       })
     },
@@ -541,20 +541,35 @@ export default {
     },
     addbusiness (code)  {
       this.modal10 = true
+      this.code = code
       this.sellist (code)
     },
     // 添加供应商业务
     addsuppbusiness () {
+      let managerUser
+      this.managerSelect.forEach(element => {    
+        if (element.value == this.formCustombusi.person) {
+          managerUser = element.label         
+        }
+      });
       let list = {
-
+        businessCode:this.formCustombusi.accounttype,
+        managerUser :managerUser,
+        managerUserCode :this.formCustombusi.person,
+        contactUser :this.formCustombusi.name,
+        contactPhone :this.formCustombusi.phone,
+        memo:this.formCustombusi.remarks,
+        suppliersCode :this.code
       }
       this.http.post(BASE_URL+'/promotion/suppliersBusiness/save', list).then(data => {
         if(data.code == 'success'){
+          const title = '提示'
+          let content = '<p>新增成功</p>'
           this.$Modal.success({
               title: title,
               content: content,
               onOk: () => {
-                  this.modal9 = false
+                  this.modal10 = false
                   this. label_query ()                   
               }
           })
@@ -570,7 +585,6 @@ export default {
           this.managerSelect = data.data.managerSelect
         }
       }).catch(err=>{
-
         console.log(err)
       })
 
@@ -578,12 +592,18 @@ export default {
     // 查询
     label_query() {
       this.loading3 = true;
-      let list =    {
-            pageSize: this.endRow,
-            pageNum: this.startRow,
-            suppliersName :this.number
-          }
-      this.http.post(BASE_URL+"/promotion/suppliers/queryListManager", list).then(data => {
+      let list = {
+        pageSize: this.endRow,
+        pageNum: this.startRow,
+        suppliersName :this.number
+      }
+      let httpUrl
+      if (this.nums == 3) { 
+      httpUrl = '/promotion/suppliers/queryList'
+      } else if (this.nums == 1 || this.nums == 2) {
+      httpUrl = "/promotion/suppliers/queryListManager"
+      }
+      this.http.post(BASE_URL+httpUrl, list).then(data => {
         if(data.code == 'success'){
           this.data9 = data.data.dataList;
           this.total = parseInt(data.data.total);
