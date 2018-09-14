@@ -484,7 +484,7 @@ export default {
     }
   },
   mounted () {  
-    this.http.post(BASE_URL + '/promotion/business/queryListByUserCode', {})
+    this.http.post(BASE_URL + '/promotion/business/queryListByManager', {})
     .then((resp) => {
       if (resp.code == 'success') {
         this.cityList = resp.data

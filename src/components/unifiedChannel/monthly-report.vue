@@ -392,7 +392,7 @@
       },
       //查询业务列表
       queryBusiness(callback) {
-        this.http.post(BASE_URL + '/promotion/business/queryListByUserCode', {}).then((resp) => {
+        this.http.post(BASE_URL + '/promotion/business/queryListByManager', {}).then((resp) => {
           if (resp.code == 'success') {
             this.businessList = resp.data
             if (this.businessList && this.businessList.length > 0) {

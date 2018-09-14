@@ -623,6 +623,13 @@ export default {
   },
   created() {
     this.label_query()    
+  },
+  watch: {
+    // 如果路由有变化，会再次执行该方法
+    '$route' (to, from) {    
+      this.nums = to.query.accnum
+      this.label_query()      //再次调起我要执行的函数
+     } 
   }
 };
 </script>
