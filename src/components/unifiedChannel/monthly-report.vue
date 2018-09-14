@@ -75,7 +75,6 @@
         curBusinessKey: '',
         beginTime: '',
         endTime: '',
-        businessKey:'',
         reportList: [],
         reportListColumns: [
           {
@@ -180,8 +179,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                let text = this.curBusinessKey == 'HZ' ? report.allApplyCount : report.allAuthCount
-                return text
+                return report.allApplyCount
               });
             }
           },
@@ -191,8 +189,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                let rate = this.curBusinessKey == 'HZ' ? report.allApplyRate : report.allAuthRate
-                return rate + '%'
+                return report.allApplyRate + '%'
               });
             }
           },
@@ -300,8 +297,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                let text = this.curBusinessKey == 'HZ' ? report.allApplyCount : report.allAuthCount
-                return text
+                return report.allAuthCount
               });
             }
           },
@@ -311,8 +307,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                let rate = this.curBusinessKey == 'HZ' ? report.allApplyRate : report.allAuthRate
-                return rate + '%'
+                return report.allAuthRate + '%'
               });
             }
           },
@@ -402,7 +397,6 @@
             this.businessList = resp.data
             if (this.businessList && this.businessList.length > 0) {
               this.curBusinessCode = resp.data[0].businessCode
-              this.businessKey = resp.data[0].businessKey
               this.curBusinessKey =resp.data[0].businessKey
               callback && callback()
             }
@@ -417,8 +411,8 @@
         this.channelList = []
         this.businessList.forEach(element => {
           if (element.businessCode == businessCode) {
-            this.businessKey = element.businessKey
-          }      
+            this.curBusinessKey = element.businessKey
+          }
         });
         this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCodeManager', {
           businessCode: businessCode
@@ -458,11 +452,6 @@
           })
           return false
         }
-        if (this.businessKey == 'QDX') {
-          this.columnstotal = this.reportListColumns2
-        } else if (this.businessKey == 'HZ') {
-          this.columnstotal = this.reportListColumns
-        }
 
         let params = {
           startDate: this.beginTime,
@@ -474,14 +463,12 @@
         this.loading3 = true
         this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersMonthReport', params).then((resp) => {
           this.loading3 = false
-
-          if (this.businessList && this.businessList.length > 0){
-            this.businessList.forEach((business)=>{
-              if (business.businessCode == this.curBusinessCode){
-                this.curBusinessKey = business.businessKey
-              }
-            })
+          if (this.curBusinessKey == 'QDX') {
+            this.columnstotal = this.reportListColumns2
+          } else if (this.curBusinessKey == 'HZ') {
+            this.columnstotal = this.reportListColumns
           }
+
           this.reportList = resp.data
         }).catch(() => {
           this.loading3 = false
