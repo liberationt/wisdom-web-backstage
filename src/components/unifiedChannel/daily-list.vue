@@ -224,11 +224,11 @@
                   "activeCount": item.allActiveCount + this.parseNum(item.allDiscountActiveCount),
                   "allActiveCount": item.allTotalActiveCount,
                   "activeRate": item.allActiveFact + '%',
-                  "allActiveRate": item.allActiveFact + '%',
+                  "allActiveRate": item.allTotalActiveFact + '%',
                   "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount + this.parseNum(item.allDiscountApplyCount) : item.allAuthCount + this.parseNum(item.allDiscountAuthCount),
                   "allApplyCount": this.curBusinessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
                   "applyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
-                  "allApplyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
+                  "allApplyRate": this.curBusinessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%',
                 })
 
                 if (item.channelReportList && item.channelReportList.length > 0) {
