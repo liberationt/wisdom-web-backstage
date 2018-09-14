@@ -55,15 +55,16 @@
   </div>
 </template>
 <script>
-import utils from '../../utils/utils'
+  import utils from '../../utils/utils'
+
   export default {
     data() {
       return {
         value1: '',
         loading2: false,
         loading3: false,
-        businessKey:'',
-        columnstotal:[],
+        businessKey: '',
+        columnstotal: [],
         cityList: [],
         reaName: [],
         account: [
@@ -322,11 +323,11 @@ import utils from '../../utils/utils'
                   "activeCount": item.allActiveCount + this.parseNum(item.allDiscountActiveCount),
                   "allActiveCount": item.allTotalActiveCount,
                   "activeRate": item.allActiveFact + '%',
-                  "allActiveRate": item.allActiveFact + '%',
+                  "allActiveRate": item.allTotalActiveFact + '%',
                   "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount + this.parseNum(item.allDiscountApplyCount) : item.allAuthCount + this.parseNum(item.allDiscountAuthCount),
                   "allApplyCount": this.curBusinessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
                   "applyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
-                  "allApplyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
+                  "allApplyRate": this.curBusinessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%',
                 })
 
                 if (item.channelReportList && item.channelReportList.length > 0) {
@@ -358,20 +359,20 @@ import utils from '../../utils/utils'
         })
       },
       // 导出
-    exports () {
-      this.loading2 = true;
-      let httpUrl = BASE_URL+'/promotion/suppliersBusinessReport/exportSuppliersDayReport'
-      let formData = new FormData()
-      formData.append("businessCode",this.model1)
-      formData.append("suppliersCode",this.model3)
-      formData.append("channelReportTime",this.value1)
-      formData.append("warningStatus",this.model4)
-      utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
-        if(e == true ){
-          this.loading2 = false;
-        }
-      })
-    },
+      exports() {
+        this.loading2 = true;
+        let httpUrl = BASE_URL + '/promotion/suppliersBusinessReport/exportSuppliersDayReport'
+        let formData = new FormData()
+        formData.append("businessCode", this.model1)
+        formData.append("suppliersCode", this.model3)
+        formData.append("channelReportTime", this.value1)
+        formData.append("warningStatus", this.model4)
+        utils.exporttable(httpUrl, utils.getlocal('token'), formData, e => {
+          if (e == true) {
+            this.loading2 = false;
+          }
+        })
+      },
       parseNum(num) {
         if (num == 0) {
           return '（--）'
@@ -388,10 +389,10 @@ import utils from '../../utils/utils'
         this.cityList.forEach(element => {
           if (element.businessCode == e) {
             this.businessKey = element.businessKey
-          }      
+          }
         });
         //供应商
-        this.reaName=[]
+        this.reaName = []
         this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCodeManager', {businessCode: e}, e => {
           if (e.code == 'success') {
             this.reaName = e.data
@@ -414,13 +415,13 @@ import utils from '../../utils/utils'
       var month = date.getMonth() + 1;
       var strDate = date.getDate();
       if (month >= 1 && month <= 9) {
-      month = "0" + month;
+        month = "0" + month;
       }
       if (strDate >= 0 && strDate <= 9) {
-      strDate = "0" + strDate;
+        strDate = "0" + strDate;
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate;
-      this.value1 =  currentdate;
+      this.value1 = currentdate;
       //应用名称
       this.businessPost('/promotion/business/queryListByManager', {}, e => {
         if (e.code == 'success') {
@@ -441,6 +442,4 @@ import utils from '../../utils/utils'
   .ivu-table-cell {
     padding: 0
   }
-
-
 </style>
