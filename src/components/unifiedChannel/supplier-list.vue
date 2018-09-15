@@ -591,6 +591,7 @@ export default {
       }
       this.http.post(BASE_URL+'/promotion/suppliersBusiness/save', list).then(data => {
         if(data.code == 'success'){
+          this.modal10 = false
           const title = '提示'
           let content = '<p>新增成功</p>'
           this.$Modal.success({
@@ -601,6 +602,12 @@ export default {
                   this. label_query ()                   
               }
           })
+          this.formCustombusi.accounttype = ""
+          this.formCustombusi.person = ""
+          this.formCustombusi.name =""
+          this.formCustombusi.phone = ""
+          this.formCustombusi.remarks=""
+          this.code=""
         }
       }).catch(err=>{
         console.log(err)
