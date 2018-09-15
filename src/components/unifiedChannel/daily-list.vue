@@ -71,6 +71,7 @@
         cityList: [],
         reaName: [],
         account: [
+          {label: '请选择'},
           {value: 0, label: '未预警'},
           {value: 1, label: '预警'}
         ],
@@ -373,4 +374,3 @@
     padding: 0
   }
 </style>
->>>>>>> dcc38473c5e782e86d6de942fd43ca6bc4cd06ae

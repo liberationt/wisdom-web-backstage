@@ -176,7 +176,6 @@
                         },
                         on: {
                             click: () => {
-                                console.log(params.row)
                                 this.$router.push({ path: '/channelManagementunid?suppliersCode='+ params.row.suppliersCode+'&suppliersBusinessCode='+params.row.suppliersBusinessCode})                            
                             }
                         }
@@ -309,6 +308,9 @@
                         content: content                        
                     })
                     this.childlist ()
+                    } else {
+                        this.$Message.error(data.message);
+                        this.loading = false
                     }
                 }).catch(err=>{
                     console.log(err)

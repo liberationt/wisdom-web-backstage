@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-      <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;公共配置&nbsp;>&nbsp;黑名单管理</span>
+      <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;供应商列表&nbsp;>&nbsp;渠道管理</span>
       </p>
     </div>
       <div class="clearfix conditioncss">
@@ -31,7 +31,7 @@
         </div>
         <!-- 添加渠道 -->
         <Modal
-          title="添加渠道"
+          :title=titles
           v-model="modal10"
            @on-ok="businessSubmit('formCustom')"
            @on-cancel="businessReset('formCustom')"
@@ -62,7 +62,7 @@
                 </FormItem>
               <FormItem label="推广页样式:" prop="style" >
               <Select v-model="formCustombusi.style" placeholder="请选择" style="width:300px" @on-change="applicationsel">
-                <Option v-for="items in promotionPageSelect" :value="items.businessPromotionPageCode">{{items.promotionPageUrl}}</Option>
+                <Option v-for="items in promotionPageSelect" :value="items.businessPromotionPageCode">{{items.pageName}}&nbsp;&nbsp;{{items.promotionPageUrl}}</Option>
               </Select>
             </FormItem>
             <FormItem label=""  >
@@ -87,6 +87,7 @@ export default {
       code :'',
       nums:'',
       application: "",
+      titles:'添加渠道',
       suppliersBusinessChannelCode:'',
       cityList: [],
       promotionPageSelect:[],
@@ -106,16 +107,20 @@ export default {
       },
       ruleCustombusi: {
         channelname: [
-          { required: true, message: '请输入渠道名称', trigger: 'blur' }
+          { required: true, message: '请输入渠道名称', trigger: 'blur' },
+          { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
         ],
         coefficient: [
           { required: true, message: '请输入基础折扣系数', trigger: 'blur' },
+          {required: true, message: '请输入正确的基础折扣系数', pattern: /^([1-9][0-9]{0,1}|100)$/, trigger: 'blur'}
         ],
         register: [
-          { required: true, message: '请输入基础注册数', trigger: 'blur' }
+          { required: true, message: '请输入基础注册数', trigger: 'blur' },
+          {required: true, message: '请输入正确的基础注册数', pattern: /^\+?[1-9]\d*$/ , trigger: 'blur'}
         ],
         activation: [
-          { required: true, message: '请输入基础激活数', trigger: 'blur' }
+          { required: true, message: '请输入基础激活数', trigger: 'blur' },
+          {required: true, message: '请输入正确的基础激活数', pattern: /^\+?[1-9]\d*$/ , trigger: 'blur'}
         ],
         // phone: [
         //   { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -275,6 +280,7 @@ export default {
     },
     businessReset (name) {
       this.$refs[name].resetFields()
+      this.stylelogo = require('../../image/moren.png')
     },
     changeLoading () {
       this.loading = false
@@ -294,13 +300,13 @@ export default {
     // 添加渠道 
     addchannel (num) {
       this.nums = num
-        if (num == 2) {          
-            this.numhid = true
-            this.addecho ()
-            this.editors ()
-
+        if (num == 2) {
+          this.titles = '编辑渠道'       
+          this.numhid = true
+          this.editors ()         
         }  else {
             this.numhid = false
+            this.titles = '添加渠道'
             this.addecho ()
         }
         this.modal10 = true
@@ -359,7 +365,8 @@ export default {
               content: content,
               onOk: () => {
                   this.modal10 = false
-                  this. label_query ()                   
+                  this. label_query ()
+                  this.stylelogo = require('../../image/moren.png')
               }
           })
 
@@ -448,11 +455,9 @@ export default {
                   let content = '<p>更新成功</p>'
                   this.$Modal.success({
                       title: title,
-                      content: content,
-                      onOk: () => {                 
-                        this.label_query ()                   
-                      }
+                      content: content
                   })
+                  this.label_query ()
                 }
               }).catch(err=>{
                 console.log(err)

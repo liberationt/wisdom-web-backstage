@@ -390,13 +390,31 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
-          // let personal = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$/
-          // let enterprise = /^[A-Za-z0-9]{1,30}$/
+          let personal = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
+          let enterprise = /^[A-Za-z0-9]{1,30}$/
 
           if (this.formCustom.channeltype == '1') {
-            
+            if (!enterprise.test(this.formCustom.channelid)) {
+              const title = '提示'
+              let content = '<p>类型为企业时,只允许输入数字和字母，位数不超过30位</p>'
+              this.$Modal.error({
+                  title: title,
+                  content: content
+              })
+              this.loading = false
+              return false
+            }
           } else {
-            
+            if (!personal.test(this.formCustom.channelid)) {
+              const title = '提示'
+              let content = '<p>类型为个人时,请输入18位身份证号,字母只允许末位出现X</p>'
+              this.$Modal.error({
+                  title: title,
+                  content: content
+              })
+              this.loading = false
+              return false
+            }
           }
           let list
           if (this.suption == 1) {
