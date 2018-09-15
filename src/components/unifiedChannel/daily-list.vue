@@ -405,8 +405,8 @@
                       "allActiveRate": channelReport.allActiveRate + '%',
                       "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount : channelReport.authCount,
                       "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
-                      "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
-                      "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
+                      "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.activeRate + '%',
+                      "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%',
                       "warningStatus": channelReport.warningStatus,
                     })
                   })
