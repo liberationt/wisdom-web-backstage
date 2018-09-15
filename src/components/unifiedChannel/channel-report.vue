@@ -66,7 +66,7 @@
         reaName: [],
         account: [],
         registerTime: [],
-        model1: 'name',
+        model1: '',
         model3: '',
         model4: '',
         model5: '',
@@ -206,8 +206,6 @@
           .then((resp) => {
             if (resp.code == 'success') {
               this.reaName = resp.data
-            } else {
-
             }
           })
           .catch(() => {
@@ -226,8 +224,6 @@
           .then((resp) => {
             if (resp.code == 'success') {
               this.account = resp.data
-            } else {
-
             }
           })
           .catch(() => {
@@ -305,7 +301,8 @@
             if (resp.code == 'success') {
               this.cityList = resp.data
               this.model1 = resp.data[0].businessCode
-            } else {
+              
+              this.inquire ()
             }
           })
           .catch(() => {
@@ -314,13 +311,13 @@
 
     },
     mounted () {
-      this.applylist ()
       // 获取当前时间
       var date=new Date();
       this.value2 = this.timeFormat(date,1)
       date.setDate(1);
       this.value1 = this.timeFormat(date,0)
-      this.inquire ()
+      
+      this.applylist ()
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
