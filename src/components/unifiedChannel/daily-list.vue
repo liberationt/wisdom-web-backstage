@@ -52,7 +52,7 @@
       </div>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <Table :row-class-name="rowClassName" border highlight-row :columns="columnstotal" :data="data7" size="small"
+      <Table :row-class-name="rowClassName" border highlight-row :columns="columnsList" :data="data7" size="small"
              ref="table" class="dailylist"></Table>
     </div>
   </div>
@@ -67,10 +67,11 @@
         loading2: false,
         loading3: false,
         businessKey: '',
-        columnstotal: [],
+        columnsList: [],
         cityList: [],
         reaName: [],
         account: [
+          {label: '请选择'},
           {value: 0, label: '未预警'},
           {value: 1, label: '预警'}
         ],
@@ -82,232 +83,6 @@
         curBusinessKey: '',
         name: '',
 
-        columns8: [
-          {
-            title: "渠道",
-            key: "channelName",
-            align: 'center',
-            minWidth: 150,
-            render: (h, params) => {
-              let fontWeight = '100'
-              if (params.row.isSupplierRow) {
-                fontWeight = '700'
-              } else if (params.row.isTotal) {
-                fontWeight = '400'
-              }
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    style: {
-                      display: "inline-block",
-                      width: "100%",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      fontWeight: fontWeight
-                    },
-                    domProps: {
-                      title: params.row.channelName
-                    }
-                  },
-                  params.row.channelName
-                )
-              ]);
-            }
-          },
-          {
-            "title": "折扣系数",
-            "key": "discountFact",
-            align: 'center',
-            "minWidth": 200
-          },
-          {
-            "title": "PV",
-            "key": "pv",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "UV",
-            "key": "uv",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "注册",
-            "key": "registerCount",
-            align: 'center',
-            "minWidth": 150
-          },
-          {
-            "title": "注册转化率",
-            "key": "registerRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日激活",
-            "key": "activeCount",
-            align: 'center',
-            "minWidth": 150
-          },
-          {
-            "title": "累计激活",
-            "key": "allActiveCount",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日激活转化率",
-            "key": "activeRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "累计激活转化率",
-            "key": "allActiveRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日申请",
-            "key": "applyCount",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "累计申请",
-            "key": "allApplyCount",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日申请转化率",
-            "key": "applyRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "累计申请转化率",
-            "key": "allApplyRate",
-            align: 'center',
-            "minWidth": 100
-          }
-        ],
-        columns9: [
-          {
-            title: "渠道",
-            key: "channelName",
-            align: 'center',
-            minWidth: 150,
-            render: (h, params) => {
-              let fontWeight = '100'
-              if (params.row.isSupplierRow) {
-                fontWeight = '700'
-              } else if (params.row.isTotal) {
-                fontWeight = '400'
-              }
-              return h("div", [
-                h(
-                  "span",
-                  {
-                    style: {
-                      display: "inline-block",
-                      width: "100%",
-                      overflow: "hidden",
-                      textOverflow: "ellipsis",
-                      whiteSpace: "nowrap",
-                      fontWeight: fontWeight
-                    },
-                    domProps: {
-                      title: params.row.channelName
-                    }
-                  },
-                  params.row.channelName
-                )
-              ]);
-            }
-          },
-          {
-            "title": "折扣系数",
-            "key": "discountFact",
-            align: 'center',
-            "minWidth": 200
-          },
-          {
-            "title": "PV",
-            "key": "pv",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "UV",
-            "key": "uv",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "注册",
-            "key": "registerCount",
-            align: 'center',
-            "minWidth": 150
-          },
-          {
-            "title": "注册转化率",
-            "key": "registerRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日激活",
-            "key": "activeCount",
-            align: 'center',
-            "minWidth": 150
-          },
-          {
-            "title": "累计激活",
-            "key": "allActiveCount",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日激活转化率",
-            "key": "activeRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "累计激活转化率",
-            "key": "allActiveRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日认证",
-            "key": "applyCount",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "累计认证",
-            "key": "allApplyCount",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "当日认证转化率",
-            "key": "applyRate",
-            align: 'center',
-            "minWidth": 100
-          },
-          {
-            "title": "累计认证转化率",
-            "key": "allApplyRate",
-            align: 'center',
-            "minWidth": 100
-          }
-        ],
         data7: []
       }
     },
@@ -325,23 +100,116 @@
       },
       rowClassName(row, index) {
         if (row.isSupplierRow) {
-          return 'demo-table-info-row';
+          return 'demo-table-info-row'
         } else if (row.warningStatus == 1) {
-          return 'demo-table-info-cell-name';
+          return 'demo-table-info-cell-name'
+        } else {
+          return ''
         }
-        return '';
       },
+
+      getColumnList(businessKey) {
+        let columnList = [
+          this.getColumnItem('渠道', 'channelName', 150, (h, params) => {
+              return this.renderColumn(h, params.row.channelName, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('折扣系数', 'discountFact', 200, (h, params) => {
+              return this.renderColumn(h, params.row.discountFact, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('PV', 'pv', 100, (h, params) => {
+              return this.renderColumn(h, params.row.pv, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('UV', 'uv', 100, (h, params) => {
+              return this.renderColumn(h, params.row.uv, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('注册', 'registerCount', 150, (h, params) => {
+              return this.renderColumn(h, params.row.registerCount, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('注册转化率', 'registerRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.registerRate, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('当日激活', 'activeCount', 150, (h, params) => {
+              return this.renderColumn(h, params.row.activeCount, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('累计激活', 'allActiveCount', 100, (h, params) => {
+              return this.renderColumn(h, params.row.allActiveCount, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('当日激活转化率', 'activeRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.activeRate, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem('累计激活转化率', 'allActiveRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.allActiveRate, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem(businessKey == 'HZ' ? '当日申请' : '当日认证', 'applyCount', 100, (h, params) => {
+              return this.renderColumn(h, params.row.applyCount, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'allApplyCount', 100, (h, params) => {
+              return this.renderColumn(h, params.row.allApplyCount, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem(businessKey == 'HZ' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.applyRate, params.row.isTotal)
+            }
+          ),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'allApplyRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.allApplyRate, params.row.isTotal)
+            }
+          ),
+        ]
+        return columnList
+      },
+
+      getColumnItem(title, key, width, render) {
+        return {
+          title: title,
+          key: key,
+          minWidth: width,
+          align: 'center',
+          render: render
+        }
+      },
+
+      renderColumn(h, text, isTotal) {
+        return h("div", [
+          h(
+            "span",
+            {
+              style: {
+                display: "inline-block",
+                width: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                fontWeight: isTotal ? '700' : ''
+              },
+              domProps: {
+                title: text
+              }
+            },
+            text
+          )
+        ]);
+      },
+
       // 时间
       time1(value, data) {
         this.value1 = value
       },
       // 列表查询
       inquire(num) {
-        if (this.businessKey == 'HZ') {
-          this.columnstotal = this.columns8
-        } else if (this.businessKey == 'QDX') {
-          this.columnstotal = this.columns9
-        }
+        this.columnsList = this.getColumnList(this.businessKey)
+
         let params = {
           businessCode: this.model1,
           channelReportTime: this.value1,
@@ -367,6 +235,7 @@
                 //供应商名称
                 this.data7.push({
                   'isSupplierRow': true,
+                  'isTotal': true,
                   "channelName": item.suppliersName,
                   "discountFact": '平均激活转化率：' + item.activeRate + '%',
                 })
@@ -505,4 +374,3 @@
     padding: 0
   }
 </style>
->>>>>>> dcc38473c5e782e86d6de942fd43ca6bc4cd06ae
