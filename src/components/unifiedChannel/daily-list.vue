@@ -87,13 +87,35 @@
             "title": "渠道",
             "key": "channelName",
             align: 'center',
-            "minWidth": 300
+            "minWidth": 150,
+             render: (h, params) => {
+              let fontWeight = params.row.fontWeight ? params.row.fontWeight: '100'
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      display: "inline-block",
+                      width: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      fontWeight: fontWeight
+                    },
+                    domProps: {
+                      title: params.row.channelName
+                    }
+                  },
+                  params.row.channelName
+                )
+              ]);
+            }
           },
           {
             "title": "折扣系数",
             "key": "discountFact",
             align: 'center',
-            "minWidth": 100
+            "minWidth": 150
           },
           {
             "title": "PV",
@@ -166,12 +188,6 @@
             "key": "allApplyRate",
             align: 'center',
             "minWidth": 100
-          },
-          {
-            "title": "预警状态",
-            "key": "warningStatus",
-            align: 'center',
-            "minWidth": 100,
           }
         ],
         columns9: [
@@ -179,13 +195,35 @@
             "title": "渠道",
             "key": "channelName",
             align: 'center',
-            "minWidth": 300
+            "minWidth": 150,
+            render: (h, params) => {
+              let fontWeight = params.row.fontWeight ? params.row.fontWeight: '100'
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      display: "inline-block",
+                      width: "100%",
+                      overflow: "hidden",
+                      textOverflow: "ellipsis",
+                      whiteSpace: "nowrap",
+                      fontWeight: fontWeight
+                    },
+                    domProps: {
+                      title: params.row.channelName
+                    }
+                  },
+                  params.row.channelName
+                )
+              ]);
+            }
           },
           {
             "title": "折扣系数",
             "key": "discountFact",
             align: 'center',
-            "minWidth": 100
+            "minWidth": 150
           },
           {
             "title": "PV",
@@ -258,12 +296,6 @@
             "key": "allApplyRate",
             align: 'center',
             "minWidth": 100
-          },
-          {
-            "title": "预警状态",
-            "key": "warningStatus",
-            align: 'center',
-            "minWidth": 100,
           }
         ],
         data7: []
@@ -326,10 +358,13 @@
               resp.data.forEach((item) => {
                 //供应商名称
                 this.data7.push({
-                  channelName: item.suppliersName + '     平均激活转化率：' + item.activeRate,
+                  "fontWeight":'700',
+                  "channelName": item.suppliersName,
+                  "discountFact": '平均激活转化率：' + item.activeRate,
                 })
                 //总计
                 this.data7.push({
+                  "fontWeight":'400',
                   "channelName": "总计",
                   "discountFact": '',
                   "pv": item.allPv,
