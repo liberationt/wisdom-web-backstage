@@ -56,7 +56,6 @@
       <Table :row-class-name="rowClassName" border highlight-row :columns="columnstotal" :data="data7" size="small"
              ref="table" class="dailylist"></Table>
     </div>
-
   </div>
 </template>
 <script>
@@ -283,8 +282,6 @@
         this.inquire()
       },
       rowClassName(row, index) {
-        console.log('===>', row, index)
-        console.log('===>', row.warningStatus)
         if (index == 0) {
           return 'demo-table-info-row';
         } else if (index > 0 && row.warningStatus == 1) {
@@ -448,8 +445,6 @@
           if (this.cityList && this.cityList.length > 0) {
             this.model1 = this.cityList[0].businessCode
             this.businessKey = this.cityList[0].businessKey
-
-            console.log('day====>this.model1: ', this.model1)
             this.inquire()
           }
         }

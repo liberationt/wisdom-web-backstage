@@ -228,7 +228,6 @@
             addbusiness (code)  {
                 this.modal10 = true
                 this.businessReturn (code)
-
             },
             businessSubmit (name) {
             this.$refs[name].validate((valid) => {

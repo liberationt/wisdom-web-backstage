@@ -324,8 +324,6 @@ export default {
           this.businessKey = element.businessKey
         }      
       });
-
-
     },
     suppliersel (val) {
       this.channel (val)

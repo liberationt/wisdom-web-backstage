@@ -54,7 +54,6 @@
     <div id="application_table " class="contentcss mt10">
       <Table class="tabgrouping" border highlight-row :columns="columnstotal" :data="reportList"></Table>
     </div>
-
   </div>
 </template>
 <script>

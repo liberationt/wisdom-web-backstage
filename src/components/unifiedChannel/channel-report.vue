@@ -164,8 +164,6 @@ export default {
       }
       return h('div', list)
     },
-
-
     // 时间判断
     time1 (value, data) {
       this.value1 = value
