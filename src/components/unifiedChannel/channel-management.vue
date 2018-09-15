@@ -31,7 +31,7 @@
         </div>
         <!-- 添加渠道 -->
         <Modal
-          title="添加渠道"
+          :title=titles
           v-model="modal10"
            @on-ok="businessSubmit('formCustom')"
            @on-cancel="businessReset('formCustom')"
@@ -87,6 +87,7 @@ export default {
       code :'',
       nums:'',
       application: "",
+      titles:'添加渠道',
       suppliersBusinessChannelCode:'',
       cityList: [],
       promotionPageSelect:[],
@@ -299,12 +300,13 @@ export default {
     // 添加渠道 
     addchannel (num) {
       this.nums = num
-        if (num == 2) {          
-            this.numhid = true
-            this.editors ()
-
+        if (num == 2) {
+          this.titles = '编辑渠道'       
+          this.numhid = true
+          this.editors ()         
         }  else {
             this.numhid = false
+            this.titles = '添加渠道'
             this.addecho ()
         }
         this.modal10 = true
@@ -453,11 +455,9 @@ export default {
                   let content = '<p>更新成功</p>'
                   this.$Modal.success({
                       title: title,
-                      content: content,
-                      onOk: () => {                 
-                        this.label_query ()                   
-                      }
+                      content: content
                   })
+                  this.label_query ()
                 }
               }).catch(err=>{
                 console.log(err)
