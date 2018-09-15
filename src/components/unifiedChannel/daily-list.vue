@@ -172,7 +172,7 @@
             "title": "预警状态",
             "key": "warningStatus",
             align: 'center',
-            "width": 0
+            "minWidth": 100,
           }
         ],
         columns9: [
@@ -264,7 +264,7 @@
             "title": "预警状态",
             "key": "warningStatus",
             align: 'center',
-            "width": 0
+            "minWidth": 100,
           }
         ],
         data7: []
@@ -273,7 +273,6 @@
     methods: {
       // 分页
       pageChange(page) {
-        // console.log(page)
         this.startRow = page
         this.inquire()
       },
