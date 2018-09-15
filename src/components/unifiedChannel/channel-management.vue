@@ -301,7 +301,6 @@ export default {
       this.nums = num
         if (num == 2) {          
             this.numhid = true
-            this.addecho ()
             this.editors ()
 
         }  else {
