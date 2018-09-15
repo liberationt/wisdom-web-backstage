@@ -75,8 +75,7 @@
             <div class="imgenlarge">
                 <img v-bind:src="stylelogo" alt="" >
             </div>
-          </Modal>
-        
+          </Modal>      
   </div>
 </template>
 <script>

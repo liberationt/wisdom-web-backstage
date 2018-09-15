@@ -235,8 +235,7 @@
                 if (!valid) {
                 return this.changeLoading()
                 } else {
-                    this.busition ()     
-                
+                    this.busition ()
                 }
             })
             },

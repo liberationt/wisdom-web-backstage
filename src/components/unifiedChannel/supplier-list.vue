@@ -469,7 +469,6 @@ export default {
           })
           }
       });
-
     },
     // 新增供应商保存
     addsupplierpre (list,url) {

@@ -510,6 +510,4 @@ export default {
 .ivu-table-cell{
     padding: 0
 }
-
-
 </style>

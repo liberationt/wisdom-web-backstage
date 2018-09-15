@@ -311,7 +311,6 @@ export default {
       .catch(() => {
       })
     }
-
   },
   mounted () {
     this.applylist ()
