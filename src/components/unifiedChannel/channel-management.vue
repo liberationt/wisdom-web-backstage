@@ -8,7 +8,7 @@
       <div class="clearfix conditioncss">
         <div class="left">
           <span>应用：</span>
-          <Select v-model="application" style="width:150px" disabled>
+          <Select v-model="application" style="width:150px" >
             <Option v-for="item in cityList" :value="item.suppliersBusinessCode" :key="item.suppliersBusinessCode">{{ item.businessName }}</Option>
           </Select>
         </div>
@@ -487,12 +487,7 @@ export default {
     this.http.post(BASE_URL + "/promotion/suppliersBusiness/queryListAll ",{suppliersCode:this.$route.query.suppliersCode}).then(data=>{
       if(data.code == 'success'){
         this.cityList = data.data
-        for (let i = 0; i < data.data.length; i++) {
-          if (this.$route.query.suppliersCode == data.data[i].suppliersCode) {
-            this.application = data.data[i].suppliersBusinessCode
-          }        
-        }
-        
+        this.application = this.$route.query.suppliersBusinessCode      
         this.label_query ()
       }
     }).catch(err=>{
