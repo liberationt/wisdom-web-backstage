@@ -32,10 +32,10 @@
             <span>  -  </span>
             <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
           </li>
-        </ul>     
+        </ul>
       <!-- <Select v-model="model2" placeholder="所有渠道" style="width:150px;margin-left:20px">
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select> --> 
+      </Select> -->
       </div>
       <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
         <span v-if="!loading3">查询</span>
@@ -48,11 +48,8 @@
     </div>
     <div id="application_table " class="contentcss mt10">
       <Table class="tabgrouping" border highlight-row :columns="columns7" :data="data6"></Table>
-      <!-- <div class="tr mt15">
-        <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-      </div> -->
     </div>
-    
+
   </div>
 </template>
 <script>
@@ -74,9 +71,6 @@ export default {
       model4: '',
       model5: '',
       name: '',
-      total: 0,
-      startRow: 1,
-      endRow: 10,
       columns7: [
         {
           title: '日期',
@@ -90,56 +84,19 @@ export default {
           minWidth: 120,
           align: 'center',
           render: (h, params) => {
-            let num = '40px'
-            let border = '1px solid #e9eaec'          
-            let list = []
-            for (let i = 0; i < params.row.suppliersChannelList.length; i++) {
-              if (params.row.suppliersChannelList.length == 1) {
-                border = '0px'
-              }
-              list.push(
-                h('span', {
-                    style: {
-                        display: 'block',
-                        width: '100%',
-                        height:num,
-                        lineHeight: '40px',                   
-                        borderBottom:border
-                    }
-                }, params.row.suppliersChannelList[i].suppliersName)
-              )              
-            }
-            return h('div', list)
+            return this.reportColumns1Render(h, params.row.suppliersChannelList, (suppliers) => {
+              return suppliers.suppliersName
+            })
           }
-
         },
         {
           title: '渠道',
           align: 'center',
           minWidth: 80,
           render: (h, params) => {
-            let num = '40px'
-            let border = '1px solid #e9eaec'
-            let list = []
-            for (let i = 0; i < params.row.suppliersChannelList.length; i++) {
-              for (let j = 0; j < params.row.suppliersChannelList[i].channelList.length; j++) {
-                if (params.row.suppliersChannelList[i].channelList.length-1 == j) {
-                  border = '0px'
-                }
-                list.push(
-                h('span', {
-                    style: {
-                        display: 'block',
-                        width: '100%',
-                        height:num,
-                        lineHeight: '40px',                   
-                        borderBottom:border
-                    }
-                }, params.row.suppliersChannelList[i].channelList[j].suppliersBusinessChannelName)
-              )               
-              }                           
-            }
-            return h('div', list)
+            return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+              return report.suppliersBusinessChannelName
+            });
           }
         },
         {
@@ -147,28 +104,9 @@ export default {
           minWidth: 120,
           align: 'center',
           render: (h, params) => {
-            let num = '40px'
-            let border = '1px solid #e9eaec'
-            let list = []
-            for (let i = 0; i < params.row.suppliersChannelList.length; i++) {
-              for (let j = 0; j < params.row.suppliersChannelList[i].channelList.length; j++) {
-                if (params.row.suppliersChannelList[i].channelList.length-1 == j) {
-                  border = '0px'
-                }
-                list.push(
-                h('span', {
-                    style: {
-                        display: 'block',
-                        width: '100%',
-                        height:num,
-                        lineHeight: '40px',                   
-                        borderBottom:border
-                    }
-                }, params.row.suppliersChannelList[i].channelList[j].discountRegisterCount)
-              )               
-              }                           
-            }
-            return h('div', list)
+            return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+              return report.discountRegisterCount
+            });
           }
         },
         {
@@ -176,28 +114,9 @@ export default {
           align: 'center',
           minWidth: 80,
           render: (h, params) => {
-            let num = '40px'
-            let border = '1px solid #e9eaec'
-            let list = []
-            for (let i = 0; i < params.row.suppliersChannelList.length; i++) {
-              for (let j = 0; j < params.row.suppliersChannelList[i].channelList.length; j++) {
-                if (params.row.suppliersChannelList[i].channelList.length-1 == j) {
-                  border = '0px'
-                }
-                list.push(
-                h('span', {
-                    style: {
-                        display: 'block',
-                        width: '100%',
-                        height:num,
-                        lineHeight: '40px',                   
-                        borderBottom:border
-                    }
-                }, params.row.suppliersChannelList[i].channelList[j].discountActiveCount)
-              )               
-              }                           
-            }
-            return h('div', list)
+            return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+              return report.discountActiveCount
+            });
           }
         }
       ],
@@ -205,18 +124,48 @@ export default {
     }
   },
   methods: {
-    // 分页
-    pageChange(page) {
-        // console.log(page)
-				this.startRow = page
-				this.inquire()
-		},
-    pagesizechange(page) {
-      // console.log(page)
-      this.startRow = 1
-      this.endRow = page
-      this.inquire()
+
+    reportColumns1Render(h, params, showTextCallback) {
+      let list = []
+      for (let i = 0; i < params.length; i++) {
+        let text = showTextCallback ? showTextCallback(params[i]) : params[i]
+        list.push(
+          h('span', {
+            style: {
+              display: 'block',
+              width: '100%',
+              height: '40px',
+              lineHeight: '40px',
+              borderBottom: '1px solid #e9eaec'
+            }
+          }, text)
+        )
+      }
+      return h('div', list)
     },
+
+    reportColumns2Render(h, params, showTextCallback) {
+      let list = []
+      for (let i = 0; i < params.length; i++) {
+        for (let j = 0; j < params[i].channelList.length; j++) {
+          let text = showTextCallback ? showTextCallback(params[i].channelList[j]) : params[i].channelList[j]
+          list.push(
+            h('span', {
+              style: {
+                display: 'block',
+                width: '100%',
+                height: '40px',
+                lineHeight: '40px',
+                borderBottom: '1px solid #e9eaec'
+              }
+            }, text)
+          )
+        }
+      }
+      return h('div', list)
+    },
+
+
     // 时间判断
     time1 (value, data) {
       this.value1 = value
@@ -248,7 +197,7 @@ export default {
         businessCode:code
       }
       let urls
-      if (this.$route.query.role == 'ordinary') {      
+      if (this.$route.query.role == 'ordinary') {
         urls = '/promotion/suppliersBusiness/queryListByBusinessCode'
       } else if (this.$route.query.role == 'admin') {
         urls = '/promotion/suppliersBusiness/queryListByBusinessCodeManager'
@@ -258,10 +207,10 @@ export default {
         if (resp.code == 'success') {
           this.reaName = resp.data
         } else {
-          
+
         }
       })
-      .catch(() => {     
+      .catch(() => {
       })
     },
     suppliersel (val) {
@@ -278,14 +227,14 @@ export default {
         if (resp.code == 'success') {
           this.account = resp.data
         } else {
-          
+
         }
       })
-      .catch(() => {     
+      .catch(() => {
       })
     },
     // 列表查询
-    inquire (num) {
+    inquire () {
     this.loading3 = true
     let date1 = Date.parse(new Date(this.value1))/1000
     let date2 = Date.parse(new Date(this.value2))/1000
@@ -296,7 +245,7 @@ export default {
         content: '<p>开始时间不得大于结束时间</p>'
       })
       return false
-    }            
+    }
     let list = {
       beginTime:this.value1,
       endTime : this.value2,
@@ -305,7 +254,7 @@ export default {
       suppliersBusinessChannelCode:this.model4
     }
     let urls
-    if (this.$route.query.role == 'ordinary') {      
+    if (this.$route.query.role == 'ordinary') {
       urls = '/promotion/report/queryChannelReportGroupList'
     } else if (this.$route.query.role == 'admin') {
       urls = '/promotion/report/queryChannelReportGroupListByManager'
@@ -327,7 +276,7 @@ export default {
     exports () {
       this.loading2 = true;
       let httpUrl
-      if (this.$route.query.role == 'ordinary') {      
+      if (this.$route.query.role == 'ordinary') {
         httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReport'
       } else if (this.$route.query.role == 'admin') {
         httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReportByManager'
@@ -346,7 +295,7 @@ export default {
     },
     applylist () {
       let urls
-      if (this.$route.query.role == 'ordinary') {      
+      if (this.$route.query.role == 'ordinary') {
         urls = '/promotion/business/queryListByUserCode'
       } else if (this.$route.query.role == 'admin') {
         urls = '/promotion/business/queryListByManager'
@@ -375,10 +324,10 @@ export default {
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route' (to, from) {    
+    '$route' (to, from) {
       this.applylist ()
       this.inquire()      //再次调起我要执行的函数
-     } 
+     }
   }
 }
 </script>

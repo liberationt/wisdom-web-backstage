@@ -36,9 +36,9 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
-            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:200px">
+            <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="padding-left:200px" >
               <FormItem label="供应商编号:" prop="channelnum" >
-                <Input v-model="formCustom.channelnum" placeholder="请输入供应商编号" style="width: 300px"></Input>
+                <Input v-model="formCustom.channelnum" :disabled="suption==2" placeholder="请输入供应商编号" style="width: 300px"></Input>
               </FormItem>
               <FormItem label="类型:" prop="channelid" >
                 <Select v-model="formCustom.channeltype" placeholder="请选择" style="width:100px">
@@ -128,7 +128,7 @@
               </Col>
             </Row> 
             </FormItem>
-            <FormItem label="备注:" prop="remarks" >
+            <FormItem label="备注:"  >
               <Input  v-model="formCustombusi.remarks" placeholder="请输入备注" style="width: 300px"></Input>
             </FormItem>  
           </Form>
@@ -183,10 +183,10 @@ export default {
           { required: true, message: '请输入手机号', trigger: 'blur' },
           {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
-        remarks: [
-          { required: true, message: '请输入备注', trigger: 'blur' },
-          { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
-        ],
+        // remarks: [
+        //   { required: true, message: '请输入备注', trigger: 'blur' },
+        //   { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
+        // ],
         accounttype: { required: true, message: '请选择账户状态', trigger: 'blur' }
       },
       // 业务
@@ -413,10 +413,8 @@ export default {
             memo:this.formCustom.remarks,
             suppliersStatus :this.formCustom.accounttype,
             suppliersCode:this.suppliersCode
-          }
-            
-          }
-          
+          }            
+          }         
           this.addsupplierpre (list,this.suption)
         }
       })
@@ -431,6 +429,7 @@ export default {
         this.supptit = '添加供应商'
       } else {
         this.suption = num
+        this.passshow = true
         this.supptit = '编辑供应商'
         this.http.post(BASE_URL+"/promotion/suppliers/getByCode?suppliersCode="+this.suppliersCode).then(data => {
             if(data.code == 'success'){
@@ -493,9 +492,13 @@ export default {
               content: content,
               onOk: () => {
                   this.modal9 = false
-                  this. label_query ()                   
+                  this. label_query ()
+                  this.$refs['formCustom'].resetFields()                  
               }
           })
+        } else {
+          this.$Message.error(data.message);
+          this.loading = false
         }
       }).catch(err=>{
         console.log(err)
@@ -513,11 +516,11 @@ export default {
               let content = '<p>删除成功</p>'
               this.$Modal.success({
                   title: title,
-                  content: content,
-                  onOk: () => {                 
-                      this.label_query ()                   
-                  }
+                  content: content                 
               })
+              this.label_query ()
+            } else {
+              this.$Message.error(data.message);
             }
           }).catch(err=>{
             console.log(err)

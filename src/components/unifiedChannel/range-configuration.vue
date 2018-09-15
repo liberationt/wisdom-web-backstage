@@ -25,7 +25,7 @@ export default {
                     key: 'businessName'
                 },
                 {
-                    title: '',
+                    title: '范围值配置(%)',
                     align: 'center',
                     minWidth: 500,
                     render: (h, params) => {
@@ -45,11 +45,14 @@ export default {
                         h('InputNumber', {
                             props: {
                                 min:0,
+                                max:100,
                                 value:Number(params.row.activeFact),
                             },
-                            on:{
-                                
+                            on:{                             
                                 input:val=>{
+                                    if (val == null) {
+                                        val = 0
+                                    }
                                     this.data1.forEach(element => {
                                         if (element.businessCode == params.row.businessCode) {
                                             element.activeFact=String(val);
@@ -85,10 +88,14 @@ export default {
                         h('InputNumber', {
                             props: {
                                 min:0,
+                                max:100,
                                 value:Number(params.row.applyFact),
                             },
                             on:{
                                 input:val=>{
+                                    if (val == null) {
+                                        val = 0
+                                    }
                                     this.data1.forEach(element => {
                                         if (element.businessCode == params.row.businessCode) {
                                             element.applyFact=String(val);

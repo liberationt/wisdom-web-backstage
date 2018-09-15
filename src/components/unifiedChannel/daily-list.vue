@@ -35,17 +35,21 @@
             <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间"
                         style="width: 150px"></DatePicker>
           </li>
+          <li>
+            <Button type="info" class=" ml20 w100" :loading="loading3" @click="inquire">
+              <span v-if="!loading3">查询</span>
+              <span v-else>查询</span>
+            </Button>
+          </li>
+          <li>
+            <Button type="primary" class="ml10 " :loading="loading2" @click="exports">
+              <span v-if="!loading2">导出</span>
+              <span v-else>请稍等...</span>
+            </Button>
+            <Button class=" ml10" shape="circle" icon="ios-cog-outline" @click="earlywarning">配置预警值</Button>
+          </li>
         </ul>
-      </div>
-      <Button type="info" class=" ml20 w100" :loading="loading3" @click="inquire">
-        <span v-if="!loading3">查询</span>
-        <span v-else>查询</span>
-      </Button>
-      <Button type="primary" class="ml10 " :loading="loading2" @click="exports">
-        <span v-if="!loading2">导出</span>
-        <span v-else>请稍等...</span>
-      </Button>
-      <Button class=" ml10" shape="circle" icon="ios-cog-outline" @click="earlywarning">配置预警值</Button>
+      </div>          
     </div>
     <div id="application_table " class="contentcss mt10">
       <Table :row-class-name="rowClassName" border highlight-row :columns="columnstotal" :data="data7" size="small"

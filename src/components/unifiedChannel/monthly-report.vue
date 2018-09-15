@@ -324,12 +324,8 @@
       },
 
       reportColumns1Render(h, params, showTextCallback) {
-        let border = '1px solid #e9eaec'
         let list = []
         for (let i = 0; i < params.length; i++) {
-          if (params.length == 1) {
-            border = '0px'
-          }
           let text = showTextCallback ? showTextCallback(params[i]) : params[i]
           list.push(
             h('span', {
@@ -338,7 +334,7 @@
                 width: '100%',
                 height: '40px',
                 lineHeight: '40px',
-                borderBottom: border
+                borderBottom: '1px solid #e9eaec'
               }
             }, text)
           )
@@ -347,14 +343,9 @@
       },
 
       reportColumns2Render(h, params, showTextCallback) {
-        let border = '1px solid #e9eaec'
         let list = []
         for (let i = 0; i < params.length; i++) {
           for (let j = 0; j < params[i].channelReportList.length; j++) {
-            if (params[i].channelReportList.length - 1 == j) {
-              border = '0px'
-            }
-
             let text = showTextCallback ? showTextCallback(params[i].channelReportList[j]) : params[i].channelReportList[j]
             list.push(
               h('span', {
@@ -363,7 +354,7 @@
                   width: '100%',
                   height: '40px',
                   lineHeight: '40px',
-                  borderBottom: border
+                  borderBottom: '1px solid #e9eaec'
                 }
               }, text)
             )

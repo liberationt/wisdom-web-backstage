@@ -8,7 +8,7 @@
       <div class="clearfix conditioncss">
         <div class="left">
           <span>应用：</span>
-          <Select v-model="application" style="width:150px">
+          <Select v-model="application" style="width:150px" disabled>
             <Option v-for="item in cityList" :value="item.suppliersBusinessCode" :key="item.suppliersBusinessCode">{{ item.businessName }}</Option>
           </Select>
         </div>
@@ -154,9 +154,10 @@ export default {
                 input:val=>{
                   this.data6.forEach(element => {
                     if (element.businessCode == params.row.businessCode) {
-                      element.channelBaseDiscount=val;
+                      this.data6[params.index].channelBaseDiscount=val;
                     }
                   })
+                  
                 }
                }
             },)
@@ -167,7 +168,7 @@ export default {
           title: "基础注册数",
           minWidth: 100,
           align: "center",
-          render: (h, params) => {
+          render: (h, params) => {            
           return h('div', [
             h('InputNumber', {
               props: {
@@ -175,10 +176,10 @@ export default {
                 value:params.row.channelDiscountSize,
               },
               on:{
-                input:val=>{
+                input:val=>{                 
                   this.data6.forEach(element => {
                     if (element.businessCode == params.row.businessCode) {
-                      element.channelDiscountSize=val;
+                      this.data6[params.index].channelDiscountSize=val;
                     }
                   })
                 }
@@ -488,7 +489,12 @@ export default {
     this.http.post(BASE_URL + "/promotion/suppliersBusiness/queryListAll ",{suppliersCode:this.$route.query.suppliersCode}).then(data=>{
       if(data.code == 'success'){
         this.cityList = data.data
-        this.application = data.data[0].suppliersBusinessCode
+        for (let i = 0; i < data.data.length; i++) {
+          if (this.$route.query.suppliersCode == data.data[i].suppliersCode) {
+            this.application = data.data[i].suppliersBusinessCode
+          }        
+        }
+        
         this.label_query ()
       }
     }).catch(err=>{
