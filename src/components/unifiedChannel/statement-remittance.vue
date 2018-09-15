@@ -16,7 +16,7 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="model3" placeholder="实名状态" style="width:150px;" @on-change="suppliersel">
+            <Select v-model="model3" placeholder="请选择供应商" style="width:150px;" @on-change="suppliersel">
               <Option v-for="item in reaName" :value="item.suppliersCode" :key="item.suppliersCode">{{ item.suppliersName }}</Option>
             </Select>
           </li>

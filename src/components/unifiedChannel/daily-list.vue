@@ -18,7 +18,7 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="model3" placeholder="实名状态" style="width:150px;">
+            <Select v-model="model3" placeholder="请选择供应商" style="width:150px;">
               <Option v-for="item in reaName" :value="item.suppliersCode" :key="item.suppliersCode">{{
                 item.suppliersName }}
               </Option>
@@ -405,8 +405,8 @@
                       "allActiveRate": channelReport.allActiveRate + '%',
                       "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount : channelReport.authCount,
                       "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
-                      "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.activeRate + '%',
-                      "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%',
+                      "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.authRate + '%',
+                      "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
                       "warningStatus": channelReport.warningStatus,
                     })
                   })
@@ -505,3 +505,4 @@
     padding: 0
   }
 </style>
+>>>>>>> dcc38473c5e782e86d6de942fd43ca6bc4cd06ae
