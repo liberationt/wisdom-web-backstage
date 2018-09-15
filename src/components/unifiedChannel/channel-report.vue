@@ -311,12 +311,12 @@
 
     },
     mounted () {
-      this.applylist ()
       // 获取当前时间
       var date=new Date();
       this.value2 = this.timeFormat(date,1)
       date.setDate(1);
       this.value1 = this.timeFormat(date,0)
+      this.applylist ()
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
