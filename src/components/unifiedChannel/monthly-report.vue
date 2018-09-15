@@ -52,7 +52,7 @@
       </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <Table class="tabgrouping" border highlight-row :columns="columnstotal" :data="reportList"></Table>
+      <Table class="tabgrouping" border highlight-row :columns="columnList" :data="reportList"></Table>
     </div>
   </div>
 </template>
@@ -64,7 +64,6 @@
       return {
         loading3: false,
         loading2: false,
-        columnstotal: [],
         businessList: [],
         suppliersList: [],
         channelList: [],
@@ -74,251 +73,91 @@
         curBusinessKey: '',
         beginTime: '',
         endTime: '',
+        columnList: [],
         reportList: [],
-        reportListColumns: [
-          {
-            title: '日期',
-            key: 'reportDate',
-            minWidth: 110,
-            align: 'center'
-          },
-          {
-            title: '供应商',
-            minWidth: 150,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
-                return suppliers.suppliersName
-              })
-            }
-          },
-          {
-            title: '渠道',
-            minWidth: 200,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.channelName
-              });
-            }
-          },
-          {
-            title: '折扣系数',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.discountFact + '%'
-              });
-            }
-          },
-          {
-            title: 'PV',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.pv
-              });
-            }
-          },
-          {
-            title: 'UV',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.uv
-              });
-            }
-          },
-          {
-            title: '注册',
-            minWidth: 120,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return this.parseNum(report.registerCount, report.discountRegisterCount)
-              });
-            }
-          },
-          {
-            title: '注册转化率',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.registerRate + "%"
-              });
-            }
-          },
-          {
-            title: '累计激活',
-            minWidth: 120,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allActiveCount
-              });
-            }
-          },
-          {
-            title: '累计激活转化率',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allActiveRate + "%"
-              });
-            }
-          },
-          {
-            title: '累计申请',
-            minWidth: 120,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allApplyCount
-              });
-            }
-          },
-          {
-            title: '累计申请转化率',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allApplyRate + '%'
-              });
-            }
-          },
-        ],
-        reportListColumns2: [
-          {
-            title: '日期',
-            key: 'reportDate',
-            minWidth: 110,
-            align: 'center'
-          },
-          {
-            title: '供应商',
-            minWidth: 150,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
-                return suppliers.suppliersName
-              })
-            }
-          },
-          {
-            title: '渠道',
-            minWidth: 200,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.channelName
-              });
-            }
-          },
-          {
-            title: '折扣系数',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.discountFact + '%'
-              });
-            }
-          },
-          {
-            title: 'PV',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.pv
-              });
-            }
-          },
-          {
-            title: 'UV',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.uv
-              });
-            }
-          },
-          {
-            title: '注册',
-            minWidth: 120,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return this.parseNum(report.registerCount, report.discountRegisterCount)
-              });
-            }
-          },
-          {
-            title: '注册转化率',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.registerRate + "%"
-              });
-            }
-          },
-          {
-            title: '累计激活',
-            minWidth: 120,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allActiveCount
-              });
-            }
-          },
-          {
-            title: '累计激活转化率',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allActiveRate + "%"
-              });
-            }
-          },
-          {
-            title: '累计认证',
-            minWidth: 120,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allAuthCount
-              });
-            }
-          },
-          {
-            title: '累计认证转化率',
-            minWidth: 100,
-            align: 'center',
-            render: (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allAuthRate + '%'
-              });
-            }
-          },
-        ],
       }
     },
     methods: {
-      parseNum(num1, num2) {
-        if (num1 == num2) {
-          return num1 + '（--）'
-        } else {
-          return num1 + '（' + num2 + '）'
+      getColumnList(businessKey) {
+        let columnList = [
+          this.getColumnItem('日期', 'reportDate', 110),
+          this.getColumnItem('供应商', 'suppliersName', 150, (h, params) => {
+            return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
+              return suppliers.suppliersName
+            })
+          }),
+          this.getColumnItem('渠道', '', 200, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.channelName
+            })
+          }),
+
+          this.getColumnItem('折扣系数', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.discountFact + '%'
+            })
+          }),
+          this.getColumnItem('PV', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.pv
+            })
+          }),
+          this.getColumnItem('UV', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.uv
+            })
+          }),
+          this.getColumnItem('注册', '', 120, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return this.parseNum(report.registerCount, report.discountRegisterCount)
+            })
+          }),
+          this.getColumnItem('注册转化率', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.registerRate + "%"
+            })
+          }),
+          this.getColumnItem('累计激活', '', 120, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.allActiveCount
+            })
+          }),
+          this.getColumnItem('累计激活转化率', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.allActiveRate + "%"
+            })
+          }),
+          businessKey == 'HZ' ?
+            this.getColumnItem('累计申请', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allApplyCount
+              })
+            }) : this.getColumnItem('累计认证', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allAuthCount
+              })
+            }),
+          businessKey == 'HZ' ?
+            this.getColumnItem('累计申请转化率', '', 100, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allApplyRate + '%'
+              })
+            }) : this.getColumnItem('累计申请转化率', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allAuthRate
+              })
+            }),
+        ]
+        return columnList
+      },
+
+      getColumnItem(title, key, width, render) {
+        return {
+          title: title,
+          key: key,
+          minWidth: width,
+          align: 'center',
+          render: render
         }
       },
 
@@ -360,6 +199,13 @@
           }
         }
         return h('div', list)
+      },
+      parseNum(num1, num2) {
+        if (num1 == num2) {
+          return num1 + '（--）'
+        } else {
+          return num1 + '（' + num2 + '）'
+        }
       },
 
       // 时间选择
@@ -443,6 +289,7 @@
           return false
         }
 
+        this.columnList = this.getColumnList(this.curBusinessKey)
         let params = {
           startDate: this.beginTime,
           endDate: this.endTime,
@@ -453,12 +300,6 @@
         this.loading3 = true
         this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersMonthReport', params).then((resp) => {
           this.loading3 = false
-          if (this.curBusinessKey == 'QDX') {
-            this.columnstotal = this.reportListColumns2
-          } else if (this.curBusinessKey == 'HZ') {
-            this.columnstotal = this.reportListColumns
-          }
-
           this.reportList = resp.data
         }).catch(() => {
           this.loading3 = false
