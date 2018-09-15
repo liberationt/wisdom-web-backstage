@@ -313,8 +313,8 @@
                       this.reportList.push({
                         "channelName": channelReport.channelName,
                         "discountFact": channelReport.discountFact + '%',
-                        "pv": this.parseNum(channelReport.pv, channelReport.discountPv),
-                        "uv": this.parseNum(channelReport.uv, channelReport.discountUv),
+                        "pv": channelReport.pv,
+                        "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                         "registerRate": channelReport.registerRate + '%',
                         "activeCount": channelReport.allActiveCount,
