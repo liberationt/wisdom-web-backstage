@@ -155,13 +155,12 @@ export default {
                 value:params.row.channelBaseDiscount,
               },
               on:{
-                input:val=>{
+                InputNumber:val=>{
                   this.data6.forEach(element => {
                     if (element.businessCode == params.row.businessCode) {
                       this.data6[params.index].channelBaseDiscount=val;
                     }
-                  })
-                  
+                  })                 
                 }
                }
             },)
@@ -180,7 +179,7 @@ export default {
                 value:params.row.channelDiscountSize,
               },
               on:{
-                input:val=>{                 
+                InputNumber:val=>{                 
                   this.data6.forEach(element => {
                     if (element.businessCode == params.row.businessCode) {
                       this.data6[params.index].channelDiscountSize=val;
