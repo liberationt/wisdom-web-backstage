@@ -304,6 +304,8 @@ export default {
           this.numhid = true
           this.addecho (num)        
         }  else {
+            this.formCustombusi.channelname = ""
+            this.formCustombusi.style = ""
             this.numhid = false
             this.titles = '添加渠道'
             this.addecho (num)
@@ -374,7 +376,6 @@ export default {
                   this.stylelogo = require('../../image/moren.png')
               }
           })
-
         }
       }).catch(err=>{
         console.log(err)
