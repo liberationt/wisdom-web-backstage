@@ -41,7 +41,7 @@
                 <Input v-model="formCustom.channelnum" :disabled="suption==2" placeholder="请输入供应商编号" style="width: 300px"></Input>
               </FormItem>
               <FormItem label="类型:" prop="channelid" >
-                <Select v-model="formCustom.channeltype" placeholder="请选择" style="width:100px">
+                <Select v-model="formCustom.channeltype"  placeholder="请选择" style="width:100px">
                 <Option value="1">企业</Option>
                 <Option value="2">个人</Option>
               </Select>
@@ -390,6 +390,14 @@ export default {
         if (!valid) {
           return this.changeLoading()
         } else {
+          // let personal = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$)|(^[1-9]\d{5}\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{2}$/
+          // let enterprise = /^[A-Za-z0-9]{1,30}$/
+
+          if (this.formCustom.channeltype == '1') {
+            
+          } else {
+            
+          }
           let list
           if (this.suption == 1) {
           list = {
@@ -532,7 +540,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (!valid) {
           return this.changeLoading()
-        } else {     
+        } else {  
           this.addsuppbusiness ()
         }
       })
@@ -547,6 +555,7 @@ export default {
     },
     // 添加供应商业务
     addsuppbusiness () {
+
       let managerUser
       this.managerSelect.forEach(element => {    
         if (element.value == this.formCustombusi.person) {
