@@ -302,11 +302,11 @@ export default {
         if (num == 2) {
           this.titles = '编辑渠道'       
           this.numhid = true
-          this.editors ()         
+          this.addecho (num)        
         }  else {
             this.numhid = false
             this.titles = '添加渠道'
-            this.addecho ()
+            this.addecho (num)
         }
         this.modal10 = true
     },
@@ -314,12 +314,18 @@ export default {
     editors () {
       this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/getByCode?suppliersBusinessChannelCode="+this.code).then(data => {
         if(data.code == 'success'){
+          console.log(this.promotionPageSelect)
           this.formCustombusi.channelname = data.data.channelName
           this.formCustombusi.channelnum = data.data.channelKey 
           this.formCustombusi.activation = String(data.data.channelBaseActive)
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.formCustombusi.style = data.data.businessPromotionPageCode
+          this.promotionPageSelect.forEach(element => {
+            if (element.businessPromotionPageCode == data.data.businessPromotionPageCode) {
+              this.stylelogo = element.promotionPagePreview
+            }
+          })
           this.suppliersBusinessChannelCode = data.data.suppliersBusinessChannelCode
         }
       }).catch(err=>{
@@ -375,7 +381,7 @@ export default {
       })
 
     },
-    addecho () {
+    addecho (number) {
       let list = {
         suppliersBusinessCode  : this.application
       }
@@ -385,6 +391,9 @@ export default {
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.promotionPageSelect = data.data.promotionPageSelect
+          if (number == 2) {
+            this.editors ()
+          }
 
         }
       }).catch(err=>{
