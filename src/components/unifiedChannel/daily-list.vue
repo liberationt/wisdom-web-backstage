@@ -428,9 +428,10 @@
           this.cityList = e.data
           this.model1 = e.data[0].businessCode
           this.businessKey = e.data[0].businessKey
+          
+          this.inquire()
         }
       })
-      this.inquire()
     }
   }
 </script>
