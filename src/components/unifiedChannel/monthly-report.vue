@@ -165,13 +165,13 @@
         let list = []
         for (let i = 0; i < params.length; i++) {
           let text = showTextCallback ? showTextCallback(params[i]) : params[i]
+          let lineNum = params[i].channelReportList && params[i].channelReportList.length > 0 ? params[i].channelReportList.length : 1
           list.push(
             h('span', {
               style: {
                 display: 'block',
                 width: '100%',
-                height: '40px',
-                lineHeight: '40px',
+                lineHeight: (40 * lineNum) + 'px',
                 borderBottom: '1px solid #e9eaec'
               }
             }, text)
@@ -190,7 +190,7 @@
                 style: {
                   display: 'block',
                   width: '100%',
-                  height: '40px',
+                  align: 'center',
                   lineHeight: '40px',
                   borderBottom: '1px solid #e9eaec'
                 }
@@ -330,7 +330,7 @@
       date.setDate(1);
       this.beginTime = this.timeFormat(date, 0)
       this.queryBusiness(() => {
-        this.queryReportList();
+        this.queryReportList()
       })
     }
   }
