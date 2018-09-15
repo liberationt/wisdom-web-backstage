@@ -162,6 +162,12 @@
             "key": "allApplyRate",
             align: 'center',
             "minWidth": 100
+          },
+          {
+            "title": "预警状态",
+            "key": "warningStatus",
+            align: 'center',
+            "minWidth": 100,
           }
         ],
         columns9: [
@@ -248,6 +254,12 @@
             "key": "allApplyRate",
             align: 'center',
             "minWidth": 100
+          },
+          {
+            "title": "预警状态",
+            "key": "warningStatus",
+            align: 'center',
+            "minWidth": 100,
           }
         ],
         data7: []
@@ -256,7 +268,6 @@
     methods: {
       // 分页
       pageChange(page) {
-        // console.log(page)
         this.startRow = page
         this.inquire()
       },
@@ -267,9 +278,11 @@
         this.inquire()
       },
       rowClassName(row, index) {
+        console.log('===>', row, index)
+        console.log('===>', row.warningStatus)
         if (index == 0) {
           return 'demo-table-info-row';
-        } else if (index == 2) {
+        } else if (index > 0 && row.warningStatus == 1) {
           return 'demo-table-info-cell-name';
         }
         return '';
@@ -303,7 +316,6 @@
               })
             }
 
-
             //组装数据
             this.data7 = []
             if (resp.data && resp.data.length > 0) {
@@ -316,15 +328,15 @@
                 this.data7.push({
                   "channelName": "总计",
                   "discountFact": '',
-                  "pv": item.allPv + this.parseNum(item.allDisCountPv),
-                  "uv": item.allUv + this.parseNum(item.allDisCountUv),
-                  "registerCount": item.allRegisterCount + this.parseNum(item.allDisCountRegisterCount),
+                  "pv": item.allPv,
+                  "uv": item.allUv,
+                  "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
                   "registerRate": item.allRegisterFact + '%',
-                  "activeCount": item.allActiveCount + this.parseNum(item.allDiscountActiveCount),
+                  "activeCount": this.parseNum(item.allActiveCount, item.allDiscountActiveCount),
                   "allActiveCount": item.allTotalActiveCount,
                   "activeRate": item.allActiveFact + '%',
                   "allActiveRate": item.allTotalActiveFact + '%',
-                  "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount + this.parseNum(item.allDiscountApplyCount) : item.allAuthCount + this.parseNum(item.allDiscountAuthCount),
+                  "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount : item.allAuthCount,
                   "allApplyCount": this.curBusinessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
                   "applyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
                   "allApplyRate": this.curBusinessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%',
@@ -336,18 +348,19 @@
                     this.data7.push({
                       "channelName": channelReport.channelName,
                       "discountFact": channelReport.discountFact + '%',
-                      "pv": channelReport.pv + this.parseNum(channelReport.discountPv),
-                      "uv": channelReport.uv + this.parseNum(channelReport.discountUv),
-                      "registerCount": channelReport.registerCount + this.parseNum(channelReport.discountRegisterCount),
+                      "pv": channelReport.pv,
+                      "uv": channelReport.uv,
+                      "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                       "registerRate": channelReport.registerRate + '%',
-                      "activeCount": channelReport.activeCount + this.parseNum(channelReport.discountActiveCount),
-                      "allActiveCount": channelReport.allActiveCount + this.parseNum(channelReport.allDiscountActiveCount),
+                      "activeCount": this.parseNum(channelReport.activeCount, channelReport.discountActiveCount),
+                      "allActiveCount": channelReport.allActiveCount,
                       "activeRate": channelReport.activeRate + '%',
                       "allActiveRate": channelReport.allActiveRate + '%',
-                      "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount + this.parseNum(channelReport.discountApplyCount) : channelReport.authCount + this.parseNum(channelReport.disAuthCount),
-                      "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount + this.parseNum(channelReport.allDiscountApplyCount) : channelReport.allAuthCount + this.parseNum(channelReport.allDiscountAuthCount),
+                      "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount : channelReport.authCount,
+                      "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
                       "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
                       "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
+                      "warningStatus": channelReport.warningStatus,
                     })
                   })
                 }
@@ -373,11 +386,11 @@
           }
         })
       },
-      parseNum(num) {
-        if (num == 0) {
-          return '（--）'
+      parseNum(num1, num2) {
+        if (num1 == num2) {
+          return num1 + '（--）'
         } else {
-          return '（' + num + '）'
+          return num1 + '（' + num2 + '）'
         }
       },
 
@@ -426,11 +439,15 @@
       this.businessPost('/promotion/business/queryListByManager', {}, e => {
         if (e.code == 'success') {
           this.cityList = e.data
-          this.model1 = e.data[0].businessCode
-          this.businessKey = e.data[0].businessKey
+          if (this.cityList && this.cityList.length > 0) {
+            this.model1 = this.cityList[0].businessCode
+            this.businessKey = this.cityList[0].businessKey
+
+            console.log('day====>this.model1: ', this.model1)
+            this.inquire()
+          }
         }
       })
-      this.inquire()
     }
   }
 </script>

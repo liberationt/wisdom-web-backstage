@@ -64,8 +64,8 @@
     data() {
       return {
         loading3: false,
-        loading2 : false,
-        columnstotal:[],
+        loading2: false,
+        columnstotal: [],
         businessList: [],
         suppliersList: [],
         channelList: [],
@@ -139,7 +139,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.registerCount + this.parseNum(report.discountRegisterCount)
+                return this.parseNum(report.registerCount, report.discountRegisterCount)
               });
             }
           },
@@ -257,7 +257,7 @@
             align: 'center',
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.registerCount + this.parseNum(report.discountRegisterCount)
+                return this.parseNum(report.registerCount, report.discountRegisterCount)
               });
             }
           },
@@ -315,11 +315,11 @@
       }
     },
     methods: {
-      parseNum(num) {
-        if (num == 0) {
-          return '（--）'
+      parseNum(num1, num2) {
+        if (num1 == num2) {
+          return num1 + '（--）'
         } else {
-          return '（' + num + '）'
+          return num1 + '（' + num2 + '）'
         }
       },
 
@@ -388,7 +388,7 @@
             this.businessList = resp.data
             if (this.businessList && this.businessList.length > 0) {
               this.curBusinessCode = resp.data[0].businessCode
-              this.curBusinessKey =resp.data[0].businessKey
+              this.curBusinessKey = resp.data[0].businessKey
               callback && callback()
             }
           }
