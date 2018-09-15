@@ -392,7 +392,6 @@ export default {
         } else {
           let personal = /^[1-9]\d{5}(18|19|([23]\d))\d{2}((0[1-9])|(10|11|12))(([0-2][1-9])|10|20|30|31)\d{3}[0-9Xx]$/
           let enterprise = /^[A-Za-z0-9]{1,30}$/
-
           if (this.formCustom.channeltype == '1') {
             if (!enterprise.test(this.formCustom.channelid)) {
               const title = '提示'
@@ -401,7 +400,7 @@ export default {
                   title: title,
                   content: content
               })
-              this.loading = false
+              this.changeLoading ()
               return false
             }
           } else {
@@ -412,7 +411,7 @@ export default {
                   title: title,
                   content: content
               })
-              this.loading = false
+              this.changeLoading ()
               return false
             }
           }

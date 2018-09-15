@@ -10,34 +10,39 @@
         <ul class="querysty">
           <li>
             <span class="ml20">应用名称:</span>
-            <Select v-model="model1" placeholder="请选择" style="width:150px" @on-change="applicationsel">
-              <Option v-for="item in cityList" :value="item.businessCode" :key="item.businessCode">{{ item.businessName }}</Option>
+            <Select v-model="businessCode" placeholder="请选择" style="width:150px" @on-change="businessChange">
+              <Option v-for="item in businessList" :value="item.businessCode" :key="item.businessCode">
+                {{ item.businessName }}
+              </Option>
             </Select>
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="model3" placeholder="请选择供应商" style="width:150px;" @on-change="suppliersel">
-              <Option v-for="item in reaName" :value="item.suppliersCode" :key="item.suppliersCode">{{ item.suppliersName }}</Option>
+            <Select v-model="suppliersCode" placeholder="请选择供应商" style="width:150px;" @on-change="supplierChange">
+              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">
+                {{ item.suppliersName }}
+              </Option>
             </Select>
           </li>
           <li>
             <span class="ml20">渠道:</span>
-            <Select v-model="model4" placeholder="选择渠道" style="width:150px;">
-              <Option v-for="item in account" :value="item.suppliersBusinessChannelCode" :key="item.suppliersBusinessChannelCode">{{ item.channelName }}</Option>
+            <Select v-model="channelCode" placeholder="选择渠道" style="width:150px;" @on-change="channelChange">
+              <Option v-for="item in channelList" :value="item.suppliersBusinessChannelCode" :key="item.suppliersBusinessChannelCode">
+                {{ item.channelName }}
+              </Option>
             </Select>
           </li>
           <li>
             <span class="ml20">时间:</span>
-            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
+            <DatePicker type="date" :value="beginTime" @on-change="time1" placeholder="开始时间"
+                        style="width: 150px"></DatePicker>
             <span>  -  </span>
-            <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
+            <DatePicker type="date" :value="endTime" @on-change="time2" placeholder="结束时间"
+                        style="width: 150px"></DatePicker>
           </li>
-        </ul>     
-      <!-- <Select v-model="model2" placeholder="所有渠道" style="width:150px;margin-left:20px">
-        <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select> --> 
+        </ul>
       </div>
-      <Button type="info" class=" ml20 w100" :loading="loading3" @click="inquire">
+      <Button type="info" class=" ml20 w100" :loading="loading3" @click="queryReportList">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
@@ -47,465 +52,327 @@
       </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-        <Table class="monthlytotal" :row-class-name="tabonerowClassName" border highlight-row :show-header="false" :data="data6"  :columns="columns7"></Table>
-        <Table :row-class-name="rowClassName" border highlight-row :columns="columnstotal" :data="data7" size="small" ref="table" class="dailylist"></Table>   
-      <!-- <div class="tr mt15">
-      <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
-    </div> -->
+      <Table :row-class-name="rowClassName" border highlight-row :columns="columnList" :data="reportList" size="small"
+             ref="table" class="dailylist"></Table>
     </div>
-    
+
   </div>
 </template>
 <script>
-import utils from '../../utils/utils'
-export default {
-  data () {
-    return {
-      value1:'',
-      value2: '',
-      businessCode:'',
-      businessKey:'',
-      loading2: false,
-      loading3: false,
-      cityList: [],
-      reaName: [],
-      account: [],
-      registerTime: [],
-      model1: 'name',
-      model3: '',
-      model4: '',
-      model5: '',
-      name: '',
-      total: 0,
-      startRow: 1,
-      endRow: 10,
-      columns7: [
-        {
-            "title": "业务月度总计",
-            align: 'center',
-            "key": "channelName",
-            "minWidth": 300
-        },
-        {
-            "title": "--",
-            align: 'center',
-            "key": "discountFact",
-            "minWidth": 150
-        },
-        {
-            "title": "111123",
-            align: 'center',
-            "key": "pv",
-            "minWidth": 100
-        },
-        {
-            "title": "105642",
-            align: 'center',
-            "key": "uv",
-            "minWidth": 100
-        },
-        {
-            "title": "88991(79802)",
-            align: 'center',
-            "key": "registerCount",
-            "minWidth": 120
-        },
-        {
-            "title": "62%",
-            align: 'center',
-            "key": "registerRate",
-            "minWidth": 120
-        },
-        {
-            "title": "70123(68554)",
-            align: 'center',
-            "key": "activeCount",
-            "minWidth": 120
-        },
-        {
-            "title": "33%",
-            align: 'center',
-            "key": "activeRate",
-            "minWidth": 150
-        },
-        {
-            "title": "10119(8846)",
-            align: 'center',
-            "key": "applyCount",
-            "minWidth": 120
-        },
-        {
-            "title": "12%",
-            align: 'center',
-            "key": "allApplyCount",
-            "minWidth": 150
-        }
-      ],
-      data6:[],
-      columnstotal:[],
-      columns8: [
-        {
-            "title": "渠道",
-            "key": "channelName",
-            align: 'center',
-            "minWidth": 300
-        },
-        {
-            "title": "折扣系数",
-            "key": "discountFact",
-            align: 'center',
-            "minWidth": 150
-        },
-        {
-            "title": "PV",
-            "key": "pv",
-            align: 'center',
-            "minWidth": 100
-        },
-        {
-            "title": "UV",
-            "key": "uv",
-            align: 'center',
-            "minWidth": 100
-        },
-        {
-            "title": "注册",
-            "key": "registerCount",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "注册转化率",
-            "key": "registerRate",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "累计激活",
-            "key": "activeCount",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "累计激活转化率",
-            "key": "activeRate",
-            align: 'center',
-            "minWidth": 150
-        },
-        {
-            "title": "累计申请",
-            "key": "applyCount",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "累计申请转化率",
-            "key": "allApplyCount",
-            align: 'center',
-            "minWidth": 150
-        }
-    ],
-    columns9: [
-        {
-            "title": "渠道",
-            "key": "channelName",
-            align: 'center',
-            "minWidth": 300
-        },
-        {
-            "title": "折扣系数",
-            "key": "discountFact",
-            align: 'center',
-            "minWidth": 150
-        },
-        {
-            "title": "PV",
-            "key": "pv",
-            align: 'center',
-            "minWidth": 100
-        },
-        {
-            "title": "UV",
-            "key": "uv",
-            align: 'center',
-            "minWidth": 100
-        },
-        {
-            "title": "注册",
-            "key": "registerCount",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "注册转化率",
-            "key": "registerRate",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "累计激活",
-            "key": "activeCount",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "累计激活转化率",
-            "key": "activeRate",
-            align: 'center',
-            "minWidth": 150
-        },
-        {
-            "title": "累计认证",
-            "key": "applyCount",
-            align: 'center',
-            "minWidth": 120
-        },
-        {
-            "title": "累计认证转化率",
-            "key": "allApplyCount",
-            align: 'center',
-            "minWidth": 150
-        }
-    ],
-    data7: []
-    }
-  },
-  methods: {
-    // 分页
-    pageChange(page) {
-        // console.log(page)
-        this.startRow = page
-        this.inquire()
-	},
-    pagesizechange(page) {
-      // console.log(page)
-      this.startRow = 1
-      this.endRow = page
-      this.inquire()
-    },
-     // 时间判断
-    time1 (value, data) {
-      this.value1 = value
-    },
-    time2 (value, data) {
-      this.value2 = value
-    },
-    timeFormat(date,num) {
-      let y = date.getFullYear(); //年
-      let m = date.getMonth() + 1; //月
-      let d = date.getDate(); //日
-      if (num == 1) {
-        d = date.getDate()-1
-      }
-      m=m<10?"0"+m:m;
-      d=d<10?"0"+d:d;
-      return y + "-" + m + "-" + d;
-    },
-    rowClassName (row, index) {
-        if (index == 0) {
-            return 'demo-table-info-row';
-        }
-        return '';
-    },
-    tabonerowClassName (row, index) {
-        if (index == 0) {
-            return 'demo-table-info-one-row';
-        }
-        return '';
-    },  
-    // 应用名称改变
-    applicationsel (val) {      
-      this.businessCode = val
-      this.supplierlist (val)
-      this.model3 = ''
-      this.model4 = ''
-      this.cityList.forEach(element => {
-        if (element.businessCode == val) {
-          this.businessKey = element.businessKey
-        }      
-      });
-    },
-    suppliersel (val) {
-      this.channel (val)
-      this.model4 = ''
-    },
-    channel (code) {
-      let list = {
-        suppliersCode:code,
-        businessCode:this.businessCode
-      }
-      this.http.post(BASE_URL + '/promotion/suppliersBusinessChannel/queryChannelListBySupplierBusiness', list)
-      .then((resp) => {
-        if (resp.code == 'success') {
-          this.account = resp.data
-        } else {
-          
-        }
-      })
-      .catch(() => {     
-      })
-    },
-    // 供应商列表
-    supplierlist (code) {
-      let list = {
-        businessCode:code
-      }
-      this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCodeManager', list)
-      .then((resp) => {
-        if (resp.code == 'success') {
-          this.reaName = resp.data
-        } else {
-          
-        }
-      })
-      .catch(() => {     
-      })
-    },
-    // 列表查询
-    inquire (num) {
-    this.loading3 = true
-    let date1 = Date.parse(new Date(this.value1))/1000
-    let date2 = Date.parse(new Date(this.value2))/1000
-    if (date1 > date2) {
-      this.loading3 = false
-      this.$Modal.warning({
-        title: '提示',
-        content: '<p>开始时间不得大于结束时间</p>'
-      })
-      return false
-    }
-    if (this.businessKey == 'QDX') {
-      this.columnstotal = this.columns9
-    } else if (this.businessKey == 'HZ') {
-      this.columnstotal = this.columns8
-    }
-    let list = {
-      businessCode : this.model1,
-      suppliersCode : this.model3,
-      suppliersBusinessChannelCode : this.model4,
-      startDate  : this.value1,
-      endDate  : this.value2
-    }
-    this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersCollectReport', list)
-    .then((resp) => {
-      this.loading3 = false
-      if (resp.code == 'success') {
-        //组装数据
-        this.data7 = []
-        this.data6 = []
-        if (JSON.stringify(resp.data) != "{}") {
-          this.data6.push({
-            "channelName": "业务月度总计",
-            "discountFact": '',
-            "pv": resp.data.pv,
-            "uv": resp.data.uv,
-            "registerCount": resp.data.registerCount + this.parseNum(resp.data.discountRegisterCount),
-            "registerRate": resp.data.registerRate + '%',
-            "activeCount": resp.data.activeCount,
-            "activeRate": resp.data.activeRate +'%',
-            "applyCount": resp.data.applyCount,
-            "allApplyCount": resp.data.applyRate+'%'
-          })  
-        }
-        if (resp.data.suppliersDayReportResList && resp.data.suppliersDayReportResList.length > 0) {
-          resp.data.suppliersDayReportResList.forEach((item) => {
-            //供应商名称
-            this.data7.push({
-              channelName: item.suppliersName + '     平均激活转化率：' + item.activeRate,
-            })
-            // item.channelReportList.forEach((item) => {
+  import utils from '../../utils/utils'
 
-            // })
-            //总计
-            this.data7.push({
-              "channelName": "总计",
-              "discountFact": '',
-              "pv": item.allPv,
-              "uv": item.allUv,
-              "registerCount": item.allRegisterCount + this.parseNum(item.allDisCountRegisterCount),
-              "registerRate": item.allRegisterFact + '%',
-              "activeCount": item.allActiveCount,
-              "activeRate": item.allActiveFact+'%',
-              "applyCount": item.allApplyCount,
-              "allApplyCount": item.allTotalApplyFact+'%'
-            })
+  export default {
+    data() {
+      return {
+        loading2: false,
+        loading3: false,
 
-            if (item.channelReportList && item.channelReportList.length > 0) {
-              item.channelReportList.forEach((channelReport) => {
-                //具体渠道数据
-                this.data7.push({
-                  "channelName": channelReport.channelName,
-                  "discountFact": channelReport.discountFact + '%',
-                  "pv": channelReport.pv + this.parseNum(channelReport.discountPv),
-                  "uv": channelReport.uv + this.parseNum(channelReport.discountUv),
-                  "registerCount": channelReport.registerCount + this.parseNum(channelReport.discountRegisterCount),
-                  "registerRate": channelReport.registerRate + '%',
-                  "activeCount": channelReport.allActiveCount,
-                  "activeRate": channelReport.allActiveRate +'%',
-                  "applyCount": channelReport.allApplyCount,
-                  "allApplyCount": channelReport.allApplyRate+'%'
-                })
-              })
+        beginTime: '',
+        endTime: '',
+        businessCode: '',
+        businessKey: '',
+        suppliersCode: '',
+        channelCode: '',
+        businessList: [],
+        suppliersList: [],
+        channelList: [],
+
+        columnList: [],
+        reportList: [],
+      }
+    },
+
+    methods: {
+      getColumnList(businessKey) {
+        let columnList = [
+          this.getColumnItem('渠道', 'channelName', 150, (h, params) => {
+              return this.renderColumn(h, params.row.channelName, params.row.needWeight)
             }
+          ),
+          this.getColumnItem('折扣系数', 'discountFact', 200, (h, params) => {
+              return this.renderColumn(h, params.row.discountFact, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem('PV', 'pv', 100, (h, params) => {
+              return this.renderColumn(h, params.row.pv, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem('UV', 'uv', 100, (h, params) => {
+              return this.renderColumn(h, params.row.uv, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem('注册', 'registerCount', 150, (h, params) => {
+              return this.renderColumn(h, params.row.registerCount, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem('注册转化率', 'registerRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.registerRate, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem('累计激活', 'activeCount', 100, (h, params) => {
+              return this.renderColumn(h, params.row.activeCount, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem('累计激活转化率', 'activeRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.activeRate, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'applyCount', 100, (h, params) => {
+              return this.renderColumn(h, params.row.applyCount, params.row.needWeight)
+            }
+          ),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'applyRate', 100, (h, params) => {
+              return this.renderColumn(h, params.row.applyRate, params.row.needWeight)
+            }
+          ),
+        ]
+        return columnList
+      },
+
+      getColumnItem(title, key, width, render) {
+        return {
+          title: title,
+          key: key,
+          minWidth: width,
+          align: 'center',
+          render: render
+        }
+      },
+
+      renderColumn(h, text, needWeight) {
+        return h("div", [
+          h(
+            "span",
+            {
+              style: {
+                display: "inline-block",
+                width: "100%",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                whiteSpace: "nowrap",
+                fontWeight: needWeight ? '1000' : ''
+              },
+              domProps: {
+                title: text
+              }
+            },
+            text
+          )
+        ]);
+      },
+
+      // 时间判断
+      time1(value, data) {
+        this.beginTime = value
+      },
+      time2(value, data) {
+        this.endTime = value
+      },
+      timeFormat(date, num) {
+        let y = date.getFullYear(); //年
+        let m = date.getMonth() + 1; //月
+        let d = date.getDate(); //日
+        if (num == 1) {
+          d = date.getDate() - 1
+        }
+        m = m < 10 ? "0" + m : m;
+        d = d < 10 ? "0" + d : d;
+        return y + "-" + m + "-" + d;
+      },
+      rowClassName(row, index) {
+        if (row.isSingleLine) {
+          return 'demo-table-info-row'
+        } else {
+          return ''
+        }
+      },
+
+      //查询业务列表
+      queryBusiness(callback) {
+        this.http.post(BASE_URL + '/promotion/business/queryListByManager', {}).then((resp) => {
+          if (resp.code == 'success') {
+            this.businessList = resp.data
+            if (resp.data && resp.data.length > 0) {
+              this.businessCode = resp.data[0].businessCode
+              this.businessKey = resp.data[0].businessKey
+              callback && callback()
+            }
+          }
+        }).catch(() => {
+        })
+      },
+      // 选择业务后查询供应商
+      businessChange(businessCode) {
+        this.businessCode = businessCode
+        this.suppliersList = []
+        this.channelList = []
+        this.businessList.forEach(element => {
+          if (element.businessCode == businessCode) {
+            this.businessKey = element.businessKey
+          }
+        })
+        this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCodeManager', {
+          businessCode: businessCode
+        }).then((resp) => {
+          if (resp.code == 'success') {
+            this.suppliersList = resp.data
+          }
+        }).catch(() => {
+        })
+      },
+      //查渠道
+      supplierChange(suppliersCode) {
+        this.suppliersCode = suppliersCode
+        this.channelList = []
+        this.http.post(BASE_URL + '/promotion/suppliersBusinessChannel/queryChannelListBySupplierBusiness', {
+          suppliersCode: suppliersCode,
+          businessCode: this.businessCode
+        }).then((resp) => {
+          if (resp.code == 'success') {
+            this.channelList = resp.data
+          }
+        }).catch(() => {
+        })
+      },
+      //选择渠道后
+      channelChange(channelCode) {
+        this.channelCode = channelCode;
+      },
+      // 列表查询
+      queryReportList() {
+        let date1 = Date.parse(new Date(this.beginTime)) / 1000
+        let date2 = Date.parse(new Date(this.endTime)) / 1000
+        if (date1 > date2) {
+          this.$Modal.warning({
+            title: '提示',
+            content: '<p>开始时间不得大于结束时间</p>'
           })
+          return false
         }
-      } else {
-        this.loading3 = false
-      }
-    })
-    .catch(() => {
-      this.loading3 = false
-    })
-    },
-    // 导出
-    exports () {
-      this.loading2 = true;
-      let httpUrl = BASE_URL+'/promotion/suppliersBusinessReport/exportSuppliersCollectReport'
-      let formData = new FormData()
-      formData.append("businessCode",this.model1)
-      formData.append("suppliersCode",this.model3)
-      formData.append("suppliersBusinessChannelCode",this.model4)
-      formData.append("startDate",this.value1)
-      formData.append("endDate",this.value2)
-      utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
-        if(e == true ){
+
+        this.columnList = this.getColumnList(this.businessKey)
+        let list = {
+          businessCode: this.businessCode,
+          suppliersCode: this.suppliersCode,
+          suppliersBusinessChannelCode: this.channelCode,
+          startDate: this.beginTime,
+          endDate: this.endTime
+        }
+        this.loading3 = true
+        this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersCollectReport', list).then((resp) => {
+          this.loading3 = false
+          if (resp.code == 'success') {
+            this.reportList = []
+            if (resp.data) {
+              //汇总数据
+              this.reportList.push({
+                "needWeight": true,
+                "channelName": "业务月度总计",
+                "discountFact": '',
+                "pv": resp.data.pv,
+                "uv": resp.data.uv,
+                "registerCount": this.parseNum(resp.data.registerCount, resp.data.discountRegisterCount),
+                "registerRate": resp.data.registerRate + '%',
+                "activeCount": resp.data.activeCount,
+                "activeRate": resp.data.activeRate + '%',
+                "applyCount": this.businessKey == 'HZ' ? resp.data.applyCount : resp.data.authCount,
+                "applyRate": this.businessKey == 'HZ' ? resp.data.applyRate + '%' : resp.data.authRate + '%'
+              })
+              //分割线
+              this.reportList.push({
+                "needWeight": true,
+                "isSingleLine": true
+              })
+              if (resp.data.suppliersDayReportResList && resp.data.suppliersDayReportResList.length > 0) {
+                resp.data.suppliersDayReportResList.forEach((item) => {
+                  //供应商名称
+                  this.reportList.push({
+                    "needWeight": true,
+                    "isSingleLine": true,
+                    "channelName": item.suppliersName,
+                    "discountFact": '平均激活转化率：' + item.activeRate,
+                  })
+                  //总计
+                  this.reportList.push({
+                    "needWeight": true,
+                    "channelName": "总计",
+                    "discountFact": '',
+                    "pv": item.allPv,
+                    "uv": item.allUv,
+                    "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
+                    "registerRate": item.allRegisterFact + '%',
+                    "activeCount": item.allActiveCount,
+                    "activeRate": item.allActiveFact + '%',
+                    "applyCount": this.businessKey == 'HZ' ? item.allApplyCount : item.allAuthCount,
+                    "applyRate": this.businessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%'
+                  })
+
+                  if (item.channelReportList && item.channelReportList.length > 0) {
+                    item.channelReportList.forEach((channelReport) => {
+                      //具体渠道数据
+                      this.reportList.push({
+                        "channelName": channelReport.channelName,
+                        "discountFact": channelReport.discountFact + '%',
+                        "pv": channelReport.pv,
+                        "uv": channelReport.uv,
+                        "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
+                        "registerRate": channelReport.registerRate + '%',
+                        "activeCount": channelReport.allActiveCount,
+                        "activeRate": channelReport.allActiveRate + '%',
+                        "applyCount": this.businessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
+                        "applyRate": this.businessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%'
+                      })
+                    })
+                  }
+                })
+              }
+            }
+          }
+        }).catch(() => {
+          this.loading3 = false
+        })
+      },
+      // 导出
+      exports() {
+        this.loading2 = true;
+        let httpUrl = BASE_URL + '/promotion/suppliersBusinessReport/exportSuppliersCollectReport'
+        let formData = new FormData()
+        formData.append("businessCode", this.businessCode)
+        formData.append("suppliersCode", this.suppliersCode)
+        formData.append("suppliersBusinessChannelCode", this.channelCode)
+        formData.append("startDate", this.beginTime)
+        formData.append("endDate", this.endTime)
+        utils.exporttable(httpUrl, utils.getlocal('token'), formData, e => {
           this.loading2 = false;
+        })
+      },
+      parseNum(num1, num2) {
+        if (num1 == num2) {
+          return num1 + '（--）'
+        } else {
+          return num1 + '（' + num2 + '）'
         }
-      })
+      },
     },
-    parseNum(num) {
-      if (num == 0) {
-        return '（--）'
-      } else {
-        return '（' + num + '）'
-      }
+    mounted() {
+      // 获取当前时间
+      var date = new Date();
+      this.endTime = this.timeFormat(date, 1)
+      date.setDate(1);
+      this.beginTime = this.timeFormat(date, 0)
+
+      this.queryBusiness(() => {
+        this.queryReportList();
+      })
     }
-  },
-  mounted () {  
-    this.http.post(BASE_URL + '/promotion/business/queryListByManager', {})
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.cityList = resp.data
-        this.model1 = resp.data[0].businessCode
-        this.businessKey = resp.data[0].businessKey
-      } else {
-      }
-    })
-    .catch(() => {
-    })
-    // 获取当前时间
-    var date=new Date();
-    this.value2 = this.timeFormat(date,1)
-    date.setDate(1);
-    this.value1 = this.timeFormat(date,0)
   }
-}
 </script>
 <style lang="less" scoped>
-#application_table {
-  margin-top: 20px;
-}
-.ivu-table-cell{
+  #application_table {
+    margin-top: 20px;
+  }
+
+  .ivu-table-cell {
     padding: 0
-}
+  }
 </style>
