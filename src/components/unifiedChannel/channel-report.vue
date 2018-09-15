@@ -261,6 +261,7 @@
               this.data6 = resp.data
               this.loading3 = false
             } else {
+              this.$Message.error(resp.message);
               this.loading3 = false
             }
           })
@@ -323,7 +324,6 @@
       // 如果路由有变化，会再次执行该方法
       '$route' (to, from) {
         this.applylist ()
-        this.inquire()      //再次调起我要执行的函数
       }
     }
   }

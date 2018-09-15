@@ -309,6 +309,9 @@
                         content: content                        
                     })
                     this.childlist ()
+                    } else {
+                        this.$Message.error(data.message);
+                        this.loading = false
                     }
                 }).catch(err=>{
                     console.log(err)
