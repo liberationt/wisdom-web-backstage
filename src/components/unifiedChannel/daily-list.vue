@@ -282,6 +282,8 @@
         this.inquire()
       },
       rowClassName(row, index) {
+        console.log('===>', row, index)
+        console.log('===>', row.warningStatus)
         if (index == 0) {
           return 'demo-table-info-row';
         } else if (index > 0 && row.warningStatus == 1) {
@@ -317,7 +319,6 @@
                 }
               })
             }
-
 
             //组装数据
             this.data7 = []

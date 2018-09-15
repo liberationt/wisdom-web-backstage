@@ -33,9 +33,9 @@
             <DatePicker type="date" :value="value2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
           </li>
         </ul>
-      <!-- <Select v-model="model2" placeholder="所有渠道" style="width:150px;margin-left:20px">
-        <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
-      </Select> -->
+        <!-- <Select v-model="model2" placeholder="所有渠道" style="width:150px;margin-left:20px">
+          <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
+        </Select> -->
       </div>
       <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
         <span v-if="!loading3">查询</span>
@@ -53,102 +53,82 @@
   </div>
 </template>
 <script>
-import utils from '../../utils/utils'
-export default {
-  data () {
-    return {
-      value1:'',
-      value2:'',
-      businessCode:'',
-      loading2: false,
-      loading3: false,
-      cityList: [],
-      reaName: [],
-      account: [],
-      registerTime: [],
-      model1: 'name',
-      model3: '',
-      model4: '',
-      model5: '',
-      name: '',
-      columns7: [
-        {
-          title: '日期',
-          key: 'reportDate',
-          minWidth: 110,
-          align: 'center'
-        },
-        {
-          title: '供应商',
-          key: 'memberName',
-          minWidth: 120,
-          align: 'center',
-          render: (h, params) => {
-            return this.reportColumns1Render(h, params.row.suppliersChannelList, (suppliers) => {
-              return suppliers.suppliersName
-            })
-          }
-        },
-        {
-          title: '渠道',
-          align: 'center',
-          minWidth: 80,
-          render: (h, params) => {
-            return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
-              return report.suppliersBusinessChannelName
-            });
-          }
-        },
-        {
-          title: '注册',
-          minWidth: 120,
-          align: 'center',
-          render: (h, params) => {
-            return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
-              return report.discountRegisterCount
-            });
-          }
-        },
-        {
-          title: '激活',
-          align: 'center',
-          minWidth: 80,
-          render: (h, params) => {
-            return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
-              return report.discountActiveCount
-            });
-          }
-        }
-      ],
-      data6: []
-    }
-  },
-  methods: {
-
-    reportColumns1Render(h, params, showTextCallback) {
-      let list = []
-      for (let i = 0; i < params.length; i++) {
-        let text = showTextCallback ? showTextCallback(params[i]) : params[i]
-        list.push(
-          h('span', {
-            style: {
-              display: 'block',
-              width: '100%',
-              height: '40px',
-              lineHeight: '40px',
-              borderBottom: '1px solid #e9eaec'
+  import utils from '../../utils/utils'
+  export default {
+    data () {
+      return {
+        value1:'',
+        value2:'',
+        businessCode:'',
+        loading2: false,
+        loading3: false,
+        cityList: [],
+        reaName: [],
+        account: [],
+        registerTime: [],
+        model1: 'name',
+        model3: '',
+        model4: '',
+        model5: '',
+        name: '',
+        columns7: [
+          {
+            title: '日期',
+            key: 'reportDate',
+            minWidth: 110,
+            align: 'center'
+          },
+          {
+            title: '供应商',
+            key: 'memberName',
+            minWidth: 120,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns1Render(h, params.row.suppliersChannelList, (suppliers) => {
+                return suppliers.suppliersName
+              })
             }
-          }, text)
-        )
+          },
+          {
+            title: '渠道',
+            align: 'center',
+            minWidth: 80,
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                return report.suppliersBusinessChannelName
+              });
+            }
+          },
+          {
+            title: '注册',
+            minWidth: 120,
+            align: 'center',
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                return report.discountRegisterCount
+              });
+            }
+          },
+          {
+            title: '激活',
+            align: 'center',
+            minWidth: 80,
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                return report.discountActiveCount
+              });
+            }
+          }
+        ],
+        data6: []
       }
-      return h('div', list)
     },
+    methods: {
 
-    reportColumns2Render(h, params, showTextCallback) {
-      let list = []
-      for (let i = 0; i < params.length; i++) {
-        for (let j = 0; j < params[i].channelList.length; j++) {
-          let text = showTextCallback ? showTextCallback(params[i].channelList[j]) : params[i].channelList[j]
+      reportColumns1Render(h, params, showTextCallback) {
+        let list = []
+        for (let i = 0; i < params.length; i++) {
+          let text = showTextCallback ? showTextCallback(params[i]) : params[i]
           list.push(
             h('span', {
               style: {
@@ -161,178 +141,201 @@ export default {
             }, text)
           )
         }
-      }
-      return h('div', list)
-    },
-    // 时间判断
-    time1 (value, data) {
-      this.value1 = value
-    },
-    time2 (value, data) {
-      this.value2 = value
-    },
-    timeFormat(date,num) {
-      let y = date.getFullYear(); //年
-      let m = date.getMonth() + 1; //月
-      let d = date.getDate(); //日
-      if (num == 1) {
-        d = date.getDate()-1
-      }
-      m=m<10?"0"+m:m;
-      d=d<10?"0"+d:d;
-      return y + "-" + m + "-" + d;
-    },
-    // 应用名称改变
-    applicationsel (val) {
-      this.businessCode = val
-      this.supplierlist (val)
-      this.model3 = ''
-      this.model4 = ''
-    },
-    // 供应商列表
-    supplierlist (code) {
-      let list = {
-        businessCode:code
-      }
-      let urls
-      if (this.$route.query.role == 'ordinary') {
-        urls = '/promotion/suppliersBusiness/queryListByBusinessCode'
-      } else if (this.$route.query.role == 'admin') {
-        urls = '/promotion/suppliersBusiness/queryListByBusinessCodeManager'
-      }
-      this.http.post(BASE_URL + urls, list)
-      .then((resp) => {
-        if (resp.code == 'success') {
-          this.reaName = resp.data
-        } else {
+        return h('div', list)
+      },
 
+      reportColumns2Render(h, params, showTextCallback) {
+        let list = []
+        for (let i = 0; i < params.length; i++) {
+          for (let j = 0; j < params[i].channelList.length; j++) {
+            let text = showTextCallback ? showTextCallback(params[i].channelList[j]) : params[i].channelList[j]
+            list.push(
+              h('span', {
+                style: {
+                  display: 'block',
+                  width: '100%',
+                  height: '40px',
+                  lineHeight: '40px',
+                  borderBottom: '1px solid #e9eaec'
+                }
+              }, text)
+            )
+          }
         }
-      })
-      .catch(() => {
-      })
-    },
-    suppliersel (val) {
-      this.channel (val)
-      this.model4 = ''
-    },
-    channel (code) {
-      let list = {
-        suppliersCode:code,
-        businessCode:this.businessCode
-      }
-      this.http.post(BASE_URL + '/promotion/suppliersBusinessChannel/queryChannelListBySupplierBusiness', list)
-      .then((resp) => {
-        if (resp.code == 'success') {
-          this.account = resp.data
-        } else {
+        return h('div', list)
+      },
 
+
+      // 时间判断
+      time1 (value, data) {
+        this.value1 = value
+      },
+      time2 (value, data) {
+        this.value2 = value
+      },
+      timeFormat(date,num) {
+        let y = date.getFullYear(); //年
+        let m = date.getMonth() + 1; //月
+        let d = date.getDate(); //日
+        if (num == 1) {
+          d = date.getDate()-1
         }
-      })
-      .catch(() => {
-      })
-    },
-    // 列表查询
-    inquire () {
-    this.loading3 = true
-    let date1 = Date.parse(new Date(this.value1))/1000
-    let date2 = Date.parse(new Date(this.value2))/1000
-    if (date1 > date2) {
-      this.loading3 = false
-      this.$Modal.warning({
-        title: '提示',
-        content: '<p>开始时间不得大于结束时间</p>'
-      })
-      return false
-    }
-    let list = {
-      beginTime:this.value1,
-      endTime : this.value2,
-      businessCode:this.model1,
-      suppliersCode:this.model3,
-      suppliersBusinessChannelCode:this.model4
-    }
-    let urls
-    if (this.$route.query.role == 'ordinary') {
-      urls = '/promotion/report/queryChannelReportGroupList'
-    } else if (this.$route.query.role == 'admin') {
-      urls = '/promotion/report/queryChannelReportGroupListByManager'
-    }
-    this.http.post(BASE_URL + urls, list)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.data6 = resp.data
-        this.loading3 = false
-      } else {
-        this.loading3 = false
-      }
-    })
-    .catch(() => {
-      this.loading3 = false
-    })
-    },
-    // 导出
-    exports () {
-      this.loading2 = true;
-      let httpUrl
-      if (this.$route.query.role == 'ordinary') {
-        httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReport'
-      } else if (this.$route.query.role == 'admin') {
-        httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReportByManager'
-      }
-      let formData = new FormData()
-      formData.append("beginTime",this.value1)
-      formData.append("endTime",this.value2)
-      formData.append("businessCode",this.model1)
-      formData.append("suppliersCode",this.model3)
-      formData.append("suppliersBusinessChannelCode",this.model4)
-      utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
-        if(e == true ){
-          this.loading2 = false;
+        m=m<10?"0"+m:m;
+        d=d<10?"0"+d:d;
+        return y + "-" + m + "-" + d;
+      },
+      // 应用名称改变
+      applicationsel (val) {
+        this.businessCode = val
+        this.supplierlist (val)
+        this.model3 = ''
+        this.model4 = ''
+      },
+      // 供应商列表
+      supplierlist (code) {
+        let list = {
+          businessCode:code
         }
-      })
-    },
-    applylist () {
-      let urls
-      if (this.$route.query.role == 'ordinary') {
-        urls = '/promotion/business/queryListByUserCode'
-      } else if (this.$route.query.role == 'admin') {
-        urls = '/promotion/business/queryListByManager'
-      }
-      this.http.post(BASE_URL + urls, {})
-      .then((resp) => {
-        if (resp.code == 'success') {
-          this.cityList = resp.data
-          this.model1 = resp.data[0].businessCode
-        } else {
+        let urls
+        if (this.$route.query.role == 'ordinary') {
+          urls = '/promotion/suppliersBusiness/queryListByBusinessCode'
+        } else if (this.$route.query.role == 'admin') {
+          urls = '/promotion/suppliersBusiness/queryListByBusinessCodeManager'
         }
-      })
-      .catch(() => {
-      })
-    }
-  },
-  mounted () {
-    this.applylist ()
-    // 获取当前时间
-    var date=new Date();
-    this.value2 = this.timeFormat(date,1)
-    date.setDate(1);
-    this.value1 = this.timeFormat(date,0)
-    this.inquire ()
-  },
-  watch: {
-    // 如果路由有变化，会再次执行该方法
-    '$route' (to, from) {
+        this.http.post(BASE_URL + urls, list)
+          .then((resp) => {
+            if (resp.code == 'success') {
+              this.reaName = resp.data
+            } else {
+
+            }
+          })
+          .catch(() => {
+          })
+      },
+      suppliersel (val) {
+        this.channel (val)
+        this.model4 = ''
+      },
+      channel (code) {
+        let list = {
+          suppliersCode:code,
+          businessCode:this.businessCode
+        }
+        this.http.post(BASE_URL + '/promotion/suppliersBusinessChannel/queryChannelListBySupplierBusiness', list)
+          .then((resp) => {
+            if (resp.code == 'success') {
+              this.account = resp.data
+            } else {
+
+            }
+          })
+          .catch(() => {
+          })
+      },
+      // 列表查询
+      inquire () {
+        this.loading3 = true
+        let date1 = Date.parse(new Date(this.value1))/1000
+        let date2 = Date.parse(new Date(this.value2))/1000
+        if (date1 > date2) {
+          this.loading3 = false
+          this.$Modal.warning({
+            title: '提示',
+            content: '<p>开始时间不得大于结束时间</p>'
+          })
+          return false
+        }
+        let list = {
+          beginTime:this.value1,
+          endTime : this.value2,
+          businessCode:this.model1,
+          suppliersCode:this.model3,
+          suppliersBusinessChannelCode:this.model4
+        }
+        let urls
+        if (this.$route.query.role == 'ordinary') {
+          urls = '/promotion/report/queryChannelReportGroupList'
+        } else if (this.$route.query.role == 'admin') {
+          urls = '/promotion/report/queryChannelReportGroupListByManager'
+        }
+        this.http.post(BASE_URL + urls, list)
+          .then((resp) => {
+            if (resp.code == 'success') {
+              this.data6 = resp.data
+              this.loading3 = false
+            } else {
+              this.loading3 = false
+            }
+          })
+          .catch(() => {
+            this.loading3 = false
+          })
+      },
+      // 导出
+      exports () {
+        this.loading2 = true;
+        let httpUrl
+        if (this.$route.query.role == 'ordinary') {
+          httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReport'
+        } else if (this.$route.query.role == 'admin') {
+          httpUrl = BASE_URL+'/promotion/report/exportExcelBusinessChannelReportByManager'
+        }
+        let formData = new FormData()
+        formData.append("beginTime",this.value1)
+        formData.append("endTime",this.value2)
+        formData.append("businessCode",this.model1)
+        formData.append("suppliersCode",this.model3)
+        formData.append("suppliersBusinessChannelCode",this.model4)
+        utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
+          if(e == true ){
+            this.loading2 = false;
+          }
+        })
+      },
+      applylist () {
+        let urls
+        if (this.$route.query.role == 'ordinary') {
+          urls = '/promotion/business/queryListByUserCode'
+        } else if (this.$route.query.role == 'admin') {
+          urls = '/promotion/business/queryListByManager'
+        }
+        this.http.post(BASE_URL + urls, {})
+          .then((resp) => {
+            if (resp.code == 'success') {
+              this.cityList = resp.data
+              this.model1 = resp.data[0].businessCode
+            } else {
+            }
+          })
+          .catch(() => {
+          })
+      }
+
+    },
+    mounted () {
       this.applylist ()
-      this.inquire()      //再次调起我要执行的函数
-     }
+      // 获取当前时间
+      var date=new Date();
+      this.value2 = this.timeFormat(date,1)
+      date.setDate(1);
+      this.value1 = this.timeFormat(date,0)
+      this.inquire ()
+    },
+    watch: {
+      // 如果路由有变化，会再次执行该方法
+      '$route' (to, from) {
+        this.applylist ()
+        this.inquire()      //再次调起我要执行的函数
+      }
+    }
   }
-}
 </script>
 <style lang="less" scoped>
-#application_table {
-  margin-top: 20px;
-}
-.ivu-table-cell{
+  #application_table {
+    margin-top: 20px;
+  }
+  .ivu-table-cell{
     padding: 0
-}
+  }
 </style>
