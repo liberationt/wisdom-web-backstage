@@ -10,33 +10,33 @@
         <ul class="querysty">
           <li>
             <span class="ml20">应用名称:</span>
-            <Select v-model="model1" @on-change="applicationAlias" placeholder="请选择" style="width:150px">
-              <Option v-for="item in cityList" :value="item.businessCode" :key="item.businessCode">{{ item.businessName
-                }}
+            <Select v-model="curBusinessCode" placeholder="请选择" style="width:150px" @on-change="businessChange">
+              <Option v-for="item in businessList" :value="item.businessCode" :key="item.businessCode">
+                {{ item.businessName }}
               </Option>
             </Select>
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="model3" placeholder="请选择供应商" style="width:150px;">
-              <Option v-for="item in reaName" :value="item.suppliersCode" :key="item.suppliersCode">{{
-                item.suppliersName }}
+            <Select v-model="curSuppliersCode" placeholder="请选择供应商" style="width:150px;" @on-change="supplierChange">
+              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">
+                {{ item.suppliersName }}
               </Option>
             </Select>
           </li>
           <li>
             <span class="ml20">预警状态:</span>
-            <Select v-model="model4" placeholder="选择预警状态" style="width:150px;">
-              <Option v-for="item in account" :value="item.value" :key="item.value">{{ item.label }}</Option>
+            <Select v-model="warningStatus" placeholder="选择预警状态" style="width:150px;">
+              <Option v-for="item in warningStatusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
           </li>
           <li>
             <span class="ml20">时间:</span>
-            <DatePicker type="date" :value="value1" @on-change="time1" placeholder="开始时间"
+            <DatePicker type="date" :value="beginTime" @on-change="time1" placeholder="开始时间"
                         style="width: 150px"></DatePicker>
           </li>
           <li>
-            <Button type="info" class=" ml20 w100" :loading="loading3" @click="inquire">
+            <Button type="info" class=" ml20 w100" :loading="loading3" @click="queryReportList">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -52,7 +52,7 @@
       </div>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <Table :row-class-name="rowClassName" border highlight-row :columns="columnsList" :data="data7" size="small"
+      <Table :row-class-name="rowClassName" border highlight-row :columns="columnList" :data="reportList" size="small"
              ref="table" class="dailylist"></Table>
     </div>
   </div>
@@ -63,41 +63,28 @@
   export default {
     data() {
       return {
-        value1: '',
         loading2: false,
         loading3: false,
-        businessKey: '',
-        columnsList: [],
-        cityList: [],
-        reaName: [],
-        account: [
+
+        warningStatusList: [
           {label: '请选择'},
           {value: 0, label: '未预警'},
           {value: 1, label: '预警'}
         ],
-        registerTime: [],
-        model1: '',
-        model3: '',
-        model4: '',
-        model5: '',
-        curBusinessKey: '',
-        name: '',
+        beginTime: '',
 
-        data7: []
+        businessList: [],
+        suppliersList: [],
+        curBusinessCode: null,
+        curSuppliersCode: null,
+        curBusinessKey: '',
+        warningStatus: '',
+
+        columnList: [],
+        reportList: [],
       }
     },
     methods: {
-      // 分页
-      pageChange(page) {
-        this.startRow = page
-        this.inquire()
-      },
-      pagesizechange(page) {
-        // console.log(page)
-        this.startRow = 1
-        this.endRow = page
-        this.inquire()
-      },
       rowClassName(row, index) {
         if (row.isSupplierRow) {
           return 'demo-table-info-row'
@@ -191,7 +178,7 @@
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                fontWeight: isTotal ? '700' : ''
+                fontWeight: isTotal ? '1000' : ''
               },
               domProps: {
                 title: text
@@ -204,43 +191,68 @@
 
       // 时间
       time1(value, data) {
-        this.value1 = value
+        this.beginTime = value
       },
-      // 列表查询
-      inquire(num) {
-        this.columnsList = this.getColumnList(this.businessKey)
 
+      //查询业务列表
+      queryBusiness(callback) {
+        this.http.post(BASE_URL + '/promotion/business/queryListByManager', {}).then((resp) => {
+          if (resp.code == 'success') {
+            this.businessList = resp.data
+            if (this.businessList && this.businessList.length > 0) {
+              this.curBusinessCode = resp.data[0].businessCode
+              this.curBusinessKey = resp.data[0].businessKey
+              callback && callback()
+            }
+          }
+        }).catch(() => {
+        })
+      },
+      // 选择业务后查询供应商
+      businessChange(businessCode) {
+        this.curBusinessCode = businessCode
+        this.suppliersList = []
+        this.businessList.forEach(element => {
+          if (element.businessCode == businessCode) {
+            this.curBusinessKey = element.businessKey
+          }
+        });
+        this.http.post(BASE_URL + '/promotion/suppliersBusiness/queryListByBusinessCodeManager', {
+          businessCode: businessCode
+        }).then((resp) => {
+          if (resp.code == 'success') {
+            this.suppliersList = resp.data
+          }
+        }).catch(() => {
+        })
+      },
+
+      // 列表查询
+      queryReportList() {
+        this.columnList = this.getColumnList(this.curBusinessKey)
         let params = {
-          businessCode: this.model1,
-          channelReportTime: this.value1,
-          suppliersCode: this.model3,
-          warningStatus: this.model4,
+          businessCode: this.curBusinessCode,
+          suppliersCode: this.curSuppliersCode,
+          channelReportTime: this.beginTime,
+          warningStatus: this.warningStatus,
         }
         this.loading3 = true
         this.http.post(BASE_URL + '/promotion/suppliersBusinessReport/querySuppliersDayReport', params).then((resp) => {
           this.loading3 = false
           if (resp.code == 'success') {
-            if (this.cityList && this.cityList.length > 0) {
-              this.cityList.forEach((business) => {
-                if (business.businessCode == this.model1) {
-                  this.curBusinessKey = business.businessKey
-                }
-              })
-            }
-
             //组装数据
-            this.data7 = []
+            this.reportList = []
             if (resp.data && resp.data.length > 0) {
               resp.data.forEach((item) => {
                 //供应商名称
-                this.data7.push({
+                this.reportList.push({
                   'isSupplierRow': true,
                   'isTotal': true,
                   "channelName": item.suppliersName,
                   "discountFact": '平均激活转化率：' + item.activeRate + '%',
                 })
                 //总计
-                this.data7.push({
+                this.reportList.push({
                   'isTotal': true,
                   "channelName": "总计",
                   "discountFact": '',
@@ -261,7 +273,7 @@
                 if (item.channelReportList && item.channelReportList.length > 0) {
                   item.channelReportList.forEach((channelReport) => {
                     //具体渠道数据
-                    this.data7.push({
+                    this.reportList.push({
                       "channelName": channelReport.channelName,
                       "discountFact": channelReport.discountFact + '%',
                       "pv": channelReport.pv,
@@ -292,14 +304,12 @@
         this.loading2 = true;
         let httpUrl = BASE_URL + '/promotion/suppliersBusinessReport/exportSuppliersDayReport'
         let formData = new FormData()
-        formData.append("businessCode", this.model1)
-        formData.append("suppliersCode", this.model3)
-        formData.append("channelReportTime", this.value1)
-        formData.append("warningStatus", this.model4)
+        formData.append("businessCode", this.curBusinessCode)
+        formData.append("suppliersCode", this.curSuppliersCode)
+        formData.append("channelReportTime", this.beginTime)
+        formData.append("warningStatus", this.warningStatus)
         utils.exporttable(httpUrl, utils.getlocal('token'), formData, e => {
-          if (e == true) {
-            this.loading2 = false;
-          }
+          this.loading2 = false;
         })
       },
       parseNum(num1, num2) {
@@ -313,28 +323,6 @@
       // 配置预警值
       earlywarning() {
         this.$router.push({path: '/rangeConfiguration'})
-      },
-      applicationAlias(e) {
-        this.cityList.forEach(element => {
-          if (element.businessCode == e) {
-            this.businessKey = element.businessKey
-          }
-        });
-        //供应商
-        this.reaName = []
-        this.businessPost('/promotion/suppliersBusiness/queryListByBusinessCodeManager', {businessCode: e}, e => {
-          if (e.code == 'success') {
-            this.reaName = e.data
-          }
-        })
-      },
-      //接口
-      businessPost(httpUrl, data, callback) {
-        this.http.post(BASE_URL + httpUrl, data).then(data => {
-          callback && callback(data)
-        }).catch(err => {
-          callback && callback(err)
-        })
       },
     },
     mounted() {
@@ -350,17 +338,10 @@
         strDate = "0" + strDate;
       }
       var currentdate = year + seperator1 + month + seperator1 + strDate;
-      this.value1 = currentdate;
-      //应用名称
-      this.businessPost('/promotion/business/queryListByManager', {}, e => {
-        if (e.code == 'success') {
-          this.cityList = e.data
-          if (this.cityList && this.cityList.length > 0) {
-            this.model1 = this.cityList[0].businessCode
-            this.businessKey = this.cityList[0].businessKey
-            this.inquire()
-          }
-        }
+      this.beginTime = currentdate;
+
+      this.queryBusiness(()=>{
+        this.queryReportList()
       })
     }
   }
