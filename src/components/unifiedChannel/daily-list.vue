@@ -162,6 +162,12 @@
             "key": "allApplyRate",
             align: 'center',
             "minWidth": 100
+          },
+          {
+            "title": "预警状态",
+            "key": "warningStatus",
+            align: 'center',
+            "width": 0
           }
         ],
         columns9: [
@@ -248,6 +254,12 @@
             "key": "allApplyRate",
             align: 'center',
             "minWidth": 100
+          },
+          {
+            "title": "预警状态",
+            "key": "warningStatus",
+            align: 'center',
+            "width": 0
           }
         ],
         data7: []
@@ -267,9 +279,11 @@
         this.inquire()
       },
       rowClassName(row, index) {
+        console.log('===>',row,index)
+        console.log('===>',row.warningStatus)
         if (index == 0) {
           return 'demo-table-info-row';
-        } else if (index == 2) {
+        } else if (index > 0 && row.warningStatus == 1) {
           return 'demo-table-info-cell-name';
         }
         return '';
@@ -302,7 +316,6 @@
                 }
               })
             }
-
 
             //组装数据
             this.data7 = []
@@ -348,6 +361,7 @@
                       "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount + this.parseNum(channelReport.allDiscountApplyCount) : channelReport.allAuthCount + this.parseNum(channelReport.allDiscountAuthCount),
                       "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
                       "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
+                      "warningStatus":channelReport.warningStatus,
                     })
                   })
                 }
@@ -426,10 +440,12 @@
       this.businessPost('/promotion/business/queryListByManager', {}, e => {
         if (e.code == 'success') {
           this.cityList = e.data
-          this.model1 = e.data[0].businessCode
-          this.businessKey = e.data[0].businessKey
-          
-          this.inquire()
+          if (this.cityList && this.cityList.length > 0) {
+            this.model1 = this.cityList[0].businessCode
+            this.businessKey = this.cityList[0].businessKey
+        
+            this.inquire()
+          }
         }
       })
     }
