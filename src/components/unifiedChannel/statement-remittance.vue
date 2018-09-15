@@ -317,10 +317,10 @@
                         "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                         "registerRate": channelReport.registerRate + '%',
-                        "activeCount": channelReport.allActiveCount,
-                        "activeRate": channelReport.allActiveRate + '%',
-                        "applyCount": this.businessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
-                        "applyRate": this.businessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%'
+                        "activeCount": channelReport.allTotalActiveCount,
+                        "activeRate": channelReport.allTotalActiveFact + '%',
+                        "applyCount": this.businessKey == 'HZ' ? channelReport.allTotalApplyCount : channelReport.allTotalAuthCount,
+                        "applyRate": this.businessKey == 'HZ' ? channelReport.allTotalApplyFact + '%' : channelReport.allTotalAuthFact + '%'
                       })
                     })
                   }

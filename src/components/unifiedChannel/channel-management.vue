@@ -91,6 +91,7 @@ export default {
       suppliersBusinessChannelCode:'',
       cityList: [],
       promotionPageSelect:[],
+      inputlist:[],
       modal10:false,
       modal11: false,
       numhid:false,
@@ -145,22 +146,19 @@ export default {
         },
         {
           title: "基础折扣系数(%)",
-          minWidth: 200,
+          minWidth: 150,
           align: "center",
           render: (h, params) => {
           return h('div', [
             h('InputNumber', {
               props: {
                 min:0,
+                max:100,
                 value:params.row.channelBaseDiscount,
               },
               on:{
-                InputNumber:val=>{
-                  this.data6.forEach(element => {
-                    if (element.businessCode == params.row.businessCode) {
-                      this.data6[params.index].channelBaseDiscount=val;
-                    }
-                  })                 
+                'on-change':(e)=>{
+                  this.inputlist[params.index].channelBaseDiscount = e               
                 }
                }
             },)
@@ -176,15 +174,33 @@ export default {
             h('InputNumber', {
               props: {
                 min:0,
+                max:100,
                 value:params.row.channelDiscountSize,
               },
               on:{
-                InputNumber:val=>{                 
-                  this.data6.forEach(element => {
-                    if (element.businessCode == params.row.businessCode) {
-                      this.data6[params.index].channelDiscountSize=val;
-                    }
-                  })
+                'on-change':(e)=>{
+                  this.inputlist[params.index].channelDiscountSize = e               
+                }
+               }
+            },)
+          ]);
+        }
+        },
+        {
+          title: "基础激活数",
+          minWidth: 100,
+          align: "center",
+          render: (h, params) => {            
+          return h('div', [
+            h('InputNumber', {
+              props: {
+                min:0,
+                max:100,
+                value:params.row.channelBaseActive,
+              },
+              on:{
+                'on-change':(e)=>{
+                  this.inputlist[params.index].channelBaseActive = e               
                 }
                }
             },)
@@ -314,7 +330,6 @@ export default {
     editors () {
       this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/getByCode?suppliersBusinessChannelCode="+this.code).then(data => {
         if(data.code == 'success'){
-          console.log(this.promotionPageSelect)
           this.formCustombusi.channelname = data.data.channelName
           this.formCustombusi.channelnum = data.data.channelKey 
           this.formCustombusi.activation = String(data.data.channelBaseActive)
@@ -445,19 +460,22 @@ export default {
     },
     // 批量更新
     batchUpdate () {
+      this.inputlist.forEach(element => {
+        if (element.channelBaseDiscount == null) {
+          element.channelBaseDiscount = 0
+        }
+        if (element.channelDiscountSize == null) {          
+          element.channelDiscountSize = 0
+        }
+        if (element.channelBaseActive == null) {
+          element.channelBaseActive = 0
+        }
+      });
       this.$Modal.confirm({
             title: '提示',
             content: '<p>确定要更新吗?</p>',
-            onOk: () => {
-              let list = []
-              this.data6.forEach(element => {
-                let obj = new Object ()
-                obj.channelBaseDiscount = element.channelBaseDiscount
-                obj.channelDiscountSize = element.channelDiscountSize
-                obj.suppliersBusinessChannelCode = element.suppliersBusinessChannelCode
-                list.push(obj)
-              });
-              this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/batchUpdate", {updateBeanList:list}).then(data => {
+            onOk: () => {         
+              this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/batchUpdate", {updateBeanList:this.inputlist}).then(data => {
                 if(data.code == 'success'){
                   const title = '提示'
                   let content = '<p>更新成功</p>'
@@ -480,11 +498,18 @@ export default {
         pageSize: this.endRow,
         pageNum: this.startRow,
         suppliersBusinessCode :this.application
-
       }
       this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/queryPage", list).then(data => {
         if(data.code == 'success'){
           this.data6 = data.data.dataList;
+          data.data.dataList.forEach(element => {
+            let obj = new Object ()
+            obj.channelBaseDiscount = element.channelBaseDiscount
+            obj.channelDiscountSize = element.channelDiscountSize
+            obj.channelBaseActive = element.channelBaseActive
+            obj.suppliersBusinessChannelCode = element.suppliersBusinessChannelCode
+            this.inputlist.push(obj)
+          });
           this.total = parseInt(data.data.total);
           this.loading3 = false;
         }
