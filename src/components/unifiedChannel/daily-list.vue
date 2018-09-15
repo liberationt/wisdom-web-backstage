@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <div class="navigation">
@@ -50,7 +49,7 @@
             <Button class=" ml10" shape="circle" icon="ios-cog-outline" @click="earlywarning">配置预警值</Button>
           </li>
         </ul>
-      </div>          
+      </div>
     </div>
     <div id="application_table " class="contentcss mt10">
       <Table :row-class-name="rowClassName" border highlight-row :columns="columnstotal" :data="data7" size="small"
@@ -82,14 +81,20 @@
         model5: '',
         curBusinessKey: '',
         name: '',
+
         columns8: [
           {
-            "title": "渠道",
-            "key": "channelName",
+            title: "渠道",
+            key: "channelName",
             align: 'center',
-            "minWidth": 150,
-             render: (h, params) => {
-              let fontWeight = params.row.fontWeight ? params.row.fontWeight: '100'
+            minWidth: 150,
+            render: (h, params) => {
+              let fontWeight = '100'
+              if (params.row.isSupplierRow) {
+                fontWeight = '700'
+              } else if (params.row.isTotal) {
+                fontWeight = '400'
+              }
               return h("div", [
                 h(
                   "span",
@@ -115,19 +120,19 @@
             "title": "折扣系数",
             "key": "discountFact",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 200
           },
           {
             "title": "PV",
             "key": "pv",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "UV",
             "key": "uv",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "注册",
@@ -151,7 +156,7 @@
             "title": "累计激活",
             "key": "allActiveCount",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "当日激活转化率",
@@ -169,13 +174,13 @@
             "title": "当日申请",
             "key": "applyCount",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "累计申请",
             "key": "allApplyCount",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "当日申请转化率",
@@ -192,12 +197,17 @@
         ],
         columns9: [
           {
-            "title": "渠道",
-            "key": "channelName",
+            title: "渠道",
+            key: "channelName",
             align: 'center',
-            "minWidth": 150,
+            minWidth: 150,
             render: (h, params) => {
-              let fontWeight = params.row.fontWeight ? params.row.fontWeight: '100'
+              let fontWeight = '100'
+              if (params.row.isSupplierRow) {
+                fontWeight = '700'
+              } else if (params.row.isTotal) {
+                fontWeight = '400'
+              }
               return h("div", [
                 h(
                   "span",
@@ -223,19 +233,19 @@
             "title": "折扣系数",
             "key": "discountFact",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 200
           },
           {
             "title": "PV",
             "key": "pv",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "UV",
             "key": "uv",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "注册",
@@ -259,7 +269,7 @@
             "title": "累计激活",
             "key": "allActiveCount",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "当日激活转化率",
@@ -274,16 +284,16 @@
             "minWidth": 100
           },
           {
-            "title": "当日申请",
+            "title": "当日认证",
             "key": "applyCount",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "累计认证",
             "key": "allApplyCount",
             align: 'center',
-            "minWidth": 150
+            "minWidth": 100
           },
           {
             "title": "当日认证转化率",
@@ -314,11 +324,9 @@
         this.inquire()
       },
       rowClassName(row, index) {
-        console.log('===>', row, index)
-        console.log('===>', row.warningStatus)
-        if (index == 0) {
+        if (row.isSupplierRow) {
           return 'demo-table-info-row';
-        } else if (index > 0 && row.warningStatus == 1) {
+        } else if (row.warningStatus == 1) {
           return 'demo-table-info-cell-name';
         }
         return '';
@@ -358,13 +366,13 @@
               resp.data.forEach((item) => {
                 //供应商名称
                 this.data7.push({
-                  "fontWeight":'700',
+                  'isSupplierRow': true,
                   "channelName": item.suppliersName,
-                  "discountFact": '平均激活转化率：' + item.activeRate,
+                  "discountFact": '平均激活转化率：' + item.activeRate + '%',
                 })
                 //总计
                 this.data7.push({
-                  "fontWeight":'400',
+                  'isTotal': true,
                   "channelName": "总计",
                   "discountFact": '',
                   "pv": item.allPv,
