@@ -329,15 +329,15 @@
                 this.data7.push({
                   "channelName": "总计",
                   "discountFact": '',
-                  "pv": this.parseNum(item.allPv, item.allDisCountPv),
-                  "uv": this.parseNum(item.allUv, item.allDisCountUv),
+                  "pv": item.allPv,
+                  "uv": item.allUv,
                   "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
                   "registerRate": item.allRegisterFact + '%',
                   "activeCount": this.parseNum(item.allActiveCount, item.allDiscountActiveCount),
                   "allActiveCount": item.allTotalActiveCount,
                   "activeRate": item.allActiveFact + '%',
                   "allActiveRate": item.allTotalActiveFact + '%',
-                  "applyCount": this.curBusinessKey == 'HZ' ? this.parseNum(item.allApplyCount, item.allDiscountApplyCount) : this.parseNum(item.allAuthCount, item.allDiscountAuthCount),
+                  "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount : item.allAuthCount,
                   "allApplyCount": this.curBusinessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
                   "applyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
                   "allApplyRate": this.curBusinessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%',
@@ -349,16 +349,16 @@
                     this.data7.push({
                       "channelName": channelReport.channelName,
                       "discountFact": channelReport.discountFact + '%',
-                      "pv": this.parseNum(channelReport.pv, channelReport.discountPv),
-                      "uv": this.parseNum(channelReport.uv, channelReport.discountUv),
+                      "pv": channelReport.pv,
+                      "uv": channelReport.uv,
                       "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                       "registerRate": channelReport.registerRate + '%',
                       "activeCount": this.parseNum(channelReport.activeCount, channelReport.discountActiveCount),
-                      "allActiveCount": this.parseNum(channelReport.allActiveCount, channelReport.allDiscountActiveCount),
+                      "allActiveCount": channelReport.allActiveCount,
                       "activeRate": channelReport.activeRate + '%',
                       "allActiveRate": channelReport.allActiveRate + '%',
-                      "applyCount": this.curBusinessKey == 'HZ' ? this.parseNum(channelReport.applyCount, channelReport.discountApplyCount) : this.parseNum(channelReport.authCount, channelReport.disAuthCount),
-                      "allApplyCount": this.curBusinessKey == 'HZ' ? this.parseNum(channelReport.allApplyCount, channelReport.allDiscountApplyCount) : this.parseNum(channelReport.allAuthCount, channelReport.allDiscountAuthCount),
+                      "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount : channelReport.authCount,
+                      "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
                       "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
                       "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
                       "warningStatus": channelReport.warningStatus,
@@ -444,6 +444,7 @@
             this.model1 = this.cityList[0].businessCode
             this.businessKey = this.cityList[0].businessKey
 
+            console.log('day====>this.model1: ', this.model1)
             this.inquire()
           }
         }
