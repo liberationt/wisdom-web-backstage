@@ -301,10 +301,10 @@
                     "uv": item.allUv,
                     "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
                     "registerRate": item.allRegisterFact + '%',
-                    "activeCount": item.allActiveCount,
-                    "activeRate": item.allActiveFact + '%',
-                    "applyCount": this.businessKey == 'HZ' ? item.allApplyCount : item.allAuthCount,
-                    "applyRate": this.businessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%'
+                    "activeCount": item.allTotalActiveCount,
+                    "activeRate": item.allTotalActiveFact + '%',
+                    "applyCount": this.businessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
+                    "applyRate": this.businessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%'
                   })
 
                   if (item.channelReportList && item.channelReportList.length > 0) {
@@ -317,10 +317,10 @@
                         "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                         "registerRate": channelReport.registerRate + '%',
-                        "activeCount": channelReport.allTotalActiveCount,
-                        "activeRate": channelReport.allTotalActiveFact + '%',
-                        "applyCount": this.businessKey == 'HZ' ? channelReport.allTotalApplyCount : channelReport.allTotalAuthCount,
-                        "applyRate": this.businessKey == 'HZ' ? channelReport.allTotalApplyFact + '%' : channelReport.allTotalAuthFact + '%'
+                        "activeCount": channelReport.allActiveCount,
+                        "activeRate": channelReport.allActiveRate + '%',
+                        "applyCount": this.businessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
+                        "applyRate": this.businessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%'
                       })
                     })
                   }
