@@ -417,6 +417,26 @@ export default {
               return false
             }
           }
+          if (this.formCustom.remarks == '') {
+              const title = '提示'
+              let content = '<p>请输入备注</p>'
+              this.$Modal.error({
+                  title: title,
+                  content: content
+              })
+              this.changeLoading ()
+              return false
+          }
+          if (this.formCustom.remarks.length>20) {
+              const title = '提示'
+              let content = '<p>备注最多输入20个字符</p>'
+              this.$Modal.error({
+                  title: title,
+                  content: content
+              })
+              this.changeLoading ()
+              return false
+          }
           let list
           if (this.suption == 1) {
           list = {
@@ -574,7 +594,7 @@ export default {
     },
     // 添加供应商业务
     addsuppbusiness () {
-      if (this.formCustom.remarks == '') {
+      if (this.formCustombusi.remarks == '') {
           const title = '提示'
           let content = '<p>请输入备注</p>'
           this.$Modal.error({
@@ -584,7 +604,7 @@ export default {
           this.changeLoading ()
           return false
       }
-      if (this.formCustom.remarks.length>20) {
+      if (this.formCustombusi.remarks.length>20) {
           const title = '提示'
           let content = '<p>备注最多输入20个字符</p>'
           this.$Modal.error({
