@@ -352,13 +352,14 @@ export default {
     // // 待审核
     pageChange(page) {
       this.startRow = page;
-      this.params.page = page;
-      this.labell1();
+      // this.params.page = page;
+      this.label_query();
     },
     PageSizeChange(limit) {
       this.startRow = 1;
       this.endRow = limit;
-      this.params.limit = limit;
+      // this.params.limit = limit;
+      this.label_query();
     },
     businessSubmit (name) {
       this.$refs[name].validate((valid) => {
