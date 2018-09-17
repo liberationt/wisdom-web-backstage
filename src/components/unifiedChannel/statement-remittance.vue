@@ -27,7 +27,8 @@
           <li>
             <span class="ml20">渠道:</span>
             <Select v-model="channelCode" placeholder="选择渠道" style="width:150px;" @on-change="channelChange">
-              <Option v-for="item in channelList" :value="item.suppliersBusinessChannelCode" :key="item.suppliersBusinessChannelCode">
+              <Option v-for="item in channelList" :value="item.suppliersBusinessChannelCode"
+                      :key="item.suppliersBusinessChannelCode">
                 {{ item.channelName }}
               </Option>
             </Select>
@@ -83,48 +84,32 @@
     },
 
     methods: {
+      rowClassName(row, index) {
+        if (row.isSingleLine && row.needWeight) {
+          return 'demo-table-info-row demo-table-info-row-fontWeight'
+        } else if (row.isSingleLine) {
+          return 'demo-table-info-row'
+        } else if (row.needWeight) {
+          return 'demo-table-info-row-fontWeight'
+        } else {
+          return ''
+        }
+      },
+
       getColumnList(businessKey) {
         let columnList = [
-          this.getColumnItem('渠道', 'channelName', 150, (h, params) => {
-              return this.renderColumn(h, params.row.channelName, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('折扣系数', 'discountFact', 200, (h, params) => {
-              return this.renderColumn(h, params.row.discountFact, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('PV', 'pv', 100, (h, params) => {
-              return this.renderColumn(h, params.row.pv, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('UV', 'uv', 100, (h, params) => {
-              return this.renderColumn(h, params.row.uv, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('注册', 'registerCount', 150, (h, params) => {
-              return this.renderColumn(h, params.row.registerCount, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('注册转化率', 'registerRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.registerRate, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('累计激活', 'activeCount', 100, (h, params) => {
-              return this.renderColumn(h, params.row.activeCount, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem('累计激活转化率', 'activeRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.activeRate, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'applyCount', 100, (h, params) => {
-              return this.renderColumn(h, params.row.applyCount, params.row.needWeight)
-            }
-          ),
-          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'applyRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.applyRate, params.row.needWeight)
-            }
-          ),
+          this.getColumnItem('渠道', 'channelName', 150, (h, param) => {
+            return this.renderColumn(h, param.row.channelName, param.row.isSingleLine)
+          }),
+          this.getColumnItem('折扣系数', 'discountFact', 200),
+          this.getColumnItem('PV', 'pv', 100),
+          this.getColumnItem('UV', 'uv', 100),
+          this.getColumnItem('注册', 'registerCount', 150),
+          this.getColumnItem('注册转化率', 'registerRate', 100),
+          this.getColumnItem('累计激活', 'activeCount', 100),
+          this.getColumnItem('累计激活转化率', 'activeRate', 100),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'applyCount', 100),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'applyRate', 100)
         ]
         return columnList
       },
@@ -139,21 +124,16 @@
         }
       },
 
-      renderColumn(h, text, needWeight) {
+      renderColumn(h, text, isSingleLine) {
         return h("div", [
           h(
             "span",
             {
               style: {
-                display: "inline-block",
                 width: "100%",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                fontWeight: needWeight ? '1000' : ''
-              },
-              domProps: {
-                title: text
+                fontSize:isSingleLine ? '20px' : ''
               }
             },
             text
@@ -178,13 +158,6 @@
         m = m < 10 ? "0" + m : m;
         d = d < 10 ? "0" + d : d;
         return y + "-" + m + "-" + d;
-      },
-      rowClassName(row, index) {
-        if (row.isSingleLine) {
-          return 'demo-table-info-row'
-        } else {
-          return ''
-        }
       },
 
       //查询业务列表
@@ -290,7 +263,7 @@
                     "needWeight": true,
                     "isSingleLine": true,
                     "channelName": item.suppliersName,
-                    "discountFact": '平均激活转化率：' + item.activeRate,
+                    "discountFact": '平均激活转化率：' + item.activeRate + '%',
                   })
                   //总计
                   this.reportList.push({
@@ -301,10 +274,10 @@
                     "uv": item.allUv,
                     "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
                     "registerRate": item.allRegisterFact + '%',
-                    "activeCount": item.allActiveCount,
-                    "activeRate": item.allActiveFact + '%',
-                    "applyCount": this.businessKey == 'HZ' ? item.allApplyCount : item.allAuthCount,
-                    "applyRate": this.businessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%'
+                    "activeCount": item.allTotalActiveCount,
+                    "activeRate": item.allTotalActiveFact + '%',
+                    "applyCount": this.businessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
+                    "applyRate": this.businessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%'
                   })
 
                   if (item.channelReportList && item.channelReportList.length > 0) {
@@ -317,10 +290,10 @@
                         "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                         "registerRate": channelReport.registerRate + '%',
-                        "activeCount": channelReport.allTotalActiveCount,
-                        "activeRate": channelReport.allTotalActiveFact + '%',
-                        "applyCount": this.businessKey == 'HZ' ? channelReport.allTotalApplyCount : channelReport.allTotalAuthCount,
-                        "applyRate": this.businessKey == 'HZ' ? channelReport.allTotalApplyFact + '%' : channelReport.allTotalAuthFact + '%'
+                        "activeCount": channelReport.allActiveCount,
+                        "activeRate": channelReport.allActiveRate + '%',
+                        "applyCount": this.businessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
+                        "applyRate": this.businessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%'
                       })
                     })
                   }
