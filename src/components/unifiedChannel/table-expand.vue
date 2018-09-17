@@ -215,7 +215,7 @@
         },
         created () {
             this.childlist ()
-            this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:this.row}).then(data => {
+            this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:this.row.suppliersCode}).then(data => {
                 if(data.code == 'success'){
                 this.prombusiness = data.data.businessSelect
                 this.managerSelect = data.data.managerSelect
