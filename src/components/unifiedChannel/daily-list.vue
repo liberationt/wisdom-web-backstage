@@ -229,6 +229,16 @@
 
       // 列表查询
       queryReportList() {
+        let date2 = Date.parse(new Date(this.beginTime))/1000
+        let date3 = Date.parse(new Date())/1000
+        if (date2 > date3) {
+          this.loading3 = false
+          this.$Modal.warning({
+            title: '提示',
+            content: '<p>时间不得超过当前时间</p>'
+          })
+          return false
+        }
         this.columnList = this.getColumnList(this.curBusinessKey)
         let params = {
           businessCode: this.curBusinessCode,
