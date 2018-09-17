@@ -91,7 +91,9 @@
           return 'demo-table-info-row'
         } else if (row.needWeight) {
           return 'demo-table-info-row-fontWeight'
-        } else {
+        } else if (row.isSum){
+          return 'demo-table-info-row-fontWeight-bigSize'
+        }else {
           return ''
         }
       },
@@ -239,8 +241,7 @@
             if (resp.data) {
               //汇总数据
               this.reportList.push({
-                "columnWeight": true,
-                "needWeight": true,
+                "isSum": true,
                 "channelName": "业务月度总计",
                 "discountFact": '',
                 "pv": resp.data.pv,
