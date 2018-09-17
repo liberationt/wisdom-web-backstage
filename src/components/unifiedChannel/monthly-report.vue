@@ -187,7 +187,7 @@
                 display: 'block',
                 width: '100%',
                 lineHeight: (40 * lineNum) + 'px',
-                borderBottom: '1px solid #e9eaec'
+                borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
               }
             }, text)
           )
