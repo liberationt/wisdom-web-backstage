@@ -172,26 +172,28 @@ export default {
                }
             })
             ]
-            if (params.row.channelBaseDiscount != params.row.snapshot.channelBaseDiscount) {
-              list.push(
-                h('span', {
-                style: {
-                  display: 'block',
-                  width: '100%',
-                  color:'red'
-                }
-              }, '次日生效'+params.row.snapshot.channelBaseDiscount+'%')
-              )
-            } else {
-              list.push(
-                h('span', {
-                style: {
-                  display: 'block',
-                  height: '18px',
-                }
-              })
-              )
-            }
+            if (params.row.snapshot != null) {
+              if (params.row.channelBaseDiscount != params.row.snapshot.channelBaseDiscount) {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    width: '100%',
+                    color:'red'
+                  }
+                }, '次日生效'+params.row.snapshot.channelBaseDiscount+'%')
+                )
+              } else {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    height: '18px',
+                  }
+                })
+                )
+              }        
+            }           
           return h('div', list);
         }
         },
@@ -213,25 +215,27 @@ export default {
                 }
               })
             ]
-            if (params.row.channelDiscountSize != params.row.snapshot.channelDiscountSize) {
-              list.push(
-                h('span', {
-                style: {
-                  display: 'block',
-                  width: '100%',
-                  color:'red'
-                }
-              }, '次日生效'+params.row.snapshot.channelDiscountSize)
-              )
-            } else {
-              list.push(
-                h('span', {
-                style: {
-                  display: 'block',
-                  height: '18px',
-                }
-              })
-              )
+            if (params.row.snapshot != null) {
+              if (params.row.channelDiscountSize != params.row.snapshot.channelDiscountSize) {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    width: '100%',
+                    color:'red'
+                  }
+                }, '次日生效'+params.row.snapshot.channelDiscountSize)
+                )
+              } else {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    height: '18px',
+                  }
+                })
+                )
+              }
             }
           return h('div', list);
         }
@@ -254,25 +258,27 @@ export default {
                 }
               })
             ]
-            if (params.row.channelBaseActive != params.row.snapshot.channelBaseActive) {
-              list.push(
-                h('span', {
-                style: {
-                  display: 'block',
-                  width: '100%',
-                  color:'red'
-                }
-              }, '次日生效'+params.row.snapshot.channelBaseActive)
-              )
-            } else {
-              list.push(
-                h('span', {
-                style: {
-                  display: 'block',
-                  height: '18px',
-                }
-              })
-              )
+            if (params.row.snapshot != null) {
+              if (params.row.channelBaseActive != params.row.snapshot.channelBaseActive) {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    width: '100%',
+                    color:'red'
+                  }
+                }, '次日生效'+params.row.snapshot.channelBaseActive)
+                )
+              } else {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    height: '18px',
+                  }
+                })
+                )
+              }
             }
           return h('div', list);
         }
@@ -412,18 +418,20 @@ export default {
             }
           })
           this.suppliersBusinessChannelCode = data.data.suppliersBusinessChannelCode
-          if (data.data.channelBaseDiscount != data.data.snapshot.channelBaseDiscount) {
-            this.tipsshow1 = true
-            this.snapshopcount = data.data.snapshot.channelBaseDiscount
-          }
-          if (data.data.channelDiscountSize != data.data.snapshot.channelDiscountSize) {
-            this.tipsshow2 = true
-            this.snapshopsize = data.data.snapshot.channelDiscountSize 
-          }
-          if (data.data.channelBaseActive != data.data.snapshot.channelBaseActive) {
-            this.tipsshow3 = true
-            this.snapshopactive = data.data.snapshot.channelBaseActive
-          }
+          if (data.data.snapshot != null) {
+            if (data.data.channelBaseDiscount != data.data.snapshot.channelBaseDiscount) {
+              this.tipsshow1 = true
+              this.snapshopcount = data.data.snapshot.channelBaseDiscount
+            }
+            if (data.data.channelDiscountSize != data.data.snapshot.channelDiscountSize) {
+              this.tipsshow2 = true
+              this.snapshopsize = data.data.snapshot.channelDiscountSize 
+            }
+            if (data.data.channelBaseActive != data.data.snapshot.channelBaseActive) {
+              this.tipsshow3 = true
+              this.snapshopactive = data.data.snapshot.channelBaseActive
+            }
+          }                    
         }
       }).catch(err=>{
         console.log(err)
