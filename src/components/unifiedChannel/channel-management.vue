@@ -552,13 +552,13 @@ export default {
     batchUpdate () {
       this.inputlist.forEach(element => {
         if (element.channelBaseDiscount == null) {
-          element.channelBaseDiscount = 0
+          element.channelBaseDiscount = 1
         }
         if (element.channelDiscountSize == null) {          
-          element.channelDiscountSize = 0
+          element.channelDiscountSize = 1
         }
         if (element.channelBaseActive == null) {
-          element.channelBaseActive = 0
+          element.channelBaseActive = 1
         }
       });
       this.$Modal.confirm({
