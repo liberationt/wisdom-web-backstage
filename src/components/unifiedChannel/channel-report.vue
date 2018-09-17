@@ -221,7 +221,9 @@
         this.http.post(BASE_URL + urls, list)
           .then((resp) => {
             if (resp.code == 'success') {
-              this.reaName = resp.data
+              if (resp.data && resp.data.length > 0) {
+                this.reaName = [{suppliersName:'请选择'}].concat(resp.data)
+              }
             }
           })
           .catch(() => {
@@ -239,7 +241,9 @@
         this.http.post(BASE_URL + '/promotion/suppliersBusinessChannel/queryChannelListBySupplierBusiness', list)
           .then((resp) => {
             if (resp.code == 'success') {
-              this.account = resp.data
+              if (resp.data && resp.data.length > 0) {
+                this.account = [{channelName:'请选择'}].concat(resp.data)
+              }
             }
           })
           .catch(() => {
