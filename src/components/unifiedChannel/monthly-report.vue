@@ -80,7 +80,22 @@
     methods: {
       getColumnList(businessKey) {
         let columnList = [
-          this.getColumnItem('日期', 'reportDate', 110),
+          this.getColumnItem('日期', 'reportDate', 130, (h, params)=>{
+            return h("div", [
+              h(
+                "span",
+                {
+                  style: {
+                    width: "100%",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    fontWeight:'bold'
+                  }
+                },
+                params.row.reportDate
+              )
+            ]);
+          }),
           this.getColumnItem('供应商', 'suppliersName', 150, (h, params) => {
             return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
               return suppliers.suppliersName

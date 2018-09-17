@@ -76,7 +76,23 @@
             title: '日期',
             key: 'reportDate',
             minWidth: 110,
-            align: 'center'
+            align: 'center',
+            render: (h, params)=>{
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      width: "100%",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      fontWeight:'bold'
+                    }
+                  },
+                  params.row.reportDate
+                )
+              ]);
+            }
           },
           {
             title: '供应商',

@@ -86,8 +86,12 @@
     },
     methods: {
       rowClassName(row, index) {
-        if (row.isSupplierRow) {
+        if (row.isSupplierRow && row.isTotal) {
+          return 'demo-table-info-row demo-table-info-row-fontWeight'
+        } else if (row.isSupplierRow) {
           return 'demo-table-info-row'
+        } else if (row.isTotal) {
+          return 'demo-table-info-row-fontWeight'
         } else if (row.warningStatus == 1) {
           return 'demo-table-info-cell-name'
         } else {
@@ -98,61 +102,22 @@
       getColumnList(businessKey) {
         let columnList = [
           this.getColumnItem('渠道', 'channelName', 150, (h, params) => {
-              return this.renderColumn(h, params.row.channelName, params.row.isTotal)
+              return this.renderColumn(h, params.row.channelName, params.row.isSupplierRow)
             }
           ),
-          this.getColumnItem('折扣系数', 'discountFact', 200, (h, params) => {
-              return this.renderColumn(h, params.row.discountFact, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('PV', 'pv', 100, (h, params) => {
-              return this.renderColumn(h, params.row.pv, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('UV', 'uv', 100, (h, params) => {
-              return this.renderColumn(h, params.row.uv, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('注册', 'registerCount', 150, (h, params) => {
-              return this.renderColumn(h, params.row.registerCount, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('注册转化率', 'registerRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.registerRate, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('当日激活', 'activeCount', 150, (h, params) => {
-              return this.renderColumn(h, params.row.activeCount, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('累计激活', 'allActiveCount', 100, (h, params) => {
-              return this.renderColumn(h, params.row.allActiveCount, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('当日激活转化率', 'activeRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.activeRate, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem('累计激活转化率', 'allActiveRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.allActiveRate, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem(businessKey == 'HZ' ? '当日申请' : '当日认证', 'applyCount', 100, (h, params) => {
-              return this.renderColumn(h, params.row.applyCount, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'allApplyCount', 100, (h, params) => {
-              return this.renderColumn(h, params.row.allApplyCount, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem(businessKey == 'HZ' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.applyRate, params.row.isTotal)
-            }
-          ),
-          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'allApplyRate', 100, (h, params) => {
-              return this.renderColumn(h, params.row.allApplyRate, params.row.isTotal)
-            }
-          ),
+          this.getColumnItem('折扣系数', 'discountFact', 200),
+          this.getColumnItem('PV', 'pv', 100),
+          this.getColumnItem('UV', 'uv', 100),
+          this.getColumnItem('注册', 'registerCount', 150),
+          this.getColumnItem('注册转化率', 'registerRate', 100),
+          this.getColumnItem('当日激活', 'activeCount', 150 ),
+          this.getColumnItem('累计激活', 'allActiveCount', 100),
+          this.getColumnItem('当日激活转化率', 'activeRate', 100),
+          this.getColumnItem('累计激活转化率', 'allActiveRate', 100),
+          this.getColumnItem(businessKey == 'HZ' ? '当日申请' : '当日认证', 'applyCount', 100),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'allApplyCount', 100),
+          this.getColumnItem(businessKey == 'HZ' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100),
+          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'allApplyRate', 100 ),
         ]
         return columnList
       },
@@ -167,21 +132,16 @@
         }
       },
 
-      renderColumn(h, text, isTotal) {
+      renderColumn(h, text, columnWeight) {
         return h("div", [
           h(
             "span",
             {
               style: {
-                display: "inline-block",
                 width: "100%",
                 overflow: "hidden",
-                textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                fontWeight: isTotal ? '1000' : ''
-              },
-              domProps: {
-                title: text
+                fontSize:columnWeight ? '20px' : ''
               }
             },
             text

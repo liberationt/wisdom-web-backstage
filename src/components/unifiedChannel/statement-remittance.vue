@@ -98,8 +98,8 @@
 
       getColumnList(businessKey) {
         let columnList = [
-          this.getColumnItem('渠道', 'channelName', 150, (h, param) => {
-            return this.renderColumn(h, param.row.channelName, param.row.isSingleLine)
+          this.getColumnItem('渠道', 'channelName', 200, (h, param) => {
+            return this.renderColumn(h, param.row.channelName, param.row.columnWeight)
           }),
           this.getColumnItem('折扣系数', 'discountFact', 200),
           this.getColumnItem('PV', 'pv', 100),
@@ -124,7 +124,7 @@
         }
       },
 
-      renderColumn(h, text, isSingleLine) {
+      renderColumn(h, text, columnWeight) {
         return h("div", [
           h(
             "span",
@@ -133,7 +133,7 @@
                 width: "100%",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
-                fontSize:isSingleLine ? '20px' : ''
+                fontSize:columnWeight ? '20px' : ''
               }
             },
             text
@@ -239,6 +239,7 @@
             if (resp.data) {
               //汇总数据
               this.reportList.push({
+                "columnWeight":true,
                 "needWeight": true,
                 "channelName": "业务月度总计",
                 "discountFact": '',
@@ -260,6 +261,7 @@
                 resp.data.suppliersDayReportResList.forEach((item) => {
                   //供应商名称
                   this.reportList.push({
+                    "columnWeight":true,
                     "needWeight": true,
                     "isSingleLine": true,
                     "channelName": item.suppliersName,
