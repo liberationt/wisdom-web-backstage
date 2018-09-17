@@ -87,7 +87,7 @@
           <!-- 添加编辑业务 -->
           <!-- 添加编辑供应商弹框 -->
         <Modal
-          title="添加业务-供应商名称"
+          :title='supptitle'
           v-model="modal10"
            @on-ok="businessSubmit('formCustombusi')"
            @on-cancel="businessReset('formCustombusi')"
@@ -147,6 +147,7 @@ export default {
       modal10:false,
       passshow:true,
       supptit:'添加供应商',
+      supptitle:'',
       prombusiness:[],
       managerSelect:[],
       suption:'',
@@ -224,7 +225,7 @@ export default {
               render: (h, params) => {
                   return h(expandRow, {
                       props: {
-                          row: params.row.suppliersCode
+                          row: params.row
                       },
                       on: {
                       click: () => {
@@ -234,7 +235,7 @@ export default {
               }
           },
           {
-              key: 'name',             
+              key: 'name',
               render: (h, params) => {
               let cardType
               if (params.row.cardType == 1) {
@@ -311,6 +312,7 @@ export default {
                     },
                     on: {
                       click: () => {
+                        this.supptitle = '添加业务-'+params.row.contactName
                         this.addbusiness (params.row.suppliersCode)
                       }
                     }
@@ -521,7 +523,7 @@ export default {
           })
         } else {
           this.$Message.error(data.message);
-          this.loading = false
+          this.changeLoading ()
         }
       }).catch(err=>{
         console.log(err)
@@ -572,7 +574,26 @@ export default {
     },
     // 添加供应商业务
     addsuppbusiness () {
-
+      if (this.formCustom.remarks == '') {
+          const title = '提示'
+          let content = '<p>请输入备注</p>'
+          this.$Modal.error({
+              title: title,
+              content: content
+          })
+          this.changeLoading ()
+          return false
+      }
+      if (this.formCustom.remarks.length>20) {
+          const title = '提示'
+          let content = '<p>备注最多输入20个字符</p>'
+          this.$Modal.error({
+              title: title,
+              content: content
+          })
+          this.changeLoading ()
+          return false
+      }
       let managerUser
       this.managerSelect.forEach(element => {    
         if (element.value == this.formCustombusi.person) {
@@ -609,7 +630,7 @@ export default {
       this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:code}).then(data => {
         if(data.code == 'success'){
           this.prombusiness = data.data.businessSelect
-          this.managerSelect = data.data.managerSelect
+          this.managerSelect = data.data.managerSelect          
         }
       }).catch(err=>{
         console.log(err)
