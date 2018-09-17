@@ -681,6 +681,9 @@ export default {
       this.http.post(BASE_URL+httpUrl, list).then(data => {
         if(data.code == 'success'){
           this.data9 = data.data.dataList;
+          data.data.dataList.forEach(element => {
+            data.data.dataList[0]._expanded = true
+          });
           this.total = parseInt(data.data.total);
           this.loading3 = false;
         }
