@@ -181,7 +181,6 @@
       },
       reportColumns2Render(h, params, showTextCallback) {
         let list = []
-        console.log(params)
         for (let i = 0; i < params.length; i++) {
           for (let j = 0; j < params[i].channelReportList.length; j++) {
             let text = showTextCallback ? showTextCallback(params[i].channelReportList[j]) : params[i].channelReportList[j]
@@ -281,6 +280,7 @@
       queryReportList() {
         let date1 = Date.parse(new Date(this.beginTime)) / 1000
         let date2 = Date.parse(new Date(this.endTime)) / 1000
+        let date3 = new Date(new Date().setHours(0, 0, 0, 0)) / 1000
         if (date1 > date2) {
           this.$Modal.warning({
             title: '提示',
@@ -288,7 +288,14 @@
           })
           return false
         }
-
+        if (date2 > date3 || date1 > date3) {
+          this.loading3 = false
+          this.$Modal.warning({
+            title: '更新时间',
+            content: '<p>请选择当前时间的前一天时间</p>'
+          })
+          return false
+        }
         this.columnList = this.getColumnList(this.curBusinessKey)
         let params = {
           startDate: this.beginTime,
