@@ -312,7 +312,7 @@ export default {
                     },
                     on: {
                       click: () => {
-                        this.supptitle = '添加业务-'+params.row.contactName
+                        this.supptitle = '添加业务-'+params.row.suppliersName
                         this.addbusiness (params.row.suppliersCode)
                       }
                     }
@@ -416,16 +416,6 @@ export default {
               this.changeLoading ()
               return false
             }
-          }
-          if (this.formCustom.remarks == '') {
-              const title = '提示'
-              let content = '<p>请输入备注</p>'
-              this.$Modal.error({
-                  title: title,
-                  content: content
-              })
-              this.changeLoading ()
-              return false
           }
           if (this.formCustom.remarks.length>20) {
               const title = '提示'
@@ -594,16 +584,6 @@ export default {
     },
     // 添加供应商业务
     addsuppbusiness () {
-      if (this.formCustombusi.remarks == '') {
-          const title = '提示'
-          let content = '<p>请输入备注</p>'
-          this.$Modal.error({
-              title: title,
-              content: content
-          })
-          this.changeLoading ()
-          return false
-      }
       if (this.formCustombusi.remarks.length>20) {
           const title = '提示'
           let content = '<p>备注最多输入20个字符</p>'
