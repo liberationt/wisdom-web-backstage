@@ -52,6 +52,7 @@
       </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
+      <p class="tc f20"><strong>{{this.beginTime + " 至 " + this.endTime}}</strong></p>
       <Table class="tabgrouping" border highlight-row :columns="columnList" :data="reportList"></Table>
     </div>
   </div>

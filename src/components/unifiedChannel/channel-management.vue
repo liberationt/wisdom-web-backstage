@@ -49,16 +49,19 @@
                 <FormItem label="渠道名称:" prop="channelname" >
                     <Input  v-model="formCustombusi.channelname" placeholder="请输入渠道名称"  style="width: 300px"></Input>
                 </FormItem>
-                <FormItem label="基础折扣系数:" prop="coefficient" >
-                    <Input  v-model="formCustombusi.coefficient" placeholder="请输入基础折扣系数"  style="width: 300px">
+                <FormItem label="基础折扣系数:" prop="coefficient" class="clearfix">
+                    <Input class="left" v-model="formCustombusi.coefficient" placeholder="请输入基础折扣系数"  style="width: 300px">
                         <span slot="append">%</span>
                     </Input>
+                    <span v-if="tipsshow1&&numhid" class="red left ml10">次日生效{{snapshopcount}}%</span>
                 </FormItem>
-                <FormItem label="基础注册数:" prop="register" >
-                    <Input  v-model="formCustombusi.register" placeholder="请输入基础注册数"  style="width: 300px"></Input>
+                <FormItem label="基础注册数:" prop="register" class="clearfix">
+                    <Input class="left" v-model="formCustombusi.register" placeholder="请输入基础注册数"  style="width: 300px"></Input>
+                    <span v-if="tipsshow2&&numhid" class="red left ml10">次日生效{{snapshopsize}}</span>
                 </FormItem>
-                <FormItem label="基础激活数:" prop="activation" >
-                    <Input  v-model="formCustombusi.activation" placeholder="请输入基础激活数"  style="width: 300px"></Input>
+                <FormItem label="基础激活数:" prop="activation" class="clearfix">
+                    <Input class="left" v-model="formCustombusi.activation" placeholder="请输入基础激活数"  style="width: 300px"></Input>
+                    <span v-if="tipsshow3&&numhid" class="red left ml10">次日生效{{snapshopactive}}</span>
                 </FormItem>
               <FormItem label="推广页样式:" prop="style" >
               <Select v-model="formCustombusi.style" placeholder="请选择" style="width:300px" @on-change="applicationsel">
@@ -97,6 +100,12 @@ export default {
       numhid:false,
       loading: true,
       loading2: false,
+      tipsshow1:false,
+      tipsshow2:false,
+      tipsshow3:false,
+      snapshopcount:'',
+      snapshopsize:'',
+      snapshopactive:'',
       stylelogo: require('../../image/moren.png'),
       formCustombusi: {
         channelnum: '',
@@ -135,13 +144,13 @@ export default {
         {
           title: "渠道编号",
           key: "channelKey",
-          minWidth: 200,
+          minWidth: 140,
           align: "center"
         },
         {
           title: "渠道名称",
           key: "channelName",
-          minWidth: 200,
+          minWidth: 160,
           align: "center"
         },
         {
@@ -149,8 +158,8 @@ export default {
           minWidth: 150,
           align: "center",
           render: (h, params) => {
-          return h('div', [
-            h('InputNumber', {
+            let list = [
+              h('InputNumber', {
               props: {
                 min:1,
                 max:100,
@@ -161,51 +170,111 @@ export default {
                   this.inputlist[params.index].channelBaseDiscount = e               
                 }
                }
-            },),
-            h('span', {
-
-            },),
-          ]);
+            })
+            ]
+            if (params.row.channelBaseDiscount != params.row.snapshot.channelBaseDiscount) {
+              list.push(
+                h('span', {
+                style: {
+                  display: 'block',
+                  width: '100%',
+                  color:'red'
+                }
+              }, '次日生效'+params.row.snapshot.channelBaseDiscount+'%')
+              )
+            } else {
+              list.push(
+                h('span', {
+                style: {
+                  display: 'block',
+                  height: '18px',
+                }
+              })
+              )
+            }
+          return h('div', list);
         }
         },
         {
           title: "基础注册数",
           minWidth: 100,
           align: "center",
-          render: (h, params) => {            
-          return h('div', [
-            h('InputNumber', {
-              props: {
-                min:1,
-                value:params.row.channelDiscountSize,
-              },
-              on:{
-                'on-change':(e)=>{
-                  this.inputlist[params.index].channelDiscountSize = e               
+          render: (h, params) => {
+            let list = [
+              h('InputNumber', {
+                props: {
+                  min:1,
+                  value:params.row.channelDiscountSize,
+                },
+                on:{
+                  'on-change':(e)=>{
+                    this.inputlist[params.index].channelDiscountSize = e               
+                  }
                 }
-               }
-            },)
-          ]);
+              })
+            ]
+            if (params.row.channelDiscountSize != params.row.snapshot.channelDiscountSize) {
+              list.push(
+                h('span', {
+                style: {
+                  display: 'block',
+                  width: '100%',
+                  color:'red'
+                }
+              }, '次日生效'+params.row.snapshot.channelDiscountSize)
+              )
+            } else {
+              list.push(
+                h('span', {
+                style: {
+                  display: 'block',
+                  height: '18px',
+                }
+              })
+              )
+            }
+          return h('div', list);
         }
         },
         {
           title: "基础激活数",
           minWidth: 100,
           align: "center",
-          render: (h, params) => {            
-          return h('div', [
-            h('InputNumber', {
-              props: {
-                min:1,
-                value:params.row.channelBaseActive,
-              },
-              on:{
-                'on-change':(e)=>{
-                  this.inputlist[params.index].channelBaseActive = e               
+          render: (h, params) => {
+            let list = [
+              h('InputNumber', {
+                props: {
+                  min:1,
+                  value:params.row.channelBaseActive,
+                },
+                on:{
+                  'on-change':(e)=>{
+                    this.inputlist[params.index].channelBaseActive = e               
+                  }
                 }
-               }
-            },)
-          ]);
+              })
+            ]
+            if (params.row.channelBaseActive != params.row.snapshot.channelBaseActive) {
+              list.push(
+                h('span', {
+                style: {
+                  display: 'block',
+                  width: '100%',
+                  color:'red'
+                }
+              }, '次日生效'+params.row.snapshot.channelBaseActive)
+              )
+            } else {
+              list.push(
+                h('span', {
+                style: {
+                  display: 'block',
+                  height: '18px',
+                }
+              })
+              )
+            }
+          return h('div', list);
         }
         },
         {
@@ -345,6 +414,18 @@ export default {
             }
           })
           this.suppliersBusinessChannelCode = data.data.suppliersBusinessChannelCode
+          if (data.data.channelBaseDiscount != data.data.snapshot.channelBaseDiscount) {
+            this.tipsshow1 = true
+            this.snapshopcount = data.data.snapshot.channelBaseDiscount
+          }
+          if (data.data.channelDiscountSize != data.data.snapshot.channelDiscountSize) {
+            this.tipsshow2 = true
+            this.snapshopsize = data.data.snapshot.channelDiscountSize 
+          }
+          if (data.data.channelBaseActive != data.data.snapshot.channelBaseActive) {
+            this.tipsshow3 = true
+            this.snapshopactive = data.data.snapshot.channelBaseActive
+          }
         }
       }).catch(err=>{
         console.log(err)
@@ -486,7 +567,7 @@ export default {
                       content: content
                   })
                   this.label_query ()
-                  this.inputlist = []
+                  this.inputlist = []                 
                 }
               }).catch(err=>{
                 console.log(err)

@@ -7,7 +7,7 @@
     <div>
         <Table class="childtab" border :columns="columns7" :data="data6"></Table>
         <Modal
-          title="添加业务-供应商名称"
+          :title="suppshow"
           v-model="modal10"
            @on-ok="businessSubmit('formCustom')"
            @on-cancel="businessReset('formCustom')"
@@ -45,7 +45,7 @@
               </Col>
             </Row> 
             </FormItem>
-            <FormItem label="备注:" prop="remarks" >
+            <FormItem label="备注:"  >
               <Input  v-model="formCustom.remarks" placeholder="请输入备注" style="width: 300px"></Input>
             </FormItem>  
           </Form>
@@ -62,6 +62,7 @@
          return {
             modal10:false,
             loading: true,
+            suppshow:'',
             prombusiness:[],
             managerSelect:[],
             suppliersBusinessCode:'',
@@ -118,7 +119,7 @@
                             marginRight: "5px"
                         },
                         on: {
-                            click: () => {
+                            click: () => {                                
                             this.addbusiness (params.row.suppliersBusinessCode)
                             }
                         }
@@ -240,8 +241,9 @@
             },
             // 子表格数据
             childlist () {
+                this.suppshow = '编辑业务-'+this.row.suppliersName
                     let list = {
-                        suppliersCode:this.row
+                        suppliersCode:this.row.suppliersCode
                         }
                     this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListAll", list).then(data => {
                         if(data.code == 'success'){
@@ -269,6 +271,26 @@
             },
             // 编辑保存
             busition () {
+                if (this.formCustom.remarks == '') {
+                    const title = '提示'
+                    let content = '<p>请输入备注</p>'
+                    this.$Modal.error({
+                        title: title,
+                        content: content
+                    })
+                    this.changeLoading ()
+                    return false
+                }
+                if (this.formCustom.remarks.length>20) {
+                    const title = '提示'
+                    let content = '<p>备注最多输入20个字符</p>'
+                    this.$Modal.error({
+                        title: title,
+                        content: content
+                    })
+                    this.changeLoading ()
+                    return false
+                }
                 let list = {
                     managerUserCode:this.formCustom.person,
                     contactUser:this.formCustom.name,
