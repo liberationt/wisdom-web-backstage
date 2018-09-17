@@ -191,6 +191,15 @@
 
       // 列表查询
       queryReportList() {
+        let date1 = Date.parse(new Date(this.beginTime)) / 1000
+        let date2 = Date.parse(new Date()) / 1000
+        if (date1 > date2) {
+          this.$Modal.warning({
+            title: '提示',
+            content: '<p>不能选择未来时间</p>'
+          })
+          return false
+        }
         this.columnList = this.getColumnList(this.curBusinessKey)
         let params = {
           businessCode: this.curBusinessCode,

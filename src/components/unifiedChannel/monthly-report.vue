@@ -313,7 +313,7 @@
           this.loading3 = false
           this.$Modal.warning({
             title: '更新时间',
-            content: '<p>请选择当前时间的前一天时间</p>'
+            content: '<p>不得选择当前时间的未来时间</p>'
           })
           return false
         }

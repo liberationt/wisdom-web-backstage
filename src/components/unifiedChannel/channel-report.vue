@@ -254,11 +254,20 @@
         this.loading3 = true
         let date1 = Date.parse(new Date(this.value1))/1000
         let date2 = Date.parse(new Date(this.value2))/1000
+        let date3 = new Date(new Date().setHours(0, 0, 0, 0)) / 1000
         if (date1 > date2) {
           this.loading3 = false
           this.$Modal.warning({
             title: '提示',
             content: '<p>开始时间不得大于结束时间</p>'
+          })
+          return false
+        }
+        if (date2 > date3 || date1 > date3) {
+          this.loading3 = false
+          this.$Modal.warning({
+            title: '更新时间',
+            content: '<p>不得选择当前时间的未来时间</p>'
           })
           return false
         }
