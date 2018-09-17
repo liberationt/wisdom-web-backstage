@@ -76,7 +76,7 @@
         businessList: [],
         suppliersList: [],
         curBusinessCode: null,
-        curSuppliersCode: null,
+        curSuppliersCode: '',
         curBusinessKey: '',
         warningStatus: '',
 
@@ -288,7 +288,7 @@
                       "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
                       "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.authRate + '%',
                       "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.allAuthRate + '%',
-                      "warningStatus": channelReport.warningStatus,
+                      "warningStatus": channelReport.allApplyRate,
                     })
                   })
                 }

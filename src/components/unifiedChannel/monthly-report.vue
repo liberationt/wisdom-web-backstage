@@ -144,7 +144,7 @@
               })
             }) : this.getColumnItem('累计申请转化率', '', 120, (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allAuthRate
+                return report.allAuthRate + '%'
               })
             }),
         ]
