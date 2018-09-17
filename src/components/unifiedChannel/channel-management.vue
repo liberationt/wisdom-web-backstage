@@ -152,7 +152,7 @@ export default {
           return h('div', [
             h('InputNumber', {
               props: {
-                min:0,
+                min:1,
                 max:100,
                 value:params.row.channelBaseDiscount,
               },
@@ -161,7 +161,10 @@ export default {
                   this.inputlist[params.index].channelBaseDiscount = e               
                 }
                }
-            },)
+            },),
+            h('span', {
+
+            },),
           ]);
         }
         },
@@ -173,8 +176,7 @@ export default {
           return h('div', [
             h('InputNumber', {
               props: {
-                min:0,
-                max:100,
+                min:1,
                 value:params.row.channelDiscountSize,
               },
               on:{
@@ -194,8 +196,7 @@ export default {
           return h('div', [
             h('InputNumber', {
               props: {
-                min:0,
-                max:100,
+                min:1,
                 value:params.row.channelBaseActive,
               },
               on:{
@@ -485,6 +486,7 @@ export default {
                       content: content
                   })
                   this.label_query ()
+                  this.inputlist = []
                 }
               }).catch(err=>{
                 console.log(err)

@@ -76,7 +76,23 @@
             title: '日期',
             key: 'reportDate',
             minWidth: 110,
-            align: 'center'
+            align: 'center',
+            render: (h, params)=>{
+              return h("div", [
+                h(
+                  "span",
+                  {
+                    style: {
+                      width: "100%",
+                      overflow: "hidden",
+                      whiteSpace: "nowrap",
+                      fontWeight:'bold'
+                    }
+                  },
+                  params.row.reportDate
+                )
+              ]);
+            }
           },
           {
             title: '供应商',
@@ -136,7 +152,7 @@
                 display: 'block',
                 width: '100%',
                 lineHeight: (40 * lineNum) + 'px',
-                borderBottom: this.border( params.length > 1 &&  i < params.length-1)
+                borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
               }
             }, text)
           )
@@ -163,14 +179,7 @@
         }
         return h('div', list)
       },
-      //消除底边框
-      border(l) {
-        if (l) {
-          return "1px solid #e9eaec";
-        } else {
-          return "0px";
-        }
-      },
+
 
       // 时间判断
       time1 (value, data) {

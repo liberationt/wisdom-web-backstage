@@ -80,7 +80,22 @@
     methods: {
       getColumnList(businessKey) {
         let columnList = [
-          this.getColumnItem('日期', 'reportDate', 110),
+          this.getColumnItem('日期', 'reportDate', 130, (h, params) => {
+            return h("div", [
+              h(
+                "span",
+                {
+                  style: {
+                    width: "100%",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    fontWeight: 'bold'
+                  }
+                },
+                params.row.reportDate
+              )
+            ]);
+          }),
           this.getColumnItem('供应商', 'suppliersName', 150, (h, params) => {
             return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
               return suppliers.suppliersName
@@ -144,7 +159,7 @@
               })
             }) : this.getColumnItem('累计申请转化率', '', 120, (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allAuthRate
+                return report.allAuthRate + '%'
               })
             }),
         ]
@@ -172,13 +187,14 @@
                 display: 'block',
                 width: '100%',
                 lineHeight: (40 * lineNum) + 'px',
-                borderBottom: this.border(params.length > 1 && i < params.length - 1)
+                borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
               }
             }, text)
           )
         }
         return h('div', list)
       },
+
       reportColumns2Render(h, params, showTextCallback) {
         let list = []
         for (let i = 0; i < params.length; i++) {
@@ -328,14 +344,6 @@
             this.loading2 = false;
           }
         })
-      },
-      //消除底边框
-      border(l) {
-        if (l) {
-          return "1px solid #e9eaec";
-        } else {
-          return "0px";
-        }
       }
     },
     mounted() {
@@ -358,4 +366,5 @@
   .ivu-table-cell {
     padding: 0
   }
+
 </style>
