@@ -130,14 +130,13 @@
         for (let i = 0; i < params.length; i++) {
           let text = showTextCallback ? showTextCallback(params[i]) : params[i]
           let lineNum = params[i].channelList && params[i].channelList.length > 0 ? params[i].channelList.length : 1
-
           list.push(
             h('span', {
               style: {
                 display: 'block',
                 width: '100%',
                 lineHeight: (40 * lineNum) + 'px',
-                borderBottom: '1px solid #e9eaec'
+                borderBottom: this.border( params.length > 1 &&  i < params.length-1)
               }
             }, text)
           )
@@ -164,7 +163,14 @@
         }
         return h('div', list)
       },
-
+      //消除底边框
+      border(l) {
+        if (l) {
+          return "1px solid #e9eaec";
+        } else {
+          return "0px";
+        }
+      },
 
       // 时间判断
       time1 (value, data) {

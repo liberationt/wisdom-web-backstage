@@ -518,9 +518,8 @@ export default {
         this.loading3 = false;
         console.log(err)
       })
-    }
-
-
+    },
+    
   },
   created() {
     this.http.post(BASE_URL + "/promotion/suppliersBusiness/queryListAll ",{suppliersCode:this.$route.query.suppliersCode}).then(data=>{
