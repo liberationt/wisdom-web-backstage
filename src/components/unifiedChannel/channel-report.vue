@@ -146,13 +146,13 @@
         for (let i = 0; i < params.length; i++) {
           let text = showTextCallback ? showTextCallback(params[i]) : params[i]
           let lineNum = params[i].channelList && params[i].channelList.length > 0 ? params[i].channelList.length : 1
-
+          //这里的lineHeight  41是要算上分割线的高度
           list.push(
             h('span', {
               style: {
                 display: 'block',
                 width: '100%',
-                lineHeight: (40 * lineNum) + 'px',
+                lineHeight: (41 * lineNum - 1) + 'px',
                 borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
               }
             }, text)

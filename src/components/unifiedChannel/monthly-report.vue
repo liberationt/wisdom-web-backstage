@@ -186,7 +186,7 @@
               style: {
                 display: 'block',
                 width: '100%',
-                lineHeight: (40 * lineNum) + 'px',
+                lineHeight: (41 * lineNum - 1) + 'px',
                 borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
               }
             }, text)
