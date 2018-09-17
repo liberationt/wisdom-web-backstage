@@ -32,7 +32,7 @@
           </li>
           <li>
             <span class="ml20">时间:</span>
-            <DatePicker type="date" :value="beginTime" @on-change="time1" placeholder="开始时间"
+            <DatePicker type="date" :value="beginTime" :options="options3" @on-change="time1" placeholder="开始时间"
                         style="width: 150px"></DatePicker>
           </li>
           <li>
@@ -65,7 +65,11 @@
       return {
         loading2: false,
         loading3: false,
-
+        options3: {
+          disabledDate(date) {
+            return date && date.valueOf() > Date.now();
+          }
+        },
         warningStatusList: [
           {label: '请选择'},
           {value: 0, label: '未预警'},
@@ -191,15 +195,6 @@
 
       // 列表查询
       queryReportList() {
-        let date1 = Date.parse(new Date(this.beginTime)) / 1000
-        let date2 = Date.parse(new Date()) / 1000
-        if (date1 > date2) {
-          this.$Modal.warning({
-            title: '提示',
-            content: '<p>不能选择未来时间</p>'
-          })
-          return false
-        }
         this.columnList = this.getColumnList(this.curBusinessKey)
         let params = {
           businessCode: this.curBusinessCode,
