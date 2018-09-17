@@ -181,7 +181,9 @@
           businessCode: businessCode
         }).then((resp) => {
           if (resp.code == 'success') {
-            this.suppliersList = resp.data
+            if (resp.data && resp.data.length > 0) {
+              this.suppliersList = [{suppliersName:'请选择'}].concat(resp.data)
+            }
           }
         }).catch(() => {
         })
