@@ -271,16 +271,6 @@
             },
             // 编辑保存
             busition () {
-                if (this.formCustom.remarks == '') {
-                    const title = '提示'
-                    let content = '<p>请输入备注</p>'
-                    this.$Modal.error({
-                        title: title,
-                        content: content
-                    })
-                    this.changeLoading ()
-                    return false
-                }
                 if (this.formCustom.remarks.length>20) {
                     const title = '提示'
                     let content = '<p>备注最多输入20个字符</p>'
