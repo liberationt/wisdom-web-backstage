@@ -172,16 +172,16 @@
                 display: 'block',
                 width: '100%',
                 lineHeight: (40 * lineNum) + 'px',
-                borderBottom: '1px solid #e9eaec'
+                borderBottom: this.border(params.length > 1 && i < params.length - 1)
               }
             }, text)
           )
         }
         return h('div', list)
       },
-
       reportColumns2Render(h, params, showTextCallback) {
         let list = []
+        console.log(params)
         for (let i = 0; i < params.length; i++) {
           for (let j = 0; j < params[i].channelReportList.length; j++) {
             let text = showTextCallback ? showTextCallback(params[i].channelReportList[j]) : params[i].channelReportList[j]
@@ -321,6 +321,14 @@
             this.loading2 = false;
           }
         })
+      },
+      //消除底边框
+      border(l) {
+        if (l) {
+          return "1px solid #e9eaec";
+        } else {
+          return "0px";
+        }
       }
     },
     mounted() {
