@@ -122,15 +122,15 @@ export default {
         ],
         coefficient: [
           { required: true, message: '请输入基础折扣系数', trigger: 'blur' },
-          {required: true, message: '请输入正确的基础折扣系数', pattern: /^([1-9][0-9]{0,1}|100)$/, trigger: 'blur'}
+          {required: true, message: '请输入正确的基础折扣系数(1-100间的整数)', pattern: /^([1-9][0-9]{0,1}|100)$/, trigger: 'blur'}
         ],
         register: [
           { required: true, message: '请输入基础注册数', trigger: 'blur' },
-          {required: true, message: '请输入正确的基础注册数', pattern: /^\+?[1-9]\d*$/ , trigger: 'blur'}
+          {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,3}|1000)$/ , trigger: 'blur'}
         ],
         activation: [
           { required: true, message: '请输入基础激活数', trigger: 'blur' },
-          {required: true, message: '请输入正确的基础激活数', pattern: /^\+?[1-9]\d*$/ , trigger: 'blur'}
+          {required: true, message: '请输入正确的基础激活数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,3}|1000)$/ , trigger: 'blur'}
         ],
         // phone: [
         //   { required: true, message: '请输入手机号', trigger: 'blur' },
@@ -448,6 +448,17 @@ export default {
     },
     // 添加
     channelpre () {
+      // let numtir1 = /^([1-9][0-9]{0,1}|100)$/
+      // if (!numtir1.test(this.formCustombusi.coefficient)) {
+      //   const title = '提示'
+      //   let content = '<p>请输入正确的基础折扣系数(1-100间的整数)</p>'
+      //   this.$Modal.success({
+      //       title: title,
+      //       content: content
+      //   })
+      //   return false
+        
+      // }
       let list
       let urls
       let content
