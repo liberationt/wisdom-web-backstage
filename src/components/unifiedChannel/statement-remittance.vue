@@ -108,7 +108,7 @@
           this.getColumnItem('渠道', 'channelName', 200, (h, param) => {
             return this.renderColumn(h, param.row.channelName, param.row.columnWeight)
           }),
-          this.getColumnItem('折扣系数', 'discountFact', 200),
+          //this.getColumnItem('折扣系数', 'discountFact', 200),
           this.getColumnItem('PV', 'pv', 100),
           this.getColumnItem('UV', 'uv', 100),
           this.getColumnItem('注册', 'registerCount', 150),
@@ -251,7 +251,6 @@
               this.reportList.push({
                 "isSum": true,
                 "channelName": "业务月度总计",
-                "discountFact": '',
                 "pv": resp.data.pv,
                 "uv": resp.data.uv,
                 "registerCount": this.parseNum(resp.data.registerCount, resp.data.discountRegisterCount),
@@ -274,13 +273,12 @@
                     "needWeight": true,
                     "isSingleLine": true,
                     "channelName": item.suppliersName,
-                    "discountFact": '平均激活转化率：' + item.activeRate + '%',
+                    "pv": '平均激活转化率：' + item.activeRate + '%',
                   })
                   //总计
                   this.reportList.push({
                     "needWeight": true,
                     "channelName": "总计",
-                    "discountFact": '',
                     "pv": item.allPv,
                     "uv": item.allUv,
                     "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
@@ -296,7 +294,7 @@
                       //具体渠道数据
                       this.reportList.push({
                         "channelName": channelReport.channelName,
-                        "discountFact": channelReport.discountFact + '%',
+                        //"discountFact": channelReport.discountFact + '%',
                         "pv": channelReport.pv,
                         "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
