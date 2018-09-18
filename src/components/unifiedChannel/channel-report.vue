@@ -204,6 +204,8 @@
       applicationsel (val) {
         this.businessCode = val
         this.supplierlist (val)
+        this.reaName = []
+        this.account = []
         this.model3 = ''
         this.model4 = ''
       },
@@ -235,8 +237,9 @@
           })
       },
       suppliersel (val) {
-        this.channel (val)
+        this.account = []
         this.model4 = ''
+        this.channel (val)
       },
       channel (code) {
         let list = {
@@ -345,7 +348,7 @@
       var date=new Date();
       this.value2 = this.timeFormat(date,1)
       date.setDate(1);
-      this.value1 = this.timeFormat(date,0)     
+      this.value1 = this.timeFormat(date,0)
       this.applylist ()
     },
     watch: {
