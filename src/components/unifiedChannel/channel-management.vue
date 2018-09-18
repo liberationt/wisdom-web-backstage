@@ -126,11 +126,11 @@ export default {
         ],
         register: [
           { required: true, message: '请输入基础注册数', trigger: 'blur' },
-          {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,3}|1000)$/ , trigger: 'blur'}
+          {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
         ],
         activation: [
           { required: true, message: '请输入基础激活数', trigger: 'blur' },
-          {required: true, message: '请输入正确的基础激活数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,3}|1000)$/ , trigger: 'blur'}
+          {required: true, message: '请输入正确的基础激活数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
         ],
         // phone: [
         //   { required: true, message: '请输入手机号', trigger: 'blur' },
