@@ -326,8 +326,11 @@
           .then((resp) => {
             if (resp.code == 'success') {
               this.cityList = resp.data
-              this.model1 = resp.data[0].businessCode
-
+              if (this.$route.query.businessCode) {
+                this.model1 = this.$route.query.businessCode
+              } else {
+                this.model1 = resp.data[0].businessCode
+              }
               this.inquire ()
             }
           })
