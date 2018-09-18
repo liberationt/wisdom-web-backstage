@@ -24,7 +24,7 @@
             </FormItem>
             <FormItem label="商务负责人:" prop="person" >
               <Select v-model="formCustom.person" placeholder="请选择商务对接" style="width:300px" >
-                <Option v-for="item in managerSelect" :value="item.value">{{item.label}}</Option>       
+                <Option v-for="item in managerSelect" :value="item.value">{{item.label}}</Option>
               </Select>
             </FormItem>
             <FormItem label="对方联系人:" class="clearfix contacts" >
@@ -37,17 +37,17 @@
                     </FormItem>
                 </Col>
                 <Col span="7">
-                    <FormItem prop="phone" class="nametop">                     
+                    <FormItem prop="phone" class="nametop">
                       <Input v-model="formCustom.phone" class="left " placeholder="请输入手机号" style="width: 150px;margin-top:1px">
                       <span slot="prepend">手机号</span>
                       </Input>
                     </FormItem>
               </Col>
-            </Row> 
+            </Row>
             </FormItem>
             <FormItem label="备注:"  >
               <Input  v-model="formCustom.remarks" placeholder="请输入备注" style="width: 300px"></Input>
-            </FormItem>  
+            </FormItem>
           </Form>
           </div>
           </Modal>
@@ -56,7 +56,7 @@
 <script>
     export default {
         props: {
-            row: Object      
+            row: Object
         },
         data () {
          return {
@@ -121,7 +121,7 @@
                             marginRight: "5px"
                         },
                         on: {
-                            click: () => {                                
+                            click: () => {
                             this.addbusiness (params.row.suppliersBusinessCode)
                             }
                         }
@@ -140,7 +140,7 @@
                         },
                         on: {
                             click: () => {
-                                this.$router.push({ path: '/channelReport?role=admin&suppliersCode='+this.suppliersCode+'&businessCode='+ params.row.businessCode})                            
+                                this.$router.push({ path: '/channelReport?role=admin&suppliersCode='+this.suppliersCode+'&businessCode='+ params.row.businessCode})
                             }
                         }
                         },
@@ -158,7 +158,7 @@
                         },
                         on: {
                             click: () => {
-                                this.busdeleting (params.row.suppliersBusinessCode)                           
+                                this.busdeleting (params.row.suppliersBusinessCode)
                             }
                         }
                         },
@@ -179,7 +179,7 @@
                         },
                         on: {
                             click: () => {
-                                this.$router.push({ path: '/channelManagementunid?suppliersCode='+ params.row.suppliersCode+'&suppliersBusinessCode='+params.row.suppliersBusinessCode})                            
+                                this.$router.push({ path: '/channelManagementunid?suppliersCode='+ params.row.suppliersCode+'&suppliersBusinessCode='+params.row.suppliersBusinessCode})
                             }
                         }
                         },
@@ -200,7 +200,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({ path: '/channelReport?role=ordinary&suppliersCode='+this.suppliersCode+'&businessCode='+params.row.businessCode })                                    
+                                        this.$router.push({ path: '/channelReport?role=ordinary&suppliersCode='+this.suppliersCode+'&businessCode='+params.row.businessCode })
                                     }
                                 }
                                 },
@@ -213,7 +213,7 @@
                 }
             ],
             data6:[]
-         }   
+         }
         },
         created () {
             this.childlist ()
@@ -247,10 +247,10 @@
                     }
                     this.http.post(BASE_URL+urls, list).then(data => {
                         if(data.code == 'success'){
-                            this.data6 = data.data       
+                            this.data6 = data.data
                         }
                     }).catch(err=>{
-                        
+
                     })
             },
             saveViewData () {
@@ -290,8 +290,18 @@
                     this.changeLoading ()
                     return false
                 }
+
+                let managerUser
+               this.managerSelect.forEach((manager)=>{
+                 console.log('manager=====111>',manager)
+                 if (this.formCustom.person == manager.value) {
+                   managerUser = manager.label
+                 }
+               })
+
                 let list = {
                     managerUserCode:this.formCustom.person,
+                    managerUser:managerUser,
                     contactUser:this.formCustom.name,
                     contactPhone:this.formCustom.phone,
                     suppliersBusinessCode:this.suppliersBusinessCode,
@@ -305,7 +315,9 @@
                         title: title,
                         content: content,
                         onOk: () => {
-                            this.modal10 = false                 
+                            this.modal10 = false
+
+                          this.childlist ()
                         }
                     })
 
@@ -326,7 +338,7 @@
                     let content = '<p>删除成功</p>'
                     this.$Modal.success({
                         title: title,
-                        content: content                        
+                        content: content
                     })
                     this.childlist ()
                     } else {
