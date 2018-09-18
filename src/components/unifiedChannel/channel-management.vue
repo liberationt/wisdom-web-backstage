@@ -659,7 +659,7 @@ export default {
     
   },
   created() {
-    this.http.post(BASE_URL + "/promotion/suppliersBusiness/queryListAll ",{suppliersCode:this.$route.query.suppliersCode}).then(data=>{
+    this.http.post(BASE_URL + "/promotion/suppliersBusiness/queryListManager",{suppliersCode:this.$route.query.suppliersCode}).then(data=>{
       if(data.code == 'success'){
         this.cityList = data.data
         this.application = this.$route.query.suppliersBusinessCode      
