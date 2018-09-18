@@ -238,8 +238,14 @@
                 this.suppshow = '编辑业务-'+this.suppliersName
                     let list = {
                         suppliersCode:this.suppliersCode
-                        }
-                    this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListAll", list).then(data => {
+                    }
+                    let urls
+                    if (this.$route.query.accnum == 1 ||this.$route.query.accnum == 2) {
+                        urls = "/promotion/suppliersBusiness/queryListManager"
+                    } else if (this.$route.query.accnum == 3) {
+                        urls = "/promotion/suppliersBusiness/queryList"
+                    }
+                    this.http.post(BASE_URL+urls, list).then(data => {
                         if(data.code == 'success'){
                             this.data6 = data.data       
                         }

@@ -122,7 +122,7 @@ export default {
       this.$router.push({ path: path });
       if (name == "应用管理") {
         that.lefthidfalse();
-      } else if (name == '财务管理' || name == '系统管理') {
+      } else if (name == '财务管理' || name == '系统管理' || name == '渠道管理') {
         for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
         if (that.menu.menuInfo.children[i].menuCode == code) {
           arrlist = that.menu.menuInfo.children[i].children;
