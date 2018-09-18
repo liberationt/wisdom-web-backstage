@@ -101,7 +101,7 @@
 
       getColumnList(businessKey) {
         let columnList = [
-          this.getColumnItem('渠道', 'channelName', 150, (h, params) => {
+          this.getColumnItem('渠道', 'channelName', 250, (h, params) => {
               return this.renderColumn(h, params.row.channelName, params.row.isSupplierRow)
             }
           ),
@@ -141,7 +141,7 @@
                 width: "100%",
                 overflow: "hidden",
                 whiteSpace: "nowrap",
-                fontSize:columnWeight ? '20px' : ''
+                fontSize:columnWeight ? '15px' : ''
               }
             },
             text
