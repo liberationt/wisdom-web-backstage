@@ -42,7 +42,7 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
-            <Form ref="formCustom" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
+            <Form ref="formCustom" class="nametop" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
                 <FormItem v-if="numhid" label="渠道编号:" prop="channelnum" >
                     <Input  v-model="formCustombusi.channelnum" placeholder="请输入渠道编号" disabled style="width: 300px"></Input>
                 </FormItem>
@@ -206,6 +206,7 @@ export default {
               h('InputNumber', {
                 props: {
                   min:1,
+                  max:1000,
                   value:params.row.channelDiscountSize,
                 },
                 on:{
@@ -249,6 +250,7 @@ export default {
               h('InputNumber', {
                 props: {
                   min:1,
+                  max:1000,
                   value:params.row.channelBaseActive,
                 },
                 on:{
@@ -397,6 +399,7 @@ export default {
           this.numhid = true
           this.addecho (num)        
         }  else {
+
             this.numhid = false
             this.titles = '添加渠道'
             this.addecho (num)
@@ -432,7 +435,11 @@ export default {
               this.tipsshow3 = true
               this.snapshopactive = data.data.snapshot.channelBaseActive
             }
-          }                    
+          } else {
+            this.tipsshow1 = false
+            this.tipsshow2 = false
+            this.tipsshow3 = false           
+          }
         }
       }).catch(err=>{
         console.log(err)
@@ -551,17 +558,45 @@ export default {
     },
     // 批量更新
     batchUpdate () {
-      this.inputlist.forEach(element => {
-        if (element.channelBaseDiscount == null) {
+      let tir = /^[0-9]+$/
+      for (let i = 0; i < this.inputlist.length; i++) {
+        if (this.inputlist[i].channelBaseDiscount == null) {
           element.channelBaseDiscount = 1
         }
-        if (element.channelDiscountSize == null) {          
+        if (this.inputlist[i].channelDiscountSize == null) {          
           element.channelDiscountSize = 1
         }
-        if (element.channelBaseActive == null) {
+        if (this.inputlist[i].channelBaseActive == null) {
           element.channelBaseActive = 1
         }
-      });
+        if (!tir.test(String(this.inputlist[i].channelBaseDiscount))) {
+          const title = '提示'
+          let content = '<p>基础折扣系数请输入整数</p>'
+          this.$Modal.error({
+              title: title,
+              content: content
+          })
+          return false      
+        }
+        if (!tir.test(String(this.inputlist[i].channelDiscountSize))) {
+          const title = '提示'
+          let content = '<p>基础注册数请输入整数</p>'
+          this.$Modal.error({
+              title: title,
+              content: content
+          })
+          return false      
+        }
+        if (!tir.test(String(this.inputlist[i].channelBaseActive))) {
+          const title = '提示'
+          let content = '<p>基础激活数请输入整数</p>'
+          this.$Modal.error({
+              title: title,
+              content: content
+          })
+          return false      
+        }              
+      }
       this.$Modal.confirm({
             title: '提示',
             content: '<p>确定要更新吗?</p>',
@@ -582,7 +617,7 @@ export default {
               })
                 
             }
-        });      
+        });    
     },
     // 查询
     label_query () {
