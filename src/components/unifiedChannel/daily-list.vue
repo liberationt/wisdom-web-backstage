@@ -254,7 +254,7 @@
                       "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
                       "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.authRate + '%',
                       "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%',
-                      "warningStatus": channelReport.allApplyRate,
+                      "warningStatus": channelReport.warningStatus,
                     })
                   })
                 }
