@@ -140,7 +140,7 @@
                         },
                         on: {
                             click: () => {
-                                this.$router.push({ path: '/channelReport?role=admin&suppliersCode='+this.suppliersCode })                            
+                                this.$router.push({ path: '/channelReport?role=admin&suppliersCode='+this.suppliersCode+'&businessCode='+ params.row.businessCode})                            
                             }
                         }
                         },
@@ -200,7 +200,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({ path: '/channelReport?role=ordinary&suppliersCode='+this.suppliersCode })                                    
+                                        this.$router.push({ path: '/channelReport?role=ordinary&suppliersCode='+this.suppliersCode+'&businessCode='+params.row.businessCode })                                    
                                     }
                                 }
                                 },
@@ -346,6 +346,7 @@
         },
         watch: {
         　　'row':function (n, o) {
+            console.log(n)
                 this.suppliersName = n.suppliersName
                 this.suppliersCode = n.suppliersCode
                 this.childlist ()
