@@ -224,6 +224,11 @@
               if (resp.data && resp.data.length > 0) {
                 this.reaName = [{suppliersName:'请选择'}].concat(resp.data)
               }
+              if (this.$route.query.suppliersCode) {
+                this.model3 = this.$route.query.suppliersCode
+              } else {
+                this.model3 = ''
+              }
             }
           })
           .catch(() => {
@@ -322,7 +327,11 @@
             if (resp.code == 'success') {
               this.cityList = resp.data
               this.model1 = resp.data[0].businessCode
-
+              if (this.$route.query.suppliersCode) {
+                this.model3 = this.$route.query.suppliersCode
+              } else {
+                this.model3 = ''
+              }
               this.inquire ()
             }
           })
@@ -336,13 +345,17 @@
       var date=new Date();
       this.value2 = this.timeFormat(date,1)
       date.setDate(1);
-      this.value1 = this.timeFormat(date,0)
-
+      this.value1 = this.timeFormat(date,0)     
       this.applylist ()
     },
     watch: {
       // 如果路由有变化，会再次执行该方法
       '$route' (to, from) {
+        if (this.$route.query.suppliersCode) {
+          this.model3 = this.$route.query.suppliersCode
+        } else {
+          this.model3 = ''
+        }
         this.applylist ()
       }
     }

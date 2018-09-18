@@ -56,10 +56,12 @@
 <script>
     export default {
         props: {
-            row: Object
+            row: Object      
         },
         data () {
          return {
+            suppliersName:this.row.suppliersName,
+            suppliersCode:this.row.suppliersCode,
             modal10:false,
             loading: true,
             suppshow:'',
@@ -138,7 +140,7 @@
                         },
                         on: {
                             click: () => {
-                                this.$router.push({ path: '/channelReport?role=admin' })                            
+                                this.$router.push({ path: '/channelReport?role=admin&suppliersCode='+this.suppliersCode })                            
                             }
                         }
                         },
@@ -198,7 +200,7 @@
                                 },
                                 on: {
                                     click: () => {
-                                        this.$router.push({ path: '/channelReport?role=ordinary' })                                    
+                                        this.$router.push({ path: '/channelReport?role=ordinary&suppliersCode='+this.suppliersCode })                                    
                                     }
                                 }
                                 },
@@ -215,15 +217,7 @@
         },
         created () {
             this.childlist ()
-            this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:this.row.suppliersCode}).then(data => {
-                if(data.code == 'success'){
-                this.prombusiness = data.data.businessSelect
-                this.managerSelect = data.data.managerSelect
-                }
-            }).catch(err=>{
-                console.log(err)
-            })
-            // this.data6.push(this.row)
+            this.saveViewData ()
         },
         methods: {
             addbusiness (code)  {
@@ -241,9 +235,9 @@
             },
             // 子表格数据
             childlist () {
-                this.suppshow = '编辑业务-'+this.row.suppliersName
+                this.suppshow = '编辑业务-'+this.suppliersName
                     let list = {
-                        suppliersCode:this.row.suppliersCode
+                        suppliersCode:this.suppliersCode
                         }
                     this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListAll", list).then(data => {
                         if(data.code == 'success'){
@@ -252,7 +246,16 @@
                     }).catch(err=>{
                         
                     })
-
+            },
+            saveViewData () {
+                this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:this.suppliersCode}).then(data => {
+                    if(data.code == 'success'){
+                    this.prombusiness = data.data.businessSelect
+                    this.managerSelect = data.data.managerSelect
+                    }
+                }).catch(err=>{
+                    console.log(err)
+                })
             },
             // 编辑回显
             businessReturn (code) {
@@ -339,7 +342,15 @@
             this.$nextTick(() => {
                 this.loading = true
             })
-            },
+            }
+        },
+        watch: {
+        　　'row':function (n, o) {
+                this.suppliersName = n.suppliersName
+                this.suppliersCode = n.suppliersCode
+                this.childlist ()
+                this.saveViewData ()
+            }
         }
     };
 </script>
