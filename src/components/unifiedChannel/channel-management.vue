@@ -448,17 +448,6 @@ export default {
     },
     // 添加
     channelpre () {
-      // let numtir1 = /^([1-9][0-9]{0,1}|100)$/
-      // if (!numtir1.test(this.formCustombusi.coefficient)) {
-      //   const title = '提示'
-      //   let content = '<p>请输入正确的基础折扣系数(1-100间的整数)</p>'
-      //   this.$Modal.success({
-      //       title: title,
-      //       content: content
-      //   })
-      //   return false
-        
-      // }
       let list
       let urls
       let content
@@ -499,6 +488,9 @@ export default {
                   this.stylelogo = require('../../image/moren.png')
               }
           })
+        } else {
+          this.changeLoading ()
+          this.$Message.error(data.message);
         }
       }).catch(err=>{
         console.log(err)
@@ -632,6 +624,7 @@ export default {
     },
     // 查询
     label_query () {
+      this.inputlist = []
       let list = {
         pageSize: this.endRow,
         pageNum: this.startRow,
