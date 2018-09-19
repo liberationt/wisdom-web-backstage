@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;报表</span>
+        <span>管理首页&nbsp;>&nbsp;渠道报表</span>
       </p>
     </div>
     <div class="clearfix contentcss">
