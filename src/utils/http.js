@@ -72,13 +72,6 @@ addResponseInterceptor(
           }
         })
           break
-          case 403:
-          // 返回 403 提示无权操作       
-          Modal.error({
-            title: '提示',
-            content: '当前页面没有权限操作'
-        })
-          break
       }
     }
     return Promise.reject(error || '出错了')
