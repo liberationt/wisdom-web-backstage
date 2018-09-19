@@ -65,7 +65,6 @@
             modal10:false,
             loading: true,
             suppshow:'',
-            prombusiness:[],
             managerSelect:[],
             suppliersBusinessCode:'',
             formCustom: {
@@ -217,11 +216,11 @@
         },
         created () {
             this.childlist ()
-            this.saveViewData ()
         },
         methods: {
             addbusiness (code)  {
                 this.modal10 = true
+                this.saveViewData ()
                 this.businessReturn (code)
             },
             businessSubmit (name) {
@@ -256,7 +255,6 @@
             saveViewData () {
                 this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:this.suppliersCode}).then(data => {
                     if(data.code == 'success'){
-                    this.prombusiness = data.data.businessSelect
                     this.managerSelect = data.data.managerSelect
                     }
                 }).catch(err=>{
@@ -293,7 +291,6 @@
 
                 let managerUser
                this.managerSelect.forEach((manager)=>{
-                 console.log('manager=====111>',manager)
                  if (this.formCustom.person == manager.value) {
                    managerUser = manager.label
                  }
@@ -364,11 +361,9 @@
         },
         watch: {
         　　'row':function (n, o) {
-            console.log(n)
                 this.suppliersName = n.suppliersName
                 this.suppliersCode = n.suppliersCode
                 this.childlist ()
-                this.saveViewData ()
             }
         }
     };

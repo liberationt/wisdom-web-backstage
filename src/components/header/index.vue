@@ -3,7 +3,7 @@
     <Row>
       <Col span="4" class="headleft"><div ><img src="../../image/logo.png" alt="" ></div></Col>
       <Col span="20">
-        <Col span="18" class="headrigui">
+        <Col span="17" class="headrigui">
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
@@ -17,7 +17,7 @@
             <li><router-link to="/homePage">系统</router-link></li> -->
           </ul>
         </Col>
-        <Col span="6" class="headright">
+        <Col span="7" class="headright">
           <ul>
             <!-- <li>
               <Badge count="100">
@@ -244,7 +244,7 @@ export default {
     }
     .adminhead {
       overflow: hidden;
-      width: 280px;
+      width: 300px;
       margin-left: 10px;
       color: #fff;
       img {
