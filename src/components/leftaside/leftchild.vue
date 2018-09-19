@@ -50,7 +50,7 @@ export default {
     // }
   },
   methods: {
-    toggle (e, path) {
+    toggle (e, path) {     
       if (this.isFolder) {
         this.open = !this.open
       }
@@ -61,7 +61,7 @@ export default {
       }
       e.target.classList.add('blue')
       utils.putlocal('sideleft', Number(e.target.getAttribute('index')))
-      if (path != '/homePage') {
+      if (path != '/homePage'&&path != '') {
         this.$router.push({ path: path })     
       }    
     },
