@@ -233,7 +233,16 @@
               }
             }
           })
-          .catch(() => {
+          .catch((err) => {
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
       },
       suppliersel (val) {
@@ -254,7 +263,16 @@
               }
             }
           })
-          .catch(() => {
+          .catch((err) => {
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
       },
       // 列表查询
@@ -293,8 +311,17 @@
               this.loading3 = false
             }
           })
-          .catch(() => {
+          .catch((err) => {
             this.loading3 = false
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
       },
       // 导出
@@ -342,7 +369,16 @@
               this.inquire ()
             }
           })
-          .catch(() => {
+          .catch((err) => {
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
       }
     },

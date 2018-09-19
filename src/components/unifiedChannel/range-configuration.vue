@@ -127,7 +127,7 @@ export default {
             let list = []
             let tir = /^[0-9]+$/
             for (let i = 0; i < this.data1.length; i++) {
-                if (!tir.test(this.data1[i].activeFact)) {
+                if (!tir.test(this.data1[i].activeFact)||!tir.test(this.data1[i].applyFact)) {
                     const title = '提示'
                     let content = '<p>范围值配置不能输入小数</p>'
                     this.$Modal.error({

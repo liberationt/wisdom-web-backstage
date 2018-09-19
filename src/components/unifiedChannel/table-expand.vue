@@ -249,7 +249,15 @@
                             this.data6 = data.data
                         }
                     }).catch(err=>{
-
+                        switch (err.response.status) {
+                            case 403:
+                            // 返回 403 提示无权操作 
+                            this.$Modal.error({
+                                title: '提示',
+                                content: '当前页面没有权限操作'
+                            })
+                            break
+                        }
                     })
             },
             saveViewData () {
@@ -259,6 +267,15 @@
                     }
                 }).catch(err=>{
                     console.log(err)
+                    switch (err.response.status) {
+                        case 403:
+                        // 返回 403 提示无权操作 
+                        this.$Modal.error({
+                            title: '提示',
+                            content: '当前页面没有权限操作'
+                        })
+                        break
+                    }
                 })
             },
             // 编辑回显
@@ -274,6 +291,15 @@
                 }
             }).catch(err=>{
                 console.log(err)
+                switch (err.response.status) {
+                    case 403:
+                    // 返回 403 提示无权操作 
+                    this.$Modal.error({
+                        title: '提示',
+                        content: '当前页面没有权限操作'
+                    })
+                    break
+                }
             })
             },
             // 编辑保存
@@ -321,6 +347,15 @@
                 }
                 }).catch(err=>{
                     console.log(err)
+                    switch (err.response.status) {
+                        case 403:
+                        // 返回 403 提示无权操作 
+                        this.$Modal.error({
+                            title: '提示',
+                            content: '当前页面没有权限操作'
+                        })
+                        break
+                    }
                 })
             },
             // 删除业务
@@ -344,6 +379,15 @@
                     }
                 }).catch(err=>{
                     console.log(err)
+                    switch (err.response.status) {
+                        case 403:
+                        // 返回 403 提示无权操作 
+                        this.$Modal.error({
+                            title: '提示',
+                            content: '当前页面没有权限操作'
+                        })
+                        break
+                    }
                 })
                 }
             })

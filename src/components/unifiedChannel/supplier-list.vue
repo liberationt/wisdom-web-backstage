@@ -481,6 +481,15 @@ export default {
             }
           }).catch(err=>{
             console.log(err)
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
       }
     },
@@ -502,6 +511,15 @@ export default {
             }
           }).catch(err=>{
             console.log(err)
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
           }
       });
@@ -537,6 +555,15 @@ export default {
         }
       }).catch(err=>{
         console.log(err)
+        switch (err.response.status) {
+          case 403:
+          // 返回 403 提示无权操作 
+          this.$Modal.error({
+            title: '提示',
+            content: '当前页面没有权限操作'
+          })
+          break
+        }
       })
     },
     // 删除供应商
@@ -559,6 +586,15 @@ export default {
             }
           }).catch(err=>{
             console.log(err)
+            switch (err.response.status) {
+              case 403:
+              // 返回 403 提示无权操作 
+              this.$Modal.error({
+                title: '提示',
+                content: '当前页面没有权限操作'
+              })
+              break
+            }
           })
           }
       });
@@ -624,6 +660,15 @@ export default {
         }
       }).catch(err=>{
         console.log(err)
+        switch (err.response.status) {
+          case 403:
+          // 返回 403 提示无权操作 
+          this.$Modal.error({
+            title: '提示',
+            content: '当前页面没有权限操作'
+          })
+          break
+        }
       })
     },
     sellist (code) {
@@ -634,6 +679,15 @@ export default {
         }
       }).catch(err=>{
         console.log(err)
+        switch (err.response.status) {
+          case 403:
+          // 返回 403 提示无权操作 
+          this.$Modal.error({
+            title: '提示',
+            content: '当前页面没有权限操作'
+          })
+          break
+        }
       })
 
     },
@@ -663,6 +717,15 @@ export default {
       }).catch(err=>{
         this.loading3 = false;
         console.log(err)
+        switch (err.response.status) {
+          case 403:
+          // 返回 403 提示无权操作 
+          this.$Modal.error({
+            title: '提示',
+            content: '当前页面没有权限操作'
+          })
+          break
+        }
       })
     },
     tabshow (num) {
