@@ -53,7 +53,7 @@ addResponseInterceptor(
   (error) => {
     if (error.response) {
       const title = '温馨提示';
-      const content = '<p>登录过期请重新登录</p>'
+      const content = '<p>登录过期请重新登录</p>'     
       switch (error.response.status) {
         case 401:
           // 返回 401 跳转到登录页面       
@@ -70,6 +70,13 @@ addResponseInterceptor(
               utils.delCookie("user");
               window.location.href = './'
           }
+        })
+          break
+          case 403:
+          // 返回 403 提示无权操作       
+          Modal.error({
+            title: '提示',
+            content: '当前页面没有权限操作'
         })
           break
       }

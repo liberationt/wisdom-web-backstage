@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-      <span>管理首页&nbsp;>&nbsp;系统&nbsp;>&nbsp;供应商列表&nbsp;>&nbsp;渠道管理</span>
+      <span>管理首页&nbsp;>&nbsp;渠道配置&nbsp;>&nbsp;供应商列表&nbsp;>&nbsp;渠道管理</span>
       </p>
     </div>
       <div class="clearfix conditioncss">

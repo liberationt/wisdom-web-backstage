@@ -125,15 +125,25 @@ export default {
     methods: {
         savesettings () {
             let list = []
-            this.data1.forEach(element => {
+            let tir = /^[0-9]+$/
+            for (let i = 0; i < this.data1.length; i++) {
+                if (!tir.test(this.data1[i].activeFact)) {
+                    const title = '提示'
+                    let content = '<p>范围值配置不能输入小数</p>'
+                    this.$Modal.error({
+                        title: title,
+                        content: content
+                    })
+                    return false                    
+                }
                 let obj1 = new Object ()
-                obj1.businessConfigCode = element.activeFactCode
-                obj1.configValue = element.activeFact
+                obj1.businessConfigCode = this.data1[i].activeFactCode
+                obj1.configValue = this.data1[i].activeFact
                 let obj2 = new Object ()
-                obj2.businessConfigCode = element.applyFactCode
-                obj2.configValue = element.applyFact
-                list.push(obj1,obj2)
-            });
+                obj2.businessConfigCode = this.data1[i].applyFactCode
+                obj2.configValue = this.data1[i].applyFact
+                list.push(obj1,obj2)               
+            }           
             this.http.post(BASE_URL + '/promotion/businessConfig/updateBatchByCodeList', list)
             .then((resp) => {
                 if (resp.code == 'success') {
