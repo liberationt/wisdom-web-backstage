@@ -7,31 +7,29 @@
             </p>
         </div>
         <div class="conditioncss">
-            <span>推送主体:</span>
-            <Input v-model="model1" disabled class="mr20" style="width: 150px"></Input>
-            <!-- <Select v-model="model1" placeholder="全部" style="width:200px" class="mr20">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select> -->
-            <!-- <span class="w100 tr displayib">批次号:</span>
-            <Input v-model="model2" class="mr20" placeholder="请输入批次号" style="width: 200px"></Input> -->
-            <span class=" tr displayib">推送状态:</span>
-            <Select v-model="model3" style="width:150px" class="mr20">
-                <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <div class="margin_top">
-              <span class=" tr displayib">推送时间:</span>
+          <ul class="querysty">
+            <li>
+              <span class="w60 tr displayib">推送主体:</span>
+              <Input v-model="model1" disabled class="mr20" style="width: 150px"></Input>
+            </li>
+            <li>
+              <span class="w60 tr displayib">推送状态:</span>
+              <Select v-model="model3" style="width:150px" class="mr20">
+                  <Option  v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
+              </Select>
+            </li>
+            <li>
+              <span class="w60 tr displayib">推送时间:</span>
               <DatePicker type="date" :value='value1' @on-change='time1' placeholder="开始时间" style="width: 150px"></DatePicker>
               <span>  -  </span>
               <DatePicker type="date" :value='value2' @on-change='time2' placeholder="结束时间" style="width: 150px"></DatePicker>
-            </div>
-            <!-- <div class="mt15">
-            <span class=" tr displayib">推送时间:</span>
-                <DatePicker type="date"  placeholder="开始时间" style="width: 200px"></DatePicker>
-                <span>  -  </span>
-                <DatePicker type="date" placeholder="结束时间" style="width: 200px"></DatePicker>
-            </div > -->
-            <div class="clearfix mr100 mt20">
-                <Button type="primary" class="right w90" :loading="loading2" @click="exports">
+            </li>
+            <li>
+              <span class="w60 tr displayib">手机号:</span>
+              <Input v-model="phones" class="mr20" placeholder="请输入手机号" style="width: 200px"></Input>
+            </li>
+            <li class="clearfix mr100 ">
+              <Button type="primary" class="right w90" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
@@ -40,7 +38,8 @@
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
-            </div>
+            </li>
+          </ul>
         </div>
         <div class="mt10 contentcss">
             <Table :columns="columns1" :data="data1"></Table>
@@ -72,6 +71,7 @@ export default {
       // ],
       model2: '',
       model3: '',
+      phones:'',
       cityList3: [
         {
           value: '全部',
@@ -304,6 +304,7 @@ export default {
         pushStatus : this.model3,
         beginTime : this.value1,
         endTime : this.value2,
+        mobile: this.phones,
         pageNum: this.startRow,
         pageSize: this.endRow,
       }
@@ -341,6 +342,7 @@ export default {
       formData.append("pushStatus",this.model3)
       formData.append("beginTime",this.value1)
       formData.append("endTime",this.value2)
+      formData.append("mobile",this.phones)
       formData.append("methodType",1)
       utils.exporttable(httpUrl, utils.getlocal('token'),formData, e => {
         // console.log(e)

@@ -57,6 +57,7 @@ import toExamine from '@/components/creditOfficer/to-examine'
 import addExamine from '@/components/creditOfficer/add-examine'
 import creditInformation from '@/components/creditOfficer/credit-information'
 import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
+import salesQuery from '@/components/creditOfficer/sales-query'
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
@@ -249,7 +250,8 @@ let routes = [
       {path: '/toExamine', component: toExamine, names: '管理产品', hidden: true, meta: { auth: true }},
       {path: '/addExamine', component: addExamine, names: '添加/编辑产品', hidden: true, meta: { auth: true }},
       {path: '/creditInformation', component: creditInformation, names: '信贷员信息', hidden: true, meta: { auth: true }},
-      {path: '/addCreditOfficer', component: addCreditOfficer, names: '添加/编辑信贷员', hidden: true, meta: { auth: true }}
+      {path: '/addCreditOfficer', component: addCreditOfficer, names: '添加/编辑信贷员', hidden: true, meta: { auth: true }},
+      {path: '/salesQuery', component: salesQuery, names: '销售查询', hidden: true, meta: { auth: true }}
     ]
   },
   {

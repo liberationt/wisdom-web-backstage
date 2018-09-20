@@ -18,16 +18,16 @@
               <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="" style="width: 150px"></DatePicker>
               <span>  -  </span>
               <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 150px"></DatePicker>
-            </li>
-            <!-- <li>
-              <span class="w60 displayib">批次号:</span>
-            <Input v-model="model5" class="mr20" placeholder="请输入批次号" style="width: 180px"></Input>
-            </li> -->
+            </li>            
             <li>
               <span class="w60 displayib">推送状态:</span>
             <Select v-model="model2" style="width:150px" class="mr20">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
+            </li>
+            <li>
+              <span class="w60 displayib">手机号:</span>
+              <Input v-model="phones" class="mr20" placeholder="请输入手机号" style="width: 180px"></Input>
             </li>
           </ul> 
             <div class="clearfix mr100 mt20">
@@ -65,6 +65,7 @@ export default {
       model5: '',
       value1: '',
       value2: '',
+      phones:'',
       total: 0,
 			startRow: 1,
 			endRow: 10,
@@ -1906,6 +1907,7 @@ export default {
           pushBatchNum: this.model5,
           pushStatus: this.model2,
           origin: 0,
+          mobile: this.phones,
           pageNum: this.startRow,
           pageSize: this.endRow,
         }
@@ -1983,6 +1985,7 @@ export default {
         formData.append("endTime",this.value2)
         formData.append("pushBatchNum",this.model5)
         formData.append("pushStatus",this.model2)
+        formData.append("mobile",this.phones)
         formData.append("origin",0)
         formData.append("methodType",1)
         let httpUrl = BASE_URL+'/common/partya/exportExcel'

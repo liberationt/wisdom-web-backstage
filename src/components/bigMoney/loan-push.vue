@@ -35,6 +35,10 @@
                 <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             </li>
+            <li>
+              <span class="w60 tr displayib">手机号:</span>
+              <Input v-model="phones" class="mr20" placeholder="请输入手机号" style="width: 150px"></Input>
+            </li>
           </ul> 
             <div class="clearfix mr100 mt20">
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
@@ -74,6 +78,7 @@ export default {
       value2: '',
       timval1: '',
       timval2: '',
+      phones:'',
       total: 0,
 			startRow: 1,
 			endRow: 10,
@@ -2334,7 +2339,7 @@ export default {
           partyaKey: this.model1,
           beginTime: this.value1,
           endTime: this.value2,
-          // pushBatchNum: this.model5,
+          mobile: this.phones,
           pushStatus: this.model2,
           origin: this.model3,
           pageNum: this.startRow,
@@ -2415,7 +2420,7 @@ export default {
         formData.append("partyaKey",this.model1)
         formData.append("beginTime",this.value1)
         formData.append("endTime",this.value2)
-        // formData.append("pushBatchNum",this.model5)
+        formData.append("mobile",this.phones)
         formData.append("pushStatus",this.model2)
         formData.append("origin",this.model3)
         formData.append("methodType",1)
