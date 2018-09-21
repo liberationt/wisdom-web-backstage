@@ -284,6 +284,9 @@ import utils from '../../utils/utils'
 				} else if (value == 'partya-guazi-usedcar') {
 					this.hrefxls = 'dk_guaziusedcar.xlsx'
 					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_guaziusedcar.xlsx'
+				} else if (value == 'partya-xdwzengxian') {
+					this.hrefxls = ''
+					this.value3 = 'javascript:;'
 				}
 
 			},
