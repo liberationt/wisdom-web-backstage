@@ -277,10 +277,10 @@ import utils from '../../utils/utils'
 					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_zhudai.xlsx'
 				} else if (value == 'partya-kunxuan-hengchang') {
 					this.hrefxls = 'dk_kunxuan_hengchang.xlsx'
-					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_kunxuan_hengchang.xlsx'
+					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_hengchang.xlsx'
 				} else if (value == 'partya-benxiang-hengchang') {
 					this.hrefxls = 'dk_benxiang_hengchang.xlsx'
-					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_benxiang_hengchang.xlsx'
+					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_hengchang.xlsx'
 				} else if (value == 'partya-guazi-usedcar') {
 					this.hrefxls = 'dk_guaziusedcar.xlsx'
 					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_guaziusedcar.xlsx'
