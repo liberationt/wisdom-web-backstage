@@ -1652,7 +1652,72 @@ export default {
 						])
 						}
         },
-       
+        {
+          title: '职业',
+          align: 'center',
+          minWidth:100,
+          key: 'career'
+        },
+        {
+          title: '企业类型',
+          align: 'center',
+          minWidth:120,
+          key: 'companyType'
+        },
+        {
+          title: '信用情况',
+          align: 'center',
+          minWidth:100,
+          key: 'creditCondition'
+        },
+        {
+          title: '工龄',
+          align: 'center',
+          minWidth:100,
+          key: 'serviceAge'
+        },
+        {
+          title: '借款期限',
+          align: 'center',
+          minWidth:100,
+          key: 'loanPeriod'
+        },
+        {
+          title: '是否名下有房产',
+          align: 'center',
+          minWidth:140,
+          key: 'house'
+        },
+        {
+          title: '是否名下有车',
+          align: 'center',
+          minWidth:120,
+          key: 'car'
+        },
+        {
+          title: '是否有本地公积金',
+          align: 'center',
+          minWidth:150,
+          key: 'gongjijin'
+        },
+        {
+          title: '是否有社保',
+          align: 'center',
+          minWidth:110,
+          key: 'socialSecurity'
+        },
+        {
+          title: '是否有保单',
+          align: 'center',
+          minWidth:110,
+          key: 'policy'
+        },
+        {
+          title: '是否有信用卡',
+          align: 'center',
+          minWidth:150,
+          key: 'creditCard'
+        }       
       ],
       //坤玄恒昌
       columns13: [
@@ -1770,7 +1835,72 @@ export default {
 						])
 						}
         },
-       
+        {
+          title: '职业',
+          align: 'center',
+          minWidth:100,
+          key: 'career'
+        },
+        {
+          title: '企业类型',
+          align: 'center',
+          minWidth:120,
+          key: 'companyType'
+        },
+        {
+          title: '信用情况',
+          align: 'center',
+          minWidth:100,
+          key: 'creditCondition'
+        },
+        {
+          title: '工龄',
+          align: 'center',
+          minWidth:100,
+          key: 'serviceAge'
+        },
+        {
+          title: '借款期限',
+          align: 'center',
+          minWidth:100,
+          key: 'loanPeriod'
+        },
+        {
+          title: '是否名下有房产',
+          align: 'center',
+          minWidth:140,
+          key: 'house'
+        },
+        {
+          title: '是否名下有车',
+          align: 'center',
+          minWidth:120,
+          key: 'car'
+        },
+        {
+          title: '是否有本地公积金',
+          align: 'center',
+          minWidth:150,
+          key: 'gongjijin'
+        },
+        {
+          title: '是否有社保',
+          align: 'center',
+          minWidth:110,
+          key: 'socialSecurity'
+        },
+        {
+          title: '是否有保单',
+          align: 'center',
+          minWidth:110,
+          key: 'policy'
+        },
+        {
+          title: '是否有信用卡',
+          align: 'center',
+          minWidth:150,
+          key: 'creditCard'
+        }      
       ],
       //瓜子二手车
       columns14: [
