@@ -27,10 +27,10 @@
                 <Option v-for="item in managerSelect" :value="item.value">{{item.label}}</Option>
               </Select>
             </FormItem>
-            <FormItem label="对方联系人:" class="clearfix contacts" >
+            <FormItem label="对方联系人:" class="clearfix contacts" prop="name" >
               <Row>
                 <Col span="8">
-                    <FormItem prop="name" class="nametop">
+                    <FormItem class="nametop">
                         <Input class="left" v-model="formCustom.name" placeholder="请输入姓名" style="width: 150px">
                         <span slot="prepend">姓名</span>
                         </Input>
@@ -251,7 +251,7 @@
                     }).catch(err=>{
                         switch (err.response.status) {
                             case 403:
-                            // 返回 403 提示无权操作 
+                            // 返回 403 提示无权操作
                             this.$Modal.error({
                                 title: '提示',
                                 content: '当前页面没有权限操作'
@@ -269,7 +269,7 @@
                     console.log(err)
                     switch (err.response.status) {
                         case 403:
-                        // 返回 403 提示无权操作 
+                        // 返回 403 提示无权操作
                         this.$Modal.error({
                             title: '提示',
                             content: '当前页面没有权限操作'
@@ -293,7 +293,7 @@
                 console.log(err)
                 switch (err.response.status) {
                     case 403:
-                    // 返回 403 提示无权操作 
+                    // 返回 403 提示无权操作
                     this.$Modal.error({
                         title: '提示',
                         content: '当前页面没有权限操作'
@@ -349,7 +349,7 @@
                     console.log(err)
                     switch (err.response.status) {
                         case 403:
-                        // 返回 403 提示无权操作 
+                        // 返回 403 提示无权操作
                         this.$Modal.error({
                             title: '提示',
                             content: '当前页面没有权限操作'
@@ -381,7 +381,7 @@
                     console.log(err)
                     switch (err.response.status) {
                         case 403:
-                        // 返回 403 提示无权操作 
+                        // 返回 403 提示无权操作
                         this.$Modal.error({
                             title: '提示',
                             content: '当前页面没有权限操作'

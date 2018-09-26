@@ -15,7 +15,7 @@
           <span v-else>查询</span>
         </Button>
           <Button v-if="nums==1" shape="circle" class="left ml20" @click="addsupplier(1)">添加供应商</Button>
-        
+
         </div>
         <div id="application_table" class="mt10 contentcss">
           <Table :columns="columns10" :data="data9" highlight-row :show-header="false"></Table>
@@ -60,13 +60,13 @@
                   </FormItem>
                 </Col>
                 <Col span="7">
-                  <FormItem prop="phone" class="nametop">                     
+                  <FormItem prop="phone" class="nametop">
                     <Input v-model="formCustom.phone" class="left " placeholder="请输入手机号" style="width: 150px;margin-top:1px">
                       <span slot="prepend">手机号</span>
                     </Input>
                   </FormItem>
                 </Col>
-              </Row> 
+              </Row>
             </FormItem>
             <FormItem label="备注:" prop="remarks" >
               <Input  v-model="formCustom.remarks" placeholder="请输入备注" style="width: 300px"></Input>
@@ -76,11 +76,11 @@
                 <Option value="1">正常</Option>
                 <Option value="0">停用</Option>
               </Select>
-            </FormItem> 
+            </FormItem>
             <FormItem label="登录密码:" v-if="suption==2" >
               <Button v-if="passshow"  type="primary" @click="resetpass">自动重置密码</Button>
               <Button v-else disabled>已生成密码</Button>
-            </FormItem>     
+            </FormItem>
           </Form>
           </div>
           </Modal>
@@ -110,31 +110,31 @@
                 <Option v-for="item in managerSelect" :value="item.value">{{item.label}}</Option>
               </Select>
             </FormItem>
-            <FormItem label="对方联系人:" class="clearfix contacts" >
+            <FormItem label="对方联系人:" class="clearfix contacts" prop="name" >
               <Row>
                 <Col span="8">
-                    <FormItem prop="name" class="nametop">
+                    <FormItem class="nametop">
                         <Input class="left" v-model="formCustombusi.name" placeholder="请输入姓名" style="width: 150px">
                         <span slot="prepend">姓名</span>
                         </Input>
                     </FormItem>
                 </Col>
                 <Col span="7">
-                    <FormItem prop="phone" class="nametop">                     
+                    <FormItem prop="phone" class="nametop">
                       <Input v-model="formCustombusi.phone" class="left " placeholder="请输入手机号" style="width: 150px;margin-top:1px">
                       <span slot="prepend">手机号</span>
                       </Input>
                     </FormItem>
               </Col>
-            </Row> 
+            </Row>
             </FormItem>
             <FormItem label="备注:"  >
               <Input  v-model="formCustombusi.remarks" placeholder="请输入备注" style="width: 300px"></Input>
-            </FormItem>  
+            </FormItem>
           </Form>
           </div>
           </Modal>
-        
+
   </div>
 </template>
 <script>
@@ -168,7 +168,7 @@ export default {
         channelnum: [
           { required: true, message: '请输入供应商编号', trigger: 'blur' },
           {required: true, message: '必须要以字母开头 ，最多输入1-3个字母、1-9个数字', pattern: /^[a-zA-Z]{1,3}[0-9]{1,9}$/, trigger: 'blur'},
-          { type: 'string', max: 10, message: '最多输入10个字符', trigger: 'blur' }       
+          { type: 'string', max: 10, message: '最多输入10个字符', trigger: 'blur' }
         ],
         channelid: [
           { required: true, message: '请输入证件号码', trigger: 'blur' },
@@ -193,7 +193,7 @@ export default {
       // 业务
       formCustombusi: {
         accounttype: '',
-        person: '',  
+        person: '',
         name: '',
         phone: '',
         remarks: ''
@@ -216,8 +216,8 @@ export default {
           { required: true, message: '请输入备注', trigger: 'blur' },
           { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
         ]
-      },     
-      number: "",    
+      },
+      number: "",
       columns10: [
           {
               type: 'expand',
@@ -243,7 +243,7 @@ export default {
               } else if (params.row.cardType == 2) {
                 cardType = '个人'
               }
-              let suppliersStatus 
+              let suppliersStatus
               if (params.row.suppliersStatus  == 0) {
                 suppliersStatus  = '停用'
               } else if (params.row.suppliersStatus  == 1) {
@@ -285,7 +285,7 @@ export default {
                     },
                     on: {
                       click: () => {
-                        
+
                       }
                     }
                   },
@@ -298,7 +298,7 @@ export default {
               key: 'address',
               align:'right',
               render: (h, params) => {
-                if (this.nums == 1) {               
+                if (this.nums == 1) {
                   return h("div", [
                 h(
                   "Button",
@@ -330,7 +330,7 @@ export default {
                       marginRight: "5px"
                     },
                     on: {
-                      click: () => {                        
+                      click: () => {
                         this.suppliersCode = params.row.suppliersCode
                         this.addsupplier (2)
                       }
@@ -356,8 +356,8 @@ export default {
                   },
                   "删除"
                 )
-              ]);              
-                }              
+              ]);
+                }
             }
           }
       ],
@@ -450,8 +450,8 @@ export default {
             memo:this.formCustom.remarks,
             suppliersStatus :this.formCustom.accounttype,
             suppliersCode:this.suppliersCode
-          }            
-          }         
+          }
+          }
           this.addsupplierpre (list,this.suption)
         }
       })
@@ -483,7 +483,7 @@ export default {
             console.log(err)
             switch (err.response.status) {
               case 403:
-              // 返回 403 提示无权操作 
+              // 返回 403 提示无权操作
               this.$Modal.error({
                 title: '提示',
                 content: '当前页面没有权限操作'
@@ -513,7 +513,7 @@ export default {
             console.log(err)
             switch (err.response.status) {
               case 403:
-              // 返回 403 提示无权操作 
+              // 返回 403 提示无权操作
               this.$Modal.error({
                 title: '提示',
                 content: '当前页面没有权限操作'
@@ -546,7 +546,7 @@ export default {
               onOk: () => {
                   this.modal9 = false
                   this. label_query ()
-                  this.$refs['formCustom'].resetFields()                  
+                  this.$refs['formCustom'].resetFields()
               }
           })
         } else {
@@ -557,7 +557,7 @@ export default {
         console.log(err)
         switch (err.response.status) {
           case 403:
-          // 返回 403 提示无权操作 
+          // 返回 403 提示无权操作
           this.$Modal.error({
             title: '提示',
             content: '当前页面没有权限操作'
@@ -578,7 +578,7 @@ export default {
               let content = '<p>删除成功</p>'
               this.$Modal.success({
                   title: title,
-                  content: content                 
+                  content: content
               })
               this.label_query ()
             } else {
@@ -588,7 +588,7 @@ export default {
             console.log(err)
             switch (err.response.status) {
               case 403:
-              // 返回 403 提示无权操作 
+              // 返回 403 提示无权操作
               this.$Modal.error({
                 title: '提示',
                 content: '当前页面没有权限操作'
@@ -605,7 +605,7 @@ export default {
       this.$refs[name].validate((valid) => {
         if (!valid) {
           return this.changeLoading()
-        } else {  
+        } else {
           this.addsuppbusiness ()
         }
       })
@@ -631,9 +631,9 @@ export default {
           return false
       }
       let managerUser
-      this.managerSelect.forEach(element => {    
+      this.managerSelect.forEach(element => {
         if (element.value == this.formCustombusi.person) {
-          managerUser = element.label         
+          managerUser = element.label
         }
       });
       let list = {
@@ -655,7 +655,7 @@ export default {
               content: content,
               onOk: () => {
                   this.modal10 = false
-                  this. label_query ()                   
+                  this. label_query ()
               }
           })
           this.formCustombusi.accounttype = ""
@@ -669,7 +669,7 @@ export default {
         console.log(err)
         switch (err.response.status) {
           case 403:
-          // 返回 403 提示无权操作 
+          // 返回 403 提示无权操作
           this.$Modal.error({
             title: '提示',
             content: '当前页面没有权限操作'
@@ -682,13 +682,13 @@ export default {
       this.http.post(BASE_URL+"/promotion/suppliersBusiness/saveViewData", {suppliersCode:code}).then(data => {
         if(data.code == 'success'){
           this.prombusiness = data.data.businessSelect
-          this.managerSelect = data.data.managerSelect          
+          this.managerSelect = data.data.managerSelect
         }
       }).catch(err=>{
         console.log(err)
         switch (err.response.status) {
           case 403:
-          // 返回 403 提示无权操作 
+          // 返回 403 提示无权操作
           this.$Modal.error({
             title: '提示',
             content: '当前页面没有权限操作'
@@ -707,7 +707,7 @@ export default {
         suppliersName :this.number
       }
       let httpUrl
-      if (this.nums == 3) { 
+      if (this.nums == 3) {
       httpUrl = '/promotion/suppliers/queryList'
       } else if (this.nums == 1 || this.nums == 2) {
       httpUrl = "/promotion/suppliers/queryListManager"
@@ -717,7 +717,7 @@ export default {
           data.data.dataList.forEach(element => {
             data.data.dataList[0]._expanded = true
           });
-          this.data9 = data.data.dataList;        
+          this.data9 = data.data.dataList;
           this.total = parseInt(data.data.total);
           this.loading3 = false;
         }
@@ -726,7 +726,7 @@ export default {
         console.log(err)
         switch (err.response.status) {
           case 403:
-          // 返回 403 提示无权操作 
+          // 返回 403 提示无权操作
           this.$Modal.error({
             title: '提示',
             content: '当前页面没有权限操作'
@@ -739,18 +739,18 @@ export default {
       let table = document.querySelectorAll('.tabhid')
       table[num].classList.remove('hidden')
 
-       
+
     }
   },
   created() {
-    this.label_query()    
+    this.label_query()
   },
   watch: {
     // 如果路由有变化，会再次执行该方法
-    '$route' (to, from) {    
+    '$route' (to, from) {
       this.nums = to.query.accnum
       this.label_query()      //再次调起我要执行的函数
-     } 
+     }
   }
 };
 </script>
@@ -783,7 +783,7 @@ export default {
    text-align: center;
    background: #1BBC9B;
    color: #fff;
-   border-radius: 5px 
+   border-radius: 5px
 }
 
 </style>
