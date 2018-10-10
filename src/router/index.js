@@ -59,6 +59,7 @@ import creditInformation from '@/components/creditOfficer/credit-information'
 import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
 import salesQuery from '@/components/creditOfficer/sales-query'
 import administration from '@/components/creditOfficer/active-administration'
+import addAdministration from '@/components/creditOfficer/add-administration'
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
@@ -252,7 +253,8 @@ let routes = [
       {path: '/creditInformation', component: creditInformation, names: '信贷员信息', hidden: true, meta: { auth: true }},
       {path: '/addCreditOfficer', component: addCreditOfficer, names: '添加/编辑信贷员', hidden: true, meta: { auth: true }},
       {path: '/salesQuery', component: salesQuery, names: '销售查询', hidden: true, meta: { auth: true }},
-      {path: '/administration', component: administration, names: '活动管理', hidden: true, meta: { auth: true }}
+      {path: '/administration', component: administration, names: '活动管理', hidden: true, meta: { auth: true }},
+      {path: '/addAdministration', component: addAdministration, names: '活动管理', hidden: true, meta: { auth: true }}
     ]
   },
   {
