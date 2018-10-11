@@ -104,7 +104,7 @@ export default {
         },
         {
           title: "添加时间",
-          key: "registerTime",
+          key: "dataCreateTime",
           minWidth: 160,
           align: "center"
         },
@@ -148,7 +148,7 @@ export default {
         },
         {
           title: "创建人",
-          key: "loanBaseTime",
+          key: "creator",
           minWidth: 160,
           align: "center"
         },

@@ -182,8 +182,10 @@
                     <Modal
                       v-model="balanceBean"
                       title="调整赞豆"
-                      @on-ok="ok"
-                      @on-cancel="cancel">
+                      @on-ok="addOk"
+                      @on-cancel="addcancel"
+                      :mask-closable="false"
+                      :loading="loading">
                       <p class="clearfix">
                         <span class="left mr20">
                           <Select v-model="addzanBean" style="width:140px">
@@ -534,18 +536,19 @@ export default {
       isJurisdiction: true,
       balanceBean: false,
       zanBean: "",
-      addzanBean: "",
+      addzanBean: "0",
       addzanBeanList: [
         {
-          value: "New York",
-          label: "New York"
+          value: "0",
+          label: "增加"
         },
         {
-          value: "London",
-          label: "London"
+          value: "1",
+          label: "扣除"
         }
       ],
-      reason:""
+      reason: "",
+      loading: true
     };
   },
   methods: {
@@ -892,6 +895,34 @@ export default {
     //调整赞豆余额
     Jurisdiction() {
       this.balanceBean = true;
+    },
+    //添加调整赞豆余额
+    addOk() {
+      this.http.post(BASE_URL + "/loan/account/change/balance", {
+        changeType: this.addzanBean,
+        changeAmount: this.zanBean,
+        remark: this.reason,
+        userCode: this.$route.query.loanOfficerCode
+      }).then(data=>{
+        console.log(data)
+        if(data.code == 'success'){
+          this.balanceBean = false
+          this.changeLoading()
+          this.information()
+          this.zanBean = ""
+          this.reason = ""
+        }
+      }).catch(err=>{});
+    },
+    addcancel(){
+      this.zanBean = ""
+      this.reason = ""
+    },
+    changeLoading() {
+      this.loading = false;
+      this.$nextTick(() => {
+        this.loading = true;
+      });
     }
   },
   mounted() {

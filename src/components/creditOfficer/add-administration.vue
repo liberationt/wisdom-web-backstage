@@ -14,9 +14,9 @@
           <span>活动标题：</span>
           <Input v-model="activeTitle" placeholder="8.8折扣抢单限时开抢" style="width:330px"></Input>
         </p>
-        <Form v-if="isActiveType" :model="formItem" :label-width="100">
+        <Form v-show="isActiveType" :model="formItem" :label-width="100">
           <FormItem label="活动类型：" class="clearfix">
-            <Select v-model="formItem.activeType" style="width:160px" class="left" @on-change="yesActiveType">
+            <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
               <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
             <Input v-model="formItem.activePercent" style="width:150px" class="left ml20">
@@ -26,63 +26,62 @@
           <FormItem label="活动日期：">
             <Row>
               <Col span="4">
-                <DatePicker type="date" placeholder="请选择时间" v-model="formItem.startDate"></DatePicker>
+                <DatePicker type="datetime" @on-change="getdayTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="formItem.startDate"></DatePicker>
               </Col>
               <Col span="1" style="text-align: center">-</Col>
               <Col span="4">
-                <DatePicker type="date" placeholder="请选择时间" v-model="formItem.endDate"></DatePicker>
+                <DatePicker type="datetime" @on-change="getdayendTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="formItem.endDate"></DatePicker>
               </Col>
             </Row>
           </FormItem>
           <FormItem label="每周包含：">
             <CheckboxGroup v-model="formItem.weeklycheckbox">
-              <Checkbox label="星期一"></Checkbox>
-              <Checkbox label="星期二"></Checkbox>
-              <Checkbox label="星期三"></Checkbox>
-              <Checkbox label="星期四"></Checkbox>
-              <Checkbox label="星期五"></Checkbox>
-              <Checkbox label="星期六"></Checkbox>
-              <Checkbox label="星期天"></Checkbox>
+              <Checkbox label="1">星期一</Checkbox>
+              <Checkbox label="2">星期二</Checkbox>
+              <Checkbox label="3">星期三</Checkbox>
+              <Checkbox label="4">星期四</Checkbox>
+              <Checkbox label="5">星期五</Checkbox>
+              <Checkbox label="6">星期六</Checkbox>
+              <Checkbox label="7">星期天</Checkbox>
             </CheckboxGroup>
           </FormItem>
           <FormItem label="每日起止时段：">
             <Row>
               <Col span="4">
-                <DatePicker type="date" placeholder="请选择时间" v-model="formItem.startTime"></DatePicker>
+                <DatePicker type="date" @on-change="getstartTime" placeholder="请选择时间" v-model="formItem.startTime"></DatePicker>
               </Col>
               <Col span="1" style="text-align: center">-</Col>
               <Col span="4">
-                <DatePicker type="date" placeholder="请选择时间" v-model="formItem.endTime"></DatePicker>
+                <DatePicker type="date" @on-change="getendTime" placeholder="请选择时间" v-model="formItem.endTime"></DatePicker>
               </Col>
             </Row>
           </FormItem>
           <FormItem label="产品范围：">
-            <CheckboxGroup v-model="formItem.weeklycheckbox">
-              <Checkbox label="抢单"></Checkbox>
+            <CheckboxGroup v-model="formItem.range">
+              <Checkbox label="1">抢单</Checkbox>
             </CheckboxGroup>
           </FormItem>
-          <FormItem label="活动类型：" class="clearfix">
-            <Select v-model="formItem.activeType" style="width:160px" class="left">
-              <Option value="beijing">New York</Option>
-              <Option value="shanghai">London</Option>
-              <Option value="shenzhen">Sydney</Option>
+          <FormItem label="平台每日限量" class="clearfix">
+            <Select v-model="formItem.quantity" style="width:160px" class="left" @on-change="quantityli">
+              <Option value="0">不限量</Option>
+              <Option value="1">限量</Option>
             </Select>
-            <Input v-model="formItem.activePercent" style="width:150px" class="left ml20">
+            <Input v-model="formItem.actitPercent" v-if="isquantity" style="width:150px" class="left ml20">
               <span slot="prepend">抢单</span>
               <span slot="append">单</span>
             </Input>
           </FormItem>
         </Form>
-        <Form v-if="!isActiveType" :model="formactive" :label-width="100">
+        <Form v-show="!isActiveType" :model="formactive" :label-width="100">
           <FormItem label="活动类型：" class="clearfix">
-            <Select v-model="formactive.activeType" style="width:160px" class="left" @on-change="noactiveType">
-              <Option v-for="item in noactiveTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+            <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
+              <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
           </FormItem>
           <FormItem label="活动日期：">
             <Row>
               <Col span="4">
-                <DatePicker type="date" placeholder="请选择时间" v-model="formactive.startDate"></DatePicker>
+                <DatePicker type="date" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" v-model="formactive.startDate"></DatePicker>
               </Col>
               <Col span="1" style="text-align: center">-</Col>
               <Col span="4">
@@ -129,8 +128,8 @@
         </Form>
         <hr>
         <div class="homePage_center">
-          <Button type="primary">保存</Button>
-          <Button type="primary" style="margin-left: 8px">提交审核</Button>
+          <Button type="primary" @click="preservation">保存</Button>
+          <Button type="primary" @click="submitexamine" style="margin-left: 8px">提交审核</Button>
           <router-link to="./administration"> <Button style="margin-left: 8px">返回</Button> </router-link>
           <Button type="primary" style="margin-left: 8px">查看操作日志</Button>
         </div>
@@ -138,6 +137,7 @@
   </div>
 </template>
 <script>
+import utils from '../../utils/utils'
 export default {
   data() {
     return {
@@ -146,17 +146,21 @@ export default {
       activeTitle: "",
       activeTypeList: [],
       noactiveTypeList:[],
+      activeType: "",
+      ispreservation:"",
+      isquantity: false,
       formItem: {
-        activeType: "",
         activePercent: "",
         weeklycheckbox: [],
+        range:[],
+        quantity:"",
         startDate: "",
         endDate: "",
         endTime: "",
         startTime: "",
+        actitPercent: "",
       },
       formactive: {
-        activeType: "",
         startDate: "",
         endDate: "",
         
@@ -176,7 +180,6 @@ export default {
       .post(BASE_URL + "/loan/activity/getActivitySearch", {})
       .then(data => {
         this.activeTypeList = data.data.typeList
-        this.noactiveTypeList = data.data.typeList
       })
       .catch(err => {});
   },
@@ -198,13 +201,67 @@ export default {
     yesActiveType(n){
       if(n == 2){
         this.isActiveType = false
-      }
-    },
-    noactiveType(n){
-      if(n != 2){
+      } else {
         this.isActiveType = true
       }
-    }
+    },
+    //限量
+    quantityli(n){
+      if(n == 0){
+        this.isquantity = false
+      } else {
+        this.isquantity = true
+      }
+    },
+    //获取时间
+    getdayTime(v){
+      this.formItem.startDate = v
+    },
+    getdayendTime(v){
+      this.formItem.endDate = v
+    },
+    getstartTime(v){
+      this.formItem.startTime = v
+    },
+    getendTime(v){
+      this.formItem.endTime = v
+    },
+    //保存
+    preservation(){
+      let preservationList
+      if(this.ispreservation != 2){
+        preservationList = {
+          title : this.activeTitle,//活动标题
+          activityType : this.activeType,//活动类型
+          discount : this.formItem.activePercent,//消费折扣率
+          dailyStartTime : this.formItem.startTime,//日开始时间
+          dailyEndTime : this.formItem.endTime,//日结束时间
+          effectiveWeek : this.formItem.weeklycheckbox.join(),//每周包含
+          activityEndTime : this.formItem.endDate,//活动结束时间
+          activityStartTime : this.formItem.startDate,//活动开始时间
+          productScope: this.formItem.range.join(),//产品范围
+          isLimited : this.formItem.quantity,//平台每日限量
+          limitedList : [
+            {
+              productLimited : this.formItem.actitPercent,//产品限量
+              productValue : 1,
+            }
+          ],//活动限量表-请求对象
+        }
+      } else {
+
+      }
+      console.log(preservationList)
+      this.http.post(BASE_URL+"/loan/activity/save",preservationList).then(data=>{
+        console.log(data)
+      }).catch(err=>{})
+    },
+    //提交审核
+    submitexamine(){
+      this.http.post(BASE_URL+"/loan/activity/auditActivityByCode",{ activityCode: "string",auditStatus: 0}).then(data=>{
+        console.log(data)
+      }).catch(err=>{})
+    },
   },
   mounted() {}
 };
