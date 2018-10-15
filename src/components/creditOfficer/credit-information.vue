@@ -904,7 +904,7 @@ export default {
         remark: this.reason,
         userCode: this.$route.query.loanOfficerCode
       }).then(data=>{
-        console.log(data)
+        // console.log(data)
         if(data.code == 'success'){
           this.balanceBean = false
           this.changeLoading()

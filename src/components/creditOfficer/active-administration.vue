@@ -79,15 +79,13 @@ export default {
           minWidth: 120,
           align: "center",
           render: (h, params) => {
-            let activityType
+            let activityType;
             if (params.row.activityType == 2) {
-              activityType = '邀请充值返利'
+              activityType = "邀请充值返利";
             } else if (params.row.activityType == 1) {
-              activityType = '消费折扣'
+              activityType = "消费折扣";
             }
-            return h('div', [
-              h('span', {}, activityType)
-            ])
+            return h("div", [h("span", {}, activityType)]);
           }
         },
         {
@@ -110,19 +108,17 @@ export default {
         },
         {
           title: "活动状态",
-          key: "auditStatus",
+          key: "activityStatus",
           align: "center",
           minWidth: 110,
           render: (h, params) => {
-            let status 
-            if (params.row.status == 1) {
-              status = '启用'
-            } else if (params.row.status == 0) {
-              status = '禁用'
+            let status;
+            if (params.row.activityStatus == 1) {
+              status = "已开始";
+            } else if (params.row.activityStatus == 2) {
+              status = "已结束";
             }
-            return h('div', [
-              h('span', {}, status)
-            ])
+            return h("div", [h("span", {}, status)]);
           }
         },
         {
@@ -131,19 +127,17 @@ export default {
           align: "center",
           minWidth: 110,
           render: (h, params) => {
-            let auditStatus
+            let auditStatus;
             if (params.row.auditStatus == 2) {
-              auditStatus = '审核成功'
+              auditStatus = "审核成功";
             } else if (params.row.auditStatus == 1) {
-              auditStatus = '审核中'
+              auditStatus = "审核中";
             } else if (params.row.auditStatus == 0) {
-              auditStatus = '未提交审核'
+              auditStatus = "未提交审核";
             } else if (params.row.auditStatus == 3) {
-              auditStatus = '审核失败'
+              auditStatus = "审核失败";
             }
-            return h('div', [
-              h('span', {}, auditStatus)
-            ])
+            return h("div", [h("span", {}, auditStatus)]);
           }
         },
         {
@@ -155,9 +149,18 @@ export default {
         {
           title: "操作",
           key: "accountVirtual",
-          minWidth: 100,
+          minWidth: 200,
           align: "center",
           render: (h, params) => {
+            let types, text, display;
+            
+            if (params.row.activityStatus == "1") {
+              types = "error";
+              text = "活动关闭";
+              display = "inline-block";
+            } else {
+              display = "none";
+            }
             return h("div", [
               h(
                 "Button",
@@ -171,7 +174,7 @@ export default {
                   },
                   on: {
                     click: () => {
-                      alert("编辑");
+                      this.$router.push({path:'./addAdministration?isedit='+'isedit'+'&activityCode='+params.row.activityCode})
                     }
                   }
                 },
@@ -189,7 +192,28 @@ export default {
                   },
                   on: {
                     click: () => {
-                      alert("删除");
+                      console.log(params.row.activityCode);
+                      this.tips("确认删除吗？", e => {
+                        if (e) {
+                          this.http
+                            .post(
+                              BASE_URL +
+                                "/loan/activity/deleteByCode?activityCode=" +
+                                params.row.activityCode
+                            )
+                            .then(data => {
+                              console.log(data);
+                              if(data.code == "success"){
+                                this.inquire();
+                                this.$Message.success("删除成功！");
+                              } else {
+                                this.$Message.success(data.message);
+                              }
+                              
+                            })
+                            .catch(err => {});
+                        }
+                      });
                     }
                   }
                 },
@@ -199,19 +223,34 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: "success",
+                    type: types,
                     size: "small"
                   },
                   style: {
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    display: display
                   },
                   on: {
                     click: () => {
-                      alert("删除");
+                      this.tips("确认关闭活动吗？", e => {
+                        console.log(e);
+                        if (e) {
+                          this.tipsHttp(
+                            {
+                              activityCode: params.row.activityCode,
+                              status: 0
+                            },
+                            e => {
+                              console.log(e);
+                              this.inquire();
+                            }
+                          );
+                        }
+                      });
                     }
                   }
                 },
-                "启动中"
+                text
               )
             ]);
           }
@@ -244,9 +283,7 @@ export default {
       this.http
         .post(BASE_URL + "/loan/activity/queryList", list)
         .then(resp => {
-          console.log(resp);
           if (resp.code == "success") {
-            console.log(resp);
             this.data6 = resp.data.dataList;
             this.total = resp.data.total;
             this.startRow = Math.ceil(resp.data.startRow / this.endRow);
@@ -258,6 +295,28 @@ export default {
         .catch(() => {
           this.loading3 = false;
         });
+    },
+    //提示
+    tips(content, callback) {
+      const title = "提示";
+      this.$Modal.confirm({
+        title: title,
+        content: "<p>" + content + "</p>",
+        onOk: () => {
+          callback && callback(true);
+        },
+        onCancel: () => {
+          // this.$Message.info("Clicked cancel");
+        }
+      });
+    },
+    tipsHttp(p, callback) {
+      this.http
+        .post(BASE_URL + "/loan/activity/ableStatusActivityByCode", p)
+        .then(data=>{
+          callback && callback(data)
+        })
+        .catch(err => {});
     }
   },
   created() {
@@ -265,12 +324,12 @@ export default {
     this.http
       .post(BASE_URL + "/loan/activity/getActivitySearch", {})
       .then(resp => {
-        console.log(resp)
+        // console.log(resp);
         if (resp.code == "success") {
-          this.activeStateList= resp.data.typeList,
-          this.examineStatusList= resp.data.auditList,
-          this.activeTypeList= resp.data.statusList,
-          this.inquire();
+          (this.activeStateList = resp.data.typeList),
+            (this.examineStatusList = resp.data.auditList),
+            (this.activeTypeList = resp.data.statusList),
+            this.inquire();
         } else {
         }
       })
