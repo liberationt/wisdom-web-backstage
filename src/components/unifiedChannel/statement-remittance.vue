@@ -255,7 +255,7 @@
                 "uv": resp.data.uv,
                 "registerCount": this.parseNum(resp.data.registerCount, resp.data.discountRegisterCount),
                 "registerRate": resp.data.registerRate + '%',
-                "activeCount": resp.data.activeCount,
+                "activeCount": this.parseNum(resp.data.activeCount, resp.data.discountActiveCount),
                 "activeRate": resp.data.activeRate + '%',
                 "applyCount": this.businessKey == 'HZ' ? resp.data.applyCount : resp.data.authCount,
                 "applyRate": this.businessKey == 'HZ' ? resp.data.applyRate + '%' : resp.data.authRate + '%'
@@ -283,7 +283,7 @@
                     "uv": item.allUv,
                     "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
                     "registerRate": item.allRegisterFact + '%',
-                    "activeCount": item.allTotalActiveCount,
+                    "activeCount": this.parseNum(item.allTotalActiveCount, item.allTotalDiscountActiveCount),
                     "activeRate": item.allTotalActiveFact + '%',
                     "applyCount": this.businessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
                     "applyRate": this.businessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%'
@@ -299,7 +299,7 @@
                         "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                         "registerRate": channelReport.registerRate + '%',
-                        "activeCount": channelReport.allActiveCount,
+                        "activeCount": this.parseNum(channelReport.allActiveCount, channelReport.allDiscountActiveCount),
                         "activeRate": channelReport.allActiveRate + '%',
                         "applyCount": this.businessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
                         "applyRate": this.businessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%'

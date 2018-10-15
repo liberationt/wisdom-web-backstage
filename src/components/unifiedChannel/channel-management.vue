@@ -458,7 +458,7 @@ export default {
           suppliersBusinessCode :this.application,
           channelDiscountSize :this.formCustombusi.register,
           channelBaseActive :this.formCustombusi.activation,
-          businessPromotionPageCode:this.formCustombusi.style        
+          businessPromotionPageCode:this.formCustombusi.style
         }
         urls = "/promotion/suppliersBusinessChannel/save" 
         content = '<p>新增成功</p>'     
@@ -470,7 +470,8 @@ export default {
           channelDiscountSize :this.formCustombusi.register,
           channelBaseActive :this.formCustombusi.activation,
           businessPromotionPageCode:this.formCustombusi.style,
-          suppliersBusinessChannelCode:this.suppliersBusinessChannelCode   
+          suppliersBusinessChannelCode:this.suppliersBusinessChannelCode,
+          fastUpdate:'1'
         }
         urls = "/promotion/suppliersBusinessChannel/updateByCode" 
         content = '<p>保存成功</p>'
@@ -604,7 +605,7 @@ export default {
             title: '提示',
             content: '<p>确定要更新吗?</p>',
             onOk: () => {         
-              this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/batchUpdate", {updateBeanList:this.inputlist}).then(data => {
+              this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/batchUpdate", {updateBeanList:this.inputlist,fastUpdate:'1'}).then(data => {
                 if(data.code == 'success'){
                   const title = '提示'
                   let content = '<p>更新成功</p>'

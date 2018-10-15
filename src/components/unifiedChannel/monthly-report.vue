@@ -140,7 +140,7 @@
           }),
           this.getColumnItem('累计激活', '', 120, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-              return report.allActiveCount
+              return this.parseNum(report.allActiveCount, report.allDiscountActiveCount)
             })
           }),
           this.getColumnItem('累计激活转化率', '', 100, (h, params) => {
