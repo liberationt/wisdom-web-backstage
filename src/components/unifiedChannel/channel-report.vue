@@ -122,6 +122,16 @@
             }
           },
           {
+            title: '访问量',
+            align: 'center',
+            minWidth: 80,
+            render: (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                return report.discountUv
+              });
+            }
+          },
+          {
             title: '注册',
             minWidth: 120,
             align: 'center',
