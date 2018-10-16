@@ -182,25 +182,34 @@
                     <Modal
                       v-model="balanceBean"
                       title="调整赞豆"
-                      @on-ok="addOk"
-                      @on-cancel="addcancel"
+                      @on-ok="addOk('formadjustment')"
+                      @on-cancel="addcancel('formadjustment')"
                       :mask-closable="false"
                       :loading="loading">
-                      <p class="clearfix">
-                        <span class="left mr20">
-                          <Select v-model="addzanBean" style="width:140px">
-                            <Option v-for="item in addzanBeanList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                          </Select>
-                        </span>
-                        <span class="left"> 
-                          <Input v-model="zanBean" style="width:120px">
-                            <span slot="append">赞豆</span>
-                          </Input>
-                        </span>
-                      </p>
-                      <p class="mt20">
-                        <Input v-model="reason" type="textarea" :rows="4" placeholder="请填写原因" />
-                      </p>
+                      <Form ref="formadjustment" :model="formadjustment" :rules="ruleadjustment" :label-width="80">
+                            <FormItem label="" class="clearfix">
+                              <Row>
+                                <Col span="11">
+                                  <FormItem >
+                                    <Select v-model="addzanBean" style="width:140px">
+                                      <Option v-for="item in addzanBeanList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                                    </Select>
+                                  </FormItem>
+                                </Col>
+                                <Col span="2" style="text-align: center"></Col>
+                                <Col span="11">
+                                  <FormItem prop="zanBean">
+                                    <Input v-model="formadjustment.zanBean" style="width:120px">
+                                      <span slot="append">赞豆</span>
+                                    </Input>
+                                  </FormItem>
+                                </Col>
+                              </Row>            
+                            </FormItem>
+                            <FormItem label="" prop="reason" class="clearfix">
+                              <Input v-model="formadjustment.reason" type="textarea" :rows="4" placeholder="请填写原因" />
+                            </FormItem>
+                        </Form>
                     </Modal>
                 </div>
             </TabPane>
@@ -256,6 +265,10 @@ export default {
       formValidate: {
         name: ""
       },
+      formadjustment: {
+        zanBean: "",
+        reason: "",
+      },
       modal9: false,
       loading: true,
       introduce: true,
@@ -270,6 +283,16 @@ export default {
           { required: true, message: "请输入拒绝原因", trigger: "blur" },
           { max: 50, message: "输入内容超限，请重新输入", trigger: "blur" }
         ]
+      },
+      ruleadjustment: {
+        zanBean: [
+          { required: true, message: "请输入调整赞豆数量", trigger: "blur" },
+          {required: true, message: '请输入正确的赞豆数量', pattern: /^\d+$/, trigger: 'blur'},
+        ],
+        reason: [
+          { required: true, message: "请输入调整原因", trigger: "blur" }
+        ],
+
       },
       identity: [
         require("../../image/identity_id.jpg"),
@@ -535,7 +558,7 @@ export default {
       data6: [],
       isJurisdiction: true,
       balanceBean: false,
-      zanBean: "",
+      
       addzanBean: "0",
       addzanBeanList: [
         {
@@ -546,8 +569,7 @@ export default {
           value: "1",
           label: "扣除"
         }
-      ],
-      reason: "",
+      ],     
       loading: true
     };
   },
@@ -713,7 +735,6 @@ export default {
     // 点击tab
     tabswitch(name) {
       this.tabnum = name;
-      console.log(name);
       if (name == 1) {
         this.consultation();
       } else if (name == 2) {
@@ -897,26 +918,39 @@ export default {
       this.balanceBean = true;
     },
     //添加调整赞豆余额
-    addOk() {
-      this.http.post(BASE_URL + "/loan/account/change/balance", {
-        changeType: this.addzanBean,
-        changeAmount: this.zanBean,
-        remark: this.reason,
-        userCode: this.$route.query.loanOfficerCode
-      }).then(data=>{
-        // console.log(data)
-        if(data.code == 'success'){
-          this.balanceBean = false
-          this.changeLoading()
-          this.information()
-          this.zanBean = ""
-          this.reason = ""
-        }
-      }).catch(err=>{});
+    addOk(name) {
+      this.$refs[name].validate(valid => {
+        if (!valid) {
+          return this.changeLoading();
+        } else {
+          this.http.post(BASE_URL + "/loan/account/change/balance", {
+            changeType: this.addzanBean,
+            changeAmount: this.formadjustment.zanBean,
+            remark: this.formadjustment.reason,
+            userCode: this.$route.query.loanOfficerCode
+          }).then(data=>{
+            if(data.code == 'success'){
+              this.$Modal.success({
+                title: '温馨提示',
+                content: '保存成功',
+                onOk: () => {
+                  this.balanceBean = false
+                  this.changeLoading()
+                  this.information()
+                  this.formadjustment.zanBean = ""
+                  this.formadjustment.reason = ""
+                }
+              })           
+            } else {
+              this.$Message.error(data.message)
+              this.changeLoading()
+            }
+          }).catch(err=>{});
+        }       
+      });
     },
-    addcancel(){
-      this.zanBean = ""
-      this.reason = ""
+    addcancel(name){
+      this.$refs[name].resetFields()
     },
     changeLoading() {
       this.loading = false;
@@ -927,6 +961,19 @@ export default {
   },
   mounted() {
     this.information();
+  },
+  created () {
+    this.http.post(BASE_URL + "/checkUriPermission", ['/loan/account/change/balance']).then(data=>{
+        if(data.code == 'success'){
+          for (const key in data.data) {
+            if (data.data[key] == true) {
+              this.isJurisdiction = true              
+            } else {
+              this.isJurisdiction = false
+            }
+          }
+        }
+      }).catch(err=>{});
   }
 };
 </script>

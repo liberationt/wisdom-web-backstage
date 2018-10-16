@@ -56,7 +56,7 @@
         </TabPane>
 
         <TabPane label="营销设置" >
-          <Form :label-width="200" class="mt50">
+          <Form :label-width="120" class="mt50">
             <FormItem label="注册入驻成功送:" class="clearfix">
               <Select v-model="marketConfigList[0].status" style="width:60px"  class="left" @on-change="admissionsucc">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
@@ -106,9 +106,13 @@
                   <span class="left utmost">至</span>
                   <DatePicker type="datetime" class="left " @on-change="time6" :value="marketConfigList[2].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
                 </div>
-                <Select v-model="marketConfigList[2].status" style="width:60px" @on-change="normalgive" class="left ml10">
+                <CheckboxGroup v-model="fruit" @on-change="normalgive" class="ml10 left">
+                  <Checkbox label="1">开启赠送</Checkbox>
+                  <Checkbox label="0">开启立减</Checkbox>
+                </CheckboxGroup>
+                <!-- <Select v-model="marketConfigList[2].status" style="width:60px" @on-change="normalgive" class="left ml10">
                   <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
-                </Select>
+                </Select> -->
               </div>
               <div class="credit_recharge">
                 <div
@@ -126,6 +130,10 @@
                   <Input type="text" v-model="item.value2" v-if="normaldelivery" class="left ml10 inputnum"  style="width:127px">
                   <span slot="prepend">送</span>
                   <span slot="append" class="left">个</span>
+                  </Input>
+                  <Input type="text" v-model="item.value2" v-if="normaldreduce" class="left ml10 inputnum"  style="width:127px">
+                  <span slot="prepend">立减</span>
+                  <span slot="append" class="left">元</span>
                   </Input>
                   <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal">+</Button>
                   <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(index)">-</Button>
@@ -150,10 +158,35 @@
               </Input>
             </FormItem>
             <FormItem class=" mt50 ml100">
-              <Button type="primary" class="w100" :loading="loading3" @click="marketingusbmit">
-                <span v-if="!loading3">保存配置</span>
-              </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button  type="primary" class="w100" :loading="loading3" @click="marketingusbmit">
+                <span v-if="!loading3">保存提交审核</span>
+              </Button>
+              &nbsp;&nbsp;&nbsp;&nbsp;
               <Button type="ghost" @click="handleRender3">查看操作日志</Button>
+            </FormItem>
+          </Form>
+        </TabPane>
+
+        <TabPane label="淘单筛选设置">
+          <Form  :model="pricesetting" :label-width="200" class="mt50">
+            <FormItem label="实名:" >
+              <CheckboxGroup v-model="screen">
+                <Checkbox label="1">实名</Checkbox>
+                <Checkbox label="0">未实名</Checkbox>
+              </CheckboxGroup>
+            </FormItem>
+            <FormItem label="贷款金额:" >
+              <CheckboxGroup v-model="screen">
+                <Checkbox label="1">1千-3千</Checkbox>
+                <Checkbox label="2">3千-1万</Checkbox>
+              </CheckboxGroup>
+            </FormItem>
+            <FormItem class="tc mt50">
+              <Button type="primary" class="w100" :loading="loading3" @click="preservationvalue">
+                <span v-if="!loading3">保存配置</span>
+                <span v-else>保存配置</span>
+              </Button>&nbsp;&nbsp;&nbsp;&nbsp;
+              <Button type="ghost" @click="handleRender2">查看操作日志</Button>
             </FormItem>
           </Form>
         </TabPane>
@@ -173,8 +206,11 @@
         firstdata: true,
         normaldata: true,
         normaldelivery: true,
+        normaldreduce:true,
         invitasend: true,
         invitadata: true,
+        fruit: ['1'],
+        screen:['1'],
         options3: {
           disabledDate (date) {
             return date && date.valueOf() < Date.now() - 86400000;
@@ -617,14 +653,29 @@
         }
       },
       normalgive (val) {
-        if (val == 1) {
-          this.normaldelivery = true
-          if (this.marketConfigList[2].marketTimeEnabled == 1) {
-            this.normaldata = true
-          }
-        } else {
+        // if (val == 1) {
+        //   this.normaldelivery = true
+        //   if (this.marketConfigList[2].marketTimeEnabled == 1) {
+        //     this.normaldata = true
+        //   }
+        // } else {
+        //   this.normaldelivery = false
+        //   this.normaldata = false
+        // }
+        if (val.length == 0) {
+          this.normaldreduce = false
           this.normaldelivery = false
-          this.normaldata = false
+        } else if (val.length == 1) {
+          if (val[0] == '1') {
+            this.normaldelivery = true
+            this.normaldreduce = false
+          } else {
+            this.normaldreduce = true
+            this.normaldelivery = false
+          }          
+        } else {
+          this.normaldelivery = true
+          this.normaldreduce = true
         }
       },
       invitationgive (val) {
