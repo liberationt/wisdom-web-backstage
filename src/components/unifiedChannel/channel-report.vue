@@ -401,8 +401,8 @@
     mounted () {
       // 获取当前时间
       var date=new Date();
-      this.value2 = this.timeFormat(date,1)
-      date.setDate(1);
+      this.value2 = this.timeFormat(date,0)
+      // date.setDate(1);
       this.value1 = this.timeFormat(date,0)
       this.applylist ()
     },
