@@ -145,6 +145,12 @@
               this.title = '修改产品的风控等级'
               break
           }
+        } else if ('loanOfficerActive' == operationType) {   // 活动操作日志   黄帅
+          this.title = '活动操作日志'
+          requestUrl = BASE_URL + "/loan/activityLog/getActivityLogList";
+          Object.assign(requestParams, {
+            activityCode: this.$route.query.activityCode,
+          })
         } else {   //统一的日志接口 通过 operationType  区分
           requestUrl = BASE_URL + "/loan/operationLog/queryPage";
           Object.assign(requestParams, {
@@ -159,6 +165,9 @@
               break
             case 'officer_edit':     //毕有为
               this.title = '信贷基本配置日志'
+              break
+            case 'loanOfficerActive':     //黄帅
+              this.title = '活动操作日志'
               break
           }
         }
@@ -209,7 +218,20 @@
               })
             }
             break
-
+          case 'loanOfficerActive':
+            if (data.dataList && data.dataList.length > 0) {
+              this.data1 = []
+              data.dataList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.dataCreateTime,
+                  operationMan: item.operator,
+                  operationContent: item.content,
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
+            break
           default :
             this.data1 = data.dataList
             break

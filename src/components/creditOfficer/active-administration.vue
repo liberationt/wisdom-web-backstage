@@ -65,7 +65,7 @@ export default {
       fileerror: "",
       total: 0,
       startRow: 1,
-      endRow: 10,
+      endRow: 20,
       columns7: [
         {
           title: "活动标题",
@@ -117,6 +117,8 @@ export default {
               status = "已开始";
             } else if (params.row.activityStatus == 2) {
               status = "已结束";
+            } else if (params.row.activityStatus == 0) {
+              status = "未开始";
             }
             return h("div", [h("span", {}, status)]);
           }
@@ -133,7 +135,7 @@ export default {
             } else if (params.row.auditStatus == 1) {
               auditStatus = "审核中";
             } else if (params.row.auditStatus == 0) {
-              auditStatus = "未提交审核";
+              auditStatus = "未提交";
             } else if (params.row.auditStatus == 3) {
               auditStatus = "审核失败";
             }
@@ -149,18 +151,18 @@ export default {
         {
           title: "操作",
           key: "accountVirtual",
-          minWidth: 200,
+          minWidth: 260,
           align: "center",
           render: (h, params) => {
-            let types, text, display;
-            
-            if (params.row.activityStatus == "1") {
-              types = "error";
-              text = "活动关闭";
-              display = "inline-block";
-            } else {
-              display = "none";
-            }
+            let types, text, display, activityStatus,auditStatus ;
+            activityStatus = params.row.activityStatus //活动状态
+            auditStatus = params.row.auditStatus //审核状态
+            // 活动按钮判断显示
+            // if ( activityStatus == "1") {
+            //   display = "inline-block";
+            // } else {
+            //   display = "none";
+            // }
             return h("div", [
               h(
                 "Button",
@@ -170,7 +172,8 @@ export default {
                     size: "small"
                   },
                   style: {
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    display: activityStatus == "0" && auditStatus != "1"? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -188,7 +191,27 @@ export default {
                     size: "small"
                   },
                   style: {
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    display: activityStatus != "0" && auditStatus == "1"? "display-inline" : "none"
+                  },
+                  on: {
+                    click: () => {
+                      alert("点击查看！")
+                    }
+                  }
+                },
+                "查看"
+              ),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px",
+                    display: activityStatus == "0" && auditStatus != "1"? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -223,16 +246,16 @@ export default {
                 "Button",
                 {
                   props: {
-                    type: types,
+                    type: "error",
                     size: "small"
                   },
                   style: {
                     marginRight: "5px",
-                    display: display
+                    display: activityStatus == "1" && auditStatus == "2"? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
-                      this.tips("确认关闭活动吗？", e => {
+                      this.tips("确认活动下架吗？", e => {
                         console.log(e);
                         if (e) {
                           this.tipsHttp(
@@ -250,7 +273,7 @@ export default {
                     }
                   }
                 },
-                text
+                "活动下架"
               )
             ]);
           }
