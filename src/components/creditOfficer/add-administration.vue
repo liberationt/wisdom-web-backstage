@@ -98,8 +98,10 @@
           </FormItem>
           <hr>
           <div class="homePage_center">
-            <Button type="primary" @click="preservation('formItem')">保存</Button>
-            <Button type="primary" @click="submitexamine('formItem')" style="margin-left: 8px">提交审核</Button>
+            <Button v-if="!baocun" type="primary" @click="preservation('formItem')">保存</Button>
+            <Button disabled v-if="baocun">保存</Button>
+            <Button v-if="!baocun" type="primary" @click="submitexamine('formItem')" style="margin-left: 8px">提交审核</Button>
+            <Button disabled v-if="baocun" style="margin-left: 8px">提交审核</Button>
             <router-link to="./administration"> <Button style="margin-left: 8px">返回</Button> </router-link>
             <Button type="primary" style="margin-left: 8px" @click="journal">查看操作日志</Button>
           </div>
@@ -166,8 +168,10 @@
           </FormItem>
           <hr>
           <div class="homePage_center">
-            <Button type="primary" @click="preservation('formactive')">保存</Button>
-            <Button type="primary" @click="submitexamine" style="margin-left: 8px">提交审核</Button>
+            <Button v-if="!baocun" type="primary" @click="preservation('formactive')">保存</Button>
+            <Button disabled v-if="baocun">保存</Button>
+            <Button type="primary" v-if="!baocun" @click="submitexamine('formactive')" style="margin-left: 8px">提交审核</Button>
+            <Button disabled v-if="baocun" style="margin-left: 8px">提交审核</Button>
             <router-link to="./administration"> <Button style="margin-left: 8px">返回</Button> </router-link>
             <Button type="primary" v-if="yesEdit" style="margin-left: 8px" @click="journal">查看操作日志</Button>
           </div>
@@ -180,6 +184,7 @@ import utils from "../../utils/utils";
 export default {
   data() {
     return {
+      baocun: false,
       isactiveType: true,
       isActiveType: true,
       yesEdit: false,
@@ -578,7 +583,12 @@ export default {
     }
   },
   mounted() {
-    if (this.isedit == "isedit") {
+    if(this.$route.query.isSee == "isSee"){
+      this.baocun = true
+    } else {
+      this.baocun = false
+    }
+    if (this.isedit == "isedit" || this.$route.query.isSee == "isSee") {
       this.yesEdit = true;
       this.http
         .post(

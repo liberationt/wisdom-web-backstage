@@ -192,11 +192,11 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
-                    display: activityStatus != "0" && auditStatus == "1"? "display-inline" : "none"
+                    display: auditStatus == "1" || activityStatus=="2"? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
-                      alert("点击查看！")
+                      this.$router.push({path:'./addAdministration?isSee='+'isSee'+'&activityCode='+params.row.activityCode})
                     }
                   }
                 },
