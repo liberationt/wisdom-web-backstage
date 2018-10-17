@@ -42,6 +42,8 @@ import creditSetting from '@/components/creditOfficer/credit-setting'
 import evaluationManagement from '@/components/creditOfficer/evaluation-management'
 import evaluationReview from '@/components/creditOfficer/evaluation-review'
 import evaluationDetails from '@/components/creditOfficer/evaluation-details'
+import activityManagement from '@/components/creditOfficer/activity-management'//活动管理
+import auditActivities from '@/components/creditOfficer/audit-activities'//活动审核
 // 订单列表
 import orderList from '@/components/creditOfficer/order-list'
 import detailsConsultation from '@/components/creditOfficer/details-consultation'
@@ -254,7 +256,9 @@ let routes = [
       {path: '/addCreditOfficer', component: addCreditOfficer, names: '添加/编辑信贷员', hidden: true, meta: { auth: true }},
       {path: '/salesQuery', component: salesQuery, names: '销售查询', hidden: true, meta: { auth: true }},
       {path: '/administration', component: administration, names: '活动管理', hidden: true, meta: { auth: true }},
-      {path: '/addAdministration', component: addAdministration, names: '活动管理', hidden: true, meta: { auth: true }}
+      {path: '/addAdministration', component: addAdministration, names: '活动管理', hidden: true, meta: { auth: true }},
+      {path: '/activityManagement', component: activityManagement, names: '活动管理', meta: { auth: true }},
+      {path: '/auditActivities', component: auditActivities, names: '审核活动', meta: { auth: true }},
     ]
   },
   {

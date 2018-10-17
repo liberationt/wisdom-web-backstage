@@ -126,6 +126,18 @@
           Object.assign(requestParams, {
             loanUserCode: this.$route.query.loanUserCode,
           })
+        } else if ('activityAudit' == operationType) {    //汪海根   活动管理-负责人的
+          this.title = '活动管理操作日志'
+          requestUrl = BASE_URL + "/loan/activityLog/getActivityLogList";
+          Object.assign(requestParams, {
+            activityCode: this.$route.query.activityCode,
+          })
+        } else if ('1' == operationType) {    //余坚恒   淘单的
+          this.title = '淘单筛选操作日志'
+          requestUrl = BASE_URL + "/loan/chanceTitleAndOption/getOperationLogList";
+          Object.assign(requestParams, {
+            type: operationType
+          })
         } else if ('orderLog' == operationType) {    //毕有为   订单申诉的
           this.title = '订单操作日志'
           requestUrl = BASE_URL + "/loan/orderLog/getOrderLogApplyList";
@@ -191,6 +203,7 @@
         switch (operationType) {
           case 'loanOfficerLog':
           case 'loanUserLog' :
+          case 'activityAudit' :
             if (data.dataList && data.dataList.length > 0) {
               this.data1 = []
               data.dataList.forEach((item) => {
@@ -219,6 +232,20 @@
             }
             break
           case 'loanOfficerActive':
+            if (data.dataList && data.dataList.length > 0) {
+              this.data1 = []
+              data.dataList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.dataCreateTime,
+                  operationMan: item.operator,
+                  operationContent: item.content,
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
+            break
+            case 'activityAudit':
             if (data.dataList && data.dataList.length > 0) {
               this.data1 = []
               data.dataList.forEach((item) => {
