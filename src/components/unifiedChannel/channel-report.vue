@@ -127,7 +127,7 @@
             minWidth: 80,
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
-                return report.discountUv
+                return report.uv
               });
             }
           },
