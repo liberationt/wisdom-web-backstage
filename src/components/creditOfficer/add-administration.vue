@@ -39,7 +39,7 @@
                   <DatePicker type="datetime" :options="options3" @on-change="getdayTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="formItem.startDate"></DatePicker>
                 </FormItem>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <FormItem prop="endDate">
                   <DatePicker type="datetime" :options="options3" @on-change="getdayendTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="formItem.endDate"></DatePicker>
@@ -65,7 +65,7 @@
                   <TimePicker type="time" confirm @on-change="getstartTime" placeholder="请选择时间" v-model="formItem.startTime"></TimePicker>
                 </FormItem>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <FormItem prop="endTime">
                   <TimePicker type="time" confirm @on-change="getendTime" placeholder="请选择时间" v-model="formItem.endTime"></TimePicker>
@@ -123,7 +123,7 @@
                   <DatePicker type="datetime" :options="options3" @on-change="formastartTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" v-model="formactive.startDate"></DatePicker>
                 </FormItem>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <FormItem prop="endDate">
                   <DatePicker type="datetime" :options="options3" @on-change="formasendTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" v-model="formactive.endDate"></DatePicker>
