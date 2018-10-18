@@ -122,4 +122,7 @@ export default {
   .child_routh span{
     padding-left: 40px!important
   }
+  .child_routh .child_routh span{
+    padding-left: 60px!important
+  }
 </style>
