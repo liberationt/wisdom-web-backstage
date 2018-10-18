@@ -58,9 +58,9 @@ export default {
       examineStatusList: [],
       activeTypeList: [],
       model3: "",
-      activeState: "",
-      examineStatus: "",
-      activeType: "",
+      activeState: "-1",
+      examineStatus: "-1",
+      activeType: "-1",
       filename: "",
       fileerror: "",
       total: 0,
@@ -297,9 +297,9 @@ export default {
     inquire() {
       this.loading3 = true;
       let list = {
-        activityType: this.activeState, //活动类型
-        auditStatus: this.examineStatus, //审核状态
-        status: this.activeType, //活动状态
+        activityType: this.activeState == -1? "" : this.activeState, //活动类型
+        auditStatus: this.examineStatus == -1? "" : this.examineStatus, //审核状态
+        status: this.activeType == -1? "" : this.activeType, //活动状态
         pageNum: this.startRow,
         pageSize: this.endRow
       };
@@ -347,7 +347,7 @@ export default {
     this.http
       .post(BASE_URL + "/loan/activity/getActivitySearch", {})
       .then(resp => {
-        // console.log(resp);
+        console.log(resp);
         if (resp.code == "success") {
           (this.activeStateList = resp.data.typeList),
             (this.examineStatusList = resp.data.auditList),

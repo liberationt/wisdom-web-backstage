@@ -22,7 +22,7 @@
             <Row>
               <Col span="4">
                 <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
-                  <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+                  <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
               <Col span="4">
