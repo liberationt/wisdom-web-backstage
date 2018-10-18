@@ -166,8 +166,8 @@
         </Form> -->
         <hr>
         <div class="homePage_center">
-          <Button type="primary" 
-          <Button type="primary" @click="modal9=true" style="margin-left: 8px">提交审核</Button>
+          <!-- <Button type="primary"  -->
+          <Button type="primary" v-if="this.$route.query.issee != 'see'" @click="modal9=true" style="margin-left: 8px">提交审核</Button>
           <router-link to="./activityManagement"> <Button style="margin-left: 8px">返回</Button> </router-link>
           <Button type="primary" @click="operationlog" style="margin-left: 8px">查看操作日志</Button>
         </div>

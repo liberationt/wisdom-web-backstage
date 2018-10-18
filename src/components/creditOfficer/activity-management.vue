@@ -51,9 +51,9 @@ export default {
       examineStatusList: [],
       activeTypeList: [],
       model3: "",
-      activeState: "",
-      examineStatus: "",
-      activeType: "",
+      activeState: "-1",
+      examineStatus: "-1",
+      activeType: "-1",
       filename: "",
       fileerror: "",
       total: 0,
@@ -160,7 +160,8 @@ export default {
                     size: "small"
                   },
                   style: {
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    display:  params.row.auditStatus == "1" ? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -169,7 +170,26 @@ export default {
                   }
                 },
                 "审核"
-              )
+              ),
+               h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px",
+                    display: params.row.auditStatus != "1" ? "display-inline" : "none"
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push({ path: "./auditActivities?activityCode="+params.row.activityCode+"&issee="+"see" });
+                    }
+                  }
+                },
+                "查看"
+              ),
             ]);
           }
         }
@@ -192,9 +212,9 @@ export default {
     inquire() {
       this.loading3 = true;
       let list = {
-        activityType: this.activeState, //活动类型
-        auditStatus: this.examineStatus, //审核状态
-        status: this.activeType, //活动状态
+        activityType: this.activeState == -1 ? "" : this.activeState, //活动类型
+        auditStatus: this.examineStatus == -1 ? "" : this.examineStatus, //审核状态
+        status: this.activeType == -1 ? "" : this.activeType, //活动状态
         pageNum: this.startRow,
         pageSize: this.endRow
       };
