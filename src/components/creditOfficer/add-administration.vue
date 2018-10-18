@@ -563,15 +563,15 @@ export default {
           // this.$Message.error(data.message);
         }
       });
-      this.http
-        .post(BASE_URL + "/loan/activity/auditActivityByCode", {
-          activityCode: "string",
-          auditStatus: 0
-        })
-        .then(data => {
-          // console.log(data);
-        })
-        .catch(err => {});
+      // this.http
+      //   .post(BASE_URL + "/loan/activity/auditActivityByCode", {
+      //     activityCode: "string",
+      //     auditStatus: 0
+      //   })
+      //   .then(data => {
+      //     // console.log(data);
+      //   })
+      //   .catch(err => {});
     },
     // 查看操作日志
     journal() {
