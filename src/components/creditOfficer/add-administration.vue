@@ -22,7 +22,7 @@
             <Row>
               <Col span="4">
                 <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
-                  <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+                  <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
               <Col span="4">
@@ -103,7 +103,7 @@
             <Button v-if="!baocun" type="primary" @click="submitexamine('formItem')" style="margin-left: 8px">提交审核</Button>
             <Button disabled v-if="baocun" style="margin-left: 8px">提交审核</Button>
             <router-link to="./administration"> <Button style="margin-left: 8px">返回</Button> </router-link>
-            <Button type="primary" style="margin-left: 8px" @click="journal">查看操作日志</Button>
+            <Button type="primary" v-if="yesEdit" style="margin-left: 8px" @click="journal">查看操作日志</Button>
           </div>
         </Form>
         <Form v-show="!isActiveType" ref="formactive" :model="formactive" :rules="ruleValidate" :label-width="100">
@@ -113,7 +113,7 @@
           </FormItem> -->
           <FormItem label="活动类型：" class="clearfix">
             <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
-              <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+              <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
           </FormItem>
           <FormItem label="活动日期：">
@@ -229,7 +229,7 @@ export default {
           {
             type: "string",
             pattern: /^100$|^(\d|[1-9]\d)$/,
-            message: "消费折扣不能小于100",
+            message: "消费折扣不能大于100%",
             trigger: "blur"
           }
         ],
@@ -241,7 +241,7 @@ export default {
           },
           {
             type: "string",
-            pattern: /^[1-9]*$/,
+            pattern: /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
             message: "请输入1-9999整数",
             trigger: "change"
           },
@@ -447,6 +447,7 @@ export default {
       }
       let date1 = Date.parse(new Date(this.startDate)) / 1000;
       let date2 = Date.parse(new Date(this.endDate)) / 1000;
+      let date5 = Date.parse(new Date(utils.getNowFormatDate())) / 1000
       if (date1 >= date2) {
         this.loading3 = false;
         this.$Modal.warning({
@@ -455,7 +456,15 @@ export default {
         });
         return false;
       }
-      let date3 = Date.parse(new Date(this.newDate()+" "+this.formItem.startTime ))/1000
+      if (date1 <= date5 ) {
+        this.loading3 = false;
+        this.$Modal.warning({
+          title: "更新时间",
+          content: "<p>活动起始时间不得小于等于当前时间</p>"
+        });
+        return false;
+      }
+      let date3 = Date.parse(new Date(this.newDate()+" "+ this.formItem.startTime ))/1000
       let date4 = Date.parse(new Date(this.newDate()+" "+this.formItem.endTime ))/1000
       if (date3 >= date4 && this.activeType != 2) {
         this.loading3 = false;

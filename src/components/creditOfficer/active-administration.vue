@@ -58,9 +58,9 @@ export default {
       examineStatusList: [],
       activeTypeList: [],
       model3: "",
-      activeState: "",
-      examineStatus: "",
-      activeType: "",
+      activeState: "-1",
+      examineStatus: "-1",
+      activeType: "-1",
       filename: "",
       fileerror: "",
       total: 0,
@@ -154,9 +154,10 @@ export default {
           minWidth: 260,
           align: "center",
           render: (h, params) => {
-            let types, text, display, activityStatus,auditStatus ;
+            let activityStatus,auditStatus,status ;
             activityStatus = params.row.activityStatus //活动状态
             auditStatus = params.row.auditStatus //审核状态
+            status = params.row.status
             // 活动按钮判断显示
             // if ( activityStatus == "1") {
             //   display = "inline-block";
@@ -192,7 +193,7 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
-                    display: auditStatus == "1" || activityStatus=="2"? "display-inline" : "none"
+                    display: auditStatus == "1" ||  activityStatus != "0" && auditStatus == "2"? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -251,7 +252,7 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
-                    display: activityStatus == "1" && auditStatus == "2"? "display-inline" : "none"
+                    display: activityStatus == "1" && auditStatus == "2" && status == "1" ? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -297,9 +298,9 @@ export default {
     inquire() {
       this.loading3 = true;
       let list = {
-        activityType: "", //活动类型
-        auditStatus: "", //审核状态
-        status: "", //活动状态
+        activityType: this.activeState == -1? "" : this.activeState, //活动类型
+        auditStatus: this.examineStatus == -1? "" : this.examineStatus, //审核状态
+        status: this.activeType == -1? "" : this.activeType, //活动状态
         pageNum: this.startRow,
         pageSize: this.endRow
       };
@@ -347,7 +348,7 @@ export default {
     this.http
       .post(BASE_URL + "/loan/activity/getActivitySearch", {})
       .then(resp => {
-        // console.log(resp);
+        console.log(resp);
         if (resp.code == "success") {
           (this.activeStateList = resp.data.typeList),
             (this.examineStatusList = resp.data.auditList),
