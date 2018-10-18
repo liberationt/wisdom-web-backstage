@@ -297,9 +297,9 @@ export default {
     inquire() {
       this.loading3 = true;
       let list = {
-        activityType: "", //活动类型
-        auditStatus: "", //审核状态
-        status: "", //活动状态
+        activityType: this.activeState, //活动类型
+        auditStatus: this.examineStatus, //审核状态
+        status: this.activeType, //活动状态
         pageNum: this.startRow,
         pageSize: this.endRow
       };
