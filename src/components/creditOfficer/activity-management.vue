@@ -109,11 +109,11 @@ export default {
           render: (h, params) => {
             let status 
             if (params.row.status == 1) {
-              status = '以开始'
+              status = '已开始'
             } else if (params.row.status == 0) {
               status = '未开始'
             } else if (params.row.status == 2) {
-              status = '以结束'
+              status = '已结束'
             }
             return h('div', [
               h('span', {}, status)
