@@ -62,6 +62,7 @@ import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
 import salesQuery from '@/components/creditOfficer/sales-query'
 import administration from '@/components/creditOfficer/active-administration'
 import addAdministration from '@/components/creditOfficer/add-administration'
+import serviceIntroduction from '@/components/creditOfficer/service-introduction'
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
@@ -259,6 +260,7 @@ let routes = [
       {path: '/addAdministration', component: addAdministration, names: '活动管理', hidden: true, meta: { auth: true }},
       {path: '/activityManagement', component: activityManagement, names: '活动管理', meta: { auth: true }},
       {path: '/auditActivities', component: auditActivities, names: '审核活动', meta: { auth: true }},
+      {path: '/serviceIntroduction', component: serviceIntroduction, names: '服务介绍模板', meta: { auth: true }},
     ]
   },
   {

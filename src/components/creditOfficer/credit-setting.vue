@@ -11,9 +11,13 @@
         <TabPane label="基本设置">
           <Form :label-width="210" class="mt50">
             <FormItem v-for="item in formCustom" :label="item.configName+':'" prop="fabulous">
-              <Input type="text" v-model="item.configValue" style="width:300px">
+              <Input v-if="item.configUnit!=7" type="text" v-model="item.configValue" style="width:300px">
               <span slot="append">{{item.configUnitDesc}}</span>
               </Input>
+              <Select v-if="item.configUnit==7" v-model="item.configValue" style="width:200px"  class="" >
+                <Option  value="1" >开启</Option>
+                <Option  value="0" >关闭</Option>
+              </Select>
               <span v-if="item.officerConfigCode=='8'" class="signin">内不登录   (休眠周期的时间要大于登录有效周期的时间)</span>
             </FormItem>
             <FormItem>
