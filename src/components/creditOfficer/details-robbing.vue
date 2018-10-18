@@ -33,7 +33,8 @@
         </p>
         <p>
             <span>抢单费用:</span>
-            <span>{{order.robbingAmount}}赞豆</span>
+            <span v-if="order.robbingAmount==order.activityAmount" >{{order.robbingAmount}}赞豆</span>
+            <span v-if="order.robbingAmount!=order.activityAmount"><em class="gray">{{order.robbingAmount}}赞豆</em><em>/{{order.activityAmount}}赞豆</em></span>
         </p>
         <p>
             <span>订单状态:</span>

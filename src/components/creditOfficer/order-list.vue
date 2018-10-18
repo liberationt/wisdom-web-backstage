@@ -255,9 +255,23 @@ export default {
         },
         {
           title: '抢单费用',
-          key: 'robbingAmount',
           minWidth: 100,
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+            let pushStatus = []
+            if (params.row.activityAmount == params.row.robbingAmount) {
+              pushStatus.push (
+                h('span', {}, params.row.robbingAmount)
+              )
+            } else {
+              pushStatus.push (
+                h('span', {style: {color: '#BEBEBE'}}, params.row.robbingAmount),
+                h('span', {}, '/'),
+                h('span', {}, params.row.activityAmount),
+              )
+            }         
+            return h('div', pushStatus)
+          }
         },
         {
           title: '订单状态',

@@ -42,6 +42,8 @@ import creditSetting from '@/components/creditOfficer/credit-setting'
 import evaluationManagement from '@/components/creditOfficer/evaluation-management'
 import evaluationReview from '@/components/creditOfficer/evaluation-review'
 import evaluationDetails from '@/components/creditOfficer/evaluation-details'
+import activityManagement from '@/components/creditOfficer/activity-management'//活动管理
+import auditActivities from '@/components/creditOfficer/audit-activities'//活动审核
 // 订单列表
 import orderList from '@/components/creditOfficer/order-list'
 import detailsConsultation from '@/components/creditOfficer/details-consultation'
@@ -58,6 +60,8 @@ import addExamine from '@/components/creditOfficer/add-examine'
 import creditInformation from '@/components/creditOfficer/credit-information'
 import addCreditOfficer from '@/components/creditOfficer/add-creditOfficer'
 import salesQuery from '@/components/creditOfficer/sales-query'
+import administration from '@/components/creditOfficer/active-administration'
+import addAdministration from '@/components/creditOfficer/add-administration'
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
@@ -225,7 +229,6 @@ let routes = [
       {path: '/rangeConfiguration', component: rangeConfiguration, names: '范围值配置', hidden: true, meta: { auth: true }}, // 
       {path: '/monthlyReport', component: monthlyReport, names: '渠道月报表', hidden: true, meta: { auth: true }}, // 
       {path: '/statementRemittance', component: statementRemittance, names: '渠道报表汇总', hidden: true, meta: { auth: true }}, // 
-      
     ]
   },
   {
@@ -251,7 +254,11 @@ let routes = [
       {path: '/addExamine', component: addExamine, names: '添加/编辑产品', hidden: true, meta: { auth: true }},
       {path: '/creditInformation', component: creditInformation, names: '信贷员信息', hidden: true, meta: { auth: true }},
       {path: '/addCreditOfficer', component: addCreditOfficer, names: '添加/编辑信贷员', hidden: true, meta: { auth: true }},
-      {path: '/salesQuery', component: salesQuery, names: '销售查询', hidden: true, meta: { auth: true }}
+      {path: '/salesQuery', component: salesQuery, names: '销售查询', hidden: true, meta: { auth: true }},
+      {path: '/administration', component: administration, names: '活动管理', hidden: true, meta: { auth: true }},
+      {path: '/addAdministration', component: addAdministration, names: '活动管理', hidden: true, meta: { auth: true }},
+      {path: '/activityManagement', component: activityManagement, names: '活动管理', meta: { auth: true }},
+      {path: '/auditActivities', component: auditActivities, names: '审核活动', meta: { auth: true }},
     ]
   },
   {
