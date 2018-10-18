@@ -241,7 +241,7 @@ export default {
           },
           {
             type: "string",
-            pattern: /^[1-9]*$/,
+            pattern: /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
             message: "请输入1-9999整数",
             trigger: "change"
           },
