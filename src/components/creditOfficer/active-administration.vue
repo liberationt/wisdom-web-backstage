@@ -154,9 +154,10 @@ export default {
           minWidth: 260,
           align: "center",
           render: (h, params) => {
-            let types, text, display, activityStatus,auditStatus ;
+            let activityStatus,auditStatus,status ;
             activityStatus = params.row.activityStatus //活动状态
             auditStatus = params.row.auditStatus //审核状态
+            status = params.row.status
             // 活动按钮判断显示
             // if ( activityStatus == "1") {
             //   display = "inline-block";
@@ -192,7 +193,7 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
-                    display: auditStatus == "1" || activityStatus=="2"? "display-inline" : "none"
+                    display: auditStatus == "1" ||  activityStatus != "0" && auditStatus == "2"? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -251,7 +252,7 @@ export default {
                   },
                   style: {
                     marginRight: "5px",
-                    display: activityStatus == "1" && auditStatus == "2"? "display-inline" : "none"
+                    display: activityStatus == "1" && auditStatus == "2" && status == "1" ? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
