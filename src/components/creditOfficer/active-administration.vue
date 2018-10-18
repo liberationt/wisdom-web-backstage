@@ -300,7 +300,7 @@ export default {
       let list = {
         activityType: this.activeState == -1? "" : this.activeState, //活动类型
         auditStatus: this.examineStatus == -1? "" : this.examineStatus, //审核状态
-        status: this.activeType == -1? "" : this.activeType, //活动状态
+        activityStatus: this.activeType == -1? "" : this.activeType, //活动状态
         pageNum: this.startRow,
         pageSize: this.endRow
       };
