@@ -25,7 +25,6 @@
             </FormItem>
           </Form>
         </TabPane>
-
         <TabPane label="用户身价设置">
           <Form  :model="pricesetting" :label-width="200" class="mt50">
             <FormItem label="底价:" >
