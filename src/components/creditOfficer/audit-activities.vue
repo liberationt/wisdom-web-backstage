@@ -19,7 +19,7 @@
             <Select disabled v-model="examinelist.activityType" style="width:160px" class="left" @on-change="yesActiveType">
               <Option v-for="item in examinelist.typeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
-            <Input disabled v-model="examinelist.discount" style="width:150px" class="left ml20">
+            <Input v-if="this.examinelist.activityType == 1" disabled v-model="examinelist.discount" style="width:150px" class="left ml20">
               <span slot="append">%</span>
             </Input>
           </FormItem>
