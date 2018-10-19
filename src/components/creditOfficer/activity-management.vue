@@ -103,16 +103,16 @@ export default {
         },
         {
           title: "活动状态",
-          key: "auditStatus",
+          key: "activityStatus",
           align: "center",
           minWidth: 110,
           render: (h, params) => {
             let status 
-            if (params.row.status == 1) {
+            if (params.row.activityStatus == 1) {
               status = '已开始'
-            } else if (params.row.status == 0) {
+            } else if (params.row.activityStatus == 0) {
               status = '未开始'
-            } else if (params.row.status == 2) {
+            } else if (params.row.activityStatus == 2) {
               status = '已结束'
             }
             return h('div', [
