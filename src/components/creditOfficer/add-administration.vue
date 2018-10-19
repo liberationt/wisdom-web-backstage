@@ -484,7 +484,7 @@ export default {
           if (!isValueError) {
             if (o.startBean >= o.endBean) {
               //error
-              this.$Message.error("第" + (index + 1) + "行开始不能小于结束");
+              this.$Message.error("第" + (index + 1) + "行开始不能小于等于结束");
               // alert();
               isValueError = true;
             }else if (index > 0 && o.startBean <= this.addnormals4[index - 1].endBean) {
@@ -496,6 +496,12 @@ export default {
               this.$Message.error("第" + (index + 1) + "行返利不能为空");
               //error
               // alert();
+              isValueError = true;
+            } else if(o.startBean == 0){
+              this.$Message.error("赞豆区间开始必须大于0");
+              isValueError = true;
+            } else if(o.startBean > 999999 || o.endBean > 999999){
+              this.$Message.error("赞豆区间不能大于999999");
               isValueError = true;
             }
           }
