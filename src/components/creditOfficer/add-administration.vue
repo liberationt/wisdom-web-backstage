@@ -488,7 +488,7 @@ export default {
               // alert();
               isValueError = true;
             }else if (index > 0 && o.startBean <= this.addnormals4[index - 1].endBean) {
-              this.$Message.error("第" + (index + 1) + "行开始不能小于第" + index + "行结束");
+              this.$Message.error("第" + (index + 1) + "行开始不能小于等于第" + index + "行结束");
               //error
               // alert();
               isValueError = true;
