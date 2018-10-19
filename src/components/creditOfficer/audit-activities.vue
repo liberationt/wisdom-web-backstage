@@ -28,7 +28,7 @@
               <Col span="4">
                 <DatePicker disabled type="datetime" @on-change="getdayTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="examinelist.activityStartTime"></DatePicker>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <DatePicker disabled type="datetime" @on-change="getdayendTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="examinelist.activityEndTime"></DatePicker>
               </Col>
@@ -50,7 +50,7 @@
               <Col span="4">
                 <TimePicker disabled type="time" @on-change="getstartTime" placeholder="请选择时间" v-model="examinelist.dailyStartTime"></TimePicker>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <TimePicker disabled type="time" @on-change="getendTime" placeholder="请选择时间" v-model="examinelist.dailyEndTime"></TimePicker>
               </Col>
@@ -232,7 +232,7 @@ export default {
           ]
       },
       formCustomexa: {
-        activeType: '',
+        activeType: '2',
         remarks:''
       },
       ruleCustomexa: {
@@ -336,8 +336,9 @@ export default {
               this.$Modal.success({
                 title: title,
                 content: content,
-                onOk: () => {                 
-                  this.$refs[name].resetFields()
+                onOk: () => {  
+                  this.$router.push({ path: "./activityManagement" });               
+                  // this.$refs[name].resetFields()
                 }
               })
             } else {
