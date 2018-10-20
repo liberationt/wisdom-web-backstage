@@ -503,6 +503,12 @@ export default {
             } else if(o.startBean > 999999 || o.endBean > 999999){
               this.$Message.error("赞豆区间不能大于999999");
               isValueError = true;
+            } else if(o.startBean % 1 != 0 || o.endBean % 1 != 0 ){
+              this.$Message.error("赞豆区间只能为整数");
+              isValueError = true;
+            } else if(o.rebate % 1 != 0){
+              this.$Message.error("第" + (index + 1) + "行返利只能为整数");
+              isValueError = true;
             }
           }
         });
