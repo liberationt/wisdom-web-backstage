@@ -15,7 +15,7 @@
           </li>
           <li class="ml10">
             <Select v-model="examineStatus" placeholder="审核状态" style="width:150px;">
-              <Option v-for="item in examineStatusList" v-if="item.code != 0" :value="item.code" :key="item.code">{{ item.value }}</Option>
+              <Option v-for="item in examineStatusList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
           </li>
           <li class="ml10">
@@ -58,7 +58,7 @@ export default {
       fileerror: "",
       total: 0,
       startRow: 1,
-      endRow: 10,
+      endRow: 20,
       columns7: [
         {
           title: "活动标题",

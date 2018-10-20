@@ -562,24 +562,26 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          this.http
-            .post(BASE_URL + "/loan/activity/submitAuditActivity ", this.canshu())
-            .then(data => {
-              if (data.code == "success") {
-                const title = "提示";
-                // const content = title;
-                this.$Modal.success({
-                  title: title,
-                  content: "提交成功",
-                  onOk: () => {
-                    this.$router.push({ path: "./administration" });
-                  }
-                });
-              } else {
-                this.$Message.error(data.message);
+           this.$Modal.confirm({
+              title: '提示',
+              content: '<p>确认提交吗？</p>',
+              onOk: () => {
+                  this.http
+                    .post(BASE_URL + "/loan/activity/submitAuditActivity ", this.canshu())
+                    .then(data => {
+                      if (data.code == "success") {
+                        this.$router.push({ path: "./administration" });
+                      } else {
+                        this.$Message.error(data.message);
+                      }
+                    })
+                    .catch(err => {});
+              },
+              onCancel: () => {
+                  // this.$Message.info('Clicked cancel');
               }
-            })
-            .catch(err => {});
+            });
+         
         } else {
           // this.$Message.error(data.message);
         }
