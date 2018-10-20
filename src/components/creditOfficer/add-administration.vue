@@ -497,6 +497,11 @@ export default {
               //error
               // alert();
               isValueError = true;
+            } else if( o.rebate > 100){
+              this.$Message.error("第" + (index + 1) + "行返利不能大于100");
+              //error
+              // alert();
+              isValueError = true;
             } else if(o.startBean == 0){
               this.$Message.error("赞豆区间开始必须大于0");
               isValueError = true;
