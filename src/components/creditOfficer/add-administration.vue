@@ -12,7 +12,7 @@
         <!-- form 表单 -->
         <p class="activeTitle">
           <span>活动标题：</span>
-          <Input v-model="activeTitle" placeholder="8.8折扣抢单限时开抢" style="width:330px"></Input>
+          <Input v-model="activeTitle" placeholder="活动标题" style="width:330px"></Input>
         </p>
         <Form v-show="isActiveType"  ref="formItem" :rules="ruleValidate" :model="formItem" :label-width="100">
           <!-- <FormItem label="活动标题：" prop="activeTitle">
