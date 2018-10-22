@@ -37,6 +37,7 @@ import blackname from '@/components/system/blackname'
 import managementChannelAdd from '@/components/system/managementChannel-add'
 import managementLabel from '@/components/system/managementLabel'
 import managementLabelAdd from '@/components/system/managementLabel-add'
+import virtualData from '@/components/system/virtual-data'
 // 信贷员
 import creditSetting from '@/components/creditOfficer/credit-setting'
 import evaluationManagement from '@/components/creditOfficer/evaluation-management'
@@ -214,7 +215,8 @@ let routes = [
       {path: '/managementChannelAdd', component: managementChannelAdd, names: '添加编辑渠道', hidden: true, meta: { auth: true }},
       {path: '/managementLabel', component: managementLabel, names: '渠道标签管理', hidden: true, meta: { auth: true }},
       {path: '/managementLabelAdd', component: managementLabelAdd, names: '添加编辑标签', hidden: true, meta: { auth: true }},
-      {path: '/personnelManagement', component: personnelManagement, names: '部门人员管理', hidden: true, meta: { auth: true }}
+      {path: '/personnelManagement', component: personnelManagement, names: '部门人员管理', hidden: true, meta: { auth: true }},
+      {path: '/virtualData', component: virtualData, names: '虚拟数据', hidden: true, meta: { auth: true }}
     ]
   },
   {

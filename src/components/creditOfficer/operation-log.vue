@@ -181,6 +181,9 @@
             case 'loanOfficerActive':     //黄帅
               this.title = '活动操作日志'
               break
+              case 'template_config_edit':     //梦琪
+              this.title = '模板操作日志'
+              break
           }
         }
 

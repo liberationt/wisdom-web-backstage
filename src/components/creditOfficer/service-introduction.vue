@@ -6,42 +6,31 @@
         </p>
       </div>
       <div class="homePage contentcss">        
-        <Form class="p20" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="80">
+        <Form class="p20" :label-width="80">
           <FormItem >
             <h1 class="homePage_h1">
-                贷款要求模板内容
+                {{applayTemplate.title}}
             </h1>
           </FormItem>
-          <FormItem label="模板一" prop="descone">
-            <Input style="width:500px" v-model="formValidate.descone" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
+          <FormItem v-for="item in applayTemplate.data" :label="item.templateConfigName" >
+            <Input style="width:500px" v-model="item.templateConfigValue " type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
           </FormItem>
-          <FormItem class="mt15" label="模板二" >
-            <Input style="width:500px" v-model="desctwo" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
-          </FormItem>
-          <FormItem class="mt15" label="模板三" >
-            <Input style="width:500px" v-model="descthree" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
-          </FormItem>
-
           <FormItem >
               <h1 class="homePage_h1">
-                贷款要求模板内容
+                {{requireTemplate.title}}
               </h1>            
           </FormItem>
-          <FormItem label="模板一" prop="applyone">
-            <Input style="width:500px" v-model="formValidate.applyone" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
+          <FormItem v-for="item in requireTemplate.data" :label="item.templateConfigName">
+            <Input style="width:500px" v-model="item.templateConfigValue" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
           </FormItem>
-          <FormItem class="mt15" label="模板二" >
-            <Input style="width:500px" v-model="applytwo" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
+          <FormItem class="tc mt50"  >
+            <Button type="primary" @click="handleSubmit">保存</Button>
+            &nbsp;&nbsp;&nbsp;&nbsp;
+            <Button @click="operationlog">查看操作日志</Button>
           </FormItem>
-          <FormItem class="mt15" label="模板三" >
-            <Input style="width:500px" v-model="applythree" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入内容"></Input>
-          </FormItem>
+          
 
         </Form>
-        <div class="homePage_center">
-          <a href="javascript:;" class="homePage_submit"  @click="handleSubmit('formValidate')">提交保存</a>
-          <!-- <a href="javascript:;" class="homePage_goback" @click="handleReset('formValidate')">返回</a> -->
-        </div>
       </div>
   </div>
 </template>
@@ -49,56 +38,111 @@
 export default {
   data() {
     return {
-        desctwo:'',
-        descthree:'',
-        applytwo:'',
-        applythree:'',
-        loading:true,
-      formValidate: {
-          descone: '',
-          applyone:''
-      },
-      ruleValidate: {
-          descone: [
-            { required: true, message: '请输入模板内容', trigger: 'blur' },
-            { type: 'string', min: 30, message: '模板内容不少于30字符', trigger: 'blur' }
-          ],
-          applyone: [
-            { required: true, message: '请输入模板内容', trigger: 'blur' },
-            { type: 'string', min: 30, message: '模板内容不少于30字符', trigger: 'blur' }
-          ]
-      },
-      checkbox: [],
-      shareCodel: '',
-      hidden:false
+      desctwo:'',
+      descthree:'',
+      applytwo:'',
+      applythree:'',
+      loading:true,
+      applayTemplate:{},
+      requireTemplate:{},
+      applytemone:true,
     };
   },
-  components: {},
-  created() {
-
-    
+  created() {    
   },
   methods: {
-    handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
-          if (valid) {
-            
-            
+    handleSubmit () {
+      this.applytemone = true
+      let list = []
+      this.applayTemplate.data.forEach(element => {
+        list.push(element)
+      });
+      this.requireTemplate.data.forEach(element => {
+        list.push(element)
+      });
+      this.validate (list)
+      if (this.applytemone) {
+        this.http.post(BASE_URL + '/loan/templateConfig/batchUpdateTemplateConfig', list)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.$Modal.success({
+              title: '温馨提示',
+              content: '<p>保存成功</p>',
+              onOk: () => {
+                this.inquireabout ()
+              }
+            })                  
           } else {
-              return this.changeLoading()
-
+            this.$Message.info(resp.message)
           }
         })
+        .catch(() => {
+
+        })    
+      } 
       },
       changeLoading () {
         this.loading = false
         this.$nextTick(() => {
             this.loading = true
         })
-        },
+      },
+      validate (list) {
+        list.forEach(element => {
+        if (element.templateConfigName == '模板一' && element.templateConfigValue == '') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '<p>模板一不能为空</p>'
+            })
+            this.applytemone = false
+            return false
+        }
+        if (element.templateConfigName == '模板二') {
+          if (element.templateConfigValue!='' && element.templateConfigValue.length<30) {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '<p>'+element.templateConfigName+'内容输入不得少于30个字符</p>'
+            })
+            this.applytemone =false
+            return false
+          }         
+        }
+        if (element.templateConfigName == '模板三') {
+          if (element.templateConfigValue!='' && element.templateConfigValue.length<30) {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '<p>'+element.templateConfigName+'内容输入不得少于30个字符</p>'
+            })
+            this.applytemone =false
+            return false
+          }  
+        }
+      })
+
+      },
+      inquireabout () {
+        // 查询模板
+        this.http.post(BASE_URL + '/loan/templateConfig/queryTemplateConfigList', {})
+          .then((resp) => {
+            if (resp.code == 'success') {
+              this.applayTemplate = resp.data.applayTemplate
+              this.requireTemplate = resp.data.requireTemplate         
+            } else {
+              this.$Message.info(resp.message)
+            }
+          })
+          .catch(() => {
+          })
+      },
+      operationlog () {
+        this.$router.push({
+          path:
+            "./operationLog?operationType=template_config_edit"
+        });
+      }
   },
   mounted () {
-    
+    this.inquireabout ()       
   }
 };
 </script>
@@ -123,6 +167,7 @@ export default {
 .homePage_h1 {
   border-bottom: 1px solid #ccc;
   padding: 10px 0 5px 0;
+  width: 800px;
 }
 
 </style>

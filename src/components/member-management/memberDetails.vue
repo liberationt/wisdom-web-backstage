@@ -102,6 +102,12 @@
                     <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
+            <TabPane label="抢单订单">
+                <Table border highlight-row :columns="columns5" :data="data5"></Table>
+                <div class="tr mt15">
+                    <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+                </div>
+            </TabPane>
             <TabPane label="登录日志">
                 <Table border highlight-row :columns="columns4" :data="data4"></Table>
                 <div class="tr mt15">
@@ -222,35 +228,6 @@ export default {
           minWidth: 100,
           key: 'orderStatusName'
         },
-        // {
-        //   title: '操作',
-        //   align: 'center',
-        //   minWidth: 100,
-        //   key: 'orderStatusName',
-        //   render: (h, params) => {
-        //     return h('div', [
-        //       h(
-        //         'Button',
-        //         {
-        //           props: {
-        //             type: 'info',
-        //             size: 'small'
-        //           },
-        //           style: {
-        //             marginRight: '5px'
-        //           },
-        //           on: {
-        //             click: () => {
-        //               this.$router.push({ path: './insuranceReport?id='+params.row.batchCode+'&&pushname='+this.pushname1 })
-        //             }
-        //           }
-        //         },
-        //         '查看'
-        //       )
-        //     ])
-		//   }
-        // }
-
       ],
       data2: [],
       columns3: [
@@ -306,6 +283,33 @@ export default {
         }
       ],
       data3: [],
+      columns5: [
+        {
+          title: '邀请用户手机号',
+          align: 'center',
+          minWidth: 160,
+          key: 'orderCreateTime'
+        },
+        {
+          title: '注册时间',
+          align: 'center',
+          minWidth: 150,
+          key: 'orderNum'
+        },
+        {
+          title: '实名',
+          align: 'center',
+          minWidth: 100,
+          key: 'orderStatusName'
+        },
+        {
+          title: '邀请奖励',
+          align: 'center',
+          minWidth: 100,
+          key: 'officerName'
+        }
+      ],
+      data5: [],
       columns4: [
         {
           title: '登录时间',
@@ -494,6 +498,26 @@ export default {
         .catch(() => {
         })
     },
+    invitationRecord () {
+        let list = {
+            userCode: this.$route.query.loanUserCode,
+            pageNum: this.startRow,
+            pageSize: this.endRow
+        }
+        this.http.post(BASE_URL + '/loan/userInfo/queryUserLoginLog', list)
+        .then((resp) => {
+        if (resp.code == 'success') {
+            this.data4 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        } else {
+            this.$Message.error(resp.message);
+        }
+        })
+        .catch(() => {
+        })
+
+    },
     marketquery (name) {
         this.total = 0
         this.startRow = 1
@@ -508,6 +532,8 @@ export default {
         } else if (name == 3) {
             this.orderlist ()
         } else if (name == 4) {
+            this.invitationRecord ()
+        } else if (name == 5) {
             this.logonlist ()
         }
     },
@@ -523,6 +549,8 @@ export default {
       } else if (this.pagenum == 3) {
           this.orderlist ()
       } else if (this.pagenum == 4) {
+          this.invitationRecord ()
+      } else if (this.pagenum == 5) {
           this.logonlist ()
       }
     },
@@ -538,6 +566,8 @@ export default {
       } else if (this.pagenum == 3) {
           this.orderlist ()
       } else if (this.pagenum == 4) {
+          this.invitationRecord ()
+      } else if (this.pagenum == 5) {
           this.logonlist ()
       }
     },
