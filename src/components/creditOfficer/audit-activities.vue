@@ -19,7 +19,7 @@
             <Select disabled v-model="examinelist.activityType" style="width:160px" class="left" @on-change="yesActiveType">
               <Option v-for="item in examinelist.typeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
-            <Input disabled v-model="examinelist.discount" style="width:150px" class="left ml20">
+            <Input v-if="this.examinelist.activityType == 1" disabled v-model="examinelist.discount" style="width:150px" class="left ml20">
               <span slot="append">%</span>
             </Input>
           </FormItem>
@@ -28,7 +28,7 @@
               <Col span="4">
                 <DatePicker disabled type="datetime" @on-change="getdayTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="examinelist.activityStartTime"></DatePicker>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <DatePicker disabled type="datetime" @on-change="getdayendTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="examinelist.activityEndTime"></DatePicker>
               </Col>
@@ -50,7 +50,7 @@
               <Col span="4">
                 <TimePicker disabled type="time" @on-change="getstartTime" placeholder="请选择时间" v-model="examinelist.dailyStartTime"></TimePicker>
               </Col>
-              <Col span="1" style="text-align: center">-</Col>
+              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <TimePicker disabled type="time" @on-change="getendTime" placeholder="请选择时间" v-model="examinelist.dailyEndTime"></TimePicker>
               </Col>
@@ -166,8 +166,8 @@
         </Form> -->
         <hr>
         <div class="homePage_center">
-          <Button type="primary" 
-          <Button type="primary" @click="modal9=true" style="margin-left: 8px">提交审核</Button>
+          <!-- <Button type="primary"  -->
+          <Button type="primary" v-if="this.$route.query.issee != 'see'" @click="modal9=true" style="margin-left: 8px">审核</Button>
           <router-link to="./activityManagement"> <Button style="margin-left: 8px">返回</Button> </router-link>
           <Button type="primary" @click="operationlog" style="margin-left: 8px">查看操作日志</Button>
         </div>
@@ -232,7 +232,7 @@ export default {
           ]
       },
       formCustomexa: {
-        activeType: '',
+        activeType: '2',
         remarks:''
       },
       ruleCustomexa: {
@@ -336,8 +336,9 @@ export default {
               this.$Modal.success({
                 title: title,
                 content: content,
-                onOk: () => {                 
-                  this.$refs[name].resetFields()
+                onOk: () => {  
+                  this.$router.push({ path: "./activityManagement" });               
+                  // this.$refs[name].resetFields()
                 }
               })
             } else {

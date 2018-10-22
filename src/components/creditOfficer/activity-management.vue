@@ -10,12 +10,12 @@
         <ul class="querysty">
           <li>
             <Select v-model="activeState" placeholder="活动状态" style="width:150px;">
-              <Option v-for="item in activeStateList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+              <Option v-for="item in activeStateList"  :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
           </li>
           <li class="ml10">
             <Select v-model="examineStatus" placeholder="审核状态" style="width:150px;">
-              <Option v-for="item in examineStatusList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+              <Option v-for="item in examineStatusList" v-if="item.code != 0" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
           </li>
           <li class="ml10">
@@ -51,14 +51,14 @@ export default {
       examineStatusList: [],
       activeTypeList: [],
       model3: "",
-      activeState: "",
-      examineStatus: "",
-      activeType: "",
+      activeState: "-1",
+      examineStatus: "-1",
+      activeType: "-1",
       filename: "",
       fileerror: "",
       total: 0,
       startRow: 1,
-      endRow: 10,
+      endRow: 20,
       columns7: [
         {
           title: "活动标题",
@@ -103,15 +103,17 @@ export default {
         },
         {
           title: "活动状态",
-          key: "auditStatus",
+          key: "activityStatus",
           align: "center",
           minWidth: 110,
           render: (h, params) => {
             let status 
-            if (params.row.status == 1) {
-              status = '启用'
-            } else if (params.row.status == 0) {
-              status = '禁用'
+            if (params.row.activityStatus == 1) {
+              status = '已开始'
+            } else if (params.row.activityStatus == 0) {
+              status = '未开始'
+            } else if (params.row.activityStatus == 2) {
+              status = '已结束'
             }
             return h('div', [
               h('span', {}, status)
@@ -160,7 +162,8 @@ export default {
                     size: "small"
                   },
                   style: {
-                    marginRight: "5px"
+                    marginRight: "5px",
+                    display:  params.row.auditStatus == "1" ? "display-inline" : "none"
                   },
                   on: {
                     click: () => {
@@ -169,7 +172,26 @@ export default {
                   }
                 },
                 "审核"
-              )
+              ),
+               h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  style: {
+                    marginRight: "5px",
+                    display: params.row.auditStatus != "1" ? "display-inline" : "none"
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push({ path: "./auditActivities?activityCode="+params.row.activityCode+"&issee="+"see" });
+                    }
+                  }
+                },
+                "查看"
+              ),
             ]);
           }
         }
@@ -192,9 +214,9 @@ export default {
     inquire() {
       this.loading3 = true;
       let list = {
-        activityType: this.activeState, //活动类型
-        auditStatus: this.examineStatus, //审核状态
-        status: this.activeType, //活动状态
+        activityType: this.activeState == -1 ? "" : this.activeState, //活动类型
+        auditStatus: this.examineStatus == -1 ? "" : this.examineStatus, //审核状态
+        activityStatus: this.activeType == -1 ? "" : this.activeType, //活动状态
         pageNum: this.startRow,
         pageSize: this.endRow
       };

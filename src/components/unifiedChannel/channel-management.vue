@@ -64,7 +64,7 @@
                     <span v-if="tipsshow3&&numhid" class="red left ml10">次日生效{{snapshopactive}}</span>
                 </FormItem>
               <FormItem label="推广页样式:" prop="style" >
-              <Select v-model="formCustombusi.style" placeholder="请选择" style="width:300px" @on-change="applicationsel">
+              <Select :disabled="numhid" v-model="formCustombusi.style" placeholder="请选择" style="width:300px" @on-change="applicationsel">
                 <Option v-for="items in promotionPageSelect" :value="items.businessPromotionPageCode">{{items.pageName}}&nbsp;&nbsp;{{items.promotionPageUrl}}</Option>
               </Select>
             </FormItem>
@@ -173,7 +173,7 @@ export default {
             })
             ]
             if (params.row.snapshot != null) {
-              if (params.row.channelBaseDiscount != params.row.snapshot.channelBaseDiscount) {
+              if (params.row.channelBaseDiscount != params.row.snapshot.channelBaseDiscount&&params.row.snapshot.channelBaseDiscount!=null) {
                 list.push(
                   h('span', {
                   style: {
@@ -424,7 +424,7 @@ export default {
           })
           this.suppliersBusinessChannelCode = data.data.suppliersBusinessChannelCode
           if (data.data.snapshot != null) {
-            if (data.data.channelBaseDiscount != data.data.snapshot.channelBaseDiscount) {
+            if (data.data.channelBaseDiscount != data.data.snapshot.channelBaseDiscount &&data.data.snapshot.channelBaseDiscount!=null ) {
               this.tipsshow1 = true
               this.snapshopcount = data.data.snapshot.channelBaseDiscount
             }
@@ -471,7 +471,7 @@ export default {
           channelBaseActive :this.formCustombusi.activation,
           businessPromotionPageCode:this.formCustombusi.style,
           suppliersBusinessChannelCode:this.suppliersBusinessChannelCode,
-          fastUpdate:'1'
+          fastUpdate:'0'
         }
         urls = "/promotion/suppliersBusinessChannel/updateByCode" 
         content = '<p>保存成功</p>'
@@ -605,7 +605,7 @@ export default {
             title: '提示',
             content: '<p>确定要更新吗?</p>',
             onOk: () => {         
-              this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/batchUpdate", {updateBeanList:this.inputlist,fastUpdate:'1'}).then(data => {
+              this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/batchUpdate", {updateBeanList:this.inputlist,fastUpdate:'0'}).then(data => {
                 if(data.code == 'success'){
                   const title = '提示'
                   let content = '<p>更新成功</p>'

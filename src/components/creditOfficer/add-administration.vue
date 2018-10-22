@@ -12,7 +12,7 @@
         <!-- form 表单 -->
         <p class="activeTitle">
           <span>活动标题：</span>
-          <Input v-model="activeTitle" placeholder="8.8折扣抢单限时开抢" style="width:330px"></Input>
+          <Input v-model="activeTitle" placeholder="活动标题" style="width:330px"></Input>
         </p>
         <Form v-show="isActiveType"  ref="formItem" :rules="ruleValidate" :model="formItem" :label-width="100">
           <!-- <FormItem label="活动标题：" prop="activeTitle">
@@ -22,7 +22,7 @@
             <Row>
               <Col span="4">
                 <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
-                  <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+                  <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
               <Col span="4">
@@ -103,7 +103,7 @@
             <Button v-if="!baocun" type="primary" @click="submitexamine('formItem')" style="margin-left: 8px">提交审核</Button>
             <Button disabled v-if="baocun" style="margin-left: 8px">提交审核</Button>
             <router-link to="./administration"> <Button style="margin-left: 8px">返回</Button> </router-link>
-            <Button type="primary" style="margin-left: 8px" @click="journal">查看操作日志</Button>
+            <Button type="primary" v-if="yesEdit" style="margin-left: 8px" @click="journal">查看操作日志</Button>
           </div>
         </Form>
         <Form v-show="!isActiveType" ref="formactive" :model="formactive" :rules="ruleValidate" :label-width="100">
@@ -113,7 +113,7 @@
           </FormItem> -->
           <FormItem label="活动类型：" class="clearfix">
             <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
-              <Option v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+              <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
           </FormItem>
           <FormItem label="活动日期：">
@@ -229,7 +229,7 @@ export default {
           {
             type: "string",
             pattern: /^100$|^(\d|[1-9]\d)$/,
-            message: "消费折扣不能小于100",
+            message: "消费折扣不能大于100%",
             trigger: "blur"
           }
         ],
@@ -241,7 +241,7 @@ export default {
           },
           {
             type: "string",
-            pattern: /^[1-9]*$/,
+            pattern: /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
             message: "请输入1-9999整数",
             trigger: "change"
           },
@@ -447,6 +447,7 @@ export default {
       }
       let date1 = Date.parse(new Date(this.startDate)) / 1000;
       let date2 = Date.parse(new Date(this.endDate)) / 1000;
+      let date5 = Date.parse(new Date(utils.getNowFormatDate())) / 1000
       if (date1 >= date2) {
         this.loading3 = false;
         this.$Modal.warning({
@@ -455,7 +456,15 @@ export default {
         });
         return false;
       }
-      let date3 = Date.parse(new Date(this.newDate()+" "+this.formItem.startTime ))/1000
+      if (date1 <= date5 ) {
+        this.loading3 = false;
+        this.$Modal.warning({
+          title: "更新时间",
+          content: "<p>活动起始时间不得小于等于当前时间</p>"
+        });
+        return false;
+      }
+      let date3 = Date.parse(new Date(this.newDate()+" "+ this.formItem.startTime ))/1000
       let date4 = Date.parse(new Date(this.newDate()+" "+this.formItem.endTime ))/1000
       if (date3 >= date4 && this.activeType != 2) {
         this.loading3 = false;
@@ -475,11 +484,11 @@ export default {
           if (!isValueError) {
             if (o.startBean >= o.endBean) {
               //error
-              this.$Message.error("第" + (index + 1) + "行开始不能小于结束");
+              this.$Message.error("第" + (index + 1) + "行开始不能小于等于结束");
               // alert();
               isValueError = true;
             }else if (index > 0 && o.startBean <= this.addnormals4[index - 1].endBean) {
-              this.$Message.error("第" + (index + 1) + "行开始不能小于第" + index + "行结束");
+              this.$Message.error("第" + (index + 1) + "行开始不能小于等于第" + index + "行结束");
               //error
               // alert();
               isValueError = true;
@@ -487,6 +496,23 @@ export default {
               this.$Message.error("第" + (index + 1) + "行返利不能为空");
               //error
               // alert();
+              isValueError = true;
+            } else if( o.rebate > 100){
+              this.$Message.error("第" + (index + 1) + "行返利不能大于100");
+              //error
+              // alert();
+              isValueError = true;
+            } else if(o.startBean == 0){
+              this.$Message.error("赞豆区间开始必须大于0");
+              isValueError = true;
+            } else if(o.startBean > 999999 || o.endBean > 999999){
+              this.$Message.error("赞豆区间不能大于999999");
+              isValueError = true;
+            } else if(o.startBean % 1 != 0 || o.endBean % 1 != 0 ){
+              this.$Message.error("赞豆区间只能为整数");
+              isValueError = true;
+            } else if(o.rebate % 1 != 0){
+              this.$Message.error("第" + (index + 1) + "行返利只能为整数");
               isValueError = true;
             }
           }
@@ -541,24 +567,26 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          this.http
-            .post(BASE_URL + "/loan/activity/submitAuditActivity ", this.canshu())
-            .then(data => {
-              if (data.code == "success") {
-                const title = "提示";
-                // const content = title;
-                this.$Modal.success({
-                  title: title,
-                  content: "提交成功",
-                  onOk: () => {
-                    this.$router.push({ path: "./administration" });
-                  }
-                });
-              } else {
-                this.$Message.error(data.message);
+           this.$Modal.confirm({
+              title: '提示',
+              content: '<p>确认提交吗？</p>',
+              onOk: () => {
+                  this.http
+                    .post(BASE_URL + "/loan/activity/submitAuditActivity ", this.canshu())
+                    .then(data => {
+                      if (data.code == "success") {
+                        this.$router.push({ path: "./administration" });
+                      } else {
+                        this.$Message.error(data.message);
+                      }
+                    })
+                    .catch(err => {});
+              },
+              onCancel: () => {
+                  // this.$Message.info('Clicked cancel');
               }
-            })
-            .catch(err => {});
+            });
+         
         } else {
           // this.$Message.error(data.message);
         }
