@@ -570,7 +570,7 @@ export default {
         }
       ],
       data6: [],
-      isJurisdiction: true,
+      isJurisdiction: false,
       balanceBean: false,
       
       addzanBean: "0",
