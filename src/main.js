@@ -9,6 +9,10 @@ import Api from './utils/api'
 import store from './vuex/store'
 import utils from './utils/utils'
 import './utils/filters'
+import VueQuillEditor from 'vue-quill-editor'
+import 'quill/dist/quill.core.css'
+import 'quill/dist/quill.snow.css'
+import 'quill/dist/quill.bubble.css'
 // import aaa from './components/rightcontent'
 // import $ from 'jquery'
 // UE
@@ -42,6 +46,7 @@ Vue.use(iView)
 Vue.use(http)
 Vue.use(Api)
 Vue.use(store)
+Vue.use(VueQuillEditor)
 // Vue.use(filter)
 
 const router = new VueRouter({

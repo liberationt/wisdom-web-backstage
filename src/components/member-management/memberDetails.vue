@@ -102,7 +102,7 @@
                     <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
-            <TabPane label="抢单订单">
+            <TabPane label="邀请记录">
                 <Table border highlight-row :columns="columns5" :data="data5"></Table>
                 <div class="tr mt15">
                     <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -288,25 +288,29 @@ export default {
           title: '邀请用户手机号',
           align: 'center',
           minWidth: 160,
-          key: 'orderCreateTime'
+          key: 'phoneNumber'
         },
         {
           title: '注册时间',
           align: 'center',
           minWidth: 150,
-          key: 'orderNum'
+          key: 'registerTime'
         },
         {
           title: '实名',
           align: 'center',
           minWidth: 100,
-          key: 'orderStatusName'
+          key: 'realName'
         },
         {
           title: '邀请奖励',
           align: 'center',
           minWidth: 100,
-          key: 'officerName'
+          render: (h, params) => {
+            return h('div', [
+              h('span', {}, '-')
+            ])
+          }
         }
       ],
       data5: [],
@@ -498,16 +502,17 @@ export default {
         .catch(() => {
         })
     },
+    // 邀请记录
     invitationRecord () {
         let list = {
             userCode: this.$route.query.loanUserCode,
             pageNum: this.startRow,
             pageSize: this.endRow
         }
-        this.http.post(BASE_URL + '/loan/userInfo/queryUserLoginLog', list)
+        this.http.post(BASE_URL + '/loan/userInfo/queryInviterListByUser', list)
         .then((resp) => {
         if (resp.code == 'success') {
-            this.data4 = resp.data.dataList
+            this.data5 = resp.data.dataList
             this.total = Number(resp.data.total)
             this.startRow = Math.ceil(resp.data.startRow/this.endRow)
         } else {
@@ -516,7 +521,6 @@ export default {
         })
         .catch(() => {
         })
-
     },
     marketquery (name) {
         this.total = 0

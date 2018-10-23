@@ -243,6 +243,12 @@
                     <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
                 </div>
             </TabPane>
+            <TabPane label="邀请记录">
+                <Table border highlight-row :columns="columns7" :data="data7"></Table>
+                <div class="tr mt15">
+                    <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
+                </div>
+            </TabPane>
             <TabPane label="登录日志">
               <Table border highlight-row :columns="columns6" :data="data6"></Table>
                 <div class="tr mt15">
@@ -570,6 +576,57 @@ export default {
         }
       ],
       data6: [],
+      columns7: [
+        {
+          title: "邀请用户手机号",
+          align: "center",
+          minWidth: 160,
+          key: "phoneNumber"
+        },
+        {
+          title: "注册时间",
+          align: "center",
+          minWidth: 120,
+          key: "registerTime"
+        },
+        {
+          title: "实名",
+          align: "center",
+          minWidth: 100,
+          key: "realName"
+        },
+        {
+          title: "审核",
+          align: "center",
+          minWidth: 110,
+          render: (h, params) => {
+            let loanStatus;
+            if (params.row.loanStatus == 0) {
+              loanStatus = "注册无资料";
+            } else if (params.row.loanStatus == 1) {
+              loanStatus = "信贷员待审核";
+            } else if (params.row.loanStatus == 2) {
+              loanStatus = "审核通过";
+            } else if (params.row.loanStatus == 3) {
+              loanStatus = "审核失败";
+            }
+            return h("div", [h("span", {}, loanStatus)]);
+          }
+        },
+        {
+          title: "审核时间",
+          align: "center",
+          key: "loanStatusSuccessTime",
+          minWidth: 150
+        },
+        {
+          title: "邀请奖励",
+          align: "center",
+          key:'inviterVirtualCount',
+          minWidth: 150
+        }
+      ],
+      data7: [],
       isJurisdiction: true,
       balanceBean: false,
       
@@ -746,6 +803,26 @@ export default {
         })
         .catch(() => {});
     },
+    // 邀请记录
+    invitationRecord () {
+        let list = {
+            officerCode: this.$route.query.loanOfficerCode,
+            pageNum: this.startRow,
+            pageSize: this.endRow
+        }
+        this.http.post(BASE_URL + '/loan/officerInfo/queryInviterListByOfficer', list)
+        .then((resp) => {
+        if (resp.code == 'success') {
+            this.data7 = resp.data.dataList
+            this.total = Number(resp.data.total)
+            this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        } else {
+            this.$Message.error(resp.message);
+        }
+        })
+        .catch(() => {
+        })
+    },
     // 点击tab
     tabswitch(name) {
       this.tabnum = name;
@@ -760,6 +837,8 @@ export default {
       } else if (name == 5) {
         this.evaluationrecord();
       } else if (name == 6) {
+        this.invitationRecord();
+      } else if (name == 7) {
         this.logonlog();
       }
     },
@@ -776,6 +855,8 @@ export default {
       } else if (this.tabnum == 5) {
         this.evaluationrecord();
       } else if (this.tabnum == 6) {
+        this.invitationRecord();
+      } else if (this.tabnum == 7) {
         this.logonlog();
       }
     },
