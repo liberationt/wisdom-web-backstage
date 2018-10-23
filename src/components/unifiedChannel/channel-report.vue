@@ -74,7 +74,7 @@
         name: '',
         options3: {
           disabledDate(date) {
-            return date && date.valueOf() > Date.now() - 86400000;
+            return date && date.valueOf() > Date.now() - 86400000*0;
           }
         },
         columns7: [
