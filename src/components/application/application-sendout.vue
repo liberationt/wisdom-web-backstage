@@ -6,7 +6,7 @@
       </p>
     </div>
     <div class="contentcss clearfix">   
-    <Col span="12" offset="4">
+    <Col span="20" offset="4">
       <Form ref="formCustom" :model="formCustom" :rules="ruleCustom" :label-width="100" style="margin-bottom:150px;padding-top:20px">
         <FormItem label="消息类型:" prop="city">
           <Select v-model="formCustom.city" placeholder="请选择" @on-change="messagetype" style="width:200px">
@@ -47,7 +47,7 @@
                 </Col>
                 <Col span="1" style="text-align: center"></Col>
                 <Col span="80" class="cleafix">
-                    <FormItem prop="value5" v-if="homeh5">
+                    <FormItem prop="value5" v-if="primordial">
                       <Select v-model="formCustom.value5" @on-change='jumpurll' placeholder="请选择" style="width:200px" >
                         <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
                       </Select>
@@ -58,10 +58,18 @@
         <FormItem v-if="detailscode" label="" prop="code" >
             <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="formCustom.code" placeholder="请输入参数" style="width:200px"></Input>
         </FormItem>
-        <FormItem label="跳转URL:" prop="jumpurl" v-if="!homeh5">
+        <FormItem label="跳转URL:" prop="jumpurl" v-if="homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
         </FormItem>
-        <FormItem>
+        <FormItem label="" v-if="richtext" class="cleafix">
+          <quill-editor  v-model="content"
+            :options="editorOption" 
+            @blur="onEditorBlur($event)" 
+            @focus="onEditorFocus($event)"
+            @change="onEditorChange($event)">
+          </quill-editor>
+        </FormItem >
+        <FormItem class="mt100">
           <Button type="primary" @click="handleSubmit('formCustom')">提交保存</Button>
           <Button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">返回</Button>
         </FormItem>
@@ -72,9 +80,30 @@
 </template>
 <script>
 import utils from '../../utils/utils'
+import { quillEditor } from 'vue-quill-editor'
 export default {
   data () {
     return {
+      // 富文本开始
+      content:'',
+      mailDetailCode:'',
+      editorOption:{
+        modules:{ 
+          toolbar:[ 
+            ['bold', 'italic', 'underline', 'strike','blockquote','code-block'], // toggled buttons       
+            ['code', 'link','align','formula','image','clean'],
+            [{'header': 1}, {'header': 2}],               // custom button values
+            [{'list': 'ordered'}, {'list': 'bullet'}],
+            [{'script': 'sub'}, {'script': 'super'}],      // superscript/subscript
+            [{'indent': '-1'}, {'indent': '+1'}],          // outdent/indent
+            [{'direction': 'rtl'}],                         // text direction
+            [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
+            [{'color': []}, {'background': []}],          // dropdown with defaults from theme
+            [{'font': []}]
+          ]
+        }
+      },
+      // 富文本结束
       options3: {
         disabledDate (date) {
           return date && date.valueOf() < Date.now() - 86400000;
@@ -95,7 +124,9 @@ export default {
       detailscode:false,
       datevalue:'',
       push: false,
-      homeh5: false,
+      homeh5: true,
+      richtext:false,
+      primordial:false,
       ruleCustom: {
         city: { required: true, message: '请选择消息类型', trigger: 'change' },
         datePicker: { required: true, message: '请选择推送时间', trigger: 'change' },
@@ -181,9 +212,12 @@ export default {
             jumpType: this.formCustom.h5, // 跳转类型
             jumpUrl: this.formCustom.jumpurl  == '' ? this.formCustom.value5 : this.formCustom.jumpurl + this.formCustom.code, // 跳转url
             targetPhone : this.formCustom.phone,
-            mailCode : this.mailCode
+            mailCode : this.mailCode,
+            mailDetailContent:this.content
           } 
-          console.log(list)
+          if(this.$route.query.isedit == 'is') {
+            list.mailDetailCode = this.mailDetailCode
+          }
           this.http.post(BASE_URL + tiurl,list).then(data=>{
             if(data.code == 'success'){
               this.phoneti('success')
@@ -250,11 +284,21 @@ export default {
     homesenh5 (v) {
       // alert(v)
       if (v == 1) {
+        this.primordial = true
+        this.homeh5 = false
+        this.richtext = false
+      } else if (v == 0) {
         this.homeh5 = true
-      } else {
+        this.primordial = false
+        this.richtext = false
         this.detailscode = false
         this.formCustom.code = ''
+      } else {
+        this.richtext = true
         this.homeh5 = false
+        this.primordial = false
+        this.detailscode = false
+        this.formCustom.code = ''
       }
     },
     datepicker(v){
@@ -278,6 +322,15 @@ export default {
     pushplatform(v){
       // alert(v)
       this.formCustom.age = v
+    },
+    // 富文本开始
+    onEditorBlur(editor){//失去焦点事件    
+ 	  },
+    onEditorFocus(editor){//获得焦点事件
+    },
+    onEditorChange({editor,html,text}){//编辑器文本发生变化
+        //this.content可以实时获取到当前编辑器内的文本内容
+        console.log(this.content);
     }
   },
   created(){
@@ -309,7 +362,8 @@ export default {
           this.formCustom.phone = data.data.targetPhone
           this.mailCode = data.data.mailCode,
           this.formCustom.jumpurl = data.data.jumpUrl
-          console.log(this.formCustom.jumpurl , 111)
+          this.content = data.data.mailDetailContent
+          this.mailDetailCode = data.data.mailDetailCode
           if(data.data.urlParam !== ""){
             this.detailscode = true
             this.formCustom.code = data.data.urlParam
@@ -324,5 +378,7 @@ export default {
 }
 </script>
 <style lang="less" scoped>
-
+.quill-editor {
+  height: 200px;
+}
 </style>

@@ -207,7 +207,10 @@ export default {
             targetPhone : this.formCustom.phone,
             mailCode : this.mailCode,
             mailDetailContent:this.content
-          } 
+          }
+          if(this.$route.query.isedit == 'is') {
+            list.mailDetailCode = this.mailDetailCode
+          }
           this.http.post(BASE_URL + tiurl,list).then(data=>{
             if(data.code == 'success'){
               this.phoneti('success')

@@ -38,6 +38,7 @@ import managementChannelAdd from '@/components/system/managementChannel-add'
 import managementLabel from '@/components/system/managementLabel'
 import managementLabelAdd from '@/components/system/managementLabel-add'
 import virtualData from '@/components/system/virtual-data'
+import naughtyData from '@/components/system/naughty-data'
 // 信贷员
 import creditSetting from '@/components/creditOfficer/credit-setting'
 import evaluationManagement from '@/components/creditOfficer/evaluation-management'
@@ -45,6 +46,9 @@ import evaluationReview from '@/components/creditOfficer/evaluation-review'
 import evaluationDetails from '@/components/creditOfficer/evaluation-details'
 import activityManagement from '@/components/creditOfficer/activity-management'//活动管理
 import auditActivities from '@/components/creditOfficer/audit-activities'//活动审核
+import creditValue from '@/components/creditOfficer/credit-value'//用户身价设置
+import creditMarketing from '@/components/creditOfficer/credit-marketing'//营销设置
+import creditNaughty from '@/components/creditOfficer/credit-naughty'//淘单筛选设置
 // 订单列表
 import orderList from '@/components/creditOfficer/order-list'
 import detailsConsultation from '@/components/creditOfficer/details-consultation'
@@ -216,7 +220,8 @@ let routes = [
       {path: '/managementLabel', component: managementLabel, names: '渠道标签管理', hidden: true, meta: { auth: true }},
       {path: '/managementLabelAdd', component: managementLabelAdd, names: '添加编辑标签', hidden: true, meta: { auth: true }},
       {path: '/personnelManagement', component: personnelManagement, names: '部门人员管理', hidden: true, meta: { auth: true }},
-      {path: '/virtualData', component: virtualData, names: '虚拟数据', hidden: true, meta: { auth: true }}
+      {path: '/virtualData', component: virtualData, names: '虚拟数据', hidden: true, meta: { auth: true }},
+      {path: '/naughtyData', component: naughtyData, names: '淘单虚拟数据操作', hidden: true, meta: { auth: true }}
     ]
   },
   {
@@ -263,6 +268,9 @@ let routes = [
       {path: '/activityManagement', component: activityManagement, names: '活动管理', meta: { auth: true }},
       {path: '/auditActivities', component: auditActivities, names: '审核活动', meta: { auth: true }},
       {path: '/serviceIntroduction', component: serviceIntroduction, names: '服务介绍模板', meta: { auth: true }},
+      {path: '/creditValue', component: creditValue, names: '用户身价设置', meta: { auth: true }},
+      {path: '/creditMarketing', component: creditMarketing, names: '营销设置', meta: { auth: true }},
+      {path: '/creditNaughty', component: creditNaughty, names: '淘单筛选设置', meta: { auth: true }},
     ]
   },
   {
