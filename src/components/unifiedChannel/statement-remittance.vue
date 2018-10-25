@@ -113,7 +113,7 @@
           this.getColumnItem('UV', 'uv', 100),
           this.getColumnItem('注册', 'registerCount', 150),
           this.getColumnItem('注册转化率', 'registerRate', 100),
-          this.getColumnItem('累计激活', 'activeCount', 100),
+          this.getColumnItem('累计激活', 'activeCount', 150),
           this.getColumnItem('累计激活转化率', 'activeRate', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'applyCount', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请转化率' : '累计认证转化率', 'applyRate', 100)

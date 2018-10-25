@@ -108,7 +108,7 @@
             })
           }),
           this.getColumnItem('渠道', '', 200, (h, params) => {
-            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+            return this.reportColumns3Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.channelName
             })
           }),
@@ -118,12 +118,12 @@
               return report.discountFact + '%'
             })
           }),
-          this.getColumnItem('PV', '', 100, (h, params) => {
+          this.getColumnItem('PV', '', 80, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.pv
             })
           }),
-          this.getColumnItem('UV', '', 100, (h, params) => {
+          this.getColumnItem('UV', '', 80, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.uv
             })
@@ -193,10 +193,42 @@
                 display: 'block',
                 width: '100%',
                 lineHeight: (41 * lineNum - 1) + 'px',
-                borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
-              }
+                borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : '',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap'
+              },
+              domProps: {
+							title: text
+							}
             }, text)
           )
+        }
+        return h('div', list)
+      },
+      reportColumns3Render(h, params, showTextCallback) {
+        let list = []
+        for (let i = 0; i < params.length; i++) {
+          for (let j = 0; j < params[i].channelReportList.length; j++) {
+            let text = showTextCallback ? showTextCallback(params[i].channelReportList[j]) : params[i].channelReportList[j]
+            list.push(
+              h('span', {
+                style: {
+                  display: 'block',
+                  width: '100%',
+                  overflow: 'hidden',
+                  textOverflow: 'ellipsis',
+                  whiteSpace: 'nowrap',
+                  align: 'center',
+                  lineHeight: '40px',
+                  borderBottom: i < params.length - 1 || j < params[i].channelReportList.length - 1 ? '1px solid #e9eaec' : ''
+                },
+                domProps: {
+                  title: text
+                }
+              }, text)
+            )
+          }
         }
         return h('div', list)
       },
