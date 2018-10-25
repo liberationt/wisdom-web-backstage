@@ -75,6 +75,7 @@ export default {
         chanceInfoTitleRes:[],
         updateLoanChanceConfigureRes:[],
         screen:[],
+        loading: true,
         loading3: false, 
         auditing:false,
         memos:false,
@@ -190,17 +191,24 @@ export default {
       handleRender4 () {//淘单操作日志
       this.$router.push({ path: './operationLog?operationType=1' })
       },
+      changeLoading () {
+        this.loading = false
+        this.$nextTick(() => {
+            this.loading = true
+        })
+        },
       // 淘单筛选设置审核
       examineSubmit (name) {
         this.$refs[name].validate(valid => {
         if (!valid) {
           return this.changeLoading()
+
         } else {
             let data = {
                 auditStatus : this.formCustomexa.activeType,
                 auditRemark : this.formCustomexa.remarks
             }
-            this.http.post(BASE_URL + '/loan/marketConfig/audit', data)
+            this.http.post(BASE_URL + '/loan/chanceTitleAndOption/auditConfigure', data)
             .then(data=>{
                 if (data.code == 'success') {
                     const title = '审核'
@@ -222,12 +230,13 @@ export default {
                 console.log(error)
             })
         }
-          this.changeLoading()
+          // this.changeLoading()
           this.modal9 = false
       })
       },
       handleReset (name) {
         this.$refs[name].resetFields()
+        this.memos = false
       },
       invitationgive (v) {
           if (v == 'pass') {
