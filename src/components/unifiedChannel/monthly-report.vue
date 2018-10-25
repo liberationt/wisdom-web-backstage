@@ -148,7 +148,7 @@
               return report.allActiveRate + "%"
             })
           }),
-          businessKey == 'HZ' ?
+          businessKey == 'huazan' ?
             this.getColumnItem('累计申请', '', 120, (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
                 return report.allApplyCount
@@ -158,7 +158,7 @@
                 return report.allAuthCount
               })
             }),
-          businessKey == 'HZ' ?
+          businessKey == 'huazan' ?
             this.getColumnItem('累计申请转化率', '', 100, (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
                 return report.allApplyRate + '%'
