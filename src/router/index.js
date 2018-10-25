@@ -57,6 +57,7 @@ import detailsRobbing from '@/components/creditOfficer/details-robbing'
 import detailsComplaint from '@/components/creditOfficer/details-complaint'
 import orderlog from '@/components/creditOfficer/order-log'
 // 信贷员管理
+import operate from '@/components/creditOfficer/operate' //运营负责人
 import creditManagement from '@/components/creditOfficer/credit-management' // 信贷员管理
 import addMechanism from '@/components/creditOfficer/add-mechanism'
 import revisionReview from '@/components/creditOfficer/revision-review'
@@ -73,6 +74,8 @@ import dataReview from '@/components/creditOfficer/data-review' //资料待审�
 import withoutInformation from '@/components/creditOfficer/without-information' //注册无资料
 import creditOfficer from '@/components/creditOfficer/credit-officer' //信贷员列表
 import creditInstitutions from '@/components/creditOfficer/credit-institutions' //信贷机构
+
+
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
@@ -287,7 +290,8 @@ let routes = [
       {path: '/dataReview', component: dataReview, names: '资料待审核', meta: {auth:true}},
       {path: '/withoutInformation', component: withoutInformation,names: '注册无资料', meta: {auth:true}},
       {path: '/creditOfficer', component: creditOfficer, names: '信贷员列表', meta: {auth: true}},
-      {path: '/creditInstitutions', component: creditInstitutions, names: '信贷机构', meta: {auth: true}}
+      {path: '/creditInstitutions', component: creditInstitutions, names: '信贷机构', meta: {auth: true}},
+      {path: '/operate', component: operate, names: "运营负责人", meta: {auth: true}}
     ]
   },
   {
