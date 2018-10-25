@@ -18,7 +18,7 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="curSuppliersCode" placeholder="请选择供应商" style="width:150px;" @on-change="supplierChange">
+            <Select v-model="curSuppliersCode" placeholder="请选择供应商" style="width:150px;">
               <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">
                 {{ item.suppliersName }}
               </Option>
@@ -76,14 +76,12 @@
           {value: 1, label: '预警'}
         ],
         beginTime: '',
-
         businessList: [],
         suppliersList: [],
         curBusinessCode: null,
         curSuppliersCode: '',
         curBusinessKey: '',
         warningStatus: '',
-
         columnList: [],
         reportList: [],
       }

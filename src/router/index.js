@@ -68,6 +68,11 @@ import salesQuery from '@/components/creditOfficer/sales-query'
 import administration from '@/components/creditOfficer/active-administration'
 import addAdministration from '@/components/creditOfficer/add-administration'
 import serviceIntroduction from '@/components/creditOfficer/service-introduction'
+import admissionAudit from '@/components/creditOfficer/admission-audit' //入驻待审核
+import dataReview from '@/components/creditOfficer/data-review' //资料待审核
+import withoutInformation from '@/components/creditOfficer/without-information' //注册无资料
+import creditOfficer from '@/components/creditOfficer/credit-officer' //信贷员列表
+import creditInstitutions from '@/components/creditOfficer/credit-institutions' //信贷机构
 // 财务
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
@@ -82,6 +87,10 @@ import dailyList from '@/components/unifiedChannel/daily-list'
 import rangeConfiguration from '@/components/unifiedChannel/range-configuration'
 import monthlyReport from '@/components/unifiedChannel/monthly-report'
 import statementRemittance from '@/components/unifiedChannel/statement-remittance'
+// 报表
+import operatingReport from '@/components/unifiedChannel/operating-report'
+import superProduct from '@/components/unifiedChannel/super-product'
+import individual from '@/components/unifiedChannel/individual'
 
 // 大网钱
 import registrationList from '@/components/bigMoney/registration-list'
@@ -237,6 +246,9 @@ let routes = [
       {path: '/rangeConfiguration', component: rangeConfiguration, names: '范围值配置', hidden: true, meta: { auth: true }}, // 
       {path: '/monthlyReport', component: monthlyReport, names: '渠道月报表', hidden: true, meta: { auth: true }}, // 
       {path: '/statementRemittance', component: statementRemittance, names: '渠道报表汇总', hidden: true, meta: { auth: true }}, // 
+      {path: '/operatingReport', component: operatingReport, names: '运营报表', hidden: true, meta: {auth: true}}, //
+      {path: '/superProduct', component: superProduct, names: '代超产品', hidden: true, meta: {auth: true}}, //
+      {path: '/individual', component: individual, names: '个人信息页', hidden: true, meta: {auth: true}} //
     ]
   },
   {
@@ -271,6 +283,11 @@ let routes = [
       {path: '/creditValue', component: creditValue, names: '用户身价设置', meta: { auth: true }},
       {path: '/creditMarketing', component: creditMarketing, names: '营销设置', meta: { auth: true }},
       {path: '/creditNaughty', component: creditNaughty, names: '淘单筛选设置', meta: { auth: true }},
+      {path: '/admissionAudit', component: admissionAudit, names: '入驻待审核', meta: {auth:true}},
+      {path: '/dataReview', component: dataReview, names: '资料待审核', meta: {auth:true}},
+      {path: '/withoutInformation', component: withoutInformation,names: '注册无资料', meta: {auth:true}},
+      {path: '/creditOfficer', component: creditOfficer, names: '信贷员列表', meta: {auth: true}},
+      {path: '/creditInstitutions', component: creditInstitutions, names: '信贷机构', meta: {auth: true}}
     ]
   },
   {
