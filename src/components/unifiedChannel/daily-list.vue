@@ -116,10 +116,10 @@
           this.getColumnItem('累计激活', 'allActiveCount', 100),
           this.getColumnItem('当日激活转化率', 'activeRate', 100),
           this.getColumnItem('累计激活转化率', 'allActiveRate', 100),
-          this.getColumnItem(businessKey == 'HZ' ? '当日申请' : '当日认证', 'applyCount', 100),
-          this.getColumnItem(businessKey == 'HZ' ? '累计申请' : '累计认证', 'allApplyCount', 100),
-          this.getColumnItem(businessKey == 'HZ' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100),
-          this.getColumnItem(businessKey == 'HZ' ? '累计申请转化率' : '累计认证转化率', 'allApplyRate', 100 ),
+          this.getColumnItem(businessKey == 'huazan' ? '当日申请' : '当日认证', 'applyCount', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'allApplyCount', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计申请转化率' : '累计认证转化率', 'allApplyRate', 100 ),
         ]
         return columnList
       },
@@ -228,10 +228,10 @@
                   "allActiveCount": this.parseNum(item.allTotalActiveCount, item.allTotalDiscountActiveCount),
                   "activeRate": item.allActiveFact + '%',
                   "allActiveRate": item.allTotalActiveFact + '%',
-                  "applyCount": this.curBusinessKey == 'HZ' ? item.allApplyCount : item.allAuthCount,
-                  "allApplyCount": this.curBusinessKey == 'HZ' ? item.allTotalApplyCount : item.allTotalAuthCount,
-                  "applyRate": this.curBusinessKey == 'HZ' ? item.allApplyFact + '%' : item.allAuthFact + '%',
-                  "allApplyRate": this.curBusinessKey == 'HZ' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%',
+                  "applyCount": this.curBusinessKey == 'huazan' ? item.allApplyCount : item.allAuthCount,
+                  "allApplyCount": this.curBusinessKey == 'huazan' ? item.allTotalApplyCount : item.allTotalAuthCount,
+                  "applyRate": this.curBusinessKey == 'huazan' ? item.allApplyFact + '%' : item.allAuthFact + '%',
+                  "allApplyRate": this.curBusinessKey == 'huazan' ? item.allTotalApplyFact + '%' : item.allTotalAuthFact + '%',
                 })
 
                 if (item.channelReportList && item.channelReportList.length > 0) {
@@ -248,10 +248,10 @@
                       "allActiveCount": this.parseNum(channelReport.allActiveCount, channelReport.allDiscountActiveCount),
                       "activeRate": channelReport.activeRate + '%',
                       "allActiveRate": channelReport.allActiveRate + '%',
-                      "applyCount": this.curBusinessKey == 'HZ' ? channelReport.applyCount : channelReport.authCount,
-                      "allApplyCount": this.curBusinessKey == 'HZ' ? channelReport.allApplyCount : channelReport.allAuthCount,
-                      "applyRate": this.curBusinessKey == 'HZ' ? channelReport.applyRate + '%' : channelReport.authRate + '%',
-                      "allApplyRate": this.curBusinessKey == 'HZ' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%',
+                      "applyCount": this.curBusinessKey == 'huazan' ? channelReport.applyCount : channelReport.authCount,
+                      "allApplyCount": this.curBusinessKey == 'huazan' ? channelReport.allApplyCount : channelReport.allAuthCount,
+                      "applyRate": this.curBusinessKey == 'huazan' ? channelReport.applyRate + '%' : channelReport.authRate + '%',
+                      "allApplyRate": this.curBusinessKey == 'huazan' ? channelReport.allApplyRate + '%' : channelReport.allAuthRate + '%',
                       "warningStatus": channelReport.warningStatus,
                     })
                   })
