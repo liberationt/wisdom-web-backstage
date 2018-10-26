@@ -92,7 +92,7 @@ import monthlyReport from '@/components/unifiedChannel/monthly-report'
 import statementRemittance from '@/components/unifiedChannel/statement-remittance'
 // 报表
 import operatingReport from '@/components/unifiedChannel/operating-report'
-import superProduct from '@/components/unifiedChannel/super-product'
+import superProduct from '@/components/unifiedChannel/super-Product'
 import individual from '@/components/unifiedChannel/individual'
 
 // 大网钱
