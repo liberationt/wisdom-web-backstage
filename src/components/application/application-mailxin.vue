@@ -350,7 +350,4 @@ export default {
   border-radius: 20px;
   vertical-align: middle
 }
-#application_table{
-  margin-top: 30px
-}
 </style>
