@@ -402,7 +402,7 @@ export default {
 </script>
 <style lang="less" scoped>
 #application_table {
-  margin-top: 20px;
+  margin-top: 10px;
 }
 .label-xz{
         span:first-child{

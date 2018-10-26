@@ -887,9 +887,7 @@ export default {
           } else {
               this.memos = true
           }
-      },
-
-
+      }
   },
   mounted () {
     this.inquireabout ()       

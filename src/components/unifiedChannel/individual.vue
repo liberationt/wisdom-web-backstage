@@ -158,7 +158,7 @@ export default {
     this.endTime = this.timeFormat(date, 1);
     date.setDate(1);
     this.beginTime = this.timeFormat(date, 0);
-    this.queryReportList();
+    // this.queryReportList();
   }
 };
 </script>

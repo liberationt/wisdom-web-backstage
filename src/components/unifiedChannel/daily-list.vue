@@ -312,7 +312,7 @@
 </script>
 <style lang="less" scoped>
   #application_table {
-    margin-top: 20px;
+    margin-top: 10px;
   }
 
   .ivu-table-cell {
