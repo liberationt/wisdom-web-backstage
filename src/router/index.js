@@ -291,7 +291,7 @@ let routes = [
       {path: '/withoutInformation', component: withoutInformation, names: '注册无资料', meta: {auth: true}},
       {path: '/creditOfficer', component: creditOfficer, names: '信贷员列表', meta: {auth: true}},
       {path: '/creditInstitutions', component: creditInstitutions, names: '信贷机构', meta: {auth: true}},
-      {path: '/operate', component: operate, names: "运营负责人", meta: {auth: true}}
+      {path: '/operate', component: operate, names: '运营负责人', meta: {auth: true}}
     ]
   },
   {
