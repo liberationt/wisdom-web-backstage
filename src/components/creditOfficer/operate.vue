@@ -55,19 +55,19 @@
                                 click: () => {
                                     if(params.row.auditType==1){
                                         this.$router.push({
-                                            path:"./auditOfficerConfig"
+                                            path:"./creditSetting"
                                         })
                                     }else if(params.row.auditType==2){
                                         this.$router.push({
-                                            path:"./auditUserSocial"
+                                            path:"./creditValue"
                                         })
                                     }else if(params.row.auditType==3){
                                         this.$router.push({
-                                            path:"./audit"
+                                            path:"./creditMarketing"
                                         })
                                     }else if(params.row.auditType==4){
                                         this.$router.push({
-                                            path:"./auditConfigure"
+                                            path:"./creditNaughty"
                                         })
                                     }
                                 }

@@ -18,9 +18,9 @@
                     </FormItem>
                 </Col>
             <Col span="24" class="mt20" v-if="auditing">
-                <FormItem   label="" style="border-bottom:1px solid #ccc" class="clearfix "><span class="blue1">提交审核后数据</span></FormItem>
+                <FormItem label="" style="border-bottom:1px solid #ccc" class="clearfix "><span class="blue1">提交审核后数据</span></FormItem>
                     <FormItem v-for="item in updateLoanChanceConfigureRes" :label="item.infoTitleName+':'" >
-                    <CheckboxGroup v-model="screen" >
+                    <CheckboxGroup v-model="screen1" >
                         <Checkbox :disabled="auditing" v-for="res in item.loanChanceConfigureDetailResList" :label="res.infoOptionKey+'/'+item.infoTitleKey+'/'+res.infoOptionName">{{res.infoOptionName}}</Checkbox>
                     </CheckboxGroup>
                 </FormItem>
@@ -33,7 +33,7 @@
                 <span v-if="!loading3">保存提交审核</span>
               </Button>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              <Button v-if="auditing" type="primary" class="w100" :loading="loading3" @click="modal9=true">
+              <Button v-if="auditing" type="primary" class="w100" :loading="loading3" @click="toexamine">
                 <span v-if="!loading3">审核</span>
               </Button>
               &nbsp;&nbsp;&nbsp;&nbsp;
@@ -75,11 +75,13 @@ export default {
         chanceInfoTitleRes:[],
         updateLoanChanceConfigureRes:[],
         screen:[],
+        screen1:[],
         loading: true,
         loading3: false, 
         auditing:false,
         memos:false,
         modal9:false,
+        isJurisdiction:false,
         formCustomexa: {
           activeType: '',
           remarks:''
@@ -121,8 +123,18 @@ export default {
               }
               this.chanceInfoTitleRes = resp.data.loanChanceConfigureRes
               if (resp.data.updateLoanChanceConfigureRes.length>0) {
+                for (let i = 0; i < resp.data.updateLoanChanceConfigureRes.length; i++) {
+                  for (let j = 0; j < resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList.length; j++) {
+                      if (resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].flag == 1) {
+                          this.screen1.push(resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].infoOptionKey+'/'+resp.data.updateLoanChanceConfigureRes[i].infoTitleKey+'/'+resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].infoOptionName)
+                      }                     
+                  }                  
+              }
                   this.auditing = true
-                  this.updateLoanChanceConfigureRes = resp.data.updateLoanChanceConfigureRes           
+                  this.updateLoanChanceConfigureRes = resp.data.updateLoanChanceConfigureRes
+                  
+              } else {
+                this.auditing = false
               }
             } else {
               this.$Message.error(resp.message);
@@ -163,6 +175,7 @@ export default {
                 title: '提示',
                 content: '<p>保存成功</p>'
               })
+              this.naughtyScreening ()
               this.screen = []
               this.loading3 = false
             } else {
@@ -188,7 +201,7 @@ export default {
         console.log(data)
       },
       handleRender4 () {//淘单操作日志
-      this.$router.push({ path: './operationLog?operationType=1' })
+      this.$router.push({ path: './operationLog?operationType=naughty_edit' })
       },
       changeLoading () {
         this.loading = false
@@ -243,6 +256,20 @@ export default {
           } else {
               this.memos = true
           }
+      },
+      toexamine () {
+        this.http.post(BASE_URL + "/checkUriPermission", ['/loan/chanceTitleAndOption/auditConfigure']).then(data=>{
+        if(data.code == 'success'){
+          for (const key in data.data) {
+            if (data.data[key] == true) {
+              this.modal9 = true              
+            } else {
+              this.$Message.warning('暂无权限')
+            }
+          }
+        }
+      }).catch(err=>{});
+
       }
   },
   mounted () {

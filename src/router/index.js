@@ -40,7 +40,6 @@ import managementLabelAdd from '@/components/system/managementLabel-add'
 import virtualData from '@/components/system/virtual-data'
 import naughtyData from '@/components/system/naughty-data'
 // 信贷员
-import operate from '@/components/creditOfficer/operate' //运营负责人
 import creditSetting from '@/components/creditOfficer/credit-setting'
 import evaluationManagement from '@/components/creditOfficer/evaluation-management'
 import evaluationReview from '@/components/creditOfficer/evaluation-review'
