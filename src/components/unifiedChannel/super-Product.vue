@@ -38,7 +38,7 @@
             </Button> 
         </div>
         <div id="application_table " class="contentcss mt10">
-            <Table class="tabgrouping" border highlight-row :columns="columnList" :data="reportList" v-if='currentStatus == 0'></Table>
+            <Table class="tabgrouping" border highlight-row :columns="columnList" :data="reportList"></Table>
         </div>
     </div>
 </template>
@@ -47,7 +47,6 @@ import utils from "../../utils/utils";
 export default {
   data() {
     return {
-      currentStatus: 0,
       loading3: false,
       loading2: false,
       beginTime: "",
@@ -124,7 +123,7 @@ export default {
     exports() {
       this.loading2 = true;
       let httpUrl =
-        BASE_URL + "/superProduct/loanSuperProduct/exportProductList";
+      BASE_URL + "/superProduct/loanSuperProduct/exportProductList";
       let formData = new FormData();
       formData.append("beginDate", this.beginTime);
       formData.append("endDate", this.endDate);
@@ -222,7 +221,6 @@ export default {
     }
   },
   created() {
-    console.log(this.getColumnList());
     // 所有产品
     this.http
       .post(BASE_URL + "/superProduct/loanSuperProduct/productList", {})
