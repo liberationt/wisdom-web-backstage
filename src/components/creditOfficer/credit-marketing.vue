@@ -220,7 +220,7 @@
                 <span v-if="!loading3">保存提交审核</span>
               </Button>
               &nbsp;&nbsp;&nbsp;&nbsp;
-              <Button v-if="auditing" type="primary" class="w100" :loading="loading3" @click="modal9=true">
+              <Button v-if="auditing" type="primary" class="w100" :loading="loading3" @click="toexamine">
                 <span v-if="!loading3">审核</span>
               </Button>
               &nbsp;&nbsp;&nbsp;&nbsp;
@@ -241,12 +241,12 @@
             <div  class="newtype_file mt15 mb15">
               <Form ref="formCustomexa" :model="formCustomexa" :rules="ruleCustomexa" :label-width="100" style="padding-left:15px">
                 <FormItem label="审核状态:" prop="activeType" >
-                  <Select v-model="formCustomexa.activeType" style="width:160px" >
+                  <Select @on-change="invitationgive" v-model="formCustomexa.activeType" style="width:160px" >
                     <Option  value="pass" >审核通过</Option>
                     <Option  value="reject" >审核驳回</Option>
                   </Select>    
                 </FormItem>
-                <FormItem label="备注:" prop="remarks" >
+                <FormItem label="备注:" prop="remarks" v-if="memos">
                   <Input v-model="formCustomexa.remarks" type="textarea" :rows="4" placeholder="请输入备注" />    
                 </FormItem>
             </Form>
@@ -261,6 +261,7 @@ export default {
   data() {
     return {
         auditing:false,
+        memos:false,
         registergive: true,
         firstdelivery: true,
         firstdata: true,
@@ -793,6 +794,7 @@ export default {
       },
       handleReset (name) {
         this.$refs[name].resetFields()
+        this.memos = false
       },
       handleRender3 () {   //营销设置日志
         this.$router.push({ path: './operationLog?operationType=market_edit' })
@@ -865,6 +867,27 @@ export default {
             this.loading = true
         })
         },
+        toexamine () {
+        this.http.post(BASE_URL + "/checkUriPermission", ['/loan/marketConfig/audit']).then(data=>{
+        if(data.code == 'success'){
+          for (const key in data.data) {
+            if (data.data[key] == true) {
+              this.modal9 = true              
+            } else {
+              this.$Message.warning('暂无权限')
+            }
+          }
+        }
+      }).catch(err=>{});
+
+      },
+      invitationgive (v) {
+          if (v == 'pass') {
+              this.memos = false
+          } else {
+              this.memos = true
+          }
+      },
 
 
   },

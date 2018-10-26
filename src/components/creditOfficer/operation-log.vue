@@ -132,12 +132,6 @@
           Object.assign(requestParams, {
             activityCode: this.$route.query.activityCode,
           })
-        } else if ('1' == operationType) {    //余坚恒   淘单的
-          this.title = '淘单筛选操作日志'
-          requestUrl = BASE_URL + "/loan/chanceTitleAndOption/getOperationLogList";
-          Object.assign(requestParams, {
-            type: operationType
-          })
         } else if ('orderLog' == operationType) {    //毕有为   订单申诉的
           this.title = '订单操作日志'
           requestUrl = BASE_URL + "/loan/orderLog/getOrderLogApplyList";
@@ -183,6 +177,9 @@
               break
               case 'template_config_edit':     //梦琪
               this.title = '模板操作日志'
+              break
+              case 'naughty_edit':     //坚恒 淘单
+              this.title = '淘单操作日志'
               break
           }
         }
