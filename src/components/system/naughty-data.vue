@@ -45,7 +45,7 @@ export default {
                 }
                 let data = this.formCustom.channelnum
                 console.log(data)
-                this.http.post(BASE_URL + '/loan/chancer/saveChanceModel', encodeURIComponent(data))
+                this.http.post(BASE_URL + '/loan/chancer/saveChanceModel', data)
                 .then((resp) => {
                     if (resp.code == 'success') {
                         this.$Modal.success({
@@ -75,7 +75,7 @@ export default {
             this.http.post(BASE_URL + '/loan/chancer/getChanceModel', {})
             .then((resp) => {
                 if (resp.code == 'success') {
-                    this.formCustom.channelnum = decodeURIComponent(resp.data.replace(/[=]/g, ""))
+                    this.formCustom.channelnum = resp.data
                 } else {
 
                 }
