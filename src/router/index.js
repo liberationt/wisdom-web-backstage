@@ -286,12 +286,12 @@ let routes = [
       {path: '/creditValue', component: creditValue, names: '用户身价设置', meta: { auth: true }},
       {path: '/creditMarketing', component: creditMarketing, names: '营销设置', meta: { auth: true }},
       {path: '/creditNaughty', component: creditNaughty, names: '淘单筛选设置', meta: { auth: true }},
-      {path: '/admissionAudit', component: admissionAudit, names: '入驻待审核', meta: {auth:true}},
-      {path: '/dataReview', component: dataReview, names: '资料待审核', meta: {auth:true}},
-      {path: '/withoutInformation', component: withoutInformation,names: '注册无资料', meta: {auth:true}},
+      {path: '/admissionAudit', component: admissionAudit, names: '入驻待审核', meta: {auth: true}},
+      {path: '/dataReview', component: dataReview, names: '资料待审核', meta: {auth: true}},
+      {path: '/withoutInformation', component: withoutInformation, names: '注册无资料', meta: {auth: true}},
       {path: '/creditOfficer', component: creditOfficer, names: '信贷员列表', meta: {auth: true}},
       {path: '/creditInstitutions', component: creditInstitutions, names: '信贷机构', meta: {auth: true}},
-      {path: '/operate', component: operate, names: "运营负责人", meta: {auth: true}}
+      {path: '/operate', component: operate, names: '运营负责人', meta: {auth: true}}
     ]
   },
   {
