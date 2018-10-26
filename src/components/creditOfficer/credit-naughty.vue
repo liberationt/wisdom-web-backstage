@@ -104,35 +104,13 @@ export default {
         this.http.post(BASE_URL + '/loan/chanceTitleAndOption/getQueryList', {})
           .then((resp) => {
             if (resp.code == 'success') {
-              resp.data.loanChanceConfigureRes[0].infoTitleKey = 'real_name'
-              resp.data.loanChanceConfigureRes[0].loanChanceConfigureDetailResList.forEach(element => {
-                if (element.infoOptionName == '已实名') {
-                  element.infoOptionKey = '1'
-                  element.infoTitleKey = 'real_name'     
-                } else if (element.infoOptionName == '未实名') {
-                  element.infoOptionKey = '0'
-                  element.infoTitleKey = 'real_name'             
-                }                
-              });
-              for (let i = 0; i < resp.data.loanChanceConfigureRes.length; i++) {
-                  for (let j = 0; j < resp.data.loanChanceConfigureRes[i].loanChanceConfigureDetailResList.length; j++) {
-                      if (resp.data.loanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].flag == 1) {
-                          this.screen.push(resp.data.loanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].infoOptionKey+'/'+resp.data.loanChanceConfigureRes[i].infoTitleKey+'/'+resp.data.loanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].infoOptionName)
-                      }                     
-                  }                  
-              }
-              this.chanceInfoTitleRes = resp.data.loanChanceConfigureRes
-              if (resp.data.updateLoanChanceConfigureRes.length>0) {
-                for (let i = 0; i < resp.data.updateLoanChanceConfigureRes.length; i++) {
-                  for (let j = 0; j < resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList.length; j++) {
-                      if (resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].flag == 1) {
-                          this.screen1.push(resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].infoOptionKey+'/'+resp.data.updateLoanChanceConfigureRes[i].infoTitleKey+'/'+resp.data.updateLoanChanceConfigureRes[i].loanChanceConfigureDetailResList[j].infoOptionName)
-                      }                     
-                  }                  
-              }
-                  this.auditing = true
-                  this.updateLoanChanceConfigureRes = resp.data.updateLoanChanceConfigureRes
-                  
+              if (resp.data.loanChanceConfigureRes.length>0) {
+                this.chanceInfoTitleRes = resp.data.loanChanceConfigureRes
+                this.loop (resp.data.loanChanceConfigureRes,this.screen)         
+              } else if (resp.data.updateLoanChanceConfigureRes.length>0) {
+                this.loop (resp.data.updateLoanChanceConfigureRes,this.screen1)
+                this.auditing = true
+                this.updateLoanChanceConfigureRes = resp.data.updateLoanChanceConfigureRes
               } else {
                 this.auditing = false
               }
@@ -142,6 +120,15 @@ export default {
           })
           .catch(() => {
           })
+      },
+      loop (key,list) {
+        for (var i = 0; i < key.length; i++) {
+          for (var j = 0; j < key[i].loanChanceConfigureDetailResList.length; j++) {
+            if (key[i].loanChanceConfigureDetailResList[j].flag == 1) {
+              list.push(key[i].loanChanceConfigureDetailResList[j].infoOptionKey+'/'+key[i].infoTitleKey+'/'+key[i].loanChanceConfigureDetailResList[j].infoOptionName)
+            }
+          }                  
+        }
       },
     //   保存
     preservationNaughty () {
@@ -198,7 +185,6 @@ export default {
       // 淘单保存list
       checkAllGroupChange (data) {},
       checkAlltdChange (data) {
-        console.log(data)
       },
       handleRender4 () {//淘单操作日志
       this.$router.push({ path: './operationLog?operationType=naughty_edit' })

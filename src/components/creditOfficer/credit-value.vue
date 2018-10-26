@@ -183,6 +183,7 @@ export default {
                 title: '用户身价设置',
                 content: '<p>配置成功</p>'
               })
+              this.inquireabout ()
               this.loading3 = false
             } else {
               this.loading3 = false
@@ -203,12 +204,11 @@ export default {
               if (resp.code == 'success') {
                 this.pricesetting.userSocialResList = resp.data.socialRes.userSocialResList
                 this.pricesetting.businessSocialResList = resp.data.socialRes.businessSocialResList
+                
                 if (resp.data.updateSocialRes != null) {
                   this.pricesetafter.userSocialResList = resp.data.updateSocialRes.userSocialResList
                   this.pricesetafter.businessSocialResList = resp.data.updateSocialRes.businessSocialResList
-                  this.auditing = true
-
-                  
+                  this.auditing = true  
                 }else {
                   this.auditing = false
                 }
@@ -254,7 +254,7 @@ export default {
                         title: title,
                         content: content,
                         onOk: () => {
-                          this.naughtyScreening ()
+                          this.inquireabout ()
                           this.$refs[name].resetFields()
                         }
                     })

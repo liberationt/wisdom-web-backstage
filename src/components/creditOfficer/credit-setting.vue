@@ -151,14 +151,16 @@
         .then((resp) => {
           if (resp.code == 'success') {
             this.formCustom = resp.data.officerConfigList
+            if (resp.data.updateOfficerConfigList == null) {
+              alert(1)
+              this.formCustomafter = []
+              this.auditing = false
+            }
             if (resp.data.updateOfficerConfigList.length>0) {             
               this.formCustomafter = resp.data.updateOfficerConfigList
               this.auditing = true
             }         
-            if (resp.data.updateOfficerConfigList == null) {
-              this.formCustomafter = []
-              this.auditing = false
-            }
+            
           } else {
             this.$Message.error(resp.message);
           }
