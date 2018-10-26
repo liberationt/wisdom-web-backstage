@@ -94,7 +94,6 @@ import statementRemittance from '@/components/unifiedChannel/statement-remittanc
 import operatingReport from '@/components/unifiedChannel/operating-report'
 import superProduct from '@/components/unifiedChannel/super-product'
 import individual from '@/components/unifiedChannel/individual'
-
 // 大网钱
 import registrationList from '@/components/bigMoney/registration-list'
 import loanPush from '@/components/bigMoney/loan-push'
