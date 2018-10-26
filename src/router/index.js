@@ -44,11 +44,11 @@ import creditSetting from '@/components/creditOfficer/credit-setting'
 import evaluationManagement from '@/components/creditOfficer/evaluation-management'
 import evaluationReview from '@/components/creditOfficer/evaluation-review'
 import evaluationDetails from '@/components/creditOfficer/evaluation-details'
-import activityManagement from '@/components/creditOfficer/activity-management'//活动管理
-import auditActivities from '@/components/creditOfficer/audit-activities'//活动审核
-import creditValue from '@/components/creditOfficer/credit-value'//用户身价设置
-import creditMarketing from '@/components/creditOfficer/credit-marketing'//营销设置
-import creditNaughty from '@/components/creditOfficer/credit-naughty'//淘单筛选设置
+import activityManagement from '@/components/creditOfficer/activity-management'// 活动管理
+import auditActivities from '@/components/creditOfficer/audit-activities'// 活动审核
+import creditValue from '@/components/creditOfficer/credit-value'// 用户身价设置
+import creditMarketing from '@/components/creditOfficer/credit-marketing'// 营销设置
+import creditNaughty from '@/components/creditOfficer/credit-naughty'// 淘单筛选设置
 // 订单列表
 import orderList from '@/components/creditOfficer/order-list'
 import detailsConsultation from '@/components/creditOfficer/details-consultation'
@@ -57,7 +57,7 @@ import detailsRobbing from '@/components/creditOfficer/details-robbing'
 import detailsComplaint from '@/components/creditOfficer/details-complaint'
 import orderlog from '@/components/creditOfficer/order-log'
 // 信贷员管理
-import operate from '@/components/creditOfficer/operate' //运营负责人
+import operate from '@/components/creditOfficer/operate' // 运营负责人
 import creditManagement from '@/components/creditOfficer/credit-management' // 信贷员管理
 import addMechanism from '@/components/creditOfficer/add-mechanism'
 import revisionReview from '@/components/creditOfficer/revision-review'
@@ -69,12 +69,11 @@ import salesQuery from '@/components/creditOfficer/sales-query'
 import administration from '@/components/creditOfficer/active-administration'
 import addAdministration from '@/components/creditOfficer/add-administration'
 import serviceIntroduction from '@/components/creditOfficer/service-introduction'
-import admissionAudit from '@/components/creditOfficer/admission-audit' //入驻待审核
-import dataReview from '@/components/creditOfficer/data-review' //资料待审核
-import withoutInformation from '@/components/creditOfficer/without-information' //注册无资料
-import creditOfficer from '@/components/creditOfficer/credit-officer' //信贷员列表
+import admissionAudit from '@/components/creditOfficer/admission-audit' // 入驻待审核
+import dataReview from '@/components/creditOfficer/data-review' // 资料待审核
+import withoutInformation from '@/components/creditOfficer/without-information' // 注册无资料
+import creditOfficer from '@/components/creditOfficer/credit-officer' // 信贷员列表
 import creditInstitutions from '@/components/creditOfficer/credit-institutions' //信贷机构
-
 
 // 财务
 import presentSetting from '@/components/finance/present-setting'
