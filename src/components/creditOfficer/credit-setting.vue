@@ -127,6 +127,7 @@
                 title: '基本设置',
                 content: '<p>设置成功</p>'
               })
+              this.basicsetup ()
               this.loading3 = false
             } else {
               this.loading3 = false
@@ -150,9 +151,13 @@
         .then((resp) => {
           if (resp.code == 'success') {
             this.formCustom = resp.data.officerConfigList
-            if (resp.data.updateOfficerConfigList.length>0) {
+            if (resp.data.updateOfficerConfigList.length>0) {             
               this.formCustomafter = resp.data.updateOfficerConfigList
               this.auditing = true
+            }         
+            if (resp.data.updateOfficerConfigList == null) {
+              this.formCustomafter = []
+              this.auditing = false
             }
           } else {
             this.$Message.error(resp.message);
@@ -195,11 +200,11 @@
                     this.$Modal.success({
                         title: title,
                         content: content,
-                        onOk: () => {
-                          this.basicsetup ()
+                        onOk: () => {                         
                           this.$refs[name].resetFields()
                         }
                     })
+                    this.basicsetup ()
                 } else {
                   this.modal9 = false
                   this.$Message.info(data.message)
