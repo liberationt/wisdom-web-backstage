@@ -728,7 +728,7 @@ export default {
                 title: title,
                 content: content,
                 onOk: () => {
-                  this.$router.push({ path: "./creditManagement" });
+                  this.$router.push({ path: "./admissionAudit" });
                 }
               });
             }
@@ -744,7 +744,7 @@ export default {
         title: "认证审核",
         content: "<p>确认认证审核通过吗?</p>",
         onOk: () => {
-          this.$router.push("./creditManagement");
+          this.$router.push("./admissionAudit");
           this.reviewthrough(1);
         },
         onCancel: () => {}

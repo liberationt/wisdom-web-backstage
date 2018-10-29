@@ -85,28 +85,34 @@ export default {
       ruleValidate: {
         name: [
         { required: true, message: '请输入用户名', trigger: 'blur' },
-        { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' }
+        {required: true, message: '用户名最多输入四个字符', pattern: /^[\u4e00-\u9fa5]{1,4}$/, trigger: 'blur'}
         ],
         social: [
-        { required: true, message: '请输入身价', trigger: 'blur' }
+        { required: true, message: '请输入身价', trigger: 'blur' },
+        {required: true, message: '身价最多输入4位数字', pattern: /^(0|[1-9][0-9]{0,2})$/, trigger: 'blur'}
         ],
         age: [
-        { required: true,  message: '请输入年龄', trigger: 'blur' }
+        { required: true,  message: '请输入年龄', trigger: 'blur' },
+        {required: true, message: '年龄最多输入2位数字', pattern: /^(0|[1-9][0-9]{0,1})$/, trigger: 'blur'}
         ],
         amount: [
-        { required: true,  message: '请输入金额', trigger: 'blur' }
+        { required: true,  message: '请输入金额', trigger: 'blur' },
+        {required: true, message: '金额最多输入7位数字', pattern: /^(0|[1-9][0-9]{0,6})$/, trigger: 'blur'}
         ],
         term: [
-        { required: true,  message: '请输入期限', trigger: 'blur' }
+        { required: true,  message: '请输入期限', trigger: 'blur' },
+        {required: true, message: '期限最多输入10个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,10}$/, trigger: 'blur'}
         ], 
         household: [
             { required: true, message: '请选择是否本地户籍', trigger: 'blur' }
         ],
         earning: [
-        { required: true,  message: '请输入月收入', trigger: 'blur' }
+        { required: true,  message: '请输入月收入', trigger: 'blur' },
+        {required: true, message: '月收入最多输入10个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,10}$/, trigger: 'blur'}
         ],
         conditions: [
-        { required: true,  message: '请输入附加条件信息', trigger: 'blur' }
+        { required: true,  message: '请输入附加条件信息', trigger: 'blur' },
+        {required: true, message: '附加条件信息最多输入200个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,20}$/, trigger: 'blur'}
         ],
       },
       columns7: [

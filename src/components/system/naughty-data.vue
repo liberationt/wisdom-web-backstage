@@ -43,9 +43,7 @@ export default {
                 let list = {
                     data:this.formCustom.channelnum
                 }
-                let data = this.formCustom.channelnum
-                console.log(data)
-                this.http.post(BASE_URL + '/loan/chancer/saveChanceModel', data)
+                this.http.post(BASE_URL + '/loan/chancer/saveChanceModel', list)
                 .then((resp) => {
                     if (resp.code == 'success') {
                         this.$Modal.success({
