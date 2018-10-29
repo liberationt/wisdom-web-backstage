@@ -31,7 +31,6 @@ export default {
                 channelnum: { required: true, message: '请输入淘单虚拟数据', trigger: 'blur' }
             }
         }
-
     },
     methods: {
         // 保存
