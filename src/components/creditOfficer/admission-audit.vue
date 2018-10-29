@@ -61,31 +61,31 @@
                     {
                     title: "ID",
                     key: "dataId",
-                    width: 100,
+                    minWidth: 100,
                     align: "center"
                     },
                     {
                     title: "手机号",
                     key: "phoneMember",
-                    width: 140,
+                    minWidth: 140,
                     align: "center"
                     },
                     {
                     title: "姓名",
                     key: "realName",
-                    width: 100,
+                    minWidth: 100,
                     align: "center"
                     },
                     {
                     title: "性别",
                     key: "gender",
-                    width: 100,
+                    minWidth: 100,
                     align: "center"
                     },
                     {
                     title: "所属区域",
                     key: "loanLocationName",
-                    width: 150,
+                    minWidth: 150,
                     align: "center"
                     },
                     // {
@@ -122,12 +122,12 @@
                     {
                     title: "证件",
                     key: "status",
-                    width: 120,
+                    minWidth: 120,
                     align: "center"
                     },
                     {
                     title: "审核状态",
-                    width: 128,
+                    minWidth: 128,
                     align: "center",
                     render: (h, params) => {
                         let loanStatus = params.row.loanStatus;
@@ -153,13 +153,13 @@
                     {
                     title: "注册时间",
                     key: "registerTime",
-                    width: 200,
+                    minWidth: 200,
                     align: "center"
                     },
                     {
                     title: "操作",
                     key: "action",
-                    width: 150,
+                    minWidth: 150,
                     align: "center",
                     render: (h, params) => {
                         // console.log(params)

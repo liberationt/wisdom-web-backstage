@@ -20,24 +20,24 @@
                         title: "修改类型",
                         key: "auditTypeName",
                         align: "center",
-                        width: 250
+                        minWidth: 250
                     },
                     {
                         title: "修改时间",
                         key: "dataCreateTime",
-                        width: 300,
+                        minWidth: 300,
                         align: "center"
                     },
                     {
                         title: "提交人",
                         key: "operator",
-                        width: 250,
+                        minWidth: 250,
                         align: "center"
                     },
                     {
                         title:'操作',
                         // key:'action',
-                        width:250,
+                        minWidth:250,
                         align:"center",
                         render: (h, params) => {
                         return h("div", [
