@@ -45,31 +45,31 @@
                     {
                     title: "ID",
                     key: "dataId",
-                    width: 200,
+                    minWidth: 200,
                     align: "center"
                     },
                     {
                     title: "手机号",
                     key: "phoneMember",
-                    width: 200,
+                    minWidth: 200,
                     align: "center"
                     },
                     {
                     title: "姓名",
                     key: "realName",
-                    width: 200,
+                    minWidth: 200,
                     align: "center"
                     },
                     {
                     title: "修改类型",
                     key: "auditType",
                     align: "center",
-                    width: 200
+                    minWidth: 200
                     },
                     {
                     title: "审核状态",
                     // key: 'auditStatus',
-                    width: 200,
+                    minWidth: 200,
                     align: "center",
                     render: (h, params) => {
                         let audstatus = params.row.auditStatus;
@@ -96,12 +96,12 @@
                     title: "提交修改时间",
                     key: "auditUpdateTime",
                     align: "center",
-                    width: 200,
+                    minWidth: 200,
                     },
                     {
                     title: "操作",
                     // key: 'action',
-                    width: 200,
+                    minWidth: 200,
                     align: "center",
                     render: (h, params) => {
                         let audstatus = params.row.auditStatus;
