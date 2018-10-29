@@ -88,37 +88,37 @@
                     width: 150,
                     align: "center"
                     },
-                    {
-                    title: "贷款额度",
-                    key: "serviceAmount",
-                    width: 150,
-                    align: "center"
-                    },
-                    {
-                    title: "贷款类型",
-                    width: 200,
-                    align: "center",
-                    render: (h, params) => {
-                        return h("div", [
-                        h(
-                            "span",
-                            {
-                            style: {
-                                display: "inline-block",
-                                width: "100%",
-                                overflow: "hidden",
-                                textOverflow: "ellipsis",
-                                whiteSpace: "nowrap"
-                            },
-                            domProps: {
-                                title: params.row.loanHaveType.join("，")
-                            }
-                            },
-                            params.row.loanHaveType.join("，")
-                        )
-                        ]);
-                    }
-                    },
+                    // {
+                    // title: "贷款额度",
+                    // key: "serviceAmount",
+                    // width: 150,
+                    // align: "center"
+                    // },
+                    // {
+                    // title: "贷款类型",
+                    // width: 200,
+                    // align: "center",
+                    // render: (h, params) => {
+                    //     return h("div", [
+                    //     h(
+                    //         "span",
+                    //         {
+                    //         style: {
+                    //             display: "inline-block",
+                    //             width: "100%",
+                    //             overflow: "hidden",
+                    //             textOverflow: "ellipsis",
+                    //             whiteSpace: "nowrap"
+                    //         },
+                    //         domProps: {
+                    //             title: params.row.loanHaveType.join("，")
+                    //         }
+                    //         },
+                    //         params.row.loanHaveType.join("，")
+                    //     )
+                    //     ]);
+                    // }
+                    // },
                     {
                     title: "证件",
                     key: "status",

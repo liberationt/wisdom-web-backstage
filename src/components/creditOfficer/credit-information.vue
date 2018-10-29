@@ -77,25 +77,25 @@
                         <span>所属公司:</span>
                         <span>{{inform.loanCompany}}</span>
                     </p>
-                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
-                        <span>贷款额度:</span>
-                        <span>{{inform.serviceAmount}}</span>
+                    <p v-if="inform.serviceAmount!=null">
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">贷款额度:</span>
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">{{inform.serviceAmount}}</span>
                     </p>
-                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
-                        <span>贷款利率:</span>
-                        <span>{{inform.serviceRate}}</span>
+                    <p v-if="inform.serviceRate!=null">
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">贷款利率:</span>
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">{{inform.serviceRate}}</span>
                     </p>
-                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
-                        <span>擅长业务:</span>
-                        <span v-for="item in inform.loanHaveType">{{item}} </span>
+                    <p v-if="inform.loanHaveType>0">
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">擅长业务:</span>
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0" v-for="item in inform.loanHaveType">{{item}} </span>
                     </p>
-                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
-                        <span>服务时间:</span>
-                        <span>{{inform.serviceTime}}</span>
+                    <p v-if="inform.serviceTime!=null">
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">服务时间:</span>
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">{{inform.serviceTime}}</span>
                     </p>
-                    <p v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">
-                        <span>扣费设置:</span>
-                        <span>{{inform.loanDeductionSet}}</span>
+                    <p v-if="inform.loanDeductionSet!=null">
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">扣费设置:</span>
+                        <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">{{inform.loanDeductionSet}}</span>
                     </p>
                     <p v-if="inform.loanStatus!=0" class="credit_prove">
                         <strong>身份证</strong>

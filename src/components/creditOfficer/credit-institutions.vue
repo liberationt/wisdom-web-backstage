@@ -32,6 +32,7 @@
     </div>
 </template>
 <script>
+import untils from "../../utils/utils";
     export default{
         data(){
             return{

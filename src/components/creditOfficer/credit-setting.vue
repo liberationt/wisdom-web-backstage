@@ -152,7 +152,6 @@
           if (resp.code == 'success') {
             this.formCustom = resp.data.officerConfigList
             if (resp.data.updateOfficerConfigList == null) {
-              alert(1)
               this.formCustomafter = []
               this.auditing = false
             }

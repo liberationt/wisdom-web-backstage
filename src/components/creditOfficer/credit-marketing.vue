@@ -55,7 +55,7 @@
                       <Select :disabled="auditing" v-model="marketConfigList[2].marketTimeEnabled" style="width:100px;" @on-change="normaltime" class="left ">
                         <Option v-for="item in ranges3" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
-                      <div>
+                      <div v-if="normaldata">
                         <DatePicker :disabled="auditing" type="datetime" class="left ml10" @on-change="time5" :value="marketConfigList[2].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                         <span class="left utmost">至</span>
                         <DatePicker :disabled="auditing" type="datetime" class="left " @on-change="time6" :value="marketConfigList[2].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
@@ -78,7 +78,7 @@
                         <span slot="prepend">充</span>
                         <span slot="append" class="left">支付人民币</span>
                         </Input>
-                        <Input :disabled="auditing" type="text" v-model="item.value3" class="left inputnum"  style="width:200px">
+                        <Input disabled type="text" v-model="item.value1" class="left inputnum"  style="width:200px">
                         <span slot="append" class="left">元</span>
                         </Input>
                         <Input :disabled="auditing" type="text" v-model="item.value2" v-if="normaldelivery" class="left ml10 inputnum"  style="width:127px">
@@ -158,7 +158,7 @@
                       <Select disabled v-model="updateMarketConfigList[2].marketTimeEnabled" style="width:100px;" @on-change="normaltime" class="left ">
                         <Option v-for="item in ranges3" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
-                      <div>
+                      <div v-if="normaldata">
                         <DatePicker disabled type="datetime" class="left ml10"  :value="updateMarketConfigList[2].marketBeginTime"  confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                         <span class="left utmost">至</span>
                         <DatePicker disabled type="datetime" class="left " :value="updateMarketConfigList[2].marketEndTime"  confirm placeholder="结束时间" style="width: 160px"></DatePicker>
@@ -253,7 +253,7 @@
             </div>
           </Modal>
                   
-      </div>marketingusbmit
+      </div>
   </div>
 </template>
 <script>
@@ -887,7 +887,8 @@ export default {
           } else {
               this.memos = true
           }
-      }
+      },
+
   },
   mounted () {
     this.inquireabout ()       
