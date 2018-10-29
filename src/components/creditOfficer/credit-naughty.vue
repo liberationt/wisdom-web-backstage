@@ -107,7 +107,8 @@ export default {
               if (resp.data.loanChanceConfigureRes.length>0) {
                 this.chanceInfoTitleRes = resp.data.loanChanceConfigureRes
                 this.loop (resp.data.loanChanceConfigureRes,this.screen)         
-              } else if (resp.data.updateLoanChanceConfigureRes.length>0) {
+              }
+              if (resp.data.updateLoanChanceConfigureRes.length>0) {
                 this.loop (resp.data.updateLoanChanceConfigureRes,this.screen1)
                 this.auditing = true
                 this.updateLoanChanceConfigureRes = resp.data.updateLoanChanceConfigureRes
