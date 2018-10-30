@@ -302,16 +302,16 @@ export default {
           minWidth: 100,
           key: 'realName'
         },
-        {
-          title: '邀请奖励',
-          align: 'center',
-          minWidth: 100,
-          render: (h, params) => {
-            return h('div', [
-              h('span', {}, '-')
-            ])
-          }
-        }
+        // {
+        //   title: '邀请奖励',
+        //   align: 'center',
+        //   minWidth: 100,
+        //   render: (h, params) => {
+        //     return h('div', [
+        //       h('span', {}, '-')
+        //     ])
+        //   }
+        // }
       ],
       data5: [],
       columns4: [
