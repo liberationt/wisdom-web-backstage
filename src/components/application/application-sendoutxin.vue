@@ -58,7 +58,7 @@
         <FormItem class="cleafix" label="跳转URL:" prop="jumpurl" v-if="homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
         </FormItem>
-        <FormItem label="" v-if="richtext" class="cleafix">
+        <FormItem label="" v-if="richtext" style="width:475px;" class="cleafix">
           <quill-editor  v-model="content"
             :options="editorOption" 
             @blur="onEditorBlur($event)" 
@@ -66,7 +66,7 @@
             @change="onEditorChange($event)">
           </quill-editor>
         </FormItem>
-        <FormItem class="mt100">
+        <FormItem style="margin-top:200px">
           <Button v-if="subdis" type="primary" @click="handleSubmit('formCustom')">提交保存</Button>
           <Button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">返回</Button>
         </FormItem>
@@ -98,8 +98,9 @@ export default {
             [{'size': ['small', false, 'large', 'huge']}],  // custom dropdown
             [{'color': []}, {'background': []}],          // dropdown with defaults from theme
             [{'font': []}]
-          ]
-        }
+          ]       
+        },
+        placeholder:'输入图片的宽度需小于375,大小小于1M'
       },
       // 富文本结束
       options3: {
@@ -364,6 +365,6 @@ export default {
 </script>
 <style lang="less" scoped>
     .quill-editor {
-        height: 200px;
+        height: 667px;
     }
 </style>

@@ -7,32 +7,45 @@
         </div>
         <div class="contentcss"> 
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="credit1" @on-change="creditchange" style="width:100px">
-                <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Input v-model="creditname" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="registersheng" @on-change="registers" placeholder="请选择省" style="width:150px;margin-left:50px">
-                <Option v-for="item in registercitys" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
-            </Select>
-            <Select v-model="registershi" @on-change="registerh" placeholder="请选择市" style="width:150px;">
-                <Option v-for="item in registercityh" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
-            </Select>
-            <Select v-model="registermodel3" @on-change="registerstate" placeholder="所属状态" style="width:150px;margin-left:50px">
-                <Option v-for="item in registerstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Select v-model="credit2" @on-change="credit2change" placeholder="上下架状态" style="width:150px;margin-left:50px">
-                <Option v-for="item in statuslowershelves" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Select v-model="credit3" @on-change="credit3change" placeholder="服务介绍状态" style="width:150px;margin-left:50px">
-                <Option v-for="item in creditstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            </div>
+              <ul class="querysty clearfix">
+                <li class="mr20">
+                  <Select v-model="credit1" @on-change="creditchange" style="width:100px">
+                    <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                  <Input v-model="creditname" placeholder="请输入关键字" style="width: 150px"></Input>                 
+                </li>
+                <li class="mr20">
+                  <Select v-model="registersheng" @on-change="registers" placeholder="请选择省" style="width:150px;">
+                    <Option v-for="item in registercitys" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+                  </Select>
+                  <Select v-model="registershi" @on-change="registerh" placeholder="请选择市" style="width:150px;">
+                    <Option v-for="item in registercityh" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+                  </Select>
+                </li>
+                <li class="mr20">
+                  <Select v-model="registermodel3" @on-change="registerstate" placeholder="所属状态" style="width:150px;">
+                    <Option v-for="item in registerstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </li>
+                <li class="mr20">
+                  <Select v-model="credit2" @on-change="credit2change" placeholder="上下架状态" style="width:150px;">
+                    <Option v-for="item in statuslowershelves" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>                  
+                </li>
+                <li class="mr20">
+                  <Select v-model="credit3" @on-change="credit3change" placeholder="服务介绍状态" style="width:150px;">
+                    <Option v-for="item in creditstatus" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </li>
+                <li class="right">
+                  <Button type="info" class="right mr20 w90" :loading="loading3" @click="creditinquery('warning')">
+                    <span v-if="!loading3">查询</span>
+                    <span v-else>查询</span>
+                  </Button>
+                </li>
+              </ul>
             <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="creditinquery('warning')">查询</Button> -->
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="creditinquery('warning')">
-              <span v-if="!loading3">查询</span>
-              <span v-else>查询</span>
-            </Button>
+            
             </div>
             <div id="application_table" class="mt15">
             <Table border :columns="columns10" :data="data9"></Table>
@@ -197,12 +210,12 @@ export default {
                 : Math.ceil(data.data.startRow / this.endRow);
             this.data9 = data.data.dataList;
             this.loading3 = false;
-            this.credit1 = "";
-            this.credit2 = "";
-            this.credit3 = "";
-            this.creditname = "";
-            this.registershi = "";
-            this.registersheng = "";
+            // this.credit1 = "";
+            // this.credit2 = "";
+            // this.credit3 = "";
+            // this.creditname = "";
+            // this.registershi = "";
+            // this.registersheng = "";
             return false;
           } else {
             this.total = 0;
