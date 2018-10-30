@@ -47,15 +47,15 @@
                 </Col>
                 <Col span="1" style="text-align: center"></Col>
                 <Col span="80" class="cleafix">
-                    <FormItem prop="value5" v-if="primordial">
-                      <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" >
-                        <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
-                      </Select>
-                    </FormItem>
+                  <FormItem prop="value5" v-if="primordial">
+                    <Select v-model="formCustom.value5" @on-change='jumpurl' placeholder="请选择" style="width:200px" >
+                      <Option v-for="item in jumplist" :value="item.value" :key="item.value">{{ item.text }}</Option>
+                    </Select>
+                  </FormItem>
                 </Col>
             </Row>
         </FormItem>
-        <FormItem label="跳转URL:" prop="jumpurl" v-if="homeh5">
+        <FormItem class="cleafix" label="跳转URL:" prop="jumpurl" v-if="homeh5">
           <Input type="text" v-model="formCustom.jumpurl" placeholder="请输入跳转URL" style="width: 400px"></Input>
         </FormItem>
         <FormItem label="" v-if="richtext" class="cleafix">
@@ -196,6 +196,13 @@ export default {
           }
           
         if (valid) {
+          if (this.content == '') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请输入自定义内容'
+            });
+            return false       
+          }
           let list = {
             // bunsinessKey: '0', //huazan 0 qiang 1
             typeCode: this.formCustom.city, // 消息类型
@@ -273,6 +280,10 @@ export default {
         this.primordial = false
         this.richtext = false
       } else {
+        let errortips = document.getElementsByClassName('ivu-form-item-error-tip')
+        if (errortips.length>0) {
+          errortips[errortips.length-1].parentNode.removeChild(errortips[errortips.length-1])
+        }
         this.richtext = true
         this.homeh5 = false
         this.primordial = false

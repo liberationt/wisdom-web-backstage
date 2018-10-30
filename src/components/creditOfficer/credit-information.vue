@@ -459,6 +459,12 @@ export default {
           }
         },
         {
+          title: "备注",
+          align: "center",
+          minWidth: 120,
+          key: "bizRemark"
+        },
+        {
           title: "操作时间",
           align: "center",
           minWidth: 160,

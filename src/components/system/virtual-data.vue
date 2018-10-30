@@ -29,9 +29,9 @@
         <FormItem label="用户名" prop="name">
             <Input v-model="formValidate.name" style="width:300px" placeholder="如：张三"></Input>
         </FormItem>
-        <FormItem label="身价" prop="social">
+        <!-- <FormItem label="身价" prop="social">
             <Input v-model="formValidate.social" style="width:300px" placeholder="如：100万"></Input>
-        </FormItem>
+        </FormItem> -->
         <FormItem label="年龄" prop="age">
             <Input v-model="formValidate.age" style="width:300px" placeholder="如：20岁"></Input>
         </FormItem>
@@ -72,7 +72,7 @@ export default {
       userModelCode:'',
       formValidate: {
         name: '',
-        social: '',
+        // social: '',
         age:'',
         amount: '',
         term: '',
@@ -87,17 +87,17 @@ export default {
         { required: true, message: '请输入用户名', trigger: 'blur' },
         {required: true, message: '用户名最多输入四个字符', pattern: /^[\u4e00-\u9fa5]{1,4}$/, trigger: 'blur'}
         ],
-        social: [
-        { required: true, message: '请输入身价', trigger: 'blur' },
-        {required: true, message: '身价最多输入4位数字', pattern: /^(0|[1-9][0-9]{0,2})$/, trigger: 'blur'}
-        ],
+        // social: [
+        // { required: true, message: '请输入身价', trigger: 'blur' },
+        // {required: true, message: '身价最多输入3位数字(:单位)', pattern: /^(0|[1-9][0-9]{0,2}[\u4e00-\u9fa5]+)$/, trigger: 'blur'}
+        // ],
         age: [
         { required: true,  message: '请输入年龄', trigger: 'blur' },
-        {required: true, message: '年龄最多输入2位数字', pattern: /^(0|[1-9][0-9]{0,1})$/, trigger: 'blur'}
+        {required: true, message: '年龄最多输入2位数字(:单位)', pattern: /^(0|[1-9][0-9]{0,1}[\u4e00-\u9fa5]+)$/, trigger: 'blur'}
         ],
         amount: [
         { required: true,  message: '请输入金额', trigger: 'blur' },
-        {required: true, message: '金额最多输入7位数字', pattern: /^(0|[1-9][0-9]{0,6})$/, trigger: 'blur'}
+        {required: true, message: '金额最多输入7位数字(:单位)', pattern: /^(0|[1-9][0-9]{0,6}[\u4e00-\u9fa5]+)$/, trigger: 'blur'}
         ],
         term: [
         { required: true,  message: '请输入期限', trigger: 'blur' },
@@ -112,7 +112,7 @@ export default {
         ],
         conditions: [
         { required: true,  message: '请输入附加条件信息', trigger: 'blur' },
-        {required: true, message: '附加条件信息最多输入200个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,20}$/, trigger: 'blur'}
+        {required: true, message: '附加条件信息最多输入20个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,20}$/, trigger: 'blur'}
         ],
       },
       columns7: [
@@ -122,12 +122,12 @@ export default {
           minWidth: 120,
           align: 'center'
         },
-        {
-          title: '身价',
-          key: 'social',
-          minWidth: 120,
-          align: 'center'
-        },
+        // {
+        //   title: '身价',
+        //   key: 'social',
+        //   minWidth: 120,
+        //   align: 'center'
+        // },
         {
           title: '年龄',
           key: 'age',
@@ -150,7 +150,22 @@ export default {
           title: '是否本地户籍',
           key: 'household',
           minWidth: 120,
-          align: 'center'
+          align: 'center',
+          render: (h, params) => {
+            let household;
+            if (params.row.household == "0") {
+            household = "否";
+            } else if (params.row.household == "1") {
+            household = "是";
+            }
+            return h("div", [
+            h(
+                "span",
+                {},
+                household
+            )
+            ]);
+          }
         },
         {
           title: '月收入',
@@ -271,7 +286,7 @@ export default {
         if (this.credittitle == '添加虚拟数据') {
             list = {
                 name : this.formValidate.name,
-                social : this.formValidate.social,
+                // social : this.formValidate.social,
                 age :this.formValidate.age,
                 amount :this.formValidate.amount,
                 term :this.formValidate.term,
@@ -282,7 +297,7 @@ export default {
         } else {
             list = {
                 name : this.formValidate.name,
-                social : this.formValidate.social,
+                // social : this.formValidate.social,
                 age :this.formValidate.age,
                 amount :this.formValidate.amount,
                 term :this.formValidate.term,
@@ -330,7 +345,7 @@ export default {
         .then((resp) => {
         if (resp.code == 'success') {
             this.formValidate.name = resp.data.name
-            this.formValidate.social = resp.data.social
+            // this.formValidate.social = resp.data.social
             this.formValidate.age = resp.data.age
             this.formValidate.amount = resp.data.amount
             this.formValidate.term = resp.data.term
