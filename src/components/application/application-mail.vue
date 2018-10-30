@@ -215,15 +215,8 @@ export default {
               },
               on: {
                 click: () => {
-                  // this.show(params.index)
-                   this.http.post(BASE_URL+"/loan/webMail/getWebMailByCode",{data: params.row.mailCode }).then(resp=>{
-                      // console.log(resp.data)
-                      if(resp.code == 'success'){
-                        this.show(resp.data)
-                      }
-                    }).catch(err=>{
-                      console.log(err)
-                    })
+                  utils.setCookie('code',params.row.mailCode)
+                  this.$router.push({path: './applicationSendout?isedit='+'is&submissionfa=false'})
                 }
               }
               }, '查看'),
@@ -255,7 +248,6 @@ export default {
 				this.inquiry()
 		},
     pagesizechange(page) {
-      console.log(page)
       this.startRow = 1
       this.endRow = page
       this.inquiry()
@@ -295,7 +287,6 @@ export default {
           content: '<p>确认删除？</p>',
           onOk: () => {
               this.http.post(BASE_URL+"/loan/webMail/delWebMail",{data:code}).then(data=>{
-                console.log(data)
                 if(data.code == 'success'){
                   this.$Message.info('删除成功！');
                   this.inquiry()
@@ -326,7 +317,6 @@ export default {
   created() {
     // 初始化
     this.http.post(BASE_URL+"/loan/webMail/getWebMailListBaseData",{}).then(data=>{
-      console.log(data)
       this.cityList = data.data.pushState
       this.cityType = data.data.mailType
     }).catch(err=>{

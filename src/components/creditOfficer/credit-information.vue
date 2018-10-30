@@ -293,7 +293,7 @@ export default {
       ruleadjustment: {
         zanBean: [
           { required: true, message: "请输入调整赞豆数量", trigger: "blur" },
-          {required: true, message: '请输入正确的赞豆数量', pattern: /^\d+$/, trigger: 'blur'},
+          {required: true, message: '请输入正确的赞豆数量', pattern: /^\+?[1-9][0-9]*$/, trigger: 'blur'},
         ],
         reason: [
           { required: true, message: "请输入调整原因", trigger: "blur" }

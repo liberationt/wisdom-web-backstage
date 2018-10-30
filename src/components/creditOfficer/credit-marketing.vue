@@ -74,11 +74,11 @@
                         :key="index"
                         class="mb15 clearfix"
                       >
-                        <Input :disabled="auditing" type="text" v-model="item.value1" class="left ml10 inputnum"  style="width:260px">
+                        <Input :disabled="auditing" type="text" @on-change="rechargemoney(item)" v-model="item.value1" class="left ml10 inputnum"  style="width:260px">
                         <span slot="prepend">充</span>
                         <span slot="append" class="left">支付人民币</span>
                         </Input>
-                        <Input disabled type="text" v-model="item.value1" class="left inputnum"  style="width:200px">
+                        <Input disabled type="text" v-model="item.value3" class="left inputnum"  style="width:200px">
                         <span slot="append" class="left">元</span>
                         </Input>
                         <Input :disabled="auditing" type="text" v-model="item.value2" v-if="normaldelivery" class="left ml10 inputnum"  style="width:127px">
@@ -802,7 +802,7 @@ export default {
     //   保存提交审核
       marketingusbmit () {
         this.loading3 = true
-        let reg = /^(0|[1-9][0-9]*)$/
+        let reg = /^\d+$/
         let timestamp = new Date().getTime()
         for (let i = 0; i < this.marketConfigList.length; i++) {
           let date1 = Date.parse(new Date(this.marketConfigList[i].marketBeginTime))/1000
@@ -820,7 +820,7 @@ export default {
               if (!reg.test(this.marketConfigList[i].valueList[j][x])) {
                 this.$Modal.warning({
                   title: '提示',
-                  content: '<p>请输入数字</p>'
+                  content: '<p>请输入整数</p>'
                 })
                 this.loading3 = false
                 return false
@@ -888,6 +888,9 @@ export default {
               this.memos = true
           }
       },
+      rechargemoney (item) {
+        item.value3 = item.value1
+      }
 
   },
   mounted () {

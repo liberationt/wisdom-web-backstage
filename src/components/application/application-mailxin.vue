@@ -215,16 +215,8 @@ export default {
               },
               on: {
                 click: () => {
-                  // this.show(params.index)
-                   this.http.post(BASE_URL+"/loan/webMailQdx/getWebMailByCode",{data: params.row.mailCode }).then(resp=>{
-                      // console.log(resp.data)
-                      if(resp.code == 'success'){
-                        // console.log(resp.data)
-                        this.show(resp.data)
-                      }
-                    }).catch(err=>{
-                      console.log(err)
-                    })
+                  utils.setCookie('code',params.row.mailCode)
+                  this.$router.push({path: './applicationSendoutxin?isedit='+'is&submissionfa=false'})
                 }
               }
               }, '查看'),
@@ -259,7 +251,6 @@ export default {
 				this.inquiry()
 		},
     pagesizechange(page) {
-      console.log(page)
       this.startRow = 1
       this.endRow = page
       this.inquiry()

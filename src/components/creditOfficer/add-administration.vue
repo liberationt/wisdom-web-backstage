@@ -25,10 +25,22 @@
                   <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
-              <Col span="4">
+              <Col span="5">
                 <Input v-model="formItem.activePercent" style="width:150px" class="left ml20">
                   <span slot="append">%</span>
                 </Input>
+              </Col>
+              <Col span="6">
+                <img :src="formItem.logoUrl" alt="" class="left icon_img">
+                <Input v-show="hidden" v-model="formItem.productlogo" disabled style="width: 120px;margin-top:4px" class="left ml5"></Input>
+                <Upload
+                  :format="['jpg','jpeg','png']"
+                  :on-format-error="handleFormatError1"
+                  :before-upload="handleUpload"
+                  :show-upload-list="false"                        
+                  action=''>
+                    <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:4px">浏览</Button>
+                </Upload>
               </Col>
             </Row>
           </FormItem>
@@ -203,7 +215,9 @@ export default {
         endDate: "",
         endTime: "",
         startTime: "",
-        actitPercent: ""
+        actitPercent: "",
+        logoUrl:require('../../image/moren.png'),
+        productlogo:''
       },
       ruleValidate: {
         // activeTitle: [
@@ -302,12 +316,20 @@ export default {
             message: "请选择结束时间",
             trigger: "change"
           }
+        ],
+        productlogo: [
+          {
+            required: true,
+            type: "string",
+            message: "请上传图片",
+            trigger: "blur"
+          }
         ]
       },
       formactive: {
         startDate: "",
         endDate: "",
-        activeType: "1"
+        activeType: "1"        
       },
       addnormals4: [
         {
@@ -394,6 +416,13 @@ export default {
         if (valid) {
           if(!this.isTrue()){
             return false
+          }
+          if (this.formItem.productlogo == '') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请上传图片'
+            });
+            return false          
           }
           // console.log(preservationList)
           let httpUrl, contentTitle;
@@ -546,6 +575,7 @@ export default {
           productScope: this.formItem.range.join(), //产品范围
           isLimited: this.formItem.quantity, //平台每日限量
           activityCode: this.$route.query.activityCode,
+          logoUrl:this.formItem.logoUrl,
           limitedList: [
             {
               productLimited: this.formItem.actitPercent, //产品限量
@@ -614,7 +644,37 @@ export default {
           "./operationLog?operationType=loanOfficerActive&activityCode=" +
           this.$route.query.activityCode
       });
-    }
+    },
+    handleFormatError1 (file) {
+      // this.formValidate.productlogo = ''
+      this.$Message.info("图片格式不正确,请上传正确的图片格式")
+    },
+    handleUpload (file) {
+        // console.log(file.name)
+        let splic = file.name.split('.')
+        if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+          let formData = new FormData();
+            formData.append('file', file)
+          let config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            timeout:1000*60*5
+          }
+        this.http.post(BASE_URL + '/fileUpload', formData, config)
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.formItem.logoUrl = resp.data
+          } else {
+          }
+        })
+        .catch(() => {
+        })
+          this.formItem.productlogo = file.name
+          return false
+        }
+      }, 
+
   },
   mounted() {
     if(this.$route.query.isSee == "isSee"){
@@ -646,8 +706,10 @@ export default {
               this.formItem.quantity = data.data.isLimited + ""; //平台每日限量
               this.formItem.startTime = data.data.dailyStartTime; //日开始时间
               this.formItem.endTime = data.data.dailyEndTime; //日结束时间
-              this.formItem.actitPercent =
-                data.data.limitedList[0].productLimited+"";
+              this.formItem.logoUrl = data.data.logoUrl
+              this.formItem.productlogo = data.data.logoUrl
+              this.formItem.actitPercent = data.data.limitedList[0].productLimited+"";
+              
             } else {
               this.formactive.startDate = data.data.activityStartTime; //消费折率的活动时间
               this.formactive.endDate = data.data.activityEndTime; //消费折率的活动时间
@@ -679,5 +741,9 @@ hr {
 .activeTitle {
   margin-left: 26px;
   margin-bottom: 30px;
+}
+.icon_img {
+  width: 40px;
+  height: 40px;
 }
 </style>

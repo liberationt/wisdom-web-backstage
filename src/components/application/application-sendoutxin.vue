@@ -67,7 +67,7 @@
           </quill-editor>
         </FormItem>
         <FormItem class="mt100">
-          <Button type="primary" @click="handleSubmit('formCustom')">提交保存</Button>
+          <Button v-if="subdis" type="primary" @click="handleSubmit('formCustom')">提交保存</Button>
           <Button type="ghost" @click="handleReset('formCustom')" style="margin-left: 8px">返回</Button>
         </FormItem>
       </Form>
@@ -84,6 +84,7 @@ export default {
       // 富文本开始
       content:'',
       mailDetailCode:'',
+      subdis:true,
       editorOption:{
         modules:{ 
           toolbar:[ 
@@ -306,7 +307,6 @@ export default {
     },
     onEditorChange({editor,html,text}){//编辑器文本发生变化
         //this.content可以实时获取到当前编辑器内的文本内容
-        console.log(this.content);
     }
   },
   created(){
@@ -343,6 +343,9 @@ export default {
       }).catch(err=>{
         console.log(err)
       })
+    }
+    if (this.$route.query.submissionfa) {
+      this.subdis = false 
     }
   //  utils.getNowFormatDate()
   }
