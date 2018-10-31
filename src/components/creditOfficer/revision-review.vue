@@ -72,7 +72,7 @@
 			<div class="mt50 marginauto1">
         <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
         <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-        <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
+        <router-link to="./dataReview"><Button type="ghost">返回</Button></router-link>
       </div>
 
 		</div>
@@ -134,7 +134,7 @@
         <div class="mt50 marginauto">
           <Button v-if="examine" type="primary" @click="adopt">资料审核通过</Button>&nbsp;&nbsp;&nbsp;&nbsp;
           <Button v-if="examine"  type="primary" @click="refuse">资料审核拒绝</Button>&nbsp;&nbsp;&nbsp;&nbsp;
-          <router-link to="./creditManagement?num=1"><Button type="ghost">返回</Button></router-link>
+          <router-link to="./dataReview"><Button type="ghost">返回</Button></router-link>
         </div>
 				<!-- model 框 -->
 				<Modal

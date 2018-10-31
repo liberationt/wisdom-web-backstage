@@ -302,10 +302,7 @@ import untils from "../../utils/utils";
                         Math.ceil(data.data.startRow / this.endRow) == 0
                             ? 1
                             : Math.ceil(data.data.startRow / this.endRow); 
-                        this.data10 = data.data.creditInstitutionsList;           
-                        this.guanname = "";
-                        this.model4 = "";
-                        this.modell3 = "";
+                        this.data10 = data.data.creditInstitutionsList;
                         this.loading3 = false;
                         return false;
                     }else{

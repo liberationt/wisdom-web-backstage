@@ -109,7 +109,7 @@ export default {
         ],
         conditions: [
         { required: true,  message: '请输入附加条件信息', trigger: 'blur' },
-        { type: 'string', max: 20, message: '附加条件信息最多输入20个字符', trigger: 'blur' }
+        { type: 'string', max: 100, message: '附加条件信息最多输入100个字符', trigger: 'blur' }
         ],
       },
       columns7: [

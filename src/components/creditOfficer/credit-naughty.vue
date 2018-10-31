@@ -221,6 +221,7 @@ export default {
                           this.$refs[name].resetFields()
                         }
                     })
+                    this.screen = []
                     this.naughtyScreening ()
                 } else {
                   this.modal9 = false
