@@ -276,8 +276,8 @@ export default {
         normaldata: true,
         loading3: false,
         loading: true,
-        fruit: ['1'],
-        fruit2: ['1'],
+        fruit: [],
+        fruit2: [],
         index: 1,
         index2: 1,
         options3: {
@@ -566,14 +566,14 @@ export default {
                       this.fruit.push ('1')
                       this.normaldelivery = true
                     } else {
-                      this.fruit.push ('2')
+                      // this.fruit.push ('2')
                       this.normaldelivery = false
                     }
                     if (resp.data.marketConfigList[i].status2 == 1) {
                       this.fruit.push ('0')
                       this.normaldreduce = true
                     } else {
-                      this.fruit.push ('2')
+                      // this.fruit.push ('2')
                       this.normaldreduce = false
                     }
                   } else if (resp.data.marketConfigList[i].type == 'first_recharge') {//首次充值
@@ -619,14 +619,14 @@ export default {
                       this.fruit2.push ('1')
                       this.normaldelivery2 = true
                     } else {
-                      this.fruit2.push ('2')
+                      // this.fruit2.push ('2')
                       this.normaldelivery2 = false
                     }
                     if (resp.data.updateMarketConfigList[i].status2 == 1) {
                       this.fruit2.push ('0')
                       this.normaldreduce2 = true
                     } else {
-                      this.fruit2.push ('2')
+                      // this.fruit2.push ('2')
                       this.normaldreduce2 = false
                     }
                   } else if (resp.data.updateMarketConfigList[i].type == 'first_recharge') {//首次充值
@@ -702,6 +702,7 @@ export default {
         }
       },
       normalgive (val) {
+        console.log(val)
         if (val.length == 0) {
           this.normaldreduce = false
           this.normaldelivery = false
@@ -730,9 +731,9 @@ export default {
         this.index2++
         this.addnormals.push({
           value1: '',
-          value2: '',
+          value2: '0',
           value3: '',
-          value4: '',
+          value4: '0',
         })
       },
       addnorma2 (index) {
@@ -893,6 +894,7 @@ export default {
 
   },
   mounted () {
+    
     this.inquireabout ()       
   }
 };
