@@ -108,12 +108,13 @@ export default {
                 this.chanceInfoTitleRes = resp.data.loanChanceConfigureRes
                 this.loop (resp.data.loanChanceConfigureRes,this.screen)         
               }
-              if (resp.data.updateLoanChanceConfigureRes.length>0) {
+              if (resp.data.updateLoanChanceConfigureRes!=null) {
                 this.loop (resp.data.updateLoanChanceConfigureRes,this.screen1)
                 this.auditing = true
                 this.updateLoanChanceConfigureRes = resp.data.updateLoanChanceConfigureRes
               } else {
                 this.auditing = false
+                this.updateLoanChanceConfigureRes = []
               }
             } else {
               this.$Message.error(resp.message);
@@ -134,54 +135,56 @@ export default {
     //   保存
     preservationNaughty () {
         this.loading3 = true
-        let list = {}
-        let loanChanceConfigureReqList = []
-        this.screen.forEach(element => {
-          let obj = {}
-          let infoTitleKey = element.split('/')[1]
-          obj.infoTitleKey = infoTitleKey        
-          this.chanceInfoTitleRes.forEach(element => {
-            if (element.infoTitleKey == infoTitleKey) {
-              obj.infoTitleName = element.infoTitleName            
-            }           
-          });
-          let loanChanceConfigureDetailReqList  =[]
-          let obj2 = {}
-          obj2.infoOptionKey = element.split('/')[0]
-          obj2.infoTitleKey = infoTitleKey
-          obj2.infoOptionName = element.split('/')[2]
+        this.$Modal.confirm({
+          title: "温馨提示",
+          content: "<p>确认保存提交审核吗?</p>",
+          onOk: () => {
+            let list = {}
+            let loanChanceConfigureReqList = []
+            this.screen.forEach(element => {
+              let obj = {}
+              let infoTitleKey = element.split('/')[1]
+              obj.infoTitleKey = infoTitleKey        
+              this.chanceInfoTitleRes.forEach(element => {
+                if (element.infoTitleKey == infoTitleKey) {
+                  obj.infoTitleName = element.infoTitleName            
+                }           
+              });
+              let loanChanceConfigureDetailReqList  =[]
+              let obj2 = {}
+              obj2.infoOptionKey = element.split('/')[0]
+              obj2.infoTitleKey = infoTitleKey
+              obj2.infoOptionName = element.split('/')[2]
 
-          loanChanceConfigureDetailReqList.push(obj2)
-          obj.loanChanceConfigureDetailReqList = loanChanceConfigureDetailReqList
-          loanChanceConfigureReqList.push(obj)                 
-        });
-        list.loanChanceConfigureReqList = loanChanceConfigureReqList
-        this.http.post(BASE_URL + '/loan/chanceTitleAndOption/saveConfigure', list)
-          .then((resp) => {
-            if (resp.code == 'success') {
-              this.$Modal.success({
-                title: '提示',
-                content: '<p>保存成功</p>'
-              })
-              this.naughtyScreening ()
-              this.screen = []
-              this.loading3 = false
-            } else {
-              this.loading3 = false
-              this.$Modal.warning({
-                title: '提示',
-                render: (h) => {
-                  return h('p', {
-                    style: {
-                      marginTop: '20px'
-                    },
-                  }, resp.message)
+              loanChanceConfigureDetailReqList.push(obj2)
+              obj.loanChanceConfigureDetailReqList = loanChanceConfigureDetailReqList
+              loanChanceConfigureReqList.push(obj)                 
+            });
+            list.loanChanceConfigureReqList = loanChanceConfigureReqList
+            this.http.post(BASE_URL + '/loan/chanceTitleAndOption/saveConfigure', list)
+              .then((resp) => {
+                if (resp.code == 'success') {
+                  this.$Modal.success({
+                    title: '提示',
+                    content: '<p>保存成功</p>'
+                  })
+                  this.naughtyScreening ()
+                  this.screen = []
+                  this.loading3 = false
+                } else {
+                  this.loading3 = false
+                  this.$Message.error(resp.message);
                 }
               })
-            }
-          })
-          .catch(() => {
-          })
+              .catch(() => {
+              })
+                    
+          },
+          onCancel: () => {
+            this.loading3 = false
+          }
+        })
+        
       },
       // 淘单保存list
       checkAllGroupChange (data) {},
@@ -201,7 +204,6 @@ export default {
         this.$refs[name].validate(valid => {
         if (!valid) {
           return this.changeLoading()
-
         } else {
             let data = {
                 auditStatus : this.formCustomexa.activeType,
@@ -215,11 +217,11 @@ export default {
                     this.$Modal.success({
                         title: title,
                         content: content,
-                        onOk: () => {
-                          this.naughtyScreening ()
+                        onOk: () => {                          
                           this.$refs[name].resetFields()
                         }
                     })
+                    this.naughtyScreening ()
                 } else {
                   this.modal9 = false
                   this.$Message.info(data.message)
@@ -249,6 +251,7 @@ export default {
         if(data.code == 'success'){
           for (const key in data.data) {
             if (data.data[key] == true) {
+              this.memos = false
               this.modal9 = true              
             } else {
               this.$Message.warning('暂无权限')

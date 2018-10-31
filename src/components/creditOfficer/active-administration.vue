@@ -216,7 +216,6 @@ export default {
                   },
                   on: {
                     click: () => {
-                      console.log(params.row.activityCode);
                       this.tips("确认删除吗？", e => {
                         if (e) {
                           this.http
@@ -226,7 +225,6 @@ export default {
                                 params.row.activityCode
                             )
                             .then(data => {
-                              console.log(data);
                               if(data.code == "success"){
                                 this.inquire();
                                 this.$Message.success("删除成功！");
@@ -257,7 +255,6 @@ export default {
                   on: {
                     click: () => {
                       this.tips("确认活动下架吗？", e => {
-                        console.log(e);
                         if (e) {
                           this.tipsHttp(
                             {
@@ -265,7 +262,6 @@ export default {
                               status: 0
                             },
                             e => {
-                              console.log(e);
                               this.inquire();
                             }
                           );
@@ -348,7 +344,6 @@ export default {
     this.http
       .post(BASE_URL + "/loan/activity/getActivitySearch", {})
       .then(resp => {
-        console.log(resp);
         if (resp.code == "success") {
           (this.activeStateList = resp.data.typeList),
             (this.examineStatusList = resp.data.auditList),

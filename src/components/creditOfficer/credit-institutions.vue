@@ -6,7 +6,7 @@
             </p>
         </div>
 
-        <div class="clearfix">
+        <div class="clearfix contentcss">
             <div class="left">
                 <Input v-model="guanname" placeholder="请输入关键字" style="width: 150px"></Input>
                 <Select v-model="modell3" placeholder="上架状态" @on-change='loanstatusl' style="width:150px;margin-left:50px">
@@ -16,13 +16,15 @@
                     <Option v-for="item in loanrecommend" :value="item.value" :key="item.value">{{ item.label }}</Option>
                 </Select>
             </div>
+            <Button type="primary" class="right mr20" shape="circle" icon="plus-round" @click="addManage">添加信贷机构</Button>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
             <Button type="info" class="right mr20 w90" :loading="loading3" @click="mechanisminqury('warning')">
             <span v-if="!loading3">查询</span>
             <span v-else>查询</span>
             </Button>
+            
         </div>
-            <Button type="primary" class="mt15" shape="circle" icon="plus-round" @click="addManage">添加信贷机构</Button>
+            
         <div id="application_table" class="mt15">
             <Table border :columns="columns11" :data="data10"></Table>
         </div>

@@ -33,7 +33,7 @@
     export default{
         data(){
             return{
-                modelmoble:'',
+                modelmoble:'mobile',
                 datamoble:[],
                 dataname1:'',
                 startRow:1,

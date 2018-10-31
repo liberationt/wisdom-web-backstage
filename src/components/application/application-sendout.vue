@@ -204,6 +204,13 @@ export default {
             tiurl = '/loan/webMail/saveWebMail'
           }
         if (valid) {
+          if (this.content == '' && this.formCustom.h5 == '2') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请输入自定义内容'
+            });
+            return false       
+          }
           let list = {
             // bunsinessKey: '0', //huazan 0 qiang 1
             typeCode: this.formCustom.city, // 消息类型
@@ -296,6 +303,10 @@ export default {
         this.detailscode = false
         this.formCustom.code = ''
       } else {
+        let errortips = document.getElementsByClassName('ivu-form-item-error-tip')
+        if (errortips.length>0) {
+          errortips[errortips.length-1].parentNode.removeChild(errortips[errortips.length-1])
+        }
         this.richtext = true
         this.homeh5 = false
         this.primordial = false

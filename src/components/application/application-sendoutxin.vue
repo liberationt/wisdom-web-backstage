@@ -197,7 +197,7 @@ export default {
           }
           
         if (valid) {
-          if (this.content == '') {
+          if (this.content == '' && this.formCustom.h5 == '2') {
             this.$Modal.warning({
               title: '温馨提示',
               content: '请输入自定义内容'

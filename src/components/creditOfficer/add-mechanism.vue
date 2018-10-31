@@ -245,7 +245,7 @@ export default {
             title: title,
             content: content,
             onOk: () => {
-              this.$router.push({ path: "./creditManagement?num=" + 2 });
+              this.$router.push({ path: "./creditInstitutions" });
             }
           });
           break;
@@ -253,7 +253,7 @@ export default {
     },
     handleReset(name) {
       this.$refs[name].resetFields();
-      this.$router.push({ path: "./creditManagement?num=" + 2 });
+      this.$router.push({ path: "./creditInstitutions" });
     },
     // 图片上传
     handleUploadicon(file) {

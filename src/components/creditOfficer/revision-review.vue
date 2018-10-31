@@ -304,7 +304,7 @@ export default {
         .then(resp => {
           if (resp.code == "success") {
             if (num == 0) {
-              this.$router.push({ path: "./creditManagement?num=1" });
+              this.$router.push({ path: "./dataReview" });
             } else {
               this.tishi();
             }
@@ -326,7 +326,7 @@ export default {
         title: title,
         content: content,
         onOk: () => {
-          this.$router.push({ path: "./creditManagement?num=1" });
+          this.$router.push({ path: "./dataReview" });
         }
       });
     }

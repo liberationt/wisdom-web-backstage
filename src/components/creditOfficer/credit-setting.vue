@@ -120,21 +120,30 @@
             return false
           }
         }
-        this.http.post(BASE_URL + '/loan/officerConfig/updateOfficerConfigByBatchCode', this.formCustom)
-          .then((resp) => {
-            if (resp.code == 'success') {
-              this.$Modal.success({
-                title: '基本设置',
-                content: '<p>设置成功</p>'
-              })
-              this.basicsetup ()
-              this.loading3 = false
-            } else {
-              this.loading3 = false
-            }
-          })
-          .catch(() => {
-          })
+        this.$Modal.confirm({
+          title: "温馨提示",
+          content: "<p>确认保存提交审核吗?</p>",
+          onOk: () => {
+            this.http.post(BASE_URL + '/loan/officerConfig/updateOfficerConfigByBatchCode', this.formCustom)
+            .then((resp) => {
+              if (resp.code == 'success') {
+                this.$Modal.success({
+                  title: '基本设置',
+                  content: '<p>设置成功</p>'
+                })
+                this.basicsetup ()
+                this.loading3 = false
+              } else {
+                this.loading3 = false
+              }
+            })
+            .catch(() => {
+            })        
+          },
+          onCancel: () => {
+            this.loading3 = false
+          }
+        })
       },
       handleRender1 () {   //信贷基本配置查看日志
         this.$router.push({ path: './operationLog?operationType=officer_edit' })
@@ -174,6 +183,7 @@
         if(data.code == 'success'){
           for (const key in data.data) {
             if (data.data[key] == true) {
+              this.memos = false
               this.modal9 = true              
             } else {
               this.$Message.warning('暂无权限')

@@ -172,27 +172,37 @@ export default {
             businessSocialResList.push(obj)
           }
         }
-        let list = {
-          userSocialResList: this.pricesetting.userSocialResList,
-          businessSocialResList: businessSocialResList
-        }
-        this.http.post(BASE_URL + '/loan/userSocial/updateUserSocialList', list)
-          .then((resp) => {
-            if (resp.code == 'success') {
-              this.$Modal.success({
-                title: '用户身价设置',
-                content: '<p>配置成功</p>'
-              })
-              this.inquireabout ()
-              this.loading3 = false
-            } else {
-              this.loading3 = false
-              this.$Message.error(resp.message);
+        this.$Modal.confirm({
+          title: "温馨提示",
+          content: "<p>确认保存提交审核吗?</p>",
+          onOk: () => {
+            let list = {
+              userSocialResList: this.pricesetting.userSocialResList,
+              businessSocialResList: businessSocialResList
             }
-          })
-          .catch(() => {
+            this.http.post(BASE_URL + '/loan/userSocial/updateUserSocialList', list)
+              .then((resp) => {
+                if (resp.code == 'success') {
+                  this.$Modal.success({
+                    title: '用户身价设置',
+                    content: '<p>配置成功</p>'
+                  })
+                  this.inquireabout ()
+                  this.loading3 = false
+                } else {
+                  this.loading3 = false
+                  this.$Message.error(resp.message);
+                }
+              })
+              .catch(() => {
 
-          })
+              })       
+          },
+          onCancel: () => {
+            this.loading3 = false
+          }
+        })
+        
       },
       handleRender2 () {  //用户身价配置日志
         this.$router.push({ path: './operationLog?operationType=user_social_edit' })
@@ -225,6 +235,7 @@ export default {
         if(data.code == 'success'){
           for (const key in data.data) {
             if (data.data[key] == true) {
+              this.memos = false
               this.modal9 = true              
             } else {
               this.$Message.warning('暂无权限')
@@ -239,7 +250,6 @@ export default {
         this.$refs[name].validate(valid => {
         if (!valid) {
           return this.changeLoading()
-
         } else {
             let data = {
                 auditStatus : this.formCustomexa.activeType,
@@ -282,6 +292,12 @@ export default {
           } else {
               this.memos = true
           }
+      },
+      changeLoading () {
+        this.loading = false
+        this.$nextTick(() => {
+          this.loading = true
+        })
       },
 
 

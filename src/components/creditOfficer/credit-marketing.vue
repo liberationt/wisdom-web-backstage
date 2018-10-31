@@ -828,38 +828,36 @@ export default {
             }
           }
         }
-        let list = {
-          marketConfigList: []
-        }
-        this.marketConfigList[2].valueList = this.addnormals
-        list.marketConfigList = this.marketConfigList
-
-        this.http.post(BASE_URL + '/loan/marketConfig/update', list)
-          .then((resp) => {
-            if (resp.code == 'success') {
-              this.$Modal.success({
-                title: '提示',
-                content: '<p>设置成功</p>'
-              })
-              this.loading3 = false
-              this.inquireabout ()
-            } else {
-              this.loading3 = false
-              this.$Modal.warning({
-                title: '提示',
-                render: (h) => {
-                  return h('p', {
-                    style: {
-                      marginTop: '20px'
-                    },
-                  }, resp.message)
+        this.$Modal.confirm({
+          title: "温馨提示",
+          content: "<p>确认保存提交审核吗?</p>",
+          onOk: () => {
+            let list = {
+              marketConfigList: []
+            }
+            this.marketConfigList[2].valueList = this.addnormals
+            list.marketConfigList = this.marketConfigList
+            this.http.post(BASE_URL + '/loan/marketConfig/update', list)
+              .then((resp) => {
+                if (resp.code == 'success') {
+                  this.$Modal.success({
+                    title: '提示',
+                    content: '<p>设置成功</p>'
+                  })
+                  this.loading3 = false
+                  this.inquireabout ()
+                } else {
+                  this.loading3 = false
+                  this.$Message.warning(resp.message);                 
                 }
               })
-
-            }
-          })
-          .catch(() => {
-          })
+              .catch(() => {
+              })                   
+          },
+          onCancel: () => {
+            this.loading3 = false
+          }
+        })        
       },
       changeLoading () {
         this.loading = false
@@ -872,7 +870,8 @@ export default {
         if(data.code == 'success'){
           for (const key in data.data) {
             if (data.data[key] == true) {
-              this.modal9 = true              
+              this.memos = false
+              this.modal9 = true
             } else {
               this.$Message.warning('暂无权限')
             }

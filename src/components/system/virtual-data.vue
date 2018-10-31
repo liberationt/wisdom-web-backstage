@@ -36,19 +36,16 @@
             <Input v-model="formValidate.age" style="width:300px" placeholder="如：20岁"></Input>
         </FormItem>
         <FormItem label="金额" prop="amount">
-            <Input v-model="formValidate.amount" style="width:300px" placeholder="如：10000元"></Input>
+            <Input v-model="formValidate.amount" style="width:300px" placeholder="如：100万"></Input>
         </FormItem>
         <FormItem label="期限" prop="term">
-            <Input v-model="formValidate.term" style="width:300px" placeholder="如：10年"></Input>
+            <Input v-model="formValidate.term" style="width:300px" placeholder="如：10月"></Input>
         </FormItem>
         <FormItem label="是否本地户籍" prop="household">
-            <Select v-model="formValidate.household" style="width:300px" placeholder="请选择">
-                <Option value="1">是</Option>
-                <Option value="0">否</Option>
-            </Select>
+          <Input v-model="formValidate.household" style="width:300px" placeholder="如：本地户籍"></Input>
         </FormItem>
         <FormItem label="月收入" prop="earning">
-            <Input v-model="formValidate.earning" style="width:300px" placeholder="如：3500元"></Input>
+            <Input v-model="formValidate.earning" style="width:300px" placeholder="如：2000-5000"></Input>
         </FormItem>
         <FormItem label="附加条件信息" prop="conditions">
           <Input v-model="formValidate.conditions" type="textarea" style="width:300px" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入附加条件信息" />
@@ -104,15 +101,15 @@ export default {
         {required: true, message: '期限最多输入10个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,10}$/, trigger: 'blur'}
         ], 
         household: [
-            { required: true, message: '请选择是否本地户籍', trigger: 'blur' }
+            { required: true, message: '请输入本地户籍', trigger: 'blur' }
         ],
         earning: [
         { required: true,  message: '请输入月收入', trigger: 'blur' },
-        {required: true, message: '月收入最多输入10个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,10}$/, trigger: 'blur'}
+        {required: true, message: '月收入最多输入10个字符', pattern: /^[\u4e00-\u9fa5_0-9_\-]{1,10}$/, trigger: 'blur'}
         ],
         conditions: [
         { required: true,  message: '请输入附加条件信息', trigger: 'blur' },
-        {required: true, message: '附加条件信息最多输入20个字符', pattern: /^[\u4e00-\u9fa5_0-9_]{1,20}$/, trigger: 'blur'}
+        { type: 'string', max: 20, message: '附加条件信息最多输入20个字符', trigger: 'blur' }
         ],
       },
       columns7: [
@@ -150,22 +147,7 @@ export default {
           title: '是否本地户籍',
           key: 'household',
           minWidth: 120,
-          align: 'center',
-          render: (h, params) => {
-            let household;
-            if (params.row.household == "0") {
-            household = "否";
-            } else if (params.row.household == "1") {
-            household = "是";
-            }
-            return h("div", [
-            h(
-                "span",
-                {},
-                household
-            )
-            ]);
-          }
+          align: 'center'
         },
         {
           title: '月收入',

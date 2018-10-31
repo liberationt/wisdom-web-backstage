@@ -168,7 +168,7 @@ export default {
       startRow: 1,
       endRow: 10,
       total: 0,
-      credit1: "",
+      credit1: "mobile",
       creditname: "",
       cityList: [],
       registersheng: "",

@@ -114,13 +114,13 @@ export default {
           label: '手机号'
         }
       ],
-      model12: '',
-      model13: '',
+      model12: 'mobile',
+      model13: 'mobile',
       cityType: [],
       cityType1: [],
       cityType2: [],
       tabs: "tab1",
-      model1: '',
+      model1: 'mobile',
       searchOptions: [],
       searchOptions1: [],
       searchOptions2: [],

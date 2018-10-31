@@ -9,7 +9,7 @@
         <h3>产品列表</h3>
         <Button type="primary" shape="circle" icon="plus-round" class="mb15" @click="addproduct">添加产品</Button>
         <Button type="success" shape="circle" class="mb15" @click="update">更新排序</Button>
-        <router-link to="./creditManagement"><Button type="warning" shape="circle" class="mb15">返回</Button></router-link> 
+        <router-link to="./creditInstitutions"><Button type="warning" shape="circle" class="mb15">返回</Button></router-link> 
         
         <Table class="inputvalue" border :columns="columns1" :data="data1">
         </Table>
@@ -153,11 +153,7 @@ export default {
     // },
     update(){
       let ivuvalue = document.getElementsByClassName('ivu-input')
-      console.log(ivuvalue)
-      console.log(this.productCode)
-      // console.log(document.getElementsByClassName('ivu-input')[0].value)
       for(let i = 0; i< this.productCode.length; i++){
-        console.log( ivuvalue[i].value)
         this.creditInstitutionsProductReqs.push(
           {
             productCode: this.productCode[i],
@@ -171,7 +167,6 @@ export default {
       }
       // console.log(list)
       this.http.post(BASE_URL+"/loan/creditInstitutionsProduct/updateProductSortByCode",list).then(data=>{
-        console.log(data)
         if(data.code == 'success'){
           this.$Modal.success({
             title: '更新',

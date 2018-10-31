@@ -42,7 +42,7 @@
     export default{
         data(){
             return{
-                model1:'',
+                model1:'mobile',
                 name:"",
                 model3:"",
                 models:"",//省
@@ -233,11 +233,6 @@
                             ? 1
                             : Math.ceil(data.data.startRow / this.endRow);
                         this.data6 = data.data.dataList;
-                        this.model1="",
-                        this.name="",
-                        this.model3="",
-                        this.models="",
-                        this.modelshi="",
                         this.loading3 = false;
                         return false;
                     }else{
