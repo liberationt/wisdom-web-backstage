@@ -63,7 +63,39 @@ export default {
           return date && date.valueOf() > Date.now();
         }
       },
-      columnList:[],
+      columnList:[
+        {
+          title: '日期',
+          key: 'dateTime',
+          minWidth: 150,
+          align: 'center'
+        },
+        {
+          title: '产品名称',
+          key: 'productName',
+          minWidth: 150,
+          align: 'center'
+        },
+        {
+          title: '详情页查看人数',
+          key: 'pageViewuvcount',
+          minWidth: 150,
+          align: 'center'
+        },
+        {
+          title: '立即申请点击人数',
+          key: 'datesubmitUvcount',
+          minWidth: 150,
+          align: 'center'
+        },
+        {
+          title: '点击转化率',
+          key: 'conversionRate',
+          minWidth: 150,
+          align: 'center'
+        }
+      
+      ],
       reportList: []
     };
   },
@@ -109,7 +141,7 @@ export default {
       let params = {
         beginDate: this.beginTime,
         endDate: this.endTime,
-        AllproductsCode: this.AllproductsCode == "code" ? "" : this.AllproductsCode,
+        productCode: this.AllproductsCode == "code" ? "" : this.AllproductsCode,
         flag: this.InquiredetailCode
       };
       this.http
@@ -127,7 +159,7 @@ export default {
       let formData = new FormData();
       formData.append("beginDate", this.beginTime);
       formData.append("endDate", this.endDate);
-      formData.append("AllproductsCode", this.AllproductsCode);
+      formData.append("productCode", this.AllproductsCode);
       formData.append("flag", this.InquiredetailCode);
       utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
         this.loading2 = false;
