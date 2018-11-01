@@ -63,7 +63,7 @@ export default {
           return date && date.valueOf() > Date.now();
         }
       },
-      columnList: [],
+      columnList:[],
       reportList: []
     };
   },
@@ -147,28 +147,28 @@ export default {
         }),
         this.getColumnItem(
           "详情页查看人数",
-          "pageViewpvcount",
+          "pageViewuvcount",
           150,
           (h, params) => {
             return this.reportColumns2Render(
               h,
               params.row.loanProductList,
-              details => {
-                return details.pageViewpvcount;
+              details => { 
+                return details.pageViewuvcount;
               }
             );
           }
         ),
         this.getColumnItem(
           "立即申请点击人数",
-          "submitPvcount",
+          "submitUvcount",
           150,
           (h, params) => {
             return this.reportColumns2Render(
               h,
               params.row.loanProductList,
               details => {
-                return details.submitPvcount;
+                return details.submitUvcount;
               }
             );
           }
@@ -239,7 +239,6 @@ export default {
     this.endTime = this.timeFormat(date, 1);
     date.setDate(1);
     this.beginTime = this.timeFormat(date, 0);
-    this.queryReportList();
   }
 };
 </script>
