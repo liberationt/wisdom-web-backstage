@@ -649,12 +649,12 @@ export default {
               this.endRow = 10
               this.startRow = 1
               //数据初始化
-              this.model13 = ""
+              this.model13 = "mobile"
               this.name2 = ""
               this.models2 = ""
               this.modelshi1 = ""
               this.modelshi2 = ""
-              this.model12 = ""
+              this.model12 = "mobile"
               this.name1 = ""
               this.models1 = ""
               this.loading3= false
@@ -667,12 +667,12 @@ export default {
               this.endRow = 10
               this.startRow = 1
               // 数据初始化
-              this.model13 = ""
+              this.model13 = "mobile"
               this.name2 = ""
               this.models2 = ""
               this.modelshi = ""
               this.modelshi2 = ""
-              this.model1 = ""
+              this.model1 = "mobile"
               this.name = ""
               this.models = ""
               this.loading3= false
@@ -687,10 +687,10 @@ export default {
               // 数据初始化
               this.modelshi = ""
               this.modelshi1 = ""
-              this.model12 = ""
+              this.model12 = "mobile"
               this.name1 = ""
               this.models1 = ""
-              this.model1 = ""
+              this.model1 = "mobile"
               this.models = ""
               this.loading3= false
               return false;
