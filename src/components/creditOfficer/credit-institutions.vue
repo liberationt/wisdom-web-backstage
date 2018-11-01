@@ -2,7 +2,7 @@
     <div>
         <div class="navigation">
             <p>
-                <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理>&nbsp;信贷列表>&nbsp;信贷机构</span>
+                <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理>&nbsp;信贷机构列表</span>
             </p>
         </div>
 

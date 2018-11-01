@@ -205,6 +205,7 @@ export default {
       activeType: "1",
       ispreservation: "",
       isquantity: false,
+      hidden:false,
       activeTitle: "",
       formItem: {
         activePercent: "",
@@ -417,7 +418,7 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          if (this.formItem.productlogo == '') {
+          if (this.formItem.productlogo == ''&&this.activeType == '1') {
             this.$Modal.warning({
               title: '温馨提示',
               content: '请上传图片'
@@ -603,7 +604,14 @@ export default {
           if(!this.isTrue()){
             return false
           }
-           this.$Modal.confirm({
+          if (this.formItem.productlogo == '') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请上传图片'
+            });
+            return false          
+          }
+          this.$Modal.confirm({
               title: '提示',
               content: '<p>确认提交吗？</p>',
               onOk: () => {

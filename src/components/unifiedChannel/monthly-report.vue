@@ -139,6 +139,16 @@
               return report.registerRate + "%"
             })
           }),
+          this.getColumnItem('累计完善信息', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.allPerfectInfoCount
+            })
+          }),
+          this.getColumnItem('累计完善信息转化率', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.allPerfectInfoRate+ '%'
+            })
+          }),
           this.getColumnItem('累计激活', '', 120, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return this.parseNum(report.allActiveCount, report.allDiscountActiveCount)

@@ -2,7 +2,7 @@
     <div>
         <div class="navigation">
              <p>
-                <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷管理&nbsp;>&nbsp;信贷设置</span>
+                <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;信贷设置&nbsp;>&nbsp;待审核设置</span>
             </p>
         </div>
         <div class="contentcss">

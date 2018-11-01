@@ -168,8 +168,10 @@ export default {
                     title: '提示',
                     content: '<p>保存成功</p>'
                   })
+
                   this.naughtyScreening ()
                   this.screen = []
+                  this.screen1 = []
                   this.loading3 = false
                 } else {
                   this.loading3 = false
@@ -222,6 +224,7 @@ export default {
                         }
                     })
                     this.screen = []
+                    this.screen1 = []
                     this.naughtyScreening ()
                 } else {
                   this.modal9 = false

@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;销售管理</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;抢单侠&nbsp;>&nbsp;销售管理&nbsp;>&nbsp;销售查询</span>
       </p>
     </div>
     <div class="clearfix contentcss">
