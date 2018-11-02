@@ -164,10 +164,38 @@ export default {
       preservationvalue () {
         this.loading3 = true
         let businessSocialResList = []
+        for (let k = 0; k < this.pricesetting.userSocialResList.length; k++) {
+          if (this.pricesetting.userSocialResList[k].socialScore === "") {
+            this.$Modal.confirm({
+                title: "温馨提示",
+                content: "<p>请设置用户身价</p>",
+                onOk: () => {
+                  this.loading3 = false
+                },
+                onCancel: () => {
+                  this.loading3 = false
+                }
+              })
+              return false 
+          }     
+        }
         for (let i = 0; i < this.pricesetting.businessSocialResList.length; i++) {
           for (let j = 0; j < this.pricesetting.businessSocialResList[i].options.length; j++) {
             let obj = new Object ()
             obj.infoOptionKey = this.pricesetting.businessSocialResList[i].options[j].infoOptionKey
+            if (this.pricesetting.businessSocialResList[i].options[j].infoOptionScore === '') {   
+              this.$Modal.confirm({
+                title: "温馨提示",
+                content: "<p>请设置用户身价</p>",
+                onOk: () => {
+                  this.loading3 = false
+                },
+                onCancel: () => {
+                  this.loading3 = false
+                }
+              })
+              return false            
+            }
             obj.infoOptionScore = this.pricesetting.businessSocialResList[i].options[j].infoOptionScore
             businessSocialResList.push(obj)
           }

@@ -109,8 +109,8 @@
 
                     <p>
                         <span>认证状态:</span>
-                        <span v-if="inform.loanStatus==0&&inform.loanBaseStatus==0">未填基本信息</span>
-                        <span v-if="inform.loanStatus==0&&inform.loanBaseStatus==1">未填实名信息</span>
+                        <!-- <span v-if="inform.loanStatus==0&&inform.loanBaseStatus==0">未填基本信息</span> -->
+                        <span v-if="inform.loanStatus==0">未填实名信息</span>
                         <span v-else-if="inform.loanStatus==1">待审核</span>
                         <span v-else-if="inform.loanStatus==2">已入驻</span>
                         <span v-else-if="inform.loanStatus==3">审核失败</span>
