@@ -190,8 +190,8 @@ export default {
     this.loading3 = true            
     let list = {
       searchOptions : this.model1,
-      searchValue : this.mobile,
-      realStatus : this.model3,
+      searchValue : this.name,
+      realStatus : this.model3 == -1 ? "" : this.model3,
       accountStatus : this.model4,
       userTimeStatus : this.model5, 
       pageNum: this.startRow,
