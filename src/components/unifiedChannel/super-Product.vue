@@ -158,8 +158,8 @@ export default {
       BASE_URL + "/superProduct/loanSuperProduct/exportProductList";
       let formData = new FormData();
       formData.append("beginDate", this.beginTime);
-      formData.append("endDate", this.endDate);
-      formData.append("productCode", this.AllproductsCode);
+      formData.append("endDate", this.endTime);
+      formData.append("productCode", this.AllproductsCode =="code" ? "" : this.AllproductsCode);
       formData.append("flag", this.InquiredetailCode);
       utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
         this.loading2 = false;
