@@ -13,7 +13,7 @@
               </h1>            
           </FormItem>
           <FormItem v-for="item in requireTemplate.data" :label="item.templateConfigName">
-            <Input style="width:500px" v-model="item.templateConfigValue" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入模板内容,不少于30个字符"></Input>
+            <Input style="width:800px" v-model="item.templateConfigValue" type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="请输入模板内容,不少于30个字符"></Input>
           </FormItem>
           <FormItem >
             <h1 class="homePage_h1">
@@ -21,7 +21,7 @@
             </h1>
           </FormItem>
           <FormItem v-for="item in applayTemplate.data" :label="item.templateConfigName" >
-            <Input style="width:500px" v-model="item.templateConfigValue " type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入模板内容,不少于30个字符"></Input>
+            <Input style="width:800px" v-model="item.templateConfigValue " type="textarea" :autosize="{minRows: 4,maxRows: 5}" placeholder="请输入模板内容,不少于30个字符"></Input>
           </FormItem>
           <FormItem class="tc mt50"  >
             <Button type="primary" @click="handleSubmit">保存</Button>

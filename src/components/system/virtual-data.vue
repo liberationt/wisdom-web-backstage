@@ -27,7 +27,7 @@
     <div>
       <Form class="pl10" ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="100">
         <FormItem label="用户名" prop="name">
-            <Input v-model="formValidate.name" style="width:300px" placeholder="如：张三"></Input>
+            <Input v-model="formValidate.name" style="width:300px" placeholder="如：张先生"></Input>
         </FormItem>
         <!-- <FormItem label="身价" prop="social">
             <Input v-model="formValidate.social" style="width:300px" placeholder="如：100万"></Input>
@@ -39,13 +39,13 @@
             <Input v-model="formValidate.amount" style="width:300px" placeholder="如：100万"></Input>
         </FormItem>
         <FormItem label="期限" prop="term">
-            <Input v-model="formValidate.term" style="width:300px" placeholder="如：10月"></Input>
+            <Input v-model="formValidate.term" style="width:300px" placeholder="如：10个月"></Input>
         </FormItem>
         <FormItem label="是否本地户籍" prop="household">
           <Input v-model="formValidate.household" style="width:300px" placeholder="如：本地户籍"></Input>
         </FormItem>
         <FormItem label="月收入" prop="earning">
-            <Input v-model="formValidate.earning" style="width:300px" placeholder="如：2000-5000"></Input>
+            <Input v-model="formValidate.earning" style="width:300px" placeholder="如：3千-6千"></Input>
         </FormItem>
         <FormItem label="附加条件信息" prop="conditions">
           <Input v-model="formValidate.conditions" type="textarea" style="width:300px" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入附加条件信息" />
