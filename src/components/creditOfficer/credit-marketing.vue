@@ -121,7 +121,7 @@
                     <Select disabled v-if="registergive" v-model="updateMarketConfigList[0].marketTimeEnabled" style="width:100px" @on-change="admissiontime" class="left ml10">
                       <Option v-for="items in range" :value="items.value" :key="items.value">{{ items.label }}</Option>
                     </Select>
-                    <div v-if="registertime">
+                    <div v-if="registertime1">
                       <DatePicker disabled type="datetime" class="left ml10"  :value="updateMarketConfigList[0].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " :value="updateMarketConfigList[0].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
@@ -138,7 +138,7 @@
                     <Select disabled v-if="firstdelivery" v-model="updateMarketConfigList[1].marketTimeEnabled" style="width:100px" @on-change="firsttime" class="left ml10">
                       <Option v-for="item in ranges2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
-                    <div v-if="firstdata">
+                    <div v-if="firstdata1">
                       <DatePicker disabled type="datetime" class="left ml10" @on-change="time3" :value="updateMarketConfigList[1].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " @on-change="time4" :value="updateMarketConfigList[1].marketEndTime" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
@@ -158,7 +158,7 @@
                       <Select disabled v-model="updateMarketConfigList[2].marketTimeEnabled" style="width:100px;" @on-change="normaltime" class="left ">
                         <Option v-for="item in ranges3" :value="item.value" :key="item.value">{{ item.label }}</Option>
                       </Select>
-                      <div v-if="normaldata">
+                      <div v-if="normaldata1">
                         <DatePicker disabled type="datetime" class="left ml10"  :value="updateMarketConfigList[2].marketBeginTime"  confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                         <span class="left utmost">至</span>
                         <DatePicker disabled type="datetime" class="left " :value="updateMarketConfigList[2].marketEndTime"  confirm placeholder="结束时间" style="width: 160px"></DatePicker>
@@ -201,7 +201,7 @@
                     <Select disabled v-if="invitasend" v-model="updateMarketConfigList[3].marketTimeEnabled" style="width:100px" @on-change="invitationtime" class="left ml10">
                       <Option v-for="item in ranges4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
-                    <div v-if="invitadata">
+                    <div v-if="invitadata1">
                       <DatePicker disabled type="datetime" class="left ml10" @on-change="time7" :value="updateMarketConfigList[3].marketBeginTime" :options="options3" confirm placeholder="开始时间" style="width: 160px"></DatePicker>
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " @on-change="time8" :value="updateMarketConfigList[3].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
@@ -260,6 +260,11 @@
 export default {
   data() {
     return {
+        // 新增
+        firstdata1: true,
+        registertime1:true,
+        normaldata1:true,
+        invitadata1:true,
         auditing:false,
         memos:false,
         registergive: true,
@@ -605,6 +610,11 @@ export default {
                     this.updateMarketConfigList[3].marketBeginTime = resp.data.updateMarketConfigList[i].marketBeginTime
                     this.updateMarketConfigList[3].marketEndTime = resp.data.updateMarketConfigList[i].marketEndTime
                     this.updateMarketConfigList[3].valueList[0].value1 = resp.data.updateMarketConfigList[i].valueList[0].value1
+                    if(this.updateMarketConfigList[3].marketTimeEnabled=="1"){
+                      this.invitadata1 = true;
+                    }else{
+                      this.invitadata1 = false;
+                    }
                   } else if (resp.data.updateMarketConfigList[i].type == 'normal_recharge') {//正常充值
                     this.updateMarketConfigList[2].code = resp.data.updateMarketConfigList[i].code
                     this.updateMarketConfigList[2].marketTimeEnabled = String(resp.data.updateMarketConfigList[i].marketTimeEnabled)
@@ -629,6 +639,11 @@ export default {
                       // this.fruit2.push ('2')
                       this.normaldreduce2 = false
                     }
+                    if(this.updateMarketConfigList[2].marketTimeEnabled=="1"){
+                      this.normaldata1 = true;
+                    }else{
+                      this.normaldata1 = false;
+                    }
                   } else if (resp.data.updateMarketConfigList[i].type == 'first_recharge') {//首次充值
                     this.updateMarketConfigList[1].code = resp.data.updateMarketConfigList[i].code
                     this.updateMarketConfigList[1].marketTimeEnabled = String(resp.data.updateMarketConfigList[i].marketTimeEnabled)
@@ -637,6 +652,11 @@ export default {
                     this.updateMarketConfigList[1].marketEndTime = resp.data.updateMarketConfigList[i].marketEndTime
                     this.updateMarketConfigList[1].valueList[0].value1 = resp.data.updateMarketConfigList[i].valueList[0].value1
                     this.updateMarketConfigList[1].valueList[0].value2 = resp.data.updateMarketConfigList[i].valueList[0].value2
+                    if(this.updateMarketConfigList[1].marketTimeEnabled =="1"){
+                      this.firstdata1 =true
+                    }else{
+                      this.firstdata1 =false
+                    }
                   } else if (resp.data.updateMarketConfigList[i].type == 'register') {//注册充值
                     this.updateMarketConfigList[0].code = resp.data.updateMarketConfigList[i].code
                     this.updateMarketConfigList[0].marketTimeEnabled = String(resp.data.updateMarketConfigList[i].marketTimeEnabled)
@@ -644,6 +664,11 @@ export default {
                     this.updateMarketConfigList[0].marketBeginTime = resp.data.updateMarketConfigList[i].marketBeginTime
                     this.updateMarketConfigList[0].marketEndTime = resp.data.updateMarketConfigList[i].marketEndTime
                     this.updateMarketConfigList[0].valueList[0].value1 = resp.data.updateMarketConfigList[i].valueList[0].value1
+                    if(this.updateMarketConfigList[0].marketTimeEnabled =="1"){
+                      this.registertime1 = true
+                    }else{
+                      this.registertime1 = false
+                    }
                   }
                 }
                 } else {
