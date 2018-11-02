@@ -326,9 +326,7 @@ export default {
         this.$nextTick(() => {
           this.loading = true
         })
-      },
-
-
+      }
   },
   mounted () {
     this.inquireabout ()       
