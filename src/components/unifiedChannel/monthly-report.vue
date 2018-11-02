@@ -274,7 +274,7 @@
       //查询业务列表
       queryBusiness(callback) {
         this.http.post(BASE_URL + '/promotion/business/queryListByManager', {}).then((resp) => {
-          if (resp.code == 'success') {
+          if (resp.code == 'success') {  
             this.businessList = resp.data
             if (this.businessList && this.businessList.length > 0) {
               this.curBusinessCode = resp.data[0].businessCode
@@ -369,7 +369,14 @@
             this.loading2 = false;
           }
         })
+      },
+      beginTimeChange(begin){
+        this.beginTime=begin
+      },
+      endTimeChange(end){
+        this.endTime=end
       }
+
     },
     mounted() {
       // 获取当前时间
