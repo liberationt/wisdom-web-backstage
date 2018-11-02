@@ -192,7 +192,7 @@ export default {
       searchOptions : this.model1,
       searchValue : this.name,
       realStatus : this.model3 == -1 ? "" : this.model3,
-      accountStatus : this.model4,
+      accountStatus : this.model4 == -1 ? "" : this.model4,
       userTimeStatus : this.model5, 
       pageNum: this.startRow,
       pageSize: this.endRow
