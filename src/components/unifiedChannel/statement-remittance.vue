@@ -155,23 +155,6 @@
       time2(value, data) {
         this.endTime = value
       },
-      timeFormat(date, num) {
-        let y = date.getFullYear(); //年
-        let m = date.getMonth() + 1; //月
-        let d = date.getDate(); //日
-        this.getdata = d
-        if (num == 1) {
-          d = date.getDate() - 1
-        } else {
-          if (d == 1) {
-            m-=1
-          }
-        }
-        m = m < 10 ? "0" + m : m;
-        d = d < 10 ? "0" + d : d;
-        return y + "-" + m + "-" + d;
-      },
-
       //查询业务列表
       queryBusiness(callback) {
         this.http.post(BASE_URL + '/promotion/business/queryListByManager', {}).then((resp) => {
@@ -343,19 +326,24 @@
     },
     mounted() {
       // 获取当前时间
-      var date = new Date();
-      this.endTime = this.timeFormat(date, 1)
-      date.setDate(1);
-      this.beginTime = this.timeFormat(date, 0)
-      if (this.getdata == '1') {  
-        var nowdays = new Date(); 
-        var year = nowdays.getFullYear();
-        var month = nowdays.getMonth();
-        if(month==0) { month=12; year=year-1; } 
-        if (month < 10) { month = "0" + month; } 
-        var myDate = new Date(year, month, 0); 
-        this.endTime = year + "-" + month + "-" + myDate.getDate();//上个月的最后一天 
+      var myDate = new Date(); 
+      var year = myDate.getFullYear(); 
+      var month = myDate.getMonth()+1 //获取当前月份(0-11,0代表1月，所以要加1); 
+      var day = myDate.getDate();//获取当前日（1-31） 
+      if (month<10) { month = "0" + month; } 
+      if (day >= 0 && day <= 9) {
+      if (day == 1) {
+      month = myDate.getMonth()
+      if(month==0) {
+      month=12; year=year-1; 
       }
+      day = new Date(year, month, 0).getDate ();
+      } else {
+      day = day < 10 ? "0" + (day-1) : (day-1);
+      } 
+      } 
+      this.beginTime = year+'-'+month + "-" + "01";
+      this.endTime = year+"-"+month + "-" + day;
       this.queryBusiness(() => {
         this.queryReportList();
       })
