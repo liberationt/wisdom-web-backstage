@@ -164,6 +164,7 @@ export default {
       preservationvalue () {
         this.loading3 = true
         let businessSocialResList = []
+        let reg = /^(0|[1-9][0-9]*)$/
         for (let k = 0; k < this.pricesetting.userSocialResList.length; k++) {
           if (this.pricesetting.userSocialResList[k].socialScore === "") {
             this.$Modal.confirm({
@@ -187,6 +188,19 @@ export default {
               this.$Modal.confirm({
                 title: "温馨提示",
                 content: "<p>请设置用户身价</p>",
+                onOk: () => {
+                  this.loading3 = false
+                },
+                onCancel: () => {
+                  this.loading3 = false
+                }
+              })
+              return false            
+            }
+            if (!reg.test(this.pricesetting.businessSocialResList[i].options[j].infoOptionScore)) {   
+              this.$Modal.confirm({
+                title: "温馨提示",
+                content: "<p>请设置正确的用户身价</p>",
                 onOk: () => {
                   this.loading3 = false
                 },
