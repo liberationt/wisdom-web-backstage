@@ -178,7 +178,20 @@ export default {
                 }
               })
               return false 
-          }     
+          }
+          if (!reg.test(this.pricesetting.userSocialResList[k].socialScore)) {
+            this.$Modal.confirm({
+                title: "温馨提示",
+                content: "<p>请设置正确的用户身价</p>",
+                onOk: () => {
+                  this.loading3 = false
+                },
+                onCancel: () => {
+                  this.loading3 = false
+                }
+              })
+              return false 
+          }    
         }
         for (let i = 0; i < this.pricesetting.businessSocialResList.length; i++) {
           for (let j = 0; j < this.pricesetting.businessSocialResList[i].options.length; j++) {
