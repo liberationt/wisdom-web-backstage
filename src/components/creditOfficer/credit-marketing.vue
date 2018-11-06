@@ -118,7 +118,7 @@
                     <Select disabled v-model="updateMarketConfigList[0].status" style="width:60px"  class="left" >
                       <Option v-for="items in cityList" :value="items.value" :key="items.value">{{ items.label }}</Option>
                     </Select>
-                    <Select disabled v-if="registergive" v-model="updateMarketConfigList[0].marketTimeEnabled" style="width:100px" @on-change="admissiontime" class="left ml10">
+                    <Select disabled v-if="registergive1" v-model="updateMarketConfigList[0].marketTimeEnabled" style="width:100px" @on-change="admissiontime" class="left ml10">
                       <Option v-for="items in range" :value="items.value" :key="items.value">{{ items.label }}</Option>
                     </Select>
                     <div v-if="registertime1">
@@ -126,7 +126,7 @@
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " :value="updateMarketConfigList[0].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
                     </div>
-                    <Input type="text" disabled v-model="updateMarketConfigList[0].valueList[0].value1" v-if="registergive"class="left ml10 inputnum"  style="width:100px">
+                    <Input type="text" disabled v-model="updateMarketConfigList[0].valueList[0].value1" v-if="registergive1" class="left ml10 inputnum"  style="width:100px">
                     <span slot="append" class="left">个</span>
                     </Input>
                   </FormItem>
@@ -135,7 +135,7 @@
                     <Select disabled v-model="updateMarketConfigList[1].status" style="width:60px" @on-change="firstgive" class="left">
                       <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
-                    <Select disabled v-if="firstdelivery" v-model="updateMarketConfigList[1].marketTimeEnabled" style="width:100px" @on-change="firsttime" class="left ml10">
+                    <Select disabled v-if="firstdelivery1" v-model="updateMarketConfigList[1].marketTimeEnabled" style="width:100px" @on-change="firsttime" class="left ml10">
                       <Option v-for="item in ranges2" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <div v-if="firstdata1">
@@ -143,7 +143,7 @@
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " @on-change="time4" :value="updateMarketConfigList[1].marketEndTime" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
                     </div>
-                    <div v-if="firstdelivery">
+                    <div v-if="firstdelivery1">
                       <Input disabled type="text" v-model="updateMarketConfigList[1].valueList[0].value1" class="left ml10 inputnum"  style="width:127px">
                       <span slot="prepend">满</span>
                       <span slot="append" class="left">送</span>
@@ -198,7 +198,7 @@
                     <Select disabled v-model="updateMarketConfigList[3].status" style="width:60px" @on-change="invitationgive" class="left">
                       <Option v-for="item in cityList4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
-                    <Select disabled v-if="invitasend" v-model="updateMarketConfigList[3].marketTimeEnabled" style="width:100px" @on-change="invitationtime" class="left ml10">
+                    <Select disabled v-if="invitasend1" v-model="updateMarketConfigList[3].marketTimeEnabled" style="width:100px" @on-change="invitationtime" class="left ml10">
                       <Option v-for="item in ranges4" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <div v-if="invitadata1">
@@ -206,7 +206,7 @@
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " @on-change="time8" :value="updateMarketConfigList[3].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
                     </div>
-                    <Input disabled type="text" v-model="updateMarketConfigList[3].valueList[0].value1" class="left ml10 inputnum" v-if="invitasend"  style="width:127px">
+                    <Input disabled type="text" v-model="updateMarketConfigList[3].valueList[0].value1" class="left ml10 inputnum" v-if="invitasend1"  style="width:127px">
                     <span slot="prepend">送</span>
                     <span slot="append" class="left">个/人</span>
                     </Input>
@@ -241,7 +241,7 @@
             <div  class="newtype_file mt15 mb15">
               <Form ref="formCustomexa" :model="formCustomexa" :rules="ruleCustomexa" :label-width="100" style="padding-left:15px">
                 <FormItem label="审核状态:" prop="activeType" >
-                  <Select @on-change="invitationgive" v-model="formCustomexa.activeType" style="width:160px" >
+                  <Select @on-change="invitationgiveexa" v-model="formCustomexa.activeType" style="width:160px" >
                     <Option  value="pass" >审核通过</Option>
                     <Option  value="reject" >审核驳回</Option>
                   </Select>    
@@ -263,12 +263,14 @@ export default {
         // 新增
         firstdata1: true,
         registertime1:true,
+        registergive1:true,
         normaldata1:true,
         invitadata1:true,
         auditing:false,
         memos:false,
         registergive: true,
         firstdelivery: true,
+        firstdelivery1:true,
         firstdata: true,
         normaldelivery: true,
         normaldelivery2: true,
@@ -276,6 +278,7 @@ export default {
         normaldreduce2:true,
         invitadata: true,
         invitasend: true,
+        invitasend1: true,
         registertime: true,
         modal9:false,
         normaldata: true,
@@ -615,6 +618,15 @@ export default {
                     }else{
                       this.invitadata1 = false;
                     }
+                    if (resp.data.updateMarketConfigList[i].status == 1) {     
+                      if (resp.data.updateMarketConfigList[i].marketTimeEnabled == 1) {
+                        this.invitadata1 = true
+                      }
+                      this.invitasend1 = true
+                    } else {
+                      this.invitadata1 = false
+                      this.invitasend1 = false
+                    }
                   } else if (resp.data.updateMarketConfigList[i].type == 'normal_recharge') {//正常充值
                     this.updateMarketConfigList[2].code = resp.data.updateMarketConfigList[i].code
                     this.updateMarketConfigList[2].marketTimeEnabled = String(resp.data.updateMarketConfigList[i].marketTimeEnabled)
@@ -653,10 +665,22 @@ export default {
                     this.updateMarketConfigList[1].valueList[0].value1 = resp.data.updateMarketConfigList[i].valueList[0].value1
                     this.updateMarketConfigList[1].valueList[0].value2 = resp.data.updateMarketConfigList[i].valueList[0].value2
                     if(this.updateMarketConfigList[1].marketTimeEnabled =="1"){
-                      this.firstdata1 =true
+                      this.firstdelivery1 =true
                     }else{
-                      this.firstdata1 =false
+                      this.firstdelivery1 =false
                     }
+                    if (resp.data.updateMarketConfigList[i].status == 1) {     
+                      if (resp.data.updateMarketConfigList[i].marketTimeEnabled == 1) {
+                        this.firstdata1 = true
+                      } else {
+                        this.firstdata1 = false
+                      }
+                      this.firstdelivery1 = true
+                    } else {
+                      this.firstdelivery1 = false
+                      this.firstdata1 = false
+                    }
+
                   } else if (resp.data.updateMarketConfigList[i].type == 'register') {//注册充值
                     this.updateMarketConfigList[0].code = resp.data.updateMarketConfigList[i].code
                     this.updateMarketConfigList[0].marketTimeEnabled = String(resp.data.updateMarketConfigList[i].marketTimeEnabled)
@@ -666,8 +690,19 @@ export default {
                     this.updateMarketConfigList[0].valueList[0].value1 = resp.data.updateMarketConfigList[i].valueList[0].value1
                     if(this.updateMarketConfigList[0].marketTimeEnabled =="1"){
                       this.registertime1 = true
+                      this.registergive1 = true
                     }else{
                       this.registertime1 = false
+                      this.registergive1 = false
+                    }
+                    if (resp.data.updateMarketConfigList[i].status == 1) {     
+                      if (resp.data.updateMarketConfigList[i].marketTimeEnabled == 1) {
+                        this.registertime1 = true
+                      }
+                      this.registergive1 = true
+                    } else {
+                      this.registertime1 = false
+                      this.registergive1 = false
                     }
                   }
                 }
@@ -906,7 +941,7 @@ export default {
       }).catch(err=>{});
 
       },
-      invitationgive (v) {
+      invitationgiveexa (v) {
           if (v == 'pass') {
               this.memos = false
           } else {
