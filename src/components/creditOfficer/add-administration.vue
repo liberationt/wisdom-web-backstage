@@ -604,7 +604,7 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          if (this.formItem.productlogo == '') {
+          if (this.formItem.productlogo == '' && this.activeType == '1') {
             this.$Modal.warning({
               title: '温馨提示',
               content: '请上传图片'
@@ -645,6 +645,7 @@ export default {
       //   })
       //   .catch(err => {});
     },
+   
     // 查看操作日志
     journal() {
       this.$router.push({

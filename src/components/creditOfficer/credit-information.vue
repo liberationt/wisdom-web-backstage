@@ -880,6 +880,8 @@ export default {
       } else if (this.tabnum == 5) {
         this.evaluationrecord();
       } else if (this.tabnum == 6) {
+        this.invitationRecord();
+      }else if (this.tabnum == 7) {
         this.logonlog();
       }
     },
@@ -1152,5 +1154,8 @@ export default {
   span {
     margin-left: 0px !important;
   }
+}
+.ivu-tabs:after{
+  padding-bottom:130px;
 }
 </style>
