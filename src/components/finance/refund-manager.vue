@@ -9,7 +9,7 @@
       <!-- <Tabs type="card" :animated="false" @on-click="handleReset('formValidate')"> -->
         <!-- <TabPane v-for="(tab, index) in tabs" :key="index" :label="tab" > -->
           <div class="application_state">
-            <Tabs value="0" :animated="false" @on-click="recordType">
+            <Tabs :value=this.num :animated="false" @on-click="recordType">
               <TabPane label="待审核" name="0">
                   <div class="mt50 clearfix">
                       <div class="left">
@@ -63,10 +63,10 @@
                       </div>
                   </div>
                   <p class="mt15">
-                    共<strong class="red">{{total}}</strong>条记录，退款金额<strong class="red">{{totalAmount}}</strong>元
+                    共<strong class="red">{{total}}</strong>条记录，退款金额<strong class="red">{{totalAmountsuc}}</strong>元
                   </p>
                   <div class="mt15">
-                      <Table border :columns="columns9" :data="data6"></Table>
+                      <Table border :columns="columns9" :data="data7"></Table>
                   </div>
                   <div class="tr mt15">
                       <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -86,6 +86,7 @@ export default {
     return {
       model1: "",
       model2: "",
+      num : 0,
       modal8: false,
       loading2: false,
       loading3: false,
@@ -100,6 +101,7 @@ export default {
       endRow: 10,
       total: 0,
       totalAmount: 0,
+      totalAmountsuc: 0,
       loading: true,
       rejectcode: "",
       rejectorder: "",
@@ -221,7 +223,7 @@ export default {
         }
       ],
       data6: [],
-      // data7: [],
+      data7: [],
       columns9: [
         {
           title: "操作时间",
@@ -309,13 +311,22 @@ export default {
     },
     pageChange(page) {
       this.startRow = page;
-      this.auditedQuery(1);
+      if (this.num == '0') {
+        this.auditedQuery(1);
+      } else {
+        this.auditedQuery(2);
+      }     
     },
     pagesizechange(page) {
       this.startRow = 1;
       this.endRow = page;
-      this.auditedQuery(1);
+      if (this.num == '0') {
+        this.auditedQuery(1);
+      } else {
+        this.auditedQuery(2);
+      }
     },
+    
     // 待审核查询
     auditedQuery(num) {
       this.loading3 = true;
@@ -341,12 +352,13 @@ export default {
         recordtype = 3; // 审核中
         this.value2 = ""
         this.model2 = ""
+        this.num = '0'
       } else {
+        this.num = '1'
         recordtype = 1; // 退款成功
         this.model1 = this.model2
         this.value = this.value2
       }
-      console.log(this.timeval2)
       let audited = {
         refundStatus: recordtype,
         searchKey: this.model1,
@@ -359,15 +371,17 @@ export default {
       this.http
         .post(BASE_URL + "/loan/refundOrder/query", audited)
         .then(resp => {
-          console.log(resp);
           if (resp.code == "success") {
-            this.data6 = resp.data.dataList;
-            this.totalAmount = resp.data.totalAmountAsFormat;
+            
             this.total = Number(resp.data.total);
             this.startRow = Math.ceil(resp.data.startRow / this.endRow);
             this.loading3 = false;
             if (num == 1) {
+              this.data6 = resp.data.dataList;
+              this.totalAmount = resp.data.totalAmountAsFormat;
             } else {
+              this.data7 = resp.data.dataList;
+              this.totalAmountsuc = resp.data.totalAmountAsFormat;
             }
           } else {
             this.loading3 = false;
@@ -400,7 +414,6 @@ export default {
           this.http
             .post(BASE_URL + "/loan/refundOrder/update", list)
             .then(resp => {
-              // console.log(resp);
               if (resp.code == "success") {
                 this.$Message.info("退款成功");
                 this.auditedQuery(1);
@@ -444,8 +457,6 @@ export default {
       } else {
         recordtype = 1;
       }
-      // console.log(this.model1);
-      // console.log(phone);
       let formData = new FormData();
       formData.append("refundStatus", 3);
       formData.append("beginTime", this.timeval1);
@@ -494,7 +505,6 @@ export default {
     this.http
       .post(BASE_URL + "/loan/withdraw/getQueryOption", {})
       .then(resp => {
-        // console.log(resp);
         if (resp.code == "success") {
           this.cityList = resp.data.searchOptionList;
         } else {
@@ -510,5 +520,8 @@ export default {
 }
 .ivu-modal {
   top: 300px !important;
+}
+.ivu-tabs{
+  padding-bottom:130px;
 }
 </style>
