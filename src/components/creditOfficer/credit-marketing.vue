@@ -126,7 +126,7 @@
                       <span class="left utmost">至</span>
                       <DatePicker disabled type="datetime" class="left " :value="updateMarketConfigList[0].marketEndTime" :options="options3" confirm placeholder="结束时间" style="width: 160px"></DatePicker>
                     </div>
-                    <Input type="text" disabled v-model="updateMarketConfigList[0].valueList[0].value1" v-if="registergive"class="left ml10 inputnum"  style="width:100px">
+                    <Input type="text" disabled v-model="updateMarketConfigList[0].valueList[0].value1" v-if="registergive1" class="left ml10 inputnum"  style="width:100px">
                     <span slot="append" class="left">个</span>
                     </Input>
                   </FormItem>
