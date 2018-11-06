@@ -173,6 +173,9 @@ export default {
             h,
             params.row.loanProductList,
             details => {
+              if(details.productName == ""){
+                details.productName = ' - '; 
+              }
               return details.productName;
             }
           );
