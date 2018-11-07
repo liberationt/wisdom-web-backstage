@@ -180,10 +180,10 @@ export default {
         width: 100%;
         height: 100%;
         background: url(../image/bg.jpg);
-        // background-size:100% 120%;
+        background-size:100% 130%;
         background-position: center 0;
         background-repeat: no-repeat;
-        background-size: cover;
+        // background-size: cover;
     }
   .card-box {
     padding: 20px 40px;
