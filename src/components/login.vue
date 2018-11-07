@@ -115,12 +115,9 @@ export default {
                 utils.putlocal("showname", menuname);
                 
                 utils.putlocal('lefthidden', '0')
-                // location.reload()
               } else {
                 this.errcon = resp.message
                 this.hid = true
-                // this.$Message.error(resp.message)
-                // this.loading = false
                 setTimeout(() => {
                     this.loading = false
                 }, 1000)
@@ -136,8 +133,6 @@ export default {
         if (this.formLogin.remember[0] == '记住密码') {
           utils.setCookie('username', JSON.stringify(this.formLogin.username), 7)
           utils.setCookie('password', JSON.stringify(this.formLogin.password), 7)
-          // sessionStorage.setItem('username', JSON.stringify(this.formLogin.username))
-          // sessionStorage.setItem('password', JSON.stringify(this.formLogin.password))
         } else {
           utils.delCookie('username')
           utils.delCookie('password')
@@ -200,6 +195,7 @@ export default {
     margin-bottom: 20px;
     background-color: rgba(0, 0, 0, .2);
     margin: 237px auto;
+    margin-bottom: 0px;
     width: 400px;
     color: #fff;
     /* border: 2px solid #8492A6;*/
