@@ -85,7 +85,7 @@
                         <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">贷款利率:</span>
                         <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">{{inform.serviceRate}}</span>
                     </p>
-                    <p v-if="inform.loanHaveType>0">
+                    <p v-if="inform.loanHaveType.length>0">
                         <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0">擅长业务:</span>
                         <span v-if="inform.loanStatus!=0||inform.loanBaseStatus!=0" v-for="item in inform.loanHaveType">{{item}} </span>
                     </p>
