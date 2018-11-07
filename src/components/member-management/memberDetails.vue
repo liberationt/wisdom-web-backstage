@@ -656,4 +656,7 @@ export default {
     }
 
 }
+.ivu-tabs .ivu-tabs-tabpane{
+    padding-bottom:130px;
+}
 </style>
