@@ -77,22 +77,28 @@ export default {
           align: 'center'
         },
         {
-          title: '详情页查看人数',
+          title: 'App详情页查看人数',
           key: 'pageViewuvcount',
           minWidth: 150,
           align: 'center'
         },
         {
-          title: '立即申请点击人数',
+          title: 'App立即申请点击人数',
           key: 'datesubmitUvcount',
           minWidth: 150,
           align: 'center'
         },
         {
-          title: '点击转化率',
+          title: 'App点击转化率',
           key: 'conversionRate',
           minWidth: 150,
           align: 'center'
+        },
+        {
+          title:'H5点击人数',
+          key:'h5UvCount',
+          minWinth:150,
+          align:'center'
         }
       
       ],
@@ -181,7 +187,7 @@ export default {
           );
         }),
         this.getColumnItem(
-          "详情页查看人数",
+          "App详情页查看人数",
           "pageViewuvcount",
           150,
           (h, params) => {
@@ -195,7 +201,7 @@ export default {
           }
         ),
         this.getColumnItem(
-          "立即申请点击人数",
+          "App立即申请点击人数",
           "submitUvcount",
           150,
           (h, params) => {
@@ -208,12 +214,21 @@ export default {
             );
           }
         ),
-        this.getColumnItem("点击转化率", "conversionRate", 150, (h, params) => {
+        this.getColumnItem("App点击转化率", "conversionRate", 150, (h, params) => {
           return this.reportColumns2Render(
             h,
             params.row.loanProductList,
             details => {
               return details.conversionRate;
+            }
+          );
+        }),
+        this.getColumnItem("H5点击人数", "h5UvCount", 150, (h, params) => {
+          return this.reportColumns2Render(
+            h,
+            params.row.loanProductList,
+            details => {
+              return details.h5UvCount;
             }
           );
         })
