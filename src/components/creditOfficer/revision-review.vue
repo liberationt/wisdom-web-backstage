@@ -17,7 +17,7 @@
         </p>
         <div class="clearfix examine_con" >
           <span class="left">提交内容:</span>
-          <div class="left examine_chi">
+          <div class="left examine_chi" style="width:750px">
             <div class="">
               <p><span>1.</span>贷款要求</p>
               <span>{{serviceLoanRequire}}</span>
