@@ -103,6 +103,7 @@
                     // key: 'action',
                     minWidth: 200,
                     align: "center",
+                    fixed: 'right',
                     render: (h, params) => {
                         let audstatus = params.row.auditStatus;
                         let auditStatus;

@@ -161,6 +161,7 @@
                     key: "action",
                     minWidth: 150,
                     align: "center",
+                    fixed: 'right',
                     render: (h, params) => {
                         // console.log(params)
                         let status = params.row.loanStatus;

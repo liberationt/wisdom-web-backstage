@@ -133,6 +133,7 @@ export default {
           key: "action",
           width: 100,
           align: "center",
+          fixed: 'right',
           render: (h, params) => {
             return h("div", [
               h(
