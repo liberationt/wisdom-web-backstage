@@ -138,27 +138,7 @@
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.registerRate + "%"
             })
-          }),
-          businessKey == 'huazan' ?
-            this.getColumnItem('累计完善信息', '', 100, (h, params) => {
-            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-              return report.allPerfectInfoCount
-            })
-          }) : this.getColumnItem('抢单侠', '', 120, (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allAuthCount
-              })
-            }),
-            businessKey == 'huazan' ?
-            this.getColumnItem('累计完善信息转化率', '', 100, (h, params) => {
-            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-              return report.allPerfectInfoRate+ '%'
-            })
-          }) : this.getColumnItem('抢单侠', '', 120, (h, params) => {
-              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
-                return report.allAuthCount
-              })
-            }),
+          }),         
           this.getColumnItem('累计激活', '', 120, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return this.parseNum(report.allActiveCount, report.allDiscountActiveCount)
@@ -190,6 +170,32 @@
               })
             }),
         ]
+        if (businessKey == 'huazan') {
+          columnList.push(
+            businessKey == 'huazan' ?
+            this.getColumnItem('累计完善信息', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.allPerfectInfoCount
+            })
+          }) : this.getColumnItem('抢单侠', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allAuthCount
+              })
+            }),
+            businessKey == 'huazan' ?
+            this.getColumnItem('累计完善信息转化率', '', 100, (h, params) => {
+            return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+              return report.allPerfectInfoRate+ '%'
+            })
+          }) : this.getColumnItem('抢单侠', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allAuthCount
+              })
+            }),
+
+          )
+          
+        }
         return columnList
       },
 

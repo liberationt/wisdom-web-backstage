@@ -115,16 +115,20 @@
           this.getColumnItem('当日激活', 'activeCount', 150 ),
           this.getColumnItem('累计激活', 'allActiveCount', 140),
           this.getColumnItem('当日激活转化率', 'activeRate', 100),
-          this.getColumnItem('累计激活转化率', 'allActiveRate', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '当日完善信息人数' : '抢单侠', 'allPerfectInfoCount', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息人数' : '抢单侠', 'allTotalPerfectInfoCount', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '当日完善信息转化率' : '抢单侠', 'allPerfectInfoFact', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : '抢单侠', 'allTotalPerfectInfoFact', 100),
+          this.getColumnItem('累计激活转化率', 'allActiveRate', 100),          
           this.getColumnItem(businessKey == 'huazan' ? '当日申请' : '当日认证', 'applyCount', 90),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'allApplyCount', 90),
           this.getColumnItem(businessKey == 'huazan' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请转化率' : '累计认证转化率', 'allApplyRate', 100 ),
         ]
+        if (businessKey == 'huazan') {
+          columnList.push(
+            this.getColumnItem(businessKey == 'huazan' ? '当日完善信息人数' : '抢单侠', 'allPerfectInfoCount', 100),
+            this.getColumnItem(businessKey == 'huazan' ? '累计完善信息人数' : '抢单侠', 'allTotalPerfectInfoCount', 100),
+            this.getColumnItem(businessKey == 'huazan' ? '当日完善信息转化率' : '抢单侠', 'allPerfectInfoFact', 100),
+            this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : '抢单侠', 'allTotalPerfectInfoFact', 100),
+          )
+        }
         return columnList
       },
 

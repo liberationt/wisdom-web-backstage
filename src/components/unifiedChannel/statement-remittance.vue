@@ -112,14 +112,18 @@
           this.getColumnItem('PV', 'pv', 100),
           this.getColumnItem('UV', 'uv', 100),
           this.getColumnItem('注册', 'registerCount', 150),
-          this.getColumnItem('注册转化率', 'registerRate', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息' : '抢单侠', 'perfectInfoCount', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : '抢单侠', 'perfectInfoRate', 100),
+          this.getColumnItem('注册转化率', 'registerRate', 100),         
           this.getColumnItem('累计激活', 'activeCount', 150),
           this.getColumnItem('累计激活转化率', 'activeRate', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'applyCount', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请转化率' : '累计认证转化率', 'applyRate', 100)
         ]
+        if (businessKey == 'huazan') {
+          columnList.push(
+            this.getColumnItem(businessKey == 'huazan' ? '累计完善信息' : '抢单侠', 'perfectInfoCount', businessKey == 'huazan' ? 100 : 0),
+            this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : '抢单侠', 'perfectInfoRate', businessKey == 'huazan' ? 100 : 0),
+          )
+        }
         return columnList
       },
 
@@ -250,8 +254,8 @@
                 "uv": resp.data.uv,
                 "registerCount": this.parseNum(resp.data.registerCount, resp.data.discountRegisterCount),
                 "registerRate": resp.data.registerRate + '%',
-                'perfectInfoCount':this.businessKey == 'huazan' ? resp.data.perfectInfoCount : '',
-                'perfectInfoRate':this.businessKey == 'huazan' ? resp.data.perfectInfoRate + '%' : '',
+                'perfectInfoCount':this.businessKey == 'huazan' ? resp.data.perfectInfoCount : resp.data.perfectInfoCount,
+                'perfectInfoRate':this.businessKey == 'huazan' ? resp.data.perfectInfoRate + '%' : resp.data.perfectInfoCount,
                 "activeCount": this.parseNum(resp.data.activeCount, resp.data.discountActiveCount),
                 "activeRate": resp.data.activeRate + '%',
                 "applyCount": this.businessKey == 'huazan' ? resp.data.applyCount : resp.data.authCount,
