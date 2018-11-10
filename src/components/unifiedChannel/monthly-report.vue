@@ -139,16 +139,26 @@
               return report.registerRate + "%"
             })
           }),
-          this.getColumnItem('累计完善信息', '', 100, (h, params) => {
+          businessKey == 'huazan' ?
+            this.getColumnItem('累计完善信息', '', 100, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.allPerfectInfoCount
             })
-          }),
-          this.getColumnItem('累计完善信息转化率', '', 100, (h, params) => {
+          }) : this.getColumnItem('qiangdanxia', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allAuthCount
+              })
+            }),
+            businessKey == 'huazan' ?
+            this.getColumnItem('累计完善信息转化率', '', 100, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.allPerfectInfoRate+ '%'
             })
-          }),
+          }) : this.getColumnItem('qiangdanxia', '', 120, (h, params) => {
+              return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
+                return report.allAuthCount
+              })
+            }),
           this.getColumnItem('累计激活', '', 120, (h, params) => {
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return this.parseNum(report.allActiveCount, report.allDiscountActiveCount)
@@ -184,13 +194,18 @@
       },
 
       getColumnItem(title, key, width, render) {
-        return {
+        if (title != 'qiangdanxia') {
+          return {
           title: title,
           key: key,
           minWidth: width,
           align: 'center',
           render: render
         }
+        } else {
+          return {}
+        }
+        
       },
 
       reportColumns1Render(h, params, showTextCallback) {

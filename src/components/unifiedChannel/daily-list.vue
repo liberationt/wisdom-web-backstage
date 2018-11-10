@@ -106,7 +106,7 @@
           this.getColumnItem('渠道', 'channelName', 250, (h, params) => {
               return this.renderColumn(h, params.row.channelName, params.row.isSupplierRow)
             }
-          ),
+          ),     
           this.getColumnItem('折扣系数', 'discountFact', 200),
           this.getColumnItem('PV', 'pv', 100),
           this.getColumnItem('UV', 'uv', 100),
@@ -116,10 +116,10 @@
           this.getColumnItem('累计激活', 'allActiveCount', 140),
           this.getColumnItem('当日激活转化率', 'activeRate', 100),
           this.getColumnItem('累计激活转化率', 'allActiveRate', 100),
-          this.getColumnItem('当日完善信息人数', 'allPerfectInfoCount', 100),
-          this.getColumnItem('累计完善信息人数', 'allTotalPerfectInfoCount', 100),
-          this.getColumnItem('当日完善信息转化率', 'allPerfectInfoFact', 100),
-          this.getColumnItem('累计完善信息转化率', 'allTotalPerfectInfoFact', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '当日完善信息人数' : '抢单侠', 'allPerfectInfoCount', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息人数' : '抢单侠', 'allTotalPerfectInfoCount', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '当日完善信息转化率' : '抢单侠', 'allPerfectInfoFact', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : '抢单侠', 'allTotalPerfectInfoFact', 100),
           this.getColumnItem(businessKey == 'huazan' ? '当日申请' : '当日认证', 'applyCount', 90),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'allApplyCount', 90),
           this.getColumnItem(businessKey == 'huazan' ? '当日申请转化率' : '当日认证转化率', 'applyRate', 100),
@@ -129,12 +129,16 @@
       },
 
       getColumnItem(title, key, width, render) {
-        return {
-          title: title,
-          key: key,
-          minWidth: width,
-          align: 'center',
-          render: render
+        if (title != '抢单侠') {
+          return {
+            title: title,
+            key: key,
+            minWidth: width,
+            align: 'center',
+            render: render
+          }         
+        } else {
+          return {}
         }
       },
 
@@ -232,10 +236,10 @@
                   "allActiveCount": this.parseNum(item.allTotalActiveCount, item.allTotalDiscountActiveCount),
                   "activeRate": item.allActiveFact + '%',
                   "allActiveRate": item.allTotalActiveFact + '%',
-                  'allPerfectInfoCount':item.allPerfectInfoCount,
-                  'allTotalPerfectInfoCount':item.allTotalPerfectInfoCount,
-                  'allPerfectInfoFact':item.allPerfectInfoFact + '%',
-                  'allTotalPerfectInfoFact':item.allTotalPerfectInfoFact +'%',
+                  'allPerfectInfoCount':this.curBusinessKey == 'huazan' ? item.allPerfectInfoCount : '',
+                  'allTotalPerfectInfoCount':this.curBusinessKey == 'huazan' ? item.allTotalPerfectInfoCount : '',
+                  'allPerfectInfoFact':this.curBusinessKey == 'huazan' ? item.allPerfectInfoFact + '%' : '',
+                  'allTotalPerfectInfoFact':this.curBusinessKey == 'huazan' ? item.allTotalPerfectInfoFact + '%' : '',
                   "applyCount": this.curBusinessKey == 'huazan' ? item.allApplyCount : item.allAuthCount,
                   "allApplyCount": this.curBusinessKey == 'huazan' ? item.allTotalApplyCount : item.allTotalAuthCount,
                   "applyRate": this.curBusinessKey == 'huazan' ? item.allApplyFact + '%' : item.allAuthFact + '%',
@@ -256,10 +260,10 @@
                       "allActiveCount": this.parseNum(channelReport.allActiveCount, channelReport.allDiscountActiveCount),
                       "activeRate": channelReport.activeRate + '%',
                       "allActiveRate": channelReport.allActiveRate + '%',
-                      'allPerfectInfoCount':channelReport.perfectInfoCount,
-                      'allTotalPerfectInfoCount':channelReport.allPerfectInfoCount,
-                      'allPerfectInfoFact':channelReport.perfectInfoRate + '%',
-                      'allTotalPerfectInfoFact':channelReport.allPerfectInfoRate + '%',
+                      'allPerfectInfoCount':this.curBusinessKey == 'huazan' ? channelReport.perfectInfoCount : '',
+                      'allTotalPerfectInfoCount':this.curBusinessKey == 'huazan' ? channelReport.allPerfectInfoCount : '',
+                      'allPerfectInfoFact':this.curBusinessKey == 'huazan' ? channelReport.perfectInfoRate + '%' : '',
+                      'allTotalPerfectInfoFact':this.curBusinessKey == 'huazan' ? channelReport.allPerfectInfoRate + '%' : '',
                       "applyCount": this.curBusinessKey == 'huazan' ? channelReport.applyCount : channelReport.authCount,
                       "allApplyCount": this.curBusinessKey == 'huazan' ? channelReport.allApplyCount : channelReport.allAuthCount,
                       "applyRate": this.curBusinessKey == 'huazan' ? channelReport.applyRate + '%' : channelReport.authRate + '%',

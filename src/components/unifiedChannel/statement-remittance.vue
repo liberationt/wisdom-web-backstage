@@ -113,8 +113,8 @@
           this.getColumnItem('UV', 'uv', 100),
           this.getColumnItem('注册', 'registerCount', 150),
           this.getColumnItem('注册转化率', 'registerRate', 100),
-          this.getColumnItem('累计完善信息', 'perfectInfoCount', 100),
-          this.getColumnItem('累计完善信息转化率', 'perfectInfoRate', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息' : 'qiangdanxia', 'perfectInfoCount', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : 'qiangdanxia', 'perfectInfoRate', 100),
           this.getColumnItem('累计激活', 'activeCount', 150),
           this.getColumnItem('累计激活转化率', 'activeRate', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'applyCount', 100),
@@ -124,13 +124,18 @@
       },
 
       getColumnItem(title, key, width, render) {
-        return {
-          title: title,
-          key: key,
-          minWidth: width,
-          align: 'center',
-          render: render
+        if (title != 'qiangdanxia') {
+          return {
+            title: title,
+            key: key,
+            minWidth: width,
+            align: 'center',
+            render: render
+          }
+        } else {
+          return {}
         }
+        
       },
 
       renderColumn(h, text, columnWeight) {
@@ -245,8 +250,8 @@
                 "uv": resp.data.uv,
                 "registerCount": this.parseNum(resp.data.registerCount, resp.data.discountRegisterCount),
                 "registerRate": resp.data.registerRate + '%',
-                'perfectInfoCount':resp.data.perfectInfoCount,
-                'perfectInfoRate':resp.data.perfectInfoRate + '%',
+                'perfectInfoCount':this.businessKey == 'huazan' ? resp.data.perfectInfoCount : '',
+                'perfectInfoRate':this.businessKey == 'huazan' ? resp.data.perfectInfoRate + '%' : '',
                 "activeCount": this.parseNum(resp.data.activeCount, resp.data.discountActiveCount),
                 "activeRate": resp.data.activeRate + '%',
                 "applyCount": this.businessKey == 'huazan' ? resp.data.applyCount : resp.data.authCount,
@@ -275,8 +280,8 @@
                     "uv": item.allUv,
                     "registerCount": this.parseNum(item.allRegisterCount, item.allDisCountRegisterCount),
                     "registerRate": item.allRegisterFact + '%',
-                    'perfectInfoCount':item.allTotalPerfectInfoCount,
-                    'perfectInfoRate':item.allTotalPerfectInfoFact + '%',
+                    'perfectInfoCount':this.businessKey == 'huazan' ? item.allTotalPerfectInfoCount : '',
+                    'perfectInfoRate':this.businessKey == 'huazan' ? item.allTotalPerfectInfoFact + '%' : '',
                     "activeCount": this.parseNum(item.allTotalActiveCount, item.allTotalDiscountActiveCount),
                     "activeRate": item.allTotalActiveFact + '%',
                     "applyCount": this.businessKey == 'huazan' ? item.allTotalApplyCount : item.allTotalAuthCount,
@@ -293,8 +298,8 @@
                         "uv": channelReport.uv,
                         "registerCount": this.parseNum(channelReport.registerCount, channelReport.discountRegisterCount),
                         "registerRate": channelReport.registerRate + '%',
-                        'perfectInfoCount':channelReport.allPerfectInfoCount,
-                        'perfectInfoRate':channelReport.allPerfectInfoRate + '%',
+                        'perfectInfoCount':this.businessKey == 'huazan' ? channelReport.allPerfectInfoCount : '',
+                        'perfectInfoRate':this.businessKey == 'huazan' ? channelReport.allPerfectInfoRate + '%' : '',
                         "activeCount": this.parseNum(channelReport.allActiveCount, channelReport.allDiscountActiveCount),
                         "activeRate": channelReport.allActiveRate + '%',
                         "applyCount": this.businessKey == 'huazan' ? channelReport.allApplyCount : channelReport.allAuthCount,
