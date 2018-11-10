@@ -144,7 +144,7 @@
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.allPerfectInfoCount
             })
-          }) : this.getColumnItem('qiangdanxia', '', 120, (h, params) => {
+          }) : this.getColumnItem('抢单侠', '', 120, (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
                 return report.allAuthCount
               })
@@ -154,7 +154,7 @@
             return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
               return report.allPerfectInfoRate+ '%'
             })
-          }) : this.getColumnItem('qiangdanxia', '', 120, (h, params) => {
+          }) : this.getColumnItem('抢单侠', '', 120, (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersDayReportResList, (report) => {
                 return report.allAuthCount
               })
@@ -194,7 +194,7 @@
       },
 
       getColumnItem(title, key, width, render) {
-        if (title != 'qiangdanxia') {
+        if (title != '抢单侠') {
           return {
           title: title,
           key: key,

@@ -113,8 +113,8 @@
           this.getColumnItem('UV', 'uv', 100),
           this.getColumnItem('注册', 'registerCount', 150),
           this.getColumnItem('注册转化率', 'registerRate', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息' : 'qiangdanxia', 'perfectInfoCount', 100),
-          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : 'qiangdanxia', 'perfectInfoRate', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息' : '抢单侠', 'perfectInfoCount', 100),
+          this.getColumnItem(businessKey == 'huazan' ? '累计完善信息转化率' : '抢单侠', 'perfectInfoRate', 100),
           this.getColumnItem('累计激活', 'activeCount', 150),
           this.getColumnItem('累计激活转化率', 'activeRate', 100),
           this.getColumnItem(businessKey == 'huazan' ? '累计申请' : '累计认证', 'applyCount', 100),
@@ -124,7 +124,7 @@
       },
 
       getColumnItem(title, key, width, render) {
-        if (title != 'qiangdanxia') {
+        if (title != '抢单侠') {
           return {
             title: title,
             key: key,
