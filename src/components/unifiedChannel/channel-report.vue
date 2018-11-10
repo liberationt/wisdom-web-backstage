@@ -150,7 +150,7 @@
                 return report.discountActiveCount
               });
             }
-          }
+          }          
         ],
         data6: []
       }
@@ -321,7 +321,25 @@
           .then((resp) => {
             if (resp.code == 'success') {
               this.data6 = resp.data
+              if (this.$route.query.role == 'admin') {
+                this.columns7.push(
+                  {
+                    title: '当日认证',
+                    align: 'center',
+                    minWidth: 80,
+                    className:'certificationday',
+                    render: (h, params) => {
+                      return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                        return report.nowAuthCount
+                      });
+                    }
+                  }
+                )
+              } else {
+                this.columns7.splice(this.columns7.length-1,1)
+              }
               this.loading3 = false
+
             } else {
               this.$Message.error(resp.message);
               this.loading3 = false
@@ -426,5 +444,6 @@
   .ivu-table-cell{
     padding: 0
   }
+
 </style>
 
