@@ -321,8 +321,9 @@
           .then((resp) => {
             if (resp.code == 'success') {
               this.data6 = resp.data
-              if (this.$route.query.role == 'admin') {
-                this.columns7.push(
+              if (this.$route.query.role == 'admin'&&this.model1 == '20180808160641120011349727673') {
+                if (this.columns7.length<7) {
+                  this.columns7.push(
                   {
                     title: '当日认证',
                     align: 'center',
@@ -334,9 +335,16 @@
                       });
                     }
                   }
-                )
+                )      
+                }
+                
               } else {
-                this.columns7.splice(this.columns7.length-1,1)
+                this.columns7.forEach((element,index) => {
+                  if (element.title == '当日认证') {
+                    this.columns7.splice(index,1)
+                  }
+                });
+                // this.columns7.splice(this.columns7.length-1,1)
               }
               this.loading3 = false
 
