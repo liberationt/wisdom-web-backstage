@@ -18,29 +18,45 @@
           <!-- <FormItem label="活动标题：" prop="activeTitle">
               <Input v-model="formItem.activeTitle" placeholder="8.8折扣抢单限时开抢" style="width:330px"></Input>
           </FormItem> -->
-          <FormItem label="活动类型：" prop="activePercent" class="clearfix">
+          <FormItem label="活动类型："  class="clearfix">
             <Row>
               <Col span="4">
                 <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
                   <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
-              <Col span="5">
+              <!-- <Col span="5">
                 <Input v-model="formItem.activePercent" style="width:150px" class="left ml20">
                   <span slot="append">%</span>
                 </Input>
-              </Col>
-              <Col span="6">
-                <img :src="formItem.logoUrl" alt="" class="left icon_img">
-                <Input v-show="hidden" v-model="formItem.productlogo" disabled style="width: 120px;margin-top:4px" class="left ml5"></Input>
-                <Upload
-                  :format="['jpg','jpeg','png']"
-                  :on-format-error="handleFormatError1"
-                  :before-upload="handleUpload"
-                  :show-upload-list="false"                        
-                  action=''>
-                    <Button type="ghost" icon="ios-cloud-upload-outline" style="margin-top:4px">浏览</Button>
-                </Upload>
+              </Col> -->
+              <Col span="20">
+              <div 
+              class="mb15 clearfix"
+              v-for="(item, index) in addnormals"
+              :key="index"
+              >
+                <Input  type="text" v-model="item.startDay" class="left ml10 inputnum"  style="width:150px">
+                  <span slot="prepend">距离当前</span>
+                  <span slot="append" class="left">至</span>
+                </Input>
+                <Input  type="text" v-model="item.endDay" class="left "  style="width:100px">
+                  <span slot="append" class="left">天</span>
+                </Input>
+                <Input  type="text" v-model="item.discount" class="left ml10 "  style="width:100px">
+                  <span slot="append" class="left">%</span>
+                </Input>
+                <Input  type="text" v-model="item.limited" class="left ml10 inputnum"  style="width:180px">
+                  <span slot="prepend">每人每天限量</span>
+                  <span slot="append" class="left">单</span>
+                </Input>
+                  <img :src="item.logoUrl" alt="" class="left ml10 icon_img">
+                  <a href="javascript:;"  class="file left">预览
+                    <input type="file" @change="fileimg(index)" :data="item.activityCode" accept="image/gif, image/jpeg, image/png, image/jpg" name="img" class="inputfil">
+                  </a>
+                <Button  type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormal" >+</Button>
+                <Button  type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnorma2(index)">-</Button>               
+              </div>                
               </Col>
             </Row>
           </FormItem>
@@ -72,16 +88,21 @@
           </FormItem>
           <FormItem label="每日起止时段：">
             <Row>
-              <Col span="4">
-                <FormItem prop="startTime">
-                  <TimePicker type="time" confirm @on-change="getstartTime" placeholder="请选择时间" v-model="formItem.startTime"></TimePicker>
+              <Col span="12">
+              <div 
+              class="mb15 clearfix"
+              v-for="(item, index) in staenddata"
+              :key="index"
+              >
+                <FormItem class="left">
+                  <TimePicker type="time" confirm  placeholder="请选择时间" v-model="item.startTime"></TimePicker>
                 </FormItem>
-              </Col>
-              <!-- <Col span="1" style="text-align: center">-</Col> -->
-              <Col span="4">
-                <FormItem prop="endTime">
-                  <TimePicker type="time" confirm @on-change="getendTime" placeholder="请选择时间" v-model="formItem.endTime"></TimePicker>
+                <FormItem class="left ml10">
+                  <TimePicker type="time" confirm  placeholder="请选择时间" v-model="item.endTime"></TimePicker>
                 </FormItem>
+                <Button  type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormaltime" >+</Button>
+                <Button  type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnormatime(index)">-</Button>
+              </div>               
               </Col>
             </Row>
           </FormItem>
@@ -135,7 +156,6 @@
                   <DatePicker type="datetime" :options="options3" @on-change="formastartTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" v-model="formactive.startDate"></DatePicker>
                 </FormItem>
               </Col>
-              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <FormItem prop="endDate">
                   <DatePicker type="datetime" :options="options3" @on-change="formasendTime" format="yyyy-MM-dd HH:mm:ss" placeholder="请选择时间" v-model="formactive.endDate"></DatePicker>
@@ -214,11 +234,7 @@ export default {
         quantity: "0",
         startDate: "",
         endDate: "",
-        endTime: "",
-        startTime: "",
-        actitPercent: "",
-        logoUrl:require('../../image/moren.png'),
-        productlogo:''
+        actitPercent: ""        
       },
       ruleValidate: {
         // activeTitle: [
@@ -339,6 +355,24 @@ export default {
           rebate: null // 返利
         }
       ],
+      addnormals: [
+        {
+          activityCode:'',
+          startDay: '',
+          endDay: '',
+          discount: '',
+          limited: '',
+          logoUrl:require('../../image/moren.png')
+        }
+      ],
+      index2: 1,
+      index3:1,
+      staenddata:[
+        {
+          startTime:'',
+          endTime:''
+        }
+      ],
       isedit: this.$route.query.isedit,
       options3: {
         disabledDate(date) {
@@ -364,9 +398,33 @@ export default {
         rebate: this.rebate // 返利
       });
     },
+    addnormal () {
+      this.index2++
+      this.addnormals.push({
+        activityCode:'',
+        startDay: '',
+        endDay: '',
+        discount: '',
+        limited: '',
+        logoUrl:require('../../image/moren.png')
+      })
+    },
+    addnormaltime () {
+      this.index3++
+      this.staenddata.push({
+        startTime: '',
+        endTime: ''
+      })
+    },
+    addnorma2 (index) {
+      this.addnormals.splice(index, 1)
+    },
     // 减
     addnorma4(index) {
       this.addnormals4.splice(index, 1);
+    },
+    addnormatime (index) {
+      this.staenddata.splice(index, 1);
     },
     //判断活动类型
     yesActiveType(n) {
@@ -418,14 +476,16 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          if (this.formItem.productlogo == ''&&this.activeType == '1') {
-            this.$Modal.warning({
-              title: '温馨提示',
-              content: '请上传图片'
-            });
-            return false          
-          }
-          // console.log(preservationList)
+          this.staenddata.forEach(element => {
+            if (element.startTime == '' || element.endTime == '') {
+              this.$Modal.warning({
+                title: '温馨提示',
+                content: '请选择每日起止时段'
+              });
+              return false 
+            }             
+          });
+
           let httpUrl, contentTitle;
           if (this.isedit == "isedit") {
             httpUrl = "/loan/activity/updateByCode";
@@ -434,8 +494,7 @@ export default {
             httpUrl = "/loan/activity/save";
             contentTitle = "<p>添加成功</p>";
           }
-          this.http
-            .post(BASE_URL + httpUrl, this.canshu())
+          this.http.post(BASE_URL + httpUrl, this.canshu())
             .then(data => {
               if (data.code == "success") {
                 const title = "提示";
@@ -510,6 +569,26 @@ export default {
         });
         return false;
       }
+      let reg = /^(0|[1-9][0-9]*)$/
+      if (this.activeType == 1) {
+        for (let i = 0; i < this.addnormals.length; i++) {
+          if (!reg.test(this.addnormals[i].startDay) || !reg.test(this.addnormals[i].endDay) || !reg.test(this.addnormals[i].discount) || !reg.test(this.addnormals[i].limited)) {
+            this.$Modal.warning({
+                title: '温馨提示',
+                content: '活动类型请输入整数'
+              });
+              return false
+          }
+          if (this.addnormals[i].activityCode == '') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请上传图片'
+            });
+            return false 
+          }
+          
+        }
+      }
       let isValueError = false;
       if(this.addnormals4.length <= 0 && this.activeType == 2){
         this.$Message.error("返利规则不能为空！");
@@ -563,20 +642,25 @@ export default {
     //参数封装
     canshu() {
       let preservationList;
+      this.addnormals.forEach(element => {
+        delete element.activityCode
+      });
       if (this.activeType != 2) {
         preservationList = {
           title: this.activeTitle, //活动标题
           activityType: this.activeType, //活动类型
-          discount: this.formItem.activePercent, //消费折扣率
-          dailyStartTime: this.formItem.startTime, //日开始时间
-          dailyEndTime: this.formItem.endTime, //日结束时间
+          activityDiscountReqList:this.addnormals,
+          // discount: this.formItem.activePercent, //消费折扣率
+          // dailyStartTime: this.formItem.startTime, //日开始时间
+          // dailyEndTime: this.formItem.endTime, //日结束时间
           effectiveWeek: this.formItem.weeklycheckbox.join(), //每周包含
+          activityStartStopTimeReqList:this.staenddata,
           activityEndTime: this.endDate, //活动结束时间
           activityStartTime: this.startDate, //活动开始时间
           productScope: this.formItem.range.join(), //产品范围
           isLimited: this.formItem.quantity, //平台每日限量
           activityCode: this.$route.query.activityCode,
-          logoUrl:this.formItem.logoUrl,
+          // logoUrl:this.formItem.logoUrl,
           limitedList: [
             {
               productLimited: this.formItem.actitPercent, //产品限量
@@ -604,7 +688,7 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          if (this.formItem.productlogo == '' && this.activeType == '1') {
+          if (this.formItem.productlogo == '') {
             this.$Modal.warning({
               title: '温馨提示',
               content: '请上传图片'
@@ -635,17 +719,7 @@ export default {
           // this.$Message.error(data.message);
         }
       });
-      // this.http
-      //   .post(BASE_URL + "/loan/activity/auditActivityByCode", {
-      //     activityCode: "string",
-      //     auditStatus: 0
-      //   })
-      //   .then(data => {
-      //     // console.log(data);
-      //   })
-      //   .catch(err => {});
     },
-   
     // 查看操作日志
     journal() {
       this.$router.push({
@@ -654,35 +728,29 @@ export default {
           this.$route.query.activityCode
       });
     },
-    handleFormatError1 (file) {
-      // this.formValidate.productlogo = ''
-      this.$Message.info("图片格式不正确,请上传正确的图片格式")
-    },
-    handleUpload (file) {
-        // console.log(file.name)
-        let splic = file.name.split('.')
-        if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
-          let formData = new FormData();
-            formData.append('file', file)
-          let config = {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            },
-            timeout:1000*60*5
-          }
-        this.http.post(BASE_URL + '/fileUpload', formData, config)
-        .then((resp) => {
-          if (resp.code == 'success') {
-            this.formItem.logoUrl = resp.data
-          } else {
-          }
-        })
-        .catch(() => {
-        })
-          this.formItem.productlogo = file.name
-          return false
-        }
-      }, 
+    // 上传图片
+    fileimg (index) {
+      let formData = new FormData();
+      this.addnormals[index].activityCode = '1'
+      // document.querySelectorAll('.inputfil')[index].setAttribute('data','1')
+      formData.append('file', document.querySelectorAll('.inputfil')[index].files[0])
+      let config = {
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        },
+        timeout:1000*60*5
+      }
+    this.http.post(BASE_URL + '/fileUpload', formData, config)
+    .then((resp) => {
+      if (resp.code == 'success') {
+        this.addnormals[index].logoUrl = resp.data
+
+      } else {
+      }
+    })
+    .catch(() => {
+    })
+    }
 
   },
   mounted() {
@@ -707,16 +775,18 @@ export default {
             if (data.data.activityType == "1") {
               this.formItem.endDate = data.data.activityEndTime; //活动结束时间
               this.formItem.startDate = data.data.activityStartTime; //活动开始时间
+              this.addnormals = data.data.activityDiscountResList//消费折扣list                          
               this.endDate = data.data.activityEndTime; //活动结束时间
               this.startDate = data.data.activityStartTime; //活动开始时间
-              this.formItem.activePercent = data.data.discount + ""; //消费折扣率
+              // this.formItem.activePercent = data.data.discount + ""; //消费折扣率
               this.formItem.weeklycheckbox = data.data.effectiveWeek.split(","); //每周包含
               this.formItem.range = data.data.productScope.split(","); //产品范围
               this.formItem.quantity = data.data.isLimited + ""; //平台每日限量
-              this.formItem.startTime = data.data.dailyStartTime; //日开始时间
-              this.formItem.endTime = data.data.dailyEndTime; //日结束时间
-              this.formItem.logoUrl = data.data.logoUrl
-              this.formItem.productlogo = data.data.logoUrl
+              this.staenddata = data.data.activityStartStopTimeResList//每日起止时段list
+              // this.formItem.startTime = data.data.dailyStartTime; //日开始时间
+              // this.formItem.endTime = data.data.dailyEndTime; //日结束时间
+              // this.formItem.logoUrl = data.data.logoUrl
+              // this.formItem.productlogo = data.data.logoUrl
               this.formItem.actitPercent = data.data.limitedList[0].productLimited+"";
               
             } else {
@@ -754,5 +824,32 @@ hr {
 .icon_img {
   width: 40px;
   height: 40px;
+}
+.file {
+  position: relative;
+  display: inline-block;
+  background: #D0EEFF;
+  border: 1px solid #99D3F5;
+  border-radius: 4px;
+  padding: 4px 10px;
+  overflow: hidden;
+  color: #1E88C7;
+  text-decoration: none;
+  text-indent: 0;
+  line-height: 20px;
+  margin-top: 5px;
+}
+.file input {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+}
+.file:hover {
+  background: #AADFFD;
+  border-color: #78C3F3;
+  color: #004974;
+  text-decoration: none;
 }
 </style>
