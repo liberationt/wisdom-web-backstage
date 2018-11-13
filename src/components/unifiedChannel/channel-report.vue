@@ -105,6 +105,7 @@
             key: 'memberName',
             minWidth: 120,
             align: 'center',
+            tooltip:'true',
             render: (h, params) => {
               return this.reportColumns1Render(h, params.row.suppliersChannelList, (suppliers) => {
                 return suppliers.suppliersName
@@ -168,9 +169,15 @@
               style: {
                 display: 'block',
                 width: '100%',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+                whiteSpace: 'nowrap',
                 lineHeight: (41 * lineNum - 1) + 'px',
                 borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : ''
-              }
+              },
+              domProps: {
+							title: text
+							}
             }, text)
           )
         }

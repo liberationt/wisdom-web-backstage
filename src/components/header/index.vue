@@ -194,7 +194,7 @@ export default {
 
 <style lang="less" scoped>
 .layout {
-  height: 80px;
+  height: 60px;
   width: 100%;
   background: #3d81f2;
   position: fixed;
@@ -206,7 +206,7 @@ export default {
   img {
     // width: 120px;
     height: 40px;
-    margin: 20px auto;
+    margin: 10px auto;
     display: block;
   }
 }
@@ -217,7 +217,7 @@ export default {
     li {
       float: left;
       // width: 100px;
-      line-height: 60px;
+      line-height: 40px;
       text-align: center;
       margin-top: 10px;
       margin-left: 60px;
@@ -239,7 +239,7 @@ export default {
     overflow: hidden;
     li {
       float: left;
-      line-height: 80px;
+      line-height: 60px;
       width: 50px;
     }
     .adminhead {
@@ -252,7 +252,7 @@ export default {
         height: 30px;
         border-radius: 50%;
         float: left;
-        margin-top: 25px;
+        margin-top: 15px;
         margin-right: 5px;
       }
       span{

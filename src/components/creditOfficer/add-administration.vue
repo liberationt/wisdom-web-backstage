@@ -642,9 +642,11 @@ export default {
     //参数封装
     canshu() {
       let preservationList;
-      this.addnormals.forEach(element => {
-        delete element.activityCode
-      });
+      if (!this.$route.query.activityCode) {
+        this.addnormals.forEach(element => {
+          delete element.activityCode
+        });
+      }     
       if (this.activeType != 2) {
         preservationList = {
           title: this.activeTitle, //活动标题

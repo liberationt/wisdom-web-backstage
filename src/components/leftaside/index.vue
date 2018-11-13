@@ -2,7 +2,7 @@
 .layoutcon {
     background: #eaedf2;
     position: absolute;
-    top: 80px;
+    top: 60px;
     // overflow: hidden;
     height: 100%;
     width: 100%;
