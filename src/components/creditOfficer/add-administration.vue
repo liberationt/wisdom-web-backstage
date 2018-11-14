@@ -730,6 +730,14 @@ export default {
     },
     // 上传图片
     fileimg (index) {
+      if (document.querySelectorAll('.inputfil')[index].files[0].type == '') {
+        this.addnormals[index].logoUrl = require('../../image/moren.png')
+        this.$Modal.warning({
+          title: '温馨提示',
+          content: '请上传正确格式的图片'
+        });
+        return false
+      }
       let formData = new FormData();
       this.addnormals[index].activityCode = '1'
       // document.querySelectorAll('.inputfil')[index].setAttribute('data','1')
