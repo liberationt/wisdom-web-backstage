@@ -328,7 +328,7 @@
           .then((resp) => {
             if (resp.code == 'success') {
               this.data6 = resp.data
-              if (this.$route.query.role == 'admin'&&this.model1 == '20180808160641120011349727673') {
+              if (this.model1 == '20180808160641120011349727673') {
                 if (this.columns7.length<7) {
                   this.columns7.push(
                   {

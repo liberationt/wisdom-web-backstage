@@ -16,12 +16,47 @@
         </p>
         <Form  :model="formItem" style="width:100%" :label-width="100">
           <FormItem label="活动类型：" class="clearfix">
-            <Select disabled v-model="examinelist.activityType" style="width:160px" class="left" @on-change="yesActiveType">
+            <Row>
+              <Col span="4">
+                <Select disabled v-model="examinelist.activityType" style="width:160px" class="left" @on-change="yesActiveType">
+                  <Option v-for="item in examinelist.typeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
+                </Select>
+              </Col>
+              <Col span="20" v-if="examinelist.activityType == 1">
+              <div 
+              class="mb15 clearfix"             
+              v-for="(item, index) in examinelist.activityDiscountResList"
+              :key="index"            
+              >
+                <Input disabled type="text" v-model="item.startDay" class="left ml10 inputnum"  style="width:150px">
+                  <span slot="prepend">距离当前</span>
+                  <span slot="append" class="left">至</span>
+                </Input>
+                <Input disabled type="text" v-model="item.endDay" class="left "  style="width:100px">
+                  <span slot="append" class="left">天</span>
+                </Input>
+                <Input disabled type="text" v-model="item.discount" class="left ml10 "  style="width:100px">
+                  <span slot="append" class="left">%</span>
+                </Input>
+                <Input disabled type="text" v-model="item.limited" class="left ml10 inputnum"  style="width:180px">
+                  <span slot="prepend">每人每天限量</span>
+                  <span slot="append" class="left">单</span>
+                </Input>
+                  <img :src="item.logoUrl" alt="" class="left ml10 icon_img">
+                  <a href="javascript:;"  class="file left">预览
+                    <input disabled type="file" @change="fileimg(index)" :data="item.activityCode" accept="image/gif, image/jpeg, image/png, image/jpg" name="img" class="inputfil">
+                  </a>
+                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormal" >+</Button>
+                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnorma2(index)">-</Button>               
+              </div>                
+              </Col>
+            </Row>
+            <!-- <Select disabled v-model="examinelist.activityType" style="width:160px" class="left" @on-change="yesActiveType">
               <Option v-for="item in examinelist.typeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
             </Select>
             <Input v-if="this.examinelist.activityType == 1" disabled v-model="examinelist.discount" style="width:150px" class="left ml20">
               <span slot="append">%</span>
-            </Input>
+            </Input> -->
           </FormItem>
           <FormItem label="活动日期：">
             <Row>
@@ -47,12 +82,21 @@
           </FormItem>
           <FormItem v-if="isActiveType" label="每日起止时段：">
             <Row>
-              <Col span="4">
-                <TimePicker disabled type="time" @on-change="getstartTime" placeholder="请选择时间" v-model="examinelist.dailyStartTime"></TimePicker>
-              </Col>
-              <!-- <Col span="1" style="text-align: center">-</Col> -->
-              <Col span="4">
-                <TimePicker disabled type="time" @on-change="getendTime" placeholder="请选择时间" v-model="examinelist.dailyEndTime"></TimePicker>
+              <Col span="12">
+              <div 
+              class="mb15 clearfix"
+              v-for="(item, index) in examinelist.activityStartStopTimeResList"
+              :key="index"
+              >
+                <FormItem class="left">
+                  <TimePicker disabled type="time" confirm  placeholder="请选择时间" v-model="item.startTime"></TimePicker>
+                </FormItem>
+                <FormItem class="left ml10">
+                  <TimePicker disabled type="time" confirm  placeholder="请选择时间" v-model="item.endTime"></TimePicker>
+                </FormItem>
+                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormaltime" >+</Button>
+                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnormatime(index)">-</Button>
+              </div>               
               </Col>
             </Row>
           </FormItem>
@@ -209,27 +253,43 @@ export default {
       modal9:false,
       exememo:false,
       examinelist:{
-          title: "",
-          activityType: "",
-          discount: "",
-          activityStartTime: "",
-          activityEndTime: "",
-          weekArr :[],
-          dailyStartTime :'',
-          dailyEndTime :'',
-          productScopeArr :[],
-          isLimited:'',
-          limitedList:[],
-          typeList:[],
-          type :'',
-          rebateRulesList: [
-            {
-            startBean : null, //加入黑名单时间
-            endBean: null, //加入黑名单次数
-            rebate: null,
-            type:null
-            }
-          ]
+        title: "",
+        activityType: "",
+        discount: "",
+        activityStartTime: "",
+        activityEndTime: "",
+        weekArr :[],
+        dailyStartTime :'',
+        dailyEndTime :'',
+        productScopeArr :[],
+        isLimited:'',
+        limitedList:[],
+        typeList:[],
+        type :'',
+        rebateRulesList: [
+          {
+          startBean : null, //加入黑名单时间
+          endBean: null, //加入黑名单次数
+          rebate: null,
+          type:null
+          }
+        ],
+        activityDiscountResList: [
+        {
+          activityCode:'',
+          startDay: '',
+          endDay: '',
+          discount: '',
+          limited: '',
+          logoUrl:''
+        }
+      ],
+      activityStartStopTimeResList:[
+        {
+          startTime:'',
+          endTime:''
+        }
+      ],
       },
       formCustomexa: {
         activeType: '2',
@@ -411,5 +471,36 @@ hr {
 .activeTitle {
   margin-left: 26px;
   margin-bottom: 30px;
+}
+.icon_img {
+  width: 40px;
+  height: 40px;
+}
+.file {
+  position: relative;
+  display: inline-block;
+  background: #D0EEFF;
+  border: 1px solid #99D3F5;
+  border-radius: 4px;
+  padding: 4px 10px;
+  overflow: hidden;
+  color: #1E88C7;
+  text-decoration: none;
+  text-indent: 0;
+  line-height: 20px;
+  margin-top: 5px;
+}
+.file input {
+  position: absolute;
+  font-size: 100px;
+  right: 0;
+  top: 0;
+  opacity: 0;
+}
+.file:hover {
+  background: #AADFFD;
+  border-color: #78C3F3;
+  color: #004974;
+  text-decoration: none;
 }
 </style>
