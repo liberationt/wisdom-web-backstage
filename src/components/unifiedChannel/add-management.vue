@@ -10,13 +10,13 @@
             <ul class="querysty">
                 <li>
                     <span>业务:</span>
-                    <Select v-model="application" style="width:150px" >
-                        <Option v-for="item in cityList" :value="item.suppliersBusinessCode" :key="item.suppliersBusinessCode">{{ item.businessName }}</Option>
+                    <Select v-model="service" style="width:150px" >
+                        <Option v-for="item in cityList" :value="item.businessCode" :key="item.businessCode">{{ item.businessName }}</Option>
                     </Select>
                 </li>
                 <li class="ml20">
                     <Select v-model="model1" class="w100" @on-change="label_option">
-                        <Option v-for="item in searchOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                        <Option v-for="item in searchOptions" :value="item.businessCode" :key="item.businessCode">{{ item.businessName }}</Option>
                     </Select>
                     <Input v-model="name" placeholder="请输入关键字"  style="width: 150px">
                     </Input>
@@ -131,16 +131,34 @@ import utils from '../../utils/utils'
 export default {
   data() {
     return {
+      value1:'',
+      value2:'',
       city: "",
       code :'',
       nums:'',
       model1:'',
       model3:'',
       name:'',
+      service:'',
       application: "",
       titles:'添加渠道',
       suppliersBusinessChannelCode:'',
       cityList: [],
+      searchOptions:[],
+      statusOptions:[
+        {
+          value:'',
+          label:'全部'
+        },
+        {
+          value:'2',
+          label:'供应商开通'
+        },
+        {
+          value:'1',
+          label:'平台开通'
+        }
+      ],
       promotionPageSelect:[],
       inputlist:[],
       modal10:false,
@@ -201,19 +219,19 @@ export default {
       columns7: [
           {
           title: "供应商编号",
-          key: "channelKey",
+          key: "suppliersNo",
           minWidth: 140,
           align: "center"
         },
         {
           title: "供应商名称",
-          key: "channelKey",
+          key: "suppliersName",
           minWidth: 140,
           align: "center"
         },
         {
           title: "业务类型",
-          key: "channelKey",
+          key: "businessName",
           minWidth: 140,
           align: "center"
         },
@@ -231,9 +249,18 @@ export default {
         },
         {
           title: "渠道开通方式",
-          key: "channelName",
-          minWidth: 160,
-          align: "center"
+          key: "channelType",
+          minWidth: 150,
+          align: "center",
+          render: (h, params) => {
+            let channelType
+            if (params.row.channelType == 1) {
+              channelType = '平台开通'
+            } else {
+              channelType = '供应商开通'
+            }
+            return h("div", [h("span", {}, channelType)]);
+          }
         },
         {
           title: "基础折扣系数(%)",
@@ -325,14 +352,14 @@ export default {
         },
         {
           title: "开通时间",
-          key: "channelName",
+          key: "dataCreateTime",
           minWidth: 160,
           align: "center"
         },
         {
           title: "推广URL",
           key: "channelUrl",
-          minWidth: 100,
+          minWidth: 160,
           align: "center"
         },
         {
@@ -429,6 +456,13 @@ export default {
     label_option(v) {
         this.model1 = v;
     },
+    // 时间判断
+      time1 (value, data) {
+        this.value1 = value
+      },
+      time2 (value, data) {
+        this.value2 = value
+      },
     // 推广url改变
     applicationsel (val) {
       this.promotionPageSelect.forEach(element => {
@@ -676,13 +710,28 @@ export default {
     },
     // 查询
     label_query () {
+      let date1 = Date.parse(new Date(this.value1))/1000
+      let date2 = Date.parse(new Date(this.value2))/1000
+      if (date1 > date2) {
+        this.loading3 = false
+        this.$Modal.warning({
+          title: '提示',
+          content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      }
       this.inputlist = []
       let list = {
         pageSize: this.endRow,
         pageNum: this.startRow,
-        suppliersBusinessCode :this.application
+        businessCode :this.service,//业务code
+        searchKey : this.model1,
+        searchValue : this.name,
+        channelType : this.model3,//开通方式
+        beginTime : this.value1,//开始时间
+        endTime : this.value2,//结束时间
       }
-      this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/queryPage", list).then(data => {
+      this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/queryPageByUser", list).then(data => {
         if(data.code == 'success'){
           this.data6 = data.data.dataList;
           data.data.dataList.forEach(element => {
@@ -704,11 +753,17 @@ export default {
     
   },
   created() {
-    this.http.post(BASE_URL + "/promotion/suppliersBusiness/queryListManager",{suppliersCode:this.$route.query.suppliersCode}).then(data=>{
+    this.http.post(BASE_URL + "/promotion/business/queryListByUserCode",{}).then(data=>{
       if(data.code == 'success'){
-        this.cityList = data.data
-        this.application = this.$route.query.suppliersBusinessCode      
+        this.cityList = data.data          
         this.label_query ()
+      }
+    }).catch(err=>{
+      console.log(err)
+    })
+    this.http.post(BASE_URL + "/promotion/business/queryListByManager",{}).then(data=>{
+      if(data.code == 'success'){
+        this.searchOptions = data.data
       }
     }).catch(err=>{
       console.log(err)

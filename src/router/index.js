@@ -89,7 +89,7 @@ import dailyList from '@/components/unifiedChannel/daily-list'
 import rangeConfiguration from '@/components/unifiedChannel/range-configuration'
 import monthlyReport from '@/components/unifiedChannel/monthly-report'
 import statementRemittance from '@/components/unifiedChannel/statement-remittance'
-import addManagement from '@/components/unifiedChannel/add-management'
+import channelList from '@/components/unifiedChannel/add-management'
 // 报表
 import operatingReport from '@/components/unifiedChannel/operating-report'
 import superProduct from '@/components/unifiedChannel/super-Product'
@@ -251,7 +251,7 @@ let routes = [
       {path: '/operatingReport', component: operatingReport, names: '运营报表', hidden: true, meta: {auth: true}}, //
       {path: '/superProduct', component: superProduct, names: '代超产品', hidden: true, meta: {auth: true}}, //
       {path: '/individual', component: individual, names: '个人信息页', hidden: true, meta: {auth: true}}, //
-      {path: '/addManagement', component: addManagement, names: '渠道管理(新增)', hidden: true, meta: { auth: true }}, // 
+      {path: '/channelList', component: channelList, names: '渠道管理(新增)', hidden: true, meta: { auth: true }}, // 
     ]
   },
   {
