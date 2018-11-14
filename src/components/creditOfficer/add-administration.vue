@@ -476,16 +476,6 @@ export default {
           if(!this.isTrue()){
             return false
           }
-          this.staenddata.forEach(element => {
-            if (element.startTime == '' || element.endTime == '') {
-              this.$Modal.warning({
-                title: '温馨提示',
-                content: '请选择每日起止时段'
-              });
-              return false 
-            }             
-          });
-
           let httpUrl, contentTitle;
           if (this.isedit == "isedit") {
             httpUrl = "/loan/activity/updateByCode";
@@ -585,8 +575,16 @@ export default {
               content: '请上传图片'
             });
             return false 
-          }
-          
+          }          
+        }
+        for (let j = 0; j < this.staenddata.length; j++) {
+          if (this.staenddata[j].startTime == '' || this.staenddata[j].endTime == '') {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请选择每日起止时段'
+            });
+            return false 
+          }         
         }
       }
       let isValueError = false;
