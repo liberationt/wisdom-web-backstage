@@ -244,12 +244,12 @@ import untils from "../../utils/utils";
         methods:{
             pageChange(page){
                 this.startRow = page
-                this.labell1()
+                this.labell1(this.startRow)
             },
             pagesizechange(page){
                 this.startRow = 1
                 this.endRow = page
-                this.labell1()
+                this.labell1(1)
             },
             // 信贷机构
             loanstatusl(v) {
@@ -261,7 +261,7 @@ import untils from "../../utils/utils";
              // 信贷机构 查询
             mechanisminqury(type) {
             this.loading3 = true;
-            this.labell1();
+            this.labell1(1);
             },
             // 信贷机构删除
             adopt(code) {
@@ -279,7 +279,7 @@ import untils from "../../utils/utils";
                         // console.log(data)
                         if (data.code == "success") {
                             this.$Message.info("删除成功！");
-                            this.labell1("tab5");
+                            this.labell1(1);
                         } else {
                             this.$Message.info("删除失败！");
                         }
@@ -315,13 +315,13 @@ import untils from "../../utils/utils";
                 })
             },
             // 查询
-            labell1() {
+            labell1(startRow) {
                 let data = Object.assign({
                     institutionsName: this.guanname, //关键字
                     institutionsUpStatus: this.modell3  == "''" ? "" : this.modell3, // 上下架状态
                     institutionsRecommendStatus: this.model4 == "''" ? "" : this.model4, //是否首页推荐
                     pageSize: this.endRow,
-                    pageNum: this.startRow
+                    pageNum: startRow
                     });
                     this.post(
                     BASE_URL + "/loan/creditInstitutions/queryCreditInstitutionsList",
@@ -333,7 +333,7 @@ import untils from "../../utils/utils";
             }
         },
         created(){
-            this.labell1();
+            this.labell1(1);
         }
     }
 </script>

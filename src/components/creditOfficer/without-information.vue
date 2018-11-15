@@ -98,12 +98,12 @@ export default {
     pageChange(page) {
       this.startRow = page;
       // this.params.page = page;
-      this.labell1();
+      this.labell1(this.startRow);
     },
     PageSizeChange(page) {
       this.startRow = 1;
       this.endRow = page;
-      this.labell1();
+      this.labell1(1);
     },
     // 手机号提示
     phoneti(type) {
@@ -118,12 +118,12 @@ export default {
           break;
       }
     },
-    labell1() {
+    labell1(startRow) {
       let data = Object.assign({
         searchOptions: "mobile",
         searchValue: this.registername,
         pageSize: this.endRow,
-        pageNum: this.startRow
+        pageNum: startRow
       });
       this.post(BASE_URL + "/loan/officer/queryOfficerNoneDataList", data);
     },
@@ -157,12 +157,12 @@ export default {
         this.phoneti(type);
       } else {
         this.loading3 = true;
-        this.labell1();
+        this.labell1(1);
       }
     }
   },
   created() {
-    this.labell1();
+    this.labell1(1);
   }
 };
 </script>
