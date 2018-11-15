@@ -45,7 +45,7 @@
             </Select>
           </li>
           <li class="clearfix">
-            <Button type="info" class=" ml50 left w100" :loading="loading3" @click="inquire">
+            <Button type="info" class=" ml50 left w100" :loading="loading3" @click="inquire(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -229,15 +229,15 @@ export default {
     // 分页
     pageChange(page) {
 				this.startRow = page
-				this.inquire()
+				this.inquire(this.startRow)
 		},
     pagesizechange(page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(1)
     },
     // 列表查询
-    inquire (num) {
+    inquire (startRow) {
     this.loading3 = true     
     let list = {
       loanBaseStatus : this.model4,
@@ -245,7 +245,7 @@ export default {
       loanStatus : this.model6,
       loanRechargeStatus: this.model7,
       userIsConsume : this.model8,
-      pageNum: this.startRow,
+      pageNum: startRow,
       pageSize: this.endRow
     }
     list[this.model1] = this.name
@@ -340,7 +340,7 @@ export default {
         this.registerTime = resp.data.realNameStatusList//实名状态
         this.userIsRechargeableList = resp.data.userIsRechargeableList//是否充值过
         this.userIsConsumeList = resp.data.userIsConsumeList//是否消费过
-        this.inquire ()
+        this.inquire (1)
 
       } else {
       }

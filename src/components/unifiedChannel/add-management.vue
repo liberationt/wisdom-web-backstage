@@ -72,17 +72,19 @@
                 <FormItem label="供应商编号:" class="left" prop="number" >
                     <AutoComplete
                     v-model="formCustombusi.number"
-                    :data="numlist"
-                    @on-search="handleSearch1"
                     placeholder="请输入供应商编号"
-                    style="width:200px"></AutoComplete>
+                    style="width:200px">
+                    <div class="demo-auto-complete-item" >                        
+                        <Option v-for="option in numlist" :value="option.suppliersNo" @click.native="supname(option.suppliersNo)"></Option>
+                    </div>
+                    </AutoComplete>
                 </FormItem>
                 <FormItem  label="供应商名称:" class="left" prop="suppliername" >
                     <Input  v-model="formCustombusi.suppliername" placeholder="请输入供应商名称" disabled style="width: 200px"></Input>
                 </FormItem>
                 <FormItem label="业务类型:" class="left" prop="businesstype" >
                     <Select :disabled="numhid" v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="applicationsel">
-                        <Option v-for="items in promotionPageSelect" :value="items.businessPromotionPageCode">{{items.pageName}}&nbsp;&nbsp;{{items.promotionPageUrl}}</Option>
+                        <Option v-for="items in businesstypelist" :value="items.businessCode">{{items.businessName}}</Option>
                     </Select>
                 </FormItem>
 
@@ -160,6 +162,7 @@ export default {
         }
       ],
       promotionPageSelect:[],
+      businesstypelist:[],
       inputlist:[],
       modal10:false,
       modal11: false,
@@ -367,6 +370,7 @@ export default {
           key: "action",
           minWidth: 150,
           align: "center",
+          fixed: 'right',
           render: (h, params) => {
             return h("div", [
               h(
@@ -486,6 +490,7 @@ export default {
             this.titles = '添加渠道'
             this.addecho (num)
         }
+        this.handleSearch1 ()       
         this.modal10 = true
     },
     // 编辑回显
@@ -596,14 +601,38 @@ export default {
 
     },
     // 供应商编号模糊搜索
-    handleSearch1 (value) {
-        this.numlist = !value ? [] : [
-            value,
-            value + value,
-            value + value + value
-        ];
+    handleSearch1 () {
+      this.http.post(BASE_URL+"/promotion/suppliers/queryList",{pageSize:'1000'}).then(data => {
+      if(data.code == 'success'){
+        this.numlist = data.data.dataList
+      }
+      }).catch(err=>{
+      console.log(err)
+      })
     },
-    // 导出
+    supname (value) {
+      this.numlist.forEach(element => {
+        if (value == element.suppliersNo) {
+          this.formCustombusi.suppliername = element.suppliersName
+          this.addbustype (element.suppliersCode)
+        }
+      });
+    },
+    // 新增业务类型
+    addbustype (code) {
+      let list = {
+        suppliersCode:code
+      }
+      this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryList",list).then(data => {
+      if(data.code == 'success'){
+        this.businesstypelist = data.data
+      }
+      }).catch(err=>{
+      console.log(err)
+      })
+
+    },
+       // 导出
     exports () {
       this.loading2 = true;
       let httpUrl = BASE_URL+'/promotion/suppliersBusinessChannel/export'
@@ -781,5 +810,9 @@ export default {
         height: 100%;
 
     }
+}
+.demo-auto-complete-item{
+  max-height: 200px;
+  overflow-y: scroll
 }
 </style>

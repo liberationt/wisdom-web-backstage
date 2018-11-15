@@ -21,7 +21,7 @@
                 <Option v-for="item in status1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="consultingorders">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="consultingorders(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -48,7 +48,7 @@
                 <Option v-for="item in status2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="Orderrobbing">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="Orderrobbing(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -75,7 +75,7 @@
                 <Option v-for="item in status3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             </div>
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="bidorder">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="bidorder(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -405,22 +405,22 @@ export default {
     pageChange (page) {
       this.startRow = page
       if (this.nameval == 0) {
-        this.consultingorders ()
+        this.consultingorders (this.startRow)
       } else if (this.nameval == 1) {
-        this.Orderrobbing ()
+        this.Orderrobbing (this.startRow)
       } else if (this.nameval == 2) {
-        this.bidorder ()
+        this.bidorder (this.startRow)
       }
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
       if (this.nameval == 0) {
-        this.consultingorders ()
+        this.consultingorders (1)
       } else if (this.nameval == 1) {
-        this.Orderrobbing ()
+        this.Orderrobbing (1)
       } else if (this.nameval == 2) {
-        this.bidorder ()
+        this.bidorder (1)
       }
     },
     // 省
@@ -453,13 +453,13 @@ export default {
       })
     },
     // 咨询订单
-    consultingorders () {
+    consultingorders (startRow) {     
       let list = {
         searchOptions :this.model1,
         searchValue :this.name1,
         orderAdCodeFirst :this.model2,
         orderAdCodeSecond : this.model3,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       }
       this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderConsultList', list)
@@ -476,13 +476,13 @@ export default {
         })
     },
     // 抢单列表
-    Orderrobbing () {
+    Orderrobbing (startRow) {
       let list = {
         searchOptions :this.model4,
         searchValue :this.name2,
         orderAdCodeFirst :this.model5,
         orderAdCodeSecond : this.model6,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       }
       this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderRobList', list)
@@ -506,23 +506,23 @@ export default {
       this.endRow = 10
       this.nameval = name
       if (name == 2) {
-        this.bidorder ()    
+        this.bidorder (1)    
       } else if (name == 0) {
-        this.consultingorders ()
+        this.consultingorders (1)
       } else if (name == 1) {
-        this.Orderrobbing ()
+        this.Orderrobbing (1)
       }
 
     },
     // 申述订单
-    bidorder () {
+    bidorder (startRow) {
       this.loading3 = true
       let list = {
         searchOptions :this.model7,
         searchValue :this.name3,
         orderAdCodeFirst :this.model8,
         orderAdCodeSecond : this.model9,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       }
       this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderComplainList', list)
@@ -547,10 +547,10 @@ export default {
       this.value1 = this.$route.query.num
     }  
     if (this.value1 == 2) {
-      this.bidorder()
+      this.bidorder(1)
     }
     this.created ()
-    this.consultingorders ()  
+    this.consultingorders (1)  
     this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderComplainListFilter', {})
     .then((resp) => {
       if (resp.code == 'success') {

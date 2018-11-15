@@ -247,6 +247,7 @@
             },
             // 入住待审核查询
             label_query(type) {
+                this.startRow = '1'
                 if (this.model1 == "mobile") {
                     if (this.name != "" && this.name.length < 3) {
                     this.phoneti(type);

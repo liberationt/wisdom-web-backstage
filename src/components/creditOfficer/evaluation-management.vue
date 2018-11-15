@@ -515,6 +515,7 @@ export default {
     },
     // 查询
     label_query(type) {
+       this.startRow = 1;
       if (this.model1 == "mobile") {
         if (this.name != "" && this.name.length < 3) {
           this.phoneti(type);
@@ -541,6 +542,7 @@ export default {
     },
     // 查询
     label_query1(type) {
+      this.startRow = 1;
       if (this.model12 == "mobile") {
         if (this.name1 != "" && this.name1.length < 3) {
           this.phoneti(type);
@@ -567,6 +569,7 @@ export default {
     },
     // 查询
     label_query2(type) {
+      this.startRow = 1;
       if (this.model13 == "mobile") {
         if (this.name2 != "" && this.name2.length < 3) {
           this.phoneti(type);

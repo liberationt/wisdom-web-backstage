@@ -16,7 +16,7 @@
       </Select>
       </div>
       <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="inquery">查询</Button> -->
-      <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquery('warning')">
+      <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquery(1)">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
@@ -176,15 +176,15 @@ export default {
     pageChange (page) {
       this.params.page = page
       this.startRow = page
-      this.inquery()
+      this.inquery(this.startRow)
     },
     PageSizeChange (limit) {
       this.startRow = 1
       this.params.limit = limit
       this.endRow = limit
-      this.inquery()
+      this.inquery(1)
     },
-    inquery(){
+    inquery(startRow){
       let htturll
       if(this.$route.query.ispage == 'huazan'){
         htturll = '/loan/suggestionsFeedback/queryHuazanSuggestionsFeedbackList'
@@ -199,7 +199,7 @@ export default {
       }
       // this.loading3 = true
       this.http.post(BASE_URL+htturll,{
-        pageNum : this.startRow,
+        pageNum : startRow,
         pageSize : this.endRow,
         searchOptions : this.model1,
         searchValue : this.name,
@@ -240,7 +240,7 @@ export default {
             console.log(data)
             if(data.code == 'success'){
               this.$Message.info('删除成功！');
-              this.inquery()
+              this.inquery(1)
             } else {
               this.$Message.info(data.message);
             }
@@ -269,7 +269,7 @@ export default {
     }).catch(err=>{
       console.log(err)
     })
-    this.inquery()
+    this.inquery(1)
   }
 }
 </script>

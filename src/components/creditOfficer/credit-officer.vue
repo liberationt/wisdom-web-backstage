@@ -247,6 +247,7 @@ export default {
     },
     // 列表查询
     creditinquery(type) {
+      this.startRow = '1'
       if (this.credit1 == "mobile") {
         if (this.creditname != "" && this.creditname.length < 3) {
           this.phoneti(type);

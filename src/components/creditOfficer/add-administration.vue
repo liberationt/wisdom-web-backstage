@@ -569,6 +569,20 @@ export default {
               });
               return false
           }
+          if (this.addnormals[i].discount>99) {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '消费折扣不能大于99%'
+            });
+            return false
+          }
+          if (this.addnormals[i].limited>999) {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '每人每天限量不能大于999'
+            });
+            return false
+          }
           if (this.addnormals[i].activityCode == '') {
             this.$Modal.warning({
               title: '温馨提示',
@@ -687,14 +701,7 @@ export default {
         if (valid) {
           if(!this.isTrue()){
             return false
-          }
-          if (this.formItem.productlogo == '') {
-            this.$Modal.warning({
-              title: '温馨提示',
-              content: '请上传图片'
-            });
-            return false          
-          }
+          }         
           this.$Modal.confirm({
               title: '提示',
               content: '<p>确认提交吗？</p>',

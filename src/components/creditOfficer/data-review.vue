@@ -197,11 +197,12 @@
                 })
             },
             label2_query(type) {
+                this.startRow = '1'
                 if (this.modelmoble == "mobile") {
                     if (this.dataname1 != "" && this.dataname1.length < 3) {
                     this.phoneti(type);
                     } else {
-                    this.loading3 = true;
+                    this.loading3 = true;                   
                     this.labell1();
                     }
                 } else {
