@@ -83,7 +83,7 @@
                     <Input  v-model="formCustombusi.suppliername" placeholder="请输入供应商名称" disabled style="width: 200px"></Input>
                 </FormItem>
                 <FormItem label="业务类型:" class="left" prop="businesstype" >
-                    <Select :disabled="numhid" v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="bustypechange">
+                    <Select  v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="bustypechange">
                         <Option v-for="items in businesstypelist" :value="items.suppliersBusinessCode">{{items.businessName}}</Option>
                     </Select>
                 </FormItem>
@@ -386,7 +386,8 @@ export default {
                   on: {
                     click: () => {
                       this.code = params.row.suppliersBusinessChannelCode
-                        this.addchannel (2)
+                      this.bustypechange (params.row.suppliersBusinessCode)
+                      this.addchannel (2)
                     }
                   }
                 },
@@ -513,13 +514,21 @@ export default {
     // 编辑回显
     editors () {
       this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/getByCode?suppliersBusinessChannelCode="+this.code).then(data => {
-        if(data.code == 'success'){
+        if(data.code == 'success'){          
+          this.formCustombusi.number = data.data.suppliersNo
+          this.formCustombusi.suppliername = data.data.suppliersName
+          this.addbustype (data.data.suppliersCode)
+          
+          this.formCustombusi.businesstype = data.data.suppliersBusinessCode
+          
           this.formCustombusi.channelname = data.data.channelName
           this.formCustombusi.channelnum = data.data.channelKey
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.formCustombusi.style = data.data.businessPromotionPageCode
+          console.log(this.promotionPageSelect)
           this.promotionPageSelect.forEach(element => {
+            alert(1)
             if (element.businessPromotionPageCode == data.data.businessPromotionPageCode) {
               this.stylelogo = element.promotionPagePreview
             }

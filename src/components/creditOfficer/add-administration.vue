@@ -738,6 +738,7 @@ export default {
     // 上传图片
     fileimg (index) {
       if (document.querySelectorAll('.inputfil')[index].files[0].type == '') {
+        this.addnormals[index].activityCode == ''
         this.addnormals[index].logoUrl = require('../../image/moren.png')
         this.$Modal.warning({
           title: '温馨提示',
