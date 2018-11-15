@@ -83,14 +83,14 @@
                     <Input  v-model="formCustombusi.suppliername" placeholder="请输入供应商名称" disabled style="width: 200px"></Input>
                 </FormItem>
                 <FormItem label="业务类型:" class="left" prop="businesstype" >
-                    <Select :disabled="numhid" v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="applicationsel">
-                        <Option v-for="items in businesstypelist" :value="items.businessCode">{{items.businessName}}</Option>
+                    <Select :disabled="numhid" v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="bustypechange">
+                        <Option v-for="items in businesstypelist" :value="items.suppliersBusinessCode">{{items.businessName}}</Option>
                     </Select>
                 </FormItem>
 
-                <FormItem v-if="numhid" class="left" label="渠道编号:" prop="channelnum" >
+                <!-- <FormItem v-if="numhid" class="left" label="渠道编号:" prop="channelnum" >
                     <Input  v-model="formCustombusi.channelnum" placeholder="请输入渠道编号" disabled style="width: 200px"></Input>
-                </FormItem>
+                </FormItem> -->
                 <FormItem label="渠道名称:" class="left" prop="channelname" >
                     <Input  v-model="formCustombusi.channelname" placeholder="请输入渠道名称"  style="width: 200px"></Input>
                 </FormItem>
@@ -467,6 +467,23 @@ export default {
       time2 (value, data) {
         this.value2 = value
       },
+      // 业务类型change
+      bustypechange (val) {
+        let list = {
+          suppliersBusinessCode:val
+        }
+        this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/saveViewData", list).then(data => {
+          if(data.code == 'success'){
+            this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
+            this.formCustombusi.register = String(data.data.channelDiscountSize)
+            this.promotionPageSelect = data.data.promotionPageSelect
+            
+          }
+        }).catch(err=>{
+          console.log(err)
+        })
+
+      },
     // 推广url改变
     applicationsel (val) {
       this.promotionPageSelect.forEach(element => {
@@ -482,13 +499,13 @@ export default {
         if (num == 2) {
           this.titles = '编辑渠道'       
           this.numhid = true
-          this.addecho (num)        
+          this.editors ()        
         }  else {
             this.formCustombusi.channelname = ""
             this.formCustombusi.style = ""
             this.numhid = false
             this.titles = '添加渠道'
-            this.addecho (num)
+            // this.addecho (num)
         }
         this.handleSearch1 ()       
         this.modal10 = true
@@ -538,10 +555,12 @@ export default {
       let content
       if (this.nums == 1) {
         list = {
-          channelName : this.formCustombusi.channelname,
+          suppliersBusinessCode : this.formCustombusi.businesstype,//供应商业务code
+          channelName : this.formCustombusi.channelname,//渠道名称
           channelBaseDiscount: this.formCustombusi.coefficient,
-          suppliersBusinessCode :this.application,
           channelDiscountSize :this.formCustombusi.register,
+          contactName : this.formCustombusi.user,
+          contactPhone : this.formCustombusi.userphone,
           businessPromotionPageCode:this.formCustombusi.style
         }
         urls = "/promotion/suppliersBusinessChannel/save" 
