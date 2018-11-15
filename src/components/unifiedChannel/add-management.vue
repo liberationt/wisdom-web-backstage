@@ -528,7 +528,6 @@ export default {
           this.formCustombusi.style = data.data.businessPromotionPageCode
           console.log(this.promotionPageSelect)
           this.promotionPageSelect.forEach(element => {
-            alert(1)
             if (element.businessPromotionPageCode == data.data.businessPromotionPageCode) {
               this.stylelogo = element.promotionPagePreview
             }
@@ -609,25 +608,25 @@ export default {
       })
 
     },
-    addecho (number) {
-      let list = {
-        suppliersBusinessCode  : this.application
-      }
-      this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/saveViewData", list).then(data => {
-        if(data.code == 'success'){
-          this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
-          this.formCustombusi.register = String(data.data.channelDiscountSize)
-          this.promotionPageSelect = data.data.promotionPageSelect
-          if (number == 2) {
-            this.editors ()
-          }
+    // addecho (number) {
+    //   let list = {
+    //     suppliersBusinessCode  : this.application
+    //   }
+    //   this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/saveViewData", list).then(data => {
+    //     if(data.code == 'success'){
+    //       this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
+    //       this.formCustombusi.register = String(data.data.channelDiscountSize)
+    //       this.promotionPageSelect = data.data.promotionPageSelect
+    //       if (number == 2) {
+    //         this.editors ()
+    //       }
 
-        }
-      }).catch(err=>{
-        console.log(err)
-      })
+    //     }
+    //   }).catch(err=>{
+    //     console.log(err)
+    //   })
 
-    },
+    // },
     // 供应商编号模糊搜索
     handleSearch1 () {
       this.http.post(BASE_URL+"/promotion/suppliers/queryList",{pageSize:'1000'}).then(data => {
