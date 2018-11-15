@@ -24,7 +24,7 @@
             </Select>
           </li>
           <li class="clearfix">
-            <Button type="info" class=" ml50 left w100" :loading="loading3" @click="inquire">
+            <Button type="info" class=" ml50 left w100" :loading="loading3" @click="inquire(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -203,21 +203,21 @@ export default {
     // 分页
     pageChange(page) {
       this.startRow = page;
-      this.inquire();
+      this.inquire(this.startRow);
     },
     pagesizechange(page) {
       this.startRow = 1;
       this.endRow = page;
-      this.inquire();
+      this.inquire(1);
     },
     // 列表查询
-    inquire() {
+    inquire(startRow) {
       this.loading3 = true;
       let list = {
         activityType: this.activeState == -1 ? "" : this.activeState, //活动类型
         auditStatus: this.examineStatus == -1 ? "" : this.examineStatus, //审核状态
         activityStatus: this.activeType == -1 ? "" : this.activeType, //活动状态
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       };
       this.http
@@ -240,7 +240,7 @@ export default {
     }
   },
   created() {
-    this.inquire();
+    this.inquire(1);
     this.http
       .post(BASE_URL + "/loan/activity/getActivitySearch", {})
       .then(resp => {
@@ -249,7 +249,7 @@ export default {
           this.activeStateList= resp.data.typeList,
           this.examineStatusList= resp.data.auditList,
           this.activeTypeList= resp.data.statusList,
-          this.inquire();
+          this.inquire(1);
         } else {
         }
       })

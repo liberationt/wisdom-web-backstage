@@ -666,7 +666,7 @@ export default {
     // },
     // 供应商编号模糊搜索
     handleSearch1 () {
-      this.http.post(BASE_URL+"/promotion/suppliers/queryList",{pageSize:'1000'}).then(data => {
+      this.http.post(BASE_URL+"/promotion/suppliers/queryListManager",{pageSize:'1000'}).then(data => {
       if(data.code == 'success'){
         this.numlist = data.data.dataList
       }
@@ -687,7 +687,7 @@ export default {
       let list = {
         suppliersCode:code
       }
-      this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryList",list).then(data => {
+      this.http.post(BASE_URL+"/promotion/suppliersBusiness/queryListManager",list).then(data => {
       if(data.code == 'success'){
         this.businesstypelist = data.data
       }
@@ -699,7 +699,7 @@ export default {
        // 导出
     exports () {
       this.loading2 = true;
-      let httpUrl = BASE_URL+'/promotion/suppliersBusinessChannel/exportByUser'
+      let httpUrl = BASE_URL+'/promotion/suppliersBusinessChannel/export'
       let formData = new FormData()
       formData.append("pageSize",this.endRow)
       formData.append("pageNum",this.startRow)
@@ -815,7 +815,7 @@ export default {
         beginTime : this.value1,//开始时间
         endTime : this.value2,//结束时间
       }
-      this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/queryPageByUser", list).then(data => {
+      this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/queryPage", list).then(data => {
         if(data.code == 'success'){
           this.data6 = data.data.dataList;
           data.data.dataList.forEach(element => {
@@ -838,7 +838,7 @@ export default {
     
   },
   created() {
-    this.http.post(BASE_URL + "/promotion/business/queryListByUserCode",{}).then(data=>{
+    this.http.post(BASE_URL + "//promotion/business/queryListByManager",{}).then(data=>{
       if(data.code == 'success'){
         this.cityList = data.data          
         this.label_query ()
