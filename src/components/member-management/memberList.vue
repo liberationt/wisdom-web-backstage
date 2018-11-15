@@ -37,7 +37,7 @@
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select> --> 
       </div>
-      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
+      <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire(1)">
         <span v-if="!loading3">查询</span>
         <span v-else>查询</span>
       </Button>
@@ -177,16 +177,16 @@ export default {
     pageChange(page) {
         // console.log(page)
 				this.startRow = page
-				this.inquire()
+				this.inquire(this.startRow)
 		},
     pagesizechange(page) {
       // console.log(page)
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(1)
     },
     // 列表查询
-    inquire (num) {
+    inquire (startRow) {
     this.loading3 = true            
     let list = {
       searchOptions : this.model1,
@@ -194,7 +194,7 @@ export default {
       realStatus : this.model3 == -1 ? "" : this.model3,
       accountStatus : this.model4 == -1 ? "" : this.model4,
       userTimeStatus : this.model5, 
-      pageNum: this.startRow,
+      pageNum: startRow,
       pageSize: this.endRow
     }
     this.http.post(BASE_URL + '/loan/userInfo/queryUserMemberPageList', list)
@@ -226,7 +226,7 @@ export default {
     })
     .catch(() => {
     })
-    this.inquire ()
+    this.inquire (1)
   }
 }
 </script>

@@ -37,7 +37,7 @@ export default {
       application:'',
       cityList: [],
       cityType: [],
-      model1: '',
+      model1: 'phone',
       model2: '',
       name: '',
       startRow: 1,

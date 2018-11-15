@@ -147,6 +147,11 @@ export default {
       suppliersBusinessChannelCode:'',
       cityList: [],
       searchOptions:[],
+      options3: {
+        disabledDate(date) {
+          return date && date.valueOf() > Date.now() - 86400000*0;
+        }
+      },
       statusOptions:[
         {
           value:'',
@@ -517,16 +522,15 @@ export default {
         if(data.code == 'success'){          
           this.formCustombusi.number = data.data.suppliersNo
           this.formCustombusi.suppliername = data.data.suppliersName
-          this.addbustype (data.data.suppliersCode)
-          
-          this.formCustombusi.businesstype = data.data.suppliersBusinessCode
-          
+          this.addbustype (data.data.suppliersCode)         
+          this.formCustombusi.businesstype = data.data.suppliersBusinessCode        
           this.formCustombusi.channelname = data.data.channelName
           this.formCustombusi.channelnum = data.data.channelKey
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.formCustombusi.style = data.data.businessPromotionPageCode
-          console.log(this.promotionPageSelect)
+          this.formCustombusi.user = data.data.contactName
+          this.formCustombusi.userphone = data.data.contactPhone
           this.promotionPageSelect.forEach(element => {
             if (element.businessPromotionPageCode == data.data.businessPromotionPageCode) {
               this.stylelogo = element.promotionPagePreview
@@ -575,10 +579,12 @@ export default {
         content = '<p>新增成功</p>'     
       } else {
         list = {
-          channelName : this.formCustombusi.channelname,
+          suppliersBusinessCode : this.formCustombusi.businesstype,//供应商业务code
+          channelName : this.formCustombusi.channelname,//渠道名称
           channelBaseDiscount: this.formCustombusi.coefficient,
-          suppliersBusinessCode :this.application,
           channelDiscountSize :this.formCustombusi.register,
+          contactName : this.formCustombusi.user,
+          contactPhone : this.formCustombusi.userphone,
           businessPromotionPageCode:this.formCustombusi.style,
           suppliersBusinessChannelCode:this.suppliersBusinessChannelCode,
           fastUpdate:'0'
