@@ -79,6 +79,7 @@ import creditInstitutions from '@/components/creditOfficer/credit-institutions' 
 import presentSetting from '@/components/finance/present-setting'
 import presentRecord from '@/components/finance/present-record'
 import refundManager from '@/components/finance/refund-manager' // 退款
+import costReport from '@/components/finance/cost-report' // 运营成本报表
 // 系统
 import personnelManagement from '@/components/department/personnel-management'
 // 统一渠道 
@@ -116,6 +117,7 @@ import manualPush from '@/components/bigMoney/manual-push'
 import supplierManagement from '@/components/bigMoney/supplier-management'
 import channelPromotion from '@/components/bigMoney/channel-promotion' // 渠道列表
 import poslist from '@/components/bigMoney/poslist'
+
 // import mapState from '@/vuex/store'
 // import digui from '@/components/digui'
 // alert(mapState.state.leftlist)
@@ -307,7 +309,8 @@ let routes = [
       {path: '/refundManager', component: refundManager, names: '退款管理', meta: { auth: true }},
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true, meta: { auth: true }},
       {path: '/applicationProposal', component: applicationProposal, names: '建议反馈', meta: { auth: true }},
-      {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true, meta: { auth: true }}
+      {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true, meta: { auth: true }},
+      {path: '/costReport', component:costReport, names: '运营成本报表', meta: {auth: true}}
     ]
   },
   {
