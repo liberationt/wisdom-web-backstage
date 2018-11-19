@@ -74,7 +74,7 @@
         </div>
 
         <div class="mt20">
-            <Table :row-class-name="rowClassName" border highlight-row :columns="columns1" :data="data1"></Table>
+            <Table border highlight-row :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
@@ -783,21 +783,6 @@ export default {
         }
       })
 
-    },
-    rowClassName(row,index){
-      let date1 = new Date(row.dataModifiedTime).getTime()
-      let date2 = new Date(row.registrationTime).getTime()
-      console.log(date1,date2)
-      if(date1!=date2){
-        return 'demo-table-info-row'
-      }
-      return ""
-      // var date = new Date(row.dataModifiedTime);
-      // alert(date.getTime())
-      // if(row.dataModifiedTime == row.registrationTime){
-      //   return 'demo-table-info-row';
-      // }
-      // return '';
     },
     //列表数据总结更改
     summarizing(){
