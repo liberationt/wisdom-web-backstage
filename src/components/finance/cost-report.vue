@@ -160,7 +160,14 @@ import utils from "../../utils/utils";
                     });
                     return false;
                 }
-                // this.loading3 = true;
+                let data = {
+                    beginTime:this.beginTime,
+                    endTime:this.endTime
+                }
+                this.loading3 = true;
+                this.http.post(BASE_URL+"/loan/statistics/queryCostStatistics",data).then(rep=>{
+                    console.log(rep)
+                })
             },
             //导出
             exportsList(){
@@ -176,6 +183,29 @@ import utils from "../../utils/utils";
                     // this.loading2 = false;
                  });
             }
+        },
+        mounted(){
+            var myDate = new Date(); 
+            var year = myDate.getFullYear(); 
+            var month = myDate.getMonth()+1;
+            var day = myDate.getDate();//获取当前日（1-31） 
+            if (month<10) { month = "0" + month; } 
+            if (day >= 0 && day <= 9) {
+            if (day == 1) {
+            month = myDate.getMonth()
+            if(month==0) {
+            month=12; year=year-1; 
+            }
+            day = new Date(year, month, 0).getDate ();
+            } else {
+            day = day < 10 ? "0" + day : day 
+            } 
+            }
+            var days = day-7
+            days = days<10 ? "0"+days:days
+
+            this.beginTime = year+'-'+month + "-" + days;
+            this.endTime = year+"-"+month + "-" + day;
         }
     }
 </script>

@@ -310,7 +310,7 @@ let routes = [
       {path: '/applicationSendout', component: applicationSendout, names: '发送站内信', hidden: true, meta: { auth: true }},
       {path: '/applicationProposal', component: applicationProposal, names: '建议反馈', meta: { auth: true }},
       {path: '/applicationDetail', component: applicationDetail, names: '查看详情', hidden: true, meta: { auth: true }},
-      {path: '/costReport', component:costReport, names: '运营成本报表', meta: {auth: true}}
+      {path: '/costReport', component: costReport, names: '运营成本报表', meta: {auth: true}}
     ]
   },
   {
