@@ -341,6 +341,17 @@
                         return report.nowAuthCount
                       });
                     }
+                  },
+                  {
+                    title: '当日充值',
+                    align: 'center',
+                    minWidth: 80,
+                    className:'certificationday',
+                    render: (h, params) => {
+                      return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                        return report.rechargeCount
+                      });
+                    }
                   }
                 )      
                 }
@@ -348,8 +359,9 @@
               } else {
                 this.columns7.forEach((element,index) => {
                   if (element.title == '当日认证') {
-                    this.columns7.splice(index,1)
+                    this.columns7.splice(index,2)
                   }
+                  
                 });
                 // this.columns7.splice(this.columns7.length-1,1)
               }
