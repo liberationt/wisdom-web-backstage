@@ -23,11 +23,11 @@
         </div>
         <div id="application_table " class="contentcss mt10">
             <div class="recharge">
-                <h2>充值统计</h2>
+                <h2>{{title1}}</h2>
                 <Table border highlight-row :columns="recharge" :data="rechargeList"></Table>
             </div>
             <div class="consumption">
-                <h2>消费统计</h2>
+                <h2>{{title2}}</h2>
                 <Table border highlight-row :columns="consumption" :data="consumptionList"></Table>
             </div>
         </div>
@@ -38,6 +38,8 @@ import utils from "../../utils/utils";
     export default{
         data(){
             return{
+                title1:"充值统计",
+                title2:"消费统计",
                 loading3: false,
                 loading2: false,
                 beginTime: "",
