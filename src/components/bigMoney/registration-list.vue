@@ -770,6 +770,8 @@ export default {
       formData.append("sid",this.model2)
       formData.append("step",this.model3)
       formData.append("methodType",1)
+      formData.append("updateBeginTime",this.values1)
+      formData.append("updateEndTime",this.values2)
       let httpUrl = BASE_URL+'/loan/dwqUser/export'
       utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
         if(e == true){
@@ -782,7 +784,6 @@ export default {
           })
         }
       })
-
     },
     //列表数据总结更改
     summarizing(){
