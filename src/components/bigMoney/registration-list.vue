@@ -772,6 +772,7 @@ export default {
       formData.append("methodType",1)
       formData.append("updateBeginTime",this.values1)
       formData.append("updateEndTime",this.values2)
+      formData.append("mobile",this.phone)
       let httpUrl = BASE_URL+'/loan/dwqUser/export'
       utils.exporttable(httpUrl, utils.getlocal('token'),formData,e=>{
         if(e == true){
