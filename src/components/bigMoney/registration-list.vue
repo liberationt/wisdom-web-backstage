@@ -36,8 +36,15 @@
             <DatePicker type="date" :value = 'value1' class="" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
             <span class="mb15">  -  </span>
             <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
-
             </li>
+            <li>
+              <span class="w60 displayib ml20  tr">更新时间:</span>
+            <DatePicker type="date" :value = 'values1' class="" @on-change="times1" placeholder="更新开始时间" style="width: 150px"></DatePicker>
+            <span class="mb15">  -  </span>
+            <DatePicker type="date" :value = 'values2' class="mr20 " @on-change="times2" placeholder="更新结束时间" style="width: 150px"></DatePicker>
+            
+            </li>
+            <li>
             <li>
               <span class="w60 displayib tr">供应商:</span>
             <Select v-model="model2" placeholder="全部" class="" style="width:150px">
@@ -67,7 +74,7 @@
         </div>
 
         <div class="mt20">
-            <Table border highlight-row :columns="columns1" :data="data1"></Table>
+            <Table :row-class-name="rowClassName" border highlight-row :columns="columns1" :data="data1"></Table>
         </div>
         <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
@@ -237,6 +244,8 @@ export default {
       value2: '',
       value3: '',
       value4: '',
+      values1:"",
+      values2:"",
       phone: '',
       total: 0,
       num: '',
@@ -365,7 +374,13 @@ export default {
           align: 'center',
           width: 160,
           key: 'registrationTime'
-        },    
+        }, 
+        {
+          title: '更新时间',
+          align: 'center',
+          width: 160,
+          key: 'dataModifiedTime'
+        },  
         {
           title: '生日',
           align: 'center',
@@ -648,16 +663,32 @@ export default {
     time4 (value, data) {
       this.value4 = value
     },
+    times1(value){
+      this.values1= value
+    },
+    times2(value){
+      this.values2= value
+    },
     // 查询
     registered () {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
+      let date3 = Date.parse(new Date(this.values1))/1000
+      let date4 = Date.parse(new Date(this.values2))/1000
       if (date1 > date2) {
         this.loading3 = false        
         this.$Modal.warning({
           title: '注册时间',
           content: '<p>开始时间不得大于结束时间</p>'
+        })
+        return false
+      }
+      if (date3 > date4) {
+        this.loading3 = false        
+        this.$Modal.warning({
+          title: '更新时间',
+          content: '<p>更新开始时间不得大于更新结束时间</p>'
         })
         return false
       }
@@ -669,7 +700,9 @@ export default {
         endTime: this.value2,
         pageNum: this.startRow,
         pageSize: this.endRow,
-        mobile : this.phone
+        mobile : this.phone,
+        updateBeginTime:this.values1,
+        updateEndTime:this.values2
       }
       this.http.post(BASE_URL + '/loan/dwqUser/registerList', list)
     .then((resp) => {
@@ -751,6 +784,21 @@ export default {
       })
 
     },
+    rowClassName(row,index){
+      let date1 = new Date(row.dataModifiedTime).getTime()
+      let date2 = new Date(row.registrationTime).getTime()
+      console.log(date1,date2)
+      if(date1!=date2){
+        return 'demo-table-info-row'
+      }
+      return ""
+      // var date = new Date(row.dataModifiedTime);
+      // alert(date.getTime())
+      // if(row.dataModifiedTime == row.registrationTime){
+      //   return 'demo-table-info-row';
+      // }
+      // return '';
+    },
     //列表数据总结更改
     summarizing(){
       this.http.post(BASE_URL + '/loan/dwqUser/registerCount', {})
@@ -787,7 +835,9 @@ export default {
     this.value1 =  currentdate;
     this.value2 = currentdate; 
     this.value3 =  currentdate
-    this.value4 = currentdate  
+    this.value4 = currentdate
+    this.values1 =  currentdate
+    this.values2 = currentdate
     //列表统计更改
       this.summarizing()
     // 渠道
@@ -890,4 +940,5 @@ export default {
     }
   }
 }
+
 </style>
