@@ -13,21 +13,23 @@
               <TabPane label="待审核" name="0">
                   <div class="mt50 clearfix">
                       <div class="left">
-                          <Select v-model="model1" style="width:90px">
+                        <Input v-model="phone1" class="mr10" placeholder="请输入手机号"  style="width: 150px;"></Input>
+                        <Input v-model="name1" class="mr10" placeholder="请输入姓名"  style="width: 150px;"></Input>
+                          <!-- <Select v-model="model1" style="width:90px">
                           <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
                       </Select>
-                      <Input v-model="value" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input>
-                      <span class="lh32 ml50">申请时间:</span>
+                      <Input v-model="value" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input> -->
+                      <span class="lh32 ">申请时间:</span>
                       <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
                           &nbsp;&nbsp;-&nbsp;&nbsp;
                       <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
                       </div>
-                      <div class="right">
-                        <Button type="info" class="left mr20 w90" :loading="loading3" @click="auditedQuery(1)">
+                      <div class="right ml10">
+                        <Button type="info" class="left mr10 w90" :loading="loading3" @click="auditedQuery(1)">
                           <span v-if="!loading3">查询</span>
                           <span v-else>查询</span>
                         </Button>
-                        <Button type="primary" class="ml10 w90" :loading="loading2" @click="auditedExport(1)">
+                        <Button type="primary" class=" w90" :loading="loading2" @click="auditedExport(1)">
                           <span v-if="!loading2">导出</span>
                           <span v-else>请稍等...</span>
                         </Button>
@@ -46,17 +48,19 @@
               <TabPane label="退款成功" name="1">
                   <div class="mt50 clearfix">
                       <div class="left">
-                          <Select v-model="model2" style="width:90px">
+                        <Input v-model="phone2" class="mr10" placeholder="请输入手机号"  style="width: 150px;"></Input>
+                        <Input v-model="name2" class="mr10" placeholder="请输入姓名"  style="width: 150px;"></Input>
+                          <!-- <Select v-model="model2" style="width:90px">
                           <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
                       </Select>
-                      <Input v-model="value2" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input>
-                      <span class="lh32 ml50">申请时间:</span>
+                      <Input v-model="value2" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input> -->
+                      <span class="lh32 ">申请时间:</span>
                       <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
                       &nbsp;&nbsp;-&nbsp;&nbsp;
                       <DatePicker type="date"  :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
                       </div>
-                      <div class="right">
-                        <Button type="info" class="left mr20 w90" :loading="loading3" @click="auditedQuery(2)">
+                      <div class="right ml10">
+                        <Button type="info" class="left mr10 w90" :loading="loading3" @click="auditedQuery(2)">
                           <span v-if="!loading3">查询</span>
                           <span v-else>查询</span>
                         </Button>
@@ -105,6 +109,10 @@ export default {
       loading: true,
       rejectcode: "",
       rejectorder: "",
+      phone1:'',
+      name1:'',
+      phone2:'',
+      name2:'',
       tabs: [
         "抢单侠"
       ],
@@ -347,22 +355,34 @@ export default {
           return false;
         }
       }
+      let phone
+      let name
       let recordtype;
       if (num == 1) {
+        if (this.phone1 != "" && this.phone1.length < 3) {
+          this.phoneti("warning");
+          this.loading3 = false;
+          return false;
+        }
         recordtype = 3; // 审核中
-        this.value2 = ""
-        this.model2 = ""
+        phone = this.phone1
+        name = this.name1
         this.num = '0'
       } else {
+        if (this.phone2 != "" && this.phone2.length < 3) {
+          this.phoneti("warning");
+          this.loading3 = false;
+          return false;
+        }
         this.num = '1'
         recordtype = 1; // 退款成功
-        this.model1 = this.model2
-        this.value = this.value2
+        phone = this.phone2
+        name = this.name2
       }
       let audited = {
         refundStatus: recordtype,
-        searchKey: this.model1,
-        searchValue: this.value,
+        phone: phone,
+        name: name,
         beginTime: this.timeval1,
         endTime: this.timeval2,
         pageNum: this.startRow,
@@ -441,21 +461,25 @@ export default {
       this.loading2 = true;
       let phone;
       let name;
-      if (this.model1 == "mobile") {
-        phone = this.value;
-        name = "";
-      } else if (this.model1 == "name") {
-        name = this.value;
-        phone = "";
-      } else {
-        name = "";
-        phone = "";
-      }
+      // if (this.model1 == "mobile") {
+      //   phone = this.value;
+      //   name = "";
+      // } else if (this.model1 == "name") {
+      //   name = this.value;
+      //   phone = "";
+      // } else {
+      //   name = "";
+      //   phone = "";
+      // }
       let recordtype;
       if (num == 1) {
         recordtype = 0;
+        phone = this.phone1
+        name = this.name1
       } else {
         recordtype = 1;
+        phone = this.phone2
+        name = this.name2
       }
       let formData = new FormData();
       formData.append("refundStatus", 3);

@@ -13,21 +13,25 @@
                         <TabPane label="待审核" name="0">
                             <div class="mt50 clearfix">
                                 <div class="left">
-                                    <Select v-model="model1" style="width:90px">
+                                    <Input class="mr10" v-model="phone" placeholder="请输入手机号"  style="width: 150px">
+                                    </Input>
+                                    <Input class="mr10" v-model="name" placeholder="请输入姓名"  style="width: 150px">
+                                    </Input>
+                                    <!-- <Select v-model="model1" style="width:90px">
                                     <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
                                 </Select>
-                                <Input v-model="value" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input>
-                                <span class="lh32 ml50">申请时间:</span>
+                                <Input v-model="value" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input> -->
+                                <span class="lh32 ">申请时间:</span>
                                 <DatePicker type="date" :value="timeval1" @on-change="time1" placeholder="开始时间" style="width: 150px"></DatePicker>
                                   <span>  -  </span>
                                 <DatePicker type="date" :value="timeval2" @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
                                 </div>
-                                <div class="right">
-                                  <Button type="info" class="left mr20 w90" :loading="loading3" @click="auditedQuery(1)">
+                                <div class="right ml10">
+                                  <Button type="info" class="left mr10 w90" :loading="loading3" @click="auditedQuery(1)">
                                     <span v-if="!loading3">查询</span>
                                     <span v-else>查询</span>
                                   </Button>
-                                  <Button type="primary" class="ml10 w90" :loading="loading2" @click="auditedExport(1)">
+                                  <Button type="primary" class=" w90" :loading="loading2" @click="auditedExport(1)">
                                     <span v-if="!loading2">导出</span>
                                     <span v-else>请稍等...</span>
                                   </Button>
@@ -64,21 +68,22 @@
                         <TabPane label="已审核" name="1">
                             <div class="mt50 clearfix">
                                 <div class="left">
-                                    <Select v-model="model2" style="width:90px">
+                                    <!-- <Select v-model="model2" style="width:90px">
                                     <Option v-for="(item, index) in cityList" :value="item.value" :key="index">{{ item.label }}</Option>
-                                </Select>
-                                <Input v-model="value2" placeholder="请输入关键字"  style="width: 150px;margin-left:-3px"></Input>
-                                <span class="lh32 ml50">申请时间:</span>
+                                </Select> -->
+                                <Input v-model="phone1" class="mr10" placeholder="请输入手机号"  style="width: 150px;"></Input>
+                                <Input v-model="name1" class="mr10" placeholder="请输入姓名"  style="width: 150px;"></Input>
+                                <span class="lh32 ">申请时间:</span>
                                 <DatePicker type="date"  :value="timeval3" @on-change="time3" confirm placeholder="" style="width: 150px"></DatePicker>
                                 &nbsp;&nbsp;-&nbsp;&nbsp;
                                 <DatePicker type="date" :value="timeval4" @on-change="time4" confirm placeholder="" style="width: 150px"></DatePicker>
                                 </div>
-                                <div class="right">
-                                  <Button type="info" class="left mr20 w90" :loading="loading3" @click="auditedQuery(2)">
+                                <div class="right ml10">
+                                  <Button type="info" class="left mr10 w90" :loading="loading3" @click="auditedQuery(2)">
                                     <span v-if="!loading3">查询</span>
                                     <span v-else>查询</span>
                                   </Button>
-                                  <Button type="primary" class="ml10 w90" :loading="loading2" @click="auditedExport(2)">
+                                  <Button type="primary" class=" w90" :loading="loading2" @click="auditedExport(2)">
                                     <span v-if="!loading2">导出</span>
                                     <span v-else>请稍等...</span>
                                   </Button>
@@ -108,6 +113,10 @@ export default {
     return {
       model1: '',
       model2: '',
+      phone:'',
+      name:'',
+      phone1:'',
+      name1:'',
       modal8: false,
       loading2: false,
       loading3: false,
@@ -441,39 +450,19 @@ export default {
       let name
       let begintime
       let endtime
-      if (num == 1) {
-        if (this.model1 == 'mobile') {
-          phone = this.value
-          name = ''
-        } else if (this.model1 == 'name') {
-          name = this.value
-          phone = ''
-        } else {
-          name = ''
-          phone = ''
-        }       
-      } else {
-        if (this.model2 == 'mobile') {
-          phone = this.value2
-          name = ''
-        } else if (this.model2 == 'name') {
-          name = this.value2
-          phone = ''
-        } else {
-          name = ''
-          phone = ''
-        }
-      }
-      
       let recordtype
       if (num == 1) {
         recordtype = 0
         begintime = this.timeval1
         endtime = this.timeval2
+        phone = this.phone
+        name = this.name
       } else {
         recordtype = 1
         begintime = this.timeval3
         endtime = this.timeval4
+        phone = this.phone1
+        name = this.name1
       }
 
       let audited = {
@@ -517,7 +506,6 @@ export default {
             }
             this.http.post(BASE_URL + '/loan/withdraw/pass',  list)
             .then((resp) => {
-              console.log(resp)
               if (resp.code == 'success') {
                 const title = '确认通过'
                 let content = '<p>已通过</p>'
@@ -591,34 +579,15 @@ export default {
       this.loading2 = true
       let phone
       let name
-      if (num == 1) {
-        if (this.model1 == 'mobile') {
-          phone = this.value
-          name = ''
-        } else if (this.model1 == 'name') {
-          name = this.value
-          phone = ''
-        } else {
-          name = ''
-          phone = ''
-        }
-      } else {
-        if (this.model2 == 'mobile') {
-          phone = this.value2
-          name = ''
-        } else if (this.model2 == 'name') {
-          name = this.value2
-          phone = ''
-        } else {
-          name = ''
-          phone = ''
-        }
-      }    
       let recordtype
       if (num == 1) {
         recordtype = 0
+        phone = this.phone
+        name = this.name
       } else {
         recordtype = 1
+        phone = this.phone1
+        name = this.name1
       }
       let formData = new FormData()
       formData.append("name",name)

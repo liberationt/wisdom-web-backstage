@@ -7,13 +7,17 @@
         </div>
         <div class="contentcss"> 
             <div class="clearfix" >
-                <div class="left">
-                    <Select v-model="model1" style="width:100px" @on-change="label_option">
+                <div class="left clearfix">
+                    <div class="left">
+                        <Input class="mr20" v-for="item in searchOptions" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                        </Input>
+                    </div>
+                    <!-- <Select v-model="model1" style="width:100px" @on-change="label_option">
                     <Option v-for="item in searchOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <Input v-model="name" placeholder="请输入关键字"  style="width: 150px">
-                    </Input>
-                    <Select v-model="model3" @on-change="label_state" placeholder="所属状态" style="width:150px;margin-left:20px">
+                    </Input> -->
+                    <Select v-model="model3" @on-change="label_state" placeholder="所属状态" style="width:150px;">
                         <Option v-for="item in statusOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <Select v-model="models" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:20px">
@@ -262,9 +266,27 @@
             },
             // 查询
             labell1() {
+                let list = []
+                for (let i = 0; i < this.searchOptions.length; i++) {
+                   if (this.searchOptions[i].value == 'mobile') {
+                        if (this.searchOptions[i].code!='' && this.searchOptions[i].code.length<3) {
+                            this.loading3= false
+                            this.phoneti('warning')
+                            return false
+                        }           
+                    }
+                    let obj = new Object ()
+                    obj.label = this.searchOptions[i].value
+                    if (this.searchOptions[i].code == null) {
+                        obj.value = ''
+                    } else {
+                        obj.value = this.searchOptions[i].code
+                    }
+                    list.push(obj)                   
+                }
                let data = Object.assign({
-                    searchValue: this.name, //手机号or姓名的参数
-                    searchOptions: this.model1, //手机号or 姓名
+                    // searchValue: this.name, //手机号or姓名的参数
+                    searchOptions: list, //手机号or 姓名
                     loanStatus: this.labelstate == -1 ? null : this.labelstate, //选择状态
                     loanAdCodeFirst: this.labelcitys, //区域 省
                     loanAdCodeSecond: this.modelshi, //市

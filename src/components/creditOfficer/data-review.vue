@@ -9,10 +9,12 @@
         <div class="contentcss"> 
             <div class="clearfix">
             <div class="left">
-            <Select v-model="modelmoble"  @on-change="data_option" style="width:100px">
+                <Input class="mr20" v-for="item in datamoble" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+            <!-- <Select v-model="modelmoble"  @on-change="data_option" style="width:100px">
                 <Option v-for="item in datamoble" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="dataname1" placeholder="请输入关键字" style="width: 150px"></Input>
+            <Input v-model="dataname1" placeholder="请输入关键字" style="width: 150px"></Input> -->
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search" @click="label2_query('warning')">查询</Button> -->
             <Button type="info" class="right mr20 w90" :loading="loading3" @click="label2_query('warning')">
@@ -40,7 +42,6 @@
                 endRow:10,
                 total: 0,
                 loading3:false,
-                dataname1:'',
                 columns8: [
                     {
                     title: "ID",
@@ -214,9 +215,28 @@
                 this.modelmoble = v;
             },
             labell1() {
+                let list = []
+                for (let i = 0; i < this.datamoble.length; i++) {
+                    if (this.datamoble[i].value == 'mobile') {
+                        if (this.datamoble[i].code!='' && this.datamoble[i].code.length<3) {
+                            this.loading3= false
+                            this.phoneti('warning')
+                            return false
+                        }           
+                    }
+                    let obj = new Object ()
+                    obj.label = this.datamoble[i].value
+                    if (this.datamoble[i].code == null) {
+                        obj.value = ''
+                    } else {
+                        obj.value = this.datamoble[i].code
+                    }
+                    list.push(obj)
+                    
+                }
                let data = Object.assign({
-                searchValue: this.dataname1,
-                searchOptions: this.modelmoble, //姓名or手机号
+                // searchValue: this.dataname1,
+                searchOptions: list, //姓名or手机号
                 pageSize: this.endRow,
                 pageNum: this.startRow
                 });

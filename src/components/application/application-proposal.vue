@@ -6,12 +6,16 @@
       </p>
     </div>
     <div class="clearfix conditioncss">
-      <div class="left">
-      <Select v-model="model1" placeholder="姓名"  style="width:100px">
+      <div class="left clearfix">
+        <div class="left">
+          <Input class="mr20" v-for="item in cityList" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+          </Input>
+        </div>
+      <!-- <Select v-model="model1" placeholder="姓名"  style="width:100px">
         <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
-      <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input>
-      <Select v-model="model2" placeholder="全部状态" style="width:150px;margin-left:50px">
+      <Input v-model="name" placeholder="请输入关键字" style="width: 150px"></Input> -->
+      <Select v-model="model2" placeholder="全部状态" style="width:150px;">
         <Option v-for="item in cityType" :value="item.value" :key="item.value">{{ item.label }}</Option>
       </Select>
       </div>
@@ -197,12 +201,31 @@ export default {
           return false
         } 
       }
+      let list = []
+      for (let i = 0; i < this.cityList.length; i++) {
+        if (this.cityList[i].value == 'mobile') {
+          if (this.cityList[i].code!='' && this.cityList[i].code.length<3) {
+            this.loading3= false
+            this.phoneti('warning')
+            return false
+          }           
+        }
+        let obj = new Object ()
+        obj.label = this.cityList[i].value
+        if (this.cityList[i].code == null) {
+            obj.value = ''
+        } else {
+            obj.value = this.cityList[i].code
+        }
+        list.push(obj)
+        
+      }
       // this.loading3 = true
       this.http.post(BASE_URL+htturll,{
         pageNum : startRow,
         pageSize : this.endRow,
-        searchOptions : this.model1,
-        searchValue : this.name,
+        searchOptions : list,
+        // searchValue : this.name,
         statusOptions : this.model2 
       }).then(data=>{
         // console.log(data)
@@ -237,7 +260,6 @@ export default {
         content: "<p>确认删除吗?</p>",
         onOk: () => {
           this.http.post(BASE_URL+"/loan/suggestionsFeedback/deleteSuggestionsFeedbackByCode",{data:untils.getCookie('code')}).then(data=>{
-            console.log(data)
             if(data.code == 'success'){
               this.$Message.info('删除成功！');
               this.inquery(1)

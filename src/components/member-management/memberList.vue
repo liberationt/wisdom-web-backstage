@@ -9,13 +9,15 @@
       <div class="left">
         <ul class="querysty">
           <li>
-            <Select v-model="model1" placeholder="姓名" style="width:100px">
+            <Input class="mr20" v-for="item in cityList" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+            </Input>
+            <!-- <Select v-model="model1" placeholder="姓名" style="width:100px">
               <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name" placeholder="请输入关键字" style="width: 150px;margin-left:-3px"></Input>
+            <Input v-model="name" placeholder="请输入关键字" style="width: 150px;margin-left:-3px"></Input> -->
           </li>
           <li>
-            <span class="ml20">实名状态:</span>
+            <span class="">实名状态:</span>
             <Select v-model="model3" placeholder="实名状态" style="width:150px;">
               <Option v-for="item in reaName" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
@@ -145,7 +147,6 @@ export default {
           minWidth: 150,
           align: 'center',
           render: (h, params) => {
-            console.log(params)
             return h('div', [
               h(
                 'Button',
@@ -187,10 +188,21 @@ export default {
     },
     // 列表查询
     inquire (startRow) {
-    this.loading3 = true            
+    this.loading3 = true
+    let array = []
+    this.cityList.forEach(element => {
+        let obj = new Object ()
+        obj.label = element.value
+        if (element.code == null) {
+            obj.value = ''
+        } else {
+            obj.value = element.code
+        }
+        array.push(obj)
+    });         
     let list = {
-      searchOptions : this.model1,
-      searchValue : this.name,
+      searchOptions : array,
+      // searchValue : this.name,
       realStatus : this.model3 == -1 ? "" : this.model3,
       accountStatus : this.model4 == -1 ? "" : this.model4,
       userTimeStatus : this.model5, 

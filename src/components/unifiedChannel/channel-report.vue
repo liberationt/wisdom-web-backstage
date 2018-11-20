@@ -343,7 +343,7 @@
                     }
                   },
                   {
-                    title: '当日充值',
+                    title: '当日首次充值',
                     align: 'center',
                     minWidth: 80,
                     className:'certificationday',

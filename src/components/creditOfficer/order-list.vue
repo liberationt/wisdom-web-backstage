@@ -9,12 +9,16 @@
     <Tabs type="card" :animated="false" :value="value1" @on-click="tabswitch">
         <TabPane label="咨询订单" name="0">
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="model1" placeholder="全部" style="width:100px">
+            <div class="left clearfix">
+              <div class="left">
+                <Input class="mr20" v-for="item in cityList1" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+              </div>
+            <!-- <Select v-model="model1" placeholder="全部" style="width:100px">
                 <Option v-for="item in cityList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>           
-            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:50px">
+            <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>            -->
+            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:150px;">
                 <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="model3" placeholder="请选择市" style="width:150px;margin-left:10px">
@@ -36,12 +40,16 @@
 
         <TabPane label="抢单订单" name="1">
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="model4" placeholder="全部" style="width:100px">
+            <div class="left clearfix">
+              <div class="left">
+                <Input class="mr20" v-for="item in cityList2" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+              </div>
+            <!-- <Select v-model="model4" placeholder="全部" style="width:100px">
                 <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name2" placeholder="请输入关键字" style="width: 150px"></Input>           
-            <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:50px">
+            <Input v-model="name2" placeholder="请输入关键字" style="width: 150px"></Input>            -->
+            <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:150px;">
                 <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="model6" placeholder="请选择市" style="width:150px;margin-left:10px">
@@ -63,12 +71,16 @@
 
         <TabPane label="未处理申诉订单" name="2">
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="model7" placeholder="全部" style="width:100px">
+            <div class="left clearfix">
+              <div class="left">
+                <Input class="mr20" v-for="item in cityList" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+              </div>
+            <!-- <Select v-model="model7" placeholder="全部" style="width:100px">
                 <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
-            <Input v-model="name3" placeholder="请输入关键字" style="width: 150px"></Input>
-            <Select v-model="model8" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:50px">
+            <Input v-model="name3" placeholder="请输入关键字" style="width: 150px"></Input> -->
+            <Select v-model="model8" @on-change="citys" placeholder="请选择省" style="width:150px;">
                 <Option v-for="item in cityType3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="model9" placeholder="请选择市" style="width:150px;margin-left:10px">
@@ -453,10 +465,21 @@ export default {
       })
     },
     // 咨询订单
-    consultingorders (startRow) {     
+    consultingorders (startRow) { 
+      let array = []
+      this.cityList1.forEach(element => {
+          let obj = new Object ()
+          obj.label = element.value
+          if (element.code == null) {
+              obj.value = ''
+          } else {
+              obj.value = element.code
+          }
+          array.push(obj)
+      });  
       let list = {
-        searchOptions :this.model1,
-        searchValue :this.name1,
+        searchOptions :array,
+        // searchValue :this.name1,
         orderAdCodeFirst :this.model2,
         orderAdCodeSecond : this.model3,
         pageNum: startRow,
@@ -477,9 +500,20 @@ export default {
     },
     // 抢单列表
     Orderrobbing (startRow) {
+      let array = []
+      this.cityList2.forEach(element => {
+          let obj = new Object ()
+          obj.label = element.value
+          if (element.code == null) {
+              obj.value = ''
+          } else {
+              obj.value = element.code
+          }
+          array.push(obj)
+      });
       let list = {
-        searchOptions :this.model4,
-        searchValue :this.name2,
+        searchOptions :array,
+        // searchValue :this.name2,
         orderAdCodeFirst :this.model5,
         orderAdCodeSecond : this.model6,
         pageNum: startRow,
@@ -516,10 +550,21 @@ export default {
     },
     // 申述订单
     bidorder (startRow) {
+      let array = []
+      this.cityList.forEach(element => {
+          let obj = new Object ()
+          obj.label = element.value
+          if (element.code == null) {
+              obj.value = ''
+          } else {
+              obj.value = element.code
+          }
+          array.push(obj)
+      });
       this.loading3 = true
       let list = {
-        searchOptions :this.model7,
-        searchValue :this.name3,
+        searchOptions :array,
+        // searchValue :this.name3,
         orderAdCodeFirst :this.model8,
         orderAdCodeSecond : this.model9,
         pageNum: startRow,
