@@ -176,9 +176,12 @@ import utils from "../../utils/utils";
                         this.loading3 = false       
                         this.rechargeList=rep.data.rechargeList
                         this.consumptionList=rep.data.consumeList
+                    }else{
+                         this.loading3 = false       
                     }
                 }).catch(err=>{
                     console.log(err)
+                    this.loading3 = false       
                 })
             },
             //导出
