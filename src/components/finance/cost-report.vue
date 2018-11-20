@@ -16,10 +16,10 @@
                 <span v-if="!loading3">查询</span>
                 <span v-else>查询</span>
             </Button>
-            <Button type="primary" class="w100 " :loading="loading2" @click="exportsList">
+            <!-- <Button type="primary" class="w100 " :loading="loading2" @click="exportsList">
                 <span v-if="!loading2">导出</span>
                 <span v-else>请稍等...</span>
-            </Button> 
+            </Button>  -->
         </div>
         <div id="application_table " class="contentcss mt10">
             <div class="recharge">
@@ -41,7 +41,7 @@ import utils from "../../utils/utils";
                 title1:"充值统计",
                 title2:"消费统计",
                 loading3: false,
-                loading2: false,
+                // loading2: false,
                 beginTime: "",
                 endTime: "",
                 rechargeList:[],//充值
@@ -54,43 +54,49 @@ import utils from "../../utils/utils";
                 recharge:[
                     {
                         title:"应用名称",
-                        key:"",
+                        key:"appName",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"业务类型",
-                        key:"",
+                        key:"businessType",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"充值金额(元)",
-                        key:"",
+                        key:"rechargeAmount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"折扣金额(元)",
-                        key:"",
+                        key:"discountAmount",
+                        minWidth:150,
+                        align:'center'
+                    },
+                     {
+                        title:"余额充值(元)",
+                        key:"balanceRechargeAmount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"实收金额(元)",
-                        key:"",
+                        key:"realRechargeAmount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"赠送赞豆数(个)",
-                        key:"",
+                        key:"giveZDCount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"总计赞豆数(个)",
-                        key:"",
+                        key:"totalZDCount",
                         minWidth:150,
                         align:'center'
                     },
@@ -99,43 +105,43 @@ import utils from "../../utils/utils";
                 consumption:[
                     {
                         title:"应用名称",
-                        key:"",
+                        key:"appName",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"业务类型",
-                        key:"",
+                        key:"businessType",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"消费赠送赞豆(个)",
-                        key:"",
+                        key:"consumeGiveZDCount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"实际消费赞豆(个)",
-                        key:"",
+                        key:"realConsumeZDCount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"总计消费赞豆(个)",
-                        key:"",
+                        key:"totalConsumeZDCount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"剩余赞豆(个)",
-                        key:"",
+                        key:"reduceZDCount",
                         minWidth:150,
                         align:'center'
                     },
                     {
                         title:"所有赞豆",
-                        key:"",
+                        key:"totalZDCount",
                         minWidth:150,
                         align:'center'
                     },
@@ -160,29 +166,35 @@ import utils from "../../utils/utils";
                     });
                     return false;
                 }
+                this.loading3 = true;
                 let data = {
                     beginTime:this.beginTime,
                     endTime:this.endTime
                 }
-                this.loading3 = true;
                 this.http.post(BASE_URL+"/loan/statistics/queryCostStatistics",data).then(rep=>{
-                    console.log(rep)
+                    if(rep.code=='success'){
+                        this.loading3 = false       
+                        this.rechargeList=rep.data.rechargeList
+                        this.consumptionList=rep.data.consumeList
+                    }
+                }).catch(err=>{
+                    console.log(err)
                 })
             },
             //导出
-            exportsList(){
-                this.loading2 = true;
-                    let httpUrl =
-                    BASE_URL + "";
-                    let formData = new FormData();
-                    formData.append("", );
-                    formData.append("", );
-                    formData.append("",);
-                    formData.append("",);
-                    utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
-                    // this.loading2 = false;
-                 });
-            }
+            // exportsList(){
+            //     this.loading2 = true;
+            //         let httpUrl =
+            //         BASE_URL + "";
+            //         let formData = new FormData();
+            //         formData.append("", );
+            //         formData.append("", );
+            //         formData.append("",);
+            //         formData.append("",);
+            //         utils.exporttable(httpUrl, utils.getlocal("token"), formData, e => {
+            //         this.loading2 = false;
+            //      });
+            // }
         },
         mounted(){
             var myDate = new Date(); 
@@ -201,11 +213,11 @@ import utils from "../../utils/utils";
             day = day < 10 ? "0" + day : day 
             } 
             }
-            var days = day-7
-            days = days<10 ? "0"+days:days
-
+            var days = day-6;
+            days = days<10 ? "0"+days:days;
             this.beginTime = year+'-'+month + "-" + days;
             this.endTime = year+"-"+month + "-" + day;
+            this.queryList()
         }
     }
 </script>
