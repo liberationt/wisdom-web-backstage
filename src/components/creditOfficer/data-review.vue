@@ -218,7 +218,7 @@
                 let list = []
                 for (let i = 0; i < this.datamoble.length; i++) {
                     if (this.datamoble[i].value == 'mobile') {
-                        if (this.datamoble[i].code!='' && this.datamoble[i].code.length<3) {
+                        if (this.datamoble[i].code!=null && this.datamoble[i].code.length<3 && this.datamoble[i].code!='') {
                             this.loading3= false
                             this.phoneti('warning')
                             return false

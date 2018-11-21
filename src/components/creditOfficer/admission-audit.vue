@@ -269,7 +269,7 @@
                 let list = []
                 for (let i = 0; i < this.searchOptions.length; i++) {
                    if (this.searchOptions[i].value == 'mobile') {
-                        if (this.searchOptions[i].code!='' && this.searchOptions[i].code.length<3) {
+                        if (this.searchOptions[i].code!=null && this.searchOptions[i].code.length<3 && this.searchOptions[i].code!='') {
                             this.loading3= false
                             this.phoneti('warning')
                             return false

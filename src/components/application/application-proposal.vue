@@ -204,7 +204,7 @@ export default {
       let list = []
       for (let i = 0; i < this.cityList.length; i++) {
         if (this.cityList[i].value == 'mobile') {
-          if (this.cityList[i].code!='' && this.cityList[i].code.length<3) {
+          if (this.cityList[i].code!=null && this.cityList[i].code.length<3 && this.cityList[i].code!='') {
             this.loading3= false
             this.phoneti('warning')
             return false
