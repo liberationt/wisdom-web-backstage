@@ -38,7 +38,7 @@
             <DatePicker type="date" :value = 'value2' class="mr20 " @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>
             <li>
-              <span class="w70 displayib ml20  tr">入库更新时间:</span>
+              <span class="w60 displayib ml20  tr">更新时间:</span>
             <DatePicker type="date" :value = 'values1' class="" @on-change="times1" placeholder="更新开始时间" style="width: 150px"></DatePicker>
             <span class="mb15">  -  </span>
             <DatePicker type="date" :value = 'values2' class="mr20 " @on-change="times2" placeholder="更新结束时间" style="width: 150px"></DatePicker>
@@ -376,7 +376,7 @@ export default {
           key: 'registrationTime'
         }, 
         {
-          title: '入库更新时间',
+          title: '更新时间',
           align: 'center',
           width: 160,
           key: 'pushModifiedTime'
