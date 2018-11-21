@@ -187,6 +187,17 @@
       reportColumns2Render(h, params, showTextCallback) {
         let list = []
         for (let i = 0; i < params.length; i++) {
+          if ( params[i].channelList.length<1) {
+            let obj = {
+              suppliersBusinessChannelName:'--',
+              uv:'--',
+              discountRegisterCount:'--',
+              discountActiveCount:'--',
+              nowAuthCount:'--',
+              rechargeCount:'--'
+            }
+            params[i].channelList.push(obj)
+          }
           for (let j = 0; j < params[i].channelList.length; j++) {
             let text = showTextCallback ? showTextCallback(params[i].channelList[j]) : params[i].channelList[j]
             list.push(
@@ -200,6 +211,7 @@
               }, text)
             )
           }
+      
         }
         return h('div', list)
       },
