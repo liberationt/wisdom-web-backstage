@@ -376,10 +376,10 @@ export default {
           key: 'registrationTime'
         }, 
         {
-          title: '更新时间',
+          title: '入库更新时间',
           align: 'center',
           width: 160,
-          key: 'dataModifiedTime'
+          key: 'pushModifiedTime'
         },  
         {
           title: '生日',
