@@ -176,6 +176,18 @@ export default {
           align: 'center'
         },
         {
+          title: '信贷员姓名',
+          key: 'officerName',
+          minWidth: 100,
+          align: 'center'
+        },
+        {
+          title: '信贷员手机号',
+          key: 'officerPhone',
+          minWidth: 110,
+          align: 'center'
+        },
+        {
           title: '订单状态',
           key: 'orderStatusName',
           minWidth: 100,

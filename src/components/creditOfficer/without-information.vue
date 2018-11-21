@@ -119,9 +119,12 @@ export default {
       }
     },
     labell1(startRow) {
+      let list = [
+        {label:'mobile',value:this.registername}
+      ]
       let data = Object.assign({
-        searchOptions: "mobile",
-        searchValue: this.registername,
+        searchOptions: list,
+        // searchValue: this.registername,
         pageSize: this.endRow,
         pageNum: startRow
       });
