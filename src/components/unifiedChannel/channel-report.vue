@@ -187,6 +187,17 @@
       reportColumns2Render(h, params, showTextCallback) {
         let list = []
         for (let i = 0; i < params.length; i++) {
+          if ( params[i].channelList.length<1) {
+            let obj = {
+              suppliersBusinessChannelName:'--',
+              uv:'--',
+              discountRegisterCount:'--',
+              discountActiveCount:'--',
+              nowAuthCount:'--',
+              rechargeCount:'--'
+            }
+            params[i].channelList.push(obj)
+          }
           for (let j = 0; j < params[i].channelList.length; j++) {
             let text = showTextCallback ? showTextCallback(params[i].channelList[j]) : params[i].channelList[j]
             list.push(
@@ -200,6 +211,7 @@
               }, text)
             )
           }
+      
         }
         return h('div', list)
       },
@@ -341,6 +353,17 @@
                         return report.nowAuthCount
                       });
                     }
+                  },
+                  {
+                    title: '当日首次充值',
+                    align: 'center',
+                    minWidth: 80,
+                    className:'certificationday',
+                    render: (h, params) => {
+                      return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
+                        return report.rechargeCount
+                      });
+                    }
                   }
                 )      
                 }
@@ -348,8 +371,9 @@
               } else {
                 this.columns7.forEach((element,index) => {
                   if (element.title == '当日认证') {
-                    this.columns7.splice(index,1)
+                    this.columns7.splice(index,2)
                   }
+                  
                 });
                 // this.columns7.splice(this.columns7.length-1,1)
               }

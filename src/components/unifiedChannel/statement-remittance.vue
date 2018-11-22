@@ -358,7 +358,9 @@
       } else {
       day = day < 10 ? "0" + (day-1) : (day-1);
       } 
-      } 
+      } else {
+        day = day < 10 ? "0" + (day-1) : (day-1);
+      }
       this.beginTime = year+'-'+month + "-" + "01";
       this.endTime = year+"-"+month + "-" + day;
       this.queryBusiness(() => {

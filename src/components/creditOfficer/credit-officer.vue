@@ -8,11 +8,13 @@
         <div class="contentcss"> 
             <div class="clearfix">
               <ul class="querysty clearfix">
-                <li class="mr20">
-                  <Select v-model="credit1" @on-change="creditchange" style="width:100px">
+                <li >
+                  <Input class="mr20" v-for="item in cityList" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                  </Input>
+                  <!-- <Select v-model="credit1" @on-change="creditchange" style="width:100px">
                     <Option v-for="item in cityList" :value="item.value" :key="item.value">{{ item.label }}</Option>
                   </Select>
-                  <Input v-model="creditname" placeholder="请输入关键字" style="width: 150px"></Input>                 
+                  <Input v-model="creditname" placeholder="请输入关键字" style="width: 150px"></Input>                  -->
                 </li>
                 <li class="mr20">
                   <Select v-model="registersheng" @on-change="registers" placeholder="请选择省" style="width:150px;">
@@ -230,10 +232,29 @@ export default {
     },
     // 查询
     labell1() {
+      let list = []
+      for (let i = 0; i < this.cityList.length; i++) {
+        if (this.cityList[i].value == 'mobile') {
+          if (this.cityList[i].code!=null && this.cityList[i].code.length<3 && this.cityList[i].code!='') {
+            this.loading3= false
+            this.phoneti('warning')
+            return false
+          }           
+        }
+        let obj = new Object ()
+        obj.label = this.cityList[i].value
+        if (this.cityList[i].code == null) {
+            obj.value = ''
+        } else {
+            obj.value = this.cityList[i].code
+        }
+        list.push(obj)
+        
+      }
       let data = Object.assign({
         // searchOptions : "",
-        searchOptions: this.credit1,
-        searchValue: this.creditname,
+        searchOptions: list,
+        // searchValue: this.creditname,
         servicePutawayStatus: this.credit2,
         loanAdCodeFirst: this.registersheng, //省编码
         loanAdCodeSecond: this.registershi, //市编码

@@ -9,13 +9,17 @@
     <Tabs type="card" @on-click="labell1" :value="tabs" :animated="false">
         <TabPane :label="label" name="tab1" >
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="model1" style="width:100px" @on-change="label_option">
+            <div class="left clearfix">
+              <div class="left">
+                <Input class="mr20" v-for="item in searchOptions" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+              </div>
+            <!-- <Select v-model="model1" style="width:100px" @on-change="label_option">
               <Option v-for="item in searchOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name" placeholder="请输入关键字"  style="width: 150px">
-            </Input>
-            <Select v-model="models" @on-change="citys" placeholder="请选择省" style="width:150px;margin-left:20px">
+            </Input> -->
+            <Select v-model="models" @on-change="citys" placeholder="请选择省" style="width:150px;">
                 <Option v-for="item in cityType" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="modelshi" @on-change="cityh" placeholder="请选择市" style="width:150px;">
@@ -23,7 +27,7 @@
             </Select>
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query('warning')">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -32,18 +36,22 @@
             <Table border :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="审核成功" name="tab2">
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="model12" style="width:100px" @on-change="label_option1">
+            <div class="left clearfix">
+              <div class="left">
+                <Input class="mr20" v-for="item in searchOptions1" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+              </div>
+            <!-- <Select v-model="model12" style="width:100px" @on-change="label_option1">
               <Option v-for="item in searchOptions1" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name1" placeholder="请输入关键字"  style="width: 150px">
-            </Input>
-             <Select v-model="models1" @on-change="citys1" placeholder="请选择省" style="width:150px;margin-left:20px">
+            </Input> -->
+             <Select v-model="models1" @on-change="citys1" placeholder="请选择省" style="width:150px;">
                 <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="modelshi1" @on-change="cityh1" placeholder="请选择市" style="width:150px;">
@@ -51,7 +59,7 @@
             </Select>
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query1('warning')">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query1(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -60,18 +68,22 @@
             <Table border :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
             </div>
         </TabPane>
         <TabPane label="审核失败" name="tab3">
             <div class="clearfix">
-            <div class="left">
-            <Select v-model="model13" style="width:100px" @on-change="label_option2">
+            <div class="left clearfix">
+              <div class="left">
+                <Input class="mr20" v-for="item in searchOptions2" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                </Input>
+              </div>
+            <!-- <Select v-model="model13" style="width:100px" @on-change="label_option2">
               <Option v-for="item in searchOptions2" :value="item.value" :key="item.value">{{ item.label }}</Option>
             </Select>
             <Input v-model="name2" placeholder="请输入关键字"  style="width: 150px">
-            </Input>
-            <Select v-model="models2" @on-change="citys2" placeholder="请选择省" style="width:150px;margin-left:20px">
+            </Input> -->
+            <Select v-model="models2" @on-change="citys2" placeholder="请选择省" style="width:150px;s">
                 <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
             <Select v-model="modelshi2" @on-change="cityh2" placeholder="请选择市" style="width:150px;">
@@ -79,7 +91,7 @@
             </Select>
             </div>
             <!-- <Button class="right mr100" type="primary" icon="ios-search">查询</Button> -->
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query2('warning')">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="label_query2(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -88,7 +100,7 @@
             <Table border :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
-            <Page :total="total" @on-change="pageChange2" @on-page-size-change="PageSizeChange2" show-sizer show-total></Page>
+            <Page :total="total" :current="startRow" @on-change="pageChange2" @on-page-size-change="PageSizeChange2" show-sizer show-total></Page>
             </div>
         </TabPane>
     </Tabs>
@@ -474,6 +486,7 @@ export default {
       cityTypel: [],
       cityTypel1: [],
       cityTypel2: [],
+      arraylist:[],
       startRow: 1,
       endRow: 10,
       total: 0,
@@ -505,82 +518,164 @@ export default {
     pageChange (page) {
       this.startRow = page;
       this.params.page = page;
-      this.labell1("tab1");
+      this.label_query(this.startRow);
     },
     PageSizeChange (limit) {
       this.startRow = 1;
       this.endRow = limit;
-      this.labell1("tab1");
+      this.label_query(this.startRow);
       this.params.limit = limit
     },
     // 查询
-    label_query(type) {
-       this.startRow = 1;
-      if (this.model1 == "mobile") {
-        if (this.name != "" && this.name.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab1");
+    label_query(startRow) {
+      // this.startRow = 1;
+      this.loading3= true
+      let httpUrl1 = "/loan/comment/getCommentDetailsList"
+      let parameter = {
+        pageSize: this.endRow,
+        pageNum: startRow
+      };
+      let data;      
+      this.arraylist = []
+      for (let i = 0; i < this.searchOptions.length; i++) {
+        if (this.searchOptions[i].value == 'mobile') {
+          if (this.searchOptions[i].code!=null && this.searchOptions[i].code.length<3 && this.searchOptions[i].code!='') {
+            this.loading3= false
+            this.phoneti('warning')
+            return false
+          }           
         }
-      } else {
-        this.loading3= true
-        this.labell1("tab1");
+        let obj = new Object ()
+        obj.label = this.searchOptions[i].value
+        if (this.searchOptions[i].code == null) {
+            obj.value = ''
+        } else {
+            obj.value = this.searchOptions[i].code
+        }
+        this.arraylist.push(obj)       
       }
+      data = Object.assign(
+          {
+            isPass : 0,
+            // searchValue: this.name1, //手机号or姓名的参数
+            searchOptions: this.arraylist, //手机号or 姓名
+            loanAdCodeFirst: this.labelcitys1, //区域 省
+            loanAdcode: this.modelshi1 //市
+          },
+          parameter
+        );
+        this.post(
+          BASE_URL + httpUrl1,
+          data,
+          0
+        );   
+      // this.labell1("tab1");
+      
     },
     // 审核成功
     pageChange1 (page) {
       this.startRow = page;
       this.params.page = page;
-      this.labell1("tab2");
+      this.label_query1(this.startRow);
     },
     PageSizeChange1 (limit) {
       this.startRow = 1;
       this.endRow = limit;
-      this.labell1("tab2");
+      this.label_query1(this.startRow);
       this.params.limit = limit
     },
     // 查询
-    label_query1(type) {
-      this.startRow = 1;
-      if (this.model12 == "mobile") {
-        if (this.name1 != "" && this.name1.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab2");
+    label_query1(startRow) {     
+      // this.startRow = 1;
+      this.loading3= true
+      let httpUrl1 = "/loan/comment/getCommentDetailsList"
+      let parameter = {
+        pageSize: this.endRow,
+        pageNum: startRow
+      };
+      let data;
+      this.arraylist = []
+      for (let i = 0; i < this.searchOptions1.length; i++) {
+        if (this.searchOptions1[i].value == 'mobile') {
+          if (this.searchOptions1[i].code!=null && this.searchOptions1[i].code.length<3 && this.searchOptions[i].code!='') {
+            this.loading3= false
+            this.phoneti('warning')
+            return false
+          }           
         }
-      } else {
-        this.loading3= true
-        this.labell1("tab2");
-      }
+        let obj = new Object ()
+        obj.label = this.searchOptions1[i].value
+        if (this.searchOptions1[i].code == null) {
+            obj.value = ''
+        } else {
+            obj.value = this.searchOptions1[i].code
+        }
+        this.arraylist.push(obj)        
+      }      
+      data = Object.assign(
+        {
+          isPass : 1,
+          // searchValue: this.name, //手机号or姓名的参数
+          searchOptions: this.arraylist, //手机号or 姓名
+          loanAdCodeFirst: this.labelcitys, //区域 省
+          loanAdcode: this.modelshi //市
+        },
+        parameter
+      );
+      this.post(
+        BASE_URL + httpUrl1,
+        data,
+        1
+      );
     },
     // 审核失败
     pageChange2 (page) {
       this.startRow = page;
       this.params.page = page;
-      this.labell1("tab3");
+      this.label_query2(this.startRow);
     },
     PageSizeChange2 (limit) {
       this.startRow = 1;
       this.endRow = limit;
-      this.labell1("tab3");
+      this.label_query2(this.startRow);
       this.params.limit = limit
     },
     // 查询
-    label_query2(type) {
-      this.startRow = 1;
-      if (this.model13 == "mobile") {
-        if (this.name2 != "" && this.name2.length < 3) {
-          this.phoneti(type);
-        } else {
-          this.loading3= true
-          this.labell1("tab3");
+    label_query2(startRow) {
+      // this.startRow = 1;
+      this.loading3= true
+      let httpUrl1 = "/loan/comment/getCommentDetailsList"
+      let parameter = {
+        pageSize: this.endRow,
+        pageNum: startRow
+      };
+      let data;
+      this.arraylist = []
+      for (let i = 0; i < this.searchOptions2.length; i++) {
+        if (this.searchOptions2[i].value == 'mobile') {
+          if (this.searchOptions2[i].code!=null && this.searchOptions2[i].code.length<3 && this.searchOptions2[i].code!='') {
+            this.loading3= false
+            this.phoneti('warning')
+            return false
+          }           
         }
-      } else {
-        this.loading3= true
-        this.labell1("tab3");
-      }
+        let obj = new Object ()
+        obj.label = this.searchOptions2[i].value
+        if (this.searchOptions2[i].code == null) {
+            obj.value = ''
+        } else {
+            obj.value = this.searchOptions2[i].code
+        }
+        this.arraylist.push(obj)        
+      }     
+      data = Object.assign({
+          isPass : 2,
+          // searchValue: this.name2, //手机号or姓名的参数
+          searchOptions: this.arraylist, //手机号or 姓名
+          loanAdCodeFirst: this.labelcitys2, //区域 省
+          loanAdcode: this.modelshi2 //市
+        }, parameter);
+        this.post(BASE_URL + httpUrl1, data, 2);
     },
     //tab 栏
     labell1(name) {
@@ -592,52 +687,16 @@ export default {
       };
       let data;
       //待审核评价
-      if (name == "tab1") {
-        data = Object.assign(
-          {
-            isPass : 0,
-            searchValue: this.name, //手机号or姓名的参数
-            searchOptions: this.model1, //手机号or 姓名
-            loanAdCodeFirst: this.labelcitys, //区域 省
-            loanAdcode: this.modelshi //市
-          },
-          parameter
-        );
-        this.post(
-          BASE_URL + httpUrl1,
-          data,
-          0
-        );
+      if (name == "tab1") {       
+        this.label_query (1)
       }
       //评价成功
-      if (name == "tab2") {
-        // alert(33)
-        data = Object.assign(
-          {
-            isPass : 1,
-            searchValue: this.name1, //手机号or姓名的参数
-            searchOptions: this.model12, //手机号or 姓名
-            loanAdCodeFirst: this.labelcitys1, //区域 省
-            loanAdcode: this.modelshi1 //市
-          },
-          parameter
-        );
-        this.post(
-          BASE_URL + httpUrl1,
-          data,
-          1
-        );
+      if (name == "tab2") {       
+        this.label_query1 (1)
       }
       //评价失败
-      if (name == "tab3") {
-        data = Object.assign({
-          isPass : 2,
-          searchValue: this.name2, //手机号or姓名的参数
-          searchOptions: this.model13, //手机号or 姓名
-          loanAdCodeFirst: this.labelcitys2, //区域 省
-          loanAdcode: this.modelshi2 //市
-        }, parameter);
-        this.post(BASE_URL + httpUrl1, data, 2);
+      if (name == "tab3") {        
+        this.label_query2 (1)
       }
     },
     post(httpUrl, params, num) {
@@ -777,7 +836,7 @@ export default {
   },
   created(){
     //初始化
-    this.labell1("tab1");
+    
     //省
     this.http.get("../../../static/city.json").then(data => {
       this.cityType = data;
@@ -785,14 +844,25 @@ export default {
       this.cityType2 = data;
     });
     // 
-    this.http
-      .post(BASE_URL + "/loan/comment/queryCommentListFilter", {})
+    this.http.post(BASE_URL + "/loan/comment/queryCommentListFilter", {})
       .then(data => {
-        this.searchOptions = data.data.searchOptions
+        if (data.code == 'success') {
+          this.searchOptions = data.data.searchOptions
+          this.label_query(1);
+        }        
+      }).catch(err => {
+        console.log(err);
+      });
+      this.http.post(BASE_URL + "/loan/comment/queryCommentListFilter", {})
+      .then(data => {
         this.searchOptions1 = data.data.searchOptions
+      }).catch(err => {
+        console.log(err);
+      });
+      this.http.post(BASE_URL + "/loan/comment/queryCommentListFilter", {})
+      .then(data => {
         this.searchOptions2 = data.data.searchOptions
-      })
-      .catch(err => {
+      }).catch(err => {
         console.log(err);
       });
   }
