@@ -132,19 +132,7 @@ import utils from "../../utils/utils";
                         key:"totalConsumeZDCount",
                         minWidth:150,
                         align:'center'
-                    },
-                    {
-                        title:"剩余赞豆(个)",
-                        key:"reduceZDCount",
-                        minWidth:150,
-                        align:'center'
-                    },
-                    {
-                        title:"所有赞豆",
-                        key:"totalZDCount",
-                        minWidth:150,
-                        align:'center'
-                    },
+                    }
                 ]
             }
         },
