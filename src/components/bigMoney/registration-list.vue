@@ -376,7 +376,7 @@ export default {
           key: 'registrationTime'
         }, 
         {
-          title: '入库更新时间',
+          title: '更新时间',
           align: 'center',
           width: 160,
           key: 'pushModifiedTime'
