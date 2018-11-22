@@ -556,7 +556,7 @@ export default {
       }
       data = Object.assign(
           {
-            isPass : 1,
+            isPass : 0,
             // searchValue: this.name1, //手机号or姓名的参数
             searchOptions: this.arraylist, //手机号or 姓名
             loanAdCodeFirst: this.labelcitys1, //区域 省
@@ -614,7 +614,7 @@ export default {
       }      
       data = Object.assign(
         {
-          isPass : 0,
+          isPass : 1,
           // searchValue: this.name, //手机号or姓名的参数
           searchOptions: this.arraylist, //手机号or 姓名
           loanAdCodeFirst: this.labelcitys, //区域 省
