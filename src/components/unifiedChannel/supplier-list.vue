@@ -77,9 +77,10 @@
                 <Option value="0">停用</Option>
               </Select>
             </FormItem>
-            <FormItem label="登录密码:" v-if="suption==2" >
-              <Button v-if="passshow"  type="primary" @click="resetpass">自动重置密码</Button>
-              <Button v-else disabled>已生成密码</Button>
+            <FormItem label="登录密码:"  >
+              <Input  v-model="formCustom.password" placeholder="请输入登录密码" style="width: 300px"></Input>
+              <!-- <Button v-if="passshow"  type="primary" @click="resetpass">自动重置密码</Button>
+              <Button v-else disabled>已生成密码</Button> -->
             </FormItem>
           </Form>
           </div>
@@ -162,7 +163,8 @@ export default {
         name: '',
         phone: '',
         remarks: '',
-        accounttype: ''
+        accounttype: '',
+        password:''
       },
       ruleCustom: {
         channelnum: [
@@ -427,6 +429,19 @@ export default {
               this.changeLoading ()
               return false
           }
+          if (this.suption == 1) {
+            if (this.formCustom.password == '') {
+              const title = '提示'
+              let content = '<p>请输入登录密码</p>'
+              this.$Modal.warning({
+                  title: title,
+                  content: content
+              })
+              this.changeLoading ()
+              return false
+            }     
+          }
+
           let list
           if (this.suption == 1) {
           list = {
@@ -437,7 +452,8 @@ export default {
             contactName :this.formCustom.name,
             contactPhone :this.formCustom.phone,
             memo:this.formCustom.remarks,
-            suppliersStatus :this.formCustom.accounttype
+            suppliersStatus :this.formCustom.accounttype,
+            password: this.formCustom.password
           }
           } else {
             list = {
@@ -449,7 +465,8 @@ export default {
             contactPhone :this.formCustom.phone,
             memo:this.formCustom.remarks,
             suppliersStatus :this.formCustom.accounttype,
-            suppliersCode:this.suppliersCode
+            suppliersCode:this.suppliersCode,
+            password: this.formCustom.password
           }
           }
           this.addsupplierpre (list,this.suption)
@@ -629,7 +646,7 @@ export default {
           })
           this.changeLoading ()
           return false
-      }
+      }      
       let managerUser
       this.managerSelect.forEach(element => {
         if (element.value == this.formCustombusi.person) {
@@ -643,7 +660,7 @@ export default {
         contactUser :this.formCustombusi.name,
         contactPhone :this.formCustombusi.phone,
         memo:this.formCustombusi.remarks,
-        suppliersCode :this.code
+        suppliersCode :this.code        
       }
       this.http.post(BASE_URL+'/promotion/suppliersBusiness/save', list).then(data => {
         if(data.code == 'success'){

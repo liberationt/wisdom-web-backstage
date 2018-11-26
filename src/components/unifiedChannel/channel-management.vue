@@ -142,6 +142,24 @@ export default {
       },
       columns7: [
         {
+          title: "供应商编号",
+          key: "suppliersNo",
+          minWidth: 140,
+          align: "center"
+        },
+        {
+          title: "供应商名称",
+          key: "suppliersName",
+          minWidth: 160,
+          align: "center"
+        },
+        {
+          title: "业务类型",
+          key: "businessName",
+          minWidth: 160,
+          align: "center"
+        },
+        {
           title: "渠道编号",
           key: "channelKey",
           minWidth: 140,
@@ -152,7 +170,7 @@ export default {
           key: "channelName",
           minWidth: 160,
           align: "center"
-        },
+        },        
         {
           title: "基础折扣系数(%)",
           minWidth: 150,
@@ -288,7 +306,7 @@ export default {
         {
           title: "推广URL",
           key: "channelUrl",
-          minWidth: 100,
+          minWidth: 150,
           align: "center"
         },
         {
