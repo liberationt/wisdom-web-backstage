@@ -218,8 +218,8 @@ export default {
           { type: 'string', max: 50, message: '最多输入50个字符', trigger: 'blur' },
         ],
         userphone: [
-          { required: true, message: '请输入手机号', trigger: 'blur' },
-          {required: true, message: '手机号最多输入11位数字', pattern: /^(0|[1-9][0-9]{10})$/, trigger: 'blur'}
+          { required: true, message: '请输入渠道使用人电话', trigger: 'blur' },
+          {required: true, message: '电话最多输入11位数字', pattern: /^(0|[1-9][0-9]{10})$/, trigger: 'blur'}
         //   {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
         style: [

@@ -42,7 +42,7 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
-            <Form ref="formCustom" class="nametop" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
+            <Form ref="formCustom" class="nametop" :model="formCustombusi" :rules="ruleCustombusi" :label-width="120" style="padding-left:100px">
                 <FormItem v-if="numhid" label="渠道编号:" prop="channelnum" >
                     <Input  v-model="formCustombusi.channelnum" placeholder="请输入渠道编号" disabled style="width: 300px"></Input>
                 </FormItem>
@@ -62,6 +62,12 @@
                 <FormItem label="基础激活数:" prop="activation" class="clearfix">
                     <Input class="left" v-model="formCustombusi.activation" placeholder="请输入基础激活数"  style="width: 300px"></Input>
                     <span v-if="tipsshow3&&numhid" class="red left ml10">次日生效{{snapshopactive}}</span>
+                </FormItem>
+                <FormItem label="渠道使用人:" prop="user" >
+                    <Input  v-model="formCustombusi.user" placeholder="请输入渠道使用人"  style="width: 300px"></Input>
+                </FormItem>
+                <FormItem label="渠道使用人电话:" prop="userphone" >
+                    <Input  v-model="formCustombusi.userphone" placeholder="请输入渠道使用人电话"  style="width: 300px"></Input>
                 </FormItem>
               <FormItem label="推广页样式:" prop="style" >
               <Select :disabled="numhid" v-model="formCustombusi.style" placeholder="请选择" style="width:300px" @on-change="applicationsel">
@@ -112,6 +118,8 @@ export default {
         channelname: '',  
         coefficient: '',
         register: '',
+        user:'',
+        userphone:'',
         activation:'',
         style: ''
       },
@@ -127,6 +135,15 @@ export default {
         register: [
           { required: true, message: '请输入基础注册数', trigger: 'blur' },
           {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
+        ],
+        user: [
+          { required: true, message: '请输入渠道使用人', trigger: 'blur' },
+          { type: 'string', max: 50, message: '最多输入50个字符', trigger: 'blur' },
+        ],
+        userphone: [
+          { required: true, message: '请输入渠道使用人电话', trigger: 'blur' },
+          {required: true, message: '电话最多输入11位数字', pattern: /^(0|[1-9][0-9]{10})$/, trigger: 'blur'}
+        //   {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
         activation: [
           { required: true, message: '请输入基础激活数', trigger: 'blur' },
@@ -435,6 +452,8 @@ export default {
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.formCustombusi.style = data.data.businessPromotionPageCode
+          this.formCustombusi.user = data.data.contactName
+          this.formCustombusi.userphone = data.data.contactPhone
           this.promotionPageSelect.forEach(element => {
             if (element.businessPromotionPageCode == data.data.businessPromotionPageCode) {
               this.stylelogo = element.promotionPagePreview
@@ -476,6 +495,8 @@ export default {
           suppliersBusinessCode :this.application,
           channelDiscountSize :this.formCustombusi.register,
           channelBaseActive :this.formCustombusi.activation,
+          contactName : this.formCustombusi.user,
+          contactPhone : this.formCustombusi.userphone,
           businessPromotionPageCode:this.formCustombusi.style
         }
         urls = "/promotion/suppliersBusinessChannel/save" 
