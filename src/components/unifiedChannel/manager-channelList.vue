@@ -214,10 +214,12 @@ export default {
           {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
         ],
         user: [
-          { required: true, message: '请输入渠道使用人', trigger: 'blur' }
+          { required: true, message: '请输入渠道使用人', trigger: 'blur' },
+          { type: 'string', max: 50, message: '最多输入50个字符', trigger: 'blur' },
         ],
         userphone: [
           { required: true, message: '请输入手机号', trigger: 'blur' },
+          {required: true, message: '手机号最多输入11位数字', pattern: /^(0|[1-9][0-9]{10})$/, trigger: 'blur'}
         //   {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
         style: [
@@ -316,7 +318,7 @@ export default {
         },
         {
           title: "基础注册数",
-          minWidth: 100,
+          minWidth: 150,
           align: "center",
           render: (h, params) => {
             let list = [
