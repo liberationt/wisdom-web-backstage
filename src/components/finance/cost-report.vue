@@ -116,18 +116,6 @@ import utils from "../../utils/utils";
                         align:'center'
                     },
                     {
-                        title:"消费赠送赞豆(个)",
-                        key:"consumeGiveZDCount",
-                        minWidth:150,
-                        align:'center'
-                    },
-                    {
-                        title:"实际消费赞豆(个)",
-                        key:"realConsumeZDCount",
-                        minWidth:150,
-                        align:'center'
-                    },
-                    {
                         title:"总计消费赞豆(个)",
                         key:"totalConsumeZDCount",
                         minWidth:150,
@@ -189,6 +177,15 @@ import utils from "../../utils/utils";
         },
         mounted(){
             var myDate = new Date(); 
+            var befordata = myDate.getTime()-6*24*3600*1000
+            function timestampToTime(timestamp) {
+            var date = new Date(timestamp);//时间戳为10位需*1000，时间戳为13位的话不需乘1000
+            var Y = date.getFullYear() + '-';
+            var M = (date.getMonth()+1 < 10 ? '0'+(date.getMonth()+1) : date.getMonth()+1) + '-';
+            var D = date.getDate() + ' ';
+            return Y+M+D;
+            }
+            this.beginTime=(timestampToTime(befordata));
             var year = myDate.getFullYear(); 
             var month = myDate.getMonth()+1;
             var day = myDate.getDate();//获取当前日（1-31） 
@@ -206,7 +203,6 @@ import utils from "../../utils/utils";
             }
             var days = day-6;
             days = days<10 ? "0"+days:days;
-            this.beginTime = year+'-'+month + "-" + days;
             this.endTime = year+"-"+month + "-" + day;
             this.queryList()
         }
