@@ -116,18 +116,6 @@ import utils from "../../utils/utils";
                         align:'center'
                     },
                     {
-                        title:"消费赠送赞豆(个)",
-                        key:"consumeGiveZDCount",
-                        minWidth:150,
-                        align:'center'
-                    },
-                    {
-                        title:"实际消费赞豆(个)",
-                        key:"realConsumeZDCount",
-                        minWidth:150,
-                        align:'center'
-                    },
-                    {
                         title:"总计消费赞豆(个)",
                         key:"totalConsumeZDCount",
                         minWidth:150,
