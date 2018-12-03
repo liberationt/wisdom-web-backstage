@@ -563,7 +563,9 @@ export default {
               onOk: () => {
                   this.modal9 = false
                   this. label_query ()
+                  this.formCustom.password = ''
                   this.$refs['formCustom'].resetFields()
+
               }
           })
         } else {
@@ -679,7 +681,7 @@ export default {
           this.formCustombusi.person = ""
           this.formCustombusi.name =""
           this.formCustombusi.phone = ""
-          this.formCustombusi.remarks=""
+          this.formCustombusi.remarks="" 
           this.code=""
         }
       }).catch(err=>{

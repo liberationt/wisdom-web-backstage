@@ -15,7 +15,7 @@
                     </Select>
                 </li>
                 <li class="ml20">
-                    <Select v-model="model1" class="w100" @on-change="label_option">
+                    <Select v-model="model1" style="width:100px"  @on-change="label_option">
                         <Option v-for="item in searchOptions" :value="item.value" :key="item.value">{{ item.label }}</Option>
                     </Select>
                     <Input v-model="name" placeholder="请输入关键字"  style="width: 150px">
@@ -64,26 +64,33 @@
           ok-text="保存"
           cancel-text="取消"
           class-name="vertical-center-modal"
-          width="800"
+          width="950"
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
             <Form ref="formCustom" class="nametop clearfix" :model="formCustombusi" :rules="ruleCustombusi" :label-width="120" style="padding-left:50px">
-                <FormItem label="供应商编号:" class="left" prop="number" >
+                <FormItem label="供应商编号:" class="left" prop="number" style="width:400px">
                     <AutoComplete
                     v-model="formCustombusi.number"
+                    :data="suplist"
+                    :filter-method="filterMethod"
+                    @on-select="supname"
+                    :disabled="supdis"
                     placeholder="请输入供应商编号"
                     style="width:200px">
-                    <div class="demo-auto-complete-item" >                        
+                    <!-- <div class="demo-auto-complete-item" >                        
                         <Option v-for="option in numlist" :value="option.suppliersNo" @click.native="supname(option.suppliersNo)"></Option>
-                    </div>
+                    </div> -->
                     </AutoComplete>
                 </FormItem>
-                <FormItem  label="供应商名称:" class="left" prop="suppliername" >
+                <FormItem v-if="supdis"  class="left" label="渠道编号:" prop="channelnum" style="width:400px">
+                    <Input  v-model="formCustombusi.channelnum" placeholder="请输入渠道编号" disabled style="width: 200px"></Input>
+                </FormItem>
+                <FormItem  label="供应商名称:" class="left" prop="suppliername" style="width:400px">
                     <Input  v-model="formCustombusi.suppliername" placeholder="请输入供应商名称" disabled style="width: 200px"></Input>
                 </FormItem>
-                <FormItem label="业务类型:" class="left" prop="businesstype" >
-                    <Select  v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="bustypechange">
+                <FormItem label="业务类型:" class="left" prop="businesstype" style="width:400px">
+                    <Select :disabled="supdis" v-model="formCustombusi.businesstype" placeholder="请选择" style="width:200px" @on-change="bustypechange">
                         <Option v-for="items in businesstypelist" :value="items.suppliersBusinessCode">{{items.businessName}}</Option>
                     </Select>
                 </FormItem>
@@ -91,32 +98,36 @@
                 <!-- <FormItem v-if="numhid" class="left" label="渠道编号:" prop="channelnum" >
                     <Input  v-model="formCustombusi.channelnum" placeholder="请输入渠道编号" disabled style="width: 200px"></Input>
                 </FormItem> -->
-                <FormItem label="渠道名称:" class="left" prop="channelname" >
+                <FormItem label="渠道名称:" class="left" prop="channelname" style="width:400px">
                     <Input  v-model="formCustombusi.channelname" placeholder="请输入渠道名称"  style="width: 200px"></Input>
                 </FormItem>
-                <FormItem label="基础折扣系数:" prop="coefficient" class="clearfix left">
-                    <Input class="left" v-model="formCustombusi.coefficient" placeholder="请输入基础折扣系数"  style="width: 200px">
+                <FormItem label="基础折扣系数:" prop="coefficient" class="clearfix left" style="width:400px">
+                    <Input class="left" v-model="formCustombusi.coefficient" placeholder="请输入基础折扣系数"  style="width: 200px;height:34px">
                         <span slot="append">%</span>
                     </Input>
                     <span v-if="tipsshow1&&numhid" class="red left ml10">次日生效{{snapshopcount}}%</span>
                 </FormItem>
-                <FormItem label="基础注册数:" prop="register" class="clearfix left">
-                    <Input class="left" v-model="formCustombusi.register" placeholder="请输入基础注册数"  style="width: 200px"></Input>
+                <FormItem label="基础注册数:" prop="register" class="clearfix left" style="width:400px">
+                    <Input class="left" v-model="formCustombusi.register" placeholder="请输入基础注册数"  style="width: 200px;height:34px"></Input>
                     <span v-if="tipsshow2&&numhid" class="red left ml10">次日生效{{snapshopsize}}</span>
                 </FormItem>
-                <FormItem label="渠道使用人:" class="left" prop="user" >
+                <FormItem label="基础激活数:" prop="activation" class="clearfix left " style="width:400px">
+                    <Input class="left" v-model="formCustombusi.activation" placeholder="请输入基础激活数"  style="width: 200px;height:34px"></Input>
+                    <span v-if="tipsshow3&&numhid" class="red left ml10">次日生效{{snapshopactive}}</span>
+                </FormItem>
+                <FormItem label="渠道使用人:" class="left" prop="user" style="width:400px">
                     <Input  v-model="formCustombusi.user" placeholder="请输入渠道使用人"  style="width: 200px"></Input>
                 </FormItem>
-                <FormItem label="渠道使用人电话:" class="left" prop="userphone" >
+                <FormItem label="渠道使用人电话:" class="left" prop="userphone" style="width:400px">
                     <Input  v-model="formCustombusi.userphone" placeholder="请输入渠道使用人电话"  style="width: 200px"></Input>
                 </FormItem>
-              <FormItem label="推广页样式:" class="left" prop="style" >
+              <FormItem label="推广页样式:" class="left" prop="style" style="width:400px">
                 <Select :disabled="numhid" v-model="formCustombusi.style" placeholder="请选择" style="width:200px" @on-change="applicationsel">
                     <Option v-for="items in promotionPageSelect" :value="items.businessPromotionPageCode">{{items.pageName}}&nbsp;&nbsp;{{items.promotionPageUrl}}</Option>
                 </Select>
               </FormItem>
-            <FormItem label=""  class="left">
-                <img @click="modal11=true" v-bind:src="stylelogo" alt="" style="width:80px">
+            <FormItem label=""  class="right" style="width:400px">
+                <img @click="modal11=true" v-bind:src="stylelogo" alt="" style="width:80px;margin-right:150px">
             </FormItem>  
           </Form>
           </div>
@@ -144,6 +155,7 @@ export default {
       service:'',
       application: "",
       titles:'添加渠道',
+      supdis:false,
       suppliersBusinessChannelCode:'',
       cityList: [],
       searchOptions:[],
@@ -182,6 +194,7 @@ export default {
       snapshopactive:'',
       stylelogo: require('../../image/moren.png'),
       formCustombusi: {
+        activation:'',
         number:'',
         suppliername:'',
         businesstype:'',
@@ -194,7 +207,8 @@ export default {
         userphone:''
       },
       numlist:[],
-      ruleCustombusi: {
+      suplist:[],
+      ruleCustombusi: {       
         suppliername: [
           { required: true, message: '请输入供应商名称', trigger: 'blur' }
         ],
@@ -213,12 +227,14 @@ export default {
           { required: true, message: '请输入基础注册数', trigger: 'blur' },
           {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
         ],
+        activation: [
+          { required: true, message: '请输入基础激活数', trigger: 'blur' },
+          {required: true, message: '请输入正确的基础激活数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
+        ],
         user: [
-          { required: true, message: '请输入渠道使用人', trigger: 'blur' },
-          { type: 'string', max: 50, message: '最多输入50个字符', trigger: 'blur' },
+          { type: 'string', max: 50, message: '最多输入50个字', trigger: 'blur' },
         ],
         userphone: [
-          { required: true, message: '请输入渠道使用人电话', trigger: 'blur' },
           {required: true, message: '电话最多输入11位数字', pattern: /^(0|[1-9][0-9]{10})$/, trigger: 'blur'}
         //   {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
         ],
@@ -361,6 +377,50 @@ export default {
         }
         },
         {
+          title: "基础激活数",
+          minWidth: 100,
+          align: "center",
+          render: (h, params) => {
+            let list = [
+              h('InputNumber', {
+                props: {
+                  min:1,
+                  max:1000,
+                  value:params.row.channelBaseActive,
+                },
+                on:{
+                  'on-change':(e)=>{
+                    this.inputlist[params.index].channelBaseActive = e               
+                  }
+                }
+              })
+            ]
+            if (params.row.snapshot != null) {
+              if (params.row.channelBaseActive != params.row.snapshot.channelBaseActive) {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    width: '100%',
+                    color:'red'
+                  }
+                }, '次日生效'+params.row.snapshot.channelBaseActive)
+                )
+              } else {
+                list.push(
+                  h('span', {
+                  style: {
+                    display: 'block',
+                    height: '18px',
+                  }
+                })
+                )
+              }
+            }
+          return h('div', list);
+        }
+        },
+        {
           title: "开通时间",
           key: "dataCreateTime",
           minWidth: 160,
@@ -373,19 +433,27 @@ export default {
           align: "center",
           render: (h, params) => {
             return h('div', [
-              h('Input', {
+              h('span', {
               style: {
                 marginRight: '5px',
               },
               attrs: {
-                name: 'elemurl',
-                readonly:'true'
+                name: 'elemurl'
               },
-              props: {
-                  // type: 'number',
-                  value: params.row.channelUrl
-                },
-              }),
+              },params.row.channelUrl),
+              // h('Input', {
+              // style: {
+              //   marginRight: '5px',
+              //   width:'10px'
+              // },
+              // attrs: {
+              //   name: 'elemurl'
+              // },
+              // props: {
+              //     // type: 'number',
+              //     value: params.row.channelUrl
+              //   },
+              // }),
               h(
                 "Button",
                 {
@@ -396,9 +464,23 @@ export default {
                   on: {
                     click: () => {
                       let Url2=document.querySelectorAll('[name="elemurl"]');
-                      Url2[params.index].select(); // 选择对象
-                      document.execCommand("Copy");
-                      this.$Message.info('复制成功');
+                      if (document.body.createTextRange) {
+                        var range = document.body.createTextRange();
+                        range.moveToElementText(Url2[params.index]);
+                        range.select();
+                    } else if (window.getSelection) {
+                        var selection = window.getSelection();
+                        var range = document.createRange();
+                        range.selectNodeContents(Url2[params.index]);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                    document.execCommand('Copy');
+                    this.$Message.info('复制成功');
+                      // let Url2=document.querySelectorAll('[name="elemurl"]');
+                      // Url2[params.index].select(); // 选择对象
+                      // document.execCommand("Copy");
+                      // this.$Message.info('复制成功');
                     }
                   }
                 },
@@ -492,6 +574,7 @@ export default {
     },
     businessReset (name) {
       this.$refs[name].resetFields()
+      this.suplist = []
       this.stylelogo = require('../../image/moren.png')
     },
     changeLoading () {
@@ -519,6 +602,7 @@ export default {
           if(data.code == 'success'){
             this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
             this.formCustombusi.register = String(data.data.channelDiscountSize)
+            this.formCustombusi.activation = String(data.data.channelBaseActive)
             this.promotionPageSelect = data.data.promotionPageSelect
             
           }
@@ -542,13 +626,15 @@ export default {
         if (num == 2) {
           this.titles = '编辑渠道'       
           this.numhid = true
+          this.supdis = true
           this.editors ()        
         }  else {
-            this.formCustombusi.channelname = ""
-            this.formCustombusi.style = ""
-            this.numhid = false
-            this.titles = '添加渠道'
-            // this.addecho (num)
+          this.supdis = false
+          this.formCustombusi.channelname = ""
+          this.formCustombusi.style = ""
+          this.numhid = false
+          this.titles = '添加渠道'
+          // this.addecho (num)
         }
         this.handleSearch1 ()       
         this.modal10 = true
@@ -556,13 +642,14 @@ export default {
     // 编辑回显
     editors () {
       this.http.post(BASE_URL+"/promotion/suppliersBusinessChannel/getByCode?suppliersBusinessChannelCode="+this.code).then(data => {
-        if(data.code == 'success'){          
+        if(data.code == 'success'){
           this.formCustombusi.number = data.data.suppliersNo
           this.formCustombusi.suppliername = data.data.suppliersName
-          this.addbustype (data.data.suppliersCode)         
+          this.addbustype (data.data.suppliersCode)
           this.formCustombusi.businesstype = data.data.suppliersBusinessCode        
           this.formCustombusi.channelname = data.data.channelName
           this.formCustombusi.channelnum = data.data.channelKey
+          this.formCustombusi.activation = String(data.data.channelBaseActive)
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.formCustombusi.style = data.data.businessPromotionPageCode
@@ -583,6 +670,10 @@ export default {
               this.tipsshow2 = true
               this.snapshopsize = data.data.snapshot.channelDiscountSize 
             }
+            if (data.data.channelBaseActive != data.data.snapshot.channelBaseActive) {
+              this.tipsshow3 = true
+              this.snapshopactive = data.data.snapshot.channelBaseActive
+            }
           } else {
             this.tipsshow1 = false
             this.tipsshow2 = false
@@ -595,15 +686,25 @@ export default {
     },
     // 添加
     channelpre () {
+      if (this.formCustombusi.number == '') {
+        this.$Modal.confirm({
+            title: '提示',
+            content: '<p>请输入供应商编号</p>'
+        });
+        this.changeLoading()
+        return false
+      }
       let list
       let urls
       let content
       if (this.nums == 1) {
+
         list = {
           suppliersBusinessCode : this.formCustombusi.businesstype,//供应商业务code
           channelName : this.formCustombusi.channelname,//渠道名称
           channelBaseDiscount: this.formCustombusi.coefficient,
           channelDiscountSize :this.formCustombusi.register,
+          channelBaseActive :this.formCustombusi.activation,
           contactName : this.formCustombusi.user,
           contactPhone : this.formCustombusi.userphone,
           businessPromotionPageCode:this.formCustombusi.style
@@ -616,6 +717,7 @@ export default {
           channelName : this.formCustombusi.channelname,//渠道名称
           channelBaseDiscount: this.formCustombusi.coefficient,
           channelDiscountSize :this.formCustombusi.register,
+          channelBaseActive :this.formCustombusi.activation,
           contactName : this.formCustombusi.user,
           contactPhone : this.formCustombusi.userphone,
           // businessPromotionPageCode:this.formCustombusi.style,
@@ -638,6 +740,7 @@ export default {
                   this.stylelogo = require('../../image/moren.png')
               }
           })
+          this.loading3 = false;
         } else {
           this.changeLoading ()
           this.$Message.error(data.message);
@@ -671,10 +774,17 @@ export default {
       this.http.post(BASE_URL+"/promotion/suppliers/queryListManager",{pageSize:'1000'}).then(data => {
       if(data.code == 'success'){
         this.numlist = data.data.dataList
+        data.data.dataList.forEach(element => {
+          this.suplist.push(element.suppliersNo)
+        });
+        
       }
       }).catch(err=>{
       console.log(err)
       })
+    },
+    filterMethod (value, option) {
+      return option.toUpperCase().indexOf(value.toUpperCase()) !== -1;
     },
     supname (value) {
       this.numlist.forEach(element => {
@@ -684,6 +794,11 @@ export default {
         }
       });
     },
+    // supchange (v) {
+    //   alert(2)
+    //   this.formCustombusi.number = v
+
+    // },
     // 新增业务类型
     addbustype (code) {
       let list = {
@@ -753,6 +868,9 @@ export default {
         if (this.inputlist[i].channelDiscountSize == null) {          
           element.channelDiscountSize = 1
         }
+        if (this.inputlist[i].channelBaseActive == null) {
+          element.channelBaseActive = 1
+        }
         if (!tir.test(String(this.inputlist[i].channelBaseDiscount))) {
           const title = '提示'
           let content = '<p>基础折扣系数请输入整数</p>'
@@ -770,7 +888,16 @@ export default {
               content: content
           })
           return false      
-        }            
+        }
+        if (!tir.test(String(this.inputlist[i].channelBaseActive))) {
+          const title = '提示'
+          let content = '<p>基础激活数请输入整数</p>'
+          this.$Modal.error({
+              title: title,
+              content: content
+          })
+          return false      
+        }
       }
       this.$Modal.confirm({
             title: '提示',
@@ -824,6 +951,7 @@ export default {
             let obj = new Object ()
             obj.channelBaseDiscount = element.channelBaseDiscount
             obj.channelDiscountSize = element.channelDiscountSize
+            obj.channelBaseActive = element.channelBaseActive
             obj.suppliersBusinessChannelCode = element.suppliersBusinessChannelCode
             this.inputlist.push(obj)
           });
