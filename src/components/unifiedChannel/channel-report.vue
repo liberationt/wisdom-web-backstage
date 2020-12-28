@@ -17,13 +17,13 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="model3" placeholder="请选择供应商" style="width:150px;" @on-change="suppliersel">
+            <Select v-model="model3" placeholder="请选择供应商" style="width:150px;" filterable @on-change="suppliersel">
               <Option v-for="item in reaName" :value="item.suppliersCode" :key="item.suppliersCode">{{ item.suppliersName }}</Option>
             </Select>
           </li>
           <li>
             <span class="ml20">渠道:</span>
-            <Select v-model="model4" placeholder="请选择渠道" style="width:150px;">
+            <Select v-model="model4" placeholder="请选择渠道" filterable style="width:150px;">
               <Option v-for="item in account" :value="item.suppliersBusinessChannelCode" :key="item.suppliersBusinessChannelCode">{{ item.channelName }}</Option>
             </Select>
           </li>
@@ -103,7 +103,6 @@
           {
             title: '供应商',
             key: 'memberName',
-            minWidth: 120,
             align: 'center',
             tooltip:'true',
             render: (h, params) => {
@@ -115,7 +114,6 @@
           {
             title: '渠道',
             align: 'center',
-            minWidth: 80,
             render: (h, params) => {
               return this.reportColumns2Render(h, params.row.suppliersChannelList, (report) => {
                 return report.suppliersBusinessChannelName
@@ -157,7 +155,6 @@
       }
     },
     methods: {
-
       reportColumns1Render(h, params, showTextCallback) {
         let list = []
         for (let i = 0; i < params.length; i++) {
@@ -183,7 +180,6 @@
         }
         return h('div', list)
       },
-
       reportColumns2Render(h, params, showTextCallback) {
         let list = []
         for (let i = 0; i < params.length; i++) {
@@ -215,8 +211,6 @@
         }
         return h('div', list)
       },
-
-
       // 时间判断
       time1 (value, data) {
         this.value1 = value

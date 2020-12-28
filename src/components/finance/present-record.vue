@@ -41,7 +41,7 @@
                               共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
                             </p>
                             <div class="mt15">
-                                <Table border :columns="columns7" :data="data6"></Table>
+                                <Table border highlight-row :columns="columns7" :data="data6"></Table>
                             </div>
                             <Modal
                                 title="审核驳回"
@@ -93,7 +93,7 @@
                               共<strong class="red">{{total}}</strong>条记录，提现金额<strong class="red">{{totalAmount}}</strong>元
                             </p>
                             <div class="mt15">
-                                <Table border :columns="columns9" :data="data7"></Table>
+                                <Table border highlight-row :columns="columns9" :data="data7"></Table>
                             </div>
                             <div class="tr mt15">
                                 <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -251,6 +251,7 @@ export default {
         {
           title: '操作',
           key: 'operation',
+          fixed: 'right',
           align: 'center',
           minWidth: 150,
           render: (h, params) => {

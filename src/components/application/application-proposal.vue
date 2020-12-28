@@ -26,7 +26,7 @@
       </Button>
     </div>
     <div id="application_table" class="contentcss">
-      <Table border :columns="columns7" :data="data6"></Table>
+      <Table border highlight-row :columns="columns7" :data="data6"></Table>
       <div class="tr mt15">
         <Page :total="total" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
       </div>
@@ -101,6 +101,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           width: 150,
           align: 'center',
           render: (h, params) => {

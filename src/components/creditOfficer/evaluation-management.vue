@@ -33,7 +33,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
             <Page :total="total" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -65,7 +65,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns8" :data="data7"></Table>
+            <Table border highlight-row :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
             <Page :total="total" :current="startRow" @on-change="pageChange1" @on-page-size-change="PageSizeChange1" show-sizer show-total></Page>
@@ -97,7 +97,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns9" :data="data8"></Table>
+            <Table border highlight-row :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
             <Page :total="total" :current="startRow" @on-change="pageChange2" @on-page-size-change="PageSizeChange2" show-sizer show-total></Page>
@@ -240,6 +240,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           width: 150,
           align: 'center',
           render: (h, params) => {
@@ -348,6 +349,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           width: 150,
           align: 'center',
           render: (h, params) => {
@@ -455,6 +457,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           width: 150,
           align: 'center',
           render: (h, params) => {

@@ -20,7 +20,7 @@
             <DatePicker type="date" :value="value2" @on-change="time2"  placeholder="结束时间" style="width: 150px"></DatePicker>
             </li> -->
             <li class="ml10">
-              <Button type="info" class=" mr20 w90" :loading="loading3" @click="inquire">
+              <Button type="info" class=" mr20 w90" :loading="loading3" @click="inquire(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -203,6 +203,7 @@ export default {
           title: '操作',
           width: 150,
           align: 'center',
+          fixed: "right",
           render: (h, params) => {
             return h('div', [
               h(
@@ -271,12 +272,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     // 查询 select
     queryl(value) {
@@ -465,7 +466,10 @@ export default {
         if (resp.code == 'success') {
           this.data6 = resp.data.promotionManageList
           this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.startRow =
+              Math.ceil(resp.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(resp.data.startRow / this.endRow);
           this.loading3 = false
         } else {
           this.loading3 = false
@@ -488,7 +492,7 @@ export default {
           title: '删除',
           content: '<p>确认要删除吗?</p>',
           onOk: () => {
-            this.inquire ()
+            this.inquire (1)
           },
           onCancel: () => {
               
@@ -519,7 +523,7 @@ export default {
     this.value2 = currentdate;
     this.post('/loan/promotionSupplier/queryAllList',1)
     this.post('/loan/promotionUrl/queryAllList',3)
-    this.inquire ()
+    this.inquire (1)
   }
 }
 </script>

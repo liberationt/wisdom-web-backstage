@@ -7,73 +7,113 @@
     </div>
     <div class="contentcss">
     <Tabs type="card" :animated="false" :value="value1" @on-click="tabswitch">
-        <TabPane label="咨询订单" name="0">
+        <TabPane label="咨询订单" name="3">
             <div class="clearfix">
             <div class="left clearfix">
-              <div class="left">
-                <Input class="mr20" v-for="item in cityList1" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
-                </Input>
-              </div>
-            <!-- <Select v-model="model1" placeholder="全部" style="width:100px">
-                <Option v-for="item in cityList1" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Input v-model="name1" placeholder="请输入关键字" style="width: 150px"></Input>            -->
-            <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:150px;">
-                <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
-            </Select>
-            <Select v-model="model3" placeholder="请选择市" style="width:150px;margin-left:10px">
-                <Option v-for="item in status1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
-            </Select>
+              <ul class="querysty">
+                <li>
+                  <Input class="mr20" v-for="item in cityList1" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                  </Input>
+                </li>
+                <li>
+                  <Select v-model="orderStatus" placeholder="订单状态" class="mr10" style="width:150px">
+                    <Option v-for="item in orderStatusList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </li>
+                <li>
+                  <Select v-model="model2" @on-change="citys" placeholder="请选择省" style="width:150px;">
+                    <Option v-for="item in cityType1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+                  </Select>
+                </li>
+                <li class="mr20">
+                  <Select v-model="model3" placeholder="请选择市" style="width:150px;margin-left:10px">
+                    <Option v-for="item in status1" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+                  </Select>
+                </li>
+                <li class="mr20">
+                  <span>订单时间：</span>
+                  <DatePicker type="date" :options="options3" v-model="ConsultationTime" placeholder="开始时间"
+                  style="width: 150px"></DatePicker>
+                  <span>  -  </span>
+                  <DatePicker type="date" :options="options3" v-model="ConsultationEndTime" placeholder="结束时间"
+                  style="width: 150px"></DatePicker>
+                </li>
+                <li>
+                  <Button type="info" class="right mr20 w90" :loading="loading3" @click="consultingorders(1)">
+                    <span v-if="!loading3">查询</span>
+                    <span v-else>查询</span>
+                  </Button>
+                </li>
+              </ul>
             </div>
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="consultingorders(1)">
-              <span v-if="!loading3">查询</span>
-              <span v-else>查询</span>
-            </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
             </div>
         </TabPane>
 
-        <TabPane label="抢单订单" name="1">
+        <TabPane label="抢单订单" name="4">
             <div class="clearfix">
             <div class="left clearfix">
-              <div class="left">
-                <Input class="mr20" v-for="item in cityList2" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
-                </Input>
-              </div>
-            <!-- <Select v-model="model4" placeholder="全部" style="width:100px">
-                <Option v-for="item in cityList2" :value="item.value" :key="item.value">{{ item.label }}</Option>
-            </Select>
-            <Input v-model="name2" placeholder="请输入关键字" style="width: 150px"></Input>            -->
-            <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:150px;">
-                <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
-            </Select>
-            <Select v-model="model6" placeholder="请选择市" style="width:150px;margin-left:10px">
-                <Option v-for="item in status2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
-            </Select>
+              <ul class="querysty"> 
+                <li>
+                  <Input class="mr20" v-for="item in cityList2" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                  </Input>
+                </li>
+                <li>
+                  <Select v-model="orderType" placeholder="订单类型" class="mr10" style="width:150px">
+                    <Option v-for="item in orderTypeList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </li>
+                <li>
+                  <Select v-model="orderStatusZ" placeholder="订单状态" class="mr10" style="width:150px">
+                    <Option v-for="item in orderStatusListZ" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                  </Select>
+                </li>
+                <li>
+                  <Select v-model="model5" @on-change="citys" placeholder="请选择省" style="width:150px;">
+                    <Option v-for="item in cityType2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+                  </Select>
+                </li>
+                <li class="mr20">
+                  <Select v-model="model6" placeholder="请选择市" style="width:150px;margin-left:10px">
+                    <Option v-for="item in status2" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
+                  </Select>
+                </li>
+                <li class="mr20">
+                  <span>订单时间：</span>
+                  <DatePicker type="date" :options="options3" v-model="sheetTime" placeholder="开始时间"
+                  style="width: 150px"></DatePicker>
+                  <span>  -  </span>
+                  <DatePicker type="date" :options="options3" v-model="sheetEndTime" placeholder="结束时间"
+                  style="width: 150px"></DatePicker>
+                </li>
+                <li>
+                  <Button type="info" class="right mr20 w90" :loading="loading3" @click="Orderrobbing(1)">
+                    <span v-if="!loading3">查询</span>
+                    <span v-else>查询</span>
+                  </Button>
+                </li>
+              </ul>
             </div>
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="Orderrobbing(1)">
-              <span v-if="!loading3">查询</span>
-              <span v-else>查询</span>
-            </Button>
+            
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns8" :data="data7"></Table>
+            <Table border highlight-row :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
             </div>
         </TabPane>
 
-        <TabPane label="未处理申诉订单" name="2">
+        <TabPane label="未处理申诉订单" name="5">
             <div class="clearfix">
             <div class="left clearfix">
               <div class="left">
-                <Input class="mr20" v-for="item in cityList" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px">
+                <Input v-for="item in cityList" v-model="item.code" :placeholder="'请输入'+item.label"  style="width: 150px;margin-right:20px;margin-bottom:15px">
                 </Input>
               </div>
             <!-- <Select v-model="model7" placeholder="全部" style="width:100px">
@@ -83,18 +123,20 @@
             <Select v-model="model8" @on-change="citys" placeholder="请选择省" style="width:150px;">
                 <Option v-for="item in cityType3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
-            <Select v-model="model9" placeholder="请选择市" style="width:150px;margin-left:10px">
+            <Select v-model="model9" class="mr20" placeholder="请选择市" style="width:150px;margin-left:10px">
                 <Option v-for="item in status3" :value="item.adcode" :key="item.adcode">{{ item.name }}</Option>
             </Select>
+            
             </div>
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="bidorder(1)">
+            <Button type="info" class=" ml10 w90" :loading="loading3" @click="bidorder(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
+            
             <!-- <Button class="right mr100 w100" type="info" icon="ios-search">查询</Button> -->
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns9" :data="data8"></Table>
+            <Table border highlight-row :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -105,15 +147,31 @@
 </div>
 </template>
 <script>
+import utils from '../../utils/utils';
 export default {
   data () {   
     return {
+      options3: {
+        disabledDate(date) {
+          return date && date.valueOf() > Date.now();
+        }
+      },
+      ConsultationTime: "",
+      ConsultationEndTime:"",
+      sheetTime:"",
+      sheetEndTime: "",
+      orderType: "",
+      orderTypeList:[],
+      orderStatusZ: "",
+      orderStatusListZ:[],
       total: 0,
       startRow: 1,
       endRow: 10,
-      nameval: 0,
-      value1:0,
+      nameval: '3',
+      value1:'3',
       loading3: false,
+      orderStatus: "",
+      orderStatusList:[],
       cityList: [],
       cityList1: [],
       cityList2: [],
@@ -202,10 +260,12 @@ export default {
         {
           title: '操作',
           key: 'action',
-          minWidth: 150,
+          fixed: 'right',
+          minWidth: 160,
           align: 'center',
           render: (h, params) => {
-            return h('div', [
+            let arr = []
+            arr.push(
               h(
                 'Button',
                 {
@@ -224,7 +284,29 @@ export default {
                 },
                 '查看详情'
               )
-            ])
+            )
+            if(params.row.orderStatusName=='已咨询'){
+              arr.push(h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small',
+                  },
+                  style: {
+                    marginRight: '5px',
+                    display: params.row.orderStatusName != "已咨询" ? "none" : "inline-block"
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push('/cancellation?orderCode='+params.row.orderCode+'&num=3')
+                    }
+                  }
+                },
+                '退单'
+              ))
+            }
+            return h('div', arr)
           }
         }
       ],
@@ -239,6 +321,12 @@ export default {
         {
           title: '抢单编号',
           key: 'orderNum',
+          minWidth: 150,
+          align: 'center'
+        },
+        {
+          title: '订单类型',
+          key: 'goodStatusName',
           minWidth: 150,
           align: 'center'
         },
@@ -279,19 +367,21 @@ export default {
         },
         {
           title: '抢单费用',
-          minWidth: 100,
+          minWidth: 130,
           align: 'center',
           render: (h, params) => {
             let pushStatus = []
-            if (params.row.activityAmount == params.row.robbingAmount) {
+            let payType = params.row.payType
+            let row = params.row
+            if (row.activityAmount == row.robbingAmount) {
               pushStatus.push (
-                h('span', {}, params.row.robbingAmount)
+                h('span', {}, payType == 0 ?  row.robbingAmount :  row.robbingAmount+'/'+ row.ticketNumber+'张券')
               )
             } else {
               pushStatus.push (
-                h('span', {style: {color: '#BEBEBE'}}, params.row.robbingAmount),
+                h('span', {style: {color: '#BEBEBE'}}, row.robbingAmount),
                 h('span', {}, '/'),
-                h('span', {}, params.row.activityAmount),
+                h('span', {}, payType == 0? row.activityAmount : row.activityAmount+'/'+ row.ticketNumber+'张券'),
               )
             }         
             return h('div', pushStatus)
@@ -306,10 +396,12 @@ export default {
         {
           title: '操作',
           key: 'action',
-          minWidth: 150,
+          fixed: 'right',
+          minWidth: 160,
           align: 'center',
           render: (h, params) => {
-            return h('div', [
+            let arr = []
+            arr.push(
               h(
                 'Button',
                 {
@@ -327,8 +419,32 @@ export default {
                   }
                 },
                 '查看详情'
+              ),
+            )
+            if(params.row.orderStatusName=='已咨询'){
+              arr.push(
+                h(
+                'Button',
+                {
+                  props: {
+                    type: 'primary',
+                    size: 'small'
+                  },
+                  style: {
+                    marginRight: '5px',
+                    display: params.row.orderStatusName != "已咨询" ? "none" : "inline-block"
+                  },
+                  on: {
+                    click: () => {
+                      this.$router.push('/cancellation?orderCode='+params.row.orderCode+'&num=4')
+                    }
+                  }
+                },
+                '退单'
               )
-            ])
+              )
+            }
+            return h('div',arr)
           }
         }
       ],
@@ -396,7 +512,8 @@ export default {
         {
           title: '操作',
           key: 'action',
-          minWidth: 150,
+          fixed: 'right',
+          minWidth: 160,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -428,34 +545,37 @@ export default {
   methods: {
     pageChange (page) {
       this.startRow = page
-      if (this.nameval == 0) {
+      if (this.nameval == '3') {
         this.consultingorders (this.startRow)
-      } else if (this.nameval == 1) {
+      } else if (this.nameval == '4') {
         this.Orderrobbing (this.startRow)
-      } else if (this.nameval == 2) {
+      } else if (this.nameval == '5') {
         this.bidorder (this.startRow)
       }
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      if (this.nameval == 0) {
+      if (this.nameval == '3') {
         this.consultingorders (1)
-      } else if (this.nameval == 1) {
+        return false
+      } else if (this.nameval == '4') {
         this.Orderrobbing (1)
-      } else if (this.nameval == 2) {
+        return false
+      } else if (this.nameval == '5') {
         this.bidorder (1)
+        return false
       }
     },
     // 省
     created () {
-    this.http.get('../../../static/city.json').then(data=>{
-      this.cityType1 = data
-      this.cityType2 = data
-      this.cityType3 = data
-    })
-  },
-  //省 
+      this.http.get('../../../static/city.json').then(data=>{
+        this.cityType1 = data
+        this.cityType2 = data
+        this.cityType3 = data
+      })
+    },
+    //省 
     citys(v){
       let data = {
         "data": v
@@ -466,11 +586,11 @@ export default {
     // 市接口
     httpshi(data) {
       this.http.post(BASE_URL+"/loan/hotcity/queryCityAddressList",data).then(data=>{
-        if (this.nameval == 0) {
+        if (this.nameval == '3') {
           this.status1 = data.data
-        } else if (this.nameval == 1) {
+        } else if (this.nameval == '4') {
           this.status2 = data.data
-        } else if (this.nameval == 2) {
+        } else if (this.nameval == '5') {
           this.status3 = data.data
         }
         
@@ -488,14 +608,23 @@ export default {
               obj.value = element.code
           }
           array.push(obj)
-      });  
+      });
+      let date1 = Date.parse(new Date(this.ConsultationTime == "" ? "" : utils.formatDate(this.ConsultationTime,'yyyy-MM-dd hh:mm:ss')));
+      let date2 = Date.parse(new Date(this.ConsultationEndTime == "" ? "" : utils.formatDate(this.ConsultationEndTime,'yyyy-MM-dd 23:59:59')));
+      if (date1 > date2) {
+        this.isDatetime()
+        return false
+      }
       let list = {
         searchOptions :array,
         // searchValue :this.name1,
         orderAdCodeFirst :this.model2,
         orderAdCodeSecond : this.model3,
+        status : this.orderStatus == "''" ? "" : this.orderStatus,
         pageNum: startRow,
-        pageSize: this.endRow
+        pageSize: this.endRow,
+        beginTime :date1,
+        endTime : date2
       }
       this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderConsultList', list)
         .then((resp) => {
@@ -523,13 +652,23 @@ export default {
           }
           array.push(obj)
       });
+      let date1 = Date.parse(new Date(this.sheetTime == "" ? "" : utils.formatDate(this.sheetTime,'yyyy-MM-dd hh:mm:ss')));
+      let date2 = Date.parse(new Date(this.sheetEndTime == "" ? "" : utils.formatDate(this.sheetEndTime,'yyyy-MM-dd 23:59:59')));
+      if (date1 > date2) {
+        this.isDatetime()
+        return false
+      }
       let list = {
         searchOptions :array,
         // searchValue :this.name2,
         orderAdCodeFirst :this.model5,
         orderAdCodeSecond : this.model6,
+        goodStatus: this.orderType == "''" ? "" : this.orderType, //订单类型
+        status: this.orderStatusZ == "''" ? "" : this.orderStatusZ, // 订单状态
         pageNum: startRow,
-        pageSize: this.endRow
+        pageSize: this.endRow,
+        beginTime :date1,
+        endTime : date2
       }
       this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderRobList', list)
         .then((resp) => {
@@ -547,15 +686,20 @@ export default {
     },
     // 点击tab切换
     tabswitch (name) {
+      // 时间还原
+      this.ConsultationTime= ""
+      this.sheetTime =""
+      this.ConsultationEndTime= ""
+      this.sheetEndTime = ""
       this.total = 0
       this.startRow = 1
       this.endRow = 10
       this.nameval = name
-      if (name == 2) {
+      if (name == '5') {
         this.bidorder (1)    
-      } else if (name == 0) {
+      } else if (name == '3') {
         this.consultingorders (1)
-      } else if (name == 1) {
+      } else if (name == '4') {
         this.Orderrobbing (1)
       }
 
@@ -597,17 +741,21 @@ export default {
         .catch(() => {
         })
 
+    },
+    // 时间校验提示框
+    isDatetime(){
+      this.$Modal.warning({
+        title: "提示",
+        content: "<p>开始时间不得大于结束时间</p>"
+      });
     }
   },
   mounted () {
-    if (this.$route.query.num) {
-      this.value1 = this.$route.query.num
-    }  
-    if (this.value1 == 2) {
-      this.bidorder(1)
-    }
+    // if (this.$route.query.num) {
+    //   this.value1 = this.$route.query.num
+    // }  
+    
     this.created ()
-    this.consultingorders (1)  
     this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderComplainListFilter', {})
     .then((resp) => {
       if (resp.code == 'success') {
@@ -622,7 +770,9 @@ export default {
     this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderConsultListFilter', {})
     .then((resp) => {
       if (resp.code == 'success') {
-        this.cityList1 = resp.data.searchOptions
+        const {searchOptions,statusOptions } = resp.data
+        this.cityList1 = searchOptions
+        this.orderStatusList = statusOptions
       } else {
         this.$Message.info(resp.message)
       }
@@ -633,13 +783,23 @@ export default {
     this.http.post(BASE_URL + '/loan/baseOrder/queryBaseOrderRobListFilter', {})
     .then((resp) => {
       if (resp.code == 'success') {
-        this.cityList2 = resp.data.searchOptions
+        const {goodSatusBeans,statusOptions,searchOptions } = resp.data
+        this.orderTypeList = goodSatusBeans
+        this.orderStatusListZ = statusOptions
+        this.cityList2 = searchOptions
       } else {
         this.$Message.info(resp.message)
       }
     })
     .catch(() => {
     })
+    this.consultingorders (1)  
+    // if (this.value1 == '5') {
+    //   this.bidorder(1)
+    // }
+    // if (this.value1 == '4') {
+    //   this.Orderrobbing(1)
+    // }
 
   }
 }

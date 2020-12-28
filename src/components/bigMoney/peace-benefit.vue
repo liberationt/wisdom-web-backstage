@@ -29,7 +29,7 @@
             <div class="clearfix mr100 mt20">
                 <Button class="right w90" type="primary" @click="refuse">上传文件</Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                 <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
+                 <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -117,7 +117,7 @@ export default {
         {
           title: '文件名称',
           align: 'center',
-          width: 170,
+          minWidth: 170,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -137,14 +137,14 @@ export default {
         },
         {
           title: '推送主体',
-           width: 160,
+           minWidth: 160,
           align: 'center',
           key: 'mediaName'
         },
         {
           title: '推送总条数',
           align: 'center',
-           width: 115,
+           minWidth: 115,
            render: (h, params) => {
             let Code = params.row.pullSuccNum+params.row.pullFailNum
             return h('div', [
@@ -155,19 +155,19 @@ export default {
         {
           title: '转化成功条数',
           align: 'center',
-           width: 110,
+           minWidth: 110,
           key: 'pullSuccNum'
         },         
         {
           title: '推送失败条数',
           align: 'center',
-           width: 110,
+           minWidth: 110,
           key: 'pullFailNum'
         },
        {
           title: '推送详情',
           key: 'address',
-          width: 180,
+          minWidth: 180,
           align: 'center',
           render: (h, params) => {
             return h('div', [
@@ -191,31 +191,31 @@ export default {
         {
           title: '上传时间',
           align: 'center',
-          width: 170,
+          minWidth: 170,
           key: 'dataCreateTime'
         },
         {
           title: '上传条数',
           align: 'center',
-           width: 110,
+           minWidth: 110,
           key: 'sendNum'
         },
         {
           title: '上传成功条数',
           align: 'center',
-           width: 115,
+           minWidth: 115,
           key: 'succNum'
         },
         {
           title: '上传失败条数',
           align: 'center',
-           width: 115,
+           minWidth: 115,
           key: 'failNum'
         },
         {
           title: '上传失败详情',
           align: 'center',
-           width: 180,
+           minWidth: 180,
           key: 'uploadFailUrl',
           render: (h, params) => {
             if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
@@ -271,12 +271,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.registered ()
+      this.registered (this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.registered ()
+      this.registered (this.startRow)
     },
     rowClassName (row, index) {
       if (index === 0) {
@@ -360,7 +360,7 @@ export default {
             })
             this.modal9 = false
             this.value9 = ''
-            this.registered()
+            this.registered(1)
           } else {
              this.changeLoading()
             const title = '上传文件'
@@ -490,7 +490,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    registered () {
+    registered (startRow) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -507,18 +507,18 @@ export default {
         beginTime : this.value1,
         endTime : this.value2,
         partyaKey: this.batchKey,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow,
       }
       this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list).then(data=>{
         if(data.code = 'success'){
           this.total = Number(data.data.total)
-          this.startRow = Math.ceil(data.data.startRow/this.endRow)
+          this.startRow =
+              Math.ceil(data.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(data.data.startRow / this.endRow);
           this.data6 = data.data.batchLogList;
           this.loading3 = false
-        }
-        if(parseInt(data.data.total) == '0') {
-          this.startRow = 1
         }
       }).catch(err=>{
         console.log(err)

@@ -27,7 +27,7 @@
 			<div class="clearfix mr100 mt20">
 				<Button class="right w90" type="primary" @click="refuse">上传文件</Button>
 				<!-- <Button class="right mr20 w100" type="info" @click="inquire">查询</Button> -->
-				<Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
+				<Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -96,7 +96,7 @@ import utils from '../../utils/utils'
 					{
 						title: '文件名称',
 						align: 'center',
-						width: 170,
+						minWidth: 170,
 						render: (h, params) => {
 						return h('div', [
 						h('span', {
@@ -117,30 +117,30 @@ import utils from '../../utils/utils'
 					{
 						title: '甲方名称',
 						align: 'center',
-						width: 125,
+						minWidth: 125,
 						key: 'mediaName'
 					},										
 					{
 						title: '推送总条数',
 						align: 'center',
-						width: 120,
+						minWidth: 120,
 						key: 'partyaSuccNum'
 					},
 					{
 						title: '转化成功条数',
 						align: 'center',
-						width: 120,
+						minWidth: 120,
 						key: 'pullSuccNum'
 					},
 					{
 						title: '转化失败条数',
 						align: 'center',
-						width: 120,
+						minWidth: 120,
 						key: 'pullFailNum'
 					},
 					{
 						title: '推送详情',
-						width: 170,
+						minWidth: 170,
 						align: 'center',
 						render: (h, params) => {
 							return h('div', [
@@ -166,31 +166,31 @@ import utils from '../../utils/utils'
 					{
 						title: '上传时间',
 						align: 'center',
-						width: 170,
+						minWidth: 170,
 						key: 'dataCreateTime'
 					},
 					{
 						title: '上传条数',
 						align: 'center',
-						width: 120,
+						minWidth: 120,
 						key: 'sendNum'
 					},
 					{
 						title: '上传成功条数',
 						align: 'center',
-						width: 120,
+						minWidth: 120,
 						key: 'succNum'
 					},
 					{
 						title: '上传失败条数',
 						align: 'center',
-						width: 120,
+						minWidth: 120,
 						key: 'failNum'
 					},
 					{
 						title: '上传失败详情',
 						align: 'center',
-						width: 180,
+						minWidth: 180,
 						render: (h, params) => {
 							// console.log(params.row.uploadFailUrl)
 							if(params.row.uploadFailUrl != null && params.row.uploadFailUrl != '' && params.row.failNum != 0){
@@ -232,12 +232,12 @@ import utils from '../../utils/utils'
 			// 分页
 			pageChange(page) {
 				this.startRow = page
-				this.inquire()
+				this.inquire(this.startRow)
 			},
 			pagesizechange(page) {
 				this.startRow = 1
 				this.endRow = page
-				this.inquire()
+				this.inquire(this.startRow)
 			},
 			// 弹框显示
 			refuse() {
@@ -287,6 +287,24 @@ import utils from '../../utils/utils'
 				} else if (value == 'partya-xdwzengxian') {
 					this.hrefxls = ''
 					this.value3 = 'javascript:;'
+				} else if (value == 'partya-hexin') {
+					this.hrefxls = 'dk_hexin.xlsx'
+					this.value3 = 'http://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_hexin.xlsx'
+				} else if (value == 'partya-jiajiarong') {
+					this.hrefxls = 'dk_jiajiarong.xlsx'
+					this.value3 = 'http://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_jiajiarong.xlsx'
+				} else if (value == 'partya-xiangbangbang') {
+					this.hrefxls = 'dk_xiangbangbang.xlsx'
+					this.value3 = 'http://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_xiangbangbang.xlsx'
+				} else if (value == 'partya-pantai') {
+					this.hrefxls = 'dk_pantai.xlsx'
+					this.value3 = 'http://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_pantai.xlsx'
+				} else if (value == 'partya-xiaoxiaojinrong') {
+					this.hrefxls = 'dk_xiaoxiaojinrong.xlsx'
+					this.value3 = 'http://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_xiaoxiaojinrong.xlsx'
+				} else if (value == 'partya-dongfangrongzi') {
+					this.hrefxls = 'dk_dongfangrongzi.xlsx'
+					this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/dk_dongfangrongzi.xlsx'
 				}
 
 			},
@@ -360,7 +378,7 @@ import utils from '../../utils/utils'
 									})
 									this.modal9 = false
 									this.value9 = ''
-									this.inquire()
+									this.inquire(1)
 								}, 1000)
 							} else {
 								this.$Message.info(resp.message)
@@ -440,7 +458,7 @@ import utils from '../../utils/utils'
 			time2(value, data) {
 				this.value2 = value
 			},
-			inquire() {
+			inquire(startRow) {
 				// 列表查询
 				this.loading3 = true
 				let date1 = Date.parse(new Date(this.value1)) / 1000
@@ -458,7 +476,7 @@ import utils from '../../utils/utils'
 					originName: this.model2,
 					beginTime: this.value1,
 					endTime: this.value2,
-					pageNum: this.startRow,
+					pageNum: startRow,
 					pageSize: this.endRow
 				}
 				this.http.post(BASE_URL + '/loan/batchLog/getBatchLogList', list)
@@ -466,7 +484,10 @@ import utils from '../../utils/utils'
 						if(resp.code == 'success') {
 							this.data6 = resp.data.batchLogList
 							this.total = Number(resp.data.total)
-							this.startRow = Math.ceil(resp.data.startRow / this.endRow)
+							this.startRow =
+							Math.ceil(resp.data.startRow / this.endRow) == 0
+								? 1
+								: Math.ceil(resp.data.startRow / this.endRow);
 							this.loading3 = false
 						} else {
 							this.loading3 = false
@@ -499,7 +520,7 @@ import utils from '../../utils/utils'
 						this.cityList = resp.data
 						this.cityListmode = resp.data
 						this.model1 = resp.data[0].partyaKey
-						this.inquire()
+						this.inquire(1)
 					} else {
 
 					}

@@ -66,7 +66,7 @@
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -643,12 +643,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.registered()
+      this.registered(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.registered()
+      this.registered(this.startRow)
     },
     // 时间判断
     time1 (value, data) {
@@ -670,7 +670,7 @@ export default {
       this.values2= value
     },
     // 查询
-    registered () {
+    registered (startRow) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -698,7 +698,7 @@ export default {
         step: this.model3,
         beginTime: this.value1,
         endTime: this.value2,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow,
         mobile : this.phone,
         updateBeginTime:this.values1,
@@ -709,7 +709,7 @@ export default {
       if (resp.code == 'success') {
         this.data1 = resp.data.dataList
         this.total = resp.data.total
-        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        this.startRow = Math.ceil(resp.data.startRow / this.endRow) == 0 ? 1 : Math.ceil(resp.data.startRow / this.endRow);
         this.loading3 = false
         this.summarizing()
       } else {
@@ -853,7 +853,7 @@ export default {
     })
 
     // 列表初始化
-    this.registered()
+    this.registered(1)
     this.statistics ()
   }
 }

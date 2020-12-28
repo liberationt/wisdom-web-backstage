@@ -29,11 +29,12 @@
               <Input v-model="phones" class="mr20" placeholder="请输入手机号" style="width: 150px"></Input>
             </li>
             <li class="clearfix mr100">
-              <Button type="primary" class="right w90" :loading="loading2" @click="exports">
+              <Button type="primary" class="right w90" @click="reset">重置</Button>
+              <Button type="primary" class="right w90 mr20" :loading="loading2" @click="exports">
                 <span v-if="!loading2">导出</span>
                 <span v-else>请稍等...</span>
               </Button>
-              <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
+              <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered(1)">
                 <span v-if="!loading3">查询</span>
                 <span v-else>查询</span>
               </Button>
@@ -41,7 +42,7 @@
           </ul>
         </div>
         <div class="mt10 contentcss">
-            <Table :columns="columns1" :data="data1"></Table>
+            <Table border highlight-row :columns="columns1" :data="data1"></Table>
             <div class="tr mt15">
                 <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
             </div>
@@ -76,7 +77,7 @@ export default {
       phones:'',
       cityList3: [
         {
-          value: '全部',
+          value: '',
           label: '全部'
         },
         {
@@ -185,11 +186,17 @@ export default {
               h('span', {}, resultCode)
             ])
           }
-				},
+        },
+        {
+          title: '城市',
+          align: 'center',
+          minWidth: 160,
+          key: 'city'
+        },
         {
           title: '性别',
           align: 'center',
-          width: 60,
+          width: 80, //80, wsh
           render: (h, params) => {
             let sex 
             if (params.row.sex == 'M') {
@@ -241,12 +248,12 @@ export default {
 						])
 						}
         },
-        {
-          title: '保单号',
-          align: 'center',
-          width: 150,
-          key: 'policyNo'
-        },
+        // {
+        //   title: '保单号',
+        //   align: 'center',
+        //   width: 150,
+        //   key: 'policyNo'
+        // },
        
         {
           title: '错误代码',
@@ -266,6 +273,43 @@ export default {
           minWidth: 160,
           key: 'dataCreateTime'
         },
+        //wsh
+        {
+          title: '客户领取赠险或测保时间',
+          align: 'center',
+          minWidth: 180,
+          key: 'caGuestTime'
+        },
+        {
+          title: '平安人寿客户收入',
+          align: 'center',
+          minWidth: 160,
+          key: 'caIncome'
+        },
+        {
+          title: '平安人寿获取媒体',
+          align: 'center',
+          minWidth: 160,
+          key: 'caServingMedia'
+        },
+        {
+          title: '平安人寿赠险名称',
+          align: 'center',
+          minWidth: 160,
+          key: 'caProductName'
+        },
+        {
+          title: '平安人寿资产情况',
+          align: 'center',
+          minWidth: 160,
+          key: 'caAsset'
+        },
+        {
+          title: '平安人寿客户职业',
+          align: 'center',
+          minWidth: 180,
+          key: 'caOccupation'
+        },
       ],
       data1: [],
       value1: '',
@@ -279,6 +323,14 @@ export default {
     }
   },
   methods: {
+    // 重置
+    reset () {
+      this.model3 = ''
+      this.value1 = ''
+      this.value2 = ''
+      this.phones = ''
+      this.model2 = ''
+    },
     pageChange (page) {
       this.params.page = page
     },
@@ -288,11 +340,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.registered()
+      this.registered(this.startRow)
     },
     pagesizechange (page) {
+      this.startRow = 1
       this.endRow = page
-      this.registered()
+      this.registered(this.startRow)
     },
     post(url,list,pushname,num) {
       // console.log(this.$route.query.id)
@@ -305,7 +358,10 @@ export default {
               this.data1 = data.data.zxKxpinganList
             } else if(num == 1){
 							this.total = parseInt(data.data.total)
-							this.startRow = Math.ceil(data.data.startRow/this.endRow)
+							this.startRow =
+              Math.ceil(data.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(data.data.startRow / this.endRow);
 						}
 						this.total = parseInt(data.data.total) 
             this.loading3 = false
@@ -325,7 +381,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    registered() {
+    registered(startRow) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -343,7 +399,7 @@ export default {
         beginTime : this.value1,
         endTime : this.value2,
         mobile: this.phones,
-        pageNum: this.startRow == 0 ? 1 : this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow,
 			}
       let pushname = this.$route.query.pushname
@@ -382,7 +438,6 @@ export default {
       let pushname = this.$route.query.pushname
       // this.jname(pushname)
       this.$router.push({ path: 'insuranceSetting?life='+pushname });
-
     },
     detailed() {
 
@@ -401,13 +456,14 @@ export default {
       strDate = "0" + strDate;
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate;
-    this.value1 =  currentdate;
-    this.value2 = currentdate;
+    this.model2 = this.$route.query.id
     let pushname = this.$route.query.pushname
     if(this.$route.query.id != ""){
-      // alert(222)
       this.value2 = ''
       this.value1 = ''
+    } else {
+      this.value1 =  currentdate;
+      this.value2 = currentdate;
     }
     let list = {
       pushBatchNum: this.$route.query.id,

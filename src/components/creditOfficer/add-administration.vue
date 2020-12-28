@@ -15,45 +15,51 @@
           <Input v-model="activeTitle" placeholder="活动标题" style="width:330px"></Input>
         </p>
         <Form v-show="isActiveType"  ref="formItem" :rules="ruleValidate" :model="formItem" :label-width="100">
-          <!-- <FormItem label="活动标题：" prop="activeTitle">
-              <Input v-model="formItem.activeTitle" placeholder="8.8折扣抢单限时开抢" style="width:330px"></Input>
-          </FormItem> -->
           <FormItem label="活动类型："  class="clearfix">
             <Row>
-              <Col span="4">
-                <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
+              <Col span="3">
+                <Select v-model="activeType" style="width:120px" class="left" @on-change="yesActiveType">
                   <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
-              <!-- <Col span="5">
-                <Input v-model="formItem.activePercent" style="width:150px" class="left ml20">
-                  <span slot="append">%</span>
-                </Input>
-              </Col> -->
-              <Col span="20">
+              <Col span="21">
               <div 
               class="mb15 clearfix"
               v-for="(item, index) in addnormals"
               :key="index"
               >
-                <Input  type="text" v-model="item.startDay" class="left ml10 inputnum"  style="width:150px">
+                <Input  type="text" v-model="item.startDay" class="left ml10 inputnum"  style="width:140px">
                   <span slot="prepend">距离当前</span>
                   <span slot="append" class="left">至</span>
                 </Input>
-                <Input  type="text" v-model="item.endDay" class="left "  style="width:100px">
+                <Input  type="text" v-model="item.endDay" class="left "  style="width:80px">
                   <span slot="append" class="left">天</span>
                 </Input>
-                <Input  type="text" v-model="item.discount" class="left ml10 "  style="width:100px">
+                <Input  type="text" v-model="item.discount" class="left ml10 "  style="width:80px">
                   <span slot="append" class="left">%</span>
                 </Input>
-                <Input  type="text" v-model="item.limited" class="left ml10 inputnum"  style="width:180px">
-                  <span slot="prepend">每人每天限量</span>
+                <Input  type="text" v-model="item.discountLimited" class="left ml10 inputnum"  style="width:130px">
+                  <span slot="prepend">折扣限量</span>
                   <span slot="append" class="left">单</span>
                 </Input>
-                  <img :src="item.logoUrl" alt="" class="left ml10 icon_img">
-                  <a href="javascript:;"  class="file left">预览
-                    <input type="file" @change="fileimg(index)" :data="item.activityCode" accept="image/gif, image/jpeg, image/png, image/jpg" name="img" class="inputfil">
-                  </a>
+                <div class="left ml10" v-for="(res,i) in item.activityDiscountLimitsBean.vipLimitBeanList">
+                    <Input :disabled="auditing" type="text" v-model="res.limited" class="left mb5 inputnum"  style="width:200px">
+                    <span slot="prepend" v-if="res.vipLevel==-1">普通用户每人每天限量</span>
+                    <span slot="prepend" v-else>会员V{{res.vipLevel}}每人每天限量</span>
+                    <span slot="append" class="left">单</span>
+                    </Input>
+                </div>
+                <div class="left ml10">
+                  显示申请时间： 
+                  <Select v-model="item.showStatus" style="width:110px"  class="mb5">
+                    <Option  value="0" >显示</Option>
+                    <Option  value="1" >不显示</Option>
+                  </Select> 
+                </div>
+                <img :src="item.logoUrl" alt="" class="left ml10 icon_img">
+                <a href="javascript:;"  class="file left">预览
+                  <input type="file" @change="fileimg(index)" :data="item.activityCode" accept="image/gif, image/jpeg, image/png, image/jpg" name="img" class="inputfil">
+                </a>
                 <Button  type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormal" >+</Button>
                 <Button  type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnorma2(index)">-</Button>               
               </div>                
@@ -67,7 +73,6 @@
                   <DatePicker type="datetime" :options="options3" @on-change="getdayTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="formItem.startDate"></DatePicker>
                 </FormItem>
               </Col>
-              <!-- <Col span="1" style="text-align: center">-</Col> -->
               <Col span="4">
                 <FormItem prop="endDate">
                   <DatePicker type="datetime" :options="options3" @on-change="getdayendTime" placeholder="请选择时间" format="yyyy-MM-dd HH:mm:ss" v-model="formItem.endDate"></DatePicker>
@@ -140,10 +145,6 @@
           </div>
         </Form>
         <Form v-show="!isActiveType" ref="formactive" :model="formactive" :rules="ruleValidate" :label-width="100">
-          
-          <!-- <FormItem  label="活动标题：" prop="activeTitle">
-              <Input v-model="formItem.activeTitle" placeholder="8.8折扣抢单限时开抢" style="width:330px"></Input>
-          </FormItem> -->
           <FormItem label="活动类型：" class="clearfix">
             <Select v-model="activeType" style="width:160px" class="left" @on-change="yesActiveType">
               <Option v-if="item.code != -1" v-for="item in activeTypeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
@@ -164,6 +165,10 @@
             </Row>
           </FormItem>
           <FormItem label="返利类型：" class="clearfix">
+            <!-- <Select v-model="formactive.rechargeTerm" @on-change="yesrechargeTerm" style="width:160px" class="left mr10">
+              <Option value="0">累计充值</Option>
+              <Option value="1">单次充值</Option>
+            </Select> -->
             <Select v-model="formactive.activeType" @on-change="yesactiveType" style="width:160px" class="left">
               <Option value="0">返固定值</Option>
               <Option value="1">按比例返</Option>
@@ -171,11 +176,11 @@
           </FormItem>
           <FormItem label="返利规则：" class="clearfix">
             <Row>
-              <Col :md="7" :lg="12">
+              <Col :md="8" :lg="15">
                 <div class="credit_recharge">
                   <div v-for="(item, index) in addnormals4" :key="index" class="mb15 clearfix">
-                    <Input type="text" v-model.number="item.startBean" class="left ml10 inputnum" style="width:150px">
-                      <span slot="prepend">累计充值</span>
+                    <Input type="text" v-model.number="item.startBean" class="left ml10 inputnum" style="width:140px">
+                      <span slot="prepend">{{chongzhi}}</span>
                       <span slot="append" class="left">至</span>
                     </Input>
                     <Input type="text" v-model.number="item.endBean" class="left inputnum" style="width:100px">
@@ -183,12 +188,21 @@
                     </Input>
                     <div v-if="!isactiveType" >
                       <Input type="text" v-model.number="item.rebate" class="left ml20" style="width:100px">
+                        <span slot="prepend">返</span>
                         <span slot="append" class="left">赞豆</span>
                       </Input>
                     </div>
                     <div v-if="isactiveType" >
                       <Input type="text" v-model.number="item.rebate" class="left ml20" style="width:100px">
+                        <span slot="prepend">返</span>
                         <span slot="append" class="left">%</span>
+                      </Input>
+                    </div>
+                    <!-- 三期 -->
+                    <div >
+                      <Input type="text" v-model.number="item.fixedCoupon" class="left ml20" style="width:100px">
+                        <span slot="prepend">送</span>
+                        <span slot="append" class="left">张</span>
                       </Input>
                     </div>
                     <Button type="primary" class="left ml5" v-if="index==0" @click="addnormal4">+</Button>
@@ -216,6 +230,7 @@ import utils from "../../utils/utils";
 export default {
   data() {
     return {
+      chongzhi: "累计充值",
       baocun: false,
       isactiveType: true,
       isActiveType: true,
@@ -237,14 +252,6 @@ export default {
         actitPercent: ""        
       },
       ruleValidate: {
-        // activeTitle: [
-        //   {
-        //     required: true,
-        //     message: "活动标题不能为空",
-        //     trigger: "blur"
-        //   },
-        //   { max: 50, message: '最多不能超过50个字', trigger: 'blur' }
-        // ],
         activePercent: [
           {
             required: true,
@@ -278,11 +285,11 @@ export default {
           },
           {
             type: "string",
-            pattern: /^(?!(0[0-9]{0,}$))[0-9]{1,}[.]{0,}[0-9]{0,}$/,
-            message: "请输入1-9999整数",
+            pattern: /^[0-9]*$/,
+            message: "请输入0-999999整数",
             trigger: "change"
           },
-          { max: 4, message: "平台每日限量最大9999", trigger: "change" }
+          { max: 6, message: "平台每日限量最大999999", trigger: "change" }
         ],
         startDate: [
           {
@@ -346,13 +353,15 @@ export default {
       formactive: {
         startDate: "",
         endDate: "",
-        activeType: "1"        
+        activeType: "1",
+        rechargeTerm: "",     
       },
       addnormals4: [
         {
-          startBean: null, //充值数开始
-          endBean: null, //充值数结束
-          rebate: null // 返利
+          startBean: null, // 充值数开始
+          endBean: null, // 充值数结束
+          rebate: null, // 返利
+          fixedCoupon: null, // 送多少张 三期
         }
       ],
       addnormals: [
@@ -361,10 +370,20 @@ export default {
           startDay: '',
           endDay: '',
           discount: '',
-          limited: '',
+          discountLimited:'',
+          showStatus: '',
+          activityDiscountLimitsBean:{
+            vipLimitBeanList: [
+              {
+                limited: 0,
+                vipLevel: 0
+              }
+            ]
+          },
           logoUrl:require('../../image/moren.png')
         }
       ],
+      gradeList:[],
       index2: 1,
       index3:1,
       staenddata:[
@@ -395,17 +414,34 @@ export default {
       this.addnormals4.push({
         startBean: this.startBean, //充值数开始
         endBean: this.endBean, //充值数结束
-        rebate: this.rebate // 返利
+        rebate: this.rebate, // 返利
+        fixedCoupon:this.fixedCoupon//送多少张
       });
     },
     addnormal () {
       this.index2++
+      let list = []
+      let ptobj = {
+        limited : 0,
+        vipLevel : -1
+      }
+      list.push(ptobj)
+      for (let i = 0; i < this.gradeList.length; i++) {
+        let obj = new Object ()
+        obj.limited = 0
+        obj.vipLevel = this.gradeList[i].level
+        list.push(obj)
+      }
       this.addnormals.push({
         activityCode:'',
         startDay: '',
         endDay: '',
         discount: '',
-        limited: '',
+        discountLimited:'',
+        activityDiscountLimitsBean:{
+            vipLimitBeanList: list
+          },
+        showStatus: '',
         logoUrl:require('../../image/moren.png')
       })
     },
@@ -432,6 +468,15 @@ export default {
         this.isActiveType = false;
       } else {
         this.isActiveType = true;
+      }
+    },
+    //判断充值项
+    yesrechargeTerm(n){
+      alert(n)
+      if(n == 0) {
+        this.chongzhi = "累计充值"
+      } else if( n == 1){
+        this.chongzhi = "单次充值"
       }
     },
     //限量
@@ -562,24 +607,56 @@ export default {
       let reg = /^(0|[1-9][0-9]*)$/
       if (this.activeType == 1) {
         for (let i = 0; i < this.addnormals.length; i++) {
-          if (!reg.test(this.addnormals[i].startDay) || !reg.test(this.addnormals[i].endDay) || !reg.test(this.addnormals[i].discount) || !reg.test(this.addnormals[i].limited)) {
+          if (!reg.test(this.addnormals[i].startDay) || !reg.test(this.addnormals[i].endDay) || !reg.test(this.addnormals[i].discount) ) {
             this.$Modal.warning({
                 title: '温馨提示',
                 content: '活动类型请输入整数'
               });
               return false
           }
-          if (this.addnormals[i].discount>99) {
+          if (this.addnormals[i].discount>100) {
             this.$Modal.warning({
               title: '温馨提示',
-              content: '消费折扣不能大于99%'
+              content: '消费折扣不能大于100%'
             });
             return false
           }
-          if (this.addnormals[i].limited>999) {
+          if (this.addnormals[i].discountLimited>999999) {
             this.$Modal.warning({
               title: '温馨提示',
-              content: '每人每天限量不能大于999'
+              content: '折扣限量不能大于999999'
+            });
+            return false
+          }
+          // if (this.addnormals[i].limited>999999) {
+          //   this.$Modal.warning({
+          //     title: '温馨提示',
+          //     content: '普通用户每人每天限量不能大于999999'
+          //   });
+          //   return false
+          // }
+          for (let j = 0; j < this.addnormals[i].activityDiscountLimitsBean.vipLimitBeanList.length; j++) {
+            if (!reg.test(this.addnormals[i].activityDiscountLimitsBean.vipLimitBeanList[j].limited)) {
+              this.$Modal.warning({
+                title: '温馨提示',
+                content: '每人每天产品限量请输入整数'
+              });
+              return false
+            }
+            if (this.addnormals[i].activityDiscountLimitsBean.vipLimitBeanList[j].limited>999999) {
+                this.$Modal.warning({
+                  title: '温馨提示',
+                  content: '普通用户每人每天限量不能大于999999'
+                });
+                return false
+            }
+            
+          }
+
+          if (this.addnormals[i].showStatus == "") {
+            this.$Modal.warning({
+              title: '温馨提示',
+              content: '请选择是否显示申请时间'
             });
             return false
           }
@@ -640,6 +717,12 @@ export default {
               isValueError = true;
             } else if(o.rebate % 1 != 0){
               this.$Message.error("第" + (index + 1) + "行返利只能为整数");
+              isValueError = true;
+            } else if(o.fixedCoupon == null){
+              this.$Message.error("第" + (index + 1) + "行抢单劵不能为空");
+              isValueError = true;
+            } else if(o.fixedCoupon % 1 != 0){
+              this.$Message.error("第" + (index + 1) + "行抢单劵只能为整数");
               isValueError = true;
             }
           }
@@ -737,6 +820,7 @@ export default {
     },
     // 上传图片
     fileimg (index) {
+      console.log(document.querySelectorAll('.inputfil')[index].files[0])
       if (document.querySelectorAll('.inputfil')[index].files[0].type == '') {
         this.addnormals[index].activityCode = ''
         this.addnormals[index].logoUrl = require('../../image/moren.png')
@@ -766,10 +850,37 @@ export default {
     })
     .catch(() => {
     })
-    }
+    },
+    // 等级
+      grade () {
+        this.http.post(BASE_URL + '/loan/vipLevel/query',{})
+        .then((resp) => {
+          if (resp.code == 'success') {
+            this.gradeList = resp.data
+            this.addnormals[0].activityDiscountLimitsBean.vipLimitBeanList = []
+            let ptobj = {
+              limited: 0,
+              vipLevel: -1
+            }
+            this.addnormals[0].activityDiscountLimitsBean.vipLimitBeanList.push(ptobj)
+            for (let i = 0; i < resp.data.length; i++) {
+              let obj = {
+                limited: 0,
+                vipLevel: resp.data[i].level
+              }
+              this.addnormals[0].activityDiscountLimitsBean.vipLimitBeanList.push(obj)
+            }
+          } else {
+            this.$Message.warning(resp.message);                 
+          }
+        })
+        .catch(() => {
+        })
+      },
 
   },
   mounted() {
+    this.grade ()
     if(this.$route.query.isSee == "isSee"){
       this.baocun = true
     } else {
@@ -791,7 +902,10 @@ export default {
             if (data.data.activityType == "1") {
               this.formItem.endDate = data.data.activityEndTime; //活动结束时间
               this.formItem.startDate = data.data.activityStartTime; //活动开始时间
-              this.addnormals = data.data.activityDiscountResList//消费折扣list                          
+              this.addnormals = data.data.activityDiscountResList//消费折扣list       
+              data.data.activityDiscountResList.forEach((v,i)=>{
+                this.addnormals[i].showStatus = String(v.showStatus)
+              })                   
               this.endDate = data.data.activityEndTime; //活动结束时间
               this.startDate = data.data.activityStartTime; //活动开始时间
               // this.formItem.activePercent = data.data.discount + ""; //消费折扣率

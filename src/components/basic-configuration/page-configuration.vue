@@ -38,7 +38,79 @@
               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:4,num:num}}" v-if="num==2">
                 <li>
                     <Icon type="android-apps"></Icon>
-                    <p class="homePage_text">悬浮广告</p>
+                    <p class="homePage_text">首页悬浮广告</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:11,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">我要抢单悬浮广告</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:12,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">抢单无忧-抢单</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:13,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">定制推送</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:14,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">抢单支付成功banner</p>
+                </li>
+              </router-link>
+               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:15,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">活动弹框页</p>
+                </li>
+              </router-link>
+               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:16,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">海报页banner</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:19,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">线索单</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:17,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">首页导航设置</p>
+                </li>
+              </router-link>
+              <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:18,num:num,rolling:1}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">首页滚动文案配置</p>
+                </li>
+              </router-link>
+               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:20,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">退单权益</p>
+                </li>
+              </router-link>
+               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:21,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">抢单券</p>
+                </li>
+              </router-link>
+               <router-link :to="{path:'bigimg/', query:{versionCode:code,appIdentifier:fier,appVersion:version,appType:type,img:1,banner:22,num:num}}" v-if="num==2">
+                <li>
+                    <Icon type="android-apps"></Icon>
+                    <p class="homePage_text">赠送赞豆</p>
                 </li>
               </router-link>
           </ul>

@@ -138,6 +138,17 @@
                     <FormItem label="跳转URL：" prop="Jump_URL">
                       <Input v-model="formValidate2.Jump_URL" placeholder="请输入URL"></Input>
                     </FormItem>
+                    <FormItem label="是否分销：" prop="distribution">
+                      <Select v-model="formValidate2.distribution" placeholder="请选择是否分销" style='width:240px;'>
+                        <Option v-for="item in distributionList" :value="item.value" :key="item.value">{{ item.label }}</Option>
+                    </Select>
+                    </FormItem>
+                    <FormItem label="批卡率：" prop="batchrate" v-if="formValidate2.distribution=='1'">
+                      <Input v-model="formValidate2.batchrate" placeholder="请输入批卡率"><span slot="append">%</span></Input>
+                    </FormItem>
+                    <FormItem label="申请人数：" prop="batchnumber" v-if="formValidate2.distribution=='1'">
+                      <Input v-model="formValidate2.batchnumber" placeholder="请输入批卡人数"><span slot="append">人</span></Input>
+                    </FormItem>
                   </Form>
                 </Modal>
                 <ul class="homePage_icon left" style="padding:0 50px">
@@ -177,6 +188,11 @@
 export default {
   data () {
     return {
+      //分销
+      distributionList:[
+        {label:'否',value:'0'},
+        {label:'是',value:'1'},
+      ],
       edit_delete: false,
       modal1: false,
       modal2: false,
@@ -223,7 +239,11 @@ export default {
         bank_name: '',
         characteristic1: '',
         characteristic2: '',
-        Jump_URL: ''
+        Jump_URL: '',
+        distribution:'0',
+        batchrate:'',
+        batchnumber:'',
+        batchnumber:''
       },
       ruleValidate2: {
         bank_name: [
@@ -237,7 +257,18 @@ export default {
         ],
         Jump_URL: [
           { required: true, message: '请输入URL！', trigger: 'blur' }
-        ]
+        ],
+        distribution:[
+          { required: true, message: '请选择是否分销', trigger: 'blur' }
+        ],
+        batchrate:[
+          { required: true, message: '请输入批卡率', trigger: 'blur' },
+          {required: true, message: '请输入0-100，小数点后可以保留两位', pattern: /^(\d{1,2}(\.\d{1,2})?|100)$/,trigger: 'change'}
+        ],
+        batchnumber:[
+          { required: true, message: '请输入批卡人数', trigger: 'blur' },
+          {required: true, message: '请输入0-99999之间的整数', pattern: /^(0|\+?[1-9][0-9]{0,4})$/,trigger: 'change'}
+        ],
       },
       loading: true,
       edit_icon_blue: true,
@@ -289,7 +320,6 @@ export default {
         } else {
           this.changeLoading()
           this.Preservation ()
-          
         }
       })
     },
@@ -383,7 +413,7 @@ export default {
         cardCode: code
       }
       this.http.post(BASE_URL + '/credit/card/getCardByCode', list)
-        .then((resp) => {
+        .then(resp => {
           if (resp.code == 'success') {
             this.formValidate2.bank_name = resp.data.cardName
             this.creditlogomark = resp.data.photoUrl
@@ -392,7 +422,9 @@ export default {
             this.formValidate2.characteristic2 = resp.data.character2
             this.formValidate2.Jump_URL = resp.data.jumpUrl
             this.cardcode = resp.data.cardCode
-          } else {
+            this.formValidate2.distribution = String(resp.data.distribution)
+            this.formValidate2.batchrate = String(resp.data.approveCardRate)
+            this.formValidate2.batchnumber=String(resp.data.applications)
           }
         })
         .catch(() => {
@@ -441,24 +473,34 @@ export default {
         title = '添加信用卡'
         content = '<p>添加成功</p>'
         list = {
-        cardName : this.formValidate2.bank_name,
-        photoUrl : this.creditsrc,
-        character1 : this.formValidate2.characteristic1,
-        character2 : this.formValidate2.characteristic2,
-        jumpUrl : this.formValidate2.Jump_URL
-      }
+          cardName : this.formValidate2.bank_name,
+          photoUrl : this.creditsrc,
+          character1 : this.formValidate2.characteristic1,
+          character2 : this.formValidate2.characteristic2,
+          jumpUrl : this.formValidate2.Jump_URL,
+          distribution:this.formValidate2.distribution
+        }
+        if(this.formValidate2.distribution=='1'){
+          list.approveCardRate = this.formValidate2.batchrate,
+          list.applications=this.formValidate2.batchnumber
+        }
       } else {
         url = BASE_URL +'/credit/card/modifyCardByCode'
         title = '修改信用卡'
         content = '<p>修改成功</p>'
         list = {
-        cardName : this.formValidate2.bank_name,
-        photoUrl : this.creditsrc,
-        character1 : this.formValidate2.characteristic1,
-        character2 : this.formValidate2.characteristic2,
-        jumpUrl : this.formValidate2.Jump_URL,
-        cardCode: this.cardcode
-      }
+          cardName : this.formValidate2.bank_name,
+          photoUrl : this.creditsrc,
+          character1 : this.formValidate2.characteristic1,
+          character2 : this.formValidate2.characteristic2,
+          jumpUrl : this.formValidate2.Jump_URL,
+          cardCode: this.cardcode,
+          distribution:this.formValidate2.distribution,
+        }
+        if(this.formValidate2.distribution=='1'){
+          list.approveCardRate = this.formValidate2.batchrate,
+          list.applications=this.formValidate2.batchnumber
+        }
       }
         this.http.post(url, list)
         .then((resp) => {
@@ -823,8 +865,6 @@ export default {
         this.creditdatalist = resp.data.dataList
         this.total = Number(resp.data.total)
         this.startRow = Math.ceil(resp.data.startRow/this.endRow)
-        console.log(this.total)
-        console.log(this.startRow)
       } else {
       }
     })
@@ -834,7 +874,6 @@ export default {
   },
   mounted () {
     this.banklist ()
-
   }
 }
 </script>

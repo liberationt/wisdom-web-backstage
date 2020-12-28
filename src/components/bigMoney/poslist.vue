@@ -29,7 +29,7 @@
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -121,12 +121,12 @@ export default {
     // 分页
     pageChange(page) {
       this.startRow = page;
-      this.registered();
+      this.registered(this.startRow);
     },
     pagesizechange(page) {
       this.startRow = 1;
       this.endRow = page;
-      this.registered();
+      this.registered(this.startRow);
     },
     // 时间判断
     time1(value, data) {
@@ -136,7 +136,7 @@ export default {
       this.value2 = value;
     },
     // 查询
-    registered() {
+    registered(startRow) {
       this.loading3 = true;
       let date1 = Date.parse(new Date(this.value1)) / 1000;
       let date2 = Date.parse(new Date(this.value2)) / 1000;
@@ -152,7 +152,7 @@ export default {
         realname : this.username,
         beginTime: this.value1,
         endTime: this.value2,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow,
         mobile: this.phone
       };
@@ -213,7 +213,7 @@ export default {
     this.value1 = currentdate;
     this.value2 = currentdate;
     // 列表初始化
-    this.registered();
+    this.registered(1);
   }
 };
 </script>

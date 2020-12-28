@@ -24,7 +24,7 @@
         <Button type="warning" class="ml10" @click="batchUpdate">批量更新</Button>
         </div>
         <div id="application_table" class="mt15 contentcss">
-          <Table border :columns="columns7" :data="data6"></Table>
+          <Table border highlight-row :columns="columns7" :data="data6"></Table>
           <div class="tr mt15">
             <Page :total="total" :page-size="endRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
           </div>
@@ -42,7 +42,7 @@
           :loading="loading"
           :mask-closable="false">
           <div  class="newtype_file mt15 mb15">
-            <Form ref="formCustom" class="nametop" :model="formCustombusi" :rules="ruleCustombusi" :label-width="100" style="padding-left:100px">
+            <Form ref="formCustom" class="nametop" :model="formCustombusi" :rules="ruleCustombusi" :label-width="120" style="padding-left:100px">
                 <FormItem v-if="numhid" label="渠道编号:" prop="channelnum" >
                     <Input  v-model="formCustombusi.channelnum" placeholder="请输入渠道编号" disabled style="width: 300px"></Input>
                 </FormItem>
@@ -62,6 +62,12 @@
                 <FormItem label="基础激活数:" prop="activation" class="clearfix">
                     <Input class="left" v-model="formCustombusi.activation" placeholder="请输入基础激活数"  style="width: 300px"></Input>
                     <span v-if="tipsshow3&&numhid" class="red left ml10">次日生效{{snapshopactive}}</span>
+                </FormItem>
+                <FormItem label="渠道使用人:" prop="user" >
+                    <Input  v-model="formCustombusi.user" placeholder="请输入渠道使用人"  style="width: 300px"></Input>
+                </FormItem>
+                <FormItem label="渠道使用人电话:"  >
+                    <Input  v-model="formCustombusi.userphone" placeholder="请输入渠道使用人电话"  style="width: 300px"></Input>
                 </FormItem>
               <FormItem label="推广页样式:" prop="style" >
               <Select :disabled="numhid" v-model="formCustombusi.style" placeholder="请选择" style="width:300px" @on-change="applicationsel">
@@ -112,13 +118,15 @@ export default {
         channelname: '',  
         coefficient: '',
         register: '',
+        user:'',
+        userphone:'',
         activation:'',
         style: ''
       },
       ruleCustombusi: {
         channelname: [
           { required: true, message: '请输入渠道名称', trigger: 'blur' },
-          { type: 'string', max: 20, message: '最多输入20个字符', trigger: 'blur' },
+          { type: 'string', max: 20, message: '最多输入20个字', trigger: 'blur' },
         ],
         coefficient: [
           { required: true, message: '请输入基础折扣系数', trigger: 'blur' },
@@ -128,6 +136,13 @@ export default {
           { required: true, message: '请输入基础注册数', trigger: 'blur' },
           {required: true, message: '请输入正确的基础注册数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
         ],
+        user: [
+          { type: 'string', max: 50, message: '最多输入50个字', trigger: 'blur' },
+        ],
+        // userphone: [
+        //   {required: true, message: '电话最多输入11位数字', pattern: /^(0|[1-9][0-9]{10})$/, trigger: 'blur'}
+        // //   {required: true, message: '请输入正确的手机号', pattern: /^(13[0-9]|14[579]|15[0-3,5-9]|16[6]|17[0135678]|18[0-9]|19[89])\d{8}$/, trigger: 'blur'}
+        // ],
         activation: [
           { required: true, message: '请输入基础激活数', trigger: 'blur' },
           {required: true, message: '请输入正确的基础激活数(1-1000间的整数)', pattern: /^([1-9][0-9]{0,2}|1000)$/ , trigger: 'blur'}
@@ -142,6 +157,24 @@ export default {
       },
       columns7: [
         {
+          title: "供应商编号",
+          key: "suppliersNo",
+          minWidth: 140,
+          align: "center"
+        },
+        {
+          title: "供应商名称",
+          key: "suppliersName",
+          minWidth: 160,
+          align: "center"
+        },
+        {
+          title: "业务类型",
+          key: "businessName",
+          minWidth: 100,
+          align: "center"
+        },
+        {
           title: "渠道编号",
           key: "channelKey",
           minWidth: 140,
@@ -150,6 +183,27 @@ export default {
         {
           title: "渠道名称",
           key: "channelName",
+          minWidth: 160,
+          align: "center"
+        },
+        {
+          title: "渠道开通方式",
+          key: "channelType",
+          minWidth: 110,
+          align: "center",
+          render: (h, params) => {
+            let channelType
+            if (params.row.channelType == 1) {
+              channelType = '平台开通'
+            } else {
+              channelType = '供应商开通'
+            }
+            return h("div", [h("span", {}, channelType)]);
+          }
+        },
+        {
+          title: "开通时间",
+          key: "dataCreateTime",
           minWidth: 160,
           align: "center"
         },
@@ -187,7 +241,7 @@ export default {
                 list.push(
                   h('span', {
                   style: {
-                    display: 'block',
+                    display: 'none',
                     height: '18px',
                   }
                 })
@@ -199,7 +253,7 @@ export default {
         },
         {
           title: "基础注册数",
-          minWidth: 100,
+          minWidth: 150,
           align: "center",
           render: (h, params) => {
             let list = [
@@ -231,7 +285,7 @@ export default {
                 list.push(
                   h('span', {
                   style: {
-                    display: 'block',
+                    display: 'none',
                     height: '18px',
                   }
                 })
@@ -243,7 +297,7 @@ export default {
         },
         {
           title: "基础激活数",
-          minWidth: 100,
+          minWidth: 150,
           align: "center",
           render: (h, params) => {
             let list = [
@@ -275,7 +329,7 @@ export default {
                 list.push(
                   h('span', {
                   style: {
-                    display: 'block',
+                    display: 'none',
                     height: '18px',
                   }
                 })
@@ -288,13 +342,71 @@ export default {
         {
           title: "推广URL",
           key: "channelUrl",
-          minWidth: 100,
-          align: "center"
+          minWidth: 200,
+          align: "center",
+          render: (h, params) => {
+            return h('div', [
+              h('span', {
+              style: {
+                marginRight: '5px',
+              },
+              attrs: {
+                name: 'elemurl'
+              },
+              },params.row.channelUrl),
+              // h('Input', {
+              // style: {
+              //   marginRight: '5px',
+              //   width:'10px'
+              // },
+              // attrs: {
+              //   name: 'elemurl'
+              // },
+              // props: {
+              //     // type: 'number',
+              //     value: params.row.channelUrl
+              //   },
+              // }),
+              h(
+                "Button",
+                {
+                  props: {
+                    type: "primary",
+                    size: "small"
+                  },
+                  on: {
+                    click: () => {
+                      let Url2=document.querySelectorAll('[name="elemurl"]');
+                      if (document.body.createTextRange) {
+                        var range = document.body.createTextRange();
+                        range.moveToElementText(Url2[params.index]);
+                        range.select();
+                    } else if (window.getSelection) {
+                        var selection = window.getSelection();
+                        var range = document.createRange();
+                        range.selectNodeContents(Url2[params.index]);
+                        selection.removeAllRanges();
+                        selection.addRange(range);
+                    }
+                    document.execCommand('Copy');
+                    this.$Message.info('复制成功');
+                      // let Url2=document.querySelectorAll('[name="elemurl"]');
+                      // Url2[params.index].select(); // 选择对象
+                      // document.execCommand("Copy");
+                      // this.$Message.info('复制成功');
+                    }
+                  }
+                },
+                "复制"
+              ),
+            ])
+          }
         },
         {
           title: "操作",
           key: "action",
           minWidth: 150,
+          fixed: 'right',
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -417,6 +529,8 @@ export default {
           this.formCustombusi.coefficient = String(data.data.channelBaseDiscount)
           this.formCustombusi.register = String(data.data.channelDiscountSize)
           this.formCustombusi.style = data.data.businessPromotionPageCode
+          this.formCustombusi.user = data.data.contactName
+          this.formCustombusi.userphone = data.data.contactPhone
           this.promotionPageSelect.forEach(element => {
             if (element.businessPromotionPageCode == data.data.businessPromotionPageCode) {
               this.stylelogo = element.promotionPagePreview
@@ -448,6 +562,15 @@ export default {
     },
     // 添加
     channelpre () {
+      let reg = /^(0|[1-9][0-9]{10})$/
+      if (!reg.test(this.formCustombusi.userphone)&&this.formCustombusi.userphone!='') {
+        this.$Modal.confirm({
+            title: '提示',
+            content: '<p>电话最多输入11位数字</p>'
+        });
+        this.changeLoading()
+        return false
+      }
       let list
       let urls
       let content
@@ -458,6 +581,8 @@ export default {
           suppliersBusinessCode :this.application,
           channelDiscountSize :this.formCustombusi.register,
           channelBaseActive :this.formCustombusi.activation,
+          contactName : this.formCustombusi.user,
+          contactPhone : this.formCustombusi.userphone,
           businessPromotionPageCode:this.formCustombusi.style
         }
         urls = "/promotion/suppliersBusinessChannel/save" 
@@ -469,6 +594,8 @@ export default {
           suppliersBusinessCode :this.application,
           channelDiscountSize :this.formCustombusi.register,
           channelBaseActive :this.formCustombusi.activation,
+          contactName : this.formCustombusi.user,
+          contactPhone : this.formCustombusi.userphone,
           businessPromotionPageCode:this.formCustombusi.style,
           suppliersBusinessChannelCode:this.suppliersBusinessChannelCode,
           fastUpdate:'0'
@@ -486,6 +613,8 @@ export default {
               onOk: () => {
                   this.modal10 = false
                   this. label_query ()
+                  this.$refs['formCustom'].resetFields()
+                  this.formCustombusi.userphone = ''
                   this.stylelogo = require('../../image/moren.png')
               }
           })
@@ -553,6 +682,7 @@ export default {
               title: title,
               content: content
           })
+          this.startRow = 1
           this.label_query () 
         }
       }).catch(err=>{
@@ -563,15 +693,16 @@ export default {
     // 批量更新
     batchUpdate () {
       let tir = /^[0-9]+$/
+      console.log(this.inputlist)
       for (let i = 0; i < this.inputlist.length; i++) {
         if (this.inputlist[i].channelBaseDiscount == null) {
-          element.channelBaseDiscount = 1
+          this.inputlist[i].channelBaseDiscount = 1
         }
         if (this.inputlist[i].channelDiscountSize == null) {          
-          element.channelDiscountSize = 1
+          this.inputlist[i].channelDiscountSize = 1
         }
         if (this.inputlist[i].channelBaseActive == null) {
-          element.channelBaseActive = 1
+          this.inputlist[i].channelBaseActive = 1
         }
         if (!tir.test(String(this.inputlist[i].channelBaseDiscount))) {
           const title = '提示'

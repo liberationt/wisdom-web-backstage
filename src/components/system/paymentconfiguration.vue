@@ -6,7 +6,7 @@
       </p>
     </div>
     <div class="contentcss">
-        <Table border :columns="columns1" :data="data1" class="mt15"></Table>
+        <Table border highlight-row :columns="columns1" :data="data1" class="mt15"></Table>
         <p class="tc mt50">
             <Button type="primary" @click="save">保存设置</Button>
         </p>
@@ -295,15 +295,23 @@ export default {
           //console.log(resp);
           if (resp.code == "success") {
             const { appPaymentList, paymentList, appList } = resp.data;
-            this.data1 = appList;
+            this.data1 = appPaymentList;
             if (paymentList && appPaymentList) {
               let columns = [];
-              columns.push({
-                title: "产品",
-                key: "appName",
-                align: "center"
-              });
+              columns.push(
+                {
+                  title: "产品",
+                  key: "appName",
+                  align: "center"
+                },
+                {
+                  title: "APP类型",
+                  key: "systemType",
+                  align: "center"
+                }
+              );
               //console.log("asdfasdfasdf12");
+
               paymentList.map((o, index) => {
                 columns.push({
                   title: o["paymentName"],
@@ -314,16 +322,14 @@ export default {
                       h,
                       params,
                       appPaymentList,
-                      paymentList,
+                      o,
                       appList
                     );
                   }
                 });
               });
-
               this.columns1 = columns;
               this.appPaymentList = appPaymentList;
-              // console.log("asdfasdfasdf");
             }
           } else {
           }
@@ -336,11 +342,13 @@ export default {
     save() {
       // console.log(this.appPaymentList);
       const requestBody = [];
-      Object.keys(this.appPaymentList).map(key => {
+      this.appPaymentList.map(v => {
         let appPayment = {};
-        appPayment["appId"] = key;
+        // appPayment["appId"] = v.appId;
+        // appPayment["systemType"] = v.systemType;
         let _appPaymentList = [];
-        const appPaymentList = this.appPaymentList[key];
+        const appPaymentList = v.dataList;
+        console.log();
         appPaymentList &&
           appPaymentList.map(o => {
             const s_channelCode = o["s_channelCode"];
@@ -348,19 +356,26 @@ export default {
               if (s_channelCode.startsWith("enable_")) {
                 _appPaymentList.push({
                   paymentCode: o["paymentCode"],
-                  enabled: s_channelCode.replace("enable_", "")
+                  enabled: s_channelCode.replace("enable_", ""),
+                  appId: v.appId,
+                  systemType: v.systemType
                 });
               } else {
                 _appPaymentList.push({
                   paymentCode: o["paymentCode"],
                   channelCode: s_channelCode,
-                  enabled: 1
+                  enabled: 1,
+                  appId: v.appId,
+                  systemType: v.systemType
                 });
               }
             }
           });
-        appPayment["appPaymentList"] = _appPaymentList;
-        requestBody.push(appPayment);
+
+        if (_appPaymentList.length > 0) {
+          appPayment["appPaymentList"] = _appPaymentList;
+          requestBody.push(appPayment);
+        }
       });
 
       let isChange = false;
@@ -448,17 +463,26 @@ export default {
         )
       ];
     },
-    renderColumns(index, h, params, appPaymentList, paymentList, appList) {
+    renderColumns(index, h, params, appPaymentList, payment, appList) {
       let options = [];
-      const appId = params["row"]["appId"];
-      const appPayment = appPaymentList[appId];
+      // const appPayment = appPaymentList[index]["dataList"];
       //console.log("appPaymentItem222", appPayment[index - 1]);
-      const appPaymentItem =
-        appPayment && appPayment.length > index && appPayment[index];
       // console.log("appPaymentItem1", appPaymentItem);
-      let _options = appPaymentItem["channelList"];
-      if (_options && _options.length > 0) {
-        _options.map(o => {
+
+      // let payObject = params.row["dataList"][index]; // 第几行第几列的数据
+      let payObject
+      this.appPaymentList.map(o => {
+        if (
+          params.row.appId == o.appId &&
+          params.row.systemType == o.systemType
+        ) {
+          payObject = o["dataList"][index]; // 第几行第几列的数据 可以监听到自己修改后的值
+        }
+      });
+
+      let paymentList = payObject["channelList"];
+      if (paymentList && paymentList.length > 0) {
+        paymentList.map(o => {
           options.push(
             h(
               "Option",
@@ -471,11 +495,12 @@ export default {
             )
           );
         });
+
         return h(
           "Select",
           {
             props: {
-              value: appPayment[index]["channelCode"]
+              value: payObject["channelCode"]
             },
             style: {
               width: "160px"
@@ -483,7 +508,8 @@ export default {
             on: {
               "on-change": val => {
                 // this.selects[0].name = val
-                appPayment[index]["s_channelCode"] = val;
+                payObject["s_channelCode"] = val;
+                console.log(payObject, this.appPaymentList);
                 //console.log(appPayment[index]);
               }
             }

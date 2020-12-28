@@ -11,7 +11,7 @@
                 <Input v-model="value" placeholder="请输入类别名称" style="width: 150px"></Input>
             </div>
             <!-- <Button class=" ml50 w100 " type="info" @click="inquire">查询</Button> -->
-            <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire">
+            <Button type="info" class=" ml50 w100" :loading="loading3" @click="inquire(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -97,6 +97,7 @@ export default {
           key: 'address',
           width: 150,
           align: 'center',
+          fixed: "right",
           render: (h, params) => {
             return h('div', [
               h(
@@ -137,12 +138,12 @@ export default {
      // 分页
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     refuse () {
       this.modal9 = true
@@ -205,7 +206,10 @@ export default {
         if (resp.code == 'success') {
           this.data6 = resp.data.promotionUrlList
           this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.startRow =
+              Math.ceil(resp.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(resp.data.startRow / this.endRow); 
           this.loading3 = false
         } else {
           this.loading3 = false
@@ -228,7 +232,7 @@ export default {
           title: '删除',
           content: '<p>确认要删除吗?</p>',
           onOk: () => {
-            this.inquire ()
+            this.inquire (1)
           },
           onCancel: () => {
               
@@ -243,7 +247,7 @@ export default {
     }
   },
   mounted () {
-    this.inquire ()
+    this.inquire (1)
   }
 }
 </script>

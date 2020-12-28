@@ -15,9 +15,9 @@
             </li>
             <li>
               <span class="w60 displayib">推送时间:</span>
-              <DatePicker type="date" @on-change="time1" confirm placeholder="开始时间" class="" style="width: 150px"></DatePicker>
+              <DatePicker type="date" v-model="value1" @on-change="time1" confirm placeholder="开始时间" class="" style="width: 150px"></DatePicker>
               <span>  -  </span>
-              <DatePicker type="date" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 150px"></DatePicker>
+              <DatePicker type="date" v-model="value2" class="mr20" @on-change="time2" confirm placeholder="结束时间" style="width: 150px"></DatePicker>
             </li>            
             <li>
               <span class="w60 displayib">推送状态:</span>
@@ -31,13 +31,14 @@
             </li>
           </ul> 
             <div class="clearfix mr100 mt20">
+              <Button type="primary" class="right w90" @click="reset">重置</Button>
                 <!-- <Button class="right w100" type="primary" @click="exports">导出</Button> -->
-                <Button type="primary" class="right w90" :loading="loading2" @click="exports">
+                <Button type="primary" class="right w90 mr20" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="inquire">查询</Button> -->
-                <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -1994,19 +1995,1011 @@ export default {
 					}
         },
       ],
+      //和信
+      columns16: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'customerName'
+        },
+        {
+          title: '手机号',
+          align: 'center',
+          minWidth:110,
+          key: 'phoneNumber'
+        },
+        {
+          title: '城市',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        {
+          title: '渠道来源',
+          align: 'center',
+          minWidth:110,
+          key: 'sourceType'
+        },
+        {
+          title: '贷款金额(万元)',
+          align: 'center',
+          minWidth:110,
+          key: 'loanBalance'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == '0') {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  '1'){
+              pushStatus = '推送成功'
+            } else {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '出生日期',
+          align: 'center',
+          minWidth:110,
+          key: 'birthday'
+        },
+        {
+          title: '性别',
+          align: 'center',
+          minWidth:110,
+          key: 'sex',
+          render: (h, params) => {
+            let pushStatus = params.row.sex
+            return h('div', [
+              h('span', {}, pushStatus == '2' ? '女' : pushStatus == null ? '' : '男')
+            ])
+						}
+        },
+        // {
+        //   title: '来源',
+        //   align: 'center',
+        //   minWidth:110,
+        //   key: 'origin',
+        //   render: (h, params) => {
+        //     let origin = params.row.origin 
+        //     return h('div', [
+        //       h('span', {}, origin == '0' ? '手动导入' : '大网钱注册')
+        //     ])
+				// 	}
+        // },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:160,
+          key: 'pushTime'
+        },
+        {
+          title: '返回状态',
+          align: 'center',
+          minWidth:100,
+          // key: 'code',
+          render: (h, params) => {
+            let succ
+            if (params.row.sourceResult == '') {
+              succ = ''
+            } else if (params.row.sourceResult == 1 ) {
+              succ = '渠道内当天重复 '
+            }  else if (params.row.sourceResult == 2 ) {
+              succ = ' 渠道内历史重复 '
+            }  else if (params.row.sourceResult == 3 ) {
+              succ = '多渠道重复'
+            }  else if (params.row.sourceResult == 4 ) {
+              succ = '不重复'
+            }
+            return h('div', [
+              h('span',{}, succ)
+            ])
+					}
+        },
+      ],
+      // 佳佳融
+      columns17: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'name'
+        },
+        {
+          title: '年龄',
+          align: 'center',
+          minWidth:80,
+          key: 'age'
+        },
+        {
+          title: '性别',
+          align: 'center',
+          minWidth:80,
+          key: 'sex',
+          render: (h, params) => {
+            let sex
+            if (params.row.sex == 1) {
+              sex = '男'
+            } else if(params.row.sex ==  2){
+              sex = '女'
+            }
+            return h('div', [
+              h('span', {}, sex)
+            ])
+						}
+        },
+        {
+          title: '手机号码',
+          align: 'center',
+          minWidth:110,
+          key: 'mobile'
+        },
+        {
+          title: 'ip地址',
+          align: 'center',
+          minWidth:120,
+          key: 'ip'
+        },
+        {
+          title: '所在城市',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        {
+          title: '贷款额度 (单位：万)',
+          align: 'center',
+          minWidth:100,
+          key: 'loanAmount'
+        },
+        {
+          title: '是否有房',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let houses
+            if (params.row.houses == 1) {
+              houses = '全款房'
+            } else if(params.row.houses ==  2){
+              houses = '月供房'
+            } else if(params.row.houses ==  3) {
+              houses = '无'
+            }
+            return h('div', [
+              h('span', {}, houses)
+            ])
+						}
+        },
+        {
+          title: '是否有车',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let car
+            if (params.row.car == 1) {
+              car = '全款车'
+            } else if(params.row.car ==  2){
+              car = '月供车'
+            } else if(params.row.car ==  3) {
+              car = '无'
+            }
+            return h('div', [
+              h('span', {}, car)
+            ])
+						}
+        },
+        {
+          title: '是否有保单',
+          align: 'center',
+          minWidth:120,
+          render: (h, params) => {
+            let lifePolicy
+            if (params.row.lifePolicy == 1) {
+              lifePolicy = '有'
+            } else if(params.row.lifePolicy ==  2){
+              lifePolicy = '无'
+            }
+            return h('div', [
+              h('span', {}, lifePolicy)
+            ])
+						}
+        },
+        {
+          title: '公积金',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let epfTime
+            if (params.row.epfTime == 1) {
+              epfTime = '无'
+            } else if(params.row.epfTime ==  2){
+              epfTime = '一年内'
+            } else if(params.row.epfTime ==  3){
+              epfTime = '超一年'
+            }
+            return h('div', [
+              h('span', {}, epfTime)
+            ])
+						}
+        },
+        {
+          title: '社保',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let socialSecurity
+            if (params.row.socialSecurity == 1) {
+              socialSecurity = '无'
+            } else if(params.row.socialSecurity ==  2){
+              socialSecurity = '一年内'
+            } else if(params.row.socialSecurity ==  3){
+              socialSecurity = '超一年'
+            }
+            return h('div', [
+              h('span', {}, socialSecurity)
+            ])
+						}
+        },
+        {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == 0) {
+              origin = '手动导入'
+            } else if(params.row.origin ==  1){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+						}
+        },
+        {
+          title: '待推送时间',
+          align: 'center',
+          minWidth:160,
+          key: 'loadPushTime'
+        },
+        {
+          title: '错误号',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let errno
+            if (params.row.errno == '0') {
+              errno = '成功'
+            } else if (params.row.errno == '') {
+              errno = ''
+            } else {
+              errno = '失败'
+            }
+            return h('div', [
+              h('span', {}, errno)
+            ])
+						}
+        },
+        {
+          title: '错误消息描述',
+          align: 'center',
+          minWidth:120,
+          key: 'msg'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  1){
+              pushStatus = '推送成功'
+            } else if(params.row.pushStatus ==  2) {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:160,
+          key: 'pushTime'
+        }
+      ],
+      // 享帮帮
+      columns18: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'name'
+        },
+        // {
+        //   title: '年龄',
+        //   align: 'center',
+        //   minWidth:80,
+        //   key: 'age'
+        // },
+        {
+          title: '手机号码',
+          align: 'center',
+          minWidth:110,
+          key: 'mobile'
+        },
+        // {
+        //   title: '贷款金额',
+        //   align: 'center',
+        //   minWidth:120,
+        //   key: 'daiMoney'
+        // },
+        {
+          title: '所在城市',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        // {
+        //   title: '是否有信用卡',
+        //   align: 'center',
+        //   minWidth:120,
+        //   render: (h, params) => {
+        //     let haveCredit
+        //     if (params.row.haveCredit == 1) {
+        //       haveCredit = '否'
+        //     } else if(params.row.haveCredit ==  2){
+        //       haveCredit = '是'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, haveCredit)
+        //     ])
+				// 		}
+        // },
+        // {
+        //   title: '是否有保单',
+        //   align: 'center',
+        //   minWidth:110,
+        //   render: (h, params) => {
+        //     let haveInsure
+        //     if (params.row.haveInsure == 1) {
+        //       haveInsure = '否'
+        //     } else if(params.row.haveInsure ==  2){
+        //       haveInsure = '是'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, haveInsure)
+        //     ])
+				// 		}
+        // },
+        // {
+        //   title: '是否有房',
+        //   align: 'center',
+        //   minWidth:120,
+        //   render: (h, params) => {
+        //     let hourseDai
+        //     if (params.row.hourseDai == 1) {
+        //       hourseDai = '否'
+        //     } else if(params.row.hourseDai ==  2){
+        //       hourseDai = '是'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, hourseDai)
+        //     ])
+				// 		}
+        // },
+        // {
+        //   title: '是否有车',
+        //   align: 'center',
+        //   minWidth:90,
+        //   render: (h, params) => {
+        //     let carDai
+        //     if (params.row.carDai == 1) {
+        //       carDai = '否'
+        //     } else if(params.row.carDai ==  2){
+        //       carDai = '是'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, carDai)
+        //     ])
+				// 		}
+        // },
+        // {
+        //   title: '是否有公积金',
+        //   align: 'center',
+        //   minWidth:120,
+        //   render: (h, params) => {
+        //     let reservedFunds
+        //     if (params.row.reservedFunds == 1) {
+        //       reservedFunds = '否'
+        //     } else if(params.row.reservedFunds ==  2){
+        //       reservedFunds = '是'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, reservedFunds)
+        //     ])
+				// 		}
+        // },
+        // {
+        //   title: '是否有社保',
+        //   align: 'center',
+        //   minWidth:100,
+        //   render: (h, params) => {
+        //     let socialSecurity
+        //     if (params.row.socialSecurity == 1) {
+        //       socialSecurity = '否'
+        //     } else if(params.row.socialSecurity ==  2){
+        //       socialSecurity = '是'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, socialSecurity)
+        //     ])
+				// 		}
+        // },
+        {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == 0) {
+              origin = '手动导入'
+            } else if(params.row.origin ==  1){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+						}
+        },
+        {
+          title: '错误号',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let errCode
+            if (params.row.errCode == 0) {
+              errCode = '成功'
+            } else if(params.row.errCode ==  null){
+              errCode = ''
+            } else {
+              errCode = params.row.errCode
+            }
+            return h('div', [
+              h('span', {}, errCode)
+            ])
+						}
+        },
+        {
+          title: '返回信息',
+          align: 'center',
+          minWidth:160,
+          key: 'errMsg'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else if (params.row.pushStatus == 2) {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:120,
+          key: 'pushTime'
+        }
+      ],
+      // 磐泰
+      columns19: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'name'
+        },
+        {
+          title: '手机号码',
+          align: 'center',
+          minWidth:110,
+          key: 'phone'
+        },
+        {
+          title: '所在城市',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == 0) {
+              origin = '手动导入'
+            } else if(params.row.origin ==  1){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+						}
+        },
+        {
+          title: '返回码',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let code
+            if (params.row.code == 0) {
+              code = '成功'
+            } else if(params.row.code ==  null){
+              code = ''
+            } else {
+              code = params.row.code
+            }
+            return h('div', [
+              h('span', {}, code)
+            ])
+						}
+        },
+        {
+          title: '返回信息',
+          align: 'center',
+          minWidth:160,
+          key: 'msg'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else if (params.row.pushStatus == 2) {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:120,
+          key: 'pushTime'
+        }
+      ],
+      // 小小金融
+      columns20: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'applyName'
+        },
+        {
+          title: '手机号码',
+          align: 'center',
+          minWidth:110,
+          key: 'telephone'
+        },
+        {
+          title: '所在城市',
+          align: 'center',
+          minWidth:110,
+          key: 'cityName'
+        },
+        {
+          title: '贷款金额 (万)',
+          align: 'center',
+          minWidth:120,
+          key: 'loanAmount'
+        },
+        {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == 0) {
+              origin = '手动导入'
+            } else if(params.row.origin ==  1){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+						}
+        },
+        // {
+        //   title: '社保',
+        //   align: 'center',
+        //   minWidth:100,
+        //   render: (h, params) => {
+        //     let socialType
+        //     if (params.row.socialType == 1) {
+        //       socialType = '有本地社保'
+        //     } else if(params.row.socialType ==  2){
+        //       socialType = '无'
+        //     }
+        //     return h('div', [
+        //       h('span', {}, socialType)
+        //     ])
+				// 		}
+        // },
+        {
+          title: '公积金',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let fundType
+            if (params.row.fundType == 1) {
+              fundType = '有本地公积金'
+            } else if(params.row.fundType ==  2){
+              fundType = '无'
+            }
+            return h('div', [
+              h('span', {}, fundType)
+            ])
+						}
+        },
+        {
+          title: '房产情况',
+          align: 'center',
+          minWidth:130,
+          render: (h, params) => {
+            let houseType
+            if (params.row.houseType == 1) {
+              houseType = '有房,但不确认房产类型'
+            } else if(params.row.houseType ==  2){
+              houseType = '无房产'
+            } else if(params.row.houseType ==  3){
+              houseType = '商品房(有贷款)'
+            } else if(params.row.houseType ==  4){
+              houseType = '商品房(无贷款)'
+            }
+            return h('div', [
+              h('span', {}, houseType)
+            ])
+						}
+        },
+        {
+          title: '车产情况',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let carType
+            if (params.row.carType == 2) {
+              carType = '无车'
+            } else if(params.row.carType ==  3){
+              carType = '贷款车'
+            } else if(params.row.carType ==  4){
+              carType = '全款车'
+            }
+            return h('div', [
+              h('span', {}, carType)
+            ])
+						}
+        },
+        {
+          title: '有无寿险',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let insurType
+            if (params.row.insurType == 0) {
+              insurType = '无'
+            } else if(params.row.insurType ==  1){
+              insurType = '寿险'
+            } else if(params.row.insurType ==  2){
+              insurType = '财险'
+            }
+            return h('div', [
+              h('span', {}, insurType)
+            ])
+						}
+        },
+        {
+          title: '客户申请请求IP',
+          align: 'center',
+          minWidth:160,
+          key: 'applyIp'
+        },
+        {
+          title: '返回码',
+          align: 'center',
+          minWidth:120,
+          render: (h, params) => {
+            let returnCode
+            if (params.row.returnCode == '000') {
+              returnCode = '接收成功'
+            } else if(params.row.returnCode ==  '001'){
+              returnCode = '缺少必要参数'
+            } else if(params.row.returnCode ==  '002'){
+              returnCode = '签名有误'
+            } else if(params.row.returnCode ==  '003'){
+              returnCode = '申请重复'
+            } else if(params.row.returnCode ==  '004'){
+              returnCode = '接收异常'
+            } else if(params.row.returnCode ==  '008'){
+              returnCode = '未找到对应的城市'
+            } else if (params.row.returnCode ==  '') {
+              returnCode = ''
+            } else {
+              returnCode = '接收失败'
+            }
+            return h('div', [
+              h('span', {}, returnCode)
+            ])
+						}
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if (params.row.pushStatus == 1) {
+              pushStatus = '推送成功'
+            } else if (params.row.pushStatus == 2) {
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '推送时间',
+          align: 'center',
+          minWidth:120,
+          key: 'pushTime'
+        }
+      ],
+      // 东方融资
+      columns21: [
+        {
+          title: '姓名',
+          align: 'center',
+          minWidth:100,
+          key: 'realName'
+        },
+        {
+          title: '手机号码',
+          align: 'center',
+          minWidth:110,
+          key: 'cellPhoneNumber'
+        },
+        {
+          title: '所在城市',
+          align: 'center',
+          minWidth:110,
+          key: 'city'
+        },
+        {
+          title: '性别',
+          align: 'center',
+          minWidth:80,
+          key: 'gender',
+          render: (h, params) => {
+            let gender
+            if (params.row.gender == 1) {
+              gender = '男'
+            } else if(params.row.gender ==  2){
+              gender = '女'
+            }
+            return h('div', [
+              h('span', {}, gender)
+            ])
+						}
+        },
+        {
+          title: '贷款金额 (万)',
+          align: 'center',
+          minWidth:120,
+          key: 'loanAmount'
+        },
+        {
+          title: '来源',
+          align: 'center',
+          minWidth:100,
+          render: (h, params) => {
+            let origin
+            if (params.row.origin == 0) {
+              origin = '手动导入'
+            } else if(params.row.origin ==  1){
+              origin = '大网钱注册'
+            }
+            return h('div', [
+              h('span', {}, origin)
+            ])
+						}
+        },
+        {
+          title: '推送批次号',
+          align: 'center',
+          minWidth:150,
+          key: 'pushBatchNum'
+        },
+        {
+          title: '推送状态',
+          align: 'center',
+          minWidth:100,
+          key: 'pushStatus',
+          render: (h, params) => {
+            let pushStatus
+            if (params.row.pushStatus == 0) {
+              pushStatus = '未推送'
+            } else if(params.row.pushStatus ==  1){
+              pushStatus = '推送成功'
+            } else if(params.row.pushStatus ==  2){
+              pushStatus = '推送失败'
+            }
+            return h('div', [
+              h('span', {}, pushStatus)
+            ])
+						}
+        },
+        {
+          title: '社保/公积金',
+          align: 'center',
+          minWidth:130,
+          render: (h, params) => {
+            let socialSecurityFund
+            if (params.row.socialSecurityFund == 1) {
+              socialSecurityFund = '无社保无公积金'
+            } else if(params.row.socialSecurityFund ==  2){
+              socialSecurityFund = '有社保有公积金'
+            } else if(params.row.socialSecurityFund ==  4){
+              socialSecurityFund = '有社保无公积金'
+            } else if(params.row.socialSecurityFund ==  8){
+              socialSecurityFund = '无社保有公积金'
+            } else if(params.row.socialSecurityFund ==  null){
+              socialSecurityFund = ''
+            }
+            return h('div', [
+              h('span', {}, socialSecurityFund)
+            ])
+						}
+        },
+        {
+          title: '房产情况',
+          align: 'center',
+          minWidth:130,
+          render: (h, params) => {
+            let haveHouse
+            if (params.row.haveHouse == 1) {
+              haveHouse = '有'
+            } else if(params.row.haveHouse ==  2){
+              haveHouse = '无'
+            } else if(params.row.haveHouse ==  null){
+              haveHouse = ''
+            }
+            return h('div', [
+              h('span', {}, haveHouse)
+            ])
+						}
+        },
+        {
+          title: '车产情况',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let haveCar
+            if (params.row.haveCar == 1) {
+              haveCar = '有'
+            } else if(params.row.haveCar ==  2){
+              haveCar = '无'
+            } else if(params.row.haveCar ==  null){
+              haveCar = ''
+            }
+            return h('div', [
+              h('span', {}, haveCar)
+            ])
+						}
+        },
+        {
+          title: '是否注册',
+          align: 'center',
+          minWidth:130,
+          render: (h, params) => {
+            let registered
+            if (params.row.registered == 1) {
+              registered = '已注册'
+            } else if(params.row.registered ==  0){
+              registered = '未注册'
+            } else if(params.row.registered ==  null){
+              registered = ''
+            }
+            return h('div', [
+              h('span', {}, registered)
+            ])
+						}
+        },
+        {
+          title: '错误代码',
+          align: 'center',
+          minWidth:90,
+          render: (h, params) => {
+            let code
+            if (params.row.code == '0') {
+              code = '成功'
+            } else if(params.row.code ==  ''){
+              code = ''
+            } else {
+              code = '失败'
+            }
+            return h('div', [
+              h('span', {}, code)
+            ])
+						}
+        },
+        {
+          title: '失败信息',
+          align: 'center',
+          minWidth:90,
+          key: 'errMsg'
+
+        },
+        {
+          title: '创建时间',
+          align: 'center',
+          minWidth:160,
+          key: 'dataCreateTime'
+        }
+      ],
       data1: []
     }
   },
   methods: {
+    // 重置
+    reset () {
+      this.value1 = ''
+      this.value2 = ''
+      this.model2 = ''
+      this.phones = ''
+      this.model5 = ''
+
+    },
     // 分页
     pageChange(page) {
 				this.startRow = page
-				this.inquire()
+				this.inquire(this.startRow)
 		},
     pagesizechange(page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     // 时间判断
 			time1(value, data) {
@@ -2015,7 +3008,7 @@ export default {
 			time2(value, data) {
 				this.value2 = value
 			},
-			inquire (n) {
+			inquire (startRow) {
         // 列表查询
         this.loading3 = true
 				let date1 = Date.parse(new Date(this.value1)) / 1000
@@ -2027,9 +3020,9 @@ export default {
 					})
 					return false
        }
-       if(n != 1){
-          this.model5 = ''
-       }
+      //  if(n != 1){
+      //     this.model5 = ''
+      //  }
         let params = {
           partyaKey: this.model1,
           beginTime: this.value1,
@@ -2038,7 +3031,7 @@ export default {
           pushStatus: this.model2,
           origin: 0,
           mobile: this.phones,
-          pageNum: this.startRow,
+          pageNum: startRow,
           pageSize: this.endRow,
         }
         // console.log(params)
@@ -2086,16 +3079,31 @@ export default {
               } else if(this.model1 == 'partya-guazi-usedcar'){
                 this.party1 = this.columns14
                 this.data1 = resp.data.dkGuaziUsedcarList
+              } else if(this.model1 == 'partya-hexin'){ //和信
+                this.party1 = this.columns16
+                this.data1 = resp.data.dkHexinList
+              } else if(this.model1 == 'partya-jiajiarong'){ //佳佳融
+                this.party1 = this.columns17
+                this.data1 = resp.data.dkJIajiarongList
+              } else if(this.model1 == 'partya-xiangbangbang'){ //享帮帮
+                this.party1 = this.columns18
+                this.data1 = resp.data.dkXiangbangbangList
+              } else if(this.model1 == 'partya-pantai'){ //磐泰
+                this.party1 = this.columns19
+                this.data1 = resp.data.dkPantaiList
+              } else if(this.model1 == 'partya-xiaoxiaojinrong'){ //小小金融
+                this.party1 = this.columns20
+                this.data1 = resp.data.dkXiaoxiaojinrongList
+              } else if(this.model1 == 'partya-dongfangrongzi'){ //东方融资
+                this.party1 = this.columns21
+                this.data1 = resp.data.dkDongfangrongziList
               } else {
                 this.party1 = ''
                 this.data1 = ''
               }
               // console.log(this.data1,111)
 							this.total = Number(resp.data.total)
-              this.startRow = Math.ceil(resp.data.startRow / this.endRow)
-              if(parseInt(resp.data.total) == '0') {
-                this.startRow = 1
-              }
+              this.startRow = Math.ceil(resp.data.startRow / this.endRow) == 0 ? 1 : Math.ceil(resp.data.startRow / this.endRow);
               this.loading3 = false
 						} else {
               this.loading3 = false

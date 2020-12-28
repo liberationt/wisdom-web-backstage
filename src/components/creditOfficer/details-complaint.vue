@@ -33,6 +33,14 @@
             <span>{{order.loanUserName}}</span>
         </p>
         <p>
+            <span>贷款客户来源渠道:</span>
+            <span>{{order.userSourceChannelName}}</span>
+        </p>
+        <p>
+            <span>信贷员注册渠道:</span>
+            <span>{{order.officerRegisterChannelName}}</span>
+        </p>
+        <p>
             <span>手机号:</span>
             <span>{{order.loanUserPhone}}</span>
         </p>
@@ -47,6 +55,10 @@
         <p v-if="order.orderStatus != 1">
             <span>实际放款金额:</span>
             <span>{{order.customerActualLoanAmountAsFormat}}万元</span>
+        </p>
+        <p v-if="order.orderType == 2">
+            <span>支付方式:</span>
+            <span>{{order.payTypeName}}</span>
         </p>
         <p>
             <span>信贷员:</span>
@@ -267,7 +279,7 @@ export default {
         line-height: 40px;
         padding-left: 50px;
         span:first-child{
-            width: 100px;
+            width: 120px !important;
             display: inline-block;
             text-align: right
         }

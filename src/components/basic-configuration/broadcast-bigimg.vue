@@ -18,7 +18,7 @@
         :mask-closable="false"
         :loading='loading'>
         <div class="clearfix">
-          <div class="upload_img left mt20" style="margin-left:80px">
+          <div class="upload_img left mt20" style="margin-left:80px" v-if="!$route.query.rolling">
             <p><img :src="banklogo" alt=""></p>
             <p>
               <Upload
@@ -31,8 +31,15 @@
               </Upload>
             </p>
           </div>
+          <div v-if="$route.query.rolling" style="margin-bottom:20px;">
+            <!-- <Input type="textarea" :autosize="{minRows: 2,maxRows: 5}" v-model="rolling" placeholder="请输入文案"></Input> -->
+            <Input type="text" v-model='rolling' placeholder="请输入文案"></Input>
+          </div>
           <div class="upload_information left ml10">
             <Form ref="formValidate1" :model="formValidate1" :rules="ruleValidate1" :label-width="80">
+              <FormItem label="" v-if="className=$route.query.banner==17"  prop="bannerName" >
+                <Input type="text" v-model="formValidate1.bannerName" placeholder="请输入导航标题"></Input>
+              </FormItem>
               <FormItem label="是否跳转" prop="mark">
                 <Select v-model="formValidate1.mark" @on-change='cornermark' style="width:120px" placeholder="不跳转">
                   <Option value="1">跳转</Option>
@@ -69,9 +76,15 @@
       <div class="contentcss clearfix mt10">     
       <ul class="homePage_icon left" style="padding:0 50px">
         <li v-for="item in bankdatalist">
-          <p class="icon">
+          <p class="icon" v-if="!$route.query.rolling">
             <img :src="item.bannerUrl" alt="" v-if="num == 1">
             <img :src="item.photoUrl" alt="" v-if="num == 2">
+          </p>
+          <p v-if="$route.query.banner==17">
+             <Input v-text="item.bannerName" type="textarea"/>
+          </p>
+          <p  class="icons" v-if="$route.query.rolling">
+             <Input v-model="rolling" v-text="item.bannerContent" type="textarea"/>
           </p>
           <p class="clearfix haomePage_edit">
             <InputNumber v-if="num != 2" class="banknumint" :min="0" v-model="item.bannerNo"></InputNumber>
@@ -136,6 +149,7 @@ import utils from "../../utils/utils";
 export default {
   data() {
     return {
+      rolling:'',
       application:'',
       modal1: false,
       modal2: false,
@@ -163,7 +177,8 @@ export default {
         home: '',
         code: '',
         desc: '',
-        realname:''
+        realname:'',
+        bannerName:''
       },
       jumpAppParams: [],
       ruleValidate1: {
@@ -173,6 +188,10 @@ export default {
         // layout: [
         //   { required: true, message: '请选择跳转页面！', trigger: 'blur' }
         // ],
+         bannerName: [
+          { required: true, message: '请输入导航标题！', trigger: 'blur' },
+          { pattern: /^.{1,4}$/, message: '请输入正确导航标题', trigger: 'change'}
+        ],
         realname: [
           { required: true, message: '请选择是否实名！', trigger: 'blur' }
         ],
@@ -208,7 +227,9 @@ export default {
     bankshow (num, code) {
       this.modal1 = true
       if (num == 1) {
+        this.formValidate1.desc = ''
         this.banktitle = '添加轮播图'
+        this.formValidate1.layout = '1'
       } else {
         this.banktitle = '编辑轮播图'
         this.bankecho (code)
@@ -231,12 +252,27 @@ export default {
       })
     },
     Preservation () {
-      if (this.banksrc == '') {
+      let ref = /^.{1,20}$/
+      if (this.banksrc == ''&&!this.$route.query.rolling) {
         const title = '上传文件'
         let content = '<p>请先上传轮播图</p>'
         this.$Modal.warning({
           title: title,
           content: content
+        })
+        return false
+      }
+      if(this.$route.query.rolling&&this.rolling==''){
+        this.$Modal.warning({
+          title: '文案',
+          content: '请输入文案'
+        })
+        return false
+      }
+      if(!ref.test(this.rolling) && this.$route.query.rolling){
+        this.$Modal.warning({
+          title: '文案',
+          content: '请输入正确文案'
         })
         return false
       }
@@ -271,70 +307,81 @@ export default {
         content = '<p>添加成功</p>'
       if (this.$route.query.img == 1) {
         list = {
-        bannerUrl :this.banksrc,
-        jumpStatus : this.formValidate1.mark,
-        jumpType : this.formValidate1.layout,
-        jumpUrl : jumpUrl,
-        versionCode: this.$route.query.versionCode,
-        bannerAppIdentifier : this.$route.query.appIdentifier,
-        bannerAppVersion: this.$route.query.appVersion,
-        bannerAppType: this.$route.query.appType,
-        locationType : this.locationtype,
-        jumpAppParams:jumpappParams
-      }
-      
-      if (this.$route.query.banner==7) {
-        list.trueNameDisplay = this.formValidate1.realname
-      }
-      if (this.$route.query.fiveh==0) {
-        list = {
           bannerUrl :this.banksrc,
-          jumpStatus : this.formValidate1.mark,
-          jumpUrl : this.formValidate1.desc,
-          locationType:9
-        }
-      } else if (this.$route.query.fiveh==1) {
-        list = {
-          bannerUrl :this.banksrc,
-          jumpStatus : this.formValidate1.mark,
-          jumpUrl : this.formValidate1.desc
-        }
-      }
-      } else if (this.$route.query.img == 2) {
-        list = {
-          photoUrl :this.banksrc,
           jumpStatus : this.formValidate1.mark,
           jumpType : this.formValidate1.layout,
           jumpUrl : jumpUrl,
           versionCode: this.$route.query.versionCode,
-          appIdentifier : this.$route.query.appIdentifier,
-          appVersion: this.$route.query.appVersion,
-          appType: this.$route.query.appType,
+          bannerAppIdentifier : this.$route.query.appIdentifier,
+          bannerAppVersion: this.$route.query.appVersion,
+          bannerAppType: this.$route.query.appType,
+          locationType : this.locationtype,
           jumpAppParams:jumpappParams
         }
-      }
-      } else {
-        let urls
-        if (this.$route.query.img == 1) {
-          urls = '/loan/banner/modifyBannerByCode'
-            list = {
-              bannerUrl :this.banksrc,
-              jumpStatus : this.formValidate1.mark,
-              jumpType : this.formValidate1.layout,
-              jumpUrl : jumpUrl,
-              versionCode: this.$route.query.versionCode,
-              appIdentifier : this.$route.query.appIdentifier,
-              appVersion: this.$route.query.appVersion,
-              appType: this.$route.query.appType,
-              bannerCode: this.bannerCode,
-              locationType:this.locationtype,
-              jumpAppParams:jumpappParams
-            }
-            if (this.$route.query.banner==7) {
-              list.trueNameDisplay = this.formValidate1.realname
-            }
+        if(this.$route.query.rolling){
+          list.bannerContent = this.rolling
+        }
+        if(this.$route.query.banner==17){
+           list.bannerName = this.formValidate1.bannerName
+        }
+        if (this.$route.query.banner==7) {
+          list.trueNameDisplay = this.formValidate1.realname
+        }
+        if (this.$route.query.fiveh==0) {
+          list = {
+            bannerUrl :this.banksrc,
+            jumpStatus : this.formValidate1.mark,
+            jumpUrl : this.formValidate1.desc,
+            locationType:9
+          }
+        } else if (this.$route.query.fiveh==1) {
+          list = {
+            bannerUrl :this.banksrc,
+            jumpStatus : this.formValidate1.mark,
+            jumpUrl : this.formValidate1.desc
+          }
+        }
         } else if (this.$route.query.img == 2) {
-          urls = '/loan/appAdvertisement/updateAppAdvertisementByCode'
+          list = {
+            photoUrl :this.banksrc,
+            jumpStatus : this.formValidate1.mark,
+            jumpType : this.formValidate1.layout,
+            jumpUrl : jumpUrl,
+            versionCode: this.$route.query.versionCode,
+            appIdentifier : this.$route.query.appIdentifier,
+            appVersion: this.$route.query.appVersion,
+            appType: this.$route.query.appType,
+            jumpAppParams:jumpappParams
+          }
+        }
+        } else {
+          let urls
+          if (this.$route.query.img == 1) {
+            urls = '/loan/banner/modifyBannerByCode'
+              list = {
+                bannerUrl :this.banksrc,
+                jumpStatus : this.formValidate1.mark,
+                jumpType : this.formValidate1.layout,
+                jumpUrl : jumpUrl,
+                versionCode: this.$route.query.versionCode,
+                appIdentifier : this.$route.query.appIdentifier,
+                appVersion: this.$route.query.appVersion,
+                appType: this.$route.query.appType,
+                bannerCode: this.bannerCode,
+                locationType:this.locationtype,
+                jumpAppParams:jumpappParams
+              }
+              if(this.$route.query.banner==17){
+                list.bannerName = this.formValidate1.bannerName
+              }
+              if(this.$route.query.rolling){
+                list.bannerContent = this.rolling
+              }
+              if (this.$route.query.banner==7) {
+                list.trueNameDisplay = this.formValidate1.realname
+              }
+          } else if (this.$route.query.img == 2) {
+            urls = '/loan/appAdvertisement/updateAppAdvertisementByCode'
             list = {
               photoUrl :this.banksrc,
               jumpStatus : this.formValidate1.mark,
@@ -348,6 +395,7 @@ export default {
               jumpAppParams:jumpappParams
             }
         }
+        
         if (this.fiveh == 1) {
           list = {
             bannerUrl :this.banksrc,
@@ -360,7 +408,7 @@ export default {
         url = BASE_URL + urls
         title = '修改轮播图'
         content = '<p>修改成功</p>'
-      }
+      }     
         this.http.post(url, list)
         .then((resp) => {
           if (resp.code == 'success') {
@@ -375,6 +423,7 @@ export default {
             this.formValidate1.home = this.jumpAppParams[0].jumpUrl
             this.banklogo = require('../../image/moren.png')
             this.banksrc = ''
+            this.rolling =''
             this.modal1 = false
             this.banklist ()
           } else {
@@ -413,6 +462,12 @@ export default {
             if (this.$route.query.img == 1) {
               this.banksrc = resp.data.bannerUrl
               this.banklogo = resp.data.bannerUrl
+              if(this.$route.query.rolling){
+                this.rolling = resp.data.bannerContent
+              }
+              if(this.$route.query.banner==17){
+                this.formValidate1.bannerName = resp.data.bannerName
+              }
               if (this.$route.query.banner==7) {
                 this.realname = true
                 this.formValidate1.realname =resp.data.trueNameDisplay+''
@@ -442,13 +497,13 @@ export default {
                   }
                 }
               }
-              this.moveh5 = false
               this.homelist = true
+              this.moveh5 = false       
               this.formValidate1.desc = ''
             } else {//h5
               this.formValidate1.desc = resp.data.jumpUrl
-              this.moveh5 = true
-              this.homelist = true
+              this.homelist = false
+              this.moveh5 = true            
               this.formValidate1.home = ''
             }
             } else {//不跳转
@@ -506,15 +561,28 @@ export default {
         this.moveh5 = false
         this.homelist = true
       }
+      if (this.formValidate1.layout == '1') {
+        this.moveh5 = false
+        this.homelist = true
+      } else {
+        this.moveh5 = true
+        this.homelist = false
+      }
       }
     },
     primordial (val) {
       if (val == 0) {//原生
         this.moveh5 = true
         this.homelist = false
+        
       } else {//h5
         this.moveh5 = false
         this.homelist = true
+        // let errortips = document.getElementsByClassName('ivu-form-item-error-tip')
+        // console.log(errortips)
+        // if (errortips.length>0) {
+        //   errortips[errortips.length-1].parentNode.removeChild(errortips[errortips.length-1])
+        // }
       }
     },
     detailschoice (val) {     
@@ -903,5 +971,8 @@ export default {
   position: absolute;
   top: 0;
   left: 0;
+}
+.icons{
+  margin:50px 10px;
 }
 </style>

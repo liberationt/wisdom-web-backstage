@@ -164,6 +164,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           minWidth: 150,
           align: 'center',
           render: (h, params) => {

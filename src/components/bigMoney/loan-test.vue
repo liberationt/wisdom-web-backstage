@@ -9,7 +9,7 @@
             <span>产品名称:</span>
             <Input v-model="value" placeholder="请输入产品名称" style="width: 150px"></Input>
             <!-- <Button type="info" class="ml100 w100" @click="inquire">查询</Button> -->
-            <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire">
+            <Button type="info" class=" mr20 w100" :loading="loading3" @click="inquire(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -211,7 +211,7 @@ export default {
         {
           title: '序号',
           align: 'center',
-          width: 60,
+          minWidth: 60,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -222,13 +222,13 @@ export default {
         {
           title: '排序',
           align: 'center',
-          width: 100,
+          minWidth: 100,
           key: 'sort'
         },
         {
           title: '产品名称',
           align: 'center',
-          width: 100,
+          minWidth: 100,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -249,7 +249,7 @@ export default {
         {
           title: '产品logo',
           align: 'center',
-           width: 100,
+           minWidth: 100,
           key: 'logoUrl',
           render: (h, params) => {
             return h('div', [
@@ -268,7 +268,7 @@ export default {
         {
           title: '产品副标题',
           align: 'center',
-           width: 140,
+           minWidth: 140,
           render: (h, params) => {
             return h('div', [
               h('span', {
@@ -289,7 +289,7 @@ export default {
         {
           title: '产品说明',
           align: 'center',
-           width: 210,
+           minWidth: 210,
           key: 'subtitle',
           render: (h, params) => {
             return h('div', [
@@ -311,7 +311,7 @@ export default {
         {
           title: '贷款额度',
           align: 'center',
-           width: 100,
+           minWidth: 100,
           key: 'loanLinesUnit'
           // render: (h, params) => {
           //   let money = params.row.startMoney+'-'+params.row.endMoney
@@ -324,7 +324,7 @@ export default {
         {
           title: '利率类型',
           align: 'center',
-           width: 100,
+           minWidth: 100,
           render: (h, params) => {
             let lilv = params.row.interestType
             if(lilv == 1){lilv = '日利率'}else if(lilv == 2){lilv = '月利率'}else if(lilv == 3){lilv = '年利率'}else if(lilv == 4){lilv = '每期利率'}      
@@ -337,7 +337,7 @@ export default {
         {
           title: '利率',
           align: 'center',
-          width: 110,
+          minWidth: 110,
           key: '',
           render: (h, params) => {
             let baif = params.row.interest+'%'       
@@ -350,7 +350,7 @@ export default {
         {
           title: 'URL',
           align: 'center',
-           width: 160,
+           minWidth: 160,
           ellipsis: true,
           render: (h, params) => {
             return h('div', [
@@ -372,7 +372,7 @@ export default {
         {
           title: '状态',
           align: 'center',
-           width: 80,
+           minWidth: 80,
           key: 'status',
           render: (h, params) => {
             let zhuangtai = params.row.status == 1 ? '上架' : '下架'
@@ -386,7 +386,8 @@ export default {
           title: '操作',
           key: 'action',
           align: 'center',
-          width: 280,
+          minWidth: 280,
+          fixed: "right",
           render: (h, params) => {
             let type = 'success'
             let onshelf           
@@ -444,7 +445,7 @@ export default {
                                   title: title,
                                   content: content
                                 })
-                                this.inquire()
+                                this.inquire(1)
                             },
                             onCancel: () => {                               
                             }
@@ -474,7 +475,7 @@ export default {
                                   title: title,
                                   content: content
                                 })
-                                this.inquire()
+                                this.inquire(1)
                             },
                             onCancel: () => {                               
                             }
@@ -511,7 +512,7 @@ export default {
                             title: '删除',
                             content: '<p>确认要删除吗?</p>',
                             onOk: () => {
-                                this.inquire()
+                                this.inquire(1)
                             },
                             onCancel: () => {
                                 
@@ -547,7 +548,7 @@ export default {
                       this.http.post(BASE_URL + '/loan/loanProduct/updateOnDown', list)
                       .then((resp) => {
                         if (resp.code == 'success') {
-                          this.inquire()
+                          this.inquire(1)
                         } else {
 
                         }
@@ -579,7 +580,7 @@ export default {
                       this.http.post(BASE_URL + '/loan/loanProduct/updateOnDown', list)
                       .then((resp) => {
                         if (resp.code == 'success') {
-                          this.inquire()
+                          this.inquire(1)
                         } else {
 
                         }
@@ -918,7 +919,7 @@ export default {
                     content: content
                   })
                   this.modal9 = false
-                  this.inquire()
+                  this.inquire(1)
                 this.$refs[name].resetFields()
                 this.formCustom.logoUrl = require('../../image/moren.png')
                 this.formCustom.labelUrl = require('../../image/moren.png')
@@ -946,7 +947,7 @@ export default {
                   })
                   this.modal9 = false
                 this.$refs[name].resetFields()                  
-                  this.inquire()
+                  this.inquire(1)
                 }, 1000)
                 } else {
                   setTimeout(() => {
@@ -971,12 +972,12 @@ export default {
     },
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     handleUpload (file) {
       let splic = file.name.split('.')
@@ -1028,11 +1029,11 @@ export default {
       }
     },
     // 列表查询
-    inquire (num) {
+    inquire (startRow) {
     this.loading3 = true            
     let list = {
       name : this.value,
-      pageNum: this.startRow,
+      pageNum: startRow,
       pageSize: this.endRow
     }
     this.http.post(BASE_URL + '/loan/loanProduct/getLoanProductList', list)
@@ -1041,7 +1042,10 @@ export default {
         this.data6 = resp.data.loanProductList
         this.lengths = resp.data.loanProductList.length-1
         this.total = Number(resp.data.total)
-        this.startRow = Math.ceil(resp.data.startRow/this.endRow)
+        this.startRow =
+              Math.ceil(resp.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(resp.data.startRow / this.endRow);
         this.loading3 = false
       } else {
         this.loading3 = false
@@ -1054,7 +1058,7 @@ export default {
   },
   mounted () {
     // 列表初始化
-    this.inquire()
+    this.inquire(1)
   }
 }
 </script>

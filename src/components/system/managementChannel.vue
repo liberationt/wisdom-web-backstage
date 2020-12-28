@@ -14,7 +14,7 @@
       </div>
     </div>
     <div id="application_table">
-      <Table border :columns="columns7" :data="data6"></Table>
+      <Table border highlight-row :columns="columns7" :data="data6"></Table>
     </div>
     <div class="tr mt15">
       <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
@@ -224,6 +224,7 @@ export default {
         {
           title: '操作',
           width: 300,
+          fixed: 'right',
           align: 'center',
           render: (h, params) => {
             return h('div', [

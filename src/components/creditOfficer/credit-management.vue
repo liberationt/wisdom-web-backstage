@@ -33,7 +33,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="tableli == 'tab1'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -55,7 +55,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns8" :data="data7"></Table>
+            <Table border highlight-row :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
             <Page  v-if="tableli == 'tab2'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -77,7 +77,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns9" :data="data8"></Table>
+            <Table border highlight-row :columns="columns9" :data="data8"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="tableli == 'tab3'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -110,7 +110,7 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns10" :data="data9"></Table>
+            <Table border highlight-row :columns="columns10" :data="data9"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="tableli == 'tab4'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -135,7 +135,7 @@
             </div>
             <Button type="primary" class="mt15" shape="circle" icon="plus-round" @click="addManage">添加信贷机构</Button>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns11" :data="data10"></Table>
+            <Table border highlight-row :columns="columns11" :data="data10"></Table>
             </div>
             <div class="tr mt15">
             <Page v-if="tableli == 'tab5'" :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -343,6 +343,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          fixed: 'right',
           width: 150,
           align: "center",
           render: (h, params) => {
@@ -445,6 +446,7 @@ export default {
         {
           title: "操作",
           // key: 'action',
+          fixed: 'right',
           width: 150,
           align: "center",
           render: (h, params) => {
@@ -514,6 +516,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          fixed: 'right',
           align: "center",
           render: (h, params) => {
             return h("div", [
@@ -608,6 +611,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          fixed: 'right',
           width: 100,
           align: "center",
           render: (h, params) => {
@@ -710,6 +714,7 @@ export default {
         {
           title: "操作",
           key: "action",
+          fixed: 'right',
           minWidth: 200,
           align: "center",
           render: (h, params) => {
@@ -1215,17 +1220,6 @@ export default {
     }
   },
   created() {
-    // if (this.$route.query.num == 1) {
-    //   this.tabs = "tab2";
-    //   this.tableli = "tab2"
-    //   this.labell1("tab2");
-    // } else if (this.$route.query.num == 2) {
-    //   this.tableli = "tab5"
-    //   this.tabs = "tab5";
-    //   this.labell1("tab5");
-    // } else {
-     
-    // }
     this.tabs = "tab1";
     this.tableli = 'tab1'
     this.labell1("tab1");

@@ -7,7 +7,7 @@
     </div>
     <div class="contentcss">
         <Button type="primary" shape="circle" icon="ios-gear-outline" @click="gread">配置风控等级</Button>
-        <Table :columns="columns1" :data="data1" class="mt15"></Table>
+        <Table highlight-row :columns="columns1" :data="data1" class="mt15"></Table>
         <p class="tc mt50">
             <Button type="primary" class="mr20" @click="goToLog">查看操作日志</Button>
             <Button type="primary" @click="preservation">保存设置</Button>

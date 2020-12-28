@@ -14,7 +14,7 @@
             <span>  -  </span>
             <DatePicker type="date" @on-change="time2" confirm placeholder="结束时间" style="width: 200px"></DatePicker>
             </div>
-            <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button>
+            <Button class="right mr20 w100 " type="info" @click="inquire(1)">查询</Button>
             <div class="left w100b mt20">
               <Button type="primary" shape="circle" icon="plus-round" class="ml20  " @click="refuse">添加渠道</Button>
             </div>
@@ -22,7 +22,7 @@
         </div>
         
         <div class="mt10 contentcss">
-            <Table border :columns="columns7" :data="data6"></Table>
+            <Table border highlight-row :columns="columns7" :data="data6"></Table>
             <div class="tr mt15">
               <Page v-if="startRow!=0" :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
             </div>
@@ -86,6 +86,7 @@ export default {
           key: 'address',
           width: 150,
           align: 'center',
+          fixed: "right",
           render: (h, params) => {
             return h('div', [
               h(
@@ -128,11 +129,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
+      this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     remove (index) {
       this.data6.splice(index, 1)
@@ -167,7 +169,7 @@ export default {
               this.$refs[name].resetFields()
                this.changeLoading()
                this.modal9 = false
-              this.inquire ()
+              this.inquire (1)
             } else {
               this.changeLoading()
                this.modal9 = true
@@ -191,7 +193,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    inquire () {
+    inquire (startRow) {
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
       if (date1 > date2) {
@@ -205,7 +207,7 @@ export default {
         channelName : this.value,
         beginTime : this.value1,
         endTime : this.value2,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       }
       this.http.post(BASE_URL + '/loan/promotionChannel/getPromotionChannelList', list)
@@ -213,7 +215,10 @@ export default {
         if (resp.code == 'success') {
           this.data6 = resp.data.promotionChannelList
           this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.startRow =
+              Math.ceil(resp.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(resp.data.startRow / this.endRow); 
         } else {
 
         }
@@ -232,7 +237,7 @@ export default {
           title: title,
           content: content
         })
-        this.inquire ()
+        this.inquire (1)
   
       } else {
 
@@ -243,7 +248,7 @@ export default {
     }
   },
   mounted () {
-    this.inquire ()
+    this.inquire (1)
   }
 }
 </script>

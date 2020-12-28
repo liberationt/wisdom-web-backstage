@@ -18,19 +18,15 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="suppliersCode" placeholder="请选择供应商" style="width:150px;" @on-change="supplierChange">
-              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">
-                {{ item.suppliersName }}
-              </Option>
+            <Select v-model="suppliersCode" filterable placeholder="请选择供应商" style="width:150px;" @on-change="supplierChange">
+              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">{{ item.suppliersName }}</Option>
             </Select>
           </li>
           <li>
             <span class="ml20">渠道:</span>
-            <Select v-model="channelCode" placeholder="选择渠道" style="width:150px;" @on-change="channelChange">
+            <Select v-model="channelCode" filterable placeholder="选择渠道" style="width:150px;" @on-change="channelChange">
               <Option v-for="item in channelList" :value="item.suppliersBusinessChannelCode"
-                      :key="item.suppliersBusinessChannelCode">
-                {{ item.channelName }}
-              </Option>
+                      :key="item.suppliersBusinessChannelCode">{{ item.channelName }}</Option>
             </Select>
           </li>
           <li>
@@ -53,7 +49,7 @@
       </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <p class="tc f20"><strong>{{this.beginTime + " 至 " + this.endTime}}</strong></p>
+      <p class="tc f20"><strong v-show="this.beginTime && this.endTime">{{this.beginTime + " 至 " + this.endTime}}</strong></p>
       <Table :row-class-name="rowClassName" border highlight-row :columns="columnList" :data="reportList" size="small"
              ref="table" class="dailylist"></Table>
     </div>
@@ -149,10 +145,15 @@
             {
               style: {
                 width: "100%",
+                display: 'inline-block',
                 overflow: "hidden",
-                whiteSpace: "nowrap",
+                textOverflow: 'ellipsis',
+							  whiteSpace: 'nowrap',
                 fontSize:columnWeight ? '15px' : ''
-              }
+              },
+              domProps: {
+							title: text
+							}
             },
             text
           )
@@ -223,6 +224,13 @@
       },
       // 列表查询
       queryReportList() {
+        if (this.beginTime == '' || this.endTime == '') {
+          this.$Modal.warning({
+            title: '提示',
+            content: '<p>请先输入时间</p>'
+          })
+          return false
+        }
         let date1 = Date.parse(new Date(this.beginTime)) / 1000
         let date2 = Date.parse(new Date(this.endTime)) / 1000
         if (date1 > date2) {

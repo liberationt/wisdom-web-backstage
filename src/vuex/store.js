@@ -7,6 +7,7 @@ const state = {// 设置初始状态
   count: 1,
   num: 0,
   hidden: false,
+  headerhidden:false,
   menu: {},
   leftlist: [],
   leftheadname:'应用首页'
@@ -27,6 +28,12 @@ const mutations = {// 改变初始状态
   },
   lefthidtrue (state) {
     state.hidden = true
+  },
+  headerfalse (state) {
+    state.headerhidden = false
+  },
+  headertrue (state) {
+    state.headerhidden = true
   },
   menuTree (state, object) {
     state.menu = object

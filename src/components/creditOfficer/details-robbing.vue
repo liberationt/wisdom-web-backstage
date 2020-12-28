@@ -32,9 +32,34 @@
             <span>{{order.orderNum}}</span>
         </p>
         <p>
+            <span>订单类型: </span>
+            <span>{{ order.goodStatusName}}</span>
+        </p>
+        <p>
+            <span>支付方式: </span>
+            <span >{{ order.payTypeName}}</span>
+            
+        </p>
+        <p>
+            <span>支付明细: </span>
+            <span v-if="order.payType==1">{{ order.ticketNumber}}张{{order.ticketType}}</span>
+            <span v-if="order.payType==0">
+                <em v-if="order.payTypeDetail==0">{{order.activityAmount}}赞豆</em>
+                <em v-if="order.payTypeDetail==1">充值赞豆{{order.rechargeAmount}}</em>
+                <em v-if="order.payTypeDetail==2">赠送赞豆{{order.giveAmount}}</em>
+                <em v-if="order.payTypeDetail==3">充值赞豆{{order.rechargeAmount}}&赠送赞豆{{order.giveAmount}}</em>
+            </span>
+        </p>
+        <p>
             <span>抢单费用:</span>
-            <span v-if="order.robbingAmount==order.activityAmount" >{{order.robbingAmount}}赞豆</span>
-            <span v-if="order.robbingAmount!=order.activityAmount"><em class="gray">{{order.robbingAmount}}赞豆</em><em>/{{order.activityAmount}}赞豆</em></span>
+            <span v-if="order.robbingAmount==order.activityAmount" >
+                {{order.robbingAmount}}赞豆
+                <em v-if="order.payType != 0">/{{order.ticketNumber}}张券</em>
+                </span>
+            <span v-if="order.robbingAmount!=order.activityAmount">
+                <em class="gray">{{order.robbingAmount}}赞豆</em><em>/{{order.activityAmount}}赞豆</em>
+                <em v-if="order.payType != 0">/{{order.ticketNumber}}张券</em>
+                </span>
         </p>
         <p>
             <span>订单状态:</span>
@@ -53,6 +78,14 @@
             <span>客户:</span>
             <span>{{order.loanUserName}} {{order.loanUserPhone}}</span>
         </p>
+        <p>
+            <span>贷款客户来源渠道:</span>
+            <span>{{order.userSourceChannelName}}</span>
+        </p>
+        <p>
+            <span>信贷员注册渠道:</span>
+            <span>{{order.officerRegisterChannelName}}</span>
+        </p>
         <p v-if="order.orderStatus != 1">
             <span>申请贷款金额:</span>
             <span>{{order.customerLoanAmount}}万元</span>
@@ -65,9 +98,17 @@
             <span>实际放款金额:</span>
             <span>{{order.customerActualLoanAmount}}万元</span>
         </p>
+        <p v-if="order.orderType == 2">
+            <span>支付方式:</span>
+            <span>{{order.payTypeName}}</span>
+        </p>
         <p>
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
+        </p>
+        <p>
+            <span>信贷员身份 ：</span>
+            <span>{{order.vipStatusName}}</span>
         </p>
         <p v-if="order.leaveMessageResList" 
             v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
@@ -113,6 +154,79 @@
             </p>
             <p v-if="order.commentDetailsReq != null" class="ml100">{{order.commentDetailsReq.content}}
         </p>
+
+        <!-- 退单详情 -->
+        <div v-if="order.chargebackOrderRes != null">
+            <p style="font-weight: bold;">退单申请</p>
+            <p>
+                <span>退单申请人：</span>
+                <span>{{order.chargebackOrderRes.applyForPerson}}</span>
+            </p>
+            <p>
+                <span>退单申请时间：</span>
+                <span>{{order.chargebackOrderRes.chargebackTime }}</span>
+            </p>
+            <p>
+                <span>退单备注：</span>
+                <span>{{order.chargebackOrderRes.auditRemark}}</span>
+            </p>
+            <p>
+                <span>退单申请金额：</span>
+                <span v-if="order.chargebackOrderRes.chargebackType==1">
+                    {{order.chargebackOrderRes.chargebackTicketType }}抢单劵{{ order.chargebackOrderRes.chargebackMoney}}张
+                    </span>
+                <span v-if="order.chargebackOrderRes.chargebackType==0">
+                    <em v-if="order.chargebackOrderRes.chargebackTypeDetail ==0">{{order.chargebackOrderRes.chargebackMoney}}赞豆</em>
+                    <em v-if="order.chargebackOrderRes.chargebackTypeDetail ==1">充值赞豆{{order.chargebackOrderRes.rechargeAmount}}</em>
+                    <em v-if="order.chargebackOrderRes.chargebackTypeDetail ==2">赠送赞豆{{order.chargebackOrderRes.giveAmount}}({{order.chargebackOrderRes.giveAmountExpir}}天有效期)</em>
+                    <em v-if="order.chargebackOrderRes.chargebackTypeDetail ==3">充值赞豆{{order.chargebackOrderRes.rechargeAmount}}&赠送赞豆{{order.chargebackOrderRes.giveAmount}}({{order.chargebackOrderRes.giveAmountExpir}}天有效期)</em>
+                </span>
+                <!-- <input type="text" disabled style="background-color: #fff;" v-model="order.chargebackOrderRes.chargebackType == 0 ? '赞豆' : '张券' "> -->
+            </p>
+            <p>
+                <span>退单方式: </span>
+                <span>{{ order.chargebackOrderRes.chargebackTypeName}}</span>
+            </p>
+            <p>
+                <span>图片: </span>
+                <img v-for="item in chargebackApplyPicimg" class="mr10" :src="item" @click="bigimg(item)" alt="">
+            </p>
+            <p style="font-weight: bold;">审核意见</p>
+              <p>
+                <span>退单状态：</span>
+                <span>{{order.chargebackOrderRes.auditStatusName}}</span>
+            </p>
+            <p v-if="order.chargebackOrderRes.auditNum != 0" style="display:inline-block;width:800px;">
+                <span v-if="order.chargebackOrderRes.auditNum != 0">审核备注：</span>
+                <span>{{order.chargebackOrderRes.chargebackRemark}}</span>
+            </p>
+            <p v-if="order.chargebackOrderRes.auditStatus == 1">
+                <span>实际退单金额：</span>
+                <span v-if="order.chargebackOrderRes.realChargebackType==1">{{order.chargebackOrderRes.realChargebackTicketType  }}抢单劵{{ order.chargebackOrderRes.realChargebackMoney }}张</span>
+                <span v-if="order.chargebackOrderRes.realChargebackType==0">
+                    <em v-if="order.chargebackOrderRes.realChargebackTypeDetail ==0">{{order.chargebackOrderRes.realChargebackMoney}}赞豆</em>
+                    <em v-if="order.chargebackOrderRes.realChargebackTypeDetail ==1">充值赞豆{{order.chargebackOrderRes.realRechargeAmount }}</em>
+                    <em v-if="order.chargebackOrderRes.realChargebackTypeDetail ==2">赠送赞豆{{order.chargebackOrderRes.realGiveAmount }}({{order.chargebackOrderRes.giveAmountExpir}}天有效期)</em>
+                    <em v-if="order.chargebackOrderRes.realChargebackTypeDetail ==3">充值赞豆{{order.chargebackOrderRes.realRechargeAmount }}&赠送赞豆{{order.chargebackOrderRes.realGiveAmount }}({{order.chargebackOrderRes.giveAmountExpir}}天有效期)</em>
+                </span>
+            </p>
+            <!-- <p>
+                <span>实际退单金额: </span>
+                <span>{{ order.goodStatusName}}</span>
+            </p> -->
+            <p>
+                <span>退回方式: </span>
+                <span>{{ order.chargebackOrderRes.realChargebackTypeName}}</span>
+            </p>
+            <p v-if="order.chargebackOrderRes.auditStatus != 0">
+                <span>退单审核人：</span>
+                <span>{{order.chargebackOrderRes.chargebackAuditPerson}}</span>
+            </p>
+            <p v-if="order.chargebackOrderRes.auditStatus != 0">
+                <span>退单完成时间：</span>
+                <span>{{order.chargebackOrderRes.chargebackCompleteTime}}</span>
+            </p>
+        </div>
         </div>
         </div>
         <div>
@@ -120,6 +234,10 @@
             <Button type="ghost" class="w100" @click="backingout">返回</Button>
         </div>
     </div>
+    <!-- 查看大图弹框 -->
+    <Modal v-model="modal11" footer-hide fullscreen title="图片详情" width="1000">
+        <img :src=this.imglink alt="" style="width:970px;height:890px;">
+    </Modal>
 </div>
 </template>
 <script>
@@ -127,7 +245,10 @@ export default {
   data () {
     return {
         order: {},
-        img: []
+        img: [],
+        chargebackApplyPicimg:[],
+        modal11:false,
+        imglink:''
     }
   },
   methods: {
@@ -138,6 +259,11 @@ export default {
     backingout () {
       window.history.go(-1)
     },
+    bigimg(link) {
+      this.imglink = link;
+      this.modal11 = true;
+      // window.location.href = link
+    },
   },
   mounted () {
     let list = {
@@ -146,6 +272,7 @@ export default {
     this.http.post(BASE_URL + '/loan/baseRobOrder/getBaseRobOrderByCode', list).then(data=>{
         if (data.code == 'success') {
             this.order = data.data
+            this.chargebackApplyPicimg = data.data.chargebackOrderRes.chargebackApplyPic.split(';')
             if (data.data.commentDetailsReq != null) {
                 for (let i = 0; i < data.data.commentDetailsReq.stars; i++) {
                 this.img.push(require("../../image/pointed-star.png"));
@@ -196,7 +323,7 @@ export default {
     p{
         text-align: left;
         span:first-child{
-            width: 100px;
+            width: 130px !important;
             display: inline-block;
             text-align: right
         }

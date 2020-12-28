@@ -16,7 +16,7 @@
                 </Select>
             </div>
             <!-- <Button class="right mr20 w100 " type="info" @click="inquire">查询</Button> -->
-            <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire">
+            <Button type="info" class="right mr20 w90" :loading="loading3" @click="inquire(1)">
               <span v-if="!loading3">查询</span>
               <span v-else>查询</span>
             </Button>
@@ -145,6 +145,7 @@ export default {
           key: 'address',
           width: 150,
           align: 'center',
+          fixed: "right",
           render: (h, params) => {
             let type = 'success'
             let status
@@ -225,12 +226,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     remove (index) {
       this.data6.splice(index, 1)
@@ -242,12 +243,12 @@ export default {
       })
     },
     // 查询
-    inquire () {
+    inquire (startRow) {
       this.loading3 = true
       let list = {
         partyaName : this.model1,
         status : this.model2,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       }
     this.http.post(BASE_URL + '/loan/partya/getPartyaList', list)
@@ -255,7 +256,10 @@ export default {
       if (resp.code == 'success') {
         this.data6 = resp.data.partyaList
         this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+        this.startRow =
+        Math.ceil(resp.data.startRow / this.endRow) == 0
+          ? 1
+          : Math.ceil(resp.data.startRow / this.endRow);
           this.loading3 = false
       } else {
           this.loading3 = false
@@ -274,7 +278,7 @@ export default {
           title: '删除',
           content: '<p>确认要删除吗?</p>',
           onOk: () => {
-             this.inquire ()
+             this.inquire (1)
           },
           onCancel: () => {
               
@@ -309,7 +313,7 @@ export default {
                     title: title,
                     content: content
                   })
-                  this.inquire()
+                  this.inquire(1)
               },
               onCancel: () => {                               
               }
@@ -325,7 +329,7 @@ export default {
                     title: title,
                     content: content
                   })
-                  this.inquire()
+                  this.inquire(1)
               },
               onCancel: () => {                               
               }
@@ -340,7 +344,7 @@ export default {
     }
   },
   mounted () {
-    this.inquire ()
+    this.inquire (1)
   }
 }
 </script>

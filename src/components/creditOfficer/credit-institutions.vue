@@ -26,7 +26,7 @@
         </div>
             
         <div id="application_table" class="mt15">
-            <Table border :columns="columns11" :data="data10"></Table>
+            <Table border highlight-row :columns="columns11" :data="data10"></Table>
         </div>
         <div class="tr mt15">
             <Page  :total="total" :current="startRow" :page-size="endRow" @on-change="pageChange" @on-page-size-change="pagesizechange" show-sizer show-total></Page>
@@ -116,6 +116,7 @@ import untils from "../../utils/utils";
                     {
                     title: "操作",
                     key: "action",
+                    fixed: 'right',
                     minWidth: 200,
                     align: "center",
                     render: (h, params) => {

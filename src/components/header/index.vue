@@ -1,9 +1,9 @@
 <template>
-  <div class="layout">
+  <div class="layout" v-if="!headerhidden">
     <Row>
       <Col span="4" class="headleft"><div ><img src="../../image/logo.png" alt="" ></div></Col>
       <Col span="20">
-        <Col span="17" class="headrigui">
+        <Col span="17" class="headrigui" >
           <ul >
             <a href=""></a>
             <li v-for="(item, index) in headerdata" :key="index">
@@ -35,6 +35,7 @@
               </Badge>
             </li> -->
             <li v-if="users" class="adminhead">
+              <img src="../../image/iconAdmission.png" @click="value1 = true" alt="" class="admission">
               <img src="../../image/poptx.jpeg" alt="">
               <span class="ml5">{{username}}</span>
               <a href="javascript:;" @click="introduction">退出</a>
@@ -56,6 +57,15 @@
       :mask-closable="false">
       <p class="tc">确定要退出吗?</p>
     </Modal>
+    <div class="maskhead" v-if="value1">
+      <img src="../../image/chax.png" alt="" class="maskx" @click="value1 = false">
+      <ul>
+        <li v-for="(item, index) in headerdata" :key="index">
+          <a href="javascript:;"  :menucode="item.menuCode"  @click="value1 = false ;routerlink(index, item.path, item.menuName, item.menuCode)">{{item.menuName}}</a>
+        </li>
+      </ul>
+
+    </div>
   </div>
 </template>
 
@@ -68,6 +78,7 @@ export default {
     return {
       modal8: false,
       users: false,
+      value1:false,
       username: "",
       cityList: [
         {
@@ -103,7 +114,7 @@ export default {
     };
   },
   methods: {
-    ...mapMutations(["lefthidfalse", 'leftlist', 'lefthidtrue','showname']),
+    ...mapMutations(["lefthidfalse", 'leftlist', 'lefthidtrue','showname',"headerfalse", 'headertrue']),
     routerlink: function(index, path, name, code) {
       let that = this
       let arrlist = []
@@ -113,16 +124,14 @@ export default {
         leftspan[i].classList.remove('blue')       
       }
       utils.putlocal("headace", String(index));
-      if (name == '应用管理') {
-        name = '应用首页'
-      }
       that.showname(name);
       utils.putlocal("showname", name);
       this.isActive = index;
       this.$router.push({ path: path });
       if (name == "应用管理") {
+        name = '应用首页'
         that.lefthidfalse();
-      } else if (name == '财务管理' || name == '系统管理' || name == '渠道管理'|| name == '运营报表') {
+      } else if (name != '络付通') {
         for (let i = 0; i < that.menu.menuInfo.children.length; i++) {
         if (that.menu.menuInfo.children[i].menuCode == code) {
           arrlist = that.menu.menuInfo.children[i].children;
@@ -168,7 +177,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["menu"])
+    ...mapState(['headerhidden',"menu"])
   },
   mounted() {
     let that = this;
@@ -185,9 +194,7 @@ export default {
     } else {
       that.headerdata = ''
       this.users = false
-    }
-    
-    
+    } 
   }
 };
 </script>
@@ -255,6 +262,11 @@ export default {
         margin-top: 15px;
         margin-right: 5px;
       }
+      .admission{
+        cursor: pointer;
+        margin-right: 20px;
+        display: none
+      }
       span{
         font-size: 16px
       }
@@ -272,5 +284,48 @@ export default {
       }
     }
   }
+}
+.maskhead{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: -5000px;
+  left: 0;
+  background-color:rgba(0,0,0,0.8);
+  .maskx{
+    width: 30px;
+    height: 30px;
+    position: absolute;
+    right: 50px;
+    top: 15px;
+    cursor: pointer;
+  }
+  ul{
+    width: 300px;
+    float: right;
+    padding-top: 60px;
+    li{
+      text-align: center;
+      line-height: 50px;
+      a{
+        color: #fff;
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        font-size: 16px;
+      }
+      a:hover{
+        background: #3d81f2
+      }
+    }
+  }
+}
+@media screen and (max-width: 1050px) {
+    .headrigui {
+        display: none;
+    }
+    .admission{
+      display: block!important
+    }
 }
 </style>

@@ -12,28 +12,60 @@
             <Row>
               <Col span="24">
                 <FormItem v-if="auditing"  label="" style="border-bottom:1px solid #ccc" class="clearfix "><span class="blue1">提交审核前数据</span></FormItem>
-                <FormItem class="mt15" v-for="item in formCustom" :label="item.configName+':'" prop="fabulous">
-                  <Input :disabled="auditing" v-if="item.configUnit!=7" type="text" v-model="item.configValue" style="width:300px">
-                  <span slot="append">{{item.configUnitDesc}}</span>
+                <FormItem class="mt15" v-for="(item,index) in formCustom" :label="item.configName+':'" prop="fabulous">
+                  <Input :disabled="auditing" v-if="item.configUnit!=7&&item.configName!='定制抢单上限'&&item.configName!='分销开放用户'" type="text" v-model="item.configValue" style="width:300px">
+                  <span v-if="item.configName == '定制推送'" slot="prepend">每日推送上线</span>                 
+                  <span v-if="item.configName != '定制推送'&&item.configName != '开启抢单无忧提醒弹框'&&item.configName != '开启定制推送提醒弹框'&&item.configUnitDesc != '百分比'" slot="append">{{item.configUnitDesc}}</span>
+                  <span v-if="item.configName == '定制推送'" slot="append">单</span>
+                  <span v-if="item.configUnitDesc == '百分比'" slot="append">%</span>
+                  <span v-if="item.configName == '开启抢单无忧提醒弹框'" slot="prepend">赞豆余额大于等于</span>
+                  <span v-if="item.configName == '开启定制推送提醒弹框'" slot="prepend">赞豆余额小于</span>
+                  <span v-if="item.configName == '开启抢单无忧提醒弹框'||item.configName == '开启定制推送提醒弹框'" slot="append">赞豆</span>
                   </Input>
-                  <Select :disabled="auditing" v-if="item.configUnit==7" v-model="item.configValue" style="width:200px"  class="" >
+                  <InputNumber :disabled="auditing" @keyup.native="changeNumber(item.configValue,index)" v-if="item.configUnit!=7&&item.configName=='定制抢单上限'" :max="999999" :min="0" v-model.number="item.configValue"></InputNumber>
+                  <Select :disabled="auditing" v-if="item.configUnit==7&&item.configName!='实名认证方式'&&item.configName!='定制推送时间间隔'" v-model="item.configValue" style="width:200px"  class="" >
                     <Option  value="1" >开启</Option>
                     <Option  value="0" >关闭</Option>
                   </Select>
+                  <Select :disabled="auditing" v-if="item.configName=='实名认证方式'" v-model="item.configValue" style="width:200px"  class="" >
+                    <Option v-for="res in officerConfigSelectList" :value="res.value" >{{res.label}}</Option>                   
+                  </Select>
+                  <Select :disabled="auditing" v-if="item.configName=='定制推送时间间隔'" v-model="item.configValue" style="width:200px"  class="" >
+                    <Option v-for="res in intervaltimelist" :value="res.value" >{{res.label}}</Option>               
+                  </Select>
+                  <CheckboxGroup v-if="item.configName=='分销开放用户'" v-model="screen" >
+										<Checkbox :disabled="auditing" v-for="reg in retailuserslist" :label="reg.value">{{reg.label}}</Checkbox>
+									</CheckboxGroup>
                   <span v-if="item.officerConfigCode=='8'" class="signin">内不登录   (休眠周期的时间要大于登录有效周期的时间)</span>
-                </FormItem>
-                
+                </FormItem>                
               </Col>
+
               <Col span="24" class="mt20" v-if="auditing">
                 <FormItem label="" style="border-bottom:1px solid #ccc" class="clearfix "><span class="blue1">提交审核后数据</span></FormItem>
                 <FormItem class="mt15" v-for="item in formCustomafter" :label="item.configName+':'" prop="fabulous">
-                  <Input :disabled="auditing" v-if="item.configUnit!=7" type="text" v-model="item.configValue" style="width:300px">
-                  <span slot="append">{{item.configUnitDesc}}</span>
+                  <Input :disabled="auditing" v-if="item.configUnit!=7&&item.configName!='定制抢单上限'&&item.configName!='分销开放用户'" type="text" v-model="item.configValue" style="width:300px">
+                  <span v-if="item.configName == '定制推送'" slot="prepend">每日推送上线</span>                 
+                  <span v-if="item.configName != '定制推送'&&item.configName != '开启抢单无忧提醒弹框'&&item.configName != '开启定制推送提醒弹框'&&item.configUnitDesc != '百分比'" slot="append">{{item.configUnitDesc}}</span>
+                  <span v-if="item.configName == '定制推送'" slot="append">单</span>
+                  <span v-if="item.configUnitDesc == '百分比'" slot="append">%</span>
+                  <span v-if="item.configName == '开启抢单无忧提醒弹框'" slot="prepend">赞豆余额大于等于</span>
+                  <span v-if="item.configName == '开启定制推送提醒弹框'" slot="prepend">赞豆余额小于</span>
+                  <span v-if="item.configName == '开启抢单无忧提醒弹框'||item.configName == '开启定制推送提醒弹框'" slot="append">赞豆</span>
                   </Input>
-                  <Select :disabled="auditing" v-if="item.configUnit==7" v-model="item.configValue" style="width:200px"  class="" >
+                  <InputNumber :disabled="auditing" v-if="item.configUnit!=7&&item.configName=='定制抢单上限'" :max="99999" :min="0" v-model.number="item.configValue"></InputNumber>
+                  <Select :disabled="auditing" v-if="item.configUnit==7&&item.configName!='实名认证方式'&&item.configName!='定制推送时间间隔'" v-model="item.configValue" style="width:200px"  class="" >
                     <Option  value="1" >开启</Option>
                     <Option  value="0" >关闭</Option>
                   </Select>
+                  <Select :disabled="auditing" v-if="item.configName=='实名认证方式'" v-model="item.configValue" style="width:200px"  class="" >
+                    <Option v-for="res in officerConfigSelectList" :value="res.value" >{{res.label}}</Option>               
+                  </Select>
+                  <Select :disabled="auditing" v-if="item.configName=='定制推送时间间隔'" v-model="item.configValue" style="width:200px"  class="" >
+                    <Option v-for="res in intervaltimelist" :value="res.value" >{{res.label}}</Option>               
+                  </Select>
+                  <CheckboxGroup v-if="item.configName=='分销开放用户'" v-model="item.configValue" >
+										<Checkbox :disabled="auditing" v-for="reg in retailuserslist" :label="reg.value">{{reg.label}}</Checkbox>
+									</CheckboxGroup>
                   <span v-if="item.officerConfigCode=='8'" class="signin">内不登录   (休眠周期的时间要大于登录有效周期的时间)</span>
                 </FormItem>
 
@@ -41,7 +73,7 @@
             </Row>
           </FormItem>
           <FormItem class=" mt50 ml100">
-              <Button v-if="!auditing" type="primary" class="w100 examinetype" :loading="loading3" @click="handleSubmit">
+              <Button v-if="!auditing" type="primary" class="w200 examinetype" :loading="loading3" @click="handleSubmit">
                 <span v-if="!loading3">保存提交审核</span>
               </Button>
               &nbsp;&nbsp;&nbsp;&nbsp;
@@ -90,8 +122,13 @@
         auditing:false,
         modal9:false,
         memos:false,
+        screen: [],
+        screen1:[],
         formCustom: [],
         formCustomafter:[],
+        officerConfigSelectList:[],
+        intervaltimelist:[],
+        retailuserslist:[],//分销用户list
         formCustomexa: {
           activeType: '',
           remarks:''
@@ -110,14 +147,88 @@
       handleSubmit () {
         this.loading3 = true
         let reg = /^([1-9]\d*|0)(\.\d{1,})?$/
+        let numz = /^(0|[1-9][0-9]*)$/
+        let res = /^(0|\+?[1-9][0-9]{0,5})$/
         for (let i = 0; i < this.formCustom.length; i++) {
-          if (!reg.test(this.formCustom[i].configValue)) {
-            this.$Modal.warning({
-              title: '基本设置',
-              content: '<p>请输入正确的设置内容</p>'
-            })
-            this.loading3 = false
-            return false
+          if (this.formCustom[i].configName!='实名认证方式'&&this.formCustom[i].configName!='分销开放用户') {
+            if (!reg.test(this.formCustom[i].configValue)) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>请输入正确的设置内容</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+          }
+          if (this.formCustom[i].configName=='定制推送') {
+            if (!numz.test(this.formCustom[i].configValue)) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>请输入正确的定制推送</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+            if (this.formCustom[i].configValue>999999) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>定制推送最大可输入999999</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+          }
+          if (this.formCustom[i].configName=='分销开放用户') {
+            this.formCustom[i].configValue = JSON.stringify(this.screen)
+            if (this.screen.length<1) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>请选择分销开放用户</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+          }
+          if (this.formCustom[i].configName=='开启定制推送提醒弹框') {
+            if (this.formCustom[i].configValue>this.formCustom[i-1].configValue) {
+              this.$Modal.warning({
+                title: '基本设置',
+                width:'500px',
+                content: '<p>开启定制推送提醒弹框赞豆不得大于开启抢单无忧提醒弹框赞豆</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+          }
+          if (this.formCustom[i].configName=='未完善信息进入线索单周期') {
+            if (!/^([1-9][0-9]{0,3})$/.test(this.formCustom[i].configValue)) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>请输入正确线索单周期</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+          }
+          if (this.formCustom[i].configName=='退单申请有效期') {
+            if (!res.test(this.formCustom[i].configValue)) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>请输入正确的退单申请有效期</p>'
+              })
+              this.loading3 = false
+              return false
+            }
+          }
+          if (this.formCustom[i].configName=='开启抢单无忧提醒弹框'||this.formCustom[i].configName=='开启定制推送提醒弹框') {
+            if (!res.test(this.formCustom[i].configValue)) {
+              this.$Modal.warning({
+                title: '基本设置',
+                content: '<p>请输入正确的赞豆余额</p>'
+              })
+              this.loading3 = false
+              return false
+            }
           }
         }
         this.$Modal.confirm({
@@ -159,16 +270,32 @@
       this.http.post(BASE_URL + '/loan/officerConfig/getOfficerConfigAll', {})
         .then((resp) => {
           if (resp.code == 'success') {
+            resp.data.officerConfigList.forEach(element => {
+              if (element.configName == "分销开放用户") {
+                if (element.configValue == '') {
+                  this.screen = []
+                } else {
+                  this.screen = JSON.parse(element.configValue)
+                }                  
+                }         
+            });
             this.formCustom = resp.data.officerConfigList
+            this.officerConfigSelectList = resp.data.officerConfigSelectList[0].data
+            this.intervaltimelist = resp.data.officerConfigSelectList[1].data
+            this.retailuserslist = resp.data.officerConfigSelectList[2].data
             if (resp.data.updateOfficerConfigList == null) {
               this.formCustomafter = []
               this.auditing = false
             }
-            if (resp.data.updateOfficerConfigList.length>0) {             
+            if (resp.data.updateOfficerConfigList.length>0) {
+              resp.data.updateOfficerConfigList.forEach(element => {
+                if (element.configName == "分销开放用户") {
+                  element.configValue = JSON.parse(element.configValue)
+                }      
+              });             
               this.formCustomafter = resp.data.updateOfficerConfigList
               this.auditing = true
-            }         
-            
+            }               
           } else {
             this.$Message.error(resp.message);
           }
@@ -240,6 +367,14 @@
               this.memos = true
           }
       },
+      changeNumber(code,num) {
+      let inputNumber  = code   
+      let str = '' + inputNumber;
+      if (str.indexOf('.') != -1) {      
+        let arr = str.split('.');
+          this.formCustom[num].configValue = str.split('.')[0]
+      }      
+    },
       
       
 

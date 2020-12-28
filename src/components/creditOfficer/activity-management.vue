@@ -150,6 +150,7 @@ export default {
         {
           title: "操作",
           key: "accountVirtual",
+          fixed: 'right',
           minWidth: 100,
           align: "center",
           render: (h, params) => {

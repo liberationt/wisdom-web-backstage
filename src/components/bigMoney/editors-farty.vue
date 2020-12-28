@@ -119,6 +119,19 @@
           <Tag @on-close="handleClosemod" :name="index" closable class="red" v-if="item != ''" v-for="(item, index) in time2" :key="index">{{item}}<i >&nbsp;&nbsp;</i></Tag>
         </p>
     </Modal>
+    <Modal v-model="modal2" width="360">
+              <p slot="header" style="color:#f60;text-align:center">
+                  <Icon type="ios-information-circle"></Icon>
+                  <span>温馨提示</span>
+              </p>
+              <div style="text-align:center">
+                  <p>确定要清除吗?</p>
+              </div>
+              <div slot="footer">
+                <Button @click="modal2=false">取消</Button>
+                  <Button type="primary"  @click="empty(partyaCode)">确定</Button>
+              </div>
+          </Modal>
     </div>
 </template>
 <script>
@@ -131,6 +144,9 @@ export default {
       value1: "",
       value2: "",
       value3: "",
+      partyaCode:'',
+      filename:'',
+      modal2:false,
       modal9: false,
       modal10: false,
       manual: false,
@@ -202,7 +218,49 @@ export default {
                     }
                   },
                   "选择城市"
+                ),
+                h(
+                  "Button",
+                  {
+                    props: {
+                      type: "primary",
+                      size: "small"
+                    },
+                    style: {
+                      marginRight: "5px"
+                    },
+                    on: {
+                      click: () => {
+                        this.modal2 = true
+                      }
+                    }
+                  },
+                  "清空"
+                ),
+                h('a',{
+                  attrs: {
+                  class:'files'
+                },
+                },[
+                  h('i',{},'导入'),
+                  h(
+                  "Input",
+                  {
+                    props: {
+                      type: "file"
+                    },
+                    attrs:{
+                      class:'inputfil'
+                    },
+                    on: {
+                      'on-change': (event) => {
+                        let aaa = event.target.files
+                        this.handleUpload (event.target.files)
+                      }                
+                    }
+                  }
                 )
+                ])    
               ];
             } else {
               configureValues = params.row.configureValues;
@@ -388,6 +446,99 @@ export default {
         })
         .catch(() => {});
     },
+    empty (code) {
+      let list = {
+        partyaCode:code
+      }
+      this.http.post(BASE_URL + "/loan/pushCity/cleanByPartyaCode", list)
+        .then(resp => {
+          if (resp.code == "success") {
+            this.modal2 = false
+            this.$Modal.success({
+            title: '温馨提示',
+            content: '清除成功',
+            onOk: () => {
+              this.initialization ()
+            }
+          });
+          } else {
+            this.$Message.error(resp.message);
+          }
+        })
+        .catch(() => {
+          console.log(err)
+        });
+    },
+    // 导入
+    // 上传
+    handleUpload(file) {
+       if(file[0].size > 22949339){
+        this.value9 = ""
+        this.$Message.info("请选择20兆以内的文件")
+        return false
+      }
+      let splic = file[0].name.split('.')
+			if (splic[splic.length-1] == 'txt') {
+      let formData = new FormData()
+        formData.append('file', file[0])
+        formData.append('bucket', 'netmoney')
+        formData.append('dirs', 'limitCity')
+				let config = {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            },
+            timeout:1000*60*5
+				}
+				this.http.post(BASE_URL + '/fileUpload', formData, config)
+				.then((resp) => {
+				if (resp.code == 'success') {
+          this.filename = resp.data
+          this.leadingIn (resp.data)
+          // const title = '提示'
+          // let content = '<p>导入成功</p>'
+          // this.$Modal.success({
+          //     title: title,
+          //     content: content
+          // })
+          
+				} else {
+          this.$Message.error(resp.message);
+				}
+				})
+				.catch(err => {
+          this.fileerror = 'error'
+        })
+          // this.namelist = file.name
+          return false
+        } else {
+          this.$Message.info("文件格式不正确,请上传txt格式文件")
+        }
+    },
+    leadingIn (url) {
+      let list = {
+        partyaCode:this.code,
+        url:url
+      }
+      this.http.post(BASE_URL + "/loan/pushCity/uploadFile", list)
+        .then(resp => {
+          if (resp.code == "success") {
+            this.$Modal.success({
+            title: '温馨提示',
+            content: '导入成功',
+            onOk: () => {
+              this.initialization ()
+            }
+          });
+          } else {
+            this.$Message.error(resp.message);
+          }
+        })
+        .catch(() => {
+          console.log(err)
+        });
+
+
+    },
     // 勾选城市时的函数
     // checkAllGroupChange (data) {
     //   console.log(this.social)
@@ -396,9 +547,7 @@ export default {
       this.$router.push({ path: "./partyManagement" });
     },
     // 点击勾选输入框判断
-    checkProvinceChange(social) {
-      console.log("checkProvinceChange", social);
-      
+    checkProvinceChange(social) {   
       //找出已经取消选择的
       let cancelSelecteds = [];
       this.lastSocial.map(key => {
@@ -579,10 +728,9 @@ export default {
           }
         }
       }
-    }
-  },
-  mounted() {
-    this.http
+    },
+    initialization () {
+      this.http
       .post(
         BASE_URL +
           "/loan/partya/getPartyaByCode?partyaCode=" +
@@ -617,6 +765,7 @@ export default {
             }
           }
           this.data1 = resp.data.list;
+          this.partyaCode = resp.data.partyaCode
           this.value1 = resp.data.repateSendDay;
           this.value2 = resp.data.limitDay;
           this.value4 = resp.data.partyaKey;
@@ -637,6 +786,11 @@ export default {
         }
       })
       .catch(() => {});
+
+    }
+  },
+  mounted() {
+    this.initialization ()
   }
 };
 </script>
@@ -645,4 +799,5 @@ export default {
   height: 400px;
   overflow-y: scroll;
 }
+
 </style>

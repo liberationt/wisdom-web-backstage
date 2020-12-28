@@ -23,18 +23,66 @@
             </Button>
             </div>
             <div id="application_table" class="mt15">
-            <Table border :columns="columns8" :data="data7"></Table>
+            <Table border highlight-row :columns="columns8" :data="data7"></Table>
             </div>
             <div class="tr mt15">
             <Page :total="total" :page-size="endRow" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
             </div>
         </div>
+        <Modal
+        title="拨打电话"
+        v-model="modal10"
+        ok-text="确认"
+        cancel-text="取消"
+        @on-ok="dialing"
+        width='300'
+        :mask-closable="false"
+        class-name="vertical-center-modal">
+        <p>确认拨打信贷员 {{nametitle}} 的电话吗?</p>
+        </Modal>
+        <Modal v-model="modal2" class-name="vertical-center-modal" :mask-closable="false">
+            <p slot="header" style="text-align:left">
+                <span>拨打标记</span>
+            </p>
+            <div style="text-align:left">
+                <Form ref="formValidate" :model="formValidate" :rules="ruleValidate" :label-width="180">        
+                <FormItem label="拨打备注" prop="memo">
+                    <!-- <span>拨打备注:</span> -->
+                    <Select v-model="formValidate.memo" @on-change="selremarks" placeholder="请选择" style="width:200px;">
+                    <Option v-for="item in remarkslist" :value="item.remarkCode" :key="item.remarkCode">{{ item.remarkDesc }}</Option>
+                    </Select>
+                </FormItem>
+                <FormItem label="待办备注：" prop="standbyDesc" v-if="this.formValidate.memo == '1006'">
+                    <Input v-model="formValidate.standbyDesc" type="textarea" :autosize="{minRows: 2,maxRows: 5}" placeholder="请输入备注内容"></Input>
+                </FormItem>
+                </Form>           
+            </div>
+            <div slot="footer" >
+                <Button type="default"  @click="modalclose('formValidate')">关闭</Button>
+                <Button type="primary" @click="dialsub('formValidate')">提交</Button>
+            </div>
+        </Modal>
     </div> 
 </template>
 <script>
     export default{
         data(){
             return{
+                modal10:false,
+                modal2:false,
+                nametitle:'',
+                remarkslist:[],
+                loanOfficerCode:'',
+                dialRecordCode:'',
+                formValidate:{
+                    memo:'1001',
+                    standbyDesc:''
+                },
+                ruleValidate:{
+                    memo: [{ required: true, message: '请选择拨打备注', trigger: 'change' }],
+                    standbyDesc:[{required: true,message: "请填写待办备注",trigger: "blur"}]
+                },
+                //以上是拨打电话的
                 modelmoble:'mobile',
                 datamoble:[],
                 dataname1:'',
@@ -142,6 +190,23 @@
                             }
                             },
                             auditStatus
+                        ),
+                        h(
+                            'Button',
+                            {
+                                props: {
+                                    type: "primary",
+                                    size: "small"
+                                 },
+                                 on:{
+                                     click:()=>{
+                                        this.modal10=true
+                                        this.nametitle = params.row.realName
+                                        this.loanOfficerCode = params.row.loanOfficerCode
+                                     }
+                                 }
+                            },
+                            '拨打'
                         )
                         ]);
                     }
@@ -151,6 +216,71 @@
             }
         },
         methods:{
+            //拨打电话
+            dialing () {
+                this.http.post(BASE_URL + "/sale/saleDialRecord/callLoanOfficer", {loanOfficerCode:this.loanOfficerCode})
+            .then(data => {
+                if (data.code == 'success') {
+                    this.modal2 = true
+                    this.$Message.success(data.message)
+                    this.dialRecordCode = data.data.dialRecordCode
+                }else{
+                    this.modal2 = false
+                    this.$Message.error(data.message)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+                this.dialRemarks ()
+            },
+            //下拉框
+            dialRemarks () {
+            this.http.post(BASE_URL + "/sale/saleDialRemark/getDialRemarkList", {})
+            .then(data => {
+                if (data.code == 'success') {
+                this.remarkslist = data.data  
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+            },
+            //关闭
+            modalclose(name){
+                this.modal2 = false
+                this.$refs[name].resetFields();
+            },
+            //提交
+            dialsub(name){
+            this.$refs[name].validate((valid) => {
+                if (valid) {
+                    let list = {
+                    remarkCode : this.formValidate.memo,
+                    dialCode :this.dialRecordCode,
+                    loanOfficerCode :this.loanOfficerCode, 
+                    remark:this.formValidate.standbyDesc
+                    }
+                    this.http.post(BASE_URL + "/sale/saleDialRecord/saveDialRemark4KF", list)
+                    .then(data => {
+                    if (data.code == 'success') {
+                        this.modal2 = false
+                        this.$Message.success('备注成功')
+                        this.$refs[name].resetFields();
+                    } else {
+                        this.$Message.error(data.message);
+                        this.$refs[name].resetFields();
+                    }
+                    }).catch(err=>{
+                    console.log(err)
+                    })
+                }
+            })
+            },
+            //下拉框的选择
+            selremarks(status){
+                this.formValidate.memo = status
+            },
             pageChange(page) {
                 this.startRow = page;
                 // this.params.page = page;

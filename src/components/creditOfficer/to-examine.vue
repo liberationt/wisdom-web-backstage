@@ -11,7 +11,7 @@
         <Button type="success" shape="circle" class="mb15" @click="update">更新排序</Button>
         <router-link to="./creditInstitutions"><Button type="warning" shape="circle" class="mb15">返回</Button></router-link> 
         
-        <Table class="inputvalue" border :columns="columns1" :data="data1">
+        <Table class="inputvalue" border highlight-row :columns="columns1" :data="data1">
         </Table>
         <div class="tr mt15">
             <Page :total="total" :current="startRow" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-sizer show-total></Page>
@@ -82,6 +82,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           width: 150,
           align: 'center',
           render: (h, params) => {

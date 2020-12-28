@@ -18,10 +18,8 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="curSuppliersCode" placeholder="请选择供应商" style="width:150px;">
-              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">
-                {{ item.suppliersName }}
-              </Option>
+            <Select v-model="curSuppliersCode" placeholder="请选择供应商" filterable style="width:150px;">
+              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">{{ item.suppliersName }}</Option>
             </Select>
           </li>
           <li>
@@ -103,7 +101,7 @@
 
       getColumnList(businessKey) {
         let columnList = [
-          this.getColumnItem('渠道', 'channelName', 250, (h, params) => {
+          this.getColumnItem('渠道', 'channelName', 300, (h, params) => {
               return this.renderColumn(h, params.row.channelName, params.row.isSupplierRow)
             }
           ),     
@@ -153,10 +151,15 @@
             {
               style: {
                 width: "100%",
+                display: 'inline-block',
                 overflow: "hidden",
-                whiteSpace: "nowrap",
+                textOverflow: 'ellipsis',
+							  whiteSpace: 'nowrap',
                 fontSize:columnWeight ? '15px' : ''
-              }
+              },
+              domProps: {
+							title: text
+							}
             },
             text
           )

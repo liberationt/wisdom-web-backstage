@@ -29,12 +29,13 @@
               <Input v-model="phones" class="mr20" placeholder="请输入手机号" style="width: 200px"></Input>
             </li>
             <li class="clearfix mr100 ">
-              <Button type="primary" class="right w90" :loading="loading2" @click="exports">
+              <Button type="primary" class="right w90" @click="reset">重置</Button>
+              <Button type="primary" class="right w90 mr20" :loading="loading2" @click="exports">
                   <span v-if="!loading2">导出</span>
                   <span v-else>请稍等...</span>
                 </Button>
                 <!-- <Button class="right mr20 w100" type="info" @click="registered">查询</Button> -->
-                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered">
+                <Button type="info" class="right mr20 w90" :loading="loading3" @click="registered(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -42,7 +43,7 @@
           </ul>
         </div>
         <div class="mt10 contentcss">
-            <Table :columns="columns1" :data="data1"></Table>
+            <Table border highlight-row :columns="columns1" :data="data1"></Table>
             <div class="tr mt15">
                 <Page :total="total" :current="startRow" :page-size="endRow" @on-page-size-change="pagesizechange" @on-change="pageChange" show-sizer show-total></Page>
             </div>
@@ -74,7 +75,7 @@ export default {
       phones:'',
       cityList3: [
         {
-          value: '全部',
+          value: '',
           label: '全部'
         },
         {
@@ -96,13 +97,13 @@ export default {
         {
           title: '姓名',
           align: 'center',
-          width: 100,
+          minWidth: 100,
           key: 'name'
         },
         {
           title: '手机号',
           align: 'center',
-          width: 140,
+          minWidth: 140,
           // key: 'mobile'
           render: (h,params)=>{
           return h('div', [
@@ -127,13 +128,15 @@ export default {
         {
           title: '推送方式',
           align: 'center',
-          width: 110,
+          minWidth: 110,
           render: (h, params) => {
             let Code
             if (params.row.origin == 0) {
               Code = '手动'
             } else if (params.row.origin == 1) {
               Code = '自动'
+            } else if (params.row.origin == 2) {
+              Code = '语音'
             }
             return h('div', [
               h('span', {}, Code)
@@ -143,7 +146,7 @@ export default {
         {
           title: '推送状态',
           align: 'center',
-          width: 110,
+          minWidth: 110,
           render: (h, params) => {
             let pushStatus
             if (params.row.pushStatus == '0') {
@@ -163,13 +166,13 @@ export default {
         {
           title: '推送时间',
           align: 'center',
-          width: 150,
+          minWidth: 150,
           key: 'pushTime'
         },
         {
           title: '返回信息',
           align: 'center',
-          width: 100,
+          minWidth: 100,
           render: (h, params) => {
             let errorMsg 
             if (params.row.errorMsg == '0') {
@@ -187,37 +190,37 @@ export default {
         {
           title: '城市',
           align: 'center',
-          width: 120,
+          minWidth: 120,
           key: 'city'
         },
         {
           title: '媒体来源编号',
           align: 'center',
-          width: 200,
+          minWidth: 200,
           key: 'mediaSource'
         },
         {
           title: 'Ip',
           align: 'center',
-          width: 150,
+          minWidth: 150,
           key: 'ip'
         },
         {
           title: '创建时间',
           align: 'center',
-          width: 200,
+          minWidth: 200,
           key: 'dataCreateTime'
         },
         {
           title: '结果代码',
           align: 'center',
-          width: 120,
+          minWidth: 120,
           key: 'resultCode'
         },
         {
           title: '错误代码',
           align: 'center',
-          width: 150,
+          minWidth: 150,
           key: 'errorCode'
         }, 
       ],
@@ -233,6 +236,15 @@ export default {
     }
   },
   methods: {
+    // 重置
+    reset () {
+      this.model3 = ''
+      this.value1 = ''
+      this.value2 = ''
+      this.phones = ''
+      this.model2 = ''
+
+    },
     pageChange (page) {
       this.params.page = page
     },
@@ -242,20 +254,21 @@ export default {
     // 分页registered
     pageChange (page) {
       this.startRow = page
-      this.registered()
+      this.registered(this.startRow)
     },
     pagesizechange (page) {
+      this.startRow = 1
       this.endRow = page
-      this.registered()
+      this.registered(this.startRow)
     },
     post(url,list,pushname,num) {
         this.http.post(BASE_URL + url,list).then(data=>{
           if(data.code == 'success'){
             this.total = parseInt(data.data.total)
-            this.startRow = Math.ceil(data.data.startRow/this.endRow)
-            if(parseInt(data.data.total) == 0 ){
-              this.startRow = 1
-            }
+            this.startRow =
+              Math.ceil(data.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(data.data.startRow / this.endRow);
             if(pushname == 'qingjian'){
               this.data1 = data.data.dkQjpuhuiList
             } else if(pushname == 'baojie'){
@@ -280,7 +293,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    registered(n) {
+    registered(startRow) {
       this.loading3= true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -292,20 +305,17 @@ export default {
         })
         return false
       };
-      if(n != 1){
-        this.model2 = '' 
-      }
-      if(this.$route.query.id != ""){
-        this.value2 = ''
-        this.value1 = ''
-      }
+      // if(n != 1){
+      //   this.model2 = '' 
+      // }
+      
       let params = {
         pushBatchNum :this.model2,
         pushStatus : this.model3,
         beginTime : this.value1,
         endTime : this.value2,
         mobile: this.phones,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow,
       }
       let pushname = this.$route.query.pushname
@@ -362,7 +372,8 @@ export default {
     }
   },
   created() {
-    this.model2 = this.$route.query.id    
+    this.model2 = this.$route.query.id
+    
     var date = new Date();
     var seperator1 = "-";
     var year = date.getFullYear();
@@ -375,8 +386,14 @@ export default {
       strDate = "0" + strDate;
     }
     var currentdate = year + seperator1 + month + seperator1 + strDate;
-    this.value1 = currentdate
-    this.value2 = currentdate
+    
+    if(this.$route.query.id != ""){
+      this.value2 = ''
+      this.value1 = ''     
+    } else {
+      this.value1 = currentdate
+      this.value2 = currentdate
+    }
     this.registered(1)
   }
 }

@@ -19,7 +19,7 @@
                   <DatePicker type="date" :value='value2' @on-change="time2" placeholder="结束时间" style="width: 150px"></DatePicker>
                 </li> -->
                 <li class="ml10">
-                  <Button type="info" class="right ml20 mr20 w90" :loading="loading3" @click="inquire">
+                  <Button type="info" class="right ml20 mr20 w90" :loading="loading3" @click="inquire(1)">
                     <span v-if="!loading3">查询</span>
                     <span v-else>查询</span>
                   </Button>
@@ -95,8 +95,9 @@ export default {
         {
           title: '编辑',
           key: 'address',
-          width: 150,
+          minWidth: 150,
           align: 'center',
+          fixed: "right",
           render: (h, params) => {
             return h('div', [
               h(
@@ -139,12 +140,12 @@ export default {
     // 分页
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     remove (index) {
       this.data6.splice(index, 1)
@@ -210,7 +211,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    inquire (num) {
+    inquire (startRow) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -224,18 +225,15 @@ export default {
       }
       let list = {
         supplierName : this.value,       
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
-      }
-      if(num == 1){
-        list.pageNum = 1
       }
       this.http.post(BASE_URL + '/loan/promotionSupplier/getPromotionSupplierList', list)
       .then((resp) => {
         if (resp.code == 'success') {
           this.data6 = resp.data.promotionSupplierList
           this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.startRow = Math.ceil(resp.data.startRow / this.endRow) == 0 ? 1 : Math.ceil(resp.data.startRow / this.endRow);
           this.loading3 = false          
         } else {
           this.loading3 = false  
@@ -258,7 +256,7 @@ export default {
           title: '删除',
           content: '<p>确认要删除吗?</p>',
           onOk: () => {
-            this.inquire ()
+            this.inquire (1)
           },
           onCancel: () => {
               
@@ -287,7 +285,7 @@ export default {
     var currentdate = year + seperator1 + month + seperator1 + strDate;
     this.value1 =  currentdate;
     this.value2 = currentdate;
-    this.inquire ()
+    this.inquire (1)
   }
 }
 </script>

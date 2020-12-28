@@ -13,7 +13,7 @@
                 <!-- <Button class="right" type="primary">导出</Button> -->
                 <Button class="left mr20 w200 " type="info" @click="updatelist">上传黑名单列表</Button>
                 <!-- <Button class="left mr20 w100 " type="info" @click="inquire">查询</Button> -->
-                <Button type="info" class="left mr20 w90" :loading="loading3" @click="inquire">
+                <Button type="info" class="left mr20 w90" :loading="loading3" @click="inquire(1)">
                   <span v-if="!loading3">查询</span>
                   <span v-else>查询</span>
                 </Button>
@@ -121,6 +121,7 @@ export default {
           key: 'address',
           width: 150,
           align: 'center',
+          fixed: "right",
           render: (h, params) => {
             return h('div', [
               h('Button', {
@@ -159,12 +160,12 @@ export default {
     },
     pageChange (page) {
       this.startRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     pagesizechange (page) {
       this.startRow = 1
       this.endRow = page
-      this.inquire()
+      this.inquire(this.startRow)
     },
     changeLoading () {
       this.loading = false
@@ -266,7 +267,7 @@ export default {
             })
             this.modal9 = false
             this.namelist = ''
-            this.inquire()
+            this.inquire(1)
           } else {
             this.$Message.info(resp.message)
             this.changeLoading()
@@ -294,7 +295,7 @@ export default {
       this.value2 = value
     },
     // 查询
-    inquire () {
+    inquire (startRow) {
       this.loading3 = true
       let date1 = Date.parse(new Date(this.value1))/1000
       let date2 = Date.parse(new Date(this.value2))/1000
@@ -308,7 +309,7 @@ export default {
       }
       let list = {
         phone : this.model1,
-        pageNum: this.startRow,
+        pageNum: startRow,
         pageSize: this.endRow
       }
       this.http.post(BASE_URL + '/loan/pushBlack/getPushBlackListBy', list)
@@ -316,7 +317,10 @@ export default {
         if (resp.code == 'success') {
           this.data6 = resp.data.pushBlackReqList
           this.total = Number(resp.data.total)
-          this.startRow = Math.ceil(resp.data.startRow/this.endRow)   
+          this.startRow =
+              Math.ceil(resp.data.startRow / this.endRow) == 0
+                ? 1
+                : Math.ceil(resp.data.startRow / this.endRow);
           this.loading3 = false
         } else {
           this.loading3 = false
@@ -339,7 +343,7 @@ export default {
           title: '删除',
           content: '<p>确认要删除吗?</p>',
           onOk: () => {
-            this.inquire ()
+            this.inquire (1)
           },
           onCancel: () => {
               
@@ -369,7 +373,7 @@ export default {
     // var currentdate = year + seperator1 + month + seperator1 + strDate;
     // this.value1 =  currentdate;
     // this.value2 = currentdate;
-    this.inquire ()
+    this.inquire (1)
     this.hrefxls = 'black_list.xlsx'
     this.value3 = 'https://wisdom-netmoney.oss-cn-shanghai.aliyuncs.com/exceltemplate/black_list.xlsx'
   }

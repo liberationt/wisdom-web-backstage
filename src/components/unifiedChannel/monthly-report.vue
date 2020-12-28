@@ -18,15 +18,13 @@
           </li>
           <li>
             <span class="ml20">供应商:</span>
-            <Select v-model="curSuppliersCode" placeholder="请选择" style="width:150px;" @on-change="suppliersChange">
-              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">
-                {{item.suppliersName }}
-              </Option>
+            <Select v-model="curSuppliersCode" placeholder="请选择" filterable style="width:150px;" @on-change="suppliersChange">
+              <Option v-for="item in suppliersList" :value="item.suppliersCode" :key="item.suppliersCode">{{item.suppliersName }}</Option>
             </Select>
           </li>
           <li>
             <span class="ml20">渠道名称:</span>
-            <Select v-model="curChannelCode" placeholder="请选择" style="width:150px;" @on-change="channelChange">
+            <Select v-model="curChannelCode" placeholder="请选择" filterable style="width:150px;" @on-change="channelChange">
               <Option v-for="item in channelList" :value="item.suppliersBusinessChannelCode"
                       :key="item.suppliersBusinessChannelCode">{{ item.channelName }}
               </Option>
@@ -52,7 +50,7 @@
       </Button>
     </div>
     <div id="application_table " class="contentcss mt10">
-      <p class="tc f20"><strong>{{this.beginTime + " 至 " + this.endTime}}</strong></p>
+      <p class="tc f20"><strong v-show="this.beginTime && this.endTime">{{this.beginTime + " 至 " + this.endTime}}</strong></p>
       <Table class="tabgrouping" border highlight-row :columns="columnList" :data="reportList"></Table>
     </div>
   </div>
@@ -103,7 +101,7 @@
               )
             ]);
           }),
-          this.getColumnItem('供应商', 'suppliersName', 150, (h, params) => {
+          this.getColumnItem('供应商', 'suppliersName', 200, (h, params) => {
             return this.reportColumns1Render(h, params.row.suppliersDayReportResList, (suppliers) => {
               return suppliers.suppliersName
             })
@@ -222,7 +220,7 @@
           list.push(
             h('span', {
               style: {
-                display: 'block',
+                display: 'inline-block',
                 width: '100%',
                 lineHeight: (41 * lineNum - 1) + 'px',
                 borderBottom: i < params.length - 1 ? '1px solid #e9eaec' : '',
@@ -246,7 +244,7 @@
             list.push(
               h('span', {
                 style: {
-                  display: 'block',
+                  display: 'inline-block',
                   width: '100%',
                   overflow: 'hidden',
                   textOverflow: 'ellipsis',
@@ -349,6 +347,13 @@
       },
       // 列表查询
       queryReportList() {
+        if (this.beginTime == '' || this.endTime == '') {
+          this.$Modal.warning({
+            title: '提示',
+            content: '<p>请先输入时间</p>'
+          })
+          return false
+        }
         let date1 = Date.parse(new Date(this.beginTime)) / 1000
         let date2 = Date.parse(new Date(this.endTime)) / 1000
         if (date1 > date2) {

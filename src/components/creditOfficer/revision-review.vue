@@ -98,6 +98,9 @@
         <p class="imgProve">
           <span>工作证明:</span>
           <span> <img :src=loanJobImgold alt=""> </span>
+          <span> <img :src=loanJobBusinessCardImgold alt=""> </span>
+          <span> <img :src=loanJobContractImgold alt=""> </span>
+          <span> <img :src=loanJobDoorGroupImgold alt=""> </span>
         </p>
         <p v-if="this.auditMess != ''">
           <span>拒绝原因:</span>
@@ -126,6 +129,9 @@
         <p class="imgProve">
           <span>工作证明:</span>
           <span> <img :src=loanJobImg alt=""> </span>
+          <span> <img :src=loanJobBusinessCardImg alt=""> </span>
+          <span> <img :src=loanJobContractImg alt=""> </span>
+          <span> <img :src=loanJobDoorGroupImg alt=""> </span>
         </p>
         <p v-if="this.auditMess != ''">
           <span>拒绝原因:</span>
@@ -173,6 +179,12 @@ export default {
       loanCompany: "",
       loanJobImg: "",
       servicePhone: "",
+      loanJobBusinessCardImg:"",
+      loanJobContractImg:"",
+      loanJobDoorGroupImg:"",
+      loanJobBusinessCardImgold: "",
+      loanJobContractImgold: "",
+      loanJobDoorGroupImgold: "",
       examine: true,
       modall: false,
       formValidate: {
@@ -235,9 +247,15 @@ export default {
           this.loanCityNameFirst = data.data.loanCityNameFirst + data.data.loanCityNameSecond + data.data.loanCityNameThird +data.data.loanCityNameFourth//省
           this.loanCompany = data.data.loanCompany //公司信息
           this.loanJobImg = data.data.loanJobImg //工作证明
+          this.loanJobBusinessCardImg = data.data.loanJobBusinessCardImg
+          this.loanJobContractImg = data.data.loanJobContractImg
+          this.loanJobDoorGroupImg = data.data.loanJobDoorGroupImg
           this.loanCityNameFirstold = data.data.officerInfoCompanyRes.loanCityNameFirst + data.data.officerInfoCompanyRes.loanCityNameSecond + data.data.officerInfoCompanyRes.loanCityNameThird +data.data.officerInfoCompanyRes.loanCityNameFourth//省
           this.loanCompanyold = data.data.officerInfoCompanyRes.loanCompany //公司信息
           this.loanJobImgold = data.data.officerInfoCompanyRes.loanJobImg //工作证明
+          this.loanJobBusinessCardImgold = data.data.officerInfoCompanyRes.loanJobBusinessCardImg 
+          this.loanJobContractImgold = data.data.officerInfoCompanyRes.loanJobContractImg 
+          this.loanJobDoorGroupImgold = data.data.officerInfoCompanyRes.loanJobDoorGroupImg 
         }
       })
       .catch(err => {

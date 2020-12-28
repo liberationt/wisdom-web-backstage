@@ -48,6 +48,14 @@
             <span>客户:</span>
             <span>{{order.loanUserName}} {{order.loanUserPhone}}</span>
         </p>
+        <p>
+            <span>贷款客户来源渠道:</span>
+            <span>{{order.userSourceChannelName}}</span>
+        </p>
+        <p>
+            <span>信贷员注册渠道:</span>
+            <span>{{order.officerRegisterChannelName}}</span>
+        </p>
         <p v-if="order.orderStatus != 1">
             <span>申请贷款金额:</span>
             <span>{{order.customerLoanAmountAsFormat}}万元</span>
@@ -63,6 +71,10 @@
         <p>
             <span>信贷员:</span>
             <span>{{order.officerName}} {{order.officerPhone}}</span>
+        </p>
+        <p>
+            <span>信贷员身份:</span>
+            <span>{{order.vipStatusName}}</span>
         </p>
         <p v-if="order.leaveMessageResList" 
             v-for="item in order.leaveMessageResList" :key="item.leaveMessageCode">
@@ -120,6 +132,49 @@
             <span v-if="order.commentDetailsReq!=null" class="ml100">{{order.commentDetailsReq.commentCreateTime}}</span><br>
             <span v-if="order.commentDetailsReq!=null" class="ml100"><i v-for="item in order.commentDetailsReq.tagsCodeList">{{item}}&nbsp;&nbsp;</i></span>
         </p>       -->
+        <!-- 退单详情 -->
+        <div v-if="order.chargebackOrderRes != null">
+            <p style="font-weight: bold;">退单申请</p>
+            <p>
+                <span>退单申请人：</span>
+                <span>{{order.chargebackOrderRes.applyForPerson}}</span>
+            </p>
+            <p>
+                <span>退单申请时间：</span>
+                <span>{{order.chargebackOrderRes.chargebackTime }}</span>
+            </p>
+            <p>
+                <span>退单备注：</span>
+                <span>{{order.chargebackOrderRes.auditRemark}}</span>
+            </p>
+            <p>
+                <span>退单申请金额：</span>
+                <span>{{order.chargebackOrderRes.chargebackMoney}}</span>
+                <input type="text" disabled style="background-color: #fff;" v-model="order.chargebackOrderRes.chargebackType == 0 ? '赞豆' : '张券' ">
+            </p>
+            <p style="font-weight: bold;">审核意见</p>
+            <p>
+                <span>退单状态：</span>
+                <span>{{order.chargebackOrderRes.auditStatusName}}</span>
+            </p>
+            <p style="display:inline-block;width:800px;">
+                <span v-if="order.chargebackOrderRes.auditNum != 0">审核备注：</span>
+                <span>{{order.chargebackOrderRes.chargebackRemark}}</span>
+            </p>
+            <p v-if="order.chargebackOrderRes.auditStatus == 1">
+                <span>实际退单金额：</span>
+                <span>{{order.chargebackOrderRes.realChargebackMoney}}</span>
+                <input type="text" disabled style="background-color: #fff;" v-model="order.chargebackOrderRes.realChargebackType == 0 ? '赞豆' : '张券' ">
+            </p>
+            <p v-if="order.chargebackOrderRes.auditStatus != 0">
+                <span>退单审核人：</span>
+                <span>{{order.chargebackOrderRes.chargebackAuditPerson}}</span>
+            </p>
+            <p v-if="order.chargebackOrderRes.auditStatus != 0">
+                <span>退单完成时间：</span>
+                <span>{{order.chargebackOrderRes.chargebackCompleteTime}}</span>
+            </p>
+        </div>
         </div>
         </div>
         <div>
@@ -202,7 +257,7 @@ export default {
   p {
     text-align: left;
     span:first-child {
-      width: 100px;
+      width: 120px !important;
       display: inline-block;
       text-align: right;
     }

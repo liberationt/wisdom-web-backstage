@@ -40,12 +40,18 @@
               <FormItem label="供应商编号:" prop="channelnum" >
                 <Input v-model="formCustom.channelnum" :disabled="suption==2" placeholder="请输入供应商编号" style="width: 300px"></Input>
               </FormItem>
-              <FormItem label="类型:" prop="channelid" >
+              <FormItem label="主体类型:" prop="channelid" >
                 <Select v-model="formCustom.channeltype"  placeholder="请选择" style="width:100px">
                 <Option value="1">企业</Option>
                 <Option value="2">个人</Option>
               </Select>
                 <Input v-model="formCustom.channelid" placeholder="请输入证件号码" style="width: 200px"></Input>
+              </FormItem>
+              <FormItem label="渠道类型:" prop="channelditch" >
+                <Select v-model="formCustom.channelditch"  placeholder="请选择" style="width:100px">
+                <Option value="1">导流</Option>
+                <Option value="2">信息流投放</Option>
+              </Select>
               </FormItem>
               <FormItem label="供应商名称:" prop="suppname" >
                 <Input v-model="formCustom.suppname"  placeholder="请输入供应商名称" style="width: 300px"></Input>
@@ -77,9 +83,10 @@
                 <Option value="0">停用</Option>
               </Select>
             </FormItem>
-            <FormItem label="登录密码:" v-if="suption==2" >
-              <Button v-if="passshow"  type="primary" @click="resetpass">自动重置密码</Button>
-              <Button v-else disabled>已生成密码</Button>
+            <FormItem label="登录密码:"  >
+              <Input  v-model="formCustom.password" placeholder="请输入登录密码" style="width: 300px"></Input>
+              <!-- <Button v-if="passshow"  type="primary" @click="resetpass">自动重置密码</Button>
+              <Button v-else disabled>已生成密码</Button> -->
             </FormItem>
           </Form>
           </div>
@@ -157,12 +164,14 @@ export default {
       formCustom: {
         channelnum: '',
         channeltype: '1',
+        channelditch:'1',
         channelid: '',
         suppname:'',
         name: '',
         phone: '',
         remarks: '',
-        accounttype: ''
+        accounttype: '',
+        password:''
       },
       ruleCustom: {
         channelnum: [
@@ -427,29 +436,46 @@ export default {
               this.changeLoading ()
               return false
           }
+          if (this.suption == 1) {
+            if (this.formCustom.password == '') {
+              const title = '提示'
+              let content = '<p>请输入登录密码</p>'
+              this.$Modal.warning({
+                  title: title,
+                  content: content
+              })
+              this.changeLoading ()
+              return false
+            }     
+          }
+
           let list
           if (this.suption == 1) {
           list = {
             suppliersNo:this.formCustom.channelnum.toUpperCase(),
             cardType:this.formCustom.channeltype,
-            cardNo :this.formCustom.channelid,
-            suppliersName:this.formCustom.suppname,
-            contactName :this.formCustom.name,
-            contactPhone :this.formCustom.phone,
-            memo:this.formCustom.remarks,
-            suppliersStatus :this.formCustom.accounttype
-          }
-          } else {
-            list = {
-            suppliersNo:this.formCustom.channelnum.toUpperCase(),
-            cardType:this.formCustom.channeltype,
+            channelType :this.formCustom.channelditch,
             cardNo :this.formCustom.channelid,
             suppliersName:this.formCustom.suppname,
             contactName :this.formCustom.name,
             contactPhone :this.formCustom.phone,
             memo:this.formCustom.remarks,
             suppliersStatus :this.formCustom.accounttype,
-            suppliersCode:this.suppliersCode
+            password: this.formCustom.password
+          }
+          } else {
+            list = {
+            suppliersNo:this.formCustom.channelnum.toUpperCase(),
+            cardType:this.formCustom.channeltype,
+            channelType :this.formCustom.channelditch,
+            cardNo :this.formCustom.channelid,
+            suppliersName:this.formCustom.suppname,
+            contactName :this.formCustom.name,
+            contactPhone :this.formCustom.phone,
+            memo:this.formCustom.remarks,
+            suppliersStatus :this.formCustom.accounttype,
+            suppliersCode:this.suppliersCode,
+            password: this.formCustom.password
           }
           }
           this.addsupplierpre (list,this.suption)
@@ -472,6 +498,7 @@ export default {
             if(data.code == 'success'){
               this.formCustom.channelnum = data.data.suppliersNo
               this.formCustom.channeltype = String(data.data.cardType)
+              this.formCustom.channelditch = String(data.data.channelType)
               this.formCustom.channelid = data.data.cardNo
               this.formCustom.suppname = data.data.suppliersName
               this.formCustom.name = data.data.contactName
@@ -546,7 +573,9 @@ export default {
               onOk: () => {
                   this.modal9 = false
                   this. label_query ()
+                  this.formCustom.password = ''
                   this.$refs['formCustom'].resetFields()
+
               }
           })
         } else {
@@ -629,7 +658,7 @@ export default {
           })
           this.changeLoading ()
           return false
-      }
+      }      
       let managerUser
       this.managerSelect.forEach(element => {
         if (element.value == this.formCustombusi.person) {
@@ -643,7 +672,7 @@ export default {
         contactUser :this.formCustombusi.name,
         contactPhone :this.formCustombusi.phone,
         memo:this.formCustombusi.remarks,
-        suppliersCode :this.code
+        suppliersCode :this.code        
       }
       this.http.post(BASE_URL+'/promotion/suppliersBusiness/save', list).then(data => {
         if(data.code == 'success'){
@@ -662,7 +691,7 @@ export default {
           this.formCustombusi.person = ""
           this.formCustombusi.name =""
           this.formCustombusi.phone = ""
-          this.formCustombusi.remarks=""
+          this.formCustombusi.remarks="" 
           this.code=""
         }
       }).catch(err=>{

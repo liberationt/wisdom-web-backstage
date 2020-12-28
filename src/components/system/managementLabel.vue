@@ -7,7 +7,7 @@
     </div>
         <Button type="ghost" shape="circle" icon="plus-round" @click="channelAdd">添加标签</Button>
     <div id="application_table">
-      <Table border :columns="columns7" :data="data6"></Table>
+      <Table border highlight-row :columns="columns7" :data="data6"></Table>
     </div>
     <div class="tr mt15">
       <Page :total="100" @on-change="pageChange" @on-page-size-change="PageSizeChange" show-elevator show-sizer show-total></Page>
@@ -42,6 +42,7 @@ export default {
         {
           title: '操作',
           key: 'action',
+          fixed: 'right',
           width: 150,
           align: 'center',
           render: (h, params) => {

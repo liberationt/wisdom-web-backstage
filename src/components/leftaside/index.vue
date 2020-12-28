@@ -46,7 +46,7 @@
     min-width: 150px;
     position: fixed;
     left: 0;
-    z-index: 100;
+    z-index: 1;
     overflow-x: scroll;
     min-width: 200px;
     height: 100%;

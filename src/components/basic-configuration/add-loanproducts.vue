@@ -28,7 +28,7 @@
                         action=''>
                         <Button type="ghost" icon="ios-cloud-upload-outline" class="ml20" style="margin-top:24px">浏览</Button>
                         </Upload>
-                        <Input v-model="formValidate.displayLabel" disabled style="width: 120px;margin-top:24px" class="left ml5 hidden"></Input>
+                        <Input v-model="formValidate.displayNewLabel" disabled style="width: 120px;margin-top:24px" class="left ml5 hidden"></Input>
                     </FormItem>
                 </Col>
             </Row>
@@ -163,10 +163,14 @@
             <Col span="2" style="text-align: center"></Col>
             <Col span="11">
                 <FormItem label="期限范围:" v-if="!termshow">
-                    <Input v-model.number="formValidate.termMin" style="width:100px" placeholder="请输入起始期限值"></Input>
-                    <span>&nbsp;至&nbsp;</span>
-                    <Input v-model.number="formValidate.termMax" style="width:100px" placeholder="请输入结束期限值"></Input>
-                    <span>月</span>
+                    <Input v-model.number="formValidate.termMin" style="width:80px" placeholder="起始期限值"></Input>
+                    <Select v-model.number="timeOptions" @on-change="timeOptionsClick" placeholder="请选择" style="width:60px">
+											<Option value="0">天</Option>
+											<Option value="1">个月</Option>
+                    </Select> 
+										<span>&nbsp;至&nbsp;</span>
+                    <Input v-model.number="formValidate.termMax" style="width:80px" placeholder="结束期限值"></Input>
+                    <span>{{timeLinkage}}</span>
                 </FormItem>
                 <FormItem label="期限:" v-if="termshow">
                     <!-- <Input v-model="formValidate.subtitle" style="width:300px" placeholder="持中国居民身份证的中国公民 20-35周岁"></Input> -->
@@ -176,9 +180,13 @@
                              :key="index"
                              :class="index==0 ? 'mb15 clearfix' : 'mb15 clearfix ml125' "
                              >
-                            <Input type="text" v-model="item.detailValue" class="left  inputnum"  placeholder="请输入申请条件" style="width:210px">
-                            <span slot="append">月</span>
-                            </Input>                        
+                            <Input type="text" v-model="item.detailValue" class="left  inputnum"  placeholder="请输入申请条件" style="width:180px">
+                            <!-- <span slot="append">月</span> -->
+                            </Input>       
+														<Select v-model="item.detailDesc"  placeholder="请选择" class="left" style="width:60px">
+															<Option value="天">天</Option>
+															<Option value="个月">个月</Option>
+														</Select>                  
                         <Button type="primary" class="left ml10" v-if="index==0" @click="addnormal(3)">+</Button>
                         <Button type="primary" class="left ml10" v-if="index!=0" @click="addnorma2(3,index)">-</Button>
                         </div>
@@ -187,7 +195,6 @@
             </Col>
             </Row>
         </FormItem>
-
         <FormItem  >
             <Row>
             <Col span="11">
@@ -200,9 +207,13 @@
             <Col span="2" style="text-align: center"></Col>
             <Col span="11">
                 <FormItem label="默认期限:" prop="termDefault">
-                    <Input v-model.number="formValidate.termDefault" style="width:250px" placeholder="请输入默认期限">
-                    <span slot="append">月</span>
-                    </Input>                      
+                    <Input v-model.number="formValidate.termDefault" style="width:200px" placeholder="请输入默认期限">
+                    <!-- <span slot="append">月</span> -->
+                    </Input>    
+										<Select v-model.number="defaultPeriod" placeholder="请选择" style="width:60px">
+											<Option value="0">天</Option>
+											<Option value="1">个月</Option>
+										</Select>                   
                 </FormItem>
             </Col>
             </Row>         
@@ -289,6 +300,15 @@
                 </FormItem>
             </Col>        
         </FormItem>
+        <FormItem v-if="showsubject" >
+            <Col span="15">
+                <FormItem label="展示主体:" prop="bodyName">
+                    <CheckboxGroup v-model="bodyName" @on-change="exhibitionSubjectChange">
+                        <Checkbox v-for="item in exhibitionSubjectlist" :label="item.productParamCode">{{item.productParamName}}</Checkbox>
+                    </CheckboxGroup>
+                </FormItem>
+            </Col>        
+        </FormItem>
         <FormItem  >
             <Col span="15">
                 <FormItem label="申请H5的URL:" prop="applyH5Url">
@@ -314,6 +334,15 @@
                 </FormItem>
             </Col>        
         </FormItem>
+        <FormItem  >
+            <Col span="24">
+                <FormItem label="是否分佣:" prop="subCommission" v-if='shopcodeisshow'>
+                    <Select v-model="formValidate.subCommission" placeholder="请选择" style="width:250px">
+                        <Option v-for="item in subcommossionlist" :value="item.value" :key='item.value'>{{item.label}}</Option>
+                    </Select>                      
+                </FormItem>
+            </Col>        
+        </FormItem>
         <FormItem class="tc">
             <Button type="primary" @click="handleSubmit('formValidate')">提交保存</Button>
             <Button @click="handleReset('formValidate')" style="margin-left: 8px">返回</Button>
@@ -322,45 +351,55 @@
 </template>
 <script>
 export default {
-  data () {
+  data() {
     return {
+      subcommossionlist:[{label:'是',value:'1'},{label:'否',value:"0"}],
+      vshopcode:false,
+      shopcodeisshow:false,
       quotashow: false,
       termshow: false,
       lowershow: false,
-      ratetypeshow:false,
-      applyCondition: [],//申请资料
-      applyFlow: [],//申请流程
-      optionSystem: [],//操作系统
-      productType: [],//类型标签
+      ratetypeshow: false,
+      showsubject:false,
+      applyCondition: [], //申请资料
+      applyFlow: [], //申请流程
+      optionSystem: [], //操作系统
+      exhibitionSubjectlist:[],//展示主体
+      productType: [], //类型标签
       limit: [],
       amountLabel: [],
       typeLabel: [],
       operatingSystem: [],
+      bodyName:[],//展示主体
       applyInformation: [],
       applyFlowlc: [],
-      logoUrl: require('../../image/moren.png'),
-      labelUrl: require('../../image/moren.png'),
-      formValidate: {       
-        productLogo: '',       
-        displayLabel: '',
-        productName: '',
-        productSubhead: '',
+      h5code:'',
+      logoUrl: require("../../image/moren.png"),
+			labelUrl: require("../../image/moren.png"),
+			timeLinkage: "天",//时间展示联动
+			timeOptions : "0", //默认展示
+			defaultPeriod: "0", // 默认期限
+      formValidate: {
+        productLogo: "",
+        displayNewLabel: "",
+        productName: "",
+        productSubhead: "",
         applyCounts: null,
         applyCountsRatio: null,
-        productSearchFeature: '',
-        productDetailFeature: '',
+        productSearchFeature: "",
+        productDetailFeature: "",
         rateType: null,
         rateMouth: null,
-        rateDay:  null,
+        rateDay: null,
         repaymentMode: null,
-        loanTime: '',
+        loanTime: "",
         limitType: null,
         termType: null,
         limitMin: null,
         limitMax: null,
-        limitValue :[],
+        limitValue: [],
         limitDefault: null,
-        termMin: null,
+				termMin: null,
         termMax: null,
         termValue: [],
         termDefault: null,
@@ -371,83 +410,159 @@ export default {
         autoOn: null,
         isHot: null,
         operatingSystem: [],
-        applyH5Url: '',
+        bodyName:[],//展示主体
+        applyH5Url: "",
         typeLabel: [],
         amountLabel: [],
-        applyCondition:[],
-        indexof1:[],
-        indexof2:[],
-        state :1
+        applyCondition: [],
+        indexof1: [],
+        indexof2: [],
+        state: 1,
+        subCommission:'0'
       },
       addnormals: [
         {
-          detailValue: ''
+          detailValue: ""
         }
       ],
       quotamoney: [
-          {
-          detailValue: ''
+        {
+          detailValue: ""
         }
       ],
       termmoney: [
         {
-          detailValue: ''
+					detailValue: "",
+					detailDesc: "天",// 固定期限
         }
-
       ],
       ruleValidate: {
         productLogo: [
-          { required: true, message: '请上传产品LOGO', trigger: 'blur' }
+          { required: true, message: "请上传产品LOGO", trigger: "blur" }
         ],
-        // displayLabel: [
+        // displayNewLabel: [
         //   { required: true, message: '请上传显示标签', trigger: 'blur' }
         // ],
         productName: [
-          { required: true, message: '请输入产品名称', trigger: 'blur' },
-          { type: 'string', max: 10, message: '最多输入10位字', trigger: 'blur' }
+          { required: true, message: "请输入产品名称", trigger: "blur" },
+          {
+            type: "string",
+            max: 10,
+            message: "最多输入10位字",
+            trigger: "blur"
+          }
         ],
         productSubhead: [
-          { required: true, message: '请输入副标题', trigger: 'blur' },
-          { type: 'string', max: 10, message: '最多输入10位字', trigger: 'blur' }
+          { required: true, message: "请输入副标题", trigger: "blur" },
+          {
+            type: "string",
+            max: 10,
+            message: "最多输入10位字",
+            trigger: "blur"
+          }
         ],
         applyCounts: [
-          { required: true, type: 'number', message: '请输入正确的申请人基数', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入正确的申请人基数",
+            trigger: "blur"
+          }
         ],
         applyCountsRatio: [
-          { required: true, type: 'number', message: '请输入正确的申请人系数', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入正确的申请人系数",
+            trigger: "blur"
+          }
         ],
         productSearchFeature: [
-          { required: true, message: '请输入产品搜索页特点', trigger: 'blur' },
-          { type: 'string', max: 20, message: '最多输入20位字', trigger: 'blur' }
+          { required: true, message: "请输入产品搜索页特点", trigger: "blur" },
+          {
+            type: "string",
+            max: 20,
+            message: "最多输入20位字",
+            trigger: "blur"
+          }
         ],
         productDetailFeature: [
-          { required: true, message: '请输入产品详情页特点', trigger: 'blur' },
-          { type: 'string', max: 20, message: '最多输入20位字', trigger: 'blur' }
+          { required: true, message: "请输入产品详情页特点", trigger: "blur" },
+          {
+            type: "string",
+            max: 20,
+            message: "最多输入20位字",
+            trigger: "blur"
+          }
         ],
         rateType: [
-          { required: true, type: 'number', message: '请选择前端显示', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择前端显示",
+            trigger: "blur"
+          }
         ],
         rateMouth: [
-          { required: true, type: 'number', message: '请输入参考月利率', trigger: 'blur' },
-          { type: 'number', max: 999999, message: '最多输入6位字符', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入参考月利率",
+            trigger: "blur"
+          },
+          {
+            type: "number",
+            max: 999999,
+            message: "最多输入6位字符",
+            trigger: "blur"
+          }
         ],
         rateDay: [
-          { required: true, type: 'number', message: '请输入参考日利率', trigger: 'blur' },
-          { type: 'number', max: 999999, message: '最多输入6位字符', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入参考日利率",
+            trigger: "blur"
+          },
+          {
+            type: "number",
+            max: 999999,
+            message: "最多输入6位字符",
+            trigger: "blur"
+          }
         ],
         repaymentMode: [
-          { required: true, type: 'number', message: '请选择还款方式', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择还款方式",
+            trigger: "blur"
+          }
         ],
         loanTime: [
-          { required: true, message: '请输入放款时间', trigger: 'blur' },
-          { type: 'string', max: 10, message: '最多输入10位字符', trigger: 'blur' }
-
+          { required: true, message: "请输入放款时间", trigger: "blur" },
+          {
+            type: "string",
+            max: 10,
+            message: "最多输入10位字符",
+            trigger: "blur"
+          }
         ],
         limitType: [
-          { required: true, type: 'number', message: '请选择额度类型', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择额度类型",
+            trigger: "blur"
+          }
         ],
         termType: [
-          { required: true, type: 'number', message: '请选择期限类型', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择期限类型",
+            trigger: "blur"
+          }
         ],
         // quotastart: [
         //   { required: true, message: '请输入起始金额', trigger: 'blur' }
@@ -456,7 +571,12 @@ export default {
         //   { required: true, message: '请输入结束金额', trigger: 'blur' }
         // ],
         limitDefault: [
-          { required: true, type: 'number', message: '请输入默认额度', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入默认额度 (数字)",
+            trigger: "blur"
+          }
         ],
         // termstart: [
         //   { required: true, message: '请输入起始期限值', trigger: 'blur' }
@@ -465,529 +585,722 @@ export default {
         //   { required: true, message: '请输入结束期限值', trigger: 'blur' }
         // ],
         termDefault: [
-          { required: true, type: 'number', message: '请输入默认期限', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入默认期限 (数字)",
+            trigger: "blur"
+          }
         ],
         applyFlow: [
-          { required: true, type: 'array', min: 1, message: '最少选择一种申请流程', trigger: 'change' },
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "最少选择一种申请流程",
+            trigger: "change"
+          }
         ],
         applyInformation: [
-          { required: true, type: 'array', min: 1, message: '最少选择一种申请资料', trigger: 'change' },
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "最少选择一种申请资料",
+            trigger: "change"
+          }
         ],
         autoOff: [
-          { required: true, type: 'number', message: '请选择下架方式', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择下架方式",
+            trigger: "blur"
+          }
         ],
         dayApplyMax: [
-            { required: true, type: 'number', message: '请输入正确的当天最多申请次数', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请输入正确的当天最多申请次数",
+            trigger: "blur"
+          }
         ],
         autoOn: [
-          { required: true, type: 'number', message: '请选择上架方式', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择上架方式",
+            trigger: "blur"
+          }
         ],
         isHot: [
-          { required: true, type: 'number', message: '请选择是否热门', trigger: 'blur' }
+          {
+            required: true,
+            type: "number",
+            message: "请选择是否热门",
+            trigger: "blur"
+          }
         ],
         operatingSystem: [
-          { required: true, type: 'array', min: 1, message: '请选择操作系统', trigger: 'change' },
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "请选择操作系统",
+            trigger: "change"
+          }
+        ],
+        bodyName:[
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "请选择展示主体",
+            trigger: "change"
+          }
         ],
         applyH5Url: [
-          { required: true, message: '请输入申请H5的URL', trigger: 'blur' }
+          { required: true, message: "请输入申请H5的URL", trigger: "blur" }
         ],
         typeLabel: [
-          { required: true, type: 'array', min: 1, message: '最少选择一种类型标签', trigger: 'change' },
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "最少选择一种类型标签",
+            trigger: "change"
+          }
         ],
         amountLabel: [
-          { required: true, type: 'array', min: 1, message: '最少选择一种额度标签', trigger: 'change' },
+          {
+            required: true,
+            type: "array",
+            min: 1,
+            message: "最少选择一种额度标签",
+            trigger: "change"
+          }
+        ],
+        subCommission:[
+          {
+            required: true,
+            type: "string",
+            message: "请选择是否分佣",
+            trigger: "change"
+          }
         ]
       }
-    }
+    };
   },
   methods: {
     //   保存
-    handleSubmit (name) {
-      this.$refs[name].validate((valid) => {
+    handleSubmit(name) {
+      this.$refs[name].validate(valid => {
         if (valid) {
-            let reg = /^\+?[1-9]\d*$/
-            let cient = /^(?!0$)(?!0\.0)[1-9]?[0-9]*(\.[0-9]{1})?$/
-            let cart = /^(?!0$)(?!0\.00)[1-9]?[0-9]*(\.[0-9]{1,2})?$/
-            if (!reg.test(this.formValidate.applyCounts)) {
-                const title = '提示'
-                let content = '<p>请输入正确的申请人基数</p>'
-                this.$Modal.warning({
-                    title: title,
-                    content: content                    
-                })
-                return false               
+          let reg = /^\+?[1-9]\d*$/;
+          let cient = /^(?!0$)(?!0\.0)[1-9]?[0-9]*(\.[0-9]{1})?$/;
+          let cart = /^(?!0$)(?!0\.00)[1-9]?[0-9]*(\.[0-9]{1,2})?$/;
+          if (!reg.test(this.formValidate.applyCounts)) {
+            const title = "提示";
+            let content = "<p>请输入正确的申请人基数</p>";
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false;
+          }
+          if (!cient.test(this.formValidate.applyCountsRatio)) {
+            const title = "提示";
+            let content = "<p>请输入正确的申请人系数</p>";
+            this.$Modal.warning({
+              title: title,
+              content: content
+            });
+            return false;
+          }
+          if (this.formValidate.rateType == 0) {
+            if (!cart.test(this.formValidate.rateMouth)) {
+              const title = "提示";
+              let content = "<p>请输入正确的参考月利率</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
-            if (!cient.test(this.formValidate.applyCountsRatio)) {
-                const title = '提示'
-                let content = '<p>请输入正确的申请人系数</p>'
-                this.$Modal.warning({
-                    title: title,
-                    content: content                    
-                })
-                return false               
+          } else {
+            if (!cart.test(this.formValidate.rateDay)) {
+              const title = "提示";
+              let content = "<p>请输入正确的参考日利率</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
-            if (this.formValidate.rateType == 0) {
-                if (!cart.test(this.formValidate.rateMouth)) {
-                    const title = '提示'
-                    let content = '<p>请输入正确的参考月利率</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false               
-                }               
-            } else {
-                if (!cart.test(this.formValidate.rateDay)) {
-                    const title = '提示'
-                    let content = '<p>请输入正确的参考日利率</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false               
-                }
-            }
+          }
 
-            if (this.formValidate.limitType == 0) {
-                if (!reg.test(this.formValidate.limitMin)) {
-                const title = '提示'
-                let content = '<p>请输入正确的额度范围起始值</p>'
-                this.$Modal.warning({
-                    title: title,
-                    content: content                    
-                })
-                return false               
-                }
-                if (!reg.test(this.formValidate.limitMax)) {
-                    const title = '提示'
-                    let content = '<p>请输入正确的额度范围结束值</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false               
-                }
-                if (this.formValidate.limitMin>this.formValidate.limitMax) {
-                    const title = '提示'
-                    let content = '<p>开始金额不能大于结束金额</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false               
-                }
-                if (this.formValidate.limitDefault<this.formValidate.limitMin||this.formValidate.limitDefault>this.formValidate.limitMax) {
-                    const title = '提示'
-                    let content = '<p>默认额度必须要在额度范围内</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false
-                }
-            } else {
-                this.indexof1 = []
-                for (let i = 0; i < this.quotamoney.length; i++) {
-                    this.indexof1.push(this.quotamoney[i].detailValue)
-                    if (this.quotamoney[i].detailValue == '') {
-                        const title = '提示'
-                        let content = '<p>请输入贷款额度</p>'
-                        this.$Modal.warning({
-                            title: title,
-                            content: content                    
-                        })
-                        return false                  
-                    }
-                    if (!reg.test(this.quotamoney[i].detailValue)) {
-                        const title = '提示'
-                        let content = '<p>请输入正确的贷款额度</p>'
-                        this.$Modal.warning({
-                            title: title,
-                            content: content                    
-                        })
-                        return false                  
-                    }
-                }
-                if (this.indexof1.indexOf(String(this.formValidate.limitDefault))==-1) {
-                    const title = '提示'
-                    let content = '<p>固定默认额度必须是填写的固定值其中一个</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false
-                }
+          if (this.formValidate.limitType == 0) {
+            if (!reg.test(this.formValidate.limitMin)) {
+              const title = "提示";
+              let content = "<p>请输入正确的额度范围起始值</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
-
-            if (this.formValidate.termType == 0) {
-                if (!reg.test(this.formValidate.termMin)) {
-                const title = '提示'
-                let content = '<p>请输入正确的期限范围起始值</p>'
+            if (!reg.test(this.formValidate.limitMax)) {
+              const title = "提示";
+              let content = "<p>请输入正确的额度范围结束值</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+            if (this.formValidate.limitMin > this.formValidate.limitMax) {
+              const title = "提示";
+              let content = "<p>开始金额不能大于结束金额</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+            if (
+              this.formValidate.limitDefault < this.formValidate.limitMin ||
+              this.formValidate.limitDefault > this.formValidate.limitMax
+            ) {
+              const title = "提示";
+              let content = "<p>默认额度必须要在额度范围内</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+          } else {
+            this.indexof1 = [];
+            for (let i = 0; i < this.quotamoney.length; i++) {
+              this.indexof1.push(this.quotamoney[i].detailValue);
+              if (this.quotamoney[i].detailValue == "") {
+                const title = "提示";
+                let content = "<p>请输入贷款额度</p>";
                 this.$Modal.warning({
-                    title: title,
-                    content: content                    
-                })
-                return false               
+                  title: title,
+                  content: content
+                });
+                return false;
+              }
+              if (!reg.test(this.quotamoney[i].detailValue)) {
+                const title = "提示";
+                let content = "<p>请输入正确的贷款额度</p>";
+                this.$Modal.warning({
+                  title: title,
+                  content: content
+                });
+                return false;
+              }
+            }
+            if (
+              this.indexof1.indexOf(String(this.formValidate.limitDefault)) ==
+              -1
+            ) {
+              const title = "提示";
+              let content = "<p>固定默认额度必须是填写的固定值其中一个</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+          }
+
+          if (this.formValidate.termType == 0) {
+            if (!reg.test(this.formValidate.termMin)) {
+              const title = "提示";
+              let content = "<p>请输入正确的期限范围起始值</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
             if (!reg.test(this.formValidate.termMax)) {
-                const title = '提示'
-                let content = '<p>请输入正确的期限范围结束值</p>'
-                this.$Modal.warning({
-                    title: title,
-                    content: content                    
-                })
-                return false               
+              const title = "提示";
+              let content = "<p>请输入正确的期限范围结束值</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
-            if (this.formValidate.termMin>this.formValidate.termMax) {
-                const title = '提示'
-                let content = '<p>开始时间不能大于结束时间</p>'
-                this.$Modal.warning({
-                    title: title,
-                    content: content                    
-                })
-                return false               
+            if (this.formValidate.termMin > this.formValidate.termMax) {
+              const title = "提示";
+              let content = "<p>开始时间不能大于结束时间</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
-            if (this.formValidate.termDefault<this.formValidate.termMin||this.formValidate.termDefault>this.formValidate.termMax) {
-                    const title = '提示'
-                    let content = '<p>默认期限要在期限范围内</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false
-                }
-            } else {
-                this.indexof2  = []
-                for (let i = 0; i < this.termmoney.length; i++) {
-                    this.indexof2.push(this.termmoney[i].detailValue)
-                    if (this.termmoney[i].detailValue == '') {
-                        const title = '提示'
-                        let content = '<p>请输入贷款期限</p>'
-                        this.$Modal.warning({
-                            title: title,
-                            content: content                    
-                        })
-                        return false                  
-                    }
-                    if (!reg.test(this.termmoney[i].detailValue)) {
-                        const title = '提示'
-                        let content = '<p>请输入正确的贷款期限</p>'
-                        this.$Modal.warning({
-                            title: title,
-                            content: content                    
-                        })
-                        return false                  
-                    }
-                }
-                if (this.indexof2.indexOf(String(this.formValidate.termDefault))==-1) {
-                    const title = '提示'
-                    let content = '<p>固定默认期限必须是填写的固定值其中一个</p>'
-                    this.$Modal.warning({
-                        title: title,
-                        content: content                    
-                    })
-                    return false
-                }
+            if (
+              this.formValidate.termDefault < this.formValidate.termMin ||
+              this.formValidate.termDefault > this.formValidate.termMax
+            ) {
+              const title = "提示";
+              let content = "<p>默认期限要在期限范围内</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
             }
-
-            for (let i = 0; i < this.addnormals.length; i++) {
-                    if (this.addnormals[i].detailValue == '') {
-                        const title = '提示'
-                        let content = '<p>请输入申请条件</p>'
-                        this.$Modal.warning({
-                            title: title,
-                            content: content                    
-                        })
-                        return false                  
-                    }
-                }
-                if (this.formValidate.autoOff == 0) {
-                    if (!reg.test(this.formValidate.dayApplyMax)) {
-                        const title = '提示'
-                        let content = '<p>请输入正确的当天最多申请次数</p>'
-                        this.$Modal.warning({
-                            title: title,
-                            content: content                    
-                        })
-                        return false               
-                    }
-                }
-            if (this.formValidate.autoOff == 1) {
-                this.formValidate.autoOn = null
-                this.formValidate.dayApplyMax = 999999
-            }
-          this.formValidate.limitValue = this.quotamoney
-          this.formValidate.termValue = this.termmoney
-          this.formValidate.applyCondition = this.addnormals
-          let url
-          if (this.$route.query.code) {
-              url = '/loan/product/modifyProductByCode'
-              this.formValidate.productCode = this.$route.query.code
           } else {
-              url = '/loan/product/saveProduct'
-          }
-          this.http.post(BASE_URL + url, this.formValidate)
-          .then((resp) => {
-            if (resp.code == 'success') {
-                const title = '贷款产品'
-                let content = '<p>保存成功</p>'
-                this.$Modal.success({
-                    title: title,
-                    content: content,
-                    onOk: () => {
-                       this.$router.push({ path: './loansconfig' })
-                    },
-                })
-            
-            } else {         
-            this.$Message.info(resp.message)
+            this.indexof2 = [];
+            for (let i = 0; i < this.termmoney.length; i++) {
+              this.indexof2.push(this.termmoney[i].detailValue);
+              if (this.termmoney[i].detailValue == "") {
+                const title = "提示";
+                let content = "<p>请输入贷款期限</p>";
+                this.$Modal.warning({
+                  title: title,
+                  content: content
+                });
+                return false;
+              }
+              if (!reg.test(this.termmoney[i].detailValue)||this.termmoney[i].detailValue>999) {
+                const title = "提示";
+                let content = "<p>请输入正确的贷款期限</p>";
+                this.$Modal.warning({
+                  title: title,
+                  content: content
+                });
+                return false;
+              }
             }
-          })
-          .catch(() => {
-          })
-        } else {
+            if (
+              this.indexof2.indexOf(String(this.formValidate.termDefault)) == -1
+            ) {
+              const title = "提示";
+              let content = "<p>固定默认期限必须是填写的固定值其中一个</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+          }
 
+          for (let i = 0; i < this.addnormals.length; i++) {
+            if (this.addnormals[i].detailValue == "") {
+              const title = "提示";
+              let content = "<p>请输入申请条件</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+          }
+          if (this.formValidate.autoOff == 0) {
+            if (!reg.test(this.formValidate.dayApplyMax)) {
+              const title = "提示";
+              let content = "<p>请输入正确的当天最多申请次数</p>";
+              this.$Modal.warning({
+                title: title,
+                content: content
+              });
+              return false;
+            }
+          }
+          if (this.formValidate.autoOff == 1) {
+            this.formValidate.autoOn = null;
+            this.formValidate.dayApplyMax = 999999;
+          }
+          this.formValidate.limitValue = this.quotamoney;
+          let detailValuearr = []
+          let deadlineStitching = []
+					this.termmoney.map(v=>{
+            detailValuearr.push( {detailValue: v.detailValue + v.detailDesc})
+            deadlineStitching.push(v.detailValue + v.detailDesc)
+          });
+          if (this.formValidate.termType != 0) {
+            let numSplicing
+            if (this.defaultPeriod == 0) {
+              numSplicing = this.formValidate.termDefault+'天'
+            } else {
+              numSplicing = this.formValidate.termDefault+'个月'
+            }
+            if (deadlineStitching.indexOf(numSplicing) == -1) {
+              this.$Modal.warning({
+                  title: '提示',
+                  content: '固定默认期限必须是填写的固定值其中一个'
+                });
+                return false;
+            }
+          }
+					this.formValidate.termValue = detailValuearr // 固定值拼单位
+					this.formValidate.applyCondition = this.addnormals;
+					this.formValidate.defaultType = this.defaultPeriod //默认期限单位
+					//当为范围时，保存和修改添加这个字段
+					if(this.formValidate.termType == "0"){ //范围
+						this.formValidate.rangeType  = this.timeOptions //期限范围单位
+					}
+          let url;
+          if (this.$route.query.code) {
+            url = "/loan/product/modifyProductByCode";
+            this.formValidate.productCode = this.$route.query.code;
+          } else {
+            url = "/loan/product/saveProduct";
+          }
+          this.http
+            .post(BASE_URL + url, this.formValidate)
+            .then(resp => {
+              if (resp.code == "success") {
+                const title = "贷款产品";
+                let content = "<p>保存成功</p>";
+                this.$Modal.success({
+                  title: title,
+                  content: content,
+                  onOk: () => {
+                    this.$router.push({ path: "./loansconfig" });
+                  }
+                });
+              } else {
+                this.$Message.info(resp.message);
+              }
+            })
+            .catch(() => {});
+        } else {
         }
-      })
+      });
     },
     // 返回
-    handleReset (name) {
-    this.$router.push({ path: './loansconfig' })
+    handleReset(name) {
+      this.$router.push({ path: "./loansconfig" });
     },
     // 上传格式校验
-    handleFormatError1 (file) {
+    handleFormatError1(file) {
       // this.formCustom.productlogo = ''
-      this.$Message.info("图片格式不正确,请上传正确的图片格式")
+      this.$Message.info("图片格式不正确,请上传正确的图片格式");
     },
     // 上传图片
-    handleUpload (file) {
-      let splic = file.name.split('.')
-      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+    handleUpload(file) {
+      if(file.size > 32768){
+        this.value9 = ""
+        this.$Message.info("请选择32K以内的图片")
+        return false
+      }
+      let splic = file.name.split(".");
+      if (
+        splic[splic.length - 1] == "png" ||
+        splic[splic.length - 1] == "jpg" ||
+        splic[splic.length - 1] == "gif" ||
+        splic[splic.length - 1] == "jpeg"
+      ) {
         let formData = new FormData();
-          formData.append('file', file)
+        formData.append("file", file);
         let config = {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            "Content-Type": "multipart/form-data"
           },
-          timeout:1000*60*5
-        }
-      this.http.post(BASE_URL + '/fileUpload', formData, config)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.logoUrl = resp.data
-        this.formValidate.productLogo = resp.data
-      } else {
-      }
-    })
-    .catch(() => {
-    })     
-      return false
+          timeout: 1000 * 60 * 5
+        };
+        this.http
+          .post(BASE_URL + "/fileUpload", formData, config)
+          .then(resp => {
+            if (resp.code == "success") {
+              this.logoUrl = resp.data;
+              this.formValidate.productLogo = resp.data;
+            } else {
+            }
+          })
+          .catch(() => {});
+        return false;
       }
     },
     // 上传标签图片
-    handleUpload1 (file) {
-      let splic = file.name.split('.')
-      if (splic[splic.length-1] == 'png' || splic[splic.length-1] == 'jpg' || splic[splic.length-1] == 'gif' || splic[splic.length-1] == 'jpeg') {
+    handleUpload1(file) {
+      let splic = file.name.split(".");
+      if (
+        splic[splic.length - 1] == "png" ||
+        splic[splic.length - 1] == "jpg" ||
+        splic[splic.length - 1] == "gif" ||
+        splic[splic.length - 1] == "jpeg"
+      ) {
         let formData = new FormData();
-          formData.append('file', file)
+        formData.append("file", file);
         let config = {
           headers: {
-            'Content-Type': 'multipart/form-data'
+            "Content-Type": "multipart/form-data"
           },
-          timeout:1000*60*5
-        }
-      this.http.post(BASE_URL + '/fileUpload', formData, config)
-    .then((resp) => {
-      if (resp.code == 'success') {
-        this.labelUrl = resp.data
-        this.formValidate.displayLabel = resp.data
-      } else {
-      }
-    })
-    .catch(() => {
-    })      
-      return false
+          timeout: 1000 * 60 * 5
+        };
+        this.http
+          .post(BASE_URL + "/fileUpload", formData, config)
+          .then(resp => {
+            if (resp.code == "success") {
+              this.labelUrl = resp.data;
+              this.formValidate.displayNewLabel = resp.data;
+            } else {
+            }
+          })
+          .catch(() => {});
+        return false;
       }
     },
     // 加
-    addnormal (num) {
-        if (num == 1) {
-            this.quotamoney.push({
-                detailValue: ''
-            })            
-        } else if (num == 2) {
-            this.addnormals.push({
-                detailValue: ''
-            })
-        } else if (num == 3) {
-            this.termmoney.push({
-                detailValue: ''
-            })
-        }
-      
+    addnormal(num) {
+      if (num == 1) {
+        this.quotamoney.push({
+          detailValue: ""
+        });
+      } else if (num == 2) {
+        this.addnormals.push({
+          detailValue: ""
+        });
+      } else if (num == 3) {
+        this.termmoney.push({
+					detailValue: "",
+					detailDesc: "天"
+        });
+      }
     },
     // 减
-    addnorma2 (num, index) {
-        if (num == 1) {
-            this.quotamoney.splice(index, 1)
-        } else if (num == 2) {
-            this.addnormals.splice(index, 1)
-        } else if (num == 3) {
-            this.termmoney.splice(index, 1)
-        }
+    addnorma2(num, index) {
+      if (num == 1) {
+        this.quotamoney.splice(index, 1);
+      } else if (num == 2) {
+        this.addnormals.splice(index, 1);
+      } else if (num == 3) {
+        this.termmoney.splice(index, 1);
+      }
     },
     // 额度类型
-    quotatypeset (val) {
-        if (val == 0) {
-            this.quotashow = false
-        } else {
-            this.quotashow = true
-        }
+    quotatypeset(val) {
+      if (val == 0) {
+        this.quotashow = false;
+      } else {
+        this.quotashow = true;
+      }
     },
     // 期限类型
-    termtypeset (val) {
-        if (val == 0) {
-            this.termshow = false
-        } else {
-            this.termshow = true
-        }
+    termtypeset(val) {
+      if (this.timeLinkage == '个月') {
+        this.timeOptions = "1"
+      } else {
+        this.timeOptions = "0"
+      }
+      if (val == 0) {
+        this.termshow = false;
+      } else {
+        this.termshow = true;
+      }
     },
     // 自动下架
-    lowertypeset (val) {
-        if (val == 0) {
-            this.lowershow = false
-        } else {           
-            this.lowershow = true
-        }
+    lowertypeset(val) {
+      if (val == 0) {
+        this.lowershow = false;
+      } else {
+        this.lowershow = true;
+      }
     },
-    ratetypepeset (val) {
-        if (val == 0) {
-            this.ratetypeshow = false
-        } else {
-            this.ratetypeshow = true
-        }
+    ratetypepeset(val) {
+      if (val == 0) {
+        this.ratetypeshow = false;
+      } else {
+        this.ratetypeshow = true;
+      }
     },
     // 额度标签选中
-    limitChange (data) {
-        let list = []
-        for (let i = 0; i < data.length; i++) {
-            let obj = new Object ()            
-            obj.productParamCode = data[i]
-            list.push(obj)
-        }
-        this.formValidate.amountLabel = list
+    limitChange(data) {
+      let list = [];
+      for (let i = 0; i < data.length; i++) {
+        let obj = new Object();
+        obj.productParamCode = data[i];
+        list.push(obj);
+      }
+      this.formValidate.amountLabel = list;
     },
     // 类型标签选中
-    productTypeChange (data) {
-        let list = []
-        for (let i = 0; i < data.length; i++) {
-            let obj = new Object ()            
-            obj.productParamCode = data[i]
-            list.push(obj)
-        }
-        this.formValidate.typeLabel = list
+    productTypeChange(data) {
+      let list = [];
+      for (let i = 0; i < data.length; i++) {
+        let obj = new Object();
+        obj.productParamCode = data[i];
+        list.push(obj);
+      }
+      this.formValidate.typeLabel = list;
     },
     // 操作系统选中
-    optionSystemChange (data) {
-        let list = []
-        for (let i = 0; i < data.length; i++) {
-            let obj = new Object ()            
-            obj.productParamCode = data[i]
-            list.push(obj)
-        }
-        this.formValidate.operatingSystem = list
+    optionSystemChange(data) {
+      let list = [];
+      for (let i = 0; i < data.length; i++) {
+        let obj = new Object();
+        obj.productParamCode = data[i];
+        list.push(obj);
+      }
+      if (data.indexOf(this.h5code)>-1) {
+        this.showsubject = true
+      } else {
+        this.showsubject = false
+        this.bodyName = []
+        this.formValidate.bodyName = []
+      }
+      // shopcodeisshow
+      if(data.indexOf(this.vshopcode)>-1){
+        this.shopcodeisshow = true
+      }else{
+        this.shopcodeisshow = false
+        this.formValidate.subCommission='0'
+      }
+      this.formValidate.operatingSystem = list;
+    },
+    // 展示主体选中
+    exhibitionSubjectChange(data) {
+      let list = [];
+      for (let i = 0; i < data.length; i++) {
+        let obj = new Object();
+        obj.productParamCode = data[i];
+        list.push(obj);
+      }
+      this.formValidate.bodyName = list;
     },
     // 申请资料选中
-    applyConditionChange (data) {
-        let list = []
-        for (let i = 0; i < data.length; i++) {
-            let obj = new Object ()            
-            obj.productParamCode = data[i]
-            list.push(obj)
-        }
-        this.formValidate.applyInformation = list
+    applyConditionChange(data) {
+      let list = [];
+      for (let i = 0; i < data.length; i++) {
+        let obj = new Object();
+        obj.productParamCode = data[i];
+        list.push(obj);
+      }
+      this.formValidate.applyInformation = list;
     },
-    applyFlowChange (data) {
-        let list = []
-        for (let i = 0; i < data.length; i++) {
-            let obj = new Object ()            
-            obj.productParamCode = data[i]
-            list.push(obj)
-        }
-        this.formValidate.applyFlow = list
+    applyFlowChange(data) {
+      let list = [];
+      for (let i = 0; i < data.length; i++) {
+        let obj = new Object();
+        obj.productParamCode = data[i];
+        list.push(obj);
+      }
+      this.formValidate.applyFlow = list;
+		},
+		//三期一批 天和月的联动
+		timeOptionsClick(v){
+			this.defaultPeriod = v+""
+			if(v== "0") {
+				this.timeLinkage ="天"
+			} else {
+				this.timeLinkage ="个月"
+			}
     }
-
   },
-  mounted () {
-      this.http.post(BASE_URL + '/loan/product/getProductParam', {})
-      .then((resp) => {
-        if (resp.code == 'success') {
-          this.applyCondition = resp.data.applyCondition
-          this.applyFlow = resp.data.applyFlow
-          this.optionSystem = resp.data.optionSystem
-          this.productType = resp.data.productType
-          this.limit = resp.data.limit
-        } else {         
-          this.$Message.info(resp.message)
+  mounted() {
+    this.http
+      .post(BASE_URL + "/loan/product/getProductParam", {})
+      .then(resp => {
+        if (resp.code == "success") {
+          this.applyCondition = resp.data.applyCondition;
+          this.applyFlow = resp.data.applyFlow;
+          this.optionSystem = resp.data.optionSystem;
+          for (let i = 0; i < resp.data.optionSystem.length; i++) {
+              if (resp.data.optionSystem[i].productParamName == 'H5') {
+                this.h5code = resp.data.optionSystem[i].productParamCode
+              }
+              if(resp.data.optionSystem[i].productParamName == 'vShop'){
+                this.vshopcode = resp.data.optionSystem[i].productParamCode
+              }
+            }
+          this.exhibitionSubjectlist = resp.data.bodyName
+          this.productType = resp.data.productType;
+          this.limit = resp.data.limit;
+        } else {
+          this.$Message.info(resp.message);
         }
       })
-      .catch(() => {
-      })
-      if (this.$route.query.code) {
-          this.http.post(BASE_URL + '/loan/product/getProductByCode', {productCode:this.$route.query.code})
-          .then((resp) => {
-            if (resp.code == 'success') {
-            resp.data.rateType +=''
-            resp.data.repaymentMode += ''
-            resp.data.limitType+=''
-            resp.data.termType+=''
-            resp.data.autoOff +=''
-            resp.data.isHot+=''
-            resp.data.autoOn+=''
-            if (resp.data.autoOff == '1') {
-                resp.data.autoOn = ''
+      .catch(() => {});
+    if (this.$route.query.code) {
+      this.http
+        .post(BASE_URL + "/loan/product/getProductByCode", {
+          productCode: this.$route.query.code
+        })
+        .then(resp => {
+          if (resp.code == "success") {
+            resp.data.rateType += "";
+            resp.data.repaymentMode += "";
+            resp.data.limitType += "";
+            resp.data.termType += "";
+            resp.data.autoOff += "";
+            resp.data.isHot += "";
+            resp.data.autoOn += "";
+            if (resp.data.autoOff == "1") {
+              resp.data.autoOn = "";
             }
-            this.formValidate = resp.data
+            if (resp.data.rangeType == 0) {
+              this.timeLinkage = '天'
+            } else {
+              this.timeLinkage = '个月'
+            }
+            this.timeOptions = String(resp.data.rangeType)
+            this.defaultPeriod = String(resp.data.defaultType)
+            this.formValidate = resp.data;
             for (let i = 0; i < resp.data.applyFlow.length; i++) {
-                this.applyFlowlc.push(resp.data.applyFlow[i].productParamCode)                
+              this.applyFlowlc.push(resp.data.applyFlow[i].productParamCode);
             }
             for (let i = 0; i < resp.data.applyInformation.length; i++) {
-                this.applyInformation.push(resp.data.applyInformation[i].productParamCode)                
+              this.applyInformation.push(
+                resp.data.applyInformation[i].productParamCode
+              );
             }
             for (let i = 0; i < resp.data.operatingSystem.length; i++) {
-                this.operatingSystem.push(resp.data.operatingSystem[i].productParamCode)                
+              this.operatingSystem.push(
+                resp.data.operatingSystem[i].productParamCode
+              );
+              if (resp.data.operatingSystem[i].productParamName == 'H5') {
+                this.showsubject = true
+              }
+              if (resp.data.operatingSystem[i].productParamName == 'vShop') {
+                this.formValidate.subCommission = String(resp.data.subCommission)
+                this.shopcodeisshow = true
+              }
+            }
+            this.formValidate.subCommission= String(resp.data.subCommission)
+            this.bodyName = []
+            for (let i = 0; i < resp.data.bodyName.length; i++) {
+              this.bodyName.push(
+                resp.data.bodyName[i].productParamCode
+              );
             }
             for (let i = 0; i < resp.data.typeLabel.length; i++) {
-                this.typeLabel.push(resp.data.typeLabel[i].productParamCode)
-                
+              this.typeLabel.push(resp.data.typeLabel[i].productParamCode);
             }
             for (let i = 0; i < resp.data.amountLabel.length; i++) {
-                this.amountLabel.push(resp.data.amountLabel[i].productParamCode)
+              this.amountLabel.push(resp.data.amountLabel[i].productParamCode);
             }
-                         
-            if (resp.data.applyCondition!=null) {
-                this.addnormals =resp.data.applyCondition             
-            }           
-            if (resp.data.limitValue!=null) {
-                this.quotamoney = resp.data.limitValue
+
+            if (resp.data.applyCondition != null) {
+              this.addnormals = resp.data.applyCondition;
             }
-            if (resp.data.termValue!=null) {
-                this.termmoney = resp.data.termValue
-            }       
-            this.logoUrl = resp.data.productLogo
-            this.labelUrl = resp.data.displayLabel
-            } else {         
-            this.$Message.info(resp.message)
+            if (resp.data.limitValue != null) {
+              this.quotamoney = resp.data.limitValue;
             }
-          })
-          .catch(() => {
-          })       
-      }      
+            if (resp.data.termValue != null) {
+              this.termmoney = resp.data.termValue;
+            }
+            this.logoUrl = resp.data.productLogo;
+            this.labelUrl = resp.data.displayNewLabel;
+          } else {
+            this.$Message.info(resp.message);
+          }
+        })
+        .catch(() => {});
+    }
   }
-}
+};
 </script>
 <style lang="less" scoped>
-
 </style>
 
 

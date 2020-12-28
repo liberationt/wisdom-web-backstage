@@ -2,7 +2,7 @@
   <div>
     <div class="navigation">
       <p>
-        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;百姓钱袋&nbsp;>&nbsp;  {{title}}</span>
+        <span>管理首页&nbsp;>&nbsp;应用&nbsp;>&nbsp;  {{title}}</span>
       </p>
     </div>
     <div id="feedback_details" class="contentcss">
@@ -157,6 +157,24 @@
           Object.assign(requestParams, {
             activityCode: this.$route.query.activityCode,
           })
+        } else if ('salesorder' == operationType) {   // 咨询订单销售版操作日志   汪海根
+          this.title = '咨询订单操作日志'
+          requestUrl = BASE_URL + "/sale/saleOrder/getOrderLogApplyList";
+          Object.assign(requestParams, {
+            saleOrderCode: this.$route.query.saleOrderCode,
+          })
+        } else if ('vmembership' == operationType) {   // 咨询分销会员操作日志   黄帅
+          this.title = '分销会员操作日志'
+          requestUrl = BASE_URL + "/vshop/loanUserLog/queryPage";
+          Object.assign(requestParams, {
+             userCode: this.$route.query.userCode,
+          })
+        } else if ('recharge_activity_edit' == operationType) {   // 充值送赞豆操作日志   小兵
+          this.title = '充值送赞豆操作日志'
+          requestUrl = BASE_URL + "/loan/operationLog/getOperationLogList";
+          Object.assign(requestParams, {
+             correlationCode: this.$route.query.code,
+          })
         } else {   //统一的日志接口 通过 operationType  区分
           requestUrl = BASE_URL + "/loan/operationLog/queryPage";
           Object.assign(requestParams, {
@@ -175,11 +193,20 @@
             case 'loanOfficerActive':     //黄帅
               this.title = '活动操作日志'
               break
-              case 'template_config_edit':     //梦琪
+            case 'template_config_edit':     //梦琪
               this.title = '模板操作日志'
               break
-              case 'naughty_edit':     //坚恒 淘单
+            case 'naughty_edit':     //坚恒 淘单
               this.title = '淘单操作日志'
+              break
+              case 'chance_config_edit':     //梦琪 淘单设置
+              this.title = '淘单设置操作日志'
+              break
+              case 'user_filter_config_edit':     //梦琪 找客户筛选条件设置
+              this.title = '找客户筛选条件设置操作日志'
+              break
+              case 'recharge_config_edit':     //锐锐 充值设置
+              this.title = '充值设置操作日志'
               break
           }
         }
@@ -231,6 +258,20 @@
               })
             }
             break
+            case 'salesorder':
+            if (data.orderLogList && data.orderLogList.length > 0) {
+              this.data1 = []
+              data.orderLogList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.orderStatusTime,
+                  operationMan: item.operator,
+                  operationContent: item.content,
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
+            break
           case 'loanOfficerActive':
             if (data.dataList && data.dataList.length > 0) {
               this.data1 = []
@@ -247,6 +288,20 @@
             break
             case 'activityAudit':
             if (data.dataList && data.dataList.length > 0) {
+              this.data1 = []
+              data.dataList.forEach((item) => {
+                let item1 = {
+                  dataCreateTime: item.dataCreateTime,
+                  operationMan: item.operator,
+                  operationContent: item.content,
+                  memo: item.memo
+                }
+                this.data1.push(item1)
+              })
+            }
+            break
+            case 'vmembership':
+            if (data.dataList && data.dataList.length > 0) { //黄帅 v点
               this.data1 = []
               data.dataList.forEach((item) => {
                 let item1 = {

@@ -17,12 +17,12 @@
         <Form  :model="formItem" style="width:100%" :label-width="100">
           <FormItem label="活动类型：" class="clearfix">
             <Row>
-              <Col span="4">
-                <Select disabled v-model="examinelist.activityType" style="width:160px" class="left" @on-change="yesActiveType">
+              <Col span="3">
+                <Select disabled v-model="examinelist.activityType" style="width:120px" class="left" @on-change="yesActiveType">
                   <Option v-for="item in examinelist.typeList" :value="item.code" :key="item.code">{{ item.value }}</Option>
                 </Select>
               </Col>
-              <Col span="20" v-if="examinelist.activityType == 1">
+              <Col span="21" v-if="examinelist.activityType == 1">
               <div 
               class="mb15 clearfix"             
               v-for="(item, index) in examinelist.activityDiscountResList"
@@ -32,21 +32,37 @@
                   <span slot="prepend">距离当前</span>
                   <span slot="append" class="left">至</span>
                 </Input>
-                <Input disabled type="text" v-model="item.endDay" class="left "  style="width:100px">
+                <Input disabled type="text" v-model="item.endDay" class="left "  style="width:80px">
                   <span slot="append" class="left">天</span>
                 </Input>
-                <Input disabled type="text" v-model="item.discount" class="left ml10 "  style="width:100px">
+                <Input disabled type="text" v-model="item.discount" class="left ml10 "  style="width:80px">
                   <span slot="append" class="left">%</span>
                 </Input>
-                <Input disabled type="text" v-model="item.limited" class="left ml10 inputnum"  style="width:180px">
-                  <span slot="prepend">每人每天限量</span>
+                <Input disabled type="text" v-model="item.discountLimited" class="left ml10 inputnum"  style="width:140px">
+                  <span slot="prepend">折扣限量</span>
                   <span slot="append" class="left">单</span>
                 </Input>
+                <Input disabled type="text" v-model="item.limited" class="left ml10 inputnum"  style="width:170px">
+                  <span slot="prepend">普通每人每天限量</span>
+                  <span slot="append" class="left">单</span>
+                </Input>
+                <!-- 四期 -->
+                <Input  type="text" disabled v-model="item.vipLimited" class="left ml10 inputnum"  style="width:180px">
+                  <span slot="prepend">会员每人每天限量</span>
+                  <span slot="append" class="left">单</span>
+                </Input>
+                <div class="left ml10">
+                  显示申请时间： 
+                  <Select disabled v-model="item.showStatus" style="width:110px"  class="mb5">
+                    <Option  value="0" >显示</Option>
+                    <Option  value="1" >不显示</Option>
+                  </Select> 
+                </div>
                   <img :src="item.logoUrl" alt="" class="left ml10 icon_img">
                   <a href="javascript:;"  class="file left">预览
                     <input disabled type="file" @change="fileimg(index)" :data="item.activityCode" accept="image/gif, image/jpeg, image/png, image/jpg" name="img" class="inputfil">
                   </a>
-                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormal" >+</Button>
+                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index==0"  >+</Button>
                 <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnorma2(index)">-</Button>               
               </div>                
               </Col>
@@ -94,7 +110,7 @@
                 <FormItem class="left ml10">
                   <TimePicker disabled type="time" confirm  placeholder="请选择时间" v-model="item.endTime"></TimePicker>
                 </FormItem>
-                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index==0" @click="addnormaltime" >+</Button>
+                <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index==0"  >+</Button>
                 <Button disabled type="primary" class="left ml10" style="margin-top:3px" v-if="index!=0" @click="addnormatime(index)">-</Button>
               </div>               
               </Col>
@@ -143,6 +159,12 @@
                       <Input disabled type="text" v-model="item.rebate" class="left ml20" style="width:100px">
                         <span slot="prepend">返</span>
                         <span slot="append" class="left">%</span>
+                      </Input>
+                    </div>
+                    <div >
+                      <Input disabled type="text" v-model.number="item.fixedCoupon" class="left ml20" style="width:100px">
+                        <span slot="prepend">送</span>
+                        <span slot="append" class="left">张</span>
                       </Input>
                     </div>
                     <Button type="primary" class="left ml5" v-if="index==0" @click="addnormal4">+</Button>
@@ -271,7 +293,8 @@ export default {
           startBean : null, //加入黑名单时间
           endBean: null, //加入黑名单次数
           rebate: null,
-          type:null
+          type:null,
+          fixedCoupon:null
           }
         ],
         activityDiscountResList: [
@@ -280,8 +303,11 @@ export default {
           startDay: '',
           endDay: '',
           discount: '',
+          discountLimited:'',
           limited: '',
-          logoUrl:''
+          logoUrl:'',
+          vipLimited:'',
+          showStatus:'',
         }
       ],
       activityStartStopTimeResList:[
@@ -341,7 +367,8 @@ export default {
         startBean : null,
         endBean: null,
         rebate : null,
-        type:1
+        type:1,
+        fixedCoupon:null
       });
     },
     // 减
@@ -450,6 +477,9 @@ export default {
                 this.isActiveType = false
             }
             this.examinelist = data.data
+            this.examinelist.activityDiscountResList.forEach((v,i)=>{
+              this.examinelist.activityDiscountResList[i].showStatus = v.showStatus+""
+            })
         }
       }).catch(err=>{})
   }

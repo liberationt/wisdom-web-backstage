@@ -29,6 +29,12 @@
             <Option v-for="item in cityList3" :value="item.value" :key="item.value">{{ item.label }}</Option>
           </Select>
         </li>
+        <li class="ml20">
+          <span>是否分销:</span>
+          <Select v-model="model5" size="large" style="width:150px">
+            <Option v-for="item in cityList4" :value="item.value" :key="item.value">{{ item.label }}</Option>
+          </Select>
+        </li>
         <li class="ml50">
           <Button type="info" class=" mr20 w90" :loading="loading3" @click="loanlist">
               <span v-if="!loading3">查询</span>
@@ -96,10 +102,12 @@ export default {
       cityList1: [],
       cityList2: [],
       cityList3: [],
+      cityList4:[],
       dataList: [],
       model2: '',
       model3: '',
       model4: '',
+      model5:'',
       edit_icon_blue: true,
       edit_icon_red: false
     }
@@ -177,6 +185,7 @@ export default {
         stateOptions: this.model2,
         productOptions:this.model3,
         orderOptions: this.model4,
+        subCommission:parseInt(this.model5==''?'-1':this.model5),
         pageNum: this.startRow,
         pageSize: this.endRow
       }
@@ -249,6 +258,7 @@ export default {
           this.cityList1 = resp.data.productState
           this.cityList2 = resp.data.productType
           this.cityList3 = resp.data.productOrder 
+          this.cityList4 = resp.data.productSubCommission
         } else {         
           this.$Message.info(resp.message)
         }

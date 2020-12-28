@@ -267,15 +267,17 @@ export default {
           minWidth: 100,
           render: (h, params) => {
             let pushStatus = []
-            if (params.row.activityAmount == params.row.robbingAmount) {
+            let payType = params.row.payType
+            let row = params.row
+            if (row.activityAmount == row.robbingAmount) {
               pushStatus.push (
-                h('span', {}, params.row.robbingAmount)
+                h('span', {}, payType == 0 ? row.robbingAmount : row.robbingAmount+'/'+ row.ticketNumber+'张券')
               )
             } else {
               pushStatus.push (
-                h('span', {style: {color: '#BEBEBE'}}, params.row.robbingAmount),
+                h('span', {style: {color: '#BEBEBE'}}, row.robbingAmount),
                 h('span', {}, '/'),
-                h('span', {}, params.row.activityAmount),
+                h('span', {}, payType == 0 ? row.activityAmount : row.activityAmount+'/'+ row.ticketNumber+'张券'),
               )
             }         
             return h('div', pushStatus)
